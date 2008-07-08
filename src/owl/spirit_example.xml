@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<spirit:design xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1.2">
+<spirit:name>PC_2DSP</spirit:name>
+<spirit:version>1.4</spirit:version>
+<spirit:vendor>org.ietr</spirit:vendor>
+<spirit:library>lib_archi</spirit:library>
+<spirit:componentInstances>
+<spirit:componentInstance>
+<spirit:instanceName>PC</spirit:instanceName>
+<spirit:componentRef spirit:library="lib_archi" spirit:name="pentium" spirit:vendor="org.ietr" spirit:version="1.4"/>
+</spirit:componentInstance>
+<spirit:componentInstance>
+<spirit:instanceName>DSP1</spirit:instanceName>
+<spirit:componentRef spirit:library="lib_archi" spirit:name="C64x" spirit:vendor="org.ietr" spirit:version="1.4"/>
+</spirit:componentInstance>
+<spirit:componentInstance>
+<spirit:instanceName>DSP2</spirit:instanceName>
+<spirit:componentRef spirit:library="lib_archi" spirit:name="C64x" spirit:vendor="org.ietr" spirit:version="1.4"/>
+</spirit:componentInstance>
+<spirit:componentInstance>
+<spirit:instanceName>PCI</spirit:instanceName>
+<spirit:componentRef spirit:library="lib_archi" spirit:name="BUS_PCI_SAM" spirit:vendor="org.ietr" spirit:version="1.4"/>
+</spirit:componentInstance>
+<spirit:componentInstance>
+<spirit:instanceName>SDB1</spirit:instanceName>
+<spirit:componentRef spirit:library="lib_archi" spirit:name="SDB" spirit:vendor="org.ietr" spirit:version="1.4"/>
+</spirit:componentInstance>
+</spirit:componentInstances>
+<spirit:interconnections>
+<spirit:interconnection>
+<spirit:name>DSP1.SDBa</spirit:name>
+<spirit:activeInterface spirit:busRef="SDBa" spirit:componentRef="DSP1"/>
+<spirit:activeInterface spirit:busRef="SDB1" spirit:componentRef="SDB1"/>
+</spirit:interconnection>
+<spirit:interconnection>
+<spirit:name>DSP2.SDBb</spirit:name>
+<spirit:activeInterface spirit:busRef="SDBb" spirit:componentRef="DSP2"/>
+<spirit:activeInterface spirit:busRef="SDB1" spirit:componentRef="SDB1"/>
+</spirit:interconnection>
+<spirit:interconnection>
+<spirit:name>DSP1.PCI</spirit:name>
+<spirit:activeInterface spirit:busRef="PCI" spirit:componentRef="DSP1"/>
+<spirit:activeInterface spirit:busRef="PCI" spirit:componentRef="PCI"/>
+</spirit:interconnection>
+<spirit:interconnection>
+<spirit:name>PC.PCI</spirit:name>
+<spirit:activeInterface spirit:busRef="PCI" spirit:componentRef="PC"/>
+<spirit:activeInterface spirit:busRef="PCI" spirit:componentRef="PCI"/>
+</spirit:interconnection>
+</spirit:interconnections>
+</spirit:design>

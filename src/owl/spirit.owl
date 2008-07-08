@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://www.org.ietr.age/spirit.owl#"
+    xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:basic="http://org.ietr.age/basics.owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xml:base="http://www.org.ietr.age/spirit.owl">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://org.ietr.age/basics.owl"/>
+  </owl:Ontology>
+  <basic:VertexParameter rdf:ID="Vertex_Type">
+    <basic:parameter_appliesTo>
+      <basic:VertexType rdf:ID="VertexType_2">
+        <basic:type_hasStringRepresentation rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >operator</basic:type_hasStringRepresentation>
+        <basic:type_hasFigureAttributes>
+          <basic:ShapeAttribute rdf:ID="ShapeAttribute_3">
+            <basic:shapeAttribute_hasShape rdf:resource="http://org.ietr.age/basics.owl#Circle"/>
+            <basic:figureAttribute_appliesTo rdf:resource="#VertexType_2"/>
+          </basic:ShapeAttribute>
+        </basic:type_hasFigureAttributes>
+        <basic:type_hasFigureAttributes>
+          <basic:ColorAttribute rdf:ID="ColorAttribute_1">
+            <basic:colorAttribute_hasColor rdf:resource="http://org.ietr.age/basics.owl#blue"/>
+            <basic:figureAttribute_appliesTo rdf:resource="#VertexType_2"/>
+          </basic:ColorAttribute>
+        </basic:type_hasFigureAttributes>
+        <basic:type_hasParameters rdf:resource="#Vertex_Type"/>
+        <basic:type_hasParameters>
+          <basic:VertexParameter rdf:ID="Vertex_ID">
+            <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >id</basic:parameter_hasName>
+            <basic:parameter_hasValueType rdf:resource="http://org.ietr.age/basics.owl#String"/>
+            <basic:parameter_appliesTo rdf:resource="#VertexType_2"/>
+          </basic:VertexParameter>
+        </basic:type_hasParameters>
+      </basic:VertexType>
+    </basic:parameter_appliesTo>
+    <basic:parameter_hasValueType rdf:resource="http://org.ietr.age/basics.owl#String"/>
+    <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >type</basic:parameter_hasName>
+  </basic:VertexParameter>
+  <basic:EdgeNode rdf:ID="EdgeNode_1">
+    <basic:parserNode_hasChildNode>
+      <basic:SkipNode rdf:ID="SkipNode_3">
+        <basic:parserNode_hasAttributeNode>
+          <basic:EdgeConnection rdf:ID="EdgeConnection_1">
+            <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >spirit:componentRef</basic:parserNode_hasName>
+            <basic:parserParameterNode_isReference rdf:datatype=
+            "http://www.w3.org/2001/XMLSchema#boolean">true</basic:parserParameterNode_isReference>
+            <basic:parserParameterNode_isReferenceTo>
+              <basic:VertexNode rdf:ID="VertexNode_2">
+                <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >spirit:componentInstance</basic:parserNode_hasName>
+                <basic:parserNode_hasChildNode>
+                  <basic:IdParameter rdf:ID="IdParameter_2">
+                    <basic:propertyBeanParameter_isParameter rdf:resource="#Vertex_ID"/>
+                    <basic:parserParameterNode_isReference rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#boolean"
+                    >false</basic:parserParameterNode_isReference>
+                    <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                    >spirit:instanceName</basic:parserNode_hasName>
+                  </basic:IdParameter>
+                </basic:parserNode_hasChildNode>
+                <basic:parserNode_hasAttributeNode>
+                  <basic:ConstantParameter rdf:ID="typeParameter">
+                    <basic:parserParameterNode_isReference rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#boolean"
+                    >false</basic:parserParameterNode_isReference>
+                    <basic:propertyBeanParameter_isParameter rdf:resource="#Vertex_Type"/>
+                    <basic:constantParameter_hasValue rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#string"
+                    >operator</basic:constantParameter_hasValue>
+                  </basic:ConstantParameter>
+                </basic:parserNode_hasAttributeNode>
+              </basic:VertexNode>
+            </basic:parserParameterNode_isReferenceTo>
+          </basic:EdgeConnection>
+        </basic:parserNode_hasAttributeNode>
+        <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >spirit:activeInterface</basic:parserNode_hasName>
+      </basic:SkipNode>
+    </basic:parserNode_hasChildNode>
+    <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >spirit:interconnection</basic:parserNode_hasName>
+  </basic:EdgeNode>
+  <basic:ParserRootNode rdf:ID="mlRoot">
+    <basic:parserNode_hasChildNode>
+      <basic:SkipNode rdf:ID="SkipNode_1">
+        <basic:parserNode_hasChildNode rdf:resource="#VertexNode_2"/>
+        <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >spirit:componentInstances</basic:parserNode_hasName>
+      </basic:SkipNode>
+    </basic:parserNode_hasChildNode>
+    <basic:parserNode_hasChildNode>
+      <basic:SkipNode rdf:ID="SkipNode_2">
+        <basic:parserNode_hasPrecedenceNode rdf:resource="#SkipNode_1"/>
+        <basic:parserNode_hasChildNode rdf:resource="#EdgeNode_1"/>
+        <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >spirit:interconnections</basic:parserNode_hasName>
+      </basic:SkipNode>
+    </basic:parserNode_hasChildNode>
+    <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >spirit:design</basic:parserNode_hasName>
+    <basic:parser_hasDocType rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >null</basic:parser_hasDocType>
+  </basic:ParserRootNode>
+  <basic:EdgeParameter rdf:ID="EdgeParameter_2"/>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 3.3.1, Build 430)  http://protege.stanford.edu -->

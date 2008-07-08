@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Graphiti graph editor"
+            extensions="graph, xml, xdf,xnl"
+            icon="icons/sample.gif"
+            contributorClass="net.sf.graphiti.ui.editors.GraphActionBarContributor"
+            class="net.sf.graphiti.ui.editors.GraphEditor"
+            id="net.sf.graphiti.ui.editors.GraphEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="net.sf.graphiti.ui.wizards.graph"
+            name="Graph">
+      </category>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="net.sf.graphiti.ui.Startup"></startup>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="net.sf.graphiti.model.PropertyBean"
+            class="net.sf.graphiti.ui.adapters.GraphitiAdapterFactory">
+         <adapter
+               type="net.sf.graphiti.ui.propertysource.PropertyBeanPropertySource">
+         </adapter>
+      </factory>
+   </extension>
+
+</plugin>
