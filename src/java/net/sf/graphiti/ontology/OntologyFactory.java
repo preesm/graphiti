@@ -53,223 +53,223 @@ public class OntologyFactory {
 	}
 
 	public static String getClassColorAttribute() {
-		return "http://org.ietr.age/basics.owl#ColorAttribute";
+		return "http://net.sf.graphiti/basics.owl#ColorAttribute";
 	}
 
 	public static String getClassColors() {
-		return "http://org.ietr.age/basics.owl#Colors";
+		return "http://net.sf.graphiti/basics.owl#Colors";
 	}
 
 	public static String getClassConstantParameter() {
-		return "http://org.ietr.age/basics.owl#ConstantParameter";
+		return "http://net.sf.graphiti/basics.owl#ConstantParameter";
 	}
 
 	public static String getClassDataTypes() {
-		return "http://org.ietr.age/basics.owl#DataTypes";
+		return "http://net.sf.graphiti/basics.owl#DataTypes";
 	}
 
 	public static String getClassDefaultParameter() {
-		return "http://org.ietr.age/basics.owl#DefaultParameter";
+		return "http://net.sf.graphiti/basics.owl#DefaultParameter";
 	}
 
 	public static String getClassEdgeConnection() {
-		return "http://org.ietr.age/basics.owl#EdgeConnection";
+		return "http://net.sf.graphiti/basics.owl#EdgeConnection";
 	}
 
 	public static String getClassEdgeNode() {
-		return "http://org.ietr.age/basics.owl#EdgeNode";
+		return "http://net.sf.graphiti/basics.owl#EdgeNode";
 	}
 
 	public static String getClassEdgeParameter() {
-		return "http://org.ietr.age/basics.owl#EdgeParameter";
+		return "http://net.sf.graphiti/basics.owl#EdgeParameter";
 	}
 
 	public static String getClassEdgeParameterNode() {
-		return "http://org.ietr.age/basics.owl#EdgeParameterNode";
+		return "http://net.sf.graphiti/basics.owl#EdgeParameterNode";
 	}
 
 	public static String getClassEdgeSourceConnection() {
-		return "http://org.ietr.age/basics.owl#EdgeSourceConnection";
+		return "http://net.sf.graphiti/basics.owl#EdgeSourceConnection";
 	}
 
 	public static String getClassEdgeTargetConnection() {
-		return "http://org.ietr.age/basics.owl#EdgeTargetConnection";
+		return "http://net.sf.graphiti/basics.owl#EdgeTargetConnection";
 	}
 
 	public static String getClassEdgeType() {
-		return "http://org.ietr.age/basics.owl#EdgeType";
+		return "http://net.sf.graphiti/basics.owl#EdgeType";
 	}
 
 	public static String getClassFigureAttribute() {
-		return "http://org.ietr.age/basics.owl#FigureAttribute";
+		return "http://net.sf.graphiti/basics.owl#FigureAttribute";
 	}
 
 	public static String getClassGraphNode() {
-		return "http://org.ietr.age/basics.owl#GraphNode";
+		return "http://net.sf.graphiti/basics.owl#GraphNode";
 	}
 
 	public static String getClassGraphParameter() {
-		return "http://org.ietr.age/basics.owl#GraphParameter";
+		return "http://net.sf.graphiti/basics.owl#GraphParameter";
 	}
 
 	public static String getClassGraphType() {
-		return "http://org.ietr.age/basics.owl#GraphType";
+		return "http://net.sf.graphiti/basics.owl#GraphType";
 	}
 
 	public static String getClassIdParameter() {
-		return "http://org.ietr.age/basics.owl#IdParameter";
+		return "http://net.sf.graphiti/basics.owl#IdParameter";
 	}
 
 	public static String getClassParameter() {
-		return "http://org.ietr.age/basics.owl#Parameter";
+		return "http://net.sf.graphiti/basics.owl#Parameter";
 	}
 
 	public static String getClassParserNode() {
-		return "http://org.ietr.age/basics.owl#ParserNode";
+		return "http://net.sf.graphiti/basics.owl#ParserNode";
 	}
 
 	public static String getClassParserParameterNode() {
-		return "http://org.ietr.age/basics.owl#ParserParameterNode";
+		return "http://net.sf.graphiti/basics.owl#ParserParameterNode";
 	}
 
 	public static String getClassParserRootNode() {
-		return "http://org.ietr.age/basics.owl#ParserRootNode";
+		return "http://net.sf.graphiti/basics.owl#ParserRootNode";
 	}
 
 	public static String getClassPosition() {
-		return "http://org.ietr.age/basics.owl#Position";
+		return "http://net.sf.graphiti/basics.owl#Position";
 	}
 
 	public static String getClassPropertyBeanParameter() {
-		return "http://org.ietr.age/basics.owl#PropertyBeanParameter";
+		return "http://net.sf.graphiti/basics.owl#PropertyBeanParameter";
 	}
 
 	public static String getClassShapeAttribute() {
-		return "http://org.ietr.age/basics.owl#ShapeAttribute";
+		return "http://net.sf.graphiti/basics.owl#ShapeAttribute";
 	}
 
 	public static String getClassShapes() {
-		return "http://org.ietr.age/basics.owl#Shapes";
+		return "http://net.sf.graphiti/basics.owl#Shapes";
 	}
 	
 	public static String getClassParserFixedParameter() {
-		return "http://org.ietr.age/basics.owl#ParserFixedParameter";
+		return "http://net.sf.graphiti/basics.owl#ParserFixedParameter";
 	}
 
 	public static String getClassSkipNode() {
-		return "http://org.ietr.age/basics.owl#SkipNode";
+		return "http://net.sf.graphiti/basics.owl#SkipNode";
 	}
 
 	public static String getClassType() {
-		return "http://org.ietr.age/basics.owl#Type";
+		return "http://net.sf.graphiti/basics.owl#Type";
 	}
 
 	public static String getClassVertexNode() {
-		return "http://org.ietr.age/basics.owl#VertexNode";
+		return "http://net.sf.graphiti/basics.owl#VertexNode";
 	}
 
 	public static String getClassVertexParameter() {
-		return "http://org.ietr.age/basics.owl#VertexParameter";
+		return "http://net.sf.graphiti/basics.owl#VertexParameter";
 	}
 
 	public static String getClassVertexType() {
-		return "http://org.ietr.age/basics.owl#VertexType";
+		return "http://net.sf.graphiti/basics.owl#VertexType";
 	}
 
 	public static String getPropertyColorAttributeHasColor() {
-		return "http://org.ietr.age/basics.owl#colorAttribute_hasColor";
+		return "http://net.sf.graphiti/basics.owl#colorAttribute_hasColor";
 	}
 	
 	public static String getPropertyConstantParameterHasValue() {
-		return "http://org.ietr.age/basics.owl#constantParameter_hasValue";
+		return "http://net.sf.graphiti/basics.owl#constantParameter_hasValue";
 	}
 
 	public static String getPropertyFigureAttributeAppliesTo() {
-		return "http://org.ietr.age/basics.owl#figureAttribute_appliesTo";
+		return "http://net.sf.graphiti/basics.owl#figureAttribute_appliesTo";
 	}
 
 	public static String getPropertyFigureAttributeHasType() {
-		return "http://org.ietr.age/basics.owl#figureAttribute_hasType";
+		return "http://net.sf.graphiti/basics.owl#figureAttribute_hasType";
 	}
 
 	public static String getPropertyParameterAppliesTo() {
-		return "http://org.ietr.age/basics.owl#parameter_appliesTo";
+		return "http://net.sf.graphiti/basics.owl#parameter_appliesTo";
 	}
 
 	public static String getPropertyParameterHasName() {
-		return "http://org.ietr.age/basics.owl#parameter_hasName";
+		return "http://net.sf.graphiti/basics.owl#parameter_hasName";
 	}
 	
 	public static String getParserFixedParameterHasValue() {
-		return "http://org.ietr.age/basics.owl#parserFixedParameter_hasValue";
+		return "http://net.sf.graphiti/basics.owl#parserFixedParameter_hasValue";
 	}
 
 	public static String getPropertyParameterHasPosition() {
-		return "http://org.ietr.age/basics.owl#parameter_hasPosition";
+		return "http://net.sf.graphiti/basics.owl#parameter_hasPosition";
 	}
 
 	public static String getPropertyParameterHasValueType() {
-		return "http://org.ietr.age/basics.owl#parameter_hasValueType";
+		return "http://net.sf.graphiti/basics.owl#parameter_hasValueType";
 	}
 
 	public static String getPropertyParserNodeHasAttributeNode() {
-		return "http://org.ietr.age/basics.owl#parserNode_hasAttributeNode";
+		return "http://net.sf.graphiti/basics.owl#parserNode_hasAttributeNode";
 	}
 
 	public static String getPropertyParserNodeHasChildNode() {
-		return "http://org.ietr.age/basics.owl#parserNode_hasChildNode";
+		return "http://net.sf.graphiti/basics.owl#parserNode_hasChildNode";
 	}
 
 	public static String getPropertyParserNodeHasIdParameterNode() {
-		return "http://org.ietr.age/basics.owl#parserNode_hasIdParameterNode";
+		return "http://net.sf.graphiti/basics.owl#parserNode_hasIdParameterNode";
 	}
 	
 	public static String getPropertyParserNodeHassFixedParameter() {
-		return "http://org.ietr.age/basics.owl#parserNode_hasFixedParameter";
+		return "http://net.sf.graphiti/basics.owl#parserNode_hasFixedParameter";
 	}
 
 	public static String getPropertyParserNodeHasName() {
-		return "http://org.ietr.age/basics.owl#parserNode_hasName";
+		return "http://net.sf.graphiti/basics.owl#parserNode_hasName";
 	}
 
 	public static String getPropertyParserNodeHasPrecedenceNode(){
-		return "http://org.ietr.age/basics.owl#parserNode_hasPrecedenceNode";
+		return "http://net.sf.graphiti/basics.owl#parserNode_hasPrecedenceNode";
 	}
 	
 	public static String getPropertyParserParameterNodeHasValueType() {
-		return "http://org.ietr.age/basics.owl#parserNode_hasValueType";
+		return "http://net.sf.graphiti/basics.owl#parserNode_hasValueType";
 	}
 
 	public static String getPropertyParserParameterNodeIsReference() {
-		return "http://org.ietr.age/basics.owl#parserParameterNode_isReference";
+		return "http://net.sf.graphiti/basics.owl#parserParameterNode_isReference";
 	}
 
 	public static String getPropertyParserParameterNodeIsReferenceTo() {
-		return "http://org.ietr.age/basics.owl#parserParameterNode_isReferenceTo";
+		return "http://net.sf.graphiti/basics.owl#parserParameterNode_isReferenceTo";
 	}
 
 	public static String getPropertyParserParameterNodeReferencesIn() {
-		return "http://org.ietr.age/basics.owl#parserParameterNode_referencesIn";
+		return "http://net.sf.graphiti/basics.owl#parserParameterNode_referencesIn";
 	}
 
 	public static String getPropertyPropertyBeanParameterHasParameter() {
-		return "http://org.ietr.age/basics.owl#propertyBeanParameter_isParameter";
+		return "http://net.sf.graphiti/basics.owl#propertyBeanParameter_isParameter";
 	}
 
 	public static String getPropertyShapeAttributeHasShape() {
-		return "http://org.ietr.age/basics.owl#shapeAttribute_hasShape";
+		return "http://net.sf.graphiti/basics.owl#shapeAttribute_hasShape";
 	}
 
 	public static String getPropertyTypeHasFigureAttributes() {
-		return "http://org.ietr.age/basics.owl#type_hasFigureAttributes";
+		return "http://net.sf.graphiti/basics.owl#type_hasFigureAttributes";
 	}
 
 	public static String getPropertyTypeHasParameters() {
-		return "http://org.ietr.age/basics.owl#type_hasParameters";
+		return "http://net.sf.graphiti/basics.owl#type_hasParameters";
 	}
 
 	public static String getPropertyTypeHasStringRepresentation() {
-		return "http://org.ietr.age/basics.owl#type_hasStringRepresentation";
+		return "http://net.sf.graphiti/basics.owl#type_hasStringRepresentation";
 	}
 
 	private OntModel model;
@@ -307,7 +307,7 @@ public class OntologyFactory {
 		OntModelSpec spec = OntModelSpec.OWL_DL_MEM;
 		model = ModelFactory.createOntologyModel(spec);
 		model.getDocumentManager().setReadHook(new MyReadHook());
-		model.read(in, "http://org.ietr.age#");
+		model.read(in, "http://net.sf.graphiti#");
 	}
 
 	/**

@@ -113,7 +113,6 @@ public class GenericGraphFileParser {
 	 *            The file to parse.
 	 * @return The new GraphitiDocument
 	 */
-	@SuppressWarnings("unchecked")
 	public GraphitiDocument parse(IFile file) {
 		for (DocumentConfiguration config : configurations) {
 			try {
@@ -146,7 +145,6 @@ public class GenericGraphFileParser {
 	 * @param element
 	 *            parent element of this parameter
 	 */
-	@SuppressWarnings("unchecked")
 	private void parseAllParameter(ParserNode ontNode, Node domNode,
 			DOMNode element) {
 		Set<ParserParameterNode> attributesNodes = ontNode.hasAttributeNode();
@@ -178,7 +176,6 @@ public class GenericGraphFileParser {
 	 * @param parentElement
 	 *            the parent node
 	 */
-	@SuppressWarnings("unchecked")
 	private void parseCorrespondingNode(Set<ParserNode> ontNodes, Node domNode,
 			DOMNode parentElement) {
 		// if there is nodes defined in the Ontology for this DOM implementation
@@ -272,7 +269,6 @@ public class GenericGraphFileParser {
 	 * @param parentElement
 	 *            parent element of this node
 	 */
-	@SuppressWarnings("unchecked")
 	private void parseNode(ParserNode ontNode, Node domNode,
 			DOMNode parentElement) {
 		DOMNode element;
@@ -400,7 +396,6 @@ public class GenericGraphFileParser {
 	 *             If the given file cannot be parsed with the given
 	 *             configuration.
 	 */
-	@SuppressWarnings("unchecked")
 	private GraphitiDocument parseWithConfiguration(
 			DocumentConfiguration config, InputStream inputFile)
 			throws IncompatibleConfigurationFile {

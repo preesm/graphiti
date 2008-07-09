@@ -2,16 +2,16 @@
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
-    xmlns="http://www.org.ietr.age/gml.owl#"
+    xmlns="http://net.sf.graphiti/GraphML.owl#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
-    xmlns:basic="http://org.ietr.age/basics.owl#"
+    xmlns:basic="http://net.sf.graphiti/basics.owl#"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-  xml:base="http://www.org.ietr.age/gml.owl">
+  xml:base="http://net.sf.graphiti/GraphML.owl">
   <owl:Ontology rdf:about="">
-    <owl:imports rdf:resource="http://org.ietr.age/basics.owl"/>
+    <owl:imports rdf:resource="http://net.sf.graphiti/basics.owl"/>
   </owl:Ontology>
-  <rdf:Property rdf:about="http://org.ietr.age/basics.owl#parser_hasDocType"/>
+  <rdf:Property rdf:about="http://net.sf.graphiti/basics.owl#parser_hasDocType"/>
   <basic:ConstantParameter rdf:ID="TypeConstant">
     <basic:propertyBeanParameter_isParameter>
       <basic:EdgeParameter rdf:ID="EdgeType">
@@ -21,9 +21,9 @@
             "http://www.w3.org/2001/XMLSchema#string">edge</basic:type_hasStringRepresentation>
             <basic:type_hasParameters>
               <basic:EdgeParameter rdf:ID="EdgeDelay">
-                <basic:parameter_hasValueType rdf:resource="http://org.ietr.age/basics.owl#Integer"/>
+                <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Integer"/>
                 <basic:parameter_appliesTo rdf:resource="#BasicEdge"/>
-                <basic:parameter_hasPosition rdf:resource="http://org.ietr.age/basics.owl#Center"/>
+                <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#Center"/>
                 <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >edge_delay</basic:parameter_hasName>
               </basic:EdgeParameter>
@@ -34,14 +34,14 @@
                 <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >edge_cons</basic:parameter_hasName>
                 <basic:parameter_appliesTo rdf:resource="#BasicEdge"/>
-                <basic:parameter_hasValueType rdf:resource="http://org.ietr.age/basics.owl#Integer"/>
-                <basic:parameter_hasPosition rdf:resource="http://org.ietr.age/basics.owl#East"/>
+                <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Integer"/>
+                <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#East"/>
               </basic:EdgeParameter>
             </basic:type_hasParameters>
             <basic:type_hasParameters>
               <basic:EdgeParameter rdf:ID="ProdParameter">
-                <basic:parameter_hasValueType rdf:resource="http://org.ietr.age/basics.owl#Integer"/>
-                <basic:parameter_hasPosition rdf:resource="http://org.ietr.age/basics.owl#West"/>
+                <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Integer"/>
+                <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#West"/>
                 <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >edge_prod</basic:parameter_hasName>
                 <basic:parameter_appliesTo rdf:resource="#BasicEdge"/>
@@ -80,13 +80,13 @@
       <basic:VertexType rdf:ID="VertexType_2">
         <basic:type_hasFigureAttributes>
           <basic:ShapeAttribute rdf:ID="Vertex_Shape">
-            <basic:shapeAttribute_hasShape rdf:resource="http://org.ietr.age/basics.owl#RoundedBox"/>
+            <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#RoundedBox"/>
             <basic:figureAttribute_appliesTo rdf:resource="#VertexType_2"/>
           </basic:ShapeAttribute>
         </basic:type_hasFigureAttributes>
         <basic:type_hasFigureAttributes>
           <basic:ColorAttribute rdf:ID="ColorAttribute_1">
-            <basic:colorAttribute_hasColor rdf:resource="http://org.ietr.age/basics.owl#blue"/>
+            <basic:colorAttribute_hasColor rdf:resource="http://net.sf.graphiti/basics.owl#blue"/>
             <basic:figureAttribute_appliesTo rdf:resource="#VertexType_2"/>
           </basic:ColorAttribute>
         </basic:type_hasFigureAttributes>
@@ -110,8 +110,8 @@
         <basic:type_hasParameters>
           <basic:VertexParameter rdf:ID="Vertex_Name">
             <basic:parameter_appliesTo rdf:resource="#VertexType_2"/>
-            <basic:parameter_hasValueType rdf:resource="http://org.ietr.age/basics.owl#String"/>
-            <basic:parameter_hasPosition rdf:resource="http://org.ietr.age/basics.owl#Center"/>
+            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+            <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#Center"/>
             <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >name</basic:parameter_hasName>
           </basic:VertexParameter>

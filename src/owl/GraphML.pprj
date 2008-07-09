@@ -1077,7 +1077,7 @@
 ([KB_532469_Instance_0] of  String
 
 	(name "owl_file_name")
-	(string_value "gml.owl"))
+	(string_value "GraphML.owl"))
 
 ([KB_632156_Instance_0] of  String
 

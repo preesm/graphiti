@@ -53,7 +53,6 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	 * @param edges
 	 *            A list of edges in the graph.
 	 */
-	@SuppressWarnings("unchecked")
 	void addEdges(EdgeList edges) {
 		for (Object child : getChildren()) {
 			if (child instanceof VertexEditPart) {

@@ -3,15 +3,15 @@
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
-    xmlns="http://www.org.ietr.age/xdf.owl#"
-    xmlns:basic="http://org.ietr.age/basics.owl#"
+    xmlns="http://net.sf.graphiti/xdf.owl#"
+    xmlns:basic="http://net.sf.graphiti/basics.owl#"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-  xml:base="http://www.org.ietr.age/xdf.owl">
+  xml:base="http://net.sf.graphiti/xdf.owl">
   <owl:Ontology rdf:about="">
-    <owl:imports rdf:resource="http://org.ietr.age/basics.owl"/>
+    <owl:imports rdf:resource="http://net.sf.graphiti/basics.owl"/>
   </owl:Ontology>
-  <rdf:Property rdf:about="http://org.ietr.age/basics.owl#parser_hasDocType"/>
+  <rdf:Property rdf:about="http://net.sf.graphiti/basics.owl#parser_hasDocType"/>
   <basic:VertexNode rdf:ID="Port_Node">
     <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Port</basic:parserNode_hasName>
@@ -21,7 +21,7 @@
         >Port</basic:constantParameter_hasValue>
         <basic:propertyBeanParameter_isParameter>
           <basic:VertexParameter rdf:ID="portTypeParameter">
-            <basic:parameter_hasValueType rdf:resource="http://org.ietr.age/basics.owl#String"/>
+            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
             <basic:parameter_appliesTo>
               <basic:VertexType rdf:ID="PortType">
                 <basic:type_hasStringRepresentation rdf:datatype=
@@ -31,20 +31,20 @@
                     <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                     >id</basic:parameter_hasName>
                     <basic:parameter_appliesTo rdf:resource="#PortType"/>
-                    <basic:parameter_hasValueType rdf:resource="http://org.ietr.age/basics.owl#String"/>
+                    <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                   </basic:VertexParameter>
                 </basic:type_hasParameters>
                 <basic:type_hasParameters rdf:resource="#portTypeParameter"/>
                 <basic:type_hasFigureAttributes>
                   <basic:ColorAttribute rdf:ID="ColorAttribute_2">
                     <basic:figureAttribute_appliesTo rdf:resource="#PortType"/>
-                    <basic:colorAttribute_hasColor rdf:resource="http://org.ietr.age/basics.owl#pink"/>
+                    <basic:colorAttribute_hasColor rdf:resource="http://net.sf.graphiti/basics.owl#pink"/>
                   </basic:ColorAttribute>
                 </basic:type_hasFigureAttributes>
                 <basic:type_hasFigureAttributes>
                   <basic:ShapeAttribute rdf:ID="portShape">
                     <basic:figureAttribute_appliesTo rdf:resource="#PortType"/>
-                    <basic:shapeAttribute_hasShape rdf:resource="http://org.ietr.age/basics.owl#Triangle"/>
+                    <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Triangle"/>
                   </basic:ShapeAttribute>
                 </basic:type_hasFigureAttributes>
               </basic:VertexType>
@@ -71,13 +71,13 @@
               <basic:VertexType rdf:ID="VertexType_4">
                 <basic:type_hasFigureAttributes>
                   <basic:ColorAttribute rdf:ID="ColorAttribute_1">
-                    <basic:colorAttribute_hasColor rdf:resource="http://org.ietr.age/basics.owl#red"/>
+                    <basic:colorAttribute_hasColor rdf:resource="http://net.sf.graphiti/basics.owl#red"/>
                     <basic:figureAttribute_appliesTo rdf:resource="#VertexType_4"/>
                   </basic:ColorAttribute>
                 </basic:type_hasFigureAttributes>
                 <basic:type_hasFigureAttributes>
                   <basic:ShapeAttribute rdf:ID="vertexShape">
-                    <basic:shapeAttribute_hasShape rdf:resource="http://org.ietr.age/basics.owl#RoundedBox"/>
+                    <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#RoundedBox"/>
                     <basic:figureAttribute_appliesTo rdf:resource="#VertexType_4"/>
                   </basic:ShapeAttribute>
                 </basic:type_hasFigureAttributes>
@@ -85,7 +85,7 @@
                   <basic:VertexParameter rdf:ID="vertexTypeParameter">
                     <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                     >type</basic:parameter_hasName>
-                    <basic:parameter_hasValueType rdf:resource="http://org.ietr.age/basics.owl#String"/>
+                    <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                     <basic:parameter_appliesTo rdf:resource="#VertexType_4"/>
                   </basic:VertexParameter>
                 </basic:type_hasParameters>
@@ -94,7 +94,7 @@
                 "http://www.w3.org/2001/XMLSchema#string">Instance</basic:type_hasStringRepresentation>
               </basic:VertexType>
             </basic:parameter_appliesTo>
-            <basic:parameter_hasValueType rdf:resource="http://org.ietr.age/basics.owl#String"/>
+            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
           </basic:VertexParameter>
         </basic:propertyBeanParameter_isParameter>
       </basic:IdParameter>
@@ -114,7 +114,7 @@
             "http://www.w3.org/2001/XMLSchema#string">Network</basic:type_hasStringRepresentation>
           </basic:GraphType>
         </basic:parameter_appliesTo>
-        <basic:parameter_hasValueType rdf:resource="http://org.ietr.age/basics.owl#String"/>
+        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
       </basic:GraphParameter>
     </basic:propertyBeanParameter_isParameter>
     <basic:parserParameterNode_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
@@ -163,14 +163,14 @@
           <basic:ConstantParameter rdf:ID="ConstantParameter_3">
             <basic:propertyBeanParameter_isParameter>
               <basic:EdgeParameter rdf:ID="EdgeParameter_4">
-                <basic:parameter_hasValueType rdf:resource="http://org.ietr.age/basics.owl#String"/>
+                <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                 <basic:parameter_appliesTo>
                   <basic:EdgeType rdf:ID="EdgeType_3">
                     <basic:type_hasParameters rdf:resource="#EdgeParameter_4"/>
                     <basic:type_hasParameters>
                       <basic:EdgeParameter rdf:ID="targetParameter">
-                        <basic:parameter_hasValueType rdf:resource="http://org.ietr.age/basics.owl#String"/>
-                        <basic:parameter_hasPosition rdf:resource="http://org.ietr.age/basics.owl#East"/>
+                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                        <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#East"/>
                         <basic:parameter_hasName rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#string"
                         >dstPortName</basic:parameter_hasName>
@@ -183,8 +183,8 @@
                         <basic:parameter_hasName rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#string"
                         >srcPortName</basic:parameter_hasName>
-                        <basic:parameter_hasValueType rdf:resource="http://org.ietr.age/basics.owl#String"/>
-                        <basic:parameter_hasPosition rdf:resource="http://org.ietr.age/basics.owl#West"/>
+                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                        <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#West"/>
                       </basic:EdgeParameter>
                     </basic:type_hasParameters>
                     <basic:type_hasStringRepresentation rdf:datatype=

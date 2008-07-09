@@ -44,7 +44,6 @@ public class GraphLayoutManager extends XYLayout {
 	 * 
 	 * @see org.eclipse.draw2d.LayoutManager#layout(org.eclipse.draw2d.IFigure)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void layout(IFigure container) {
 		try{

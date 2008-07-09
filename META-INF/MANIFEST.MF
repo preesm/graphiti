@@ -10,7 +10,6 @@ Require-Bundle: org.eclipse.core.resources,
  org.eclipse.ui,
  org.eclipse.ui.editors,
  org.eclipse.ui.ide
-Eclipse-LazyStart: true
 Bundle-ClassPath: .,
  lib/jgrapht-jdk1.5.jar,
  lib/saxon9.jar,
@@ -33,3 +32,4 @@ Bundle-ClassPath: .,
  lib/protege/wstx-asl-3.0.0.jar,
  lib/protege/xercesImpl.jar,
  lib/protege/xml-apis.jar
+Bundle-ActivationPolicy: lazy
