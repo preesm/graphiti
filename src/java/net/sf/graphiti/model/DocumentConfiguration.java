@@ -45,7 +45,8 @@ import net.sf.graphiti.ontology.OntologyFactory;
  * attributes for vertices are "shape" or "color".
  * </p>
  * <p>
- * Parameters are specified for each instance of graph/vertex/edge.
+ * Parameters are specified for each instance of graph/vertex/edge. Examples of
+ * parameters are "position" or "name".
  * </p>
  * 
  * @author Matthieu Wipliez

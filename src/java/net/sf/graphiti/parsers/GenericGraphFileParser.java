@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -134,6 +135,62 @@ public class GenericGraphFileParser {
 	}
 
 	/**
+	 * This methods checks that the given DOM node called <code>domNode</code>
+	 * is defined by the given ontology node called <code>ontNode</code>. Checks
+	 * include:
+	 * <ol>
+	 * <li>name equality</li>
+	 * <li>DOM node attributes match the fixed parameters defined (if any). A
+	 * fixed parameter is something like &lt;Vertex kind="invisible"&gt; or
+	 * &lt;Graph kind="directed"&gt;.</li>
+	 * </ol>
+	 * 
+	 * @param ontNode
+	 * @param domNode
+	 * @param parentElement
+	 * @return
+	 */
+	private boolean isElementDefined(ParserNode ontNode, Node domNode,
+			DOMNode parentElement) {
+		boolean correspond = false;
+
+		// If the DOM node has the same name as this ontology node
+		if (ontNode.hasName().equals(domNode.getNodeName())) {
+			// We parse its fixed parameters (if it has any).
+			Iterator<ParserFixedParameter> it = ontNode.hasFixedParameter()
+					.iterator();
+			NamedNodeMap attributes = domNode.getAttributes();
+
+			correspond = true;
+			while (it.hasNext() && correspond) {
+				ParserFixedParameter fixParam = it.next();
+				String fixedParamName = fixParam.hasName();
+				Node node = attributes.getNamedItem(fixedParamName);
+
+				if (node == null) {
+					// The DOM has no attribute with the same name as our fixed
+					// parameter.
+					correspond = false;
+				} else {
+					// The DOM node has an attribute that matches our fixed
+					// parameter. It corresponds if the value is the same.
+					String value = fixParam.hasValue();
+					correspond &= node.getNodeValue().equals(value);
+				}
+			}
+
+			if (ontNode.hasOntClass(OntologyFactory
+					.getClassParserParameterNode())
+					&& correspond) {
+				parseParameter((ParserParameterNode) ontNode, domNode,
+						parentElement);
+			}
+		}
+
+		return correspond;
+	}
+
+	/**
 	 * Parses the given InputStream using the stream semantic defined in the
 	 * configuration file
 	 * 
@@ -176,15 +233,6 @@ public class GenericGraphFileParser {
 	private void parseAllParameter(ParserNode ontNode, Node domNode,
 			DOMNode element) {
 		Set<ParserParameterNode> attributesNodes = ontNode.hasAttributeNode();
-		// parses all the constant nodes
-		for (ParserParameterNode attNode : attributesNodes) {
-			if (attNode
-					.hasOntClass(OntologyFactory.getClassConstantParameter())) {
-				ConstantParameter constant = (ConstantParameter) attNode;
-				String parameterName = constant.hasParameter().hasName();
-				element.setValue(parameterName, constant.hasValue());
-			}
-		}
 
 		// parses the nodes having a DOM implementation
 		NamedNodeMap attributes = domNode.getAttributes();
@@ -206,43 +254,26 @@ public class GenericGraphFileParser {
 	 */
 	private void parseCorrespondingNode(Set<ParserNode> ontNodes, Node domNode,
 			DOMNode parentElement) {
-		// if there is nodes defined in the Ontology for this DOM implementation
-		// find the corresponding node
-		// and parse it
 		if (ontNodes != null) {
+			// We iterate over the ontology nodes to see if the DOM element is
+			// defined.
 			for (ParserNode ontNode : ontNodes) {
-				if (ontNode.hasName().equals(domNode.getNodeName())) {
-					boolean correspond = true ;
-					for(ParserFixedParameter fixParam : ontNode.hasFixedParameter()){
-						if(domNode.getAttributes().getNamedItem(fixParam.hasName()) != null){
-							correspond &= domNode.getAttributes().getNamedItem(fixParam.hasName()).getNodeValue().equals(fixParam.hasValue());
-						}else{
-							correspond = false ;
-						}
-					}
-					if (ontNode.hasOntClass(OntologyFactory
-							.getClassParserParameterNode()) && correspond) {
-						parseParameter((ParserParameterNode) ontNode, domNode,
-								parentElement);
-					}
-					
-					if(correspond){
-						parseNode(ontNode, domNode, parentElement);
-						return;
-					}
-					
+				if (isElementDefined(ontNode, domNode, parentElement)) {
+					parseNode(ontNode, domNode, parentElement);
+					return;
 				}
 			}
 		}
 
-		// no corresponding ont element has been found or ontNodes was null
-		// creates and parses a dummyElement
+		// Either we were given no ontology nodes, or the element we are
+		// dealing with is not defined by the ontology. Then we just store it as
+		// a DOMNode.
 		DOMNode domElement = new DOMNode(domNode.getNodeName());
 		domElement.setNodeValue(domNode.getNodeValue());
 		NamedNodeMap attributes = domNode.getAttributes();
 		for (int i = 0; attributes != null && i < attributes.getLength(); i++) {
-			parseCorrespondingParameter((Set<ParserParameterNode>) null,
-					attributes.item(i), domElement);
+			Node attribute = attributes.item(i);
+			parseCorrespondingParameter(null, attribute, domElement);
 		}
 
 		// parsing the dummy element children
@@ -267,20 +298,23 @@ public class GenericGraphFileParser {
 	 */
 	private void parseCorrespondingParameter(Set<ParserParameterNode> ontNodes,
 			Node attribute, DOMNode parentElement) {
-		// if there is available parameters defined in the ontology for this DOM
-		// element
 		if (ontNodes != null) {
+			// We iterate over the ontology nodes to see if the DOM attribute is
+			// defined.
 			for (ParserParameterNode ontNode : ontNodes) {
-				if (ontNode.hasName() != null
-						&& ontNode.hasName().equals(attribute.getNodeName())) {
-
+				String name = ontNode.hasName();
+				if (attribute.getNodeName().equals(name)) {
+					// This attribute is defined by the ontology, we parse it
+					// and return.
 					parseParameter(ontNode, attribute, parentElement);
 					return;
 				}
 			}
 		}
 
-		// else parse the element in a dummy attribute
+		// Either we were given no ontology nodes, or the attribute we are
+		// dealing with is not defined by the ontology. Then we just store it as
+		// a DOMNode.
 		DOMNode domAttribute = new DOMNode(attribute.getNodeName());
 		domAttribute.setNodeValue(attribute.getNodeValue());
 		parentElement.addAttribute(domAttribute);
@@ -342,9 +376,10 @@ public class GenericGraphFileParser {
 			element = ((SkipDOMNode) element).getTrueNode();
 		}
 
+		// Store the association between the DOM node and the element
 		nodeToObj.put(domNode, element);
 
-		// parsing parameters
+		setConstantParameters(ontNode, element);
 		parseAllParameter(ontNode, domNode, element);
 
 		// parsing this element children using the children defined in the
@@ -400,6 +435,7 @@ public class GenericGraphFileParser {
 				}
 			}
 		}
+
 		if (ontNode.isReference()) {
 			PropertyBean ref = getReference(ontNode, attribute.getNodeValue());
 			if (parentElement instanceof Edge
@@ -437,28 +473,30 @@ public class GenericGraphFileParser {
 			// Creates the DOM
 			DocumentBuilder docBuilder = builderFactory.newDocumentBuilder();
 			Document doc = docBuilder.parse(inputFile);
-			Node mlRootNode = doc.getFirstChild();
+			Node docElement = doc.getDocumentElement();
 
 			// Iterates over the parser root nodes
 			for (ParserNode rootNode : factory.getParserRootNodes()) {
-				if (!rootNode.hasName().equals(mlRootNode.getNodeName())) {
+				if (!rootNode.hasName().equals(docElement.getNodeName())) {
 					throw (new IncompatibleConfigurationFile(
-							"RootNode has name " + mlRootNode.getNodeName()
+							"RootNode has name " + docElement.getNodeName()
 									+ " instead of " + rootNode.hasName()));
 				} else {
 					graphitiDocument = new GraphitiDocument(config);
-					NamedNodeMap attributes = mlRootNode.getAttributes();
-					for (int i = 0; attributes != null
-							&& i < attributes.getLength(); i++) {
-						parseCorrespondingParameter(
-								(Set<ParserParameterNode>) null, attributes
-										.item(i), graphitiDocument);
+					NamedNodeMap attributes = docElement.getAttributes();
+					if (attributes != null) {
+						for (int i = 0; i < attributes.getLength(); i++) {
+							Node attribute = attributes.item(i);
+							parseCorrespondingParameter(null, attribute,
+									graphitiDocument);
+						}
 					}
-					Node nextNode = mlRootNode.getFirstChild();
-					while (nextNode != null) {
+
+					NodeList docElementChildren = docElement.getChildNodes();
+					for (int i = 0; i < docElementChildren.getLength(); i++) {
+						Node docElementChild = docElementChildren.item(i);
 						parseCorrespondingNode(rootNode.hasChildrenNode(),
-								nextNode, graphitiDocument);
-						nextNode = nextNode.getNextSibling();
+								docElementChild, graphitiDocument);
 					}
 
 					log.info("Parsing completed");
@@ -475,6 +513,25 @@ public class GenericGraphFileParser {
 
 		// The document could not be parser using this configuration
 		throw new IncompatibleConfigurationFile();
+	}
+
+	/**
+	 * Sets constant parameters.
+	 * 
+	 * @param ontNode
+	 * @param element
+	 */
+	private void setConstantParameters(ParserNode ontNode, DOMNode element) {
+		Set<ParserParameterNode> attributesNodes = ontNode.hasAttributeNode();
+		// parses all the constant nodes
+		for (ParserParameterNode attNode : attributesNodes) {
+			if (attNode
+					.hasOntClass(OntologyFactory.getClassConstantParameter())) {
+				ConstantParameter constant = (ConstantParameter) attNode;
+				String parameterName = constant.hasParameter().hasName();
+				element.setValue(parameterName, constant.hasValue());
+			}
+		}
 	}
 
 	private void setEdgeConnection(PropertyBean ref,
@@ -518,6 +575,7 @@ public class GenericGraphFileParser {
 				parentGraph.addVertex(edge.getSource());
 			}
 		}
+		
 		if (edge.getTarget().getValue(IS_PORT) != null
 				&& (Boolean) edge.getTarget().getValue(IS_PORT)) {
 			Vertex trueTarget = (Vertex) getElementFromClass(OntologyFactory
