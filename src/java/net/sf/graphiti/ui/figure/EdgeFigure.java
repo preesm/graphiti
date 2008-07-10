@@ -32,25 +32,30 @@ public class EdgeFigure extends PolylineConnection {
 
 	/**
 	 * Creates the Figure associated to the connection
-	 * @param dep The Edge model associated with this figure.
+	 * 
+	 * @param dep
+	 *            The Edge model associated with this figure.
 	 */
 	public EdgeFigure(Edge dep) {
 		// Sets Layout Manager
 		this.setLayoutManager(new DelegatingLayout());
-		if (dep.getValue("type") != null) {
-			List<ParameterProperty> properties = dep.getParentDocument()
-					.getDocumentConfiguration().getEdgeParameters(
-							(String) dep.getValue("type"));
-			for (ParameterProperty property : properties) {
-				if (property.getPosition() != null) {
-					PropertyTag propertyLabel = new PropertyTag((String) dep
-							.getValue(property.getName()));
-					this.add(propertyLabel, new PropertyLocator(this, property
-							.getPosition()));
-					this.properties.put(property, propertyLabel);
+		if (dep != null) {
+			if (dep.getValue("type") != null) {
+				List<ParameterProperty> properties = dep.getParentDocument()
+						.getDocumentConfiguration().getEdgeParameters(
+								(String) dep.getValue("type"));
+				for (ParameterProperty property : properties) {
+					if (property.getPosition() != null) {
+						PropertyTag propertyLabel = new PropertyTag(
+								(String) dep.getValue(property.getName()));
+						this.add(propertyLabel, new PropertyLocator(this,
+								property.getPosition()));
+						this.properties.put(property, propertyLabel);
+					}
 				}
 			}
 		}
+		
 		setTargetDecoration(new PolylineDecoration());
 		setLineWidth(1);
 		addRoutingListener(RoutingAnimator.getDefault());
