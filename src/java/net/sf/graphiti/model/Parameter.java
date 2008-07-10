@@ -26,31 +26,42 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.adapters;
+package net.sf.graphiti.model;
 
-import net.sf.graphiti.model.PropertyBean;
-import net.sf.graphiti.ui.propertysource.PropertyBeanPropertySource;
+public class Parameter {
 
-import org.eclipse.core.runtime.IAdapterFactory;
+	private String name;
 
-public class GraphitiAdapterFactory implements IAdapterFactory {
+	private ParameterPosition parameterPosition;
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public Object getAdapter(Object adaptableObject, Class adapterType) {
-		if (adaptableObject instanceof PropertyBean) {
-			return new PropertyBeanPropertySource(
-					(PropertyBean) adaptableObject);
+	public Parameter(net.sf.graphiti.ontology.parameters.Parameter ontParam) {
+		name = ontParam.hasName();
+		if (ontParam.hasPosition() != null) {
+			parameterPosition = ParameterPosition
+					.createFromOntPosition(ontParam.hasPosition());
+		} else {
+			parameterPosition = null;
 		}
-		return null;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public Class[] getAdapterList() {
-		Class[] adapters = new Class[1];
-		adapters[1] = PropertyBeanPropertySource.class;
-		return adapters;
+	public Parameter(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public ParameterPosition getPosition() {
+		return parameterPosition;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPosition(String position) {
+		parameterPosition = ParameterPosition.createFromOntString(position);
 	}
 
 }

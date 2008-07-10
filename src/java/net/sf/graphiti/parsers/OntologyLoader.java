@@ -50,7 +50,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import net.sf.graphiti.model.DocumentConfiguration;
-import net.sf.graphiti.model.ParameterProperty;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.attributes.ColorAttribute;
@@ -273,17 +272,17 @@ public class OntologyLoader {
 				for (Parameter parameter : parameters) {
 					if (parameter.hasOntClass(OntologyFactory
 							.getClassVertexParameter())) {
-						ParameterProperty param = new ParameterProperty(
+						net.sf.graphiti.model.Parameter param = new net.sf.graphiti.model.Parameter(
 								(VertexParameter) parameter);
 						config.addVertexParameter(vertexType, param);
 					} else if (parameter.hasOntClass(OntologyFactory
 							.getClassEdgeParameter())) {
-						ParameterProperty param = new ParameterProperty(
+						net.sf.graphiti.model.Parameter param = new net.sf.graphiti.model.Parameter(
 								(EdgeParameter) parameter);
 						config.addEdgeParameter(vertexType, param);
 					} else if (parameter.hasOntClass(OntologyFactory
 							.getClassGraphParameter())) {
-						ParameterProperty param = new ParameterProperty(
+						net.sf.graphiti.model.Parameter param = new net.sf.graphiti.model.Parameter(
 								(GraphParameter) parameter);
 						config.addGraphParameter(vertexType, param);
 					}
@@ -297,7 +296,7 @@ public class OntologyLoader {
 				for (Parameter parameter : parameters) {
 					if (parameter.hasOntClass(OntologyFactory
 							.getClassEdgeParameter())) {
-						ParameterProperty param = new ParameterProperty(
+						net.sf.graphiti.model.Parameter param = new net.sf.graphiti.model.Parameter(
 								(EdgeParameter) parameter);
 						config.addEdgeParameter(edgeType, param);
 					}

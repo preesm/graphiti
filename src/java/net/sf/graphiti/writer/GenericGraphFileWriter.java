@@ -133,14 +133,14 @@ public class GenericGraphFileWriter {
 	 */
 	private void setDOMNodes(Element domNode, DOMNode element) {
 		// Sets attributes
-		List<DOMNode> attributes = element.getAttributes();
+		List<DOMNode> attributes = element.getDOMAttributes();
 		for (DOMNode attribute : attributes) {
 			domNode.setAttribute(attribute.getNodeName(), attribute
 					.getNodeValue());
 		}
 
 		// And children
-		List<DOMNode> elements = element.getElements();
+		List<DOMNode> elements = element.getDOMElements();
 		for (DOMNode child : elements) {
 			// Do not recurse on graphs, vertices or edges.
 			if (child instanceof Graph || child instanceof Vertex

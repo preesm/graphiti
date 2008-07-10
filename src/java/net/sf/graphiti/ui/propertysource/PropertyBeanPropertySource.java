@@ -30,18 +30,27 @@ package net.sf.graphiti.ui.propertysource;
 
 import java.util.List;
 
+import net.sf.graphiti.model.DocumentConfiguration;
+import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.model.Vertex;
 
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ICellEditorValidator;
+import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 public class PropertyBeanPropertySource implements IPropertySource {
 
-	private PropertyBean model;
+	private Vertex vertex;
 
-	public PropertyBeanPropertySource(PropertyBean bean) {
-		model = bean;
+	public PropertyBeanPropertySource(Vertex vertex) {
+		this.vertex = vertex;
 	}
 
 	@Override
@@ -52,23 +61,80 @@ public class PropertyBeanPropertySource implements IPropertySource {
 
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		List<String> propertyNames = model.getProperties();
-		IPropertyDescriptor[] properties = new IPropertyDescriptor[propertyNames
-				.size()];
-		int i = 0;
-		for (String name : propertyNames) {
-			TextPropertyDescriptor propertyDescriptor = new TextPropertyDescriptor(
-					name, name);
+		PropertyBean attributes = vertex.getAttributes();
+		List<Parameter> parameters = vertex.getParameters();
+
+		List<String> attributeNames = attributes.getProperties();
+		int totalSize = attributeNames.size();
+		totalSize += parameters.size();
+		totalSize++;
+
+		TextPropertyDescriptor[] properties = new TextPropertyDescriptor[totalSize];
+
+		TextPropertyDescriptor propertyDescriptor = new TextPropertyDescriptor(
+				new SpecialProperty(), "Add a new parameter...");
+		propertyDescriptor.setCategory("Parameters");
+
+		properties[0] = propertyDescriptor;
+
+		int i = 1;
+		for (String attributeName : attributeNames) {
+			propertyDescriptor = new TextPropertyDescriptor(
+					new AttributeProperty(attributeName), attributeName);
+			propertyDescriptor.setCategory("Attributes");
+
+			propertyDescriptor.setValidator(new ICellEditorValidator() {
+
+				@Override
+				public String isValid(Object value) {
+					return "Attributes cannot be edited.";
+				}
+
+			});
+
 			properties[i] = propertyDescriptor;
 			i++;
 		}
+
+		for (Parameter parameter : parameters) {
+			propertyDescriptor = new TextPropertyDescriptor(
+					new ParameterProperty(parameter.getName()), parameter
+							.getName());
+			propertyDescriptor.setCategory("Parameters");
+
+			// Composite composite = PlatformUI.getWorkbench()
+			// .getActiveWorkbenchWindow().getShell();
+			// CellEditor toto =
+			// propertyDescriptor.createPropertyEditor(composite);
+			// if (toto instanceof TextCellEditor) {
+			// TextCellEditor toto2 = (TextCellEditor) toto;
+			// toto2.setStyle(toto2.getStyle() | SWT.MULTI);
+			// }
+			
+			properties[i] = propertyDescriptor;
+			i++;
+		}
+
 		return properties;
 	}
 
 	@Override
 	public Object getPropertyValue(Object id) {
-		Object value = model.getValue((String) id);
-		if (value == null || value instanceof String) {
+		Object value;
+		IPropertyType propertyType = (IPropertyType) id;
+		if (propertyType.isAttribute()) {
+			String attributeName = propertyType.getId();
+			value = vertex.getAttribute(attributeName);
+		} else if (propertyType.isParameter()) {
+			String parameterName = propertyType.getId();
+			value = vertex.getValue(parameterName);
+		} else {
+			value = "";
+		}
+
+		if (value == null) {
+			return "";
+		} else if (value instanceof String) {
 			return value;
 		} else {
 			return value.toString();
@@ -89,8 +155,17 @@ public class PropertyBeanPropertySource implements IPropertySource {
 
 	@Override
 	public void setPropertyValue(Object id, Object value) {
-		// TODO Auto-generated method stub
-
+		IPropertyType propertyType = (IPropertyType) id;
+		if (propertyType.isAttribute()) {
+		} else if (propertyType.isParameter()) {
+			String parameterName = propertyType.getId();
+			vertex.setValue(parameterName, value);
+		} else {
+			String name = (String) value;
+			DocumentConfiguration config = vertex.getParentDocument()
+					.getDocumentConfiguration();
+			config.addVertexParameter(vertex.getType(), new Parameter(name));
+		}
 	}
 
 }

@@ -37,11 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
-import net.sf.graphiti.ui.propertysource.PropertyBeanPropertySource;
-
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.ui.views.properties.IPropertySource;
-
 /**
  * This class provides the ability to store properties. Classes may listen to
  * property change events by registering themselves using
@@ -50,8 +45,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  */
-public class PropertyBean extends Observable implements Cloneable,
-		Serializable, IAdaptable {
+public class PropertyBean extends Observable implements Cloneable, Serializable {
 	/**
 	 * String for the "child added" property. Set when a vertex or a port is
 	 * added to a vertex.
@@ -82,8 +76,6 @@ public class PropertyBean extends Observable implements Cloneable,
 	 */
 	private PropertyChangeSupport propertyChange;
 
-	private IPropertySource propertySource;
-
 	/**
 	 * Constructs a new property bean, with no initial properties set.
 	 */
@@ -102,17 +94,6 @@ public class PropertyBean extends Observable implements Cloneable,
 		propertyChange.addPropertyChangeListener(listener);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public Object getAdapter(Class adapter) {
-		if (adapter == IPropertySource.class) {
-			if (propertySource == null)
-				propertySource = new PropertyBeanPropertySource(this);
-			return propertySource;
-		}
-		return null;
-	}
-
 	/**
 	 * Gives this PropertyBean properties keySet
 	 * 
@@ -123,7 +104,8 @@ public class PropertyBean extends Observable implements Cloneable,
 	}
 
 	/**
-	 * Returns the value of the property whose name is <code>propertyName</code>.
+	 * Returns the value of the property whose name is <code>propertyName</code>
+	 * .
 	 * 
 	 * @param propertyName
 	 *            The name of the property to retrieve.
@@ -144,8 +126,8 @@ public class PropertyBean extends Observable implements Cloneable,
 	}
 
 	/**
-	 * Sets the value of the property whose name is <code>propertyName</code>
-	 * to value <code>newValue</code>, and report the property update to any
+	 * Sets the value of the property whose name is <code>propertyName</code> to
+	 * value <code>newValue</code>, and report the property update to any
 	 * registered listeners.
 	 * 
 	 * @param propertyName
@@ -160,11 +142,11 @@ public class PropertyBean extends Observable implements Cloneable,
 	}
 
 	/**
-	 * Sets the value of the property whose name is <code>propertyName</code>
-	 * to value <code>newValue</code>, and report the property update to any
+	 * Sets the value of the property whose name is <code>propertyName</code> to
+	 * value <code>newValue</code>, and report the property update to any
 	 * registered listeners. This method allows the caller to specify the the
-	 * property's <code>oldValue</code>, thus overriding the value stored in
-	 * the properties map. This may be of use when a property should be fired
+	 * property's <code>oldValue</code>, thus overriding the value stored in the
+	 * properties map. This may be of use when a property should be fired
 	 * regardless of the previous value (in case of undo/redo for example, when
 	 * a same object is added, removed, and added again).
 	 * 

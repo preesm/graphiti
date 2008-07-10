@@ -91,7 +91,7 @@ public class DOMNode extends PropertyBean {
 	 * @param attribute
 	 *            The attribute.
 	 */
-	public void addAttribute(DOMNode attribute) {
+	public void addDOMAttribute(DOMNode attribute) {
 		attributes.add(attribute);
 	}
 
@@ -101,7 +101,7 @@ public class DOMNode extends PropertyBean {
 	 * @param element
 	 *            The element.
 	 */
-	public void addElement(DOMNode element) {
+	public void addDOMElement(DOMNode element) {
 		elements.add(element);
 	}
 
@@ -110,7 +110,7 @@ public class DOMNode extends PropertyBean {
 	 * 
 	 * @return The list of the DOM attributes of this PropertyBean.
 	 */
-	public List<DOMNode> getAttributes() {
+	public List<DOMNode> getDOMAttributes() {
 		return new ArrayList<DOMNode>(attributes);
 	}
 
@@ -119,7 +119,7 @@ public class DOMNode extends PropertyBean {
 	 * @param attributeName the attribute's name
 	 * @return the value of the attribute
 	 */
-	public String getAttributeValue(String attributeName){
+	public String getDOMAttributeValue(String attributeName){
 		for(DOMNode node : attributes){
 			if(node.getNodeName().equals(attributeName)){
 				return node.getNodeValue();
@@ -133,7 +133,7 @@ public class DOMNode extends PropertyBean {
 	 * 
 	 * @return The list of DOM elements in this property bean.
 	 */
-	public List<DOMNode> getElements() {
+	public List<DOMNode> getDOMElements() {
 		return new ArrayList<DOMNode>(elements);
 	}
 
@@ -176,7 +176,7 @@ public class DOMNode extends PropertyBean {
 	}
 
 	public String toString() {
-		return nodeName + ": " + nodeValue + " " + getAttributes() + " ";
+		return nodeName + ": " + nodeValue + " " + getDOMAttributes() + " ";
 	}
 
 }

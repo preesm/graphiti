@@ -220,8 +220,8 @@ public class GenericGraphFileParser {
 	}
 
 	/**
-	 * Parses all the parameters (including constant ones) defined in the
-	 * ontology node <code>ontNode</code>.
+	 * Parses all the parameters defined in the ontology node
+	 * <code>ontNode</code>.
 	 * 
 	 * @param ontNode
 	 *            the node as defined in the ontology
@@ -283,7 +283,7 @@ public class GenericGraphFileParser {
 		}
 
 		// adding the dummy element to the parent element
-		parentElement.addElement(domElement);
+		parentElement.addDOMElement(domElement);
 	}
 
 	/**
@@ -317,7 +317,7 @@ public class GenericGraphFileParser {
 		// a DOMNode.
 		DOMNode domAttribute = new DOMNode(attribute.getNodeName());
 		domAttribute.setNodeValue(attribute.getNodeValue());
-		parentElement.addAttribute(domAttribute);
+		parentElement.addDOMAttribute(domAttribute);
 	}
 
 	/**
@@ -370,7 +370,7 @@ public class GenericGraphFileParser {
 		// adding element and value to the parentElement
 		element.setNodeName(domNode.getNodeName());
 		element.setNodeValue(domNode.getNodeValue());
-		parentElement.addElement(element);
+		parentElement.addDOMElement(element);
 
 		while (element instanceof SkipDOMNode) {
 			element = ((SkipDOMNode) element).getTrueNode();
@@ -575,7 +575,7 @@ public class GenericGraphFileParser {
 				parentGraph.addVertex(edge.getSource());
 			}
 		}
-		
+
 		if (edge.getTarget().getValue(IS_PORT) != null
 				&& (Boolean) edge.getTarget().getValue(IS_PORT)) {
 			Vertex trueTarget = (Vertex) getElementFromClass(OntologyFactory

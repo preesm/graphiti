@@ -201,7 +201,7 @@ public class GenericGraphFileWriterBis {
 				}
 			} else if (node.hasOntClass(OntologyFactory.getClassSkipNode())) {
 				boolean isTreated = false;
-				for (DOMNode childNode : element.getElements()) {
+				for (DOMNode childNode : element.getDOMElements()) {
 					if (childNode.getNodeName().equals(node.hasName())) {
 						writeNode(node, element, parentNode);
 						isTreated = true;
@@ -229,7 +229,7 @@ public class GenericGraphFileWriterBis {
 			}
 
 		}
-		for (DOMNode childElement : element.getElements()) {
+		for (DOMNode childElement : element.getDOMElements()) {
 			if (!childElement.getNodeName().equals("#text")
 					&& childElement.getClass().equals(DOMNode.class)) {
 				Element newElt = domDocument.createElement(childElement
@@ -237,7 +237,7 @@ public class GenericGraphFileWriterBis {
 				if (childElement.getNodeValue() != null) {
 					newElt.setTextContent(childElement.getNodeValue());
 				}
-				for (DOMNode attribute : childElement.getAttributes()) {
+				for (DOMNode attribute : childElement.getDOMAttributes()) {
 					newElt.setAttribute(attribute.getNodeName(), attribute
 							.getNodeValue());
 				}
@@ -251,7 +251,7 @@ public class GenericGraphFileWriterBis {
 
 	private void writeNode(ParserNode node, DOMNode element, Node parentNode) {
 		Element newElement = createElement(node, parentNode);
-		for (DOMNode attrNode : element.getAttributes()) {
+		for (DOMNode attrNode : element.getDOMAttributes()) {
 			if (attrNode.getClass().equals(DOMNode.class)) {
 				newElement.setAttribute(attrNode.getNodeName(), attrNode
 						.getNodeValue());

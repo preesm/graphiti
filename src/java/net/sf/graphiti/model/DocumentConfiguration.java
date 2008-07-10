@@ -67,7 +67,7 @@ public class DocumentConfiguration {
 	/**
 	 * An edge type -> (parameter name list) map.
 	 */
-	private Map<String, List<ParameterProperty>> edgeParameters;
+	private Map<String, List<Parameter>> edgeParameters;
 
 	/**
 	 * A graph type -> attributes map.
@@ -77,7 +77,7 @@ public class DocumentConfiguration {
 	/**
 	 * An graph type -> (parameter name list) map.
 	 */
-	private Map<String, List<ParameterProperty>> graphParameters;
+	private Map<String, List<Parameter>> graphParameters;
 
 	/**
 	 * The ontology factory this document configuration is associated with.
@@ -97,7 +97,7 @@ public class DocumentConfiguration {
 	/**
 	 * An vertex type -> (parameter name list) map.
 	 */
-	private Map<String, List<ParameterProperty>> vertexParameters;
+	private Map<String, List<Parameter>> vertexParameters;
 
 	/**
 	 * Creates a new document configuration with no initial attributes or
@@ -115,9 +115,9 @@ public class DocumentConfiguration {
 		graphAttributes = new HashMap<String, PropertyBean>();
 		vertexAttributes = new HashMap<String, PropertyBean>();
 
-		vertexParameters = new HashMap<String, List<ParameterProperty>>();
-		graphParameters = new HashMap<String, List<ParameterProperty>>();
-		edgeParameters = new HashMap<String, List<ParameterProperty>>();
+		vertexParameters = new HashMap<String, List<Parameter>>();
+		graphParameters = new HashMap<String, List<Parameter>>();
+		edgeParameters = new HashMap<String, List<Parameter>>();
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class DocumentConfiguration {
 	 * @param parameter
 	 *            The parameter.
 	 */
-	public void addEdgeParameter(String edgeType, ParameterProperty parameter) {
+	public void addEdgeParameter(String edgeType, Parameter parameter) {
 		addParameter(edgeParameters, edgeType, parameter);
 	}
 
@@ -144,7 +144,7 @@ public class DocumentConfiguration {
 	 * @param parameter
 	 *            The parameter.
 	 */
-	public void addGraphParameter(String graphType, ParameterProperty parameter) {
+	public void addGraphParameter(String graphType, Parameter parameter) {
 		addParameter(graphParameters, graphType, parameter);
 	}
 
@@ -159,11 +159,11 @@ public class DocumentConfiguration {
 	 * @param parameterName
 	 *            The parameter name.
 	 */
-	private void addParameter(Map<String, List<ParameterProperty>> map,
-			String type, ParameterProperty parameter) {
-		List<ParameterProperty> parameters = map.get(type);
+	private void addParameter(Map<String, List<Parameter>> map, String type,
+			Parameter parameter) {
+		List<Parameter> parameters = map.get(type);
 		if (parameters == null) {
-			parameters = new ArrayList<ParameterProperty>();
+			parameters = new ArrayList<Parameter>();
 			map.put(type, parameters);
 		}
 
@@ -181,8 +181,7 @@ public class DocumentConfiguration {
 	 * @param parameter
 	 *            The parameter.
 	 */
-	public void addVertexParameter(String vertexType,
-			ParameterProperty parameter) {
+	public void addVertexParameter(String vertexType, Parameter parameter) {
 		addParameter(vertexParameters, vertexType, parameter);
 	}
 
@@ -210,6 +209,26 @@ public class DocumentConfiguration {
 	}
 
 	/**
+	 * Gets the attributes for the type <code>type</code>.
+	 * 
+	 * @param map
+	 *            The map to look in.
+	 * @param type
+	 *            The type represented by a string.
+	 * @return The attributes.
+	 */
+	private PropertyBean getAttributes(Map<String, PropertyBean> map,
+			String type) {
+		PropertyBean attributes = map.get(type);
+		if (attributes == null) {
+			attributes = new PropertyBean();
+			map.put(type, attributes);
+		}
+
+		return attributes;
+	}
+
+	/**
 	 * Returns the attribute value associated with the given edge type and
 	 * attribute name.
 	 * 
@@ -230,7 +249,7 @@ public class DocumentConfiguration {
 	 *            The edge type.
 	 * @return The list of parameters associated with the edge type.
 	 */
-	public List<ParameterProperty> getEdgeParameters(String edgeType) {
+	public List<Parameter> getEdgeParameters(String edgeType) {
 		return getParameters(edgeParameters, edgeType);
 	}
 
@@ -255,7 +274,7 @@ public class DocumentConfiguration {
 	 *            The graph type.
 	 * @return The list of parameters associated with the graph type.
 	 */
-	public List<ParameterProperty> getGraphParameters(String graphType) {
+	public List<Parameter> getGraphParameters(String graphType) {
 		return getParameters(graphParameters, graphType);
 	}
 
@@ -288,11 +307,11 @@ public class DocumentConfiguration {
 	 *            The type represented by a string.
 	 * @return The parameter list.
 	 */
-	private List<ParameterProperty> getParameters(
-			Map<String, List<ParameterProperty>> map, String type) {
-		List<ParameterProperty> parameters = map.get(type);
+	private List<Parameter> getParameters(Map<String, List<Parameter>> map,
+			String type) {
+		List<Parameter> parameters = map.get(type);
 		if (parameters == null) {
-			parameters = new ArrayList<ParameterProperty>();
+			parameters = new ArrayList<Parameter>();
 			map.put(type, parameters);
 		}
 
@@ -314,13 +333,24 @@ public class DocumentConfiguration {
 	}
 
 	/**
+	 * Returns the attributes associated with the given vertex type.
+	 * 
+	 * @param vertexType
+	 *            The vertex type.
+	 * @return The attributes associated.
+	 */
+	public PropertyBean getVertexAttributes(String vertexType) {
+		return getAttributes(vertexAttributes, vertexType);
+	}
+
+	/**
 	 * Returns the parameters names associated with the given vertex type.
 	 * 
 	 * @param vertexType
 	 *            The vertex type.
 	 * @return The list of parameters associated with the vertex type.
 	 */
-	public List<ParameterProperty> getVertexParameters(String vertexType) {
+	public List<Parameter> getVertexParameters(String vertexType) {
 		return getParameters(vertexParameters, vertexType);
 	}
 

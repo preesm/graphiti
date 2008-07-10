@@ -28,13 +28,20 @@
  */
 package net.sf.graphiti.model;
 
+import java.util.List;
+
+import net.sf.graphiti.ui.propertysource.PropertyBeanPropertySource;
+
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.ui.views.properties.IPropertySource;
+
 /**
  * This class represents a vertex.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class Vertex extends DOMNode implements Cloneable {
+public class Vertex extends DOMNode implements Cloneable, IAdaptable {
 
 	/**
 	 * String for the "color" attribute. Defines the vertex color.
@@ -98,12 +105,14 @@ public class Vertex extends DOMNode implements Cloneable {
 	 */
 	GraphitiDocument parentDocument;
 
+	private IPropertySource propertySource;
+
 	/**
 	 * Creates a new Vertex with no type.
 	 * 
 	 * @param doc
 	 *            The vertex document.
-	 *            
+	 * 
 	 */
 	public Vertex(GraphitiDocument doc) {
 		this.setValue(PARAMETER_TYPE, "");
@@ -129,6 +138,53 @@ public class Vertex extends DOMNode implements Cloneable {
 		} catch (CloneNotSupportedException e) {
 			return null;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object getAdapter(Class adapter) {
+		if (adapter == IPropertySource.class) {
+			if (propertySource == null)
+				propertySource = new PropertyBeanPropertySource(this);
+			return propertySource;
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the value of an attribute associated with this vertex type and
+	 * the given attribute name <code>attributeName</code>.
+	 * 
+	 * @param attributeName
+	 *            The name of an attribute.
+	 * @return The value of the attribute as an object.
+	 */
+	public Object getAttribute(String attributeName) {
+		DocumentConfiguration config = parentDocument
+				.getDocumentConfiguration();
+		return config.getVertexAttribute(getType(), attributeName);
+	}
+
+	/**
+	 * Returns an attributes map associated with this vertex type.
+	 * 
+	 * @return A PropertyBean that contain the attributes map.
+	 */
+	public PropertyBean getAttributes() {
+		DocumentConfiguration config = parentDocument
+				.getDocumentConfiguration();
+		return config.getVertexAttributes(getType());
+	}
+
+	/**
+	 * Returns a list of parameters associated with this vertex type.
+	 * 
+	 * @return A List of Parameters.
+	 */
+	public List<Parameter> getParameters() {
+		DocumentConfiguration config = parentDocument
+				.getDocumentConfiguration();
+		return config.getVertexParameters(getType());
 	}
 
 	/**

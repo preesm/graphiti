@@ -26,43 +26,19 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.model;
+package net.sf.graphiti.ui.propertysource;
 
-import net.sf.graphiti.ontology.parameters.Parameter;
+/**
+ * 
+ * @author Matthieu Wipliez
+ *
+ */
+public interface IPropertyType {
 
-public class ParameterProperty {
-
-	protected String name;
-	protected ParameterPosition parameterPosition;
-
-	public ParameterProperty(Parameter ontParam) {
-		name = ontParam.hasName();
-		if (ontParam.hasPosition() != null) {
-			parameterPosition = ParameterPosition
-					.createFromOntPosition(ontParam.hasPosition());
-		} else {
-			parameterPosition = null;
-		}
-	}
-
-	public ParameterProperty(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public ParameterPosition getPosition() {
-		return parameterPosition;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setPosition(String position) {
-		parameterPosition = ParameterPosition.createFromOntString(position);
-	}
-
+	public boolean isAttribute();
+	
+	public boolean isParameter();
+	
+	public String getId();
+	
 }

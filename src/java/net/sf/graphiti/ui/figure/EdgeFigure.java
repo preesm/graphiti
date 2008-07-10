@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.ParameterProperty;
+import net.sf.graphiti.model.Parameter;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.DelegatingLayout;
@@ -56,7 +56,7 @@ public class EdgeFigure extends PolylineConnection {
 
 	static public final int selectWidth = 2;
 
-	protected HashMap<ParameterProperty, PropertyTag> properties = new HashMap<ParameterProperty, PropertyTag>();
+	protected HashMap<Parameter, PropertyTag> properties = new HashMap<Parameter, PropertyTag>();
 
 	/**
 	 * Creates the Figure associated to the connection
@@ -69,10 +69,10 @@ public class EdgeFigure extends PolylineConnection {
 		this.setLayoutManager(new DelegatingLayout());
 		if (dep != null) {
 			if (dep.getValue("type") != null) {
-				List<ParameterProperty> properties = dep.getParentDocument()
+				List<Parameter> properties = dep.getParentDocument()
 						.getDocumentConfiguration().getEdgeParameters(
 								(String) dep.getValue("type"));
-				for (ParameterProperty property : properties) {
+				for (Parameter property : properties) {
 					if (property.getPosition() != null) {
 						PropertyTag propertyLabel = new PropertyTag(
 								(String) dep.getValue(property.getName()));
@@ -83,7 +83,7 @@ public class EdgeFigure extends PolylineConnection {
 				}
 			}
 		}
-		
+
 		setTargetDecoration(new PolylineDecoration());
 		setLineWidth(1);
 		addRoutingListener(RoutingAnimator.getDefault());
