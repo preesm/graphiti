@@ -33,8 +33,9 @@ import java.util.Set;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.OntologyNodeImpl;
 import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
-import net.sf.graphiti.ontology.elements.OntologyElement;
+import net.sf.graphiti.ontology.elements.Element;
 import net.sf.graphiti.ontology.elements.ParserParameterNode;
+import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -42,7 +43,7 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author mwipliez
  * 
  */
-public class ElementImpl extends OntologyNodeImpl implements OntologyElement {
+public class ElementImpl extends OntologyNodeImpl implements Element {
 
 	public ElementImpl(Individual individual) {
 		super(individual);
@@ -64,19 +65,26 @@ public class ElementImpl extends OntologyNodeImpl implements OntologyElement {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Set<OntologyElement> hasChildrenNode() {
-		return (Set<OntologyElement>) listIndividuals(OntologyFactory
+	public Set<Element> hasChildrenNode() {
+		return (Set<Element>) listIndividuals(OntologyFactory
 				.getPropertyParserNodeHasChildNode());
 	}
 
 	@Override
 	public String hasName() {
-		return getStringProperty(OntologyFactory.getPropertyParserNodeHasName());
+		return getStringProperty(OntologyFactory.getPropertyElementHasName());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<ParameterValue> hasParameterValue() {
+		return (Set<ParameterValue>) listIndividuals(OntologyFactory
+				.getPropertyElementHasParameterValue());
 	}
 
 	@Override
-	public OntologyElement hasPrecedenceNode() {
-		return (OntologyElement) getIndividualProperty(OntologyFactory
+	public Element hasPrecedenceNode() {
+		return (Element) getIndividualProperty(OntologyFactory
 				.getPropertyParserNodeHasPrecedenceNode());
 	}
 

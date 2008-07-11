@@ -1,4 +1,4 @@
-; Fri Jul 11 14:36:32 CEST 2008
+; Fri Jul 11 16:32:51 CEST 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -212,25 +212,30 @@
 
 ([basics_ProjectKB_Instance_51] of  String
 
+	(name "RenameAcrossFiles")
+	(string_value "D:\\repositories\\graphiti-editor\\src\\owl\\GraphML.owl,D:\\repositories\\graphiti-editor\\src\\owl\\spirit.owl,D:\\repositories\\graphiti-editor\\src\\owl\\xdf.owl,D:\\repositories\\graphiti-editor\\src\\owl\\xnl.owl"))
+
+([basics_ProjectKB_Instance_52] of  String
+
 	(name "owl:Thing")
 	(string_value "%3ANAME"))
 
-([basics_ProjectKB_Instance_52] of  String
+([basics_ProjectKB_Instance_53] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([basics_ProjectKB_Instance_53] of  String
+([basics_ProjectKB_Instance_54] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([basics_ProjectKB_Instance_54] of  String
+([basics_ProjectKB_Instance_55] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([basics_ProjectKB_Instance_55] of  String
+([basics_ProjectKB_Instance_56] of  String
 
 	(name "owl:Class")
 	(string_value "%3ANAME"))
@@ -256,11 +261,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[basics_ProjectKB_Instance_51]
 		[basics_ProjectKB_Instance_52]
 		[basics_ProjectKB_Instance_53]
 		[basics_ProjectKB_Instance_54]
-		[basics_ProjectKB_Instance_55]))
+		[basics_ProjectKB_Instance_55]
+		[basics_ProjectKB_Instance_56]))
 
 ([CLSES_TAB] of  Widget
 
@@ -1200,6 +1205,11 @@
 ([KB_564539_Instance_1] of  Property_List
 )
 
+([KB_568501_Instance_0] of  String
+
+	(name "owl_file_name")
+	(string_value "basics.owl"))
+
 ([KB_575585_Instance_0] of  Widget
 
 	(is_hidden TRUE)
@@ -1431,11 +1441,6 @@
 	(name "owl:ObjectProperty")
 	(property_list [XY_Instance_462])
 	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
-
-([KB_702808_Instance_0] of  String
-
-	(name "owl_file_name")
-	(string_value "basics.owl"))
 
 ([KB_713803_Instance_0] of  Widget
 
@@ -7712,7 +7717,8 @@
 		[OWL_ProjectKB_Instance_3]
 		[KB_444675_Instance_0]
 		[KB_632156_Instance_0]
-		[KB_702808_Instance_0]))
+		[KB_568501_Instance_0]
+		[basics_ProjectKB_Instance_51]))
 
 ([STANDARD_CLASS_FORM_WIDGET] of  Widget
 

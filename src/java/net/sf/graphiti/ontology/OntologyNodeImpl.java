@@ -50,7 +50,6 @@ import net.sf.graphiti.ontology.elements.parameters.edges.impl.EdgeConnectionImp
 import net.sf.graphiti.ontology.elements.parameters.edges.impl.EdgeParameterNodeImpl;
 import net.sf.graphiti.ontology.elements.parameters.edges.impl.EdgeSourceConnectionImpl;
 import net.sf.graphiti.ontology.elements.parameters.edges.impl.EdgeTargetConnectionImpl;
-import net.sf.graphiti.ontology.elements.parameters.impl.ConstantParameterImpl;
 import net.sf.graphiti.ontology.elements.parameters.impl.DefaultParameterImpl;
 import net.sf.graphiti.ontology.elements.parameters.impl.IdParameterImpl;
 import net.sf.graphiti.ontology.elements.parameters.impl.PropertyBeanParameterImpl;
@@ -58,6 +57,7 @@ import net.sf.graphiti.ontology.enums.impl.ColorsImpl;
 import net.sf.graphiti.ontology.enums.impl.DataTypesImpl;
 import net.sf.graphiti.ontology.enums.impl.PositionImpl;
 import net.sf.graphiti.ontology.enums.impl.ShapesImpl;
+import net.sf.graphiti.ontology.parameterValues.impl.ParameterValueImpl;
 import net.sf.graphiti.ontology.parameters.impl.EdgeParameterImpl;
 import net.sf.graphiti.ontology.parameters.impl.GraphParameterImpl;
 import net.sf.graphiti.ontology.parameters.impl.ParameterImpl;
@@ -87,11 +87,10 @@ public class OntologyNodeImpl implements OntologyNode {
 	private static Map<String, Class<?>> classes = new HashMap<String, Class<?>>();
 
 	static {
-		// enums
-		classes.put(OntologyFactory.getClassShapes(), ShapesImpl.class);
-		classes.put(OntologyFactory.getClassColors(), ColorsImpl.class);
-		classes.put(OntologyFactory.getClassDataTypes(), DataTypesImpl.class);
-		classes.put(OntologyFactory.getClassPosition(), PositionImpl.class);
+		// AttributeRestriction
+		classes.put(OntologyFactory.getClassAttributeRestriction(),
+				AttributeRestrictionImpl.class);
+
 		// FigureAttribute
 		classes.put(OntologyFactory.getClassColorAttribute(),
 				ColorAttributeImpl.class);
@@ -100,12 +99,12 @@ public class OntologyNodeImpl implements OntologyNode {
 		classes.put(OntologyFactory.getClassShapeAttribute(),
 				ShapeAttributeImpl.class);
 
-		// ParserNode
+		// Element
+		classes.put(OntologyFactory.getClassElement(), ElementImpl.class);
 		classes.put(OntologyFactory.getClassEdgeElement(),
 				EdgeElementImpl.class);
 		classes.put(OntologyFactory.getClassGraphElement(),
 				GraphElementImpl.class);
-		classes.put(OntologyFactory.getClassElement(), ElementImpl.class);
 		classes.put(OntologyFactory.getClassParserParameterNode(),
 				ParserParameterNodeImpl.class);
 		classes.put(OntologyFactory.getClassDocumentElement(),
@@ -114,13 +113,16 @@ public class OntologyNodeImpl implements OntologyNode {
 				SkipElementImpl.class);
 		classes.put(OntologyFactory.getClassVertexElement(),
 				VertexElementImpl.class);
-
-		classes.put(OntologyFactory.getClassAttributeRestriction(),
-				AttributeRestrictionImpl.class);
+		
+		// enums
+		classes.put(OntologyFactory.getClassShapes(), ShapesImpl.class);
+		classes.put(OntologyFactory.getClassColors(), ColorsImpl.class);
+		classes.put(OntologyFactory.getClassDataTypes(), DataTypesImpl.class);
+		classes.put(OntologyFactory.getClassPosition(), PositionImpl.class);
 
 		// PropertyBeanParameter
-		classes.put(OntologyFactory.getClassConstantParameter(),
-				ConstantParameterImpl.class);
+		classes.put(OntologyFactory.getClassParameterValue(),
+				ParameterValueImpl.class);
 		classes.put(OntologyFactory.getClassDefaultParameter(),
 				DefaultParameterImpl.class);
 		classes.put(OntologyFactory.getClassIdParameter(),

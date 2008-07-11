@@ -29,12 +29,14 @@
 package net.sf.graphiti.ontology.elements;
 
 /**
- * This class provides a skip node.
+ * This class provides the ontology-defined representation of a DOM skip element
+ * in the input XML document. A skip element is an element that contain no
+ * information useful for the parser, but is part of the input format.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface SkipElement extends OntologyElement {
+public interface SkipElement extends Element {
 
 }

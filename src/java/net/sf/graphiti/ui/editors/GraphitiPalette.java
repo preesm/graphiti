@@ -91,7 +91,7 @@ public class GraphitiPalette {
 			OntologyFactory factory = config.getOntologyFactory();
 			Set<VertexType> vertexTypes = factory.getVertexTypes();
 			for (VertexType type : vertexTypes) {
-				String typeStr = type.hasStringRepresentation();
+				String typeStr = type.hasName();
 
 				ImageDescriptor id = getImageDescriptorFromType(config, typeStr);
 

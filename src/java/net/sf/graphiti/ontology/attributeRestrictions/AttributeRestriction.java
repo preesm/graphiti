@@ -29,10 +29,13 @@
 package net.sf.graphiti.ontology.attributeRestrictions;
 
 import net.sf.graphiti.ontology.OntologyNode;
-import net.sf.graphiti.ontology.elements.OntologyElement;
+import net.sf.graphiti.ontology.elements.Element;
 
 /**
- * This class provides an attribute restriction.
+ * This class provides an attribute restriction. An attribute restriction can be
+ * used to distinguish elements by some of their attribute values, e.g.
+ * &lt;Graph kind="directed"&gt; from &lt;Graph kind="undirected"&gt;. In this
+ * example, hasName is "kind" and hasValue is "directed" or "undirected".
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
@@ -44,5 +47,5 @@ public interface AttributeRestriction extends OntologyNode {
 
 	public String hasValue();
 
-	public OntologyElement ofElement();
+	public Element ofElement();
 }

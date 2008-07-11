@@ -35,10 +35,10 @@ package net.sf.graphiti.ui.propertysource;
  */
 public interface IPropertyType {
 
+	public String getId();
+
 	public boolean isAttribute();
 
 	public boolean isParameter();
-
-	public String getId();
 
 }

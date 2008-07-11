@@ -9,15 +9,15 @@ package net.sf.graphiti.ui.propertysource;
  */
 public class SpecialProperty implements IPropertyType {
 
+	public String getId() {
+		return "special";
+	}
+
 	public boolean isAttribute() {
 		return false;
 	}
 
 	public boolean isParameter() {
 		return false;
-	}
-
-	public String getId() {
-		return "special";
 	}
 }

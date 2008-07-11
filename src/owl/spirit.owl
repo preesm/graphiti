@@ -25,7 +25,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <owl:imports rdf:resource="http://net.sf.graphiti/basics.owl"/>
   </owl:Ontology>
   <rdf:Property rdf:about="http://net.sf.graphiti/basics.owl#parser_hasDocType"/>
-  <basic:ConstantParameter rdf:ID="typeParameter">
+  <basic:ParameterValue rdf:ID="typeParameter">
+    <basic:parserParameterNode_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >false</basic:parserParameterNode_isReference>
     <basic:constantParameter_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >operator</basic:constantParameter_hasValue>
     <basic:propertyBeanParameter_isParameter>
@@ -62,9 +64,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         >type</basic:parameter_hasName>
       </basic:VertexParameter>
     </basic:propertyBeanParameter_isParameter>
-    <basic:parserParameterNode_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >false</basic:parserParameterNode_isReference>
-  </basic:ConstantParameter>
+  </basic:ParameterValue>
   <basic:EdgeElement rdf:ID="EdgeNode_1">
     <basic:parserNode_hasChildNode>
       <basic:SkipElement rdf:ID="SkipNode_3">

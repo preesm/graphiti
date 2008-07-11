@@ -31,7 +31,7 @@ package net.sf.graphiti.ontology.elements.impl;
 import java.util.Set;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.elements.OntologyElement;
+import net.sf.graphiti.ontology.elements.Element;
 import net.sf.graphiti.ontology.elements.ParserParameterNode;
 
 import com.hp.hpl.jena.ontology.Individual;
@@ -55,8 +55,8 @@ public class ParserParameterNodeImpl extends ElementImpl implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<OntologyElement> isReferenceTo() {
-		return (Set<OntologyElement>) listIndividuals(OntologyFactory
+	public Set<Element> isReferenceTo() {
+		return (Set<Element>) listIndividuals(OntologyFactory
 				.getPropertyParserParameterNodeIsReferenceTo());
 	}
 

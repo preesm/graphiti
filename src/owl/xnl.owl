@@ -27,7 +27,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
   <rdf:Property rdf:about="http://net.sf.graphiti/basics.owl#parserNode_hasFixedParameter"/>
   <rdf:Property rdf:about="http://net.sf.graphiti/basics.owl#parser_hasDocType"/>
   <rdf:Property rdf:about="http://net.sf.graphiti/basics.owl#parserFixedParameter_hasValue"/>
-  <basic:ConstantParameter rdf:ID="ConstantParameter_3">
+  <basic:ParameterValue rdf:ID="ConstantParameter_3">
+    <basic:parserParameterNode_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >false</basic:parserParameterNode_isReference>
     <basic:propertyBeanParameter_isParameter>
       <basic:EdgeParameter rdf:ID="EdgeParameter_4">
         <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
@@ -53,9 +55,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     </basic:propertyBeanParameter_isParameter>
     <basic:constantParameter_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Connection</basic:constantParameter_hasValue>
-    <basic:parserParameterNode_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >false</basic:parserParameterNode_isReference>
-  </basic:ConstantParameter>
+  </basic:ParameterValue>
   <basic:SkipElement rdf:ID="PortRefInEntity">
     <basic:parserNode_hasAttributeNode>
       <basic:DefaultParameter rdf:ID="sourcePort">
@@ -119,11 +119,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <basic:parserNode_hasPrecedenceNode>
       <basic:VertexElement rdf:ID="Instance_Node">
         <basic:parserNode_hasAttributeNode>
-          <basic:ConstantParameter rdf:ID="ConstantParameter_2">
+          <basic:ParameterValue rdf:ID="ConstantParameter_2">
+            <basic:propertyBeanParameter_isParameter rdf:resource="#vertexTypeParameter"/>
             <basic:constantParameter_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >Instance</basic:constantParameter_hasValue>
-            <basic:propertyBeanParameter_isParameter rdf:resource="#vertexTypeParameter"/>
-          </basic:ConstantParameter>
+          </basic:ParameterValue>
         </basic:parserNode_hasAttributeNode>
         <basic:parserNode_hasAttributeNode>
           <basic:IdParameter rdf:ID="Instance_Id">
@@ -141,7 +141,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >Port</basic:parserNode_hasName>
             <basic:parserNode_hasAttributeNode>
-              <basic:ConstantParameter rdf:ID="ConstantParameter_1">
+              <basic:ParameterValue rdf:ID="ConstantParameter_1">
+                <basic:constantParameter_hasValue rdf:datatype=
+                "http://www.w3.org/2001/XMLSchema#string">Port</basic:constantParameter_hasValue>
                 <basic:propertyBeanParameter_isParameter>
                   <basic:VertexParameter rdf:ID="portTypeParameter">
                     <basic:parameter_appliesTo>
@@ -180,9 +182,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 </basic:propertyBeanParameter_isParameter>
                 <basic:parserParameterNode_isReference rdf:datatype=
                 "http://www.w3.org/2001/XMLSchema#boolean">false</basic:parserParameterNode_isReference>
-                <basic:constantParameter_hasValue rdf:datatype=
-                "http://www.w3.org/2001/XMLSchema#string">Port</basic:constantParameter_hasValue>
-              </basic:ConstantParameter>
+              </basic:ParameterValue>
             </basic:parserNode_hasAttributeNode>
             <basic:parserNode_hasAttributeNode>
               <basic:IdParameter rdf:ID="Port_Id">

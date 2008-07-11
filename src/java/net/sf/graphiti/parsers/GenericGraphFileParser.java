@@ -50,11 +50,11 @@ import net.sf.graphiti.model.SkipDOMNode;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
-import net.sf.graphiti.ontology.elements.OntologyElement;
+import net.sf.graphiti.ontology.elements.Element;
 import net.sf.graphiti.ontology.elements.ParserParameterNode;
-import net.sf.graphiti.ontology.elements.parameters.ConstantParameter;
 import net.sf.graphiti.ontology.elements.parameters.PropertyBeanParameter;
 import net.sf.graphiti.ontology.elements.parameters.edges.EdgeParameterNode;
+import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -78,7 +78,7 @@ public class GenericGraphFileParser {
 
 	private HashMap<Node, Object> nodeToObj = new HashMap<Node, Object>();
 
-	private HashMap<OntologyElement, List<PropertyBean>> ontDomInstances = new HashMap<OntologyElement, List<PropertyBean>>();
+	private HashMap<Element, List<PropertyBean>> ontDomInstances = new HashMap<Element, List<PropertyBean>>();
 
 	/**
 	 * Creates a generic graph parser using the given document configurations.
@@ -90,7 +90,7 @@ public class GenericGraphFileParser {
 		this.configurations = configurations;
 	}
 
-	private void addOntDomInstance(OntologyElement node, PropertyBean bean) {
+	private void addOntDomInstance(Element node, PropertyBean bean) {
 		List<PropertyBean> beans;
 		if ((beans = ontDomInstances.get(node)) == null) {
 			beans = new ArrayList<PropertyBean>();
@@ -100,7 +100,7 @@ public class GenericGraphFileParser {
 	}
 
 	private PropertyBean getElementFromClass(String ontClass, String refVal) {
-		for (OntologyElement refType : ontDomInstances.keySet()) {
+		for (Element refType : ontDomInstances.keySet()) {
 			if (refType.hasOntClass(ontClass)) {
 				List<PropertyBean> references = ontDomInstances.get(refType);
 				if (references != null) {
@@ -119,7 +119,7 @@ public class GenericGraphFileParser {
 	}
 
 	private PropertyBean getReference(ParserParameterNode node, String refVal) {
-		for (OntologyElement refType : node.isReferenceTo()) {
+		for (Element refType : node.isReferenceTo()) {
 			List<PropertyBean> references = ontDomInstances.get(refType);
 			if (references != null) {
 				for (int i = 0; i < references.size(); i++) {
@@ -150,32 +150,32 @@ public class GenericGraphFileParser {
 	 * @param parentElement
 	 * @return
 	 */
-	private boolean isElementDefined(OntologyElement ontNode, Node domNode,
+	private boolean isElementDefined(Element ontNode, Node domNode,
 			DOMNode parentElement) {
 		boolean correspond = false;
 
 		// If the DOM node has the same name as this ontology node
 		if (ontNode.hasName().equals(domNode.getNodeName())) {
-			// We parse its fixed parameters (if it has any).
+			// We apply attribute restrictions (if it has any).
 			Iterator<AttributeRestriction> it = ontNode
 					.hasAttributeRestriction().iterator();
 			NamedNodeMap attributes = domNode.getAttributes();
 
 			correspond = true;
 			while (it.hasNext() && correspond) {
-				AttributeRestriction fixParam = it.next();
-				String fixedParamName = fixParam.hasName();
-				Node node = attributes.getNamedItem(fixedParamName);
+				AttributeRestriction attrRestrict = it.next();
+				String attrRestrictName = attrRestrict.hasName();
+				Node node = attributes.getNamedItem(attrRestrictName);
 
 				if (node == null) {
-					// The DOM has no attribute with the same name as our fixed
-					// parameter.
+					// The DOM has no attribute with the same name as our
+					// attribute restriction.
 					correspond = false;
 				} else {
-					// The DOM node has an attribute that matches our fixed
-					// parameter. It corresponds if the value is the same.
-					String value = fixParam.hasValue();
-					correspond &= node.getNodeValue().equals(value);
+					// The DOM node has an attribute that matches our attribute
+					// restriction. It corresponds if the value is the same.
+					String attrRestrictValue = attrRestrict.hasValue();
+					correspond &= node.getNodeValue().equals(attrRestrictValue);
 				}
 			}
 
@@ -230,7 +230,7 @@ public class GenericGraphFileParser {
 	 * @param element
 	 *            parent element of this parameter
 	 */
-	private void parseAllParameter(OntologyElement ontNode, Node domNode,
+	private void parseAllParameter(Element ontNode, Node domNode,
 			DOMNode element) {
 		Set<ParserParameterNode> attributesNodes = ontNode.hasAttributeNode();
 
@@ -252,12 +252,12 @@ public class GenericGraphFileParser {
 	 * @param parentElement
 	 *            the parent node
 	 */
-	private void parseCorrespondingNode(Set<OntologyElement> ontNodes,
-			Node domNode, DOMNode parentElement) {
+	private void parseCorrespondingNode(Set<Element> ontNodes, Node domNode,
+			DOMNode parentElement) {
 		if (ontNodes != null) {
 			// We iterate over the ontology nodes to see if the DOM element is
 			// defined.
-			for (OntologyElement ontNode : ontNodes) {
+			for (Element ontNode : ontNodes) {
 				if (isElementDefined(ontNode, domNode, parentElement)) {
 					parseNode(ontNode, domNode, parentElement);
 					return;
@@ -331,8 +331,7 @@ public class GenericGraphFileParser {
 	 * @param parentElement
 	 *            parent element of this node
 	 */
-	private void parseNode(OntologyElement ontNode, Node domNode,
-			DOMNode parentElement) {
+	private void parseNode(Element ontNode, Node domNode, DOMNode parentElement) {
 		DOMNode element;
 
 		// creates the element according to the type defined in the ontology
@@ -386,7 +385,7 @@ public class GenericGraphFileParser {
 
 		// parsing this element children using the children defined in the
 		// ontology
-		Set<OntologyElement> childNodes = ontNode.hasChildrenNode();
+		Set<Element> childNodes = ontNode.hasChildrenNode();
 		NodeList children = domNode.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			parseCorrespondingNode(childNodes, children.item(i), element);
@@ -480,8 +479,8 @@ public class GenericGraphFileParser {
 			graphitiDocument = new GraphitiDocument(config);
 
 			// Iterates over the parser root nodes
-			Set<OntologyElement> ontNodes = factory.getParserRootNodes();
-			for (OntologyElement ontNode : ontNodes) {
+			Set<Element> ontNodes = factory.getParserRootNodes();
+			for (Element ontNode : ontNodes) {
 				if (isElementDefined(ontNode, docElement, graphitiDocument)) {
 					parseNode(ontNode, docElement, graphitiDocument);
 					log.info("Parsing completed");
@@ -508,16 +507,13 @@ public class GenericGraphFileParser {
 	 * @param ontNode
 	 * @param element
 	 */
-	private void setConstantParameters(OntologyElement ontNode, DOMNode element) {
-		Set<ParserParameterNode> attributesNodes = ontNode.hasAttributeNode();
+	private void setConstantParameters(Element ontNode, DOMNode element) {
+		Set<ParameterValue> attributesNodes = ontNode.hasParameterValue();
 		// parses all the constant nodes
-		for (ParserParameterNode attNode : attributesNodes) {
-			if (attNode
-					.hasOntClass(OntologyFactory.getClassConstantParameter())) {
-				ConstantParameter constant = (ConstantParameter) attNode;
-				String parameterName = constant.hasParameter().hasName();
-				element.setValue(parameterName, constant.hasValue());
-			}
+		for (ParameterValue attNode : attributesNodes) {
+			ParameterValue constant = (ParameterValue) attNode;
+			String parameterName = constant.ofParameter().hasName();
+			element.setValue(parameterName, constant.hasValue());
 		}
 	}
 

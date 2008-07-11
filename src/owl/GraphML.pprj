@@ -1,4 +1,4 @@
-; Fri Jul 11 14:39:49 CEST 2008
+; Fri Jul 11 17:04:00 CEST 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[GraphML_ProjectKB_Instance_175]
-		[GraphML_ProjectKB_Instance_176]
-		[GraphML_ProjectKB_Instance_177]
-		[GraphML_ProjectKB_Instance_178]
-		[GraphML_ProjectKB_Instance_179]))
+		[GraphML_ProjectKB_Instance_375]
+		[GraphML_ProjectKB_Instance_376]
+		[GraphML_ProjectKB_Instance_377]
+		[GraphML_ProjectKB_Instance_378]
+		[GraphML_ProjectKB_Instance_379]))
 
 ([CLSES_TAB] of  Widget
 
@@ -35,13 +35,173 @@
 ([GraphML_ProjectKB_Instance_10] of  Property_List
 )
 
+([GraphML_ProjectKB_Instance_103] of  Widget
+
+	(is_hidden FALSE)
+	(name "basic:DefaultParameter")
+	(property_list [GraphML_ProjectKB_Instance_106])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([GraphML_ProjectKB_Instance_106] of  Property_List
+
+	(properties
+		[GraphML_ProjectKB_Instance_107]
+		[GraphML_ProjectKB_Instance_110]
+		[GraphML_ProjectKB_Instance_113]
+		[GraphML_ProjectKB_Instance_116]
+		[GraphML_ProjectKB_Instance_118]
+		[GraphML_ProjectKB_Instance_120]
+		[GraphML_ProjectKB_Instance_122]
+		[GraphML_ProjectKB_Instance_124]
+		[GraphML_ProjectKB_Instance_126]
+		[GraphML_ProjectKB_Instance_128]
+		[GraphML_ProjectKB_Instance_130]
+		[GraphML_ProjectKB_Instance_132]
+		[GraphML_ProjectKB_Instance_134]
+		[GraphML_ProjectKB_Instance_136]
+		[GraphML_ProjectKB_Instance_138]
+		[GraphML_ProjectKB_Instance_140]
+		[GraphML_ProjectKB_Instance_142]
+		[GraphML_ProjectKB_Instance_144]
+		[GraphML_ProjectKB_Instance_146]))
+
+([GraphML_ProjectKB_Instance_107] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [GraphML_ProjectKB_Instance_108])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([GraphML_ProjectKB_Instance_108] of  Property_List
+
+	(properties [GraphML_ProjectKB_Instance_109]))
+
+([GraphML_ProjectKB_Instance_109] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
 ([GraphML_ProjectKB_Instance_11] of  Widget
 
 	(is_hidden TRUE)
 	(property_list [GraphML_ProjectKB_Instance_12])
 	(widget_class_name "edu.stanford.smi.protege.widget.instance_tree.InstanceTreeTab"))
 
+([GraphML_ProjectKB_Instance_110] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[GraphML_ProjectKB_Instance_111]
+		[GraphML_ProjectKB_Instance_112]))
+
+([GraphML_ProjectKB_Instance_111] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([GraphML_ProjectKB_Instance_112] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([GraphML_ProjectKB_Instance_113] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [GraphML_ProjectKB_Instance_114])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([GraphML_ProjectKB_Instance_114] of  Property_List
+
+	(properties [GraphML_ProjectKB_Instance_115]))
+
+([GraphML_ProjectKB_Instance_115] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([GraphML_ProjectKB_Instance_116] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [GraphML_ProjectKB_Instance_117]))
+
+([GraphML_ProjectKB_Instance_117] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_118] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [GraphML_ProjectKB_Instance_119]))
+
+([GraphML_ProjectKB_Instance_119] of  Property_List
+)
+
 ([GraphML_ProjectKB_Instance_12] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_120] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [GraphML_ProjectKB_Instance_121]))
+
+([GraphML_ProjectKB_Instance_121] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_122] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [GraphML_ProjectKB_Instance_123]))
+
+([GraphML_ProjectKB_Instance_123] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_124] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [GraphML_ProjectKB_Instance_125]))
+
+([GraphML_ProjectKB_Instance_125] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_126] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:element_hasAttributeRestriction")
+	(property_list [GraphML_ProjectKB_Instance_127])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 180))
+
+([GraphML_ProjectKB_Instance_127] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_128] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasName")
+	(property_list [GraphML_ProjectKB_Instance_129])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([GraphML_ProjectKB_Instance_129] of  Property_List
 )
 
 ([GraphML_ProjectKB_Instance_13] of  Widget
@@ -50,8 +210,141 @@
 	(property_list [GraphML_ProjectKB_Instance_14])
 	(widget_class_name "edu.stanford.smi.protegex.widget.pal.PalConstraintsTab"))
 
+([GraphML_ProjectKB_Instance_130] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasParameterValue")
+	(property_list [GraphML_ProjectKB_Instance_131])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 300))
+
+([GraphML_ProjectKB_Instance_131] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_132] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasAttributeNode")
+	(property_list [GraphML_ProjectKB_Instance_133])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 300))
+
+([GraphML_ProjectKB_Instance_133] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_134] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "basic:parserParameterNode_isReferenceTo")
+	(property_list [GraphML_ProjectKB_Instance_135])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 400)
+	(y 300))
+
+([GraphML_ProjectKB_Instance_135] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_136] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasChildNode")
+	(property_list [GraphML_ProjectKB_Instance_137])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 400)
+	(y 180))
+
+([GraphML_ProjectKB_Instance_137] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_138] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasPrecedenceNode")
+	(property_list [GraphML_ProjectKB_Instance_139])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 360))
+
+([GraphML_ProjectKB_Instance_139] of  Property_List
+)
+
 ([GraphML_ProjectKB_Instance_14] of  Property_List
 )
+
+([GraphML_ProjectKB_Instance_140] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:propertyBeanParameter_isParameter")
+	(property_list [GraphML_ProjectKB_Instance_141])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 420))
+
+([GraphML_ProjectKB_Instance_141] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_142] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parserParameterNode_isReference")
+	(property_list [GraphML_ProjectKB_Instance_143])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([GraphML_ProjectKB_Instance_143] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_144] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasFixedParameter")
+	(property_list [GraphML_ProjectKB_Instance_145])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 480))
+
+([GraphML_ProjectKB_Instance_145] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_146] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:constantParameter_hasValue")
+	(property_list [GraphML_ProjectKB_Instance_147])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 600))
+
+([GraphML_ProjectKB_Instance_147] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_148] of  Widget
+
+	(is_hidden FALSE)
+	(name "basic:IdParameter")
+	(property_list [GraphML_ProjectKB_Instance_151])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
 
 ([GraphML_ProjectKB_Instance_15] of  Widget
 
@@ -59,8 +352,130 @@
 	(property_list [GraphML_ProjectKB_Instance_16])
 	(widget_class_name "edu.stanford.smi.RemoteKBTab.WordNetTab"))
 
+([GraphML_ProjectKB_Instance_151] of  Property_List
+
+	(properties
+		[GraphML_ProjectKB_Instance_152]
+		[GraphML_ProjectKB_Instance_155]
+		[GraphML_ProjectKB_Instance_158]
+		[GraphML_ProjectKB_Instance_161]
+		[GraphML_ProjectKB_Instance_163]
+		[GraphML_ProjectKB_Instance_165]
+		[GraphML_ProjectKB_Instance_167]
+		[GraphML_ProjectKB_Instance_169]
+		[GraphML_ProjectKB_Instance_171]
+		[GraphML_ProjectKB_Instance_173]
+		[GraphML_ProjectKB_Instance_175]
+		[GraphML_ProjectKB_Instance_177]
+		[GraphML_ProjectKB_Instance_179]
+		[GraphML_ProjectKB_Instance_181]
+		[GraphML_ProjectKB_Instance_183]
+		[GraphML_ProjectKB_Instance_185]
+		[GraphML_ProjectKB_Instance_187]
+		[GraphML_ProjectKB_Instance_189]
+		[GraphML_ProjectKB_Instance_191]))
+
+([GraphML_ProjectKB_Instance_152] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [GraphML_ProjectKB_Instance_153])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([GraphML_ProjectKB_Instance_153] of  Property_List
+
+	(properties [GraphML_ProjectKB_Instance_154]))
+
+([GraphML_ProjectKB_Instance_154] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
+([GraphML_ProjectKB_Instance_155] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[GraphML_ProjectKB_Instance_156]
+		[GraphML_ProjectKB_Instance_157]))
+
+([GraphML_ProjectKB_Instance_156] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([GraphML_ProjectKB_Instance_157] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([GraphML_ProjectKB_Instance_158] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [GraphML_ProjectKB_Instance_159])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([GraphML_ProjectKB_Instance_159] of  Property_List
+
+	(properties [GraphML_ProjectKB_Instance_160]))
+
 ([GraphML_ProjectKB_Instance_16] of  Property_List
 )
+
+([GraphML_ProjectKB_Instance_160] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([GraphML_ProjectKB_Instance_161] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [GraphML_ProjectKB_Instance_162]))
+
+([GraphML_ProjectKB_Instance_162] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_163] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [GraphML_ProjectKB_Instance_164]))
+
+([GraphML_ProjectKB_Instance_164] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_165] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [GraphML_ProjectKB_Instance_166]))
+
+([GraphML_ProjectKB_Instance_166] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_167] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [GraphML_ProjectKB_Instance_168]))
+
+([GraphML_ProjectKB_Instance_168] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_169] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [GraphML_ProjectKB_Instance_170]))
 
 ([GraphML_ProjectKB_Instance_17] of  Widget
 
@@ -68,33 +483,148 @@
 	(property_list [GraphML_ProjectKB_Instance_18])
 	(widget_class_name "uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizTab"))
 
-([GraphML_ProjectKB_Instance_175] of  String
+([GraphML_ProjectKB_Instance_170] of  Property_List
+)
 
-	(name "owl:Thing")
-	(string_value "%3ANAME"))
+([GraphML_ProjectKB_Instance_171] of  Widget
 
-([GraphML_ProjectKB_Instance_176] of  String
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:element_hasAttributeRestriction")
+	(property_list [GraphML_ProjectKB_Instance_172])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 180))
 
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
+([GraphML_ProjectKB_Instance_172] of  Property_List
+)
 
-([GraphML_ProjectKB_Instance_177] of  String
+([GraphML_ProjectKB_Instance_173] of  Widget
 
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasName")
+	(property_list [GraphML_ProjectKB_Instance_174])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
 
-([GraphML_ProjectKB_Instance_178] of  String
+([GraphML_ProjectKB_Instance_174] of  Property_List
+)
 
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
+([GraphML_ProjectKB_Instance_175] of  Widget
 
-([GraphML_ProjectKB_Instance_179] of  String
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasParameterValue")
+	(property_list [GraphML_ProjectKB_Instance_176])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 300))
 
-	(name "owl:Class")
-	(string_value "%3ANAME"))
+([GraphML_ProjectKB_Instance_176] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_177] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasAttributeNode")
+	(property_list [GraphML_ProjectKB_Instance_178])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 300))
+
+([GraphML_ProjectKB_Instance_178] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_179] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "basic:parserParameterNode_isReferenceTo")
+	(property_list [GraphML_ProjectKB_Instance_180])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 400)
+	(y 300))
 
 ([GraphML_ProjectKB_Instance_18] of  Property_List
 )
+
+([GraphML_ProjectKB_Instance_180] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_181] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasChildNode")
+	(property_list [GraphML_ProjectKB_Instance_182])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 400)
+	(y 180))
+
+([GraphML_ProjectKB_Instance_182] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_183] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasPrecedenceNode")
+	(property_list [GraphML_ProjectKB_Instance_184])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 360))
+
+([GraphML_ProjectKB_Instance_184] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_185] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:propertyBeanParameter_isParameter")
+	(property_list [GraphML_ProjectKB_Instance_186])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 420))
+
+([GraphML_ProjectKB_Instance_186] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_187] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parserParameterNode_isReference")
+	(property_list [GraphML_ProjectKB_Instance_188])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([GraphML_ProjectKB_Instance_188] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_189] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:constantParameter_hasValue")
+	(property_list [GraphML_ProjectKB_Instance_190])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 480))
 
 ([GraphML_ProjectKB_Instance_19] of  Widget
 
@@ -102,10 +632,129 @@
 	(property_list [GraphML_ProjectKB_Instance_20])
 	(widget_class_name "edu.stanford.smi.RemoteKBTab.UMLSTab"))
 
+([GraphML_ProjectKB_Instance_190] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_191] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasFixedParameter")
+	(property_list [GraphML_ProjectKB_Instance_192])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 600))
+
+([GraphML_ProjectKB_Instance_192] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_193] of  Widget
+
+	(is_hidden FALSE)
+	(name "basic:VertexElement")
+	(property_list [GraphML_ProjectKB_Instance_196])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([GraphML_ProjectKB_Instance_196] of  Property_List
+
+	(properties
+		[GraphML_ProjectKB_Instance_197]
+		[GraphML_ProjectKB_Instance_200]
+		[GraphML_ProjectKB_Instance_203]
+		[GraphML_ProjectKB_Instance_206]
+		[GraphML_ProjectKB_Instance_208]
+		[GraphML_ProjectKB_Instance_210]
+		[GraphML_ProjectKB_Instance_212]
+		[GraphML_ProjectKB_Instance_214]
+		[GraphML_ProjectKB_Instance_216]
+		[GraphML_ProjectKB_Instance_218]
+		[GraphML_ProjectKB_Instance_220]
+		[GraphML_ProjectKB_Instance_222]
+		[GraphML_ProjectKB_Instance_224]
+		[GraphML_ProjectKB_Instance_226]
+		[GraphML_ProjectKB_Instance_228]
+		[GraphML_ProjectKB_Instance_230]))
+
+([GraphML_ProjectKB_Instance_197] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [GraphML_ProjectKB_Instance_198])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([GraphML_ProjectKB_Instance_198] of  Property_List
+
+	(properties [GraphML_ProjectKB_Instance_199]))
+
+([GraphML_ProjectKB_Instance_199] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
 ([GraphML_ProjectKB_Instance_2] of  Property_List
 )
 
 ([GraphML_ProjectKB_Instance_20] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_200] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[GraphML_ProjectKB_Instance_201]
+		[GraphML_ProjectKB_Instance_202]))
+
+([GraphML_ProjectKB_Instance_201] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([GraphML_ProjectKB_Instance_202] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([GraphML_ProjectKB_Instance_203] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [GraphML_ProjectKB_Instance_204])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([GraphML_ProjectKB_Instance_204] of  Property_List
+
+	(properties [GraphML_ProjectKB_Instance_205]))
+
+([GraphML_ProjectKB_Instance_205] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([GraphML_ProjectKB_Instance_206] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [GraphML_ProjectKB_Instance_207]))
+
+([GraphML_ProjectKB_Instance_207] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_208] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [GraphML_ProjectKB_Instance_209]))
+
+([GraphML_ProjectKB_Instance_209] of  Property_List
 )
 
 ([GraphML_ProjectKB_Instance_21] of  Widget
@@ -114,7 +763,132 @@
 	(property_list [GraphML_ProjectKB_Instance_22])
 	(widget_class_name "TGViztab.TGVizTab"))
 
+([GraphML_ProjectKB_Instance_210] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [GraphML_ProjectKB_Instance_211]))
+
+([GraphML_ProjectKB_Instance_211] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_212] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [GraphML_ProjectKB_Instance_213]))
+
+([GraphML_ProjectKB_Instance_213] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_214] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [GraphML_ProjectKB_Instance_215]))
+
+([GraphML_ProjectKB_Instance_215] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_216] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:element_hasAttributeRestriction")
+	(property_list [GraphML_ProjectKB_Instance_217])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 180))
+
+([GraphML_ProjectKB_Instance_217] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_218] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasName")
+	(property_list [GraphML_ProjectKB_Instance_219])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([GraphML_ProjectKB_Instance_219] of  Property_List
+)
+
 ([GraphML_ProjectKB_Instance_22] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_220] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasParameterValue")
+	(property_list [GraphML_ProjectKB_Instance_221])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([GraphML_ProjectKB_Instance_221] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_222] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasAttributeNode")
+	(property_list [GraphML_ProjectKB_Instance_223])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 300))
+
+([GraphML_ProjectKB_Instance_223] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_224] of  Widget
+
+	(height 240)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasChildNode")
+	(property_list [GraphML_ProjectKB_Instance_225])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 400)
+	(y 180))
+
+([GraphML_ProjectKB_Instance_225] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_226] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasPrecedenceNode")
+	(property_list [GraphML_ProjectKB_Instance_227])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 300))
+
+([GraphML_ProjectKB_Instance_227] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_228] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasFixedParameter")
+	(property_list [GraphML_ProjectKB_Instance_229])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 420))
+
+([GraphML_ProjectKB_Instance_229] of  Property_List
 )
 
 ([GraphML_ProjectKB_Instance_23] of  Widget
@@ -123,8 +897,130 @@
 	(property_list [GraphML_ProjectKB_Instance_24])
 	(widget_class_name "org.algernon.kb.okbc.protege.plugins.AlgernonTab"))
 
+([GraphML_ProjectKB_Instance_230] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:constantParameter_hasValue")
+	(property_list [GraphML_ProjectKB_Instance_231])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 540))
+
+([GraphML_ProjectKB_Instance_231] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_232] of  Widget
+
+	(is_hidden FALSE)
+	(name "basic:ParameterValue")
+	(property_list [GraphML_ProjectKB_Instance_235])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([GraphML_ProjectKB_Instance_235] of  Property_List
+
+	(properties
+		[GraphML_ProjectKB_Instance_236]
+		[GraphML_ProjectKB_Instance_239]
+		[GraphML_ProjectKB_Instance_242]
+		[GraphML_ProjectKB_Instance_245]
+		[GraphML_ProjectKB_Instance_247]
+		[GraphML_ProjectKB_Instance_249]
+		[GraphML_ProjectKB_Instance_251]
+		[GraphML_ProjectKB_Instance_253]
+		[GraphML_ProjectKB_Instance_255]
+		[GraphML_ProjectKB_Instance_257]
+		[GraphML_ProjectKB_Instance_259]
+		[GraphML_ProjectKB_Instance_261]
+		[GraphML_ProjectKB_Instance_263]
+		[GraphML_ProjectKB_Instance_265]
+		[GraphML_ProjectKB_Instance_267]
+		[GraphML_ProjectKB_Instance_269]))
+
+([GraphML_ProjectKB_Instance_236] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [GraphML_ProjectKB_Instance_237])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([GraphML_ProjectKB_Instance_237] of  Property_List
+
+	(properties [GraphML_ProjectKB_Instance_238]))
+
+([GraphML_ProjectKB_Instance_238] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
+([GraphML_ProjectKB_Instance_239] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[GraphML_ProjectKB_Instance_240]
+		[GraphML_ProjectKB_Instance_241]))
+
 ([GraphML_ProjectKB_Instance_24] of  Property_List
 )
+
+([GraphML_ProjectKB_Instance_240] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([GraphML_ProjectKB_Instance_241] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([GraphML_ProjectKB_Instance_242] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [GraphML_ProjectKB_Instance_243])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([GraphML_ProjectKB_Instance_243] of  Property_List
+
+	(properties [GraphML_ProjectKB_Instance_244]))
+
+([GraphML_ProjectKB_Instance_244] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([GraphML_ProjectKB_Instance_245] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [GraphML_ProjectKB_Instance_246]))
+
+([GraphML_ProjectKB_Instance_246] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_247] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [GraphML_ProjectKB_Instance_248]))
+
+([GraphML_ProjectKB_Instance_248] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_249] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [GraphML_ProjectKB_Instance_250]))
 
 ([GraphML_ProjectKB_Instance_25] of  Widget
 
@@ -132,8 +1028,138 @@
 	(property_list [GraphML_ProjectKB_Instance_26])
 	(widget_class_name "edu.stanford.smi.protegex.changes.changesKBViewTab.ChangesKBViewTab"))
 
+([GraphML_ProjectKB_Instance_250] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_251] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [GraphML_ProjectKB_Instance_252]))
+
+([GraphML_ProjectKB_Instance_252] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_253] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [GraphML_ProjectKB_Instance_254]))
+
+([GraphML_ProjectKB_Instance_254] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_255] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parameterValue_hasValue")
+	(property_list [GraphML_ProjectKB_Instance_256])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([GraphML_ProjectKB_Instance_256] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_257] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parameterValue_ofParameter")
+	(property_list [GraphML_ProjectKB_Instance_258])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([GraphML_ProjectKB_Instance_258] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_259] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:ParameterDisplay_hasPosition")
+	(property_list [GraphML_ProjectKB_Instance_260])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 300))
+
 ([GraphML_ProjectKB_Instance_26] of  Property_List
 )
+
+([GraphML_ProjectKB_Instance_260] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_261] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:graph_hasCorrespondingVertexNode")
+	(property_list [GraphML_ProjectKB_Instance_262])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 360))
+
+([GraphML_ProjectKB_Instance_262] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_263] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:graphElement_hasCorrespondingNode")
+	(property_list [GraphML_ProjectKB_Instance_264])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 420))
+
+([GraphML_ProjectKB_Instance_264] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_265] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasFixedParameter")
+	(property_list [GraphML_ProjectKB_Instance_266])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 480))
+
+([GraphML_ProjectKB_Instance_266] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_267] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parser_hasDocType")
+	(property_list [GraphML_ProjectKB_Instance_268])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 600))
+
+([GraphML_ProjectKB_Instance_268] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_269] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:constantParameter_hasValue")
+	(property_list [GraphML_ProjectKB_Instance_270])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 720))
 
 ([GraphML_ProjectKB_Instance_27] of  Widget
 
@@ -141,14 +1167,158 @@
 	(property_list [GraphML_ProjectKB_Instance_28])
 	(widget_class_name "edu.stanford.smi.protegex.xml.tab.XMLTab"))
 
+([GraphML_ProjectKB_Instance_270] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_276] of  Widget
+
+	(is_hidden FALSE)
+	(name "basic:EdgeType")
+	(property_list [GraphML_ProjectKB_Instance_279])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([GraphML_ProjectKB_Instance_279] of  Property_List
+
+	(properties
+		[GraphML_ProjectKB_Instance_280]
+		[GraphML_ProjectKB_Instance_283]
+		[GraphML_ProjectKB_Instance_286]
+		[GraphML_ProjectKB_Instance_289]
+		[GraphML_ProjectKB_Instance_291]
+		[GraphML_ProjectKB_Instance_293]
+		[GraphML_ProjectKB_Instance_295]
+		[GraphML_ProjectKB_Instance_297]
+		[GraphML_ProjectKB_Instance_299]
+		[GraphML_ProjectKB_Instance_301]
+		[GraphML_ProjectKB_Instance_303]
+		[GraphML_ProjectKB_Instance_305]
+		[GraphML_ProjectKB_Instance_307]
+		[GraphML_ProjectKB_Instance_309]
+		[GraphML_ProjectKB_Instance_311]
+		[GraphML_ProjectKB_Instance_313]
+		[GraphML_ProjectKB_Instance_315]))
+
 ([GraphML_ProjectKB_Instance_28] of  Property_List
 )
+
+([GraphML_ProjectKB_Instance_280] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [GraphML_ProjectKB_Instance_281])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([GraphML_ProjectKB_Instance_281] of  Property_List
+
+	(properties [GraphML_ProjectKB_Instance_282]))
+
+([GraphML_ProjectKB_Instance_282] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
+([GraphML_ProjectKB_Instance_283] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[GraphML_ProjectKB_Instance_284]
+		[GraphML_ProjectKB_Instance_285]))
+
+([GraphML_ProjectKB_Instance_284] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([GraphML_ProjectKB_Instance_285] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([GraphML_ProjectKB_Instance_286] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [GraphML_ProjectKB_Instance_287])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([GraphML_ProjectKB_Instance_287] of  Property_List
+
+	(properties [GraphML_ProjectKB_Instance_288]))
+
+([GraphML_ProjectKB_Instance_288] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([GraphML_ProjectKB_Instance_289] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [GraphML_ProjectKB_Instance_290]))
 
 ([GraphML_ProjectKB_Instance_29] of  Widget
 
 	(is_hidden TRUE)
 	(property_list [GraphML_ProjectKB_Instance_30])
 	(widget_class_name "edu.stanford.smi.protegex.widget.pal.PalQueriesTab"))
+
+([GraphML_ProjectKB_Instance_290] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_291] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [GraphML_ProjectKB_Instance_292]))
+
+([GraphML_ProjectKB_Instance_292] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_293] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [GraphML_ProjectKB_Instance_294]))
+
+([GraphML_ProjectKB_Instance_294] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_295] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [GraphML_ProjectKB_Instance_296]))
+
+([GraphML_ProjectKB_Instance_296] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_297] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [GraphML_ProjectKB_Instance_298]))
+
+([GraphML_ProjectKB_Instance_298] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_299] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "basic:type_hasParameters")
+	(property_list [GraphML_ProjectKB_Instance_300])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 180))
 
 ([GraphML_ProjectKB_Instance_3] of  Widget
 
@@ -159,11 +1329,126 @@
 ([GraphML_ProjectKB_Instance_30] of  Property_List
 )
 
+([GraphML_ProjectKB_Instance_300] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_301] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:type_hasFigureAttributes")
+	(property_list [GraphML_ProjectKB_Instance_302])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([GraphML_ProjectKB_Instance_302] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_303] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:type_hasName")
+	(property_list [GraphML_ProjectKB_Instance_304])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([GraphML_ProjectKB_Instance_304] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_305] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:ParameterDisplay_hasPosition")
+	(property_list [GraphML_ProjectKB_Instance_306])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 360))
+
+([GraphML_ProjectKB_Instance_306] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_307] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:graph_hasCorrespondingVertexNode")
+	(property_list [GraphML_ProjectKB_Instance_308])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 420))
+
+([GraphML_ProjectKB_Instance_308] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_309] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:graphElement_hasCorrespondingNode")
+	(property_list [GraphML_ProjectKB_Instance_310])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 480))
+
 ([GraphML_ProjectKB_Instance_31] of  Widget
 
 	(is_hidden TRUE)
 	(property_list [GraphML_ProjectKB_Instance_32])
 	(widget_class_name "edu.stanford.smi.protegex.chatPlugin.ChatTab"))
+
+([GraphML_ProjectKB_Instance_310] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_311] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasFixedParameter")
+	(property_list [GraphML_ProjectKB_Instance_312])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 540))
+
+([GraphML_ProjectKB_Instance_312] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_313] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parser_hasDocType")
+	(property_list [GraphML_ProjectKB_Instance_314])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 660))
+
+([GraphML_ProjectKB_Instance_314] of  Property_List
+)
+
+([GraphML_ProjectKB_Instance_315] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:constantParameter_hasValue")
+	(property_list [GraphML_ProjectKB_Instance_316])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 780))
+
+([GraphML_ProjectKB_Instance_316] of  Property_List
+)
 
 ([GraphML_ProjectKB_Instance_32] of  Property_List
 )
@@ -191,6 +1476,31 @@
 	(is_hidden TRUE)
 	(property_list [GraphML_ProjectKB_Instance_38])
 	(widget_class_name "edu.stanford.smi.protegex.changes.ChangesTab"))
+
+([GraphML_ProjectKB_Instance_375] of  String
+
+	(name "owl:Thing")
+	(string_value "%3ANAME"))
+
+([GraphML_ProjectKB_Instance_376] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([GraphML_ProjectKB_Instance_377] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([GraphML_ProjectKB_Instance_378] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([GraphML_ProjectKB_Instance_379] of  String
+
+	(name "owl:Class")
+	(string_value "%3ANAME"))
 
 ([GraphML_ProjectKB_Instance_38] of  Property_List
 )
@@ -3502,11 +4812,6 @@
 	(name "owl:Ontology")
 	(property_list [XY_Instance_195])
 	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
-
-([KB_862654_Instance_0] of  String
-
-	(name "owl_file_name")
-	(string_value "GraphML.owl"))
 
 ([KB_865583_Instance_0] of  Widget
 
@@ -7416,6 +8721,11 @@
 ([KB_941921_Instance_7] of  Property_List
 )
 
+([KB_961298_Instance_0] of  String
+
+	(name "owl_file_name")
+	(string_value "GraphML.owl"))
+
 ([OWL_ProjectKB_Instance_3] of  Integer
 
 	(integer_value 430)
@@ -7440,16 +8750,21 @@
 		[KB_713803_Instance_477]
 		[KB_713803_Instance_780]
 		[KB_713803_Instance_780]
+		[GraphML_ProjectKB_Instance_148]
 		[KB_713803_Instance_693]
 		[KB_713803_Instance_693]
 		[KB_713803_Instance_648]
 		[KB_713803_Instance_648]
+		[GraphML_ProjectKB_Instance_193]
 		[KB_938545_Instance_166]
 		[KB_938545_Instance_166]
 		[KB_713803_Instance_390]
 		[KB_713803_Instance_390]
 		[KB_713803_Instance_303]
 		[KB_713803_Instance_303]
+		[GraphML_ProjectKB_Instance_232]
+		[GraphML_ProjectKB_Instance_276]
+		[GraphML_ProjectKB_Instance_103]
 		[PAL_FORM_WIDGET]
 		[PAL_FORM_WIDGET]
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
@@ -7712,7 +9027,7 @@
 		[OWL_ProjectKB_Instance_3]
 		[KB_444675_Instance_0]
 		[KB_632156_Instance_0]
-		[KB_862654_Instance_0]))
+		[KB_961298_Instance_0]))
 
 ([STANDARD_CLASS_FORM_WIDGET] of  Widget
 

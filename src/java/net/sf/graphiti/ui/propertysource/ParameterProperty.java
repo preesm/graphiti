@@ -15,15 +15,15 @@ public class ParameterProperty implements IPropertyType {
 		this.id = id;
 	}
 
+	public String getId() {
+		return id;
+	}
+
 	public boolean isAttribute() {
 		return false;
 	}
 
 	public boolean isParameter() {
 		return true;
-	}
-
-	public String getId() {
-		return id;
 	}
 }

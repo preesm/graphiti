@@ -35,7 +35,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
 
-import net.sf.graphiti.ontology.elements.OntologyElement;
+import net.sf.graphiti.ontology.elements.Element;
 import net.sf.graphiti.ontology.types.EdgeType;
 import net.sf.graphiti.ontology.types.VertexType;
 
@@ -87,10 +87,6 @@ public class OntologyFactory {
 
 	public static String getClassColors() {
 		return "http://net.sf.graphiti/basics.owl#Colors";
-	}
-
-	public static String getClassConstantParameter() {
-		return "http://net.sf.graphiti/basics.owl#ConstantParameter";
 	}
 
 	public static String getClassDataTypes() {
@@ -161,6 +157,10 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#Parameter";
 	}
 
+	public static String getClassParameterValue() {
+		return "http://net.sf.graphiti/basics.owl#ParameterValue";
+	}
+
 	public static String getClassParserParameterNode() {
 		return "http://net.sf.graphiti/basics.owl#ParserParameterNode";
 	}
@@ -217,12 +217,16 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#colorAttribute_hasColor";
 	}
 
-	public static String getPropertyConstantParameterHasValue() {
-		return "http://net.sf.graphiti/basics.owl#constantParameter_hasValue";
-	}
-
 	public static String getPropertyElementHasAttributeRestriction() {
 		return "http://net.sf.graphiti/basics.owl#element_hasAttributeRestriction";
+	}
+
+	public static String getPropertyElementHasName() {
+		return "http://net.sf.graphiti/basics.owl#element_hasName";
+	}
+
+	public static String getPropertyElementHasParameterValue() {
+		return "http://net.sf.graphiti/basics.owl#element_hasParameterValue";
 	}
 
 	public static String getPropertyFigureAttributeAppliesTo() {
@@ -249,8 +253,12 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#parameter_hasValueType";
 	}
 
-	public static String getPropertyParserFixedParameterHasValue() {
-		return "http://net.sf.graphiti/basics.owl#parserFixedParameter_hasValue";
+	public static String getPropertyParameterValueHasValue() {
+		return "http://net.sf.graphiti/basics.owl#parameterValue_hasValue";
+	}
+
+	public static String getPropertyParameterValueOfParameter() {
+		return "http://net.sf.graphiti/basics.owl#parameterValue_ofParameter";
 	}
 
 	public static String getPropertyParserNodeHasAttributeNode() {
@@ -263,10 +271,6 @@ public class OntologyFactory {
 
 	public static String getPropertyParserNodeHasIdParameterNode() {
 		return "http://net.sf.graphiti/basics.owl#parserNode_hasIdParameterNode";
-	}
-
-	public static String getPropertyParserNodeHasName() {
-		return "http://net.sf.graphiti/basics.owl#parserNode_hasName";
 	}
 
 	public static String getPropertyParserNodeHasPrecedenceNode() {
@@ -301,12 +305,12 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#type_hasFigureAttributes";
 	}
 
-	public static String getPropertyTypeHasParameters() {
-		return "http://net.sf.graphiti/basics.owl#type_hasParameters";
+	public static String getPropertyTypeHasName() {
+		return "http://net.sf.graphiti/basics.owl#type_hasName";
 	}
 
-	public static String getPropertyTypeHasStringRepresentation() {
-		return "http://net.sf.graphiti/basics.owl#type_hasStringRepresentation";
+	public static String getPropertyTypeHasParameters() {
+		return "http://net.sf.graphiti/basics.owl#type_hasParameters";
 	}
 
 	private OntModel model;
@@ -363,11 +367,11 @@ public class OntologyFactory {
 	 * @return A set of OntologyElement.
 	 */
 	@SuppressWarnings("unchecked")
-	public Set<OntologyElement> getParserRootNodes() {
+	public Set<Element> getParserRootNodes() {
 		OntClass vertex = model.getOntClass(OntologyFactory
 				.getClassDocumentElement());
 		ExtendedIterator it = model.listIndividuals(vertex);
-		return (Set<OntologyElement>) OntologyNodeImpl.convertIndividuals(it);
+		return (Set<Element>) OntologyNodeImpl.convertIndividuals(it);
 	}
 
 	/**

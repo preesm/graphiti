@@ -45,7 +45,7 @@ public interface Type extends OntologyNode {
 
 	public Set<FigureAttribute> hasFigureAttributes();
 
-	public Set<Parameter> hasParameters();
+	public String hasName();
 
-	public String hasStringRepresentation();
+	public Set<Parameter> hasParameters();
 }

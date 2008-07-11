@@ -26,30 +26,39 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements;
+package net.sf.graphiti.ontology.parameterValues.impl;
 
-import java.util.Set;
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.OntologyNodeImpl;
+import net.sf.graphiti.ontology.parameterValues.ParameterValue;
+import net.sf.graphiti.ontology.parameters.Parameter;
 
-import net.sf.graphiti.ontology.OntologyNode;
-import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides a parser node.
- * 
- * @author Jonathan Piat
- * @author Matthieu Wipliez
+ * @author mwipliez
  * 
  */
-public interface OntologyElement extends OntologyNode {
+public class ParameterValueImpl extends OntologyNodeImpl implements
+		ParameterValue {
 
-	public Set<ParserParameterNode> hasAttributeNode();
+	public ParameterValueImpl(Individual individual) {
+		super(individual);
+	}
 
-	public Set<AttributeRestriction> hasAttributeRestriction();
+	@Override
+	public String hasValue() {
+		return getStringProperty(OntologyFactory
+				.getPropertyParameterValueHasValue());
+	}
 
-	public Set<OntologyElement> hasChildrenNode();
+	@Override
+	public Parameter ofParameter() {
+		return (Parameter) getIndividualProperty(OntologyFactory
+				.getPropertyParameterValueOfParameter());
+	}
 
-	public String hasName();
-
-	public OntologyElement hasPrecedenceNode();
-
+	public String toString() {
+		return super.toString() + " | ParameterValue: hasValue: " + hasValue();
+	}
 }

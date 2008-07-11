@@ -29,11 +29,12 @@
 package net.sf.graphiti.ontology.elements;
 
 /**
- * This class provides a vertex node.
+ * This class provides the ontology-defined representation of a DOM vertex
+ * element in the input XML document.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface VertexElement extends OntologyElement {
+public interface VertexElement extends Element {
 }

@@ -26,33 +26,34 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.parameters.impl;
+package net.sf.graphiti.ontology.elements;
 
-import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.elements.parameters.ConstantParameter;
+import java.util.Set;
 
-import com.hp.hpl.jena.ontology.Individual;
+import net.sf.graphiti.ontology.OntologyNode;
+import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
+import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 
 /**
- * @author mwipliez
+ * This class provides the ontology-defined representation of a DOM element in
+ * the input XML document.
+ * 
+ * @author Jonathan Piat
+ * @author Matthieu Wipliez
  * 
  */
-public class ConstantParameterImpl extends PropertyBeanParameterImpl implements
-		ConstantParameter {
+public interface Element extends OntologyNode {
 
-	public ConstantParameterImpl(Individual individual) {
-		super(individual);
-	}
+	public Set<ParserParameterNode> hasAttributeNode();
 
-	@Override
-	public String hasValue() {
-		return getStringProperty(OntologyFactory
-				.getPropertyConstantParameterHasValue());
-	}
+	public Set<AttributeRestriction> hasAttributeRestriction();
+	
+	public Set<Element> hasChildrenNode();
 
-	public String toString() {
-		return super.toString() + " | ConstantParameter: hasValue: "
-				+ hasValue();
-	}
+	public String hasName();
+
+	public Set<ParameterValue> hasParameterValue();
+
+	public Element hasPrecedenceNode();
 
 }

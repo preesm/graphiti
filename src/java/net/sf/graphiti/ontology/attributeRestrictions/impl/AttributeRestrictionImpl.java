@@ -31,7 +31,7 @@ package net.sf.graphiti.ontology.attributeRestrictions.impl;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.OntologyNodeImpl;
 import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
-import net.sf.graphiti.ontology.elements.OntologyElement;
+import net.sf.graphiti.ontology.elements.Element;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -59,8 +59,8 @@ public class AttributeRestrictionImpl extends OntologyNodeImpl implements
 	}
 
 	@Override
-	public OntologyElement ofElement() {
-		return (OntologyElement) getIndividualProperty(OntologyFactory
+	public Element ofElement() {
+		return (Element) getIndividualProperty(OntologyFactory
 				.getPropertyAttributeRestrictionOfElement());
 	}
 

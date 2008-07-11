@@ -29,11 +29,12 @@
 package net.sf.graphiti.ontology.elements;
 
 /**
- * This class provides an edge node.
+ * This class provides the ontology-defined representation of a DOM edge element
+ * in the input XML document.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface EdgeElement extends OntologyElement {
+public interface EdgeElement extends Element {
 }

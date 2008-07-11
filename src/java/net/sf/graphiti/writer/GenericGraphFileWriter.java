@@ -50,7 +50,6 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.elements.OntologyElement;
 import net.sf.graphiti.ontology.elements.ParserParameterNode;
 
 import org.w3c.dom.Document;
@@ -91,7 +90,8 @@ public class GenericGraphFileWriter {
 	 *            The target parent DOM element node.
 	 * @return The element created.
 	 */
-	private Element createElement(OntologyElement ontologyElement,
+	private Element createElement(
+			net.sf.graphiti.ontology.elements.Element ontologyElement,
 			DOMNode node, Node domParentNode) {
 		Element element = domDocument.createElement(ontologyElement.hasName());
 		domParentNode.appendChild(element);
@@ -117,7 +117,7 @@ public class GenericGraphFileWriter {
 	 * @param factory
 	 */
 	private void fillDocument(OntologyFactory factory) {
-		Set<OntologyElement> rootNodes = (Set<OntologyElement>) factory
+		Set<net.sf.graphiti.ontology.elements.Element> rootNodes = (Set<net.sf.graphiti.ontology.elements.Element>) factory
 				.getParserRootNodes();
 
 		writeNode(rootNodes, document, domDocument);
@@ -209,9 +209,10 @@ public class GenericGraphFileWriter {
 	 * @param domParentNode
 	 *            The target parent DOM element node.
 	 */
-	private void writeNode(Set<OntologyElement> ontologyElements, DOMNode node,
-			Node domParentNode) {
-		for (OntologyElement ontologyElement : ontologyElements) {
+	private void writeNode(
+			Set<net.sf.graphiti.ontology.elements.Element> ontologyElements,
+			DOMNode node, Node domParentNode) {
+		for (net.sf.graphiti.ontology.elements.Element ontologyElement : ontologyElements) {
 			if (ontologyElement.hasOntClass(OntologyFactory
 					.getClassDocumentElement())) {
 				// Document

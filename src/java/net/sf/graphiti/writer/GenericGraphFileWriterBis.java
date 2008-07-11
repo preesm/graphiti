@@ -52,7 +52,6 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.elements.OntologyElement;
 import net.sf.graphiti.ontology.elements.ParserParameterNode;
 import net.sf.graphiti.ontology.elements.parameters.PropertyBeanParameter;
 import net.sf.graphiti.ontology.parameters.Parameter;
@@ -92,7 +91,8 @@ public class GenericGraphFileWriterBis {
 	 *            The target parent DOM element node.
 	 * @return The element created.
 	 */
-	private Element createElement(OntologyElement ontologyElement,
+	private Element createElement(
+			net.sf.graphiti.ontology.elements.Element ontologyElement,
 			Node domParentNode) {
 		Element element = domDocument.createElement(ontologyElement.hasName());
 		domParentNode.appendChild(element);
@@ -107,9 +107,9 @@ public class GenericGraphFileWriterBis {
 	 * @param factory
 	 */
 	private void fillDocument(OntologyFactory factory) {
-		Set<OntologyElement> rootNodes = (Set<OntologyElement>) factory
+		Set<net.sf.graphiti.ontology.elements.Element> rootNodes = (Set<net.sf.graphiti.ontology.elements.Element>) factory
 				.getParserRootNodes();
-		for (OntologyElement root : rootNodes) {
+		for (net.sf.graphiti.ontology.elements.Element root : rootNodes) {
 			writeNode(root, document, domDocument);
 		}
 	}
@@ -164,13 +164,15 @@ public class GenericGraphFileWriterBis {
 		}
 	}
 
-	private void writeCorrespondingNode(Set<OntologyElement> nodes,
+	private void writeCorrespondingNode(
+			Set<net.sf.graphiti.ontology.elements.Element> nodes,
 			DOMNode element, Node parentNode) {
 		List<DOMNode> treated = new ArrayList<DOMNode>();
-		List<OntologyElement> ontologyElements = new ArrayList<OntologyElement>(
+		List<net.sf.graphiti.ontology.elements.Element> ontologyElements = new ArrayList<net.sf.graphiti.ontology.elements.Element>(
 				nodes);
 		while (ontologyElements.size() > 0) {
-			OntologyElement node = ontologyElements.get(0);
+			net.sf.graphiti.ontology.elements.Element node = ontologyElements
+					.get(0);
 			if (node.hasPrecedenceNode() != null) {
 				if (ontologyElements.contains(node.hasPrecedenceNode())) {
 					node = node.hasPrecedenceNode();
@@ -244,15 +246,16 @@ public class GenericGraphFileWriterBis {
 							.getNodeValue());
 				}
 				parentNode.appendChild(newElt);
-				writeCorrespondingNode(new TreeSet<OntologyElement>(),
+				writeCorrespondingNode(
+						new TreeSet<net.sf.graphiti.ontology.elements.Element>(),
 						childElement, newElt);
 			}
 		}
 
 	}
 
-	private void writeNode(OntologyElement node, DOMNode element,
-			Node parentNode) {
+	private void writeNode(net.sf.graphiti.ontology.elements.Element node,
+			DOMNode element, Node parentNode) {
 		Element newElement = createElement(node, parentNode);
 		for (DOMNode attrNode : element.getDOMAttributes()) {
 			if (attrNode.getClass().equals(DOMNode.class)) {
@@ -269,7 +272,7 @@ public class GenericGraphFileWriterBis {
 			if (attr.hasOntClass(OntologyFactory
 					.getClassPropertyBeanParameter())
 					&& (!attr.hasOntClass(OntologyFactory
-							.getClassConstantParameter()))) {
+							.getClassParameterValue()))) {
 				PropertyBeanParameter beanParam = (PropertyBeanParameter) attr;
 				Parameter param = beanParam.hasParameter();
 				Object val = element.getValue(param.hasName());

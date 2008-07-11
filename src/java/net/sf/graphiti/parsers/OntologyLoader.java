@@ -251,7 +251,7 @@ public class OntologyLoader {
 			OntologyFactory factory = new OntologyFactory(file);
 			Set<VertexType> vertexTypes = factory.getVertexTypes();
 			for (VertexType type : vertexTypes) {
-				String vertexType = type.hasStringRepresentation();
+				String vertexType = type.hasName();
 				Set<FigureAttribute> attributes = type.hasFigureAttributes();
 				for (FigureAttribute attribute : attributes) {
 					if (attribute.hasOntClass(OntologyFactory
@@ -291,7 +291,7 @@ public class OntologyLoader {
 
 			Set<EdgeType> edgeTypes = factory.getEdgeTypes();
 			for (EdgeType type : edgeTypes) {
-				String edgeType = type.hasStringRepresentation();
+				String edgeType = type.hasName();
 				Set<Parameter> parameters = type.hasParameters();
 				for (Parameter parameter : parameters) {
 					if (parameter.hasOntClass(OntologyFactory

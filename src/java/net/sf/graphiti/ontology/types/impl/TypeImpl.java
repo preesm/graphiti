@@ -56,21 +56,21 @@ public class TypeImpl extends OntologyNodeImpl implements Type {
 	}
 
 	@Override
+	public String hasName() {
+		return getStringProperty(OntologyFactory
+				.getPropertyTypeHasName());
+	}
+
+	@Override
 	@SuppressWarnings("unchecked")
 	public Set<Parameter> hasParameters() {
 		return (Set<Parameter>) listIndividuals(OntologyFactory
 				.getPropertyTypeHasParameters());
 	}
 
-	@Override
-	public String hasStringRepresentation() {
-		return getStringProperty(OntologyFactory
-				.getPropertyTypeHasStringRepresentation());
-	}
-
 	public String toString() {
 		return super.toString() + " | Type: hasStringRepresentation: "
-				+ hasStringRepresentation() + ", hasParameters: "
+				+ hasName() + ", hasParameters: "
 				+ hasParameters() + ", hasFigureAttributes:"
 				+ hasFigureAttributes();
 	}

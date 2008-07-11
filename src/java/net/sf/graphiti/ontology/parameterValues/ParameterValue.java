@@ -26,7 +26,10 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.parameters;
+package net.sf.graphiti.ontology.parameterValues;
+
+import net.sf.graphiti.ontology.OntologyNode;
+import net.sf.graphiti.ontology.parameters.Parameter;
 
 /**
  * This class provides a constant parameter.
@@ -35,7 +38,9 @@ package net.sf.graphiti.ontology.elements.parameters;
  * @author Matthieu Wipliez
  * 
  */
-public interface ConstantParameter extends PropertyBeanParameter {
-
+public interface ParameterValue extends OntologyNode {
+	
 	public String hasValue();
+
+	public Parameter ofParameter();
 }

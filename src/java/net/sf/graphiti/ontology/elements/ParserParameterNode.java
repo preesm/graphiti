@@ -37,10 +37,10 @@ import java.util.Set;
  * @author Matthieu Wipliez
  * 
  */
-public interface ParserParameterNode extends OntologyElement {
+public interface ParserParameterNode extends Element {
 
 	public boolean isReference();
 
-	public Set<OntologyElement> isReferenceTo();
+	public Set<Element> isReferenceTo();
 
 }
