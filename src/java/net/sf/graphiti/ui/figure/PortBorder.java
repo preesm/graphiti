@@ -71,7 +71,9 @@ public class PortBorder extends LineBorder {
 
 	/**
 	 * Creates a new PortBorder.
-	 * @param direction The direction of the Port (input, output)
+	 * 
+	 * @param direction
+	 *            The direction of the Port (input, output)
 	 */
 	public PortBorder(String direction) {
 	}

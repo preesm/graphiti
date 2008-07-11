@@ -35,12 +35,7 @@ import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Vertex;
 
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellEditorValidator;
-import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -110,7 +105,7 @@ public class PropertyBeanPropertySource implements IPropertySource {
 			// TextCellEditor toto2 = (TextCellEditor) toto;
 			// toto2.setStyle(toto2.getStyle() | SWT.MULTI);
 			// }
-			
+
 			properties[i] = propertyDescriptor;
 			i++;
 		}

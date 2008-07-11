@@ -116,16 +116,18 @@ public class DOMNode extends PropertyBean {
 
 	/**
 	 * Gives this Node's attribute value
-	 * @param attributeName the attribute's name
+	 * 
+	 * @param attributeName
+	 *            the attribute's name
 	 * @return the value of the attribute
 	 */
-	public String getDOMAttributeValue(String attributeName){
-		for(DOMNode node : attributes){
-			if(node.getNodeName().equals(attributeName)){
+	public String getDOMAttributeValue(String attributeName) {
+		for (DOMNode node : attributes) {
+			if (node.getNodeName().equals(attributeName)) {
 				return node.getNodeValue();
 			}
 		}
-		return null ;
+		return null;
 	}
 
 	/**
@@ -164,7 +166,7 @@ public class DOMNode extends PropertyBean {
 	public void setNodeName(String name) {
 		this.nodeName = name;
 	}
-	
+
 	/**
 	 * Sets the node value.
 	 * 

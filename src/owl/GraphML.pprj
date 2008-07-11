@@ -1,4 +1,4 @@
-; Thu Jul 10 14:47:31 CEST 2008
+; Fri Jul 11 14:39:49 CEST 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[GraphML_ProjectKB_Instance_56]
-		[GraphML_ProjectKB_Instance_57]
-		[GraphML_ProjectKB_Instance_58]
-		[GraphML_ProjectKB_Instance_59]
-		[GraphML_ProjectKB_Instance_60]))
+		[GraphML_ProjectKB_Instance_175]
+		[GraphML_ProjectKB_Instance_176]
+		[GraphML_ProjectKB_Instance_177]
+		[GraphML_ProjectKB_Instance_178]
+		[GraphML_ProjectKB_Instance_179]))
 
 ([CLSES_TAB] of  Widget
 
@@ -67,6 +67,31 @@
 	(is_hidden TRUE)
 	(property_list [GraphML_ProjectKB_Instance_18])
 	(widget_class_name "uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizTab"))
+
+([GraphML_ProjectKB_Instance_175] of  String
+
+	(name "owl:Thing")
+	(string_value "%3ANAME"))
+
+([GraphML_ProjectKB_Instance_176] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([GraphML_ProjectKB_Instance_177] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([GraphML_ProjectKB_Instance_178] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([GraphML_ProjectKB_Instance_179] of  String
+
+	(name "owl:Class")
+	(string_value "%3ANAME"))
 
 ([GraphML_ProjectKB_Instance_18] of  Property_List
 )
@@ -233,33 +258,8 @@
 ([GraphML_ProjectKB_Instance_50] of  Property_List
 )
 
-([GraphML_ProjectKB_Instance_56] of  String
-
-	(name "owl:Thing")
-	(string_value "%3ANAME"))
-
-([GraphML_ProjectKB_Instance_57] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([GraphML_ProjectKB_Instance_58] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([GraphML_ProjectKB_Instance_59] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
 ([GraphML_ProjectKB_Instance_6] of  Property_List
 )
-
-([GraphML_ProjectKB_Instance_60] of  String
-
-	(name "owl:Class")
-	(string_value "%3ANAME"))
 
 ([GraphML_ProjectKB_Instance_7] of  Widget
 
@@ -1172,11 +1172,6 @@
 	(name "protege:ExternalResource")
 	(property_list [XY_Instance_890])
 	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
-
-([KB_474399_Instance_0] of  String
-
-	(name "owl_file_name")
-	(string_value "GraphML.owl"))
 
 ([KB_484936_Instance_0] of  Widget
 
@@ -3507,6 +3502,11 @@
 	(name "owl:Ontology")
 	(property_list [XY_Instance_195])
 	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([KB_862654_Instance_0] of  String
+
+	(name "owl_file_name")
+	(string_value "GraphML.owl"))
 
 ([KB_865583_Instance_0] of  Widget
 
@@ -7712,7 +7712,7 @@
 		[OWL_ProjectKB_Instance_3]
 		[KB_444675_Instance_0]
 		[KB_632156_Instance_0]
-		[KB_474399_Instance_0]))
+		[KB_862654_Instance_0]))
 
 ([STANDARD_CLASS_FORM_WIDGET] of  Widget
 

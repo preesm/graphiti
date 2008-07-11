@@ -113,22 +113,22 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 	 * Updates the bendpoints, based on the model.
 	 */
 	protected void refreshBendpoints() {
-//		 if (getConnectionFigure().getConnectionRouter() instanceof
-//		 ManhattanConnectionRouter)
-//		 return;
-//		 List<Bendpoint> modelConstraint = ((Edge) getModel())
-//		 .getBendpoints();
-//		 List<RelativeBendpoint> figureConstraint = new
-//		 ArrayList<RelativeBendpoint>();
-//		 for (int i = 0; i < modelConstraint.size(); i++) {
-//		 DependencyBendpoint wbp = (DependencyBendpoint) modelConstraint
-//		 .get(i);
-//		 RelativeBendpoint rbp = new RelativeBendpoint(getConnectionFigure());
-//		 rbp.setRelativeDimensions(wbp.getFirstRelativeDimension(), wbp
-//		 .getSecondRelativeDimension());
-//		 rbp.setWeight((i + 1) / ((float) modelConstraint.size() + 1));
-//		 figureConstraint.add(rbp);
-//		 }
-//		 getConnectionFigure().setRoutingConstraint(figureConstraint);
+		// if (getConnectionFigure().getConnectionRouter() instanceof
+		// ManhattanConnectionRouter)
+		// return;
+		// List<Bendpoint> modelConstraint = ((Edge) getModel())
+		// .getBendpoints();
+		// List<RelativeBendpoint> figureConstraint = new
+		// ArrayList<RelativeBendpoint>();
+		// for (int i = 0; i < modelConstraint.size(); i++) {
+		// DependencyBendpoint wbp = (DependencyBendpoint) modelConstraint
+		// .get(i);
+		// RelativeBendpoint rbp = new RelativeBendpoint(getConnectionFigure());
+		// rbp.setRelativeDimensions(wbp.getFirstRelativeDimension(), wbp
+		// .getSecondRelativeDimension());
+		// rbp.setWeight((i + 1) / ((float) modelConstraint.size() + 1));
+		// figureConstraint.add(rbp);
+		// }
+		// getConnectionFigure().setRoutingConstraint(figureConstraint);
 	}
 }

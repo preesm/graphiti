@@ -174,11 +174,10 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		IAction selectAllAction = new SelectAllAction(this);
 		registry.registerAction(selectAllAction);
 		getSelectionActions().add(selectAllAction.getId());
-		
+
 		IAction printAction = new PrintAction(this);
 		registry.registerAction(printAction);
 		getSelectionActions().add(printAction.getId());
-		
 
 		// IAction routeAllAction = new RouteAction(this);
 		// registry.registerAction(routeAllAction);
@@ -196,7 +195,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
+	 * @seeorg.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#
+	 * createPaletteViewerProvider()
 	 */
 	@Override
 	protected PaletteViewerProvider createPaletteViewerProvider() {
@@ -215,7 +215,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 	public void doSave(IProgressMonitor monitor) {
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		GenericGraphFileWriterBis writer = new GenericGraphFileWriterBis(document);
+		GenericGraphFileWriterBis writer = new GenericGraphFileWriterBis(
+				document);
 		writer.write(out);
 		try {
 			file.setContents(new ByteArrayInputStream(out.toByteArray()), true,
@@ -391,7 +392,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		// to be added to the workspace the first time around.
 		if (getEditorInput() != null) {
 			// IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-			// file.getWorkspace().removeResourceChangeListener(resourceListener);
+			//file.getWorkspace().removeResourceChangeListener(resourceListener)
+			// ;
 		}
 
 		super.setInput(input);

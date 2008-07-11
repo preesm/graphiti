@@ -49,12 +49,12 @@ import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.SkipDOMNode;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.nodes.ParserNode;
-import net.sf.graphiti.ontology.nodes.ParserParameterNode;
-import net.sf.graphiti.ontology.nodes.parameters.ConstantParameter;
-import net.sf.graphiti.ontology.nodes.parameters.ParserFixedParameter;
-import net.sf.graphiti.ontology.nodes.parameters.PropertyBeanParameter;
-import net.sf.graphiti.ontology.nodes.parameters.edges.EdgeParameterNode;
+import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
+import net.sf.graphiti.ontology.elements.OntologyElement;
+import net.sf.graphiti.ontology.elements.ParserParameterNode;
+import net.sf.graphiti.ontology.elements.parameters.ConstantParameter;
+import net.sf.graphiti.ontology.elements.parameters.PropertyBeanParameter;
+import net.sf.graphiti.ontology.elements.parameters.edges.EdgeParameterNode;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -78,7 +78,7 @@ public class GenericGraphFileParser {
 
 	private HashMap<Node, Object> nodeToObj = new HashMap<Node, Object>();
 
-	private HashMap<ParserNode, List<PropertyBean>> ontDomInstances = new HashMap<ParserNode, List<PropertyBean>>();
+	private HashMap<OntologyElement, List<PropertyBean>> ontDomInstances = new HashMap<OntologyElement, List<PropertyBean>>();
 
 	/**
 	 * Creates a generic graph parser using the given document configurations.
@@ -90,7 +90,7 @@ public class GenericGraphFileParser {
 		this.configurations = configurations;
 	}
 
-	private void addOntDomInstance(ParserNode node, PropertyBean bean) {
+	private void addOntDomInstance(OntologyElement node, PropertyBean bean) {
 		List<PropertyBean> beans;
 		if ((beans = ontDomInstances.get(node)) == null) {
 			beans = new ArrayList<PropertyBean>();
@@ -100,7 +100,7 @@ public class GenericGraphFileParser {
 	}
 
 	private PropertyBean getElementFromClass(String ontClass, String refVal) {
-		for (ParserNode refType : ontDomInstances.keySet()) {
+		for (OntologyElement refType : ontDomInstances.keySet()) {
 			if (refType.hasOntClass(ontClass)) {
 				List<PropertyBean> references = ontDomInstances.get(refType);
 				if (references != null) {
@@ -119,7 +119,7 @@ public class GenericGraphFileParser {
 	}
 
 	private PropertyBean getReference(ParserParameterNode node, String refVal) {
-		for (ParserNode refType : node.isReferenceTo()) {
+		for (OntologyElement refType : node.isReferenceTo()) {
 			List<PropertyBean> references = ontDomInstances.get(refType);
 			if (references != null) {
 				for (int i = 0; i < references.size(); i++) {
@@ -150,20 +150,20 @@ public class GenericGraphFileParser {
 	 * @param parentElement
 	 * @return
 	 */
-	private boolean isElementDefined(ParserNode ontNode, Node domNode,
+	private boolean isElementDefined(OntologyElement ontNode, Node domNode,
 			DOMNode parentElement) {
 		boolean correspond = false;
 
 		// If the DOM node has the same name as this ontology node
 		if (ontNode.hasName().equals(domNode.getNodeName())) {
 			// We parse its fixed parameters (if it has any).
-			Iterator<ParserFixedParameter> it = ontNode.hasFixedParameter()
-					.iterator();
+			Iterator<AttributeRestriction> it = ontNode
+					.hasAttributeRestriction().iterator();
 			NamedNodeMap attributes = domNode.getAttributes();
 
 			correspond = true;
 			while (it.hasNext() && correspond) {
-				ParserFixedParameter fixParam = it.next();
+				AttributeRestriction fixParam = it.next();
 				String fixedParamName = fixParam.hasName();
 				Node node = attributes.getNamedItem(fixedParamName);
 
@@ -230,7 +230,7 @@ public class GenericGraphFileParser {
 	 * @param element
 	 *            parent element of this parameter
 	 */
-	private void parseAllParameter(ParserNode ontNode, Node domNode,
+	private void parseAllParameter(OntologyElement ontNode, Node domNode,
 			DOMNode element) {
 		Set<ParserParameterNode> attributesNodes = ontNode.hasAttributeNode();
 
@@ -252,12 +252,12 @@ public class GenericGraphFileParser {
 	 * @param parentElement
 	 *            the parent node
 	 */
-	private void parseCorrespondingNode(Set<ParserNode> ontNodes, Node domNode,
-			DOMNode parentElement) {
+	private void parseCorrespondingNode(Set<OntologyElement> ontNodes,
+			Node domNode, DOMNode parentElement) {
 		if (ontNodes != null) {
 			// We iterate over the ontology nodes to see if the DOM element is
 			// defined.
-			for (ParserNode ontNode : ontNodes) {
+			for (OntologyElement ontNode : ontNodes) {
 				if (isElementDefined(ontNode, domNode, parentElement)) {
 					parseNode(ontNode, domNode, parentElement);
 					return;
@@ -331,14 +331,16 @@ public class GenericGraphFileParser {
 	 * @param parentElement
 	 *            parent element of this node
 	 */
-	private void parseNode(ParserNode ontNode, Node domNode,
+	private void parseNode(OntologyElement ontNode, Node domNode,
 			DOMNode parentElement) {
 		DOMNode element;
 
 		// creates the element according to the type defined in the ontology
-		if (ontNode.hasOntClass(OntologyFactory.getClassGraphNode())) {
+		if (ontNode.hasOntClass(OntologyFactory.getClassDocumentElement())) {
+			element = graphitiDocument;
+		} else if (ontNode.hasOntClass(OntologyFactory.getClassGraphElement())) {
 			element = new Graph(graphitiDocument);
-		} else if (ontNode.hasOntClass(OntologyFactory.getClassVertexNode())) {
+		} else if (ontNode.hasOntClass(OntologyFactory.getClassVertexElement())) {
 			element = new Vertex(graphitiDocument);
 			if (parentElement instanceof GraphitiDocument) {
 				Graph newGraph = ((GraphitiDocument) parentElement).getGraph();
@@ -348,7 +350,7 @@ public class GenericGraphFileParser {
 				}
 				parentElement = newGraph;
 			}
-		} else if (ontNode.hasOntClass(OntologyFactory.getClassEdgeNode())) {
+		} else if (ontNode.hasOntClass(OntologyFactory.getClassEdgeElement())) {
 			element = new Edge(graphitiDocument);
 			if (parentElement instanceof GraphitiDocument) {
 				if (((GraphitiDocument) parentElement).getGraph() == null) {
@@ -360,8 +362,8 @@ public class GenericGraphFileParser {
 							.getGraph();
 				}
 			}
-		} else if (ontNode.hasOntClass(OntologyFactory.getClassSkipNode())) {
-			// The ontology node is a SkipNode
+		} else if (ontNode.hasOntClass(OntologyFactory.getClassSkipElement())) {
+			// The ontology node is a SkipElement
 			element = new SkipDOMNode(parentElement);
 		} else {
 			element = new DOMNode(domNode.getNodeName());
@@ -384,7 +386,7 @@ public class GenericGraphFileParser {
 
 		// parsing this element children using the children defined in the
 		// ontology
-		Set<ParserNode> childNodes = ontNode.hasChildrenNode();
+		Set<OntologyElement> childNodes = ontNode.hasChildrenNode();
 		NodeList children = domNode.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			parseCorrespondingNode(childNodes, children.item(i), element);
@@ -473,34 +475,19 @@ public class GenericGraphFileParser {
 			// Creates the DOM
 			DocumentBuilder docBuilder = builderFactory.newDocumentBuilder();
 			Document doc = docBuilder.parse(inputFile);
+
 			Node docElement = doc.getDocumentElement();
+			graphitiDocument = new GraphitiDocument(config);
 
 			// Iterates over the parser root nodes
-			for (ParserNode rootNode : factory.getParserRootNodes()) {
-				if (!rootNode.hasName().equals(docElement.getNodeName())) {
-					throw (new IncompatibleConfigurationFile(
-							"RootNode has name " + docElement.getNodeName()
-									+ " instead of " + rootNode.hasName()));
-				} else {
-					graphitiDocument = new GraphitiDocument(config);
-					NamedNodeMap attributes = docElement.getAttributes();
-					if (attributes != null) {
-						for (int i = 0; i < attributes.getLength(); i++) {
-							Node attribute = attributes.item(i);
-							parseCorrespondingParameter(null, attribute,
-									graphitiDocument);
-						}
-					}
-
-					NodeList docElementChildren = docElement.getChildNodes();
-					for (int i = 0; i < docElementChildren.getLength(); i++) {
-						Node docElementChild = docElementChildren.item(i);
-						parseCorrespondingNode(rootNode.hasChildrenNode(),
-								docElementChild, graphitiDocument);
-					}
-
+			Set<OntologyElement> ontNodes = factory.getParserRootNodes();
+			for (OntologyElement ontNode : ontNodes) {
+				if (isElementDefined(ontNode, docElement, graphitiDocument)) {
+					parseNode(ontNode, docElement, graphitiDocument);
 					log.info("Parsing completed");
 					return graphitiDocument;
+				} else {
+					throw (new IncompatibleConfigurationFile());
 				}
 			}
 		} catch (ParserConfigurationException e) {
@@ -511,7 +498,7 @@ public class GenericGraphFileParser {
 			e.printStackTrace();
 		}
 
-		// The document could not be parser using this configuration
+		// The document could not be parsed using this configuration
 		throw new IncompatibleConfigurationFile();
 	}
 
@@ -521,7 +508,7 @@ public class GenericGraphFileParser {
 	 * @param ontNode
 	 * @param element
 	 */
-	private void setConstantParameters(ParserNode ontNode, DOMNode element) {
+	private void setConstantParameters(OntologyElement ontNode, DOMNode element) {
 		Set<ParserParameterNode> attributesNodes = ontNode.hasAttributeNode();
 		// parses all the constant nodes
 		for (ParserParameterNode attNode : attributesNodes) {
@@ -563,7 +550,7 @@ public class GenericGraphFileParser {
 		if (edge.getSource().getValue(IS_PORT) != null
 				&& (Boolean) edge.getSource().getValue(IS_PORT)) {
 			Vertex trueSource = (Vertex) getElementFromClass(OntologyFactory
-					.getClassVertexNode(), (String) edge
+					.getClassVertexElement(), (String) edge
 					.getValue(Edge.SRC_PORT_NAME));
 			if (trueSource != null) {
 				edge.setSource(trueSource);
@@ -579,7 +566,7 @@ public class GenericGraphFileParser {
 		if (edge.getTarget().getValue(IS_PORT) != null
 				&& (Boolean) edge.getTarget().getValue(IS_PORT)) {
 			Vertex trueTarget = (Vertex) getElementFromClass(OntologyFactory
-					.getClassVertexNode(), (String) edge
+					.getClassVertexElement(), (String) edge
 					.getValue(Edge.DST_PORT_NAME));
 			if (trueTarget != null) {
 				edge.setTarget(trueTarget);

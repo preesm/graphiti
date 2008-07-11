@@ -125,7 +125,8 @@ public class Graph extends DOMNode {
 
 	/**
 	 * @see AbstractBaseGraph#addVertex(Vertex)
-	 * @param child The vertex to add
+	 * @param child
+	 *            The vertex to add
 	 * @return true if the vertex is added, false if command failed
 	 */
 	public boolean addVertex(Vertex child) {

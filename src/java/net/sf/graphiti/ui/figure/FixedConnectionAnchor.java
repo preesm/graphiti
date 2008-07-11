@@ -49,8 +49,10 @@ public class FixedConnectionAnchor extends AbstractConnectionAnchor {
 	/**
 	 * Connect the Anchor to its owner
 	 * 
-	 * @param owner The parent figure of this Anchor
-	 * @param place the position in the parent Figure
+	 * @param owner
+	 *            The parent figure of this Anchor
+	 * @param place
+	 *            the position in the parent Figure
 	 */
 	public FixedConnectionAnchor(Figure owner, Point place) {
 		super(owner);

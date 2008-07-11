@@ -57,8 +57,7 @@ public class PolygonConnectionAnchor extends AbstractConnectionAnchor {
 	}
 
 	/**
-	 * Returns <code>true</code> if the other anchor has the same owner and
-	 * box.
+	 * Returns <code>true</code> if the other anchor has the same owner and box.
 	 * 
 	 * @param obj
 	 *            the other anchor

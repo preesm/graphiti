@@ -35,7 +35,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
 
-import net.sf.graphiti.ontology.nodes.ParserNode;
+import net.sf.graphiti.ontology.elements.OntologyElement;
 import net.sf.graphiti.ontology.types.EdgeType;
 import net.sf.graphiti.ontology.types.VertexType;
 
@@ -77,6 +77,10 @@ public class OntologyFactory {
 		}
 	}
 
+	public static String getClassAttributeRestriction() {
+		return "http://net.sf.graphiti/basics.owl#AttributeRestriction";
+	}
+
 	public static String getClassColorAttribute() {
 		return "http://net.sf.graphiti/basics.owl#ColorAttribute";
 	}
@@ -97,12 +101,16 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#DefaultParameter";
 	}
 
+	public static String getClassDocumentElement() {
+		return "http://net.sf.graphiti/basics.owl#DocumentElement";
+	}
+
 	public static String getClassEdgeConnection() {
 		return "http://net.sf.graphiti/basics.owl#EdgeConnection";
 	}
 
-	public static String getClassEdgeNode() {
-		return "http://net.sf.graphiti/basics.owl#EdgeNode";
+	public static String getClassEdgeElement() {
+		return "http://net.sf.graphiti/basics.owl#EdgeElement";
 	}
 
 	public static String getClassEdgeParameter() {
@@ -125,12 +133,16 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#EdgeType";
 	}
 
+	public static String getClassElement() {
+		return "http://net.sf.graphiti/basics.owl#Element";
+	}
+
 	public static String getClassFigureAttribute() {
 		return "http://net.sf.graphiti/basics.owl#FigureAttribute";
 	}
 
-	public static String getClassGraphNode() {
-		return "http://net.sf.graphiti/basics.owl#GraphNode";
+	public static String getClassGraphElement() {
+		return "http://net.sf.graphiti/basics.owl#GraphElement";
 	}
 
 	public static String getClassGraphParameter() {
@@ -149,16 +161,8 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#Parameter";
 	}
 
-	public static String getClassParserNode() {
-		return "http://net.sf.graphiti/basics.owl#ParserNode";
-	}
-
 	public static String getClassParserParameterNode() {
 		return "http://net.sf.graphiti/basics.owl#ParserParameterNode";
-	}
-
-	public static String getClassParserRootNode() {
-		return "http://net.sf.graphiti/basics.owl#ParserRootNode";
 	}
 
 	public static String getClassPosition() {
@@ -176,21 +180,17 @@ public class OntologyFactory {
 	public static String getClassShapes() {
 		return "http://net.sf.graphiti/basics.owl#Shapes";
 	}
-	
-	public static String getClassParserFixedParameter() {
-		return "http://net.sf.graphiti/basics.owl#ParserFixedParameter";
-	}
 
-	public static String getClassSkipNode() {
-		return "http://net.sf.graphiti/basics.owl#SkipNode";
+	public static String getClassSkipElement() {
+		return "http://net.sf.graphiti/basics.owl#SkipElement";
 	}
 
 	public static String getClassType() {
 		return "http://net.sf.graphiti/basics.owl#Type";
 	}
 
-	public static String getClassVertexNode() {
-		return "http://net.sf.graphiti/basics.owl#VertexNode";
+	public static String getClassVertexElement() {
+		return "http://net.sf.graphiti/basics.owl#VertexElement";
 	}
 
 	public static String getClassVertexParameter() {
@@ -201,12 +201,28 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#VertexType";
 	}
 
+	public static String getPropertyAttributeRestrictionHasName() {
+		return "http://net.sf.graphiti/basics.owl#attributeRestriction_hasName";
+	}
+
+	public static String getPropertyAttributeRestrictionHasValue() {
+		return "http://net.sf.graphiti/basics.owl#attributeRestriction_hasValue";
+	}
+
+	public static String getPropertyAttributeRestrictionOfElement() {
+		return "http://net.sf.graphiti/basics.owl#attributeRestriction_ofElement";
+	}
+
 	public static String getPropertyColorAttributeHasColor() {
 		return "http://net.sf.graphiti/basics.owl#colorAttribute_hasColor";
 	}
-	
+
 	public static String getPropertyConstantParameterHasValue() {
 		return "http://net.sf.graphiti/basics.owl#constantParameter_hasValue";
+	}
+
+	public static String getPropertyElementHasAttributeRestriction() {
+		return "http://net.sf.graphiti/basics.owl#element_hasAttributeRestriction";
 	}
 
 	public static String getPropertyFigureAttributeAppliesTo() {
@@ -224,10 +240,6 @@ public class OntologyFactory {
 	public static String getPropertyParameterHasName() {
 		return "http://net.sf.graphiti/basics.owl#parameter_hasName";
 	}
-	
-	public static String getParserFixedParameterHasValue() {
-		return "http://net.sf.graphiti/basics.owl#parserFixedParameter_hasValue";
-	}
 
 	public static String getPropertyParameterHasPosition() {
 		return "http://net.sf.graphiti/basics.owl#parameter_hasPosition";
@@ -235,6 +247,10 @@ public class OntologyFactory {
 
 	public static String getPropertyParameterHasValueType() {
 		return "http://net.sf.graphiti/basics.owl#parameter_hasValueType";
+	}
+
+	public static String getPropertyParserFixedParameterHasValue() {
+		return "http://net.sf.graphiti/basics.owl#parserFixedParameter_hasValue";
 	}
 
 	public static String getPropertyParserNodeHasAttributeNode() {
@@ -248,19 +264,15 @@ public class OntologyFactory {
 	public static String getPropertyParserNodeHasIdParameterNode() {
 		return "http://net.sf.graphiti/basics.owl#parserNode_hasIdParameterNode";
 	}
-	
-	public static String getPropertyParserNodeHassFixedParameter() {
-		return "http://net.sf.graphiti/basics.owl#parserNode_hasFixedParameter";
-	}
 
 	public static String getPropertyParserNodeHasName() {
 		return "http://net.sf.graphiti/basics.owl#parserNode_hasName";
 	}
 
-	public static String getPropertyParserNodeHasPrecedenceNode(){
+	public static String getPropertyParserNodeHasPrecedenceNode() {
 		return "http://net.sf.graphiti/basics.owl#parserNode_hasPrecedenceNode";
 	}
-	
+
 	public static String getPropertyParserParameterNodeHasValueType() {
 		return "http://net.sf.graphiti/basics.owl#parserNode_hasValueType";
 	}
@@ -306,8 +318,6 @@ public class OntologyFactory {
 	 * 
 	 * @param url
 	 *            The ontology file URL.
-	 * @param monitor
-	 *            The progress monitor.
 	 */
 	public OntologyFactory(String url) {
 		File file = new File(url);
@@ -350,14 +360,14 @@ public class OntologyFactory {
 	/**
 	 * Returns all the parser root nodes.
 	 * 
-	 * @return A set of ParserNode.
+	 * @return A set of OntologyElement.
 	 */
 	@SuppressWarnings("unchecked")
-	public Set<ParserNode> getParserRootNodes() {
+	public Set<OntologyElement> getParserRootNodes() {
 		OntClass vertex = model.getOntClass(OntologyFactory
-				.getClassParserRootNode());
+				.getClassDocumentElement());
 		ExtendedIterator it = model.listIndividuals(vertex);
-		return (Set<ParserNode>) OntologyNodeImpl.convertIndividuals(it);
+		return (Set<OntologyElement>) OntologyNodeImpl.convertIndividuals(it);
 	}
 
 	/**

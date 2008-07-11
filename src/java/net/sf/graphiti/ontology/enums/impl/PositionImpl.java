@@ -37,7 +37,6 @@ public class PositionImpl extends OntologyNodeImpl implements Position {
 
 	public PositionImpl(Individual individual) {
 		super(individual);
-		// TODO Auto-generated constructor stub
 	}
 
 	public String toString() {

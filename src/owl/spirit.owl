@@ -5,7 +5,9 @@
     xmlns="http://net.sf.graphiti/spirit.owl#"
     xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:daml="http://www.daml.org/2001/03/daml+oil#"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
   xml:base="http://net.sf.graphiti/spirit.owl">
   <owl:Ontology rdf:about="">
@@ -63,15 +65,17 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <basic:parserParameterNode_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >false</basic:parserParameterNode_isReference>
   </basic:ConstantParameter>
-  <basic:EdgeNode rdf:ID="EdgeNode_1">
-    <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >spirit:interconnection</basic:parserNode_hasName>
+  <basic:EdgeElement rdf:ID="EdgeNode_1">
     <basic:parserNode_hasChildNode>
-      <basic:SkipNode rdf:ID="SkipNode_3">
+      <basic:SkipElement rdf:ID="SkipNode_3">
+        <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >spirit:activeInterface</basic:parserNode_hasName>
         <basic:parserNode_hasAttributeNode>
           <basic:EdgeConnection rdf:ID="EdgeConnection_1">
             <basic:parserParameterNode_isReferenceTo>
-              <basic:VertexNode rdf:ID="VertexNode_2">
+              <basic:VertexElement rdf:ID="VertexNode_2">
+                <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >spirit:componentInstance</basic:parserNode_hasName>
                 <basic:parserNode_hasChildNode>
                   <basic:IdParameter rdf:ID="IdParameter_2">
                     <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -83,9 +87,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                   </basic:IdParameter>
                 </basic:parserNode_hasChildNode>
                 <basic:parserNode_hasAttributeNode rdf:resource="#typeParameter"/>
-                <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >spirit:componentInstance</basic:parserNode_hasName>
-              </basic:VertexNode>
+              </basic:VertexElement>
             </basic:parserParameterNode_isReferenceTo>
             <basic:parserParameterNode_isReference rdf:datatype=
             "http://www.w3.org/2001/XMLSchema#boolean">true</basic:parserParameterNode_isReference>
@@ -93,31 +95,31 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             >spirit:componentRef</basic:parserNode_hasName>
           </basic:EdgeConnection>
         </basic:parserNode_hasAttributeNode>
-        <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >spirit:activeInterface</basic:parserNode_hasName>
-      </basic:SkipNode>
+      </basic:SkipElement>
     </basic:parserNode_hasChildNode>
-  </basic:EdgeNode>
+    <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >spirit:interconnection</basic:parserNode_hasName>
+  </basic:EdgeElement>
   <basic:EdgeParameter rdf:ID="EdgeParameter_2"/>
-  <basic:SkipNode rdf:ID="SkipNode_1">
-    <basic:parserNode_hasChildNode rdf:resource="#VertexNode_2"/>
+  <basic:SkipElement rdf:ID="SkipNode_1">
     <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >spirit:componentInstances</basic:parserNode_hasName>
-  </basic:SkipNode>
-  <basic:SkipNode rdf:ID="SkipNode_2">
-    <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >spirit:interconnections</basic:parserNode_hasName>
+    <basic:parserNode_hasChildNode rdf:resource="#VertexNode_2"/>
+  </basic:SkipElement>
+  <basic:SkipElement rdf:ID="SkipNode_2">
     <basic:parserNode_hasChildNode rdf:resource="#EdgeNode_1"/>
     <basic:parserNode_hasPrecedenceNode rdf:resource="#SkipNode_1"/>
-  </basic:SkipNode>
-  <basic:ParserRootNode rdf:ID="mlRoot">
     <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >spirit:design</basic:parserNode_hasName>
+    >spirit:interconnections</basic:parserNode_hasName>
+  </basic:SkipElement>
+  <basic:DocumentElement rdf:ID="mlRoot">
     <basic:parserNode_hasChildNode rdf:resource="#SkipNode_2"/>
     <basic:parserNode_hasChildNode rdf:resource="#SkipNode_1"/>
     <basic:parser_hasDocType rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >null</basic:parser_hasDocType>
-  </basic:ParserRootNode>
+    <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >spirit:design</basic:parserNode_hasName>
+  </basic:DocumentElement>
 </rdf:RDF>
 
 <!-- Created with Protege (with OWL Plugin 3.3.1, Build 430)  http://protege.stanford.edu -->

@@ -52,9 +52,9 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.nodes.ParserNode;
-import net.sf.graphiti.ontology.nodes.ParserParameterNode;
-import net.sf.graphiti.ontology.nodes.parameters.PropertyBeanParameter;
+import net.sf.graphiti.ontology.elements.OntologyElement;
+import net.sf.graphiti.ontology.elements.ParserParameterNode;
+import net.sf.graphiti.ontology.elements.parameters.PropertyBeanParameter;
 import net.sf.graphiti.ontology.parameters.Parameter;
 
 import org.w3c.dom.Document;
@@ -84,7 +84,7 @@ public class GenericGraphFileWriterBis {
 	 * obtained is given attributes, both by exploring the available parser node
 	 * attributes and the DOMNode attributes.
 	 * 
-	 * @param parserNode
+	 * @param ontologyElement
 	 *            The reference parser node.
 	 * @param node
 	 *            The source DOMNode element.
@@ -92,8 +92,9 @@ public class GenericGraphFileWriterBis {
 	 *            The target parent DOM element node.
 	 * @return The element created.
 	 */
-	private Element createElement(ParserNode parserNode, Node domParentNode) {
-		Element element = domDocument.createElement(parserNode.hasName());
+	private Element createElement(OntologyElement ontologyElement,
+			Node domParentNode) {
+		Element element = domDocument.createElement(ontologyElement.hasName());
 		domParentNode.appendChild(element);
 		return element;
 	}
@@ -106,16 +107,15 @@ public class GenericGraphFileWriterBis {
 	 * @param factory
 	 */
 	private void fillDocument(OntologyFactory factory) {
-		Set<ParserNode> rootNodes = (Set<ParserNode>) factory
+		Set<OntologyElement> rootNodes = (Set<OntologyElement>) factory
 				.getParserRootNodes();
-		for (ParserNode root : rootNodes) {
+		for (OntologyElement root : rootNodes) {
 			writeNode(root, document, domDocument);
 		}
 	}
 
 	public void setXmlns(String ns) {
-		((Element) domDocument.getFirstChild())
-				.setAttribute("xmlns", ns);
+		((Element) domDocument.getFirstChild()).setAttribute("xmlns", ns);
 	}
 
 	/**
@@ -129,17 +129,17 @@ public class GenericGraphFileWriterBis {
 				.getDocumentConfiguration();
 		OntologyFactory factory = configuration.getOntologyFactory();
 		try {
-			DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilderFactory builderFactory = DocumentBuilderFactory
+					.newInstance();
 			builderFactory.setNamespaceAware(false);
 			builderFactory.setValidating(false);
-			DocumentBuilder builder = builderFactory
-					.newDocumentBuilder();
+			DocumentBuilder builder = builderFactory.newDocumentBuilder();
 			domDocument = builder.newDocument();
 
 			// Fills the DOM document
 			fillDocument(factory);
 			if (domDocument.getNamespaceURI() == null
-					|| domDocument.getNamespaceURI().equals("") ) {
+					|| domDocument.getNamespaceURI().equals("")) {
 				setXmlns("http://default.0ns");
 			}
 
@@ -159,30 +159,32 @@ public class GenericGraphFileWriterBis {
 			e.printStackTrace();
 		} catch (TransformerException e) {
 			e.printStackTrace();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void writeCorrespondingNode(Set<ParserNode> nodes, DOMNode element,
-			Node parentNode) {
+	private void writeCorrespondingNode(Set<OntologyElement> nodes,
+			DOMNode element, Node parentNode) {
 		List<DOMNode> treated = new ArrayList<DOMNode>();
-		List<ParserNode> parserNodes = new ArrayList<ParserNode>(nodes);
-		while (parserNodes.size() > 0) {
-			ParserNode node = parserNodes.get(0);
+		List<OntologyElement> ontologyElements = new ArrayList<OntologyElement>(
+				nodes);
+		while (ontologyElements.size() > 0) {
+			OntologyElement node = ontologyElements.get(0);
 			if (node.hasPrecedenceNode() != null) {
-				if (parserNodes.contains(node.hasPrecedenceNode())) {
+				if (ontologyElements.contains(node.hasPrecedenceNode())) {
 					node = node.hasPrecedenceNode();
 				}
 			}
-			parserNodes.remove(node);
-			if (node.hasOntClass(OntologyFactory.getClassGraphNode())) {
+			ontologyElements.remove(node);
+			if (node.hasOntClass(OntologyFactory.getClassGraphElement())) {
 				if (element instanceof GraphitiDocument) {
 					writeNode(node, ((GraphitiDocument) element).getGraph(),
 							parentNode);
 					treated.add(((GraphitiDocument) element).getGraph());
 				}
-			} else if (node.hasOntClass(OntologyFactory.getClassVertexNode())) {
+			} else if (node
+					.hasOntClass(OntologyFactory.getClassVertexElement())) {
 				if (element instanceof GraphitiDocument) {
 					for (Vertex vertex : ((GraphitiDocument) element)
 							.getGraph().vertexSet()) {
@@ -199,7 +201,7 @@ public class GenericGraphFileWriterBis {
 						}
 					}
 				}
-			} else if (node.hasOntClass(OntologyFactory.getClassSkipNode())) {
+			} else if (node.hasOntClass(OntologyFactory.getClassSkipElement())) {
 				boolean isTreated = false;
 				for (DOMNode childNode : element.getDOMElements()) {
 					if (childNode.getNodeName().equals(node.hasName())) {
@@ -211,7 +213,7 @@ public class GenericGraphFileWriterBis {
 					writeNode(node, element, parentNode);
 				}
 				treated.add(element);
-			} else if (node.hasOntClass(OntologyFactory.getClassEdgeNode())) {
+			} else if (node.hasOntClass(OntologyFactory.getClassEdgeElement())) {
 				if (element instanceof GraphitiDocument) {
 					for (Edge edge : ((GraphitiDocument) element).getGraph()
 							.edgeSet()) {
@@ -242,14 +244,15 @@ public class GenericGraphFileWriterBis {
 							.getNodeValue());
 				}
 				parentNode.appendChild(newElt);
-				writeCorrespondingNode(new TreeSet<ParserNode>(), childElement,
-						newElt);
-			} 
+				writeCorrespondingNode(new TreeSet<OntologyElement>(),
+						childElement, newElt);
+			}
 		}
 
 	}
 
-	private void writeNode(ParserNode node, DOMNode element, Node parentNode) {
+	private void writeNode(OntologyElement node, DOMNode element,
+			Node parentNode) {
 		Element newElement = createElement(node, parentNode);
 		for (DOMNode attrNode : element.getDOMAttributes()) {
 			if (attrNode.getClass().equals(DOMNode.class)) {

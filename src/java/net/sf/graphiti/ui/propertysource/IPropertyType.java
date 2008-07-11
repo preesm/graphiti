@@ -31,14 +31,14 @@ package net.sf.graphiti.ui.propertysource;
 /**
  * 
  * @author Matthieu Wipliez
- *
+ * 
  */
 public interface IPropertyType {
 
 	public boolean isAttribute();
-	
+
 	public boolean isParameter();
-	
+
 	public String getId();
-	
+
 }

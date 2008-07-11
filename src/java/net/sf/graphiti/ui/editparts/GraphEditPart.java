@@ -181,9 +181,9 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	}
 
 	/**
-	 * This method is called by the {@link GraphLayoutManager}, and applies
-	 * back the changes of the {@link CompoundDirectedGraphLayout} algorithm to
-	 * the different figures, by setting their bounds.
+	 * This method is called by the {@link GraphLayoutManager}, and applies back
+	 * the changes of the {@link CompoundDirectedGraphLayout} algorithm to the
+	 * different figures, by setting their bounds.
 	 */
 	void updateFigures() {
 		Graph graph = (Graph) getModel();

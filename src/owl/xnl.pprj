@@ -1,4 +1,4 @@
-; Thu Jul 10 14:47:49 CEST 2008
+; Fri Jul 11 14:38:05 CEST 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[xnl_ProjectKB_Instance_56]
-		[xnl_ProjectKB_Instance_57]
-		[xnl_ProjectKB_Instance_58]
-		[xnl_ProjectKB_Instance_59]
-		[xnl_ProjectKB_Instance_60]))
+		[xnl_ProjectKB_Instance_333]
+		[xnl_ProjectKB_Instance_334]
+		[xnl_ProjectKB_Instance_335]
+		[xnl_ProjectKB_Instance_336]
+		[xnl_ProjectKB_Instance_337]))
 
 ([CLSES_TAB] of  Widget
 
@@ -922,6 +922,11 @@
 	(name "protege:ExternalResource")
 	(property_list [XY_Instance_890])
 	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([KB_467465_Instance_0] of  String
+
+	(name "owl_file_name")
+	(string_value "xnl.owl"))
 
 ([KB_484936_Instance_0] of  Widget
 
@@ -3252,11 +3257,6 @@
 	(name "owl:Ontology")
 	(property_list [XY_Instance_195])
 	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
-
-([KB_803654_Instance_0] of  String
-
-	(name "owl_file_name")
-	(string_value "xnl.owl"))
 
 ([KB_865583_Instance_0] of  Widget
 
@@ -7462,7 +7462,7 @@
 		[OWL_ProjectKB_Instance_3]
 		[KB_444675_Instance_0]
 		[KB_632156_Instance_0]
-		[KB_803654_Instance_0]))
+		[KB_467465_Instance_0]))
 
 ([STANDARD_CLASS_FORM_WIDGET] of  Widget
 
@@ -7605,6 +7605,31 @@
 	(property_list [xnl_ProjectKB_Instance_34])
 	(widget_class_name "edu.stanford.smi.protege.keywordsearch.StringSearch"))
 
+([xnl_ProjectKB_Instance_333] of  String
+
+	(name "owl:Thing")
+	(string_value "%3ANAME"))
+
+([xnl_ProjectKB_Instance_334] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([xnl_ProjectKB_Instance_335] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([xnl_ProjectKB_Instance_336] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([xnl_ProjectKB_Instance_337] of  String
+
+	(name "owl:Class")
+	(string_value "%3ANAME"))
+
 ([xnl_ProjectKB_Instance_34] of  Property_List
 )
 
@@ -7689,33 +7714,8 @@
 ([xnl_ProjectKB_Instance_50] of  Property_List
 )
 
-([xnl_ProjectKB_Instance_56] of  String
-
-	(name "owl:Thing")
-	(string_value "%3ANAME"))
-
-([xnl_ProjectKB_Instance_57] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([xnl_ProjectKB_Instance_58] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([xnl_ProjectKB_Instance_59] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
 ([xnl_ProjectKB_Instance_6] of  Property_List
 )
-
-([xnl_ProjectKB_Instance_60] of  String
-
-	(name "owl:Class")
-	(string_value "%3ANAME"))
 
 ([xnl_ProjectKB_Instance_7] of  Widget
 

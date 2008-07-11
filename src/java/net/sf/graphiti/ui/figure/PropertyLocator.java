@@ -39,13 +39,13 @@ import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.geometry.Point;
 
 public class PropertyLocator extends ConnectionLocator {
-	static HashMap<Connection,List<PropertyLocator>> positions = new HashMap<Connection,List<PropertyLocator>>();
+	static HashMap<Connection, List<PropertyLocator>> positions = new HashMap<Connection, List<PropertyLocator>>();
 	private ParameterPosition pos;
 
 	public PropertyLocator(Connection c, ParameterPosition p) {
 		super(c);
-		if(positions.get(c) == null){
-			List<PropertyLocator> list = new ArrayList<PropertyLocator>() ;
+		if (positions.get(c) == null) {
+			List<PropertyLocator> list = new ArrayList<PropertyLocator>();
 			positions.put(c, list);
 		}
 		pos = p;
@@ -60,10 +60,10 @@ public class PropertyLocator extends ConnectionLocator {
 		Connection conn = getConnection();
 		List<PropertyLocator> listOfProperties = positions.get(conn);
 		int maxIndex = listOfProperties.indexOf(this);
-		int dec = 5 ;
-		for(int i = 0 ; i < maxIndex ; i ++){
-			if(listOfProperties.get(i).pos ==  this.pos){
-				dec += 10 ;
+		int dec = 5;
+		for (int i = 0; i < maxIndex; i++) {
+			if (listOfProperties.get(i).pos == this.pos) {
+				dec += 10;
 			}
 		}
 		int xdirec = 0;

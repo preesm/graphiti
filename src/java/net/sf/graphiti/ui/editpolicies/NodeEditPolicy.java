@@ -45,8 +45,8 @@ import org.eclipse.gef.requests.ReconnectRequest;
 /**
  * This class provides methods that deal with creations and connections of
  * dependencies. When the user clicks a source port, the method
- * <code>getConnectionCreateCommand</code> is first called. When they click
- * the destination port, <code>getConnectionCompleteCommand</code> is called.
+ * <code>getConnectionCreateCommand</code> is first called. When they click the
+ * destination port, <code>getConnectionCompleteCommand</code> is called.
  * 
  * <code>getReconnectSourceCommand</code> and
  * <code>getReconnectTargetCommand</code> are called when the user reconnects

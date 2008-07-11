@@ -39,7 +39,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 
 public class ShapeLosange extends Polygon implements IShape {
-	
+
 	private GradientPattern fill;
 
 	private Label labelName;
@@ -56,7 +56,7 @@ public class ShapeLosange extends Polygon implements IShape {
 	public ConnectionAnchor getConnectionAnchor() {
 		return new PolygonConnectionAnchor(this);
 	}
-	
+
 	public void paintFigure(Graphics graphics) {
 		if (fill == null) {
 			fill = new GradientPattern(getBackgroundColor());

@@ -40,7 +40,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 
 public class ShapeCircle extends Ellipse implements IShape {
-	
+
 	private GradientPattern fill;
 
 	private Label labelName;
@@ -59,7 +59,7 @@ public class ShapeCircle extends Ellipse implements IShape {
 	public ConnectionAnchor getConnectionAnchor() {
 		return new EllipseAnchor(this);
 	}
-	
+
 	public void paintFigure(Graphics graphics) {
 		if (fill == null) {
 			fill = new GradientPattern(getBackgroundColor());

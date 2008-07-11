@@ -40,7 +40,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 
 public class ShapeRoundedBox extends RoundedRectangle implements IShape {
-	
+
 	private GradientPattern fill;
 
 	private Label labelName;
@@ -58,7 +58,7 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 	public ConnectionAnchor getConnectionAnchor() {
 		return new ChopboxAnchor(this);
 	}
-	
+
 	public void paintFigure(Graphics graphics) {
 		if (fill == null) {
 			fill = new GradientPattern(getBackgroundColor());

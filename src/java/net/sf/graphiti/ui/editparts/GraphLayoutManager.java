@@ -71,15 +71,15 @@ public class GraphLayoutManager extends XYLayout {
 	 */
 	@Override
 	public void layout(IFigure container) {
-		try{
-		CompoundDirectedGraph graph = new CompoundDirectedGraph();
+		try {
+			CompoundDirectedGraph graph = new CompoundDirectedGraph();
 
-		part.addNodes(graph.nodes);	
-		part.addEdges(graph.edges);
+			part.addNodes(graph.nodes);
+			part.addEdges(graph.edges);
 
-		CompoundDirectedGraphLayout layout = new CompoundDirectedGraphLayout();
-		layout.visit(graph);
-		}catch(Exception e){
+			CompoundDirectedGraphLayout layout = new CompoundDirectedGraphLayout();
+			layout.visit(graph);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		part.updateFigures();

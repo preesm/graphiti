@@ -146,7 +146,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		String name = (String) vertex.getValue("name");
 		if (name == null) {
 			name = (String) vertex.getValue("id");
-			if (name == null) name = "" ;
+			if (name == null)
+				name = "";
 		}
 		figure.setName(name);
 		return figure;
@@ -247,9 +248,9 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	}
 
 	/**
-	 * This method is called by the {@link GraphLayoutManager}, and applies
-	 * back the changes of the {@link CompoundDirectedGraphLayout} algorithm to
-	 * the different figures, by setting their bounds.
+	 * This method is called by the {@link GraphLayoutManager}, and applies back
+	 * the changes of the {@link CompoundDirectedGraphLayout} algorithm to the
+	 * different figures, by setting their bounds.
 	 */
 	void updateFigures() {
 		Vertex vertex = (Vertex) getModel();

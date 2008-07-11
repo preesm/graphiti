@@ -35,29 +35,29 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.graphiti.ontology.attributeRestrictions.impl.AttributeRestrictionImpl;
 import net.sf.graphiti.ontology.attributes.impl.ColorAttributeImpl;
 import net.sf.graphiti.ontology.attributes.impl.FigureAttributeImpl;
 import net.sf.graphiti.ontology.attributes.impl.ShapeAttributeImpl;
+import net.sf.graphiti.ontology.elements.impl.DocumentElementImpl;
+import net.sf.graphiti.ontology.elements.impl.EdgeElementImpl;
+import net.sf.graphiti.ontology.elements.impl.ElementImpl;
+import net.sf.graphiti.ontology.elements.impl.GraphElementImpl;
+import net.sf.graphiti.ontology.elements.impl.ParserParameterNodeImpl;
+import net.sf.graphiti.ontology.elements.impl.SkipElementImpl;
+import net.sf.graphiti.ontology.elements.impl.VertexElementImpl;
+import net.sf.graphiti.ontology.elements.parameters.edges.impl.EdgeConnectionImpl;
+import net.sf.graphiti.ontology.elements.parameters.edges.impl.EdgeParameterNodeImpl;
+import net.sf.graphiti.ontology.elements.parameters.edges.impl.EdgeSourceConnectionImpl;
+import net.sf.graphiti.ontology.elements.parameters.edges.impl.EdgeTargetConnectionImpl;
+import net.sf.graphiti.ontology.elements.parameters.impl.ConstantParameterImpl;
+import net.sf.graphiti.ontology.elements.parameters.impl.DefaultParameterImpl;
+import net.sf.graphiti.ontology.elements.parameters.impl.IdParameterImpl;
+import net.sf.graphiti.ontology.elements.parameters.impl.PropertyBeanParameterImpl;
 import net.sf.graphiti.ontology.enums.impl.ColorsImpl;
 import net.sf.graphiti.ontology.enums.impl.DataTypesImpl;
 import net.sf.graphiti.ontology.enums.impl.PositionImpl;
 import net.sf.graphiti.ontology.enums.impl.ShapesImpl;
-import net.sf.graphiti.ontology.nodes.impl.EdgeNodeImpl;
-import net.sf.graphiti.ontology.nodes.impl.GraphNodeImpl;
-import net.sf.graphiti.ontology.nodes.impl.ParserNodeImpl;
-import net.sf.graphiti.ontology.nodes.impl.ParserParameterNodeImpl;
-import net.sf.graphiti.ontology.nodes.impl.ParserRootNodeImpl;
-import net.sf.graphiti.ontology.nodes.impl.SkipNodeImpl;
-import net.sf.graphiti.ontology.nodes.impl.VertexNodeImpl;
-import net.sf.graphiti.ontology.nodes.parameters.edges.impl.EdgeConnectionImpl;
-import net.sf.graphiti.ontology.nodes.parameters.edges.impl.EdgeParameterNodeImpl;
-import net.sf.graphiti.ontology.nodes.parameters.edges.impl.EdgeSourceConnectionImpl;
-import net.sf.graphiti.ontology.nodes.parameters.edges.impl.EdgeTargetConnectionImpl;
-import net.sf.graphiti.ontology.nodes.parameters.impl.ConstantParameterImpl;
-import net.sf.graphiti.ontology.nodes.parameters.impl.DefaultParameterImpl;
-import net.sf.graphiti.ontology.nodes.parameters.impl.IdParameterImpl;
-import net.sf.graphiti.ontology.nodes.parameters.impl.ParserFixedParameterImpl;
-import net.sf.graphiti.ontology.nodes.parameters.impl.PropertyBeanParameterImpl;
 import net.sf.graphiti.ontology.parameters.impl.EdgeParameterImpl;
 import net.sf.graphiti.ontology.parameters.impl.GraphParameterImpl;
 import net.sf.graphiti.ontology.parameters.impl.ParameterImpl;
@@ -101,17 +101,22 @@ public class OntologyNodeImpl implements OntologyNode {
 				ShapeAttributeImpl.class);
 
 		// ParserNode
-		classes.put(OntologyFactory.getClassEdgeNode(), EdgeNodeImpl.class);
-		classes.put(OntologyFactory.getClassGraphNode(), GraphNodeImpl.class);
-		classes.put(OntologyFactory.getClassParserNode(), ParserNodeImpl.class);
+		classes.put(OntologyFactory.getClassEdgeElement(),
+				EdgeElementImpl.class);
+		classes.put(OntologyFactory.getClassGraphElement(),
+				GraphElementImpl.class);
+		classes.put(OntologyFactory.getClassElement(), ElementImpl.class);
 		classes.put(OntologyFactory.getClassParserParameterNode(),
 				ParserParameterNodeImpl.class);
-		classes.put(OntologyFactory.getClassParserRootNode(),
-				ParserRootNodeImpl.class);
-		classes.put(OntologyFactory.getClassSkipNode(), SkipNodeImpl.class);
-		classes.put(OntologyFactory.getClassVertexNode(), VertexNodeImpl.class);
-		
-		classes.put(OntologyFactory.getClassParserFixedParameter(), ParserFixedParameterImpl.class);
+		classes.put(OntologyFactory.getClassDocumentElement(),
+				DocumentElementImpl.class);
+		classes.put(OntologyFactory.getClassSkipElement(),
+				SkipElementImpl.class);
+		classes.put(OntologyFactory.getClassVertexElement(),
+				VertexElementImpl.class);
+
+		classes.put(OntologyFactory.getClassAttributeRestriction(),
+				AttributeRestrictionImpl.class);
 
 		// PropertyBeanParameter
 		classes.put(OntologyFactory.getClassConstantParameter(),
@@ -150,8 +155,8 @@ public class OntologyNodeImpl implements OntologyNode {
 	}
 
 	/**
-	 * Converts the individuals accessible using the <code>it</code> iterator
-	 * to the correct class.
+	 * Converts the individuals accessible using the <code>it</code> iterator to
+	 * the correct class.
 	 * 
 	 * @param it
 	 *            An ExtendedIterator to a list of individuals.

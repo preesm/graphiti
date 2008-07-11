@@ -50,8 +50,8 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.nodes.ParserNode;
-import net.sf.graphiti.ontology.nodes.ParserParameterNode;
+import net.sf.graphiti.ontology.elements.OntologyElement;
+import net.sf.graphiti.ontology.elements.ParserParameterNode;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -83,7 +83,7 @@ public class GenericGraphFileWriter {
 	 * obtained is given attributes, both by exploring the available parser node
 	 * attributes and the DOMNode attributes.
 	 * 
-	 * @param parserNode
+	 * @param ontologyElement
 	 *            The reference parser node.
 	 * @param node
 	 *            The source DOMNode element.
@@ -91,12 +91,13 @@ public class GenericGraphFileWriter {
 	 *            The target parent DOM element node.
 	 * @return The element created.
 	 */
-	private Element createElement(ParserNode parserNode, DOMNode node,
-			Node domParentNode) {
-		Element element = domDocument.createElement(parserNode.hasName());
+	private Element createElement(OntologyElement ontologyElement,
+			DOMNode node, Node domParentNode) {
+		Element element = domDocument.createElement(ontologyElement.hasName());
 		domParentNode.appendChild(element);
 
-		Set<ParserParameterNode> attributes = parserNode.hasAttributeNode();
+		Set<ParserParameterNode> attributes = ontologyElement
+				.hasAttributeNode();
 		for (ParserParameterNode attribute : attributes) {
 			String attrName = attribute.hasName();
 			Object attrValue = node.getValue(attrName);
@@ -116,7 +117,7 @@ public class GenericGraphFileWriter {
 	 * @param factory
 	 */
 	private void fillDocument(OntologyFactory factory) {
-		Set<ParserNode> rootNodes = (Set<ParserNode>) factory
+		Set<OntologyElement> rootNodes = (Set<OntologyElement>) factory
 				.getParserRootNodes();
 
 		writeNode(rootNodes, document, domDocument);
@@ -201,55 +202,61 @@ public class GenericGraphFileWriter {
 	/**
 	 * Writes the DOMNode node.
 	 * 
-	 * @param parserNodes
+	 * @param ontologyElements
 	 *            available node in the ontology for this element
 	 * @param node
 	 *            The source DOMNode element.
 	 * @param domParentNode
 	 *            The target parent DOM element node.
 	 */
-	private void writeNode(Set<ParserNode> parserNodes, DOMNode node,
+	private void writeNode(Set<OntologyElement> ontologyElements, DOMNode node,
 			Node domParentNode) {
-		for (ParserNode parserNode : parserNodes) {
-			if (parserNode
-					.hasOntClass(OntologyFactory.getClassParserRootNode())) {
+		for (OntologyElement ontologyElement : ontologyElements) {
+			if (ontologyElement.hasOntClass(OntologyFactory
+					.getClassDocumentElement())) {
 				// Document
-				Element element = createElement(parserNode, node, domParentNode);
+				Element element = createElement(ontologyElement, node,
+						domParentNode);
 
 				GraphitiDocument doc = (GraphitiDocument) node;
-				writeNode(parserNode.hasChildrenNode(), doc.getGraph(), element);
+				writeNode(ontologyElement.hasChildrenNode(), doc.getGraph(),
+						element);
 				setDOMNodes(element, node);
-			} else if (parserNode.hasOntClass(OntologyFactory
-					.getClassGraphNode())) {
+			} else if (ontologyElement.hasOntClass(OntologyFactory
+					.getClassGraphElement())) {
 				// Graph
-				Element element = createElement(parserNode, node, domParentNode);
+				Element element = createElement(ontologyElement, node,
+						domParentNode);
 				Graph graph = (Graph) node;
 
 				// vertices
 				Set<Vertex> vertices = graph.vertexSet();
 				for (Vertex vertex : vertices) {
-					writeNode(parserNode.hasChildrenNode(), vertex, element);
+					writeNode(ontologyElement.hasChildrenNode(), vertex,
+							element);
 				}
 
 				// edges
 				Set<Edge> edges = graph.edgeSet();
 				for (Edge edge : edges) {
-					writeNode(parserNode.hasChildrenNode(), edge, element);
+					writeNode(ontologyElement.hasChildrenNode(), edge, element);
 				}
 
 				// Adds DOM nodes
 				setDOMNodes(element, node);
-			} else if (parserNode.hasOntClass(OntologyFactory
-					.getClassVertexNode())
+			} else if (ontologyElement.hasOntClass(OntologyFactory
+					.getClassVertexElement())
 					&& node instanceof Vertex) {
 				// Vertex
-				Element element = createElement(parserNode, node, domParentNode);
+				Element element = createElement(ontologyElement, node,
+						domParentNode);
 				setDOMNodes(element, node);
-			} else if (parserNode.hasOntClass(OntologyFactory
-					.getClassEdgeNode())
+			} else if (ontologyElement.hasOntClass(OntologyFactory
+					.getClassEdgeElement())
 					&& node instanceof Edge) {
 				// Edge
-				Element element = createElement(parserNode, node, domParentNode);
+				Element element = createElement(ontologyElement, node,
+						domParentNode);
 				setDOMNodes(element, node);
 			}
 		}

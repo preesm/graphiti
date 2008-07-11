@@ -40,7 +40,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 
 public class ShapeTriangle extends Polygon implements IShape {
-	
+
 	private GradientPattern fill;
 
 	private Label labelName;
@@ -60,7 +60,7 @@ public class ShapeTriangle extends Polygon implements IShape {
 	public ConnectionAnchor getConnectionAnchor() {
 		return new PolygonConnectionAnchor(this);
 	}
-	
+
 	public void paintFigure(Graphics graphics) {
 		if (fill == null) {
 			fill = new GradientPattern(getBackgroundColor());
@@ -79,8 +79,8 @@ public class ShapeTriangle extends Polygon implements IShape {
 	public void setDimension(Dimension dim) {
 		this.setStart(new Point(0, dim.height));
 		this.addPoint(new Point(dim.width / 2, 0));
-		this.addPoint(new Point(dim.width, dim.height-1));
-		this.addPoint(new Point(0, dim.height-1));
+		this.addPoint(new Point(dim.width, dim.height - 1));
+		this.addPoint(new Point(0, dim.height - 1));
 	}
 
 	@Override

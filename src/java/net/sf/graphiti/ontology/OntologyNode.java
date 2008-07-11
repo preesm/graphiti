@@ -35,8 +35,8 @@ package net.sf.graphiti.ontology;
 public interface OntologyNode {
 
 	/**
-	 * Returns true if this ontology node class is <code>clasz</code>. Note
-	 * that this method also tests parent classes of this node against
+	 * Returns true if this ontology node class is <code>clasz</code>. Note that
+	 * this method also tests parent classes of this node against
 	 * <code>clasz</code>.
 	 * 
 	 * @param clasz

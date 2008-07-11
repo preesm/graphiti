@@ -4,8 +4,10 @@
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
     xmlns="http://net.sf.graphiti/xdf.owl#"
+    xmlns:daml="http://www.daml.org/2001/03/daml+oil#"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
   xml:base="http://net.sf.graphiti/xdf.owl">
   <owl:Ontology rdf:about="">
@@ -90,18 +92,22 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >dst</basic:parserNode_hasName>
     <basic:parserParameterNode_isReferenceTo>
-      <basic:VertexNode rdf:ID="Instance_Node">
+      <basic:VertexElement rdf:ID="Instance_Node">
+        <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Instance</basic:parserNode_hasName>
         <basic:parserNode_hasChildNode>
-          <basic:SkipNode rdf:ID="classSkip">
-            <basic:parserNode_hasAttributeNode rdf:resource="#portParameterName"/>
+          <basic:SkipElement rdf:ID="classSkip">
             <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >Class</basic:parserNode_hasName>
-          </basic:SkipNode>
+            <basic:parserNode_hasAttributeNode rdf:resource="#portParameterName"/>
+          </basic:SkipElement>
         </basic:parserNode_hasChildNode>
         <basic:parserNode_hasAttributeNode rdf:resource="#ConstantParameter_2"/>
         <basic:parserNode_hasAttributeNode rdf:resource="#Instance_Id"/>
         <basic:parserNode_hasPrecedenceNode>
-          <basic:VertexNode rdf:ID="Port_Node">
+          <basic:VertexElement rdf:ID="Port_Node">
+            <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >Port</basic:parserNode_hasName>
             <basic:parserNode_hasAttributeNode>
               <basic:IdParameter rdf:ID="Port_Id">
                 <basic:propertyBeanParameter_isParameter rdf:resource="#vertexIdParameter"/>
@@ -155,13 +161,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 "http://www.w3.org/2001/XMLSchema#boolean">false</basic:parserParameterNode_isReference>
               </basic:ConstantParameter>
             </basic:parserNode_hasAttributeNode>
-            <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >Port</basic:parserNode_hasName>
-          </basic:VertexNode>
+          </basic:VertexElement>
         </basic:parserNode_hasPrecedenceNode>
-        <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Instance</basic:parserNode_hasName>
-      </basic:VertexNode>
+      </basic:VertexElement>
     </basic:parserParameterNode_isReferenceTo>
     <basic:parserParameterNode_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</basic:parserParameterNode_isReference>
@@ -218,14 +220,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >src-port</basic:parserNode_hasName>
   </basic:DefaultParameter>
-  <basic:EdgeNode rdf:ID="ConnectionNode">
-    <basic:parserNode_hasPrecedenceNode rdf:resource="#Instance_Node"/>
-    <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Connection</basic:parserNode_hasName>
-    <basic:parserNode_hasAttributeNode rdf:resource="#sourcePort"/>
-    <basic:parserNode_hasAttributeNode rdf:resource="#destinationPort"/>
-    <basic:parserNode_hasAttributeNode rdf:resource="#destinationConnection"/>
-    <basic:parserNode_hasAttributeNode rdf:resource="#sourceConnection"/>
+  <basic:EdgeElement rdf:ID="ConnectionNode">
     <basic:parserNode_hasAttributeNode>
       <basic:ConstantParameter rdf:ID="ConstantParameter_3">
         <basic:propertyBeanParameter_isParameter rdf:resource="#EdgeParameter_4"/>
@@ -235,9 +230,15 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         >false</basic:parserParameterNode_isReference>
       </basic:ConstantParameter>
     </basic:parserNode_hasAttributeNode>
-  </basic:EdgeNode>
-  <basic:ParserRootNode rdf:ID="XDF_Document">
-    <basic:parserNode_hasAttributeNode rdf:resource="#portParameterName"/>
+    <basic:parserNode_hasPrecedenceNode rdf:resource="#Instance_Node"/>
+    <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Connection</basic:parserNode_hasName>
+    <basic:parserNode_hasAttributeNode rdf:resource="#sourcePort"/>
+    <basic:parserNode_hasAttributeNode rdf:resource="#destinationPort"/>
+    <basic:parserNode_hasAttributeNode rdf:resource="#destinationConnection"/>
+    <basic:parserNode_hasAttributeNode rdf:resource="#sourceConnection"/>
+  </basic:EdgeElement>
+  <basic:DocumentElement rdf:ID="XDF_Document">
     <basic:parser_hasDocType rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >null</basic:parser_hasDocType>
     <basic:parserNode_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -245,7 +246,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <basic:parserNode_hasChildNode rdf:resource="#ConnectionNode"/>
     <basic:parserNode_hasChildNode rdf:resource="#Instance_Node"/>
     <basic:parserNode_hasChildNode rdf:resource="#Port_Node"/>
-  </basic:ParserRootNode>
+    <basic:parserNode_hasAttributeNode rdf:resource="#portParameterName"/>
+  </basic:DocumentElement>
 </rdf:RDF>
 
 <!-- Created with Protege (with OWL Plugin 3.3.1, Build 430)  http://protege.stanford.edu -->
