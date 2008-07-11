@@ -1,4 +1,4 @@
-; Thu Jul 10 14:47:22 CEST 2008
+; Fri Jul 11 18:18:52 CEST 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[spirit_ProjectKB_Instance_51]
-		[spirit_ProjectKB_Instance_52]
-		[spirit_ProjectKB_Instance_53]
-		[spirit_ProjectKB_Instance_54]
-		[spirit_ProjectKB_Instance_55]))
+		[spirit_ProjectKB_Instance_183]
+		[spirit_ProjectKB_Instance_184]
+		[spirit_ProjectKB_Instance_185]
+		[spirit_ProjectKB_Instance_186]
+		[spirit_ProjectKB_Instance_187]))
 
 ([CLSES_TAB] of  Widget
 
@@ -252,6 +252,11 @@
 	(label "Instances")
 	(property_list [Instance_88])
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
+
+([KB_008778_Instance_0] of  String
+
+	(name "owl_file_name")
+	(string_value "spirit.owl"))
 
 ([KB_024013_Instance_0] of  Widget
 
@@ -1167,11 +1172,6 @@
 
 ([KB_646337_Instance_3] of  Property_List
 )
-
-([KB_690606_Instance_0] of  String
-
-	(name "owl_file_name")
-	(string_value "spirit.owl"))
 
 ([KB_691299_Instance_398] of  Widget
 
@@ -7462,7 +7462,7 @@
 		[OWL_ProjectKB_Instance_3]
 		[KB_444675_Instance_0]
 		[KB_632156_Instance_0]
-		[KB_690606_Instance_0]))
+		[KB_008778_Instance_0]))
 
 ([spirit_ProjectKB_Instance_1] of  Widget
 
@@ -7508,6 +7508,31 @@
 
 ([spirit_ProjectKB_Instance_18] of  Property_List
 )
+
+([spirit_ProjectKB_Instance_183] of  String
+
+	(name "owl:Thing")
+	(string_value "%3ANAME"))
+
+([spirit_ProjectKB_Instance_184] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([spirit_ProjectKB_Instance_185] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([spirit_ProjectKB_Instance_186] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([spirit_ProjectKB_Instance_187] of  String
+
+	(name "owl:Class")
+	(string_value "%3ANAME"))
 
 ([spirit_ProjectKB_Instance_19] of  Widget
 
@@ -7670,31 +7695,6 @@
 
 ([spirit_ProjectKB_Instance_50] of  Property_List
 )
-
-([spirit_ProjectKB_Instance_51] of  String
-
-	(name "owl:Thing")
-	(string_value "%3ANAME"))
-
-([spirit_ProjectKB_Instance_52] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([spirit_ProjectKB_Instance_53] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([spirit_ProjectKB_Instance_54] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([spirit_ProjectKB_Instance_55] of  String
-
-	(name "owl:Class")
-	(string_value "%3ANAME"))
 
 ([spirit_ProjectKB_Instance_6] of  Property_List
 )

@@ -380,7 +380,7 @@ public class GenericGraphFileParser {
 		// Store the association between the DOM node and the element
 		nodeToObj.put(domNode, element);
 
-		setConstantParameters(ontNode, element);
+		setParameterValues(ontNode, element);
 		parseAllParameter(ontNode, domNode, element);
 
 		// parsing this element children using the children defined in the
@@ -502,14 +502,16 @@ public class GenericGraphFileParser {
 	}
 
 	/**
-	 * Sets constant parameters.
+	 * Iterates through the parameter values associated with this ontology node,
+	 * and for each of them, calls {@link DOMNode#setValue(String, Object)} with
+	 * the parameter name and value. Example of a parameter value is "Port"
+	 * associated to the parameter with the name "type".
 	 * 
 	 * @param ontNode
 	 * @param element
 	 */
-	private void setConstantParameters(Element ontNode, DOMNode element) {
+	private void setParameterValues(Element ontNode, DOMNode element) {
 		Set<ParameterValue> attributesNodes = ontNode.hasParameterValue();
-		// parses all the constant nodes
 		for (ParameterValue attNode : attributesNodes) {
 			ParameterValue constant = (ParameterValue) attNode;
 			String parameterName = constant.ofParameter().hasName();

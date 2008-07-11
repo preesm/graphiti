@@ -1,4 +1,4 @@
-; Fri Jul 11 14:38:05 CEST 2008
+; Fri Jul 11 19:06:49 CEST 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[xnl_ProjectKB_Instance_333]
-		[xnl_ProjectKB_Instance_334]
-		[xnl_ProjectKB_Instance_335]
-		[xnl_ProjectKB_Instance_336]
-		[xnl_ProjectKB_Instance_337]))
+		[xnl_ProjectKB_Instance_552]
+		[xnl_ProjectKB_Instance_553]
+		[xnl_ProjectKB_Instance_554]
+		[xnl_ProjectKB_Instance_555]
+		[xnl_ProjectKB_Instance_556]))
 
 ([CLSES_TAB] of  Widget
 
@@ -922,11 +922,6 @@
 	(name "protege:ExternalResource")
 	(property_list [XY_Instance_890])
 	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
-
-([KB_467465_Instance_0] of  String
-
-	(name "owl_file_name")
-	(string_value "xnl.owl"))
 
 ([KB_484936_Instance_0] of  Widget
 
@@ -3257,6 +3252,11 @@
 	(name "owl:Ontology")
 	(property_list [XY_Instance_195])
 	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([KB_815188_Instance_0] of  String
+
+	(name "owl_file_name")
+	(string_value "xnl.owl"))
 
 ([KB_865583_Instance_0] of  Widget
 
@@ -7194,12 +7194,18 @@
 		[KB_713803_Instance_693]
 		[KB_713803_Instance_648]
 		[KB_713803_Instance_648]
+		[xnl_ProjectKB_Instance_292]
+		[xnl_ProjectKB_Instance_335]
 		[KB_938545_Instance_166]
 		[KB_938545_Instance_166]
 		[KB_713803_Instance_390]
 		[KB_713803_Instance_390]
 		[KB_713803_Instance_303]
 		[KB_713803_Instance_303]
+		[xnl_ProjectKB_Instance_512]
+		[xnl_ProjectKB_Instance_247]
+		[xnl_ProjectKB_Instance_150]
+		[xnl_ProjectKB_Instance_483]
 		[PAL_FORM_WIDGET]
 		[PAL_FORM_WIDGET]
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
@@ -7240,12 +7246,16 @@
 		[KB_938545_Instance_578]
 		[KB_465546_Instance_567]
 		[KB_465546_Instance_567]
+		[xnl_ProjectKB_Instance_454]
 		[KB_938545_Instance_412]
 		[KB_938545_Instance_412]
 		[KB_938545_Instance_329]
 		[KB_938545_Instance_329]
 		[KB_764103_Instance_545]
-		[KB_764103_Instance_545])
+		[KB_764103_Instance_545]
+		[xnl_ProjectKB_Instance_80]
+		[xnl_ProjectKB_Instance_372]
+		[xnl_ProjectKB_Instance_197])
 	(default_cls_metaclass "owl:Class")
 	(default_facet_metaclass ":STANDARD-FACET")
 	(default_instance_widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget")
@@ -7462,7 +7472,7 @@
 		[OWL_ProjectKB_Instance_3]
 		[KB_444675_Instance_0]
 		[KB_632156_Instance_0]
-		[KB_467465_Instance_0]))
+		[KB_815188_Instance_0]))
 
 ([STANDARD_CLASS_FORM_WIDGET] of  Widget
 
@@ -7491,11 +7501,107 @@
 ([xnl_ProjectKB_Instance_10] of  Property_List
 )
 
+([xnl_ProjectKB_Instance_100] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_101] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [xnl_ProjectKB_Instance_102]))
+
+([xnl_ProjectKB_Instance_102] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_103] of  Widget
+
+	(height 240)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasChildNode")
+	(property_list [xnl_ProjectKB_Instance_104])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 400)
+	(y 180))
+
+([xnl_ProjectKB_Instance_104] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_105] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasParameterValue")
+	(property_list [xnl_ProjectKB_Instance_106])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([xnl_ProjectKB_Instance_106] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_107] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasAttributeNode")
+	(property_list [xnl_ProjectKB_Instance_108])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 300))
+
+([xnl_ProjectKB_Instance_108] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_109] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasName")
+	(property_list [xnl_ProjectKB_Instance_110])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
 ([xnl_ProjectKB_Instance_11] of  Widget
 
 	(is_hidden TRUE)
 	(property_list [xnl_ProjectKB_Instance_12])
 	(widget_class_name "edu.stanford.smi.protege.widget.instance_tree.InstanceTreeTab"))
+
+([xnl_ProjectKB_Instance_110] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_111] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasPrecedenceNode")
+	(property_list [xnl_ProjectKB_Instance_112])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 300))
+
+([xnl_ProjectKB_Instance_112] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_113] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:element_hasAttributeRestriction")
+	(property_list [xnl_ProjectKB_Instance_114])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 180))
+
+([xnl_ProjectKB_Instance_114] of  Property_List
+)
 
 ([xnl_ProjectKB_Instance_12] of  Property_List
 )
@@ -7515,8 +7621,124 @@
 	(property_list [xnl_ProjectKB_Instance_16])
 	(widget_class_name "edu.stanford.smi.RemoteKBTab.WordNetTab"))
 
+([xnl_ProjectKB_Instance_150] of  Widget
+
+	(is_hidden FALSE)
+	(name "basic:SkipElement")
+	(property_list [xnl_ProjectKB_Instance_153])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([xnl_ProjectKB_Instance_153] of  Property_List
+
+	(properties
+		[xnl_ProjectKB_Instance_154]
+		[xnl_ProjectKB_Instance_157]
+		[xnl_ProjectKB_Instance_160]
+		[xnl_ProjectKB_Instance_163]
+		[xnl_ProjectKB_Instance_165]
+		[xnl_ProjectKB_Instance_167]
+		[xnl_ProjectKB_Instance_169]
+		[xnl_ProjectKB_Instance_171]
+		[xnl_ProjectKB_Instance_173]
+		[xnl_ProjectKB_Instance_175]
+		[xnl_ProjectKB_Instance_177]
+		[xnl_ProjectKB_Instance_179]
+		[xnl_ProjectKB_Instance_181]
+		[xnl_ProjectKB_Instance_183]
+		[xnl_ProjectKB_Instance_185]))
+
+([xnl_ProjectKB_Instance_154] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [xnl_ProjectKB_Instance_155])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_155] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_156]))
+
+([xnl_ProjectKB_Instance_156] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_157] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[xnl_ProjectKB_Instance_158]
+		[xnl_ProjectKB_Instance_159]))
+
+([xnl_ProjectKB_Instance_158] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([xnl_ProjectKB_Instance_159] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
 ([xnl_ProjectKB_Instance_16] of  Property_List
 )
+
+([xnl_ProjectKB_Instance_160] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [xnl_ProjectKB_Instance_161])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_161] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_162]))
+
+([xnl_ProjectKB_Instance_162] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_163] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [xnl_ProjectKB_Instance_164]))
+
+([xnl_ProjectKB_Instance_164] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_165] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [xnl_ProjectKB_Instance_166]))
+
+([xnl_ProjectKB_Instance_166] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_167] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [xnl_ProjectKB_Instance_168]))
+
+([xnl_ProjectKB_Instance_168] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_169] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [xnl_ProjectKB_Instance_170]))
 
 ([xnl_ProjectKB_Instance_17] of  Widget
 
@@ -7524,7 +7746,117 @@
 	(property_list [xnl_ProjectKB_Instance_18])
 	(widget_class_name "uk.ac.man.cs.mig.coode.owlviz.ui.OWLVizTab"))
 
+([xnl_ProjectKB_Instance_170] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_171] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [xnl_ProjectKB_Instance_172]))
+
+([xnl_ProjectKB_Instance_172] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_173] of  Widget
+
+	(height 240)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasChildNode")
+	(property_list [xnl_ProjectKB_Instance_174])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 400)
+	(y 180))
+
+([xnl_ProjectKB_Instance_174] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_175] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasParameterValue")
+	(property_list [xnl_ProjectKB_Instance_176])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([xnl_ProjectKB_Instance_176] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_177] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasAttributeNode")
+	(property_list [xnl_ProjectKB_Instance_178])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 300))
+
+([xnl_ProjectKB_Instance_178] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_179] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasName")
+	(property_list [xnl_ProjectKB_Instance_180])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
 ([xnl_ProjectKB_Instance_18] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_180] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_181] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasPrecedenceNode")
+	(property_list [xnl_ProjectKB_Instance_182])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 300))
+
+([xnl_ProjectKB_Instance_182] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_183] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:element_hasAttributeRestriction")
+	(property_list [xnl_ProjectKB_Instance_184])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 180))
+
+([xnl_ProjectKB_Instance_184] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_185] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasName")
+	(property_list [xnl_ProjectKB_Instance_186])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 420))
+
+([xnl_ProjectKB_Instance_186] of  Property_List
 )
 
 ([xnl_ProjectKB_Instance_19] of  Widget
@@ -7533,11 +7865,96 @@
 	(property_list [xnl_ProjectKB_Instance_20])
 	(widget_class_name "edu.stanford.smi.RemoteKBTab.UMLSTab"))
 
+([xnl_ProjectKB_Instance_197] of  Widget
+
+	(is_hidden FALSE)
+	(name "basic:EdgeConnection")
+	(property_list [xnl_ProjectKB_Instance_200])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
 ([xnl_ProjectKB_Instance_2] of  Property_List
 )
 
 ([xnl_ProjectKB_Instance_20] of  Property_List
 )
+
+([xnl_ProjectKB_Instance_200] of  Property_List
+
+	(properties
+		[xnl_ProjectKB_Instance_201]
+		[xnl_ProjectKB_Instance_204]
+		[xnl_ProjectKB_Instance_207]
+		[xnl_ProjectKB_Instance_210]
+		[xnl_ProjectKB_Instance_212]
+		[xnl_ProjectKB_Instance_214]
+		[xnl_ProjectKB_Instance_216]
+		[xnl_ProjectKB_Instance_218]
+		[xnl_ProjectKB_Instance_220]
+		[xnl_ProjectKB_Instance_222]
+		[xnl_ProjectKB_Instance_224]
+		[xnl_ProjectKB_Instance_226]
+		[xnl_ProjectKB_Instance_228]
+		[xnl_ProjectKB_Instance_230]
+		[xnl_ProjectKB_Instance_232]
+		[xnl_ProjectKB_Instance_234]
+		[xnl_ProjectKB_Instance_236]))
+
+([xnl_ProjectKB_Instance_201] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [xnl_ProjectKB_Instance_202])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_202] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_203]))
+
+([xnl_ProjectKB_Instance_203] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_204] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[xnl_ProjectKB_Instance_205]
+		[xnl_ProjectKB_Instance_206]))
+
+([xnl_ProjectKB_Instance_205] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([xnl_ProjectKB_Instance_206] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([xnl_ProjectKB_Instance_207] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [xnl_ProjectKB_Instance_208])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_208] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_209]))
+
+([xnl_ProjectKB_Instance_209] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
 
 ([xnl_ProjectKB_Instance_21] of  Widget
 
@@ -7545,7 +7962,122 @@
 	(property_list [xnl_ProjectKB_Instance_22])
 	(widget_class_name "TGViztab.TGVizTab"))
 
+([xnl_ProjectKB_Instance_210] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [xnl_ProjectKB_Instance_211]))
+
+([xnl_ProjectKB_Instance_211] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_212] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [xnl_ProjectKB_Instance_213]))
+
+([xnl_ProjectKB_Instance_213] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_214] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [xnl_ProjectKB_Instance_215]))
+
+([xnl_ProjectKB_Instance_215] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_216] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [xnl_ProjectKB_Instance_217]))
+
+([xnl_ProjectKB_Instance_217] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_218] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [xnl_ProjectKB_Instance_219]))
+
+([xnl_ProjectKB_Instance_219] of  Property_List
+)
+
 ([xnl_ProjectKB_Instance_22] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_220] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasChildNode")
+	(property_list [xnl_ProjectKB_Instance_221])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 400)
+	(y 180))
+
+([xnl_ProjectKB_Instance_221] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_222] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasParameterValue")
+	(property_list [xnl_ProjectKB_Instance_223])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 300))
+
+([xnl_ProjectKB_Instance_223] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_224] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasAttributeNode")
+	(property_list [xnl_ProjectKB_Instance_225])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 300))
+
+([xnl_ProjectKB_Instance_225] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_226] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasName")
+	(property_list [xnl_ProjectKB_Instance_227])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([xnl_ProjectKB_Instance_227] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_228] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasPrecedenceNode")
+	(property_list [xnl_ProjectKB_Instance_229])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 360))
+
+([xnl_ProjectKB_Instance_229] of  Property_List
 )
 
 ([xnl_ProjectKB_Instance_23] of  Widget
@@ -7554,8 +8086,99 @@
 	(property_list [xnl_ProjectKB_Instance_24])
 	(widget_class_name "org.algernon.kb.okbc.protege.plugins.AlgernonTab"))
 
+([xnl_ProjectKB_Instance_230] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:element_hasAttributeRestriction")
+	(property_list [xnl_ProjectKB_Instance_231])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 180))
+
+([xnl_ProjectKB_Instance_231] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_232] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parserParameterNode_isReference")
+	(property_list [xnl_ProjectKB_Instance_233])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([xnl_ProjectKB_Instance_233] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_234] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserParameterNode_isReferenceTo")
+	(property_list [xnl_ProjectKB_Instance_235])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 400)
+	(y 300))
+
+([xnl_ProjectKB_Instance_235] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_236] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasName")
+	(property_list [xnl_ProjectKB_Instance_237])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 420))
+
+([xnl_ProjectKB_Instance_237] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_238] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasName")
+	(property_list [xnl_ProjectKB_Instance_239])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 420))
+
+([xnl_ProjectKB_Instance_239] of  Property_List
+)
+
 ([xnl_ProjectKB_Instance_24] of  Property_List
 )
+
+([xnl_ProjectKB_Instance_240] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parser_hasDocType")
+	(property_list [xnl_ProjectKB_Instance_241])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 540))
+
+([xnl_ProjectKB_Instance_241] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_247] of  Widget
+
+	(is_hidden FALSE)
+	(name "basic:DefaultParameter")
+	(property_list [xnl_ProjectKB_Instance_250])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
 
 ([xnl_ProjectKB_Instance_25] of  Widget
 
@@ -7563,7 +8186,132 @@
 	(property_list [xnl_ProjectKB_Instance_26])
 	(widget_class_name "edu.stanford.smi.protegex.changes.changesKBViewTab.ChangesKBViewTab"))
 
+([xnl_ProjectKB_Instance_250] of  Property_List
+
+	(properties
+		[xnl_ProjectKB_Instance_251]
+		[xnl_ProjectKB_Instance_254]
+		[xnl_ProjectKB_Instance_257]
+		[xnl_ProjectKB_Instance_260]
+		[xnl_ProjectKB_Instance_262]
+		[xnl_ProjectKB_Instance_264]
+		[xnl_ProjectKB_Instance_266]
+		[xnl_ProjectKB_Instance_268]
+		[xnl_ProjectKB_Instance_270]
+		[xnl_ProjectKB_Instance_272]
+		[xnl_ProjectKB_Instance_274]
+		[xnl_ProjectKB_Instance_276]
+		[xnl_ProjectKB_Instance_278]
+		[xnl_ProjectKB_Instance_280]
+		[xnl_ProjectKB_Instance_282]
+		[xnl_ProjectKB_Instance_284]
+		[xnl_ProjectKB_Instance_286]
+		[xnl_ProjectKB_Instance_288]
+		[xnl_ProjectKB_Instance_290]))
+
+([xnl_ProjectKB_Instance_251] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [xnl_ProjectKB_Instance_252])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_252] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_253]))
+
+([xnl_ProjectKB_Instance_253] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_254] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[xnl_ProjectKB_Instance_255]
+		[xnl_ProjectKB_Instance_256]))
+
+([xnl_ProjectKB_Instance_255] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([xnl_ProjectKB_Instance_256] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([xnl_ProjectKB_Instance_257] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [xnl_ProjectKB_Instance_258])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_258] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_259]))
+
+([xnl_ProjectKB_Instance_259] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
 ([xnl_ProjectKB_Instance_26] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_260] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [xnl_ProjectKB_Instance_261]))
+
+([xnl_ProjectKB_Instance_261] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_262] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [xnl_ProjectKB_Instance_263]))
+
+([xnl_ProjectKB_Instance_263] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_264] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [xnl_ProjectKB_Instance_265]))
+
+([xnl_ProjectKB_Instance_265] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_266] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [xnl_ProjectKB_Instance_267]))
+
+([xnl_ProjectKB_Instance_267] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_268] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [xnl_ProjectKB_Instance_269]))
+
+([xnl_ProjectKB_Instance_269] of  Property_List
 )
 
 ([xnl_ProjectKB_Instance_27] of  Widget
@@ -7572,7 +8320,147 @@
 	(property_list [xnl_ProjectKB_Instance_28])
 	(widget_class_name "edu.stanford.smi.protegex.xml.tab.XMLTab"))
 
+([xnl_ProjectKB_Instance_270] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasChildNode")
+	(property_list [xnl_ProjectKB_Instance_271])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 400)
+	(y 180))
+
+([xnl_ProjectKB_Instance_271] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_272] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasParameterValue")
+	(property_list [xnl_ProjectKB_Instance_273])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 300))
+
+([xnl_ProjectKB_Instance_273] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_274] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasAttributeNode")
+	(property_list [xnl_ProjectKB_Instance_275])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 300))
+
+([xnl_ProjectKB_Instance_275] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_276] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasName")
+	(property_list [xnl_ProjectKB_Instance_277])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([xnl_ProjectKB_Instance_277] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_278] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasPrecedenceNode")
+	(property_list [xnl_ProjectKB_Instance_279])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 360))
+
+([xnl_ProjectKB_Instance_279] of  Property_List
+)
+
 ([xnl_ProjectKB_Instance_28] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_280] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:element_hasAttributeRestriction")
+	(property_list [xnl_ProjectKB_Instance_281])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 180))
+
+([xnl_ProjectKB_Instance_281] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_282] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:propertyBeanParameter_isParameter")
+	(property_list [xnl_ProjectKB_Instance_283])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 420))
+
+([xnl_ProjectKB_Instance_283] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_284] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parserParameterNode_isReference")
+	(property_list [xnl_ProjectKB_Instance_285])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([xnl_ProjectKB_Instance_285] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_286] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "basic:parserParameterNode_isReferenceTo")
+	(property_list [xnl_ProjectKB_Instance_287])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 400)
+	(y 300))
+
+([xnl_ProjectKB_Instance_287] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_288] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasFixedParameter")
+	(property_list [xnl_ProjectKB_Instance_289])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 480))
+
+([xnl_ProjectKB_Instance_289] of  Property_List
 )
 
 ([xnl_ProjectKB_Instance_29] of  Widget
@@ -7580,6 +8468,76 @@
 	(is_hidden TRUE)
 	(property_list [xnl_ProjectKB_Instance_30])
 	(widget_class_name "edu.stanford.smi.protegex.widget.pal.PalQueriesTab"))
+
+([xnl_ProjectKB_Instance_290] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasName")
+	(property_list [xnl_ProjectKB_Instance_291])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 600))
+
+([xnl_ProjectKB_Instance_291] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_292] of  Widget
+
+	(is_hidden FALSE)
+	(name "basic:IdParameter")
+	(property_list [xnl_ProjectKB_Instance_295])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([xnl_ProjectKB_Instance_295] of  Property_List
+
+	(properties
+		[xnl_ProjectKB_Instance_296]
+		[xnl_ProjectKB_Instance_299]
+		[xnl_ProjectKB_Instance_302]
+		[xnl_ProjectKB_Instance_305]
+		[xnl_ProjectKB_Instance_307]
+		[xnl_ProjectKB_Instance_309]
+		[xnl_ProjectKB_Instance_311]
+		[xnl_ProjectKB_Instance_313]
+		[xnl_ProjectKB_Instance_315]
+		[xnl_ProjectKB_Instance_317]
+		[xnl_ProjectKB_Instance_319]
+		[xnl_ProjectKB_Instance_321]
+		[xnl_ProjectKB_Instance_323]
+		[xnl_ProjectKB_Instance_325]
+		[xnl_ProjectKB_Instance_327]
+		[xnl_ProjectKB_Instance_329]
+		[xnl_ProjectKB_Instance_331]
+		[xnl_ProjectKB_Instance_333]))
+
+([xnl_ProjectKB_Instance_296] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [xnl_ProjectKB_Instance_297])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_297] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_298]))
+
+([xnl_ProjectKB_Instance_298] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_299] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[xnl_ProjectKB_Instance_300]
+		[xnl_ProjectKB_Instance_301]))
 
 ([xnl_ProjectKB_Instance_3] of  Widget
 
@@ -7590,14 +8548,198 @@
 ([xnl_ProjectKB_Instance_30] of  Property_List
 )
 
+([xnl_ProjectKB_Instance_300] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([xnl_ProjectKB_Instance_301] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([xnl_ProjectKB_Instance_302] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [xnl_ProjectKB_Instance_303])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_303] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_304]))
+
+([xnl_ProjectKB_Instance_304] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_305] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [xnl_ProjectKB_Instance_306]))
+
+([xnl_ProjectKB_Instance_306] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_307] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [xnl_ProjectKB_Instance_308]))
+
+([xnl_ProjectKB_Instance_308] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_309] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [xnl_ProjectKB_Instance_310]))
+
 ([xnl_ProjectKB_Instance_31] of  Widget
 
 	(is_hidden TRUE)
 	(property_list [xnl_ProjectKB_Instance_32])
 	(widget_class_name "edu.stanford.smi.protegex.chatPlugin.ChatTab"))
 
+([xnl_ProjectKB_Instance_310] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_311] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [xnl_ProjectKB_Instance_312]))
+
+([xnl_ProjectKB_Instance_312] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_313] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [xnl_ProjectKB_Instance_314]))
+
+([xnl_ProjectKB_Instance_314] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_315] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasChildNode")
+	(property_list [xnl_ProjectKB_Instance_316])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 400)
+	(y 180))
+
+([xnl_ProjectKB_Instance_316] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_317] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasParameterValue")
+	(property_list [xnl_ProjectKB_Instance_318])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 300))
+
+([xnl_ProjectKB_Instance_318] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_319] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasAttributeNode")
+	(property_list [xnl_ProjectKB_Instance_320])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 300))
+
 ([xnl_ProjectKB_Instance_32] of  Property_List
 )
+
+([xnl_ProjectKB_Instance_320] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_321] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasName")
+	(property_list [xnl_ProjectKB_Instance_322])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([xnl_ProjectKB_Instance_322] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_323] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasPrecedenceNode")
+	(property_list [xnl_ProjectKB_Instance_324])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 360))
+
+([xnl_ProjectKB_Instance_324] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_325] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:element_hasAttributeRestriction")
+	(property_list [xnl_ProjectKB_Instance_326])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 180))
+
+([xnl_ProjectKB_Instance_326] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_327] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:propertyBeanParameter_isParameter")
+	(property_list [xnl_ProjectKB_Instance_328])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 420))
+
+([xnl_ProjectKB_Instance_328] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_329] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parserParameterNode_isReference")
+	(property_list [xnl_ProjectKB_Instance_330])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 240))
 
 ([xnl_ProjectKB_Instance_33] of  Widget
 
@@ -7605,32 +8747,130 @@
 	(property_list [xnl_ProjectKB_Instance_34])
 	(widget_class_name "edu.stanford.smi.protege.keywordsearch.StringSearch"))
 
-([xnl_ProjectKB_Instance_333] of  String
+([xnl_ProjectKB_Instance_330] of  Property_List
+)
 
-	(name "owl:Thing")
-	(string_value "%3ANAME"))
+([xnl_ProjectKB_Instance_331] of  Widget
 
-([xnl_ProjectKB_Instance_334] of  String
+	(height 180)
+	(is_hidden FALSE)
+	(name "basic:parserParameterNode_isReferenceTo")
+	(property_list [xnl_ProjectKB_Instance_332])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 400)
+	(y 300))
 
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
+([xnl_ProjectKB_Instance_332] of  Property_List
+)
 
-([xnl_ProjectKB_Instance_335] of  String
+([xnl_ProjectKB_Instance_333] of  Widget
 
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasName")
+	(property_list [xnl_ProjectKB_Instance_334])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 480))
 
-([xnl_ProjectKB_Instance_336] of  String
+([xnl_ProjectKB_Instance_334] of  Property_List
+)
 
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
+([xnl_ProjectKB_Instance_335] of  Widget
 
-([xnl_ProjectKB_Instance_337] of  String
+	(is_hidden FALSE)
+	(name "basic:VertexElement")
+	(property_list [xnl_ProjectKB_Instance_338])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
 
-	(name "owl:Class")
-	(string_value "%3ANAME"))
+([xnl_ProjectKB_Instance_338] of  Property_List
+
+	(properties
+		[xnl_ProjectKB_Instance_339]
+		[xnl_ProjectKB_Instance_342]
+		[xnl_ProjectKB_Instance_345]
+		[xnl_ProjectKB_Instance_348]
+		[xnl_ProjectKB_Instance_350]
+		[xnl_ProjectKB_Instance_352]
+		[xnl_ProjectKB_Instance_354]
+		[xnl_ProjectKB_Instance_356]
+		[xnl_ProjectKB_Instance_358]
+		[xnl_ProjectKB_Instance_360]
+		[xnl_ProjectKB_Instance_362]
+		[xnl_ProjectKB_Instance_364]
+		[xnl_ProjectKB_Instance_366]
+		[xnl_ProjectKB_Instance_368]
+		[xnl_ProjectKB_Instance_370]))
+
+([xnl_ProjectKB_Instance_339] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [xnl_ProjectKB_Instance_340])
+	(width 0)
+	(x 0)
+	(y 0))
 
 ([xnl_ProjectKB_Instance_34] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_340] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_341]))
+
+([xnl_ProjectKB_Instance_341] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_342] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[xnl_ProjectKB_Instance_343]
+		[xnl_ProjectKB_Instance_344]))
+
+([xnl_ProjectKB_Instance_343] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([xnl_ProjectKB_Instance_344] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([xnl_ProjectKB_Instance_345] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [xnl_ProjectKB_Instance_346])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_346] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_347]))
+
+([xnl_ProjectKB_Instance_347] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_348] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [xnl_ProjectKB_Instance_349]))
+
+([xnl_ProjectKB_Instance_349] of  Property_List
 )
 
 ([xnl_ProjectKB_Instance_35] of  Widget
@@ -7639,7 +8879,127 @@
 	(property_list [xnl_ProjectKB_Instance_36])
 	(widget_class_name "script.ProtegeScriptTab"))
 
+([xnl_ProjectKB_Instance_350] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [xnl_ProjectKB_Instance_351]))
+
+([xnl_ProjectKB_Instance_351] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_352] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [xnl_ProjectKB_Instance_353]))
+
+([xnl_ProjectKB_Instance_353] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_354] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [xnl_ProjectKB_Instance_355]))
+
+([xnl_ProjectKB_Instance_355] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_356] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [xnl_ProjectKB_Instance_357]))
+
+([xnl_ProjectKB_Instance_357] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_358] of  Widget
+
+	(height 240)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasChildNode")
+	(property_list [xnl_ProjectKB_Instance_359])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 400)
+	(y 180))
+
+([xnl_ProjectKB_Instance_359] of  Property_List
+)
+
 ([xnl_ProjectKB_Instance_36] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_360] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasParameterValue")
+	(property_list [xnl_ProjectKB_Instance_361])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([xnl_ProjectKB_Instance_361] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_362] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasAttributeNode")
+	(property_list [xnl_ProjectKB_Instance_363])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 300))
+
+([xnl_ProjectKB_Instance_363] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_364] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:element_hasName")
+	(property_list [xnl_ProjectKB_Instance_365])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([xnl_ProjectKB_Instance_365] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_366] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasPrecedenceNode")
+	(property_list [xnl_ProjectKB_Instance_367])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 300))
+
+([xnl_ProjectKB_Instance_367] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_368] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:element_hasAttributeRestriction")
+	(property_list [xnl_ProjectKB_Instance_369])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 180))
+
+([xnl_ProjectKB_Instance_369] of  Property_List
 )
 
 ([xnl_ProjectKB_Instance_37] of  Widget
@@ -7648,8 +9008,126 @@
 	(property_list [xnl_ProjectKB_Instance_38])
 	(widget_class_name "edu.stanford.smi.protegex.changes.ChangesTab"))
 
+([xnl_ProjectKB_Instance_370] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserNode_hasName")
+	(property_list [xnl_ProjectKB_Instance_371])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 420))
+
+([xnl_ProjectKB_Instance_371] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_372] of  Widget
+
+	(is_hidden FALSE)
+	(name "basic:ParameterValue")
+	(property_list [xnl_ProjectKB_Instance_375])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([xnl_ProjectKB_Instance_375] of  Property_List
+
+	(properties
+		[xnl_ProjectKB_Instance_376]
+		[xnl_ProjectKB_Instance_379]
+		[xnl_ProjectKB_Instance_382]
+		[xnl_ProjectKB_Instance_385]
+		[xnl_ProjectKB_Instance_387]
+		[xnl_ProjectKB_Instance_389]
+		[xnl_ProjectKB_Instance_391]
+		[xnl_ProjectKB_Instance_393]
+		[xnl_ProjectKB_Instance_395]
+		[xnl_ProjectKB_Instance_397]
+		[xnl_ProjectKB_Instance_399]
+		[xnl_ProjectKB_Instance_401]))
+
+([xnl_ProjectKB_Instance_376] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [xnl_ProjectKB_Instance_377])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_377] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_378]))
+
+([xnl_ProjectKB_Instance_378] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_379] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[xnl_ProjectKB_Instance_380]
+		[xnl_ProjectKB_Instance_381]))
+
 ([xnl_ProjectKB_Instance_38] of  Property_List
 )
+
+([xnl_ProjectKB_Instance_380] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([xnl_ProjectKB_Instance_381] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([xnl_ProjectKB_Instance_382] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [xnl_ProjectKB_Instance_383])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_383] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_384]))
+
+([xnl_ProjectKB_Instance_384] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_385] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [xnl_ProjectKB_Instance_386]))
+
+([xnl_ProjectKB_Instance_386] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_387] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [xnl_ProjectKB_Instance_388]))
+
+([xnl_ProjectKB_Instance_388] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_389] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [xnl_ProjectKB_Instance_390]))
 
 ([xnl_ProjectKB_Instance_39] of  Widget
 
@@ -7657,10 +9135,87 @@
 	(property_list [xnl_ProjectKB_Instance_40])
 	(widget_class_name "edu.stanford.smi.protegex.fctab.FacetConstraintsTab"))
 
+([xnl_ProjectKB_Instance_390] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_391] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [xnl_ProjectKB_Instance_392]))
+
+([xnl_ProjectKB_Instance_392] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_393] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [xnl_ProjectKB_Instance_394]))
+
+([xnl_ProjectKB_Instance_394] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_395] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parameterValue_hasValue")
+	(property_list [xnl_ProjectKB_Instance_396])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([xnl_ProjectKB_Instance_396] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_397] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:parameterValue_ofParameter")
+	(property_list [xnl_ProjectKB_Instance_398])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([xnl_ProjectKB_Instance_398] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_399] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:constantParameter_hasValue")
+	(property_list [xnl_ProjectKB_Instance_400])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 300))
+
 ([xnl_ProjectKB_Instance_4] of  Property_List
 )
 
 ([xnl_ProjectKB_Instance_40] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_400] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_401] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:parserFixedParameter_hasValue")
+	(property_list [xnl_ProjectKB_Instance_402])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 420))
+
+([xnl_ProjectKB_Instance_402] of  Property_List
 )
 
 ([xnl_ProjectKB_Instance_41] of  Widget
@@ -7687,8 +9242,103 @@
 	(property_list [xnl_ProjectKB_Instance_46])
 	(widget_class_name "dfki.protege.ontoviz_tab.OntovizTab"))
 
+([xnl_ProjectKB_Instance_454] of  Widget
+
+	(is_hidden FALSE)
+	(name "basic:GraphType")
+	(property_list [xnl_ProjectKB_Instance_457])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([xnl_ProjectKB_Instance_457] of  Property_List
+
+	(properties
+		[xnl_ProjectKB_Instance_458]
+		[xnl_ProjectKB_Instance_461]
+		[xnl_ProjectKB_Instance_464]
+		[xnl_ProjectKB_Instance_467]
+		[xnl_ProjectKB_Instance_469]
+		[xnl_ProjectKB_Instance_471]
+		[xnl_ProjectKB_Instance_473]
+		[xnl_ProjectKB_Instance_475]
+		[xnl_ProjectKB_Instance_477]
+		[xnl_ProjectKB_Instance_479]
+		[xnl_ProjectKB_Instance_481]
+		[xnl_ProjectKB_Instance_543]))
+
+([xnl_ProjectKB_Instance_458] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [xnl_ProjectKB_Instance_459])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_459] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_460]))
+
 ([xnl_ProjectKB_Instance_46] of  Property_List
 )
+
+([xnl_ProjectKB_Instance_460] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_461] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[xnl_ProjectKB_Instance_462]
+		[xnl_ProjectKB_Instance_463]))
+
+([xnl_ProjectKB_Instance_462] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([xnl_ProjectKB_Instance_463] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([xnl_ProjectKB_Instance_464] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [xnl_ProjectKB_Instance_465])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_465] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_466]))
+
+([xnl_ProjectKB_Instance_466] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_467] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [xnl_ProjectKB_Instance_468]))
+
+([xnl_ProjectKB_Instance_468] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_469] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [xnl_ProjectKB_Instance_470]))
 
 ([xnl_ProjectKB_Instance_47] of  Widget
 
@@ -7696,14 +9346,184 @@
 	(property_list [xnl_ProjectKB_Instance_48])
 	(widget_class_name "edu.stanford.smi.protegex.changes.stats.ChangeStatisticsTab"))
 
+([xnl_ProjectKB_Instance_470] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_471] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [xnl_ProjectKB_Instance_472]))
+
+([xnl_ProjectKB_Instance_472] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_473] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [xnl_ProjectKB_Instance_474]))
+
+([xnl_ProjectKB_Instance_474] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_475] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [xnl_ProjectKB_Instance_476]))
+
+([xnl_ProjectKB_Instance_476] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_477] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:type_hasName")
+	(property_list [xnl_ProjectKB_Instance_478])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([xnl_ProjectKB_Instance_478] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_479] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "basic:type_hasParameters")
+	(property_list [xnl_ProjectKB_Instance_480])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 180))
+
 ([xnl_ProjectKB_Instance_48] of  Property_List
 )
+
+([xnl_ProjectKB_Instance_480] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_481] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:type_hasFigureAttributes")
+	(property_list [xnl_ProjectKB_Instance_482])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([xnl_ProjectKB_Instance_482] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_483] of  Widget
+
+	(is_hidden FALSE)
+	(name "basic:EdgeType")
+	(property_list [xnl_ProjectKB_Instance_486])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([xnl_ProjectKB_Instance_486] of  Property_List
+
+	(properties
+		[xnl_ProjectKB_Instance_487]
+		[xnl_ProjectKB_Instance_490]
+		[xnl_ProjectKB_Instance_493]
+		[xnl_ProjectKB_Instance_496]
+		[xnl_ProjectKB_Instance_498]
+		[xnl_ProjectKB_Instance_500]
+		[xnl_ProjectKB_Instance_502]
+		[xnl_ProjectKB_Instance_504]
+		[xnl_ProjectKB_Instance_506]
+		[xnl_ProjectKB_Instance_508]
+		[xnl_ProjectKB_Instance_510]
+		[xnl_ProjectKB_Instance_550]))
+
+([xnl_ProjectKB_Instance_487] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [xnl_ProjectKB_Instance_488])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_488] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_489]))
+
+([xnl_ProjectKB_Instance_489] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
 
 ([xnl_ProjectKB_Instance_49] of  Widget
 
 	(is_hidden TRUE)
 	(property_list [xnl_ProjectKB_Instance_50])
 	(widget_class_name "edu.stanford.smi.protegex.prompt.PromptTab"))
+
+([xnl_ProjectKB_Instance_490] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[xnl_ProjectKB_Instance_491]
+		[xnl_ProjectKB_Instance_492]))
+
+([xnl_ProjectKB_Instance_491] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([xnl_ProjectKB_Instance_492] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([xnl_ProjectKB_Instance_493] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [xnl_ProjectKB_Instance_494])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_494] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_495]))
+
+([xnl_ProjectKB_Instance_495] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_496] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [xnl_ProjectKB_Instance_497]))
+
+([xnl_ProjectKB_Instance_497] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_498] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [xnl_ProjectKB_Instance_499]))
+
+([xnl_ProjectKB_Instance_499] of  Property_List
+)
 
 ([xnl_ProjectKB_Instance_5] of  Widget
 
@@ -7713,6 +9533,309 @@
 
 ([xnl_ProjectKB_Instance_50] of  Property_List
 )
+
+([xnl_ProjectKB_Instance_500] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [xnl_ProjectKB_Instance_501]))
+
+([xnl_ProjectKB_Instance_501] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_502] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [xnl_ProjectKB_Instance_503]))
+
+([xnl_ProjectKB_Instance_503] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_504] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [xnl_ProjectKB_Instance_505]))
+
+([xnl_ProjectKB_Instance_505] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_506] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:type_hasName")
+	(property_list [xnl_ProjectKB_Instance_507])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([xnl_ProjectKB_Instance_507] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_508] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "basic:type_hasParameters")
+	(property_list [xnl_ProjectKB_Instance_509])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 180))
+
+([xnl_ProjectKB_Instance_509] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_510] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:type_hasFigureAttributes")
+	(property_list [xnl_ProjectKB_Instance_511])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([xnl_ProjectKB_Instance_511] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_512] of  Widget
+
+	(is_hidden FALSE)
+	(name "basic:VertexType")
+	(property_list [xnl_ProjectKB_Instance_515])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([xnl_ProjectKB_Instance_515] of  Property_List
+
+	(properties
+		[xnl_ProjectKB_Instance_516]
+		[xnl_ProjectKB_Instance_519]
+		[xnl_ProjectKB_Instance_522]
+		[xnl_ProjectKB_Instance_525]
+		[xnl_ProjectKB_Instance_527]
+		[xnl_ProjectKB_Instance_529]
+		[xnl_ProjectKB_Instance_531]
+		[xnl_ProjectKB_Instance_533]
+		[xnl_ProjectKB_Instance_535]
+		[xnl_ProjectKB_Instance_537]
+		[xnl_ProjectKB_Instance_539]
+		[xnl_ProjectKB_Instance_541]))
+
+([xnl_ProjectKB_Instance_516] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [xnl_ProjectKB_Instance_517])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_517] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_518]))
+
+([xnl_ProjectKB_Instance_518] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_519] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[xnl_ProjectKB_Instance_520]
+		[xnl_ProjectKB_Instance_521]))
+
+([xnl_ProjectKB_Instance_520] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([xnl_ProjectKB_Instance_521] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([xnl_ProjectKB_Instance_522] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [xnl_ProjectKB_Instance_523])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_523] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_524]))
+
+([xnl_ProjectKB_Instance_524] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_525] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [xnl_ProjectKB_Instance_526]))
+
+([xnl_ProjectKB_Instance_526] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_527] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [xnl_ProjectKB_Instance_528]))
+
+([xnl_ProjectKB_Instance_528] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_529] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [xnl_ProjectKB_Instance_530]))
+
+([xnl_ProjectKB_Instance_530] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_531] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [xnl_ProjectKB_Instance_532]))
+
+([xnl_ProjectKB_Instance_532] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_533] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:label")
+	(property_list [xnl_ProjectKB_Instance_534]))
+
+([xnl_ProjectKB_Instance_534] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_535] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "basic:type_hasName")
+	(property_list [xnl_ProjectKB_Instance_536])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([xnl_ProjectKB_Instance_536] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_537] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "basic:type_hasParameters")
+	(property_list [xnl_ProjectKB_Instance_538])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 200)
+	(y 180))
+
+([xnl_ProjectKB_Instance_538] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_539] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:type_hasFigureAttributes")
+	(property_list [xnl_ProjectKB_Instance_540])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([xnl_ProjectKB_Instance_540] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_541] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:type_hasStringRepresentation")
+	(property_list [xnl_ProjectKB_Instance_542])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 360))
+
+([xnl_ProjectKB_Instance_542] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_543] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:type_hasStringRepresentation")
+	(property_list [xnl_ProjectKB_Instance_544])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 360))
+
+([xnl_ProjectKB_Instance_544] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_550] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "basic:type_hasStringRepresentation")
+	(property_list [xnl_ProjectKB_Instance_551])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 360))
+
+([xnl_ProjectKB_Instance_551] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_552] of  String
+
+	(name "owl:Thing")
+	(string_value "%3ANAME"))
+
+([xnl_ProjectKB_Instance_553] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([xnl_ProjectKB_Instance_554] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([xnl_ProjectKB_Instance_555] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([xnl_ProjectKB_Instance_556] of  String
+
+	(name "owl:Class")
+	(string_value "%3ANAME"))
 
 ([xnl_ProjectKB_Instance_6] of  Property_List
 )
@@ -7726,11 +9849,128 @@
 ([xnl_ProjectKB_Instance_8] of  Property_List
 )
 
+([xnl_ProjectKB_Instance_80] of  Widget
+
+	(is_hidden FALSE)
+	(name "basic:DocumentElement")
+	(property_list [xnl_ProjectKB_Instance_83])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([xnl_ProjectKB_Instance_83] of  Property_List
+
+	(properties
+		[xnl_ProjectKB_Instance_84]
+		[xnl_ProjectKB_Instance_87]
+		[xnl_ProjectKB_Instance_90]
+		[xnl_ProjectKB_Instance_93]
+		[xnl_ProjectKB_Instance_95]
+		[xnl_ProjectKB_Instance_97]
+		[xnl_ProjectKB_Instance_99]
+		[xnl_ProjectKB_Instance_101]
+		[xnl_ProjectKB_Instance_103]
+		[xnl_ProjectKB_Instance_105]
+		[xnl_ProjectKB_Instance_107]
+		[xnl_ProjectKB_Instance_109]
+		[xnl_ProjectKB_Instance_111]
+		[xnl_ProjectKB_Instance_113]
+		[xnl_ProjectKB_Instance_238]
+		[xnl_ProjectKB_Instance_240]))
+
+([xnl_ProjectKB_Instance_84] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [xnl_ProjectKB_Instance_85])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_85] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_86]))
+
+([xnl_ProjectKB_Instance_86] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_87] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[xnl_ProjectKB_Instance_88]
+		[xnl_ProjectKB_Instance_89]))
+
+([xnl_ProjectKB_Instance_88] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([xnl_ProjectKB_Instance_89] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
 ([xnl_ProjectKB_Instance_9] of  Widget
 
 	(is_hidden TRUE)
 	(property_list [xnl_ProjectKB_Instance_10])
 	(widget_class_name "ca.uvic.csr.shrimp.jambalaya.JambalayaTab"))
+
+([xnl_ProjectKB_Instance_90] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "protege:inferredType")
+	(property_list [xnl_ProjectKB_Instance_91])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([xnl_ProjectKB_Instance_91] of  Property_List
+
+	(properties [xnl_ProjectKB_Instance_92]))
+
+([xnl_ProjectKB_Instance_92] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([xnl_ProjectKB_Instance_93] of  Widget
+
+	(is_hidden FALSE)
+	(name "owl:versionInfo")
+	(property_list [xnl_ProjectKB_Instance_94]))
+
+([xnl_ProjectKB_Instance_94] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_95] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:isDefinedBy")
+	(property_list [xnl_ProjectKB_Instance_96]))
+
+([xnl_ProjectKB_Instance_96] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_97] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:comment")
+	(property_list [xnl_ProjectKB_Instance_98]))
+
+([xnl_ProjectKB_Instance_98] of  Property_List
+)
+
+([xnl_ProjectKB_Instance_99] of  Widget
+
+	(is_hidden FALSE)
+	(name "rdfs:seeAlso")
+	(property_list [xnl_ProjectKB_Instance_100]))
 
 ([XY_Instance_0] of  Property_List
 

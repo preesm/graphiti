@@ -1,4 +1,4 @@
-; Thu Jul 10 14:47:54 CEST 2008
+; Fri Jul 11 18:34:36 CEST 2008
 ; 
 ;+ (version "3.3.1")
 ;+ (build "Build 430")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[xdf_ProjectKB_Instance_51]
-		[xdf_ProjectKB_Instance_52]
-		[xdf_ProjectKB_Instance_53]
-		[xdf_ProjectKB_Instance_54]
-		[xdf_ProjectKB_Instance_55]))
+		[xdf_ProjectKB_Instance_380]
+		[xdf_ProjectKB_Instance_381]
+		[xdf_ProjectKB_Instance_382]
+		[xdf_ProjectKB_Instance_383]
+		[xdf_ProjectKB_Instance_384]))
 
 ([CLSES_TAB] of  Widget
 
@@ -3253,6 +3253,11 @@
 	(property_list [XY_Instance_195])
 	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
 
+([KB_812434_Instance_0] of  String
+
+	(name "owl_file_name")
+	(string_value "xdf.owl"))
+
 ([KB_865583_Instance_0] of  Widget
 
 	(is_hidden TRUE)
@@ -3601,11 +3606,6 @@
 
 	(boolean_value FALSE)
 	(name "ButtonDisplayed-Delete Instance"))
-
-([KB_889863_Instance_0] of  String
-
-	(name "owl_file_name")
-	(string_value "xdf.owl"))
 
 ([KB_933314_Instance_0] of  Widget
 
@@ -7462,7 +7462,7 @@
 		[OWL_ProjectKB_Instance_3]
 		[KB_444675_Instance_0]
 		[KB_632156_Instance_0]
-		[KB_889863_Instance_0]))
+		[KB_812434_Instance_0]))
 
 ([STANDARD_CLASS_FORM_WIDGET] of  Widget
 
@@ -7626,6 +7626,31 @@
 ([xdf_ProjectKB_Instance_38] of  Property_List
 )
 
+([xdf_ProjectKB_Instance_380] of  String
+
+	(name "owl:Thing")
+	(string_value "%3ANAME"))
+
+([xdf_ProjectKB_Instance_381] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([xdf_ProjectKB_Instance_382] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([xdf_ProjectKB_Instance_383] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([xdf_ProjectKB_Instance_384] of  String
+
+	(name "owl:Class")
+	(string_value "%3ANAME"))
+
 ([xdf_ProjectKB_Instance_39] of  Widget
 
 	(is_hidden TRUE)
@@ -7688,31 +7713,6 @@
 
 ([xdf_ProjectKB_Instance_50] of  Property_List
 )
-
-([xdf_ProjectKB_Instance_51] of  String
-
-	(name "owl:Thing")
-	(string_value "%3ANAME"))
-
-([xdf_ProjectKB_Instance_52] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([xdf_ProjectKB_Instance_53] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([xdf_ProjectKB_Instance_54] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([xdf_ProjectKB_Instance_55] of  String
-
-	(name "owl:Class")
-	(string_value "%3ANAME"))
 
 ([xdf_ProjectKB_Instance_6] of  Property_List
 )
