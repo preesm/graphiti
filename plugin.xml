@@ -6,8 +6,8 @@
          point="org.eclipse.ui.editors">
       <editor
             name="Graphiti graph editor"
-            extensions="graph, xml, xdf,xnl"
-            icon="icons/sample.gif"
+            extensions="xml, xdf, xnl"
+            icon="icons/graphiti.gif"
             contributorClass="net.sf.graphiti.ui.editors.GraphActionBarContributor"
             class="net.sf.graphiti.ui.editors.GraphEditor"
             id="net.sf.graphiti.ui.editors.GraphEditor">
@@ -26,14 +26,14 @@
             class="net.sf.graphiti.ui.Startup"></startup>
    </extension>
    <extension
-         point="org.eclipse.core.runtime.adapters">
-      <factory
-            adaptableType="net.sf.graphiti.model.PropertyBean"
-            class="net.sf.graphiti.ui.adapters.GraphitiAdapterFactory">
-         <adapter
-               type="net.sf.graphiti.ui.propertysource.PropertyBeanPropertySource">
-         </adapter>
-      </factory>
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="net.sf.graphiti.ui.perspectives.GraphitiPerspectiveFactory"
+            fixed="false"
+            icon="icons/graphiti.gif"
+            id="net.sf.graphiti.ui.perspective"
+            name="Graphiti">
+      </perspective>
    </extension>
 
 </plugin>

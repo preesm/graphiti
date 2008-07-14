@@ -30,9 +30,6 @@ package net.sf.graphiti.model;
 
 import java.util.List;
 
-import net.sf.graphiti.ui.propertysource.PropertyBeanPropertySource;
-
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
@@ -41,7 +38,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
  * @author Matthieu Wipliez
  * 
  */
-public class Vertex extends DOMNode implements Cloneable, IAdaptable {
+public class Vertex extends DOMNode implements Cloneable {
 
 	/**
 	 * String for the "color" attribute. Defines the vertex color.
@@ -140,16 +137,18 @@ public class Vertex extends DOMNode implements Cloneable, IAdaptable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public Object getAdapter(Class adapter) {
-		if (adapter == IPropertySource.class) {
-			if (propertySource == null)
-				propertySource = new PropertyBeanPropertySource(this);
-			return propertySource;
-		}
-		return null;
-	}
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public Object getAdapter(Class adapter) {
+//		if (adapter == IPropertySource.class) {
+//			if (propertySource == null) {
+//				propertySource = new PropertyBeanPropertySource(this);
+//			}
+//			return propertySource;
+//		} else {
+//			return null;
+//		}
+//	}
 
 	/**
 	 * Returns the value of an attribute associated with this vertex type and

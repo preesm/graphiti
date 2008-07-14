@@ -36,7 +36,6 @@ import java.util.Set;
 
 import net.sf.graphiti.model.DocumentConfiguration;
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.editpolicies.DeleteComponentEditPolicy;
 import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
@@ -216,25 +215,17 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(PropertyBean.PROPERTY_ADD)) {
-			refresh();
-		} else if (evt.getPropertyName().equals(PropertyBean.PROPERTY_REMOVE)) {
-			refresh();
-		} else if (evt.getPropertyName().equals(Vertex.PROPERTY_DST_VERTEX)) {
-			refresh();
-		} else if (evt.getPropertyName().equals(Vertex.PROPERTY_SRC_VERTEX)) {
-			refresh();
+		if (evt.getPropertyName().equals(Vertex.PARAMETER_ID)) {
+			VertexFigure figure = (VertexFigure) getFigure();
+			figure.setName((String) evt.getNewValue());
+			// refresh();
 		} else if (evt.getPropertyName().equals(Vertex.PARAMETER_SIZE)) {
 			VertexFigure vertexFigure = (VertexFigure) getFigure();
 			vertexFigure.setBounds((Rectangle) evt.getNewValue());
 			refresh();
+		} else {
+			refresh();
 		}
-
-		// PROPERTY_CONNECTION_ROUTER
-		// PROPERTY_REFERENCE
-		// PROPERTY_RENAME
-		// PROPERTY_NB_REPEAT
-		// PROPERTY_ADD_CST_GROUP
 	}
 
 	@Override
