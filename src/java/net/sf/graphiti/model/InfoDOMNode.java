@@ -26,22 +26,19 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.parameters.edges.impl;
-
-import net.sf.graphiti.ontology.elements.impl.ParserParameterNodeImpl;
-import net.sf.graphiti.ontology.elements.parameters.edges.EdgeParameterNode;
-
-import com.hp.hpl.jena.ontology.Individual;
+package net.sf.graphiti.model;
 
 /**
- * @author mwipliez
+ * Would a little documentation kill this class author?
  * 
+ * @author Jonathan Piat
+ *
  */
-public class EdgeParameterNodeImpl extends ParserParameterNodeImpl implements
-		EdgeParameterNode {
+public class InfoDOMNode extends DOMNode {
 
-	public EdgeParameterNodeImpl(Individual individual) {
-		super(individual);
-	}
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -37529046595717470L;
 
 }

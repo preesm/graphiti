@@ -26,9 +26,10 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.parameters.impl;
+package net.sf.graphiti.ontology.domAttributes.parameters.edges.impl;
 
-import net.sf.graphiti.ontology.elements.parameters.DefaultParameter;
+import net.sf.graphiti.ontology.domAttributes.impl.DOMAttributeImpl;
+import net.sf.graphiti.ontology.domAttributes.parameters.edges.EdgeSourceConnection;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -36,14 +37,11 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author mwipliez
  * 
  */
-public class DefaultParameterImpl extends PropertyBeanParameterImpl implements
-		DefaultParameter {
+public class EdgeSourceConnectionImpl extends DOMAttributeImpl implements
+		EdgeSourceConnection {
 
-	public DefaultParameterImpl(Individual individual) {
+	public EdgeSourceConnectionImpl(Individual individual) {
 		super(individual);
 	}
 
-	public String toString() {
-		return super.toString() + " | DefaultParameter";
-	}
 }

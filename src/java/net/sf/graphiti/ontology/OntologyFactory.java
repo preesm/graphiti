@@ -101,6 +101,10 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#DocumentElement";
 	}
 
+	public static String getClassDOMAttribute() {
+		return "http://net.sf.graphiti/basics.owl#DOMAttribute";
+	}
+
 	public static String getClassEdgeConnection() {
 		return "http://net.sf.graphiti/basics.owl#EdgeConnection";
 	}
@@ -153,16 +157,16 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#IdParameter";
 	}
 
+	public static String getClassInfoElement() {
+		return "http://net.sf.graphiti/basics.owl#InfoElement";
+	}
+
 	public static String getClassParameter() {
 		return "http://net.sf.graphiti/basics.owl#Parameter";
 	}
 
 	public static String getClassParameterValue() {
 		return "http://net.sf.graphiti/basics.owl#ParameterValue";
-	}
-
-	public static String getClassParserParameterNode() {
-		return "http://net.sf.graphiti/basics.owl#ParserParameterNode";
 	}
 
 	public static String getClassPosition() {
@@ -217,8 +221,28 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#colorAttribute_hasColor";
 	}
 
+	public static String getPropertyDOMAttributeHasName() {
+		return "http://net.sf.graphiti/basics.owl#attribute_hasName";
+	}
+
+	public static String getPropertyDOMAttributeIsReference() {
+		return "http://net.sf.graphiti/basics.owl#attribute_isReference";
+	}
+
+	public static String getPropertyDOMAttributeIsReferenceTo() {
+		return "http://net.sf.graphiti/basics.owl#attribute_isReferenceTo";
+	}
+
 	public static String getPropertyElementHasAttributeRestriction() {
 		return "http://net.sf.graphiti/basics.owl#element_hasAttributeRestriction";
+	}
+
+	public static String getPropertyElementHasAttributes() {
+		return "http://net.sf.graphiti/basics.owl#element_hasAttributes";
+	}
+
+	public static String getPropertyElementHasElementChildren() {
+		return "http://net.sf.graphiti/basics.owl#element_hasElementChildren";
 	}
 
 	public static String getPropertyElementHasName() {
@@ -229,12 +253,20 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#element_hasParameterValue";
 	}
 
+	public static String getPropertyElementHasPrecedenceElement() {
+		return "http://net.sf.graphiti/basics.owl#element_hasPrecedenceElement";
+	}
+
 	public static String getPropertyFigureAttributeAppliesTo() {
 		return "http://net.sf.graphiti/basics.owl#figureAttribute_appliesTo";
 	}
 
 	public static String getPropertyFigureAttributeHasType() {
 		return "http://net.sf.graphiti/basics.owl#figureAttribute_hasType";
+	}
+
+	public static String getPropertyInfoElementReferencesParameter() {
+		return "http://net.sf.graphiti/basics.owl#infoElement_referencesParameter";
 	}
 
 	public static String getPropertyParameterAppliesTo() {
@@ -259,38 +291,6 @@ public class OntologyFactory {
 
 	public static String getPropertyParameterValueOfParameter() {
 		return "http://net.sf.graphiti/basics.owl#parameterValue_ofParameter";
-	}
-
-	public static String getPropertyParserNodeHasAttributeNode() {
-		return "http://net.sf.graphiti/basics.owl#parserNode_hasAttributeNode";
-	}
-
-	public static String getPropertyParserNodeHasChildNode() {
-		return "http://net.sf.graphiti/basics.owl#parserNode_hasChildNode";
-	}
-
-	public static String getPropertyParserNodeHasIdParameterNode() {
-		return "http://net.sf.graphiti/basics.owl#parserNode_hasIdParameterNode";
-	}
-
-	public static String getPropertyParserNodeHasPrecedenceNode() {
-		return "http://net.sf.graphiti/basics.owl#parserNode_hasPrecedenceNode";
-	}
-
-	public static String getPropertyParserParameterNodeHasValueType() {
-		return "http://net.sf.graphiti/basics.owl#parserNode_hasValueType";
-	}
-
-	public static String getPropertyParserParameterNodeIsReference() {
-		return "http://net.sf.graphiti/basics.owl#parserParameterNode_isReference";
-	}
-
-	public static String getPropertyParserParameterNodeIsReferenceTo() {
-		return "http://net.sf.graphiti/basics.owl#parserParameterNode_isReferenceTo";
-	}
-
-	public static String getPropertyParserParameterNodeReferencesIn() {
-		return "http://net.sf.graphiti/basics.owl#parserParameterNode_referencesIn";
 	}
 
 	public static String getPropertyPropertyBeanParameterHasParameter() {

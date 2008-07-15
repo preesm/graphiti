@@ -26,7 +26,7 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.parameters.edges;
+package net.sf.graphiti.ontology.domAttributes.parameters.edges;
 
 /**
  * This class provides an edge source connection.

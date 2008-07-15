@@ -26,35 +26,14 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.parameters.impl;
-
-import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.elements.impl.ParserParameterNodeImpl;
-import net.sf.graphiti.ontology.elements.parameters.PropertyBeanParameter;
-import net.sf.graphiti.ontology.parameters.Parameter;
-
-import com.hp.hpl.jena.ontology.Individual;
+package net.sf.graphiti.ontology.domAttributes.parameters;
 
 /**
- * @author mwipliez
+ * This class provides an id parameter.
+ * 
+ * @author Jonathan Piat
+ * @author Matthieu Wipliez
  * 
  */
-public class PropertyBeanParameterImpl extends ParserParameterNodeImpl
-		implements PropertyBeanParameter {
-
-	public PropertyBeanParameterImpl(Individual individual) {
-		super(individual);
-	}
-
-	@Override
-	public Parameter hasParameter() {
-		return (Parameter) getIndividualProperty(OntologyFactory
-				.getPropertyPropertyBeanParameterHasParameter());
-	}
-
-	public String toString() {
-		return super.toString() + " | PropertyBeanParameter: hasParameter: "
-				+ hasParameter().hasName();
-	}
-
+public interface IdParameter extends PropertyBeanParameter {
 }

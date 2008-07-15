@@ -28,12 +28,19 @@
  */
 package net.sf.graphiti.model;
 
+/**
+ * Would a little documentation kill this class author?
+ * 
+ * @author Jonathan Piat
+ *
+ */
 public class SkipDOMNode extends DOMNode {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -37529046595717470L;
+	
 	private DOMNode trueNode;
 
 	public SkipDOMNode(DOMNode trueNode) {

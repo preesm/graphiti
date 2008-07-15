@@ -26,10 +26,9 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.parameters.edges.impl;
+package net.sf.graphiti.ontology.domAttributes.parameters.impl;
 
-import net.sf.graphiti.ontology.elements.impl.ParserParameterNodeImpl;
-import net.sf.graphiti.ontology.elements.parameters.edges.EdgeConnection;
+import net.sf.graphiti.ontology.domAttributes.parameters.IdParameter;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -37,11 +36,14 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author mwipliez
  * 
  */
-public class EdgeConnectionImpl extends ParserParameterNodeImpl implements
-		EdgeConnection {
+public class IdParameterImpl extends PropertyBeanParameterImpl implements
+		IdParameter {
 
-	public EdgeConnectionImpl(Individual individual) {
+	public IdParameterImpl(Individual individual) {
 		super(individual);
 	}
 
+	public String toString() {
+		return super.toString() + " | IdParameter";
+	}
 }

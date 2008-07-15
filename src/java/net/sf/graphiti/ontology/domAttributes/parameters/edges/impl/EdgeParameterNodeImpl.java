@@ -26,14 +26,22 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.parameters.edges;
+package net.sf.graphiti.ontology.domAttributes.parameters.edges.impl;
+
+import net.sf.graphiti.ontology.domAttributes.impl.DOMAttributeImpl;
+import net.sf.graphiti.ontology.domAttributes.parameters.edges.EdgeParameterNode;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides an edge connection.
- * 
- * @author Jonathan Piat
- * @author Matthieu Wipliez
+ * @author mwipliez
  * 
  */
-public interface EdgeConnection extends EdgeParameterNode {
+public class EdgeParameterNodeImpl extends DOMAttributeImpl implements
+		EdgeParameterNode {
+
+	public EdgeParameterNodeImpl(Individual individual) {
+		super(individual);
+	}
+
 }

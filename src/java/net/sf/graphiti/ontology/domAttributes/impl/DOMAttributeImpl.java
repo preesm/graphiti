@@ -26,21 +26,54 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements;
+package net.sf.graphiti.ontology.domAttributes.impl;
 
 import java.util.Set;
 
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.OntologyNodeImpl;
+import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
+import net.sf.graphiti.ontology.elements.Element;
+
+import com.hp.hpl.jena.ontology.Individual;
+
 /**
- * This class provides a parameter parser node.
- * 
- * @author Jonathan Piat
- * @author Matthieu Wipliez
+ * @author mwipliez
  * 
  */
-public interface ParserParameterNode extends Element {
+public class DOMAttributeImpl extends OntologyNodeImpl implements
+		DOMAttribute {
 
-	public boolean isReference();
+	public DOMAttributeImpl(Individual individual) {
+		super(individual);
+	}
 
-	public Set<Element> isReferenceTo();
+	@Override
+	public String hasName() {
+		return getStringProperty(OntologyFactory
+				.getPropertyDOMAttributeHasName());
+	}
+
+	@Override
+	public boolean isReference() {
+		return getBooleanProperty(OntologyFactory
+				.getPropertyDOMAttributeIsReference());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<Element> isReferenceTo() {
+		return (Set<Element>) listIndividuals(OntologyFactory
+				.getPropertyDOMAttributeIsReferenceTo());
+	}
+
+	public String toString() {
+		String res = super.toString() + ", isReference: " + isReference();
+		if (isReference()) {
+			// res += ", isReferenceTo: " + isReferenceTo().hasName();
+		}
+
+		return res;
+	}
 
 }

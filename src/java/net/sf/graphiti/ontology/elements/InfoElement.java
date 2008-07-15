@@ -28,33 +28,18 @@
  */
 package net.sf.graphiti.ontology.elements;
 
-import java.util.Set;
-
-import net.sf.graphiti.ontology.OntologyNode;
-import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
-import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
-import net.sf.graphiti.ontology.parameterValues.ParameterValue;
+import net.sf.graphiti.ontology.parameters.Parameter;
 
 /**
  * This class provides the ontology-defined representation of a DOM element in
- * the input XML document.
+ * the input XML document. An {@link InfoElement} may contain interesting
+ * information.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface Element extends OntologyNode {
-
-	public Set<AttributeRestriction> hasAttributeRestriction();
-
-	public Set<DOMAttribute> hasAttributes();
+public interface InfoElement extends Element {
 	
-	public Set<Element> hasElementChildren();
-
-	public String hasName();
-
-	public Set<ParameterValue> hasParameterValues();
-
-	public Element hasPrecedenceElements();
-
+	public Parameter referencesParameter();
 }

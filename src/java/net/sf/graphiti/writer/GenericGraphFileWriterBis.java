@@ -52,8 +52,8 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.elements.ParserParameterNode;
-import net.sf.graphiti.ontology.elements.parameters.PropertyBeanParameter;
+import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
+import net.sf.graphiti.ontology.domAttributes.parameters.PropertyBeanParameter;
 import net.sf.graphiti.ontology.parameters.Parameter;
 
 import org.w3c.dom.Document;
@@ -173,9 +173,9 @@ public class GenericGraphFileWriterBis {
 		while (ontologyElements.size() > 0) {
 			net.sf.graphiti.ontology.elements.Element node = ontologyElements
 					.get(0);
-			if (node.hasPrecedenceNode() != null) {
-				if (ontologyElements.contains(node.hasPrecedenceNode())) {
-					node = node.hasPrecedenceNode();
+			if (node.hasPrecedenceElements() != null) {
+				if (ontologyElements.contains(node.hasPrecedenceElements())) {
+					node = node.hasPrecedenceElements();
 				}
 			}
 			ontologyElements.remove(node);
@@ -268,7 +268,7 @@ public class GenericGraphFileWriterBis {
 			newElement.setTextContent((String) element.getValue(param
 					.hasParameter().hasName()));
 		}
-		for (ParserParameterNode attr : node.hasAttributeNode()) {
+		for (DOMAttribute attr : node.hasAttributes()) {
 			if (attr.hasOntClass(OntologyFactory
 					.getClassPropertyBeanParameter())
 					&& (!attr.hasOntClass(OntologyFactory
@@ -308,7 +308,7 @@ public class GenericGraphFileWriterBis {
 				}
 			}
 		}
-		writeCorrespondingNode(node.hasChildrenNode(), element, newElement);
+		writeCorrespondingNode(node.hasElementChildren(), element, newElement);
 	}
 
 }

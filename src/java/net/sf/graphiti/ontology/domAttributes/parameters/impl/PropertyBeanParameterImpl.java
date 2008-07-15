@@ -26,13 +26,12 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.impl;
-
-import java.util.Set;
+package net.sf.graphiti.ontology.domAttributes.parameters.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.elements.Element;
-import net.sf.graphiti.ontology.elements.ParserParameterNode;
+import net.sf.graphiti.ontology.domAttributes.impl.DOMAttributeImpl;
+import net.sf.graphiti.ontology.domAttributes.parameters.PropertyBeanParameter;
+import net.sf.graphiti.ontology.parameters.Parameter;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -40,33 +39,22 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author mwipliez
  * 
  */
-public class ParserParameterNodeImpl extends ElementImpl implements
-		ParserParameterNode {
+public class PropertyBeanParameterImpl extends DOMAttributeImpl
+		implements PropertyBeanParameter {
 
-	public ParserParameterNodeImpl(Individual individual) {
+	public PropertyBeanParameterImpl(Individual individual) {
 		super(individual);
 	}
 
 	@Override
-	public boolean isReference() {
-		return getBooleanProperty(OntologyFactory
-				.getPropertyParserParameterNodeIsReference());
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Set<Element> isReferenceTo() {
-		return (Set<Element>) listIndividuals(OntologyFactory
-				.getPropertyParserParameterNodeIsReferenceTo());
+	public Parameter hasParameter() {
+		return (Parameter) getIndividualProperty(OntologyFactory
+				.getPropertyPropertyBeanParameterHasParameter());
 	}
 
 	public String toString() {
-		String res = super.toString() + ", isReference: " + isReference();
-		if (isReference()) {
-			// res += ", isReferenceTo: " + isReferenceTo().hasName();
-		}
-
-		return res;
+		return super.toString() + " | PropertyBeanParameter: hasParameter: "
+				+ hasParameter().hasName();
 	}
 
 }

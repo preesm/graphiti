@@ -26,22 +26,16 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.parameters.edges.impl;
+package net.sf.graphiti.ontology.domAttributes.parameters.edges;
 
-import net.sf.graphiti.ontology.elements.impl.ParserParameterNodeImpl;
-import net.sf.graphiti.ontology.elements.parameters.edges.EdgeTargetConnection;
-
-import com.hp.hpl.jena.ontology.Individual;
+import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
 
 /**
- * @author mwipliez
+ * This class provides an edge parameter node.
+ * 
+ * @author Jonathan Piat
+ * @author Matthieu Wipliez
  * 
  */
-public class EdgeTargetConnectionImpl extends ParserParameterNodeImpl implements
-		EdgeTargetConnection {
-
-	public EdgeTargetConnectionImpl(Individual individual) {
-		super(individual);
-	}
-
+public interface EdgeParameterNode extends DOMAttribute {
 }

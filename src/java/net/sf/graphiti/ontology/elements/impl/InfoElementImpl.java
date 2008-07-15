@@ -26,14 +26,32 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.parameters.edges;
+package net.sf.graphiti.ontology.elements.impl;
+
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.elements.InfoElement;
+import net.sf.graphiti.ontology.parameters.Parameter;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides an edge target connection.
- * 
- * @author Jonathan Piat
- * @author Matthieu Wipliez
+ * @author mwipliez
  * 
  */
-public interface EdgeTargetConnection extends EdgeParameterNode {
+public class InfoElementImpl extends DocumentElementImpl implements InfoElement {
+
+	public InfoElementImpl(Individual individual) {
+		super(individual);
+	}
+
+	@Override
+	public Parameter referencesParameter() {
+		return (Parameter) getIndividualProperty(OntologyFactory
+				.getPropertyInfoElementReferencesParameter());
+	}
+
+	public String toString() {
+		return super.toString() + " | InfoElement";
+	}
+
 }

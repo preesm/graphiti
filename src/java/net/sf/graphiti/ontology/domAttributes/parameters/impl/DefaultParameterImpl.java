@@ -26,14 +26,24 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.parameters;
+package net.sf.graphiti.ontology.domAttributes.parameters.impl;
+
+import net.sf.graphiti.ontology.domAttributes.parameters.DefaultParameter;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides an id parameter.
- * 
- * @author Jonathan Piat
- * @author Matthieu Wipliez
+ * @author mwipliez
  * 
  */
-public interface IdParameter extends PropertyBeanParameter {
+public class DefaultParameterImpl extends PropertyBeanParameterImpl implements
+		DefaultParameter {
+
+	public DefaultParameterImpl(Individual individual) {
+		super(individual);
+	}
+
+	public String toString() {
+		return super.toString() + " | DefaultParameter";
+	}
 }

@@ -26,14 +26,26 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.parameters;
+package net.sf.graphiti.ontology.domAttributes;
+
+import java.util.Set;
+
+import net.sf.graphiti.ontology.OntologyNode;
+import net.sf.graphiti.ontology.elements.Element;
 
 /**
- * This class provides a default parameter.
+ * This class provides a parameter parser node.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface DefaultParameter extends PropertyBeanParameter {
+public interface DOMAttribute extends OntologyNode {
+	
+	public String hasName();
+
+	public boolean isReference();
+
+	public Set<Element> isReferenceTo();
+
 }

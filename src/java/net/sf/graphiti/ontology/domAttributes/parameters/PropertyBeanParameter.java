@@ -26,35 +26,19 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements;
+package net.sf.graphiti.ontology.domAttributes.parameters;
 
-import java.util.Set;
-
-import net.sf.graphiti.ontology.OntologyNode;
-import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
 import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
-import net.sf.graphiti.ontology.parameterValues.ParameterValue;
+import net.sf.graphiti.ontology.parameters.Parameter;
 
 /**
- * This class provides the ontology-defined representation of a DOM element in
- * the input XML document.
+ * This class provides an edge parameter node.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface Element extends OntologyNode {
+public interface PropertyBeanParameter extends DOMAttribute {
 
-	public Set<AttributeRestriction> hasAttributeRestriction();
-
-	public Set<DOMAttribute> hasAttributes();
-	
-	public Set<Element> hasElementChildren();
-
-	public String hasName();
-
-	public Set<ParameterValue> hasParameterValues();
-
-	public Element hasPrecedenceElements();
-
+	public Parameter hasParameter();
 }

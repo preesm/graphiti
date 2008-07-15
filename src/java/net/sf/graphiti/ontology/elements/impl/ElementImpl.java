@@ -33,8 +33,8 @@ import java.util.Set;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.OntologyNodeImpl;
 import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
+import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
 import net.sf.graphiti.ontology.elements.Element;
-import net.sf.graphiti.ontology.elements.ParserParameterNode;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 
 import com.hp.hpl.jena.ontology.Individual;
@@ -49,13 +49,6 @@ public class ElementImpl extends OntologyNodeImpl implements Element {
 		super(individual);
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public Set<ParserParameterNode> hasAttributeNode() {
-		return (Set<ParserParameterNode>) listIndividuals(OntologyFactory
-				.getPropertyParserNodeHasAttributeNode());
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public Set<AttributeRestriction> hasAttributeRestriction() {
@@ -65,9 +58,16 @@ public class ElementImpl extends OntologyNodeImpl implements Element {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Set<Element> hasChildrenNode() {
+	public Set<DOMAttribute> hasAttributes() {
+		return (Set<DOMAttribute>) listIndividuals(OntologyFactory
+				.getPropertyElementHasAttributes());
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Set<Element> hasElementChildren() {
 		return (Set<Element>) listIndividuals(OntologyFactory
-				.getPropertyParserNodeHasChildNode());
+				.getPropertyElementHasElementChildren());
 	}
 
 	@Override
@@ -77,19 +77,19 @@ public class ElementImpl extends OntologyNodeImpl implements Element {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<ParameterValue> hasParameterValue() {
+	public Set<ParameterValue> hasParameterValues() {
 		return (Set<ParameterValue>) listIndividuals(OntologyFactory
 				.getPropertyElementHasParameterValue());
 	}
 
 	@Override
-	public Element hasPrecedenceNode() {
+	public Element hasPrecedenceElements() {
 		return (Element) getIndividualProperty(OntologyFactory
-				.getPropertyParserNodeHasPrecedenceNode());
+				.getPropertyElementHasPrecedenceElement());
 	}
 
 	public String toString() {
 		return super.toString() + " | OntologyElement: hasName: " + hasName()
-				+ ", hasAttributeNode: " + hasAttributeNode();
+				+ ", hasAttributeNode: " + hasAttributes();
 	}
 }

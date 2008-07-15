@@ -374,18 +374,6 @@ public class VertexParametersView extends ViewPart implements
 		};
 	}
 
-	/**
-	 * Passing the focus request to the viewer's control.
-	 */
-	public void setFocus() {
-		tableViewer.getControl().setFocus();
-	}
-
-	private void showMessage(String message) {
-		MessageDialog.openInformation(tableViewer.getControl().getShell(),
-				"Sample View", message);
-	}
-
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		// we ignore our own selection or null selection
@@ -399,5 +387,17 @@ public class VertexParametersView extends ViewPart implements
 				tableViewer.setInput(structSel.getFirstElement());
 			}
 		}
+	}
+
+	/**
+	 * Passing the focus request to the viewer's control.
+	 */
+	public void setFocus() {
+		tableViewer.getControl().setFocus();
+	}
+
+	private void showMessage(String message) {
+		MessageDialog.openInformation(tableViewer.getControl().getShell(),
+				"Sample View", message);
 	}
 }

@@ -1,4 +1,4 @@
-; Tue Jul 15 18:32:37 CEST 2008
+; Tue Jul 15 20:55:30 CEST 2008
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 504")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[GraphML_ProjectKB_Class52]
-		[GraphML_ProjectKB_Class53]
-		[GraphML_ProjectKB_Class54]
-		[GraphML_ProjectKB_Class55]
-		[GraphML_ProjectKB_Class56]))
+		[GraphML_ProjectKB_Class345]
+		[GraphML_ProjectKB_Class346]
+		[GraphML_ProjectKB_Class347]
+		[GraphML_ProjectKB_Class348]
+		[GraphML_ProjectKB_Class349]))
 
 ([CLSES_TAB] of  Widget
 
@@ -167,6 +167,31 @@
 	(property_list [GraphML_ProjectKB_Class35])
 	(widget_class_name "edu.stanford.smi.protege.keywordsearch.StringSearch"))
 
+([GraphML_ProjectKB_Class345] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([GraphML_ProjectKB_Class346] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Class")
+	(string_value "%3ANAME"))
+
+([GraphML_ProjectKB_Class347] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([GraphML_ProjectKB_Class348] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([GraphML_ProjectKB_Class349] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Thing")
+	(string_value "%3ANAME"))
+
 ([GraphML_ProjectKB_Class35] of  Property_List
 )
 
@@ -250,31 +275,6 @@
 
 ([GraphML_ProjectKB_Class51] of  Property_List
 )
-
-([GraphML_ProjectKB_Class52] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([GraphML_ProjectKB_Class53] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Class")
-	(string_value "%3ANAME"))
-
-([GraphML_ProjectKB_Class54] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([GraphML_ProjectKB_Class55] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([GraphML_ProjectKB_Class56] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Thing")
-	(string_value "%3ANAME"))
 
 ([GraphML_ProjectKB_Class6] of  Widget
 

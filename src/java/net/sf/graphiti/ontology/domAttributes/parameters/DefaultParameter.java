@@ -26,16 +26,14 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.parameters.edges;
-
-import net.sf.graphiti.ontology.elements.ParserParameterNode;
+package net.sf.graphiti.ontology.domAttributes.parameters;
 
 /**
- * This class provides an edge parameter node.
+ * This class provides a default parameter.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface EdgeParameterNode extends ParserParameterNode {
+public interface DefaultParameter extends PropertyBeanParameter {
 }

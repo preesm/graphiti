@@ -45,16 +45,19 @@ import net.sf.graphiti.model.DocumentConfiguration;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.GraphitiDocument;
+import net.sf.graphiti.model.InfoDOMNode;
 import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.SkipDOMNode;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
+import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
+import net.sf.graphiti.ontology.domAttributes.parameters.PropertyBeanParameter;
+import net.sf.graphiti.ontology.domAttributes.parameters.edges.EdgeParameterNode;
 import net.sf.graphiti.ontology.elements.Element;
-import net.sf.graphiti.ontology.elements.ParserParameterNode;
-import net.sf.graphiti.ontology.elements.parameters.PropertyBeanParameter;
-import net.sf.graphiti.ontology.elements.parameters.edges.EdgeParameterNode;
+import net.sf.graphiti.ontology.elements.InfoElement;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
+import net.sf.graphiti.ontology.parameters.Parameter;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -118,7 +121,7 @@ public class GenericGraphFileParser {
 		return null;
 	}
 
-	private PropertyBean getReference(ParserParameterNode node, String refVal) {
+	private PropertyBean getReference(DOMAttribute node, String refVal) {
 		for (Element refType : node.isReferenceTo()) {
 			List<PropertyBean> references = ontDomInstances.get(refType);
 			if (references != null) {
@@ -179,11 +182,9 @@ public class GenericGraphFileParser {
 				}
 			}
 
-			if (ontNode.hasOntClass(OntologyFactory
-					.getClassParserParameterNode())
+			if (ontNode.hasOntClass(OntologyFactory.getClassDOMAttribute())
 					&& correspond) {
-				parseParameter((ParserParameterNode) ontNode, domNode,
-						parentElement);
+				parseAttribute((DOMAttribute) ontNode, domNode, parentElement);
 			}
 		}
 
@@ -220,192 +221,6 @@ public class GenericGraphFileParser {
 	}
 
 	/**
-	 * Parses all the parameters defined in the ontology node
-	 * <code>ontNode</code>.
-	 * 
-	 * @param ontNode
-	 *            the node as defined in the ontology
-	 * @param domNode
-	 *            the implementation in the DOM
-	 * @param element
-	 *            parent element of this parameter
-	 */
-	private void parseAllParameter(Element ontNode, Node domNode,
-			DOMNode element) {
-		Set<ParserParameterNode> attributesNodes = ontNode.hasAttributeNode();
-
-		// parses the nodes having a DOM implementation
-		NamedNodeMap attributes = domNode.getAttributes();
-		for (int i = 0; i < attributes.getLength(); i++) {
-			parseCorrespondingParameter(attributesNodes, attributes.item(i),
-					element);
-		}
-	}
-
-	/**
-	 * Find the ontology node corresponding to the given DOM element
-	 * 
-	 * @param ontNodes
-	 *            available node in the ontology for this element
-	 * @param domNode
-	 *            the element to parse
-	 * @param parentElement
-	 *            the parent node
-	 */
-	private void parseCorrespondingNode(Set<Element> ontNodes, Node domNode,
-			DOMNode parentElement) {
-		if (ontNodes != null) {
-			// We iterate over the ontology nodes to see if the DOM element is
-			// defined.
-			for (Element ontNode : ontNodes) {
-				if (isElementDefined(ontNode, domNode, parentElement)) {
-					parseNode(ontNode, domNode, parentElement);
-					return;
-				}
-			}
-		}
-
-		// Either we were given no ontology nodes, or the element we are
-		// dealing with is not defined by the ontology. Then we just store it as
-		// a DOMNode.
-		DOMNode domElement = new DOMNode(domNode.getNodeName());
-		domElement.setNodeValue(domNode.getNodeValue());
-		NamedNodeMap attributes = domNode.getAttributes();
-		for (int i = 0; attributes != null && i < attributes.getLength(); i++) {
-			Node attribute = attributes.item(i);
-			parseCorrespondingParameter(null, attribute, domElement);
-		}
-
-		// parsing the dummy element children
-		NodeList children = domNode.getChildNodes();
-		for (int i = 0; children != null && i < children.getLength(); i++) {
-			parseCorrespondingNode(null, children.item(i), domElement);
-		}
-
-		// adding the dummy element to the parent element
-		parentElement.addDOMElement(domElement);
-	}
-
-	/**
-	 * Find the ontology attribute corresponding to the given DOM element
-	 * 
-	 * @param ontNodes
-	 *            the available attributes for this element
-	 * @param attribute
-	 *            the DOM element
-	 * @param parentElement
-	 *            the parent node
-	 */
-	private void parseCorrespondingParameter(Set<ParserParameterNode> ontNodes,
-			Node attribute, DOMNode parentElement) {
-		if (ontNodes != null) {
-			// We iterate over the ontology nodes to see if the DOM attribute is
-			// defined.
-			for (ParserParameterNode ontNode : ontNodes) {
-				String name = ontNode.hasName();
-				if (attribute.getNodeName().equals(name)) {
-					// This attribute is defined by the ontology, we parse it
-					// and return.
-					parseParameter(ontNode, attribute, parentElement);
-					return;
-				}
-			}
-		}
-
-		// Either we were given no ontology nodes, or the attribute we are
-		// dealing with is not defined by the ontology. Then we just store it as
-		// a DOMNode.
-		DOMNode domAttribute = new DOMNode(attribute.getNodeName());
-		domAttribute.setNodeValue(attribute.getNodeValue());
-		parentElement.addDOMAttribute(domAttribute);
-	}
-
-	/**
-	 * Parses the given DOM node "domNode" as described in the ontology's
-	 * instance ontNode
-	 * 
-	 * @param ontNode
-	 *            the node as defined in the ontology
-	 * @param domNode
-	 *            the implementation of the ontNode in the DOM
-	 * @param parentElement
-	 *            parent element of this node
-	 */
-	private void parseNode(Element ontNode, Node domNode, DOMNode parentElement) {
-		DOMNode element;
-
-		// creates the element according to the type defined in the ontology
-		if (ontNode.hasOntClass(OntologyFactory.getClassDocumentElement())) {
-			element = graphitiDocument;
-		} else if (ontNode.hasOntClass(OntologyFactory.getClassGraphElement())) {
-			element = new Graph(graphitiDocument);
-		} else if (ontNode.hasOntClass(OntologyFactory.getClassVertexElement())) {
-			element = new Vertex(graphitiDocument);
-			if (parentElement instanceof GraphitiDocument) {
-				Graph newGraph = ((GraphitiDocument) parentElement).getGraph();
-				if (newGraph.getValue(Graph.PARAMETER_ID) == null) {
-					newGraph.setValue(Graph.PARAMETER_ID, parentElement
-							.getValue(Graph.PARAMETER_ID));
-				}
-				parentElement = newGraph;
-			}
-		} else if (ontNode.hasOntClass(OntologyFactory.getClassEdgeElement())) {
-			element = new Edge(graphitiDocument);
-			if (parentElement instanceof GraphitiDocument) {
-				if (((GraphitiDocument) parentElement).getGraph() == null) {
-					Graph newGraph = new Graph((GraphitiDocument) parentElement);
-					((GraphitiDocument) parentElement).setGraph(newGraph);
-					parentElement = newGraph;
-				} else {
-					parentElement = ((GraphitiDocument) parentElement)
-							.getGraph();
-				}
-			}
-		} else if (ontNode.hasOntClass(OntologyFactory.getClassSkipElement())) {
-			// The ontology node is a SkipElement
-			element = new SkipDOMNode(parentElement);
-		} else {
-			element = new DOMNode(domNode.getNodeName());
-		}
-
-		// adding element and value to the parentElement
-		element.setNodeName(domNode.getNodeName());
-		element.setNodeValue(domNode.getNodeValue());
-		parentElement.addDOMElement(element);
-
-		while (element instanceof SkipDOMNode) {
-			element = ((SkipDOMNode) element).getTrueNode();
-		}
-
-		// Store the association between the DOM node and the element
-		nodeToObj.put(domNode, element);
-
-		setParameterValues(ontNode, element);
-		parseAllParameter(ontNode, domNode, element);
-
-		// parsing this element children using the children defined in the
-		// ontology
-		Set<Element> childNodes = ontNode.hasChildrenNode();
-		NodeList children = domNode.getChildNodes();
-		for (int i = 0; i < children.getLength(); i++) {
-			parseCorrespondingNode(childNodes, children.item(i), element);
-		}
-
-		if ((parentElement instanceof GraphitiDocument)
-				&& (element instanceof Graph)) {
-			((GraphitiDocument) parentElement).setGraph((Graph) element);
-		} else if ((parentElement instanceof Graph)
-				&& (element instanceof Vertex)) {
-			((Graph) parentElement).addVertex((Vertex) element);
-		} else if ((parentElement instanceof Graph)
-				&& (element instanceof Edge)) {
-			treatEdge((Edge) element, (Graph) parentElement);
-			((Graph) parentElement).addEdge((Edge) element);
-		}
-		addOntDomInstance(ontNode, element);
-	}
-
-	/**
 	 * Parses a the DOM implementation of a parameter defined in the ontology
 	 * 
 	 * @param ontNode
@@ -415,8 +230,13 @@ public class GenericGraphFileParser {
 	 * @param parentElement
 	 *            the parent OntologyNode
 	 */
-	private void parseParameter(ParserParameterNode ontNode, Node attribute,
+	private void parseAttribute(DOMAttribute ontNode, Node attribute,
 			PropertyBean parentElement) {
+		// TODO: OMG... So it really all boils down to this simple fact: either
+		// we have an attribute that references a parameter, or an element. The
+		// maybe most disturbing thing is that the if branches are not exclusive
+		// (although in the ontology they are...). WHAT A FUCKING MESS! So the
+		// todo is simply to simplify the ontology.
 
 		// if this parameter is a propertyBeanParameter or an IdParameter
 		if (ontNode.hasOntClass(OntologyFactory.getClassIdParameter())
@@ -452,6 +272,217 @@ public class GenericGraphFileParser {
 	}
 
 	/**
+	 * Find the ontology attribute corresponding to the given DOM element
+	 * 
+	 * @param ontNodes
+	 *            the available attributes for this element
+	 * @param attribute
+	 *            the DOM element
+	 * @param parentElement
+	 *            the parent node
+	 */
+	private void parseAttributeOrStoreDOMAttribute(Set<DOMAttribute> ontNodes,
+			Node attribute, DOMNode parentElement) {
+		if (ontNodes != null) {
+			// We iterate over the ontology nodes to see if the DOM attribute is
+			// defined.
+			for (DOMAttribute ontNode : ontNodes) {
+				String name = ontNode.hasName();
+				if (attribute.getNodeName().equals(name)) {
+					// This attribute is defined by the ontology, we parse it
+					// and return.
+					parseAttribute(ontNode, attribute, parentElement);
+					return;
+				}
+			}
+		}
+
+		// Either we were given no ontology nodes, or the attribute we are
+		// dealing with is not defined by the ontology. Then we just store it as
+		// a DOMNode.
+		DOMNode domAttribute = new DOMNode(attribute.getNodeName());
+		domAttribute.setNodeValue(attribute.getNodeValue());
+		parentElement.addDOMAttribute(domAttribute);
+	}
+
+	/**
+	 * Parses all the attributes defined by
+	 * <code>ontElement.hasAttributes()</code>.
+	 * 
+	 * @param ontElement
+	 *            the node as defined in the ontology
+	 * @param domNode
+	 *            the implementation in the DOM
+	 * @param element
+	 *            parent element of this parameter
+	 */
+	private void parseAttributes(Element ontElement, Node domNode,
+			DOMNode element) {
+		Set<DOMAttribute> attributesNodes = ontElement.hasAttributes();
+
+		// parses the nodes having a DOM implementation
+		NamedNodeMap attributes = domNode.getAttributes();
+		for (int i = 0; i < attributes.getLength(); i++) {
+			parseAttributeOrStoreDOMAttribute(attributesNodes, attributes
+					.item(i), element);
+		}
+	}
+
+	/**
+	 * Parses the given DOM node "domNode" as described in the ontology's
+	 * instance ontNode
+	 * 
+	 * @param ontNode
+	 *            the node as defined in the ontology
+	 * @param domNode
+	 *            the implementation of the ontNode in the DOM
+	 * @param parentElement
+	 *            parent element of this node
+	 */
+	private void parseElement(Element ontNode, Node domNode,
+			DOMNode parentElement) {
+		DOMNode element;
+
+		// creates the element according to the type defined in the ontology
+		if (ontNode.hasOntClass(OntologyFactory.getClassDocumentElement())) {
+			element = graphitiDocument;
+		} else if (ontNode.hasOntClass(OntologyFactory.getClassGraphElement())) {
+			element = new Graph(graphitiDocument);
+		} else if (ontNode.hasOntClass(OntologyFactory.getClassVertexElement())) {
+			element = new Vertex(graphitiDocument);
+			if (parentElement instanceof GraphitiDocument) {
+				Graph newGraph = ((GraphitiDocument) parentElement).getGraph();
+				if (newGraph.getValue(Graph.PARAMETER_ID) == null) {
+					newGraph.setValue(Graph.PARAMETER_ID, parentElement
+							.getValue(Graph.PARAMETER_ID));
+				}
+				parentElement = newGraph;
+			}
+		} else if (ontNode.hasOntClass(OntologyFactory.getClassEdgeElement())) {
+			element = new Edge(graphitiDocument);
+			if (parentElement instanceof GraphitiDocument) {
+				if (((GraphitiDocument) parentElement).getGraph() == null) {
+					Graph newGraph = new Graph((GraphitiDocument) parentElement);
+					((GraphitiDocument) parentElement).setGraph(newGraph);
+					parentElement = newGraph;
+				} else {
+					parentElement = ((GraphitiDocument) parentElement)
+							.getGraph();
+				}
+			}
+		} else if (ontNode.hasOntClass(OntologyFactory.getClassSkipElement())) {
+			// The ontology node is a SkipElement
+			element = new SkipDOMNode(parentElement);
+		} else if (ontNode.hasOntClass(OntologyFactory.getClassInfoElement())) {
+			// Sets parameter values associated with this element
+			element = new InfoDOMNode();
+			setParameter((InfoElement) ontNode, parentElement, domNode);
+		} else {
+			element = new DOMNode(domNode.getNodeName());
+		}
+
+		// adding element and value to the parentElement
+		element.setNodeName(domNode.getNodeName());
+		element.setNodeValue(domNode.getNodeValue());
+		parentElement.addDOMElement(element);
+
+		// Sets element to its first non-skip element.
+		while (element instanceof SkipDOMNode) {
+			element = ((SkipDOMNode) element).getTrueNode();
+		}
+
+		// Store the association between the DOM node and the element
+		nodeToObj.put(domNode, element);
+
+		// Sets parameter values associated with this element
+		setParameterValues(ontNode, element);
+
+		// Parses recursively attributes and elements
+		parseAttributes(ontNode, domNode, element);
+		parseElements(ontNode, domNode, element);
+
+		if ((parentElement instanceof GraphitiDocument)
+				&& (element instanceof Graph)) {
+			((GraphitiDocument) parentElement).setGraph((Graph) element);
+		} else if ((parentElement instanceof Graph)
+				&& (element instanceof Vertex)) {
+			((Graph) parentElement).addVertex((Vertex) element);
+		} else if ((parentElement instanceof Graph)
+				&& (element instanceof Edge)) {
+			treatEdge((Edge) element, (Graph) parentElement);
+			((Graph) parentElement).addEdge((Edge) element);
+		}
+
+		// TODO: find out about this...
+		addOntDomInstance(ontNode, element);
+	}
+
+	/**
+	 * Find the ontology node corresponding to the given DOM element
+	 * 
+	 * @param ontNodes
+	 *            available node in the ontology for this element
+	 * @param domNode
+	 *            the element to parse
+	 * @param parentElement
+	 *            the parent node
+	 */
+	private void parseElementOrStoreDOMNode(Set<Element> ontNodes,
+			Node domNode, DOMNode parentElement) {
+		if (ontNodes != null) {
+			// We iterate over the ontology nodes to see if the DOM element is
+			// defined.
+			for (Element ontNode : ontNodes) {
+				if (isElementDefined(ontNode, domNode, parentElement)) {
+					parseElement(ontNode, domNode, parentElement);
+					return;
+				}
+			}
+		}
+
+		// Either we were given no ontology nodes, or the element we are
+		// dealing with is not defined by the ontology. Then we just store it as
+		// a DOMNode.
+		DOMNode domElement = new DOMNode(domNode.getNodeName());
+		domElement.setNodeValue(domNode.getNodeValue());
+		NamedNodeMap attributes = domNode.getAttributes();
+		for (int i = 0; attributes != null && i < attributes.getLength(); i++) {
+			Node attribute = attributes.item(i);
+			parseAttributeOrStoreDOMAttribute(null, attribute, domElement);
+		}
+
+		// parsing the dummy element children
+		NodeList children = domNode.getChildNodes();
+		for (int i = 0; children != null && i < children.getLength(); i++) {
+			parseElementOrStoreDOMNode(null, children.item(i), domElement);
+		}
+
+		// adding the dummy element to the parent element
+		parentElement.addDOMElement(domElement);
+	}
+
+	/**
+	 * Parses all the elements defined by
+	 * <code>ontElement.hasElementChildren()</code>.
+	 * 
+	 * @param ontElement
+	 *            the node as defined in the ontology
+	 * @param domNode
+	 *            the implementation in the DOM
+	 * @param element
+	 *            parent element of this parameter
+	 */
+	private void parseElements(Element ontElement, Node domNode, DOMNode element) {
+		Set<Element> childNodes = ontElement.hasElementChildren();
+
+		// parses the nodes having a DOM implementation
+		NodeList children = domNode.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			parseElementOrStoreDOMNode(childNodes, children.item(i), element);
+		}
+	}
+
+	/**
 	 * Parses the given InputStream using the stream semantic defined in the
 	 * configuration file
 	 * 
@@ -480,9 +511,13 @@ public class GenericGraphFileParser {
 
 			// Iterates over the parser root nodes
 			Set<Element> ontNodes = factory.getParserRootNodes();
-			for (Element ontNode : ontNodes) {
-				if (isElementDefined(ontNode, docElement, graphitiDocument)) {
-					parseNode(ontNode, docElement, graphitiDocument);
+			Object[] elements = ontNodes.toArray();
+			if (elements.length != 1) {
+				throw (new IncompatibleConfigurationFile());
+			} else {
+				Element root = (Element) elements[0];
+				if (isElementDefined(root, docElement, graphitiDocument)) {
+					parseElement(root, docElement, graphitiDocument);
 					log.info("Parsing completed");
 					return graphitiDocument;
 				} else {
@@ -499,24 +534,6 @@ public class GenericGraphFileParser {
 
 		// The document could not be parsed using this configuration
 		throw new IncompatibleConfigurationFile();
-	}
-
-	/**
-	 * Iterates through the parameter values associated with this ontology node,
-	 * and for each of them, calls {@link DOMNode#setValue(String, Object)} with
-	 * the parameter name and value. Example of a parameter value is "Port"
-	 * associated to the parameter with the name "type".
-	 * 
-	 * @param ontNode
-	 * @param element
-	 */
-	private void setParameterValues(Element ontNode, DOMNode element) {
-		Set<ParameterValue> attributesNodes = ontNode.hasParameterValue();
-		for (ParameterValue attNode : attributesNodes) {
-			ParameterValue constant = (ParameterValue) attNode;
-			String parameterName = constant.ofParameter().hasName();
-			element.setValue(parameterName, constant.hasValue());
-		}
 	}
 
 	private void setEdgeConnection(PropertyBean ref,
@@ -541,6 +558,40 @@ public class GenericGraphFileParser {
 			} else if (edge.getTarget() == null) {
 				edge.setTarget(connection);
 			}
+		}
+	}
+
+	/**
+	 * This method is called on an InfoElement. A Parameter is obtained from it
+	 * using referencesParameter, and we set the value of the parameter name to
+	 * the domElement text content.
+	 * 
+	 * @param ontNode
+	 * @param parent
+	 * @param domElement
+	 */
+	private void setParameter(InfoElement ontNode, DOMNode parent,
+			Node domElement) {
+		Parameter parameter = ontNode.referencesParameter();
+		String parameterName = parameter.hasName();
+		parent.setValue(parameterName, domElement.getTextContent());
+	}
+
+	/**
+	 * Iterates through the parameter values associated with this ontology node,
+	 * and for each of them, calls {@link DOMNode#setValue(String, Object)} with
+	 * the parameter name and value. Example of a parameter value is "Port"
+	 * associated to the parameter with the name "type".
+	 * 
+	 * @param ontNode
+	 * @param element
+	 */
+	private void setParameterValues(Element ontNode, DOMNode element) {
+		Set<ParameterValue> attributesNodes = ontNode.hasParameterValues();
+		for (ParameterValue attNode : attributesNodes) {
+			ParameterValue constant = (ParameterValue) attNode;
+			String parameterName = constant.ofParameter().hasName();
+			element.setValue(parameterName, constant.hasValue());
 		}
 	}
 

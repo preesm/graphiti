@@ -50,7 +50,7 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.elements.ParserParameterNode;
+import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -96,9 +96,8 @@ public class GenericGraphFileWriter {
 		Element element = domDocument.createElement(ontologyElement.hasName());
 		domParentNode.appendChild(element);
 
-		Set<ParserParameterNode> attributes = ontologyElement
-				.hasAttributeNode();
-		for (ParserParameterNode attribute : attributes) {
+		Set<DOMAttribute> attributes = ontologyElement.hasAttributes();
+		for (DOMAttribute attribute : attributes) {
 			String attrName = attribute.hasName();
 			Object attrValue = node.getValue(attrName);
 			if (attrValue != null) {
@@ -220,7 +219,7 @@ public class GenericGraphFileWriter {
 						domParentNode);
 
 				GraphitiDocument doc = (GraphitiDocument) node;
-				writeNode(ontologyElement.hasChildrenNode(), doc.getGraph(),
+				writeNode(ontologyElement.hasElementChildren(), doc.getGraph(),
 						element);
 				setDOMNodes(element, node);
 			} else if (ontologyElement.hasOntClass(OntologyFactory
@@ -233,14 +232,15 @@ public class GenericGraphFileWriter {
 				// vertices
 				Set<Vertex> vertices = graph.vertexSet();
 				for (Vertex vertex : vertices) {
-					writeNode(ontologyElement.hasChildrenNode(), vertex,
+					writeNode(ontologyElement.hasElementChildren(), vertex,
 							element);
 				}
 
 				// edges
 				Set<Edge> edges = graph.edgeSet();
 				for (Edge edge : edges) {
-					writeNode(ontologyElement.hasChildrenNode(), edge, element);
+					writeNode(ontologyElement.hasElementChildren(), edge,
+							element);
 				}
 
 				// Adds DOM nodes

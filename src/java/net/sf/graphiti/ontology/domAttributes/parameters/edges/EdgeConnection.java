@@ -26,24 +26,14 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements.parameters.impl;
-
-import net.sf.graphiti.ontology.elements.parameters.IdParameter;
-
-import com.hp.hpl.jena.ontology.Individual;
+package net.sf.graphiti.ontology.domAttributes.parameters.edges;
 
 /**
- * @author mwipliez
+ * This class provides an edge connection.
+ * 
+ * @author Jonathan Piat
+ * @author Matthieu Wipliez
  * 
  */
-public class IdParameterImpl extends PropertyBeanParameterImpl implements
-		IdParameter {
-
-	public IdParameterImpl(Individual individual) {
-		super(individual);
-	}
-
-	public String toString() {
-		return super.toString() + " | IdParameter";
-	}
+public interface EdgeConnection extends EdgeParameterNode {
 }

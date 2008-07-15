@@ -39,20 +39,21 @@ import net.sf.graphiti.ontology.attributeRestrictions.impl.AttributeRestrictionI
 import net.sf.graphiti.ontology.attributes.impl.ColorAttributeImpl;
 import net.sf.graphiti.ontology.attributes.impl.FigureAttributeImpl;
 import net.sf.graphiti.ontology.attributes.impl.ShapeAttributeImpl;
+import net.sf.graphiti.ontology.domAttributes.impl.DOMAttributeImpl;
+import net.sf.graphiti.ontology.domAttributes.parameters.edges.impl.EdgeConnectionImpl;
+import net.sf.graphiti.ontology.domAttributes.parameters.edges.impl.EdgeParameterNodeImpl;
+import net.sf.graphiti.ontology.domAttributes.parameters.edges.impl.EdgeSourceConnectionImpl;
+import net.sf.graphiti.ontology.domAttributes.parameters.edges.impl.EdgeTargetConnectionImpl;
+import net.sf.graphiti.ontology.domAttributes.parameters.impl.DefaultParameterImpl;
+import net.sf.graphiti.ontology.domAttributes.parameters.impl.IdParameterImpl;
+import net.sf.graphiti.ontology.domAttributes.parameters.impl.PropertyBeanParameterImpl;
 import net.sf.graphiti.ontology.elements.impl.DocumentElementImpl;
 import net.sf.graphiti.ontology.elements.impl.EdgeElementImpl;
 import net.sf.graphiti.ontology.elements.impl.ElementImpl;
 import net.sf.graphiti.ontology.elements.impl.GraphElementImpl;
-import net.sf.graphiti.ontology.elements.impl.ParserParameterNodeImpl;
+import net.sf.graphiti.ontology.elements.impl.InfoElementImpl;
 import net.sf.graphiti.ontology.elements.impl.SkipElementImpl;
 import net.sf.graphiti.ontology.elements.impl.VertexElementImpl;
-import net.sf.graphiti.ontology.elements.parameters.edges.impl.EdgeConnectionImpl;
-import net.sf.graphiti.ontology.elements.parameters.edges.impl.EdgeParameterNodeImpl;
-import net.sf.graphiti.ontology.elements.parameters.edges.impl.EdgeSourceConnectionImpl;
-import net.sf.graphiti.ontology.elements.parameters.edges.impl.EdgeTargetConnectionImpl;
-import net.sf.graphiti.ontology.elements.parameters.impl.DefaultParameterImpl;
-import net.sf.graphiti.ontology.elements.parameters.impl.IdParameterImpl;
-import net.sf.graphiti.ontology.elements.parameters.impl.PropertyBeanParameterImpl;
 import net.sf.graphiti.ontology.enums.impl.ColorsImpl;
 import net.sf.graphiti.ontology.enums.impl.DataTypesImpl;
 import net.sf.graphiti.ontology.enums.impl.PositionImpl;
@@ -99,16 +100,19 @@ public class OntologyNodeImpl implements OntologyNode {
 		classes.put(OntologyFactory.getClassShapeAttribute(),
 				ShapeAttributeImpl.class);
 
+		// DOM attribute
+		classes.put(OntologyFactory.getClassDOMAttribute(),
+				DOMAttributeImpl.class);
+		
 		// Element
-		classes.put(OntologyFactory.getClassElement(), ElementImpl.class);
-		classes.put(OntologyFactory.getClassEdgeElement(),
-				EdgeElementImpl.class);
-		classes.put(OntologyFactory.getClassGraphElement(),
-				GraphElementImpl.class);
-		classes.put(OntologyFactory.getClassParserParameterNode(),
-				ParserParameterNodeImpl.class);
 		classes.put(OntologyFactory.getClassDocumentElement(),
 				DocumentElementImpl.class);
+		classes.put(OntologyFactory.getClassEdgeElement(),
+				EdgeElementImpl.class);
+		classes.put(OntologyFactory.getClassElement(), ElementImpl.class);
+		classes.put(OntologyFactory.getClassGraphElement(),
+				GraphElementImpl.class);
+		classes.put(OntologyFactory.getClassInfoElement(), InfoElementImpl.class);
 		classes.put(OntologyFactory.getClassSkipElement(),
 				SkipElementImpl.class);
 		classes.put(OntologyFactory.getClassVertexElement(),
