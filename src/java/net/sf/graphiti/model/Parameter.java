@@ -28,6 +28,13 @@
  */
 package net.sf.graphiti.model;
 
+/**
+ * This class provides a parameter associated with an object (vertex, graph,
+ * edge). It has a name and a position.
+ * 
+ * @author Jonathan Piat
+ * 
+ */
 public class Parameter {
 
 	private String name;

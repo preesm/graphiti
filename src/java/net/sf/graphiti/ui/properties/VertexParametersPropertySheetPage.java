@@ -1,64 +1,135 @@
-/*******************************************************************************
- * Copyright (c) 2000, 2008 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *     Gunnar Wagenknecht - fix for bug 21756 [PropertiesView] property view sorting
- *******************************************************************************/
-
 package net.sf.graphiti.ui.properties;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.List;
+
+import net.sf.graphiti.model.Parameter;
+import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ui.editparts.VertexEditPart;
+
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.jface.viewers.ILazyTreePathContentProvider;
+import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.TreePath;
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.ISaveablePart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.Page;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
-import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
- * The standard implementation of property sheet page which presents a table of
- * property names and values obtained from the current selection in the active
- * workbench part.
- * <p>
- * This page obtains the information about what properties to display from the
- * current selection (which it tracks).
- * </p>
- * <p>
- * The model for this page is a hierarchy of <code>IPropertySheetEntry</code>.
- * The page may be configured with a custom model by setting the root entry.
- * <p>
- * If no root entry is set then a default model is created which uses the
- * <code>IPropertySource</code> interface to obtain the properties of the
- * current selection. This requires that the selected objects provide an
- * <code>IPropertySource</code> adapter (or implement
- * <code>IPropertySource</code> directly). This restiction can be overcome by
- * providing this page with an <code>IPropertySourceProvider</code>. If
- * supplied, this provider will be used by the default model to obtain a
- * property source for the current selection
- * </p>
- * <p>
- * This class may be instantiated; it is not intended to be subclassed.
- * </p>
+ * Some code is taken from Laurent Gauthier (e-mail: lgauthier@opnworks.com)
+ * TableViewer tutorial.
  * 
- * @see IPropertySource
- * @noextend This class is not intended to be subclassed by clients.
+ * @author Matthieu Wipliez
  */
-public class VertexParametersPropertySheetPage extends Page implements IPropertySheetPage,
-		IAdaptable {
+public class VertexParametersPropertySheetPage extends Page implements
+		IPropertySheetPage, IAdaptable {
 
-	private TreeViewer tree;
+	private class VertexParametersLabelProvider implements ITableLabelProvider {
+
+		@Override
+		public void addListener(ILabelProviderListener listener) {
+		}
+
+		@Override
+		public void dispose() {
+		}
+
+		@Override
+		public Image getColumnImage(Object element, int columnIndex) {
+			return null;
+		}
+
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+			if (element instanceof Parameter) {
+				Parameter parameter = (Parameter) element;
+				if (columnIndex == 0) {
+					return parameter.getName();
+				} else {
+					return (String) vertex.getValue(parameter.getName());
+				}
+			} else {
+				return null;
+			}
+		}
+
+		@Override
+		public boolean isLabelProperty(Object element, String property) {
+			return false;
+		}
+
+		@Override
+		public void removeListener(ILabelProviderListener listener) {
+		}
+
+	}
 	
+	private class VertexParametersContentProvider implements
+			IStructuredContentProvider, PropertyChangeListener {
+
+		@Override
+		public void dispose() {
+			if (vertex != null) {
+				vertex.removePropertyChangeListener(this);
+			}
+		}
+
+		@Override
+		public Object[] getElements(Object inputElement) {
+			if (vertex == null) {
+				return new Object[] {};
+			} else {
+				List<Parameter> parameters = vertex.getParameters();
+				return parameters.toArray();
+			}
+		}
+
+		@Override
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+			if (vertex instanceof Vertex) {
+				vertex.removePropertyChangeListener(this);
+			}
+
+			if (newInput instanceof VertexEditPart) {
+				vertex = (Vertex) ((VertexEditPart) newInput).getModel();
+				vertex.addPropertyChangeListener(this);
+			} else {
+				vertex = null;
+			}
+		}
+
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+		}
+
+	}
+
+	/**
+	 * The {@link Composite} that contains all the children.
+	 */
+	private Composite panel;
+
+	private TableViewer tableViewer;
+
+	private Vertex vertex;
+
 	/**
 	 * Creates a new property sheet page.
 	 */
@@ -66,46 +137,91 @@ public class VertexParametersPropertySheetPage extends Page implements IProperty
 		super();
 		// PropertySheetViewer
 		// PropertySheetPage
+		// PropertySheet
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on <code>IPage</code>.
+	/**
+	 * Creates the Add and Delete buttons on the parent {@link Composite}.
+	 * 
+	 * @param parent
+	 *            The parent {@link Composite}.
 	 */
+	private void createButtons(Composite parent) {
+		Button buttonAdd = new Button(parent, SWT.PUSH);
+		buttonAdd.setText("Add");
+		buttonAdd.setLayoutData(new GridData());
+
+		Button buttonDelete = new Button(parent, SWT.PUSH);
+		buttonDelete.setText("Delete");
+		buttonDelete.setLayoutData(new GridData());
+	}
+
+	@Override
 	public void createControl(Composite parent) {
-        tree = new TreeViewer(parent);
-        tree.setContentProvider(new ILazyTreePathContentProvider() {
+		panel = new Composite(parent, 0);
 
-			@Override
-			public TreePath[] getParents(Object element) {
-				return null;
-			}
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+				| GridData.FILL_BOTH);
+		panel.setLayoutData(gridData);
 
-			@Override
-			public void updateChildCount(TreePath treePath,
-					int currentChildCount) {
-				tree.setChildCount(treePath, 3);
-			}
+		GridLayout layout = new GridLayout(3, false);
+		layout.marginWidth = 4;
+		panel.setLayout(layout);
 
-			@Override
-			public void updateElement(TreePath parentPath, int index) {
-			}
+		// Create the table
+		Table table = createTable(panel);
 
-			@Override
-			public void updateHasChildren(TreePath path) {
-			}
+		// Create buttons
+		createButtons(panel);
 
-			@Override
-			public void dispose() {
-			}
+		// Creates the table viewer on the table.
+		tableViewer = new TableViewer(table);
+		tableViewer.setContentProvider(new VertexParametersContentProvider());
+		tableViewer.setLabelProvider(new VertexParametersLabelProvider());
+	}
 
-			@Override
-			public void inputChanged(Viewer viewer, Object oldInput,
-					Object newInput) {
+	/**
+	 * Creates the table component from the <code>parent</code>
+	 * {@link Composite}.
+	 * 
+	 * @param parent
+	 *            The {@link Composite} parent.
+	 * @return The {@link Table} created.
+	 */
+	private Table createTable(Composite parent) {
+		int style = SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
+				| SWT.FULL_SELECTION | SWT.HIDE_SELECTION;
+
+		Table table = new Table(parent, style);
+
+		GridData gridData = new GridData(GridData.FILL_BOTH);
+		gridData.horizontalSpan = 3;
+		gridData.grabExcessVerticalSpace = true;
+		table.setLayoutData(gridData);
+
+		table.setLinesVisible(true);
+		table.setHeaderVisible(true);
+
+		// 1st column
+		TableColumn column = new TableColumn(table, SWT.CENTER, 0);
+		column.setText("Name");
+		column.setWidth(20);
+
+		// Add listener to column so tasks are sorted by description when
+		// clicked
+		column.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				// tableViewer.setSorter(new ExampleTaskSorter(
+				// ExampleTaskSorter.DESCRIPTION));
 			}
-        	
-        });
-        
-        tree.setInput("t1");
+		});
+
+		// 2nd column
+		column = new TableColumn(table, SWT.LEFT, 1);
+		column.setText("Value");
+		column.setWidth(400);
+
+		return table;
 	}
 
 	/**
@@ -131,6 +247,11 @@ public class VertexParametersPropertySheetPage extends Page implements IProperty
 		return null;
 	}
 
+	@Override
+	public Control getControl() {
+		return panel;
+	}
+
 	/**
 	 * Returns an <code>ISaveablePart</code> that delegates to the source part
 	 * for the current page if it implements <code>ISaveablePart</code>, or
@@ -144,20 +265,18 @@ public class VertexParametersPropertySheetPage extends Page implements IProperty
 	}
 
 	@Override
-	public Control getControl() {
-		return tree.getControl();
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		if (selection.isEmpty() == false) {
+			if (selection instanceof IStructuredSelection) {
+				IStructuredSelection structSel = (IStructuredSelection) selection;
+				tableViewer.setInput(structSel.getFirstElement());
+			}
+		}
 	}
 
 	@Override
 	public void setFocus() {
-		
-	}
 
-	@Override
-	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		tree.refresh();
 	}
-
-	
 
 }
