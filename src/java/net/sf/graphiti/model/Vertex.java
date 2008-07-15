@@ -30,8 +30,6 @@ package net.sf.graphiti.model;
 
 import java.util.List;
 
-import org.eclipse.ui.views.properties.IPropertySource;
-
 /**
  * This class represents a vertex.
  * 
@@ -102,8 +100,6 @@ public class Vertex extends DOMNode implements Cloneable {
 	 */
 	GraphitiDocument parentDocument;
 
-	private IPropertySource propertySource;
-
 	/**
 	 * Creates a new Vertex with no type.
 	 * 
@@ -136,19 +132,6 @@ public class Vertex extends DOMNode implements Cloneable {
 			return null;
 		}
 	}
-
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	public Object getAdapter(Class adapter) {
-//		if (adapter == IPropertySource.class) {
-//			if (propertySource == null) {
-//				propertySource = new PropertyBeanPropertySource(this);
-//			}
-//			return propertySource;
-//		} else {
-//			return null;
-//		}
-//	}
 
 	/**
 	 * Returns the value of an attribute associated with this vertex type and

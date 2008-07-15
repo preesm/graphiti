@@ -35,5 +35,21 @@
             name="Graphiti">
       </perspective>
    </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="net.sf.graphiti.ui.views"
+            name="Graphiti">
+      </category>
+      <view
+            allowMultiple="false"
+            category="net.sf.graphiti.ui.views"
+            class="net.sf.graphiti.ui.views.VertexParametersView"
+            icon="icons/graphiti.gif"
+            id="net.sf.graphiti.ui.views.VertexParametersView"
+            name="Vertex parameters"
+            restorable="true">
+      </view>
+   </extension>
 
 </plugin>

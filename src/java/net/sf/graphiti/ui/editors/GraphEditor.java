@@ -44,7 +44,6 @@ import net.sf.graphiti.ui.actions.PasteAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
 import net.sf.graphiti.ui.editparts.GraphitiDocumentEditPart;
-import net.sf.graphiti.ui.properties.VertexParametersPropertySheetPage;
 import net.sf.graphiti.writer.GenericGraphFileWriter;
 import net.sf.graphiti.writer.GenericGraphFileWriterBis;
 
@@ -86,7 +85,6 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.ui.views.properties.IPropertySheetPage;
 
 public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 
@@ -306,8 +304,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		if (type == ZoomManager.class) {
 			return ((ScalableFreeformRootEditPart) getGraphicalViewer()
 					.getRootEditPart()).getZoomManager();
-		} else if (type == IPropertySheetPage.class) {
-			return new VertexParametersPropertySheetPage();
 		}
 		// else if (type == IContentOutlinePage.class) {
 		// outlinePage = new ThumbnailOutlinePage();
