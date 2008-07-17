@@ -41,8 +41,6 @@ import org.eclipse.swt.graphics.Color;
 
 public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 
-	private GradientPattern fill;
-
 	private Label labelName;
 
 	public ShapeRoundedBox() {
@@ -59,13 +57,15 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 		return new ChopboxAnchor(this);
 	}
 
+	@Override
 	public void paintFigure(Graphics graphics) {
-		if (fill == null) {
-			fill = new GradientPattern(getBackgroundColor());
-		}
-		fill.setPattern(getBounds(), graphics);
+		GradientPattern.paintFigure(this, getBackgroundColor(), getBounds(),
+				graphics);
+	}
+
+	@Override
+	public void paintSuperFigure(Graphics graphics) {
 		super.paintFigure(graphics);
-		fill.restorePattern(graphics);
 	}
 
 	@Override

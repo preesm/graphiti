@@ -30,9 +30,14 @@ package net.sf.graphiti.ui.figure.shapes;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Pattern;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * @author mwipliez
@@ -40,41 +45,59 @@ import org.eclipse.swt.graphics.Pattern;
  */
 public class GradientPattern {
 
-	private Color backgroundColor;
-
-	private Color fg;
-
-	private Pattern pattern;
-
 	/**
-	 * Creates a new gradient pattern using the given backgound color.
+	 * Paints this {@link IShape} with the given background {@link Color}, in
+	 * the specified {@link Rectangle} bounds, on the given {@link Graphics}. If
+	 * the graphics do not have advanced capabilities (such as printer or zoom
+	 * manager), the function will try to use the current display to draw the
+	 * {@link IShape} as an image.
 	 * 
+	 * @param shape
 	 * @param backgroundColor
-	 *            The pattern background color.
-	 */
-	public GradientPattern(Color backgroundColor) {
-		this.backgroundColor = backgroundColor;
-		fg = ColorConstants.lightGray;
-	}
-
-	public void restorePattern(Graphics graphics) {
-		graphics.popState();
-	}
-
-	/**
-	 * Sets the gradient pattern on the given graphics, using
-	 * 
 	 * @param bounds
 	 * @param graphics
 	 */
-	public void setPattern(Rectangle bounds, Graphics graphics) {
-		if (pattern == null) {
-			pattern = new Pattern(fg.getDevice(), 0, 0, bounds.width,
-					bounds.height, backgroundColor, 192, fg, 192);
+	public static void paintFigure(IShape shape, Color backgroundColor,
+			Rectangle bounds, Graphics graphics) {
+		if (graphics instanceof SWTGraphics) {
+			// advanced graphics
+			Color fg = ColorConstants.lightGray;
+			Pattern pattern = new Pattern(backgroundColor.getDevice(), 0, 0,
+					bounds.width, bounds.height, backgroundColor, 192, fg, 192);
+
+			graphics.pushState();
+			try {
+				// Needs advanced capabilities or throws SWTException
+				graphics.setAntialias(SWT.ON);
+				graphics.setBackgroundPattern(pattern);
+			} catch (RuntimeException e) {
+				// No anti alias, not pattern, less pretty but it will work!
+			}
+
+			shape.paintSuperFigure(graphics);
+			graphics.popState();
+
+			// pattern is not used anymore by graphics => dispose
+			pattern.dispose();
+		} else {
+			// ScaledGraphics and PrinterGraphics do not have advanced
+			// capabilities... so we try with SWTGraphics
+
+			// Creates a new image of width x height on the current display
+			Image image = new Image(Display.getCurrent(), bounds.width,
+					bounds.height);
+
+			// Paints the figure on it using SWT graphics
+			GC gc = new GC(image);
+			Graphics swtGraphics = new SWTGraphics(gc);
+			paintFigure(shape, backgroundColor, bounds, swtGraphics);
+
+			// Draws the image on the original graphics
+			graphics.drawImage(image, 0, 0);
+
+			// Disposes image (and GC btw) and SWT graphics
+			image.dispose();
+			swtGraphics.dispose();
 		}
-
-		graphics.pushState();
-		graphics.setBackgroundPattern(pattern);
 	}
-
 }

@@ -34,6 +34,7 @@ import java.util.List;
 
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ui.Activator;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.jface.action.Action;
@@ -43,20 +44,20 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -66,20 +67,53 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 /**
+ * This class exposes the Vertex parameters view. Written after the SampleView
+ * provided by Eclipse, and adding proper table viewer support for vertex
+ * parameters.
  * 
  * @author Matthieu Wipliez
  */
 public class VertexParametersView extends ViewPart implements
 		ISelectionListener {
 
-	class NameSorter extends ViewerSorter {
+	private class NameSorter extends ViewerComparator {
+
+		@Override
+		public int compare(Viewer viewer, Object e1, Object e2) {
+			Parameter p1 = (Parameter) e1;
+			Parameter p2 = (Parameter) e2;
+
+			return p1.getName().compareTo(p2.getName());
+		}
+	}
+
+	/**
+	 * This class extends {@link CellLabelProvider}.
+	 * 
+	 * @author Matthieu Wipliez
+	 * 
+	 */
+	private class VertexParametersCellLabelProvider extends CellLabelProvider {
+
+		@Override
+		public void update(ViewerCell cell) {
+			Object element = cell.getElement();
+			if (element instanceof Parameter) {
+				Parameter parameter = (Parameter) element;
+				if (cell.getColumnIndex() == 0) {
+					cell.setText(parameter.getName());
+				} else {
+					cell.setText((String) vertex.getValue(parameter.getName()));
+				}
+			}
+		}
+
 	}
 
 	/**
@@ -123,62 +157,61 @@ public class VertexParametersView extends ViewPart implements
 
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
+			tableViewer.refresh();
 		}
 
 	}
 
 	/**
-	 * This class defines a label provider for the content obtained from
-	 * {@link VertexParametersContentProvider}.
+	 * This class provides {@link EditingSupport} for the "value" column.
+	 * 
+	 * @author Matthieu Wipliez
 	 * 
 	 */
-	private class VertexParametersLabelProvider implements ITableLabelProvider {
+	public class VertexParametersEditingSupport extends EditingSupport {
 
-		@Override
-		public void addListener(ILabelProviderListener listener) {
+		private TextCellEditor editor;
+
+		public VertexParametersEditingSupport(ColumnViewer viewer, Table table) {
+			super(viewer);
+			editor = new TextCellEditor(table);
 		}
 
 		@Override
-		public void dispose() {
+		protected boolean canEdit(Object element) {
+			return true;
 		}
 
 		@Override
-		public Image getColumnImage(Object element, int columnIndex) {
-			return null;
+		protected CellEditor getCellEditor(Object element) {
+			return editor;
 		}
 
 		@Override
-		public String getColumnText(Object element, int columnIndex) {
+		protected Object getValue(Object element) {
 			if (element instanceof Parameter) {
 				Parameter parameter = (Parameter) element;
-				if (columnIndex == 0) {
-					return parameter.getName();
-				} else {
-					return (String) vertex.getValue(parameter.getName());
-				}
+				return (String) vertex.getValue(parameter.getName());
 			} else {
-				return null;
+				return "";
 			}
 		}
 
 		@Override
-		public boolean isLabelProperty(Object element, String property) {
-			return false;
-		}
-
-		@Override
-		public void removeListener(ILabelProviderListener listener) {
+		protected void setValue(Object element, Object value) {
+			if (element instanceof Parameter) {
+				Parameter parameter = (Parameter) element;
+				vertex.setValue(parameter.getName(), (String) value);
+			}
 		}
 
 	}
 
 	public static final String ID_VERTEX_PARAMETERS = "net.sf.graphiti.ui.views.VertexParametersView";
 
-	private Action action1;
+	private Action actionAdd;
 
-	private Action action2;
-
-	private Action doubleClickAction;
+	private Action actionDelete;
 
 	/**
 	 * The {@link Composite} that contains all the children.
@@ -221,10 +254,14 @@ public class VertexParametersView extends ViewPart implements
 		buttonDelete.setLayoutData(new GridData());
 	}
 
-	@Override
-	public void createPartControl(Composite parent) {
-		getSite().getPage().addSelectionListener(this);
-		
+	/**
+	 * Creates a panel on the parent, sets the layout, and creates the different
+	 * UI components.
+	 * 
+	 * @param parent
+	 *            The parent {@link Composite}.
+	 */
+	private void createComponents(Composite parent) {
 		panel = new Composite(parent, 0);
 
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL
@@ -235,23 +272,23 @@ public class VertexParametersView extends ViewPart implements
 		layout.marginWidth = 4;
 		panel.setLayout(layout);
 
-		// Create the table
 		Table table = createTable(panel);
-
-		// Create buttons
 		createButtons(panel);
+		createTableViewer(table);
+	}
 
-		// Creates the table viewer on the table.
-		tableViewer = new TableViewer(table);
-		tableViewer.setContentProvider(new VertexParametersContentProvider());
-		tableViewer.setLabelProvider(new VertexParametersLabelProvider());
+	@Override
+	public void createPartControl(Composite parent) {
+		// Listens to selectionChanged event.
+		getSite().getPage().addSelectionListener(this);
+
+		createComponents(parent);
 
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(
 				tableViewer.getControl(), "net.sf.graphiti.viewer");
 		makeActions();
 		hookContextMenu();
-		hookDoubleClickAction();
 		contributeToActionBars();
 	}
 
@@ -280,16 +317,7 @@ public class VertexParametersView extends ViewPart implements
 		// 1st column
 		TableColumn column = new TableColumn(table, SWT.CENTER, 0);
 		column.setText("Name");
-		column.setWidth(20);
-
-		// Add listener to column so tasks are sorted by description when
-		// clicked
-		column.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				// tableViewer.setSorter(new ExampleTaskSorter(
-				// ExampleTaskSorter.DESCRIPTION));
-			}
-		});
+		column.setWidth(40);
 
 		// 2nd column
 		column = new TableColumn(table, SWT.LEFT, 1);
@@ -299,28 +327,49 @@ public class VertexParametersView extends ViewPart implements
 		return table;
 	}
 
+	private void createTableViewer(Table table) {
+		// Creates the table viewer on the table.
+		tableViewer = new TableViewer(table);
+		tableViewer.setContentProvider(new VertexParametersContentProvider());
+		// tableViewer.setLabelProvider(new VertexParametersLabelProvider());
+
+		// Sort by parameter name
+		tableViewer.setComparator(new NameSorter());
+
+		TableColumn column = table.getColumn(0);
+		TableViewerColumn tvc = new TableViewerColumn(tableViewer, column);
+		tvc.setLabelProvider(new VertexParametersCellLabelProvider());
+
+		column = table.getColumn(1);
+		tvc = new TableViewerColumn(tableViewer, column);
+		tvc.setLabelProvider(new VertexParametersCellLabelProvider());
+		tvc.setEditingSupport(new VertexParametersEditingSupport(tvc.getViewer(),
+				table));
+	}
+
+	@Override
 	public void dispose() {
 		// remove ourselves as a selection listener
-        getSite().getPage().removeSelectionListener(this);
-        super.dispose();
+		getSite().getPage().removeSelectionListener(this);
+		super.dispose();
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		manager.add(action1);
-		manager.add(action2);
+		manager.add(actionAdd);
+		manager.add(actionDelete);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(action1);
+		manager.add(actionAdd);
 		manager.add(new Separator());
-		manager.add(action2);
+		manager.add(actionDelete);
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(action1);
-		manager.add(action2);
+		manager.add(actionAdd);
+		manager.add(actionDelete);
 	}
 
 	private void hookContextMenu() {
@@ -336,42 +385,35 @@ public class VertexParametersView extends ViewPart implements
 		getSite().registerContextMenu(menuMgr, tableViewer);
 	}
 
-	private void hookDoubleClickAction() {
-		tableViewer.addDoubleClickListener(new IDoubleClickListener() {
-			public void doubleClick(DoubleClickEvent event) {
-				doubleClickAction.run();
-			}
-		});
-	}
-
 	private void makeActions() {
-		action1 = new Action() {
+		actionAdd = new Action() {
 			public void run() {
 				showMessage("Action 1 executed");
 			}
 		};
-		action1.setText("Action 1");
-		action1.setToolTipText("Action 1 tooltip");
-		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
-				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+		actionAdd.setText("Add parameter");
+		actionAdd.setToolTipText("Adds a parameter to this vertex");
+		actionAdd.setImageDescriptor(Activator
+				.getImageDescriptor("icons/add_obj.gif"));
 
-		action2 = new Action() {
+		actionDelete = new Action() {
 			public void run() {
 				showMessage("Action 2 executed");
 			}
 		};
-		action2.setText("Action 2");
-		action2.setToolTipText("Action 2 tooltip");
-		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
-				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		doubleClickAction = new Action() {
-			public void run() {
-				ISelection selection = tableViewer.getSelection();
-				Object obj = ((IStructuredSelection) selection)
-						.getFirstElement();
-				showMessage("Double-click detected on " + obj.toString());
-			}
-		};
+		actionDelete.setText("Remove parameter");
+		actionDelete.setToolTipText("Removes a parameter from this vertex");
+		actionDelete.setImageDescriptor(Activator
+				.getImageDescriptor("icons/remove_obj.gif"));
+
+		// doubleClickAction = new Action() {
+		// public void run() {
+		// ISelection selection = tableViewer.getSelection();
+		// Object obj = ((IStructuredSelection) selection)
+		// .getFirstElement();
+		// showMessage("Double-click detected on " + obj.toString());
+		// }
+		// };
 	}
 
 	@Override
@@ -380,7 +422,7 @@ public class VertexParametersView extends ViewPart implements
 		if (part == this || selection == null) {
 			return;
 		}
-		
+
 		if (selection.isEmpty() == false) {
 			if (selection instanceof IStructuredSelection) {
 				IStructuredSelection structSel = (IStructuredSelection) selection;
@@ -392,6 +434,7 @@ public class VertexParametersView extends ViewPart implements
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
+	@Override
 	public void setFocus() {
 		tableViewer.getControl().setFocus();
 	}

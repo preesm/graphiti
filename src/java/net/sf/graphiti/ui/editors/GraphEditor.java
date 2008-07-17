@@ -132,8 +132,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		getActionRegistry().registerAction(new ZoomOutAction(manager));
 
 		// List of possible zoom levels. 1 = 100%
-		zoomLevels = new double[] { 0.001, 0.025, 0.05, 0.1, 0.15, 0.25, 0.5,
-				0.75, 1.0 };
+		zoomLevels = new double[] { 0.1, 0.15, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0 };
 		manager.setZoomLevels(zoomLevels);
 
 		// Predefined zoom levels

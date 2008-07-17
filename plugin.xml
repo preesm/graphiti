@@ -5,12 +5,13 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            name="Graphiti graph editor"
+            class="net.sf.graphiti.ui.editors.GraphEditor"
+            contributorClass="net.sf.graphiti.ui.editors.GraphActionBarContributor"
+            default="true"
             extensions="xml, xdf, xnl"
             icon="icons/graphiti.gif"
-            contributorClass="net.sf.graphiti.ui.editors.GraphActionBarContributor"
-            class="net.sf.graphiti.ui.editors.GraphEditor"
-            id="net.sf.graphiti.ui.editors.GraphEditor">
+            id="net.sf.graphiti.ui.editors.GraphEditor"
+            name="Graphiti graph editor">
       </editor>
    </extension>
    <extension

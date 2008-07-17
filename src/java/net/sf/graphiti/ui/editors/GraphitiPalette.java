@@ -54,7 +54,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.PaletteData;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Creates the Palette on the GUI with all the tools and the appropriate icons
@@ -128,11 +128,8 @@ public class GraphitiPalette {
 			height = 50;
 		}
 
-		// Creates a new image of widthxheightx24 with RGB mask
-		PaletteData palette = new PaletteData(0xFF0000, 0x00FF00, 0x0000FF);
-		ImageData data = new ImageData(width, height, 24, palette);
-		ImageDescriptor id = ImageDescriptor.createFromImageData(data);
-		Image image = id.createImage();
+		// Creates a new image of width x height on the current display
+		Image image = new Image(Display.getCurrent(), width, height);
 
 		// Paints the figure on it
 		GC gc = new GC(image);
@@ -140,8 +137,13 @@ public class GraphitiPalette {
 		figure.paint(graphics);
 
 		// Get the image data back, scaled to 16x16
-		data = image.getImageData().scaledTo(16, 16);
-		id = ImageDescriptor.createFromImageData(data);
+		ImageData data = image.getImageData().scaledTo(16, 16);
+		ImageDescriptor id = ImageDescriptor.createFromImageData(data);
+
+		// Disposes image (and GC btw) and SWT graphics
+		image.dispose();
+		graphics.dispose();
+		
 		return id;
 	}
 

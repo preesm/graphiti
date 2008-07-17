@@ -1,4 +1,4 @@
-; Tue Jul 15 18:32:30 CEST 2008
+; Wed Jul 16 14:36:46 CEST 2008
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 504")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[xnl_ProjectKB_Class52]
-		[xnl_ProjectKB_Class53]
-		[xnl_ProjectKB_Class54]
-		[xnl_ProjectKB_Class55]
-		[xnl_ProjectKB_Class56]))
+		[xnl_ProjectKB_Class315]
+		[xnl_ProjectKB_Class316]
+		[xnl_ProjectKB_Class317]
+		[xnl_ProjectKB_Class318]
+		[xnl_ProjectKB_Class319]))
 
 ([CLSES_TAB] of  Widget
 
@@ -5750,6 +5750,31 @@
 ([xnl_ProjectKB_Class31] of  Property_List
 )
 
+([xnl_ProjectKB_Class315] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([xnl_ProjectKB_Class316] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Class")
+	(string_value "%3ANAME"))
+
+([xnl_ProjectKB_Class317] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([xnl_ProjectKB_Class318] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([xnl_ProjectKB_Class319] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Thing")
+	(string_value "%3ANAME"))
+
 ([xnl_ProjectKB_Class32] of  Widget
 
 	(is_hidden TRUE)
@@ -5848,31 +5873,6 @@
 
 ([xnl_ProjectKB_Class51] of  Property_List
 )
-
-([xnl_ProjectKB_Class52] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([xnl_ProjectKB_Class53] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Class")
-	(string_value "%3ANAME"))
-
-([xnl_ProjectKB_Class54] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([xnl_ProjectKB_Class55] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([xnl_ProjectKB_Class56] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Thing")
-	(string_value "%3ANAME"))
 
 ([xnl_ProjectKB_Class6] of  Widget
 

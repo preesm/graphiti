@@ -29,6 +29,7 @@
 package net.sf.graphiti.ui.figure.shapes;
 
 import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 
@@ -48,6 +49,13 @@ public interface IShape {
 	 * @return A ConnectionAnchor object.
 	 */
 	public ConnectionAnchor getConnectionAnchor();
+
+	/**
+	 * Equivalent to <code>super.paintFigure(graphics)</code>.
+	 * 
+	 * @param graphics
+	 */
+	public void paintSuperFigure(Graphics graphics);
 
 	public void setColor(Color color);
 
