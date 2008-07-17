@@ -33,7 +33,7 @@ import net.sf.graphiti.ontology.elements.DocumentElement;
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class is an implementation of a DocumentElement.
+ * Implementation of DocumentElement.
  * 
  * @author Matthieu Wipliez
  * 

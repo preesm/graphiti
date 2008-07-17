@@ -27,7 +27,7 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</rdfs:comment>
     <owl:imports rdf:resource="http://net.sf.graphiti/basics.owl"/>
   </owl:Ontology>
-  <basic:IdParameter rdf:ID="IdParameter_2">
+  <basic:OtherAttribute rdf:ID="IdParameter_2">
     <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >id</basic:attribute_hasName>
     <basic:propertyBeanParameter_isParameter>
@@ -56,9 +56,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     <basic:parameterValue_hasValue rdf:datatype=
                     "http://www.w3.org/2001/XMLSchema#string"
                     >node</basic:parameterValue_hasValue>
-                    <basic:attribute_isReference rdf:datatype=
-                    "http://www.w3.org/2001/XMLSchema#boolean"
-                    >false</basic:attribute_isReference>
                     <basic:parameterValue_ofParameter rdf:resource="#VertexType"/>
                   </basic:ParameterValue>
                 </basic:parameter_hasParameterValue>
@@ -83,11 +80,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         </basic:parameter_appliesTo>
       </basic:VertexParameter>
     </basic:propertyBeanParameter_isParameter>
-    <basic:attribute_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >false</basic:attribute_isReference>
     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >id</basic:element_hasName>
-  </basic:IdParameter>
+  </basic:OtherAttribute>
   <basic:DocumentElement rdf:ID="RootNode">
     <basic:element_hasElementChildren>
       <basic:GraphElement rdf:ID="GraphNode">
@@ -99,11 +94,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             >node</basic:element_hasName>
             <basic:element_hasParameterValue rdf:resource="#NodeTypeParameterValue"/>
             <basic:element_hasElementChildren>
-              <basic:DefaultParameter rdf:ID="NameParameter">
+              <basic:OtherAttribute rdf:ID="NameParameter">
                 <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >data</basic:attribute_hasName>
-                <basic:attribute_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-                >false</basic:attribute_isReference>
                 <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >data</basic:element_hasName>
                 <basic:element_hasAttributeRestriction>
@@ -114,20 +107,17 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     <basic:attributeRestriction_hasName rdf:datatype=
                     "http://www.w3.org/2001/XMLSchema#string"
                     >key</basic:attributeRestriction_hasName>
-                    <basic:attribute_isReference rdf:datatype=
-                    "http://www.w3.org/2001/XMLSchema#boolean"
-                    >false</basic:attribute_isReference>
                     <basic:attributeRestriction_ofElement rdf:resource="#NameParameter"/>
                   </basic:AttributeRestriction>
                 </basic:element_hasAttributeRestriction>
-              </basic:DefaultParameter>
+              </basic:OtherAttribute>
             </basic:element_hasElementChildren>
           </basic:VertexElement>
         </basic:element_hasElementChildren>
         <basic:element_hasElementChildren>
           <basic:EdgeElement rdf:ID="EdgeNode">
             <basic:element_hasElementChildren>
-              <basic:DefaultParameter rdf:ID="DelayParameter">
+              <basic:OtherAttribute rdf:ID="DelayParameter">
                 <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >data</basic:attribute_hasName>
                 <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -168,9 +158,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                 <basic:parameterValue_hasValue
                                  rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                                 >edge</basic:parameterValue_hasValue>
-                                <basic:attribute_isReference rdf:datatype=
-                                "http://www.w3.org/2001/XMLSchema#boolean"
-                                >false</basic:attribute_isReference>
                                 <basic:parameterValue_ofParameter rdf:resource="#EdgeType"/>
                                 <basic:propertyBeanParameter_isParameter rdf:resource="#EdgeType"/>
                               </basic:ParameterValue>
@@ -193,20 +180,15 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     <basic:attributeRestriction_hasName rdf:datatype=
                     "http://www.w3.org/2001/XMLSchema#string"
                     >key</basic:attributeRestriction_hasName>
-                    <basic:attribute_isReference rdf:datatype=
-                    "http://www.w3.org/2001/XMLSchema#boolean"
-                    >false</basic:attribute_isReference>
                     <basic:attributeRestriction_hasValue rdf:datatype=
                     "http://www.w3.org/2001/XMLSchema#string"
                     >edge_delay</basic:attributeRestriction_hasValue>
                   </basic:AttributeRestriction>
                 </basic:element_hasAttributeRestriction>
-                <basic:attribute_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-                >false</basic:attribute_isReference>
-              </basic:DefaultParameter>
+              </basic:OtherAttribute>
             </basic:element_hasElementChildren>
             <basic:element_hasElementChildren>
-              <basic:DefaultParameter rdf:ID="ConsParameter">
+              <basic:OtherAttribute rdf:ID="ConsParameter">
                 <basic:propertyBeanParameter_isParameter rdf:resource="#EdgeCons"/>
                 <basic:element_hasAttributeRestriction>
                   <basic:AttributeRestriction rdf:ID="ConsRestriction">
@@ -214,9 +196,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     <basic:attributeRestriction_hasValue rdf:datatype=
                     "http://www.w3.org/2001/XMLSchema#string"
                     >edge_cons</basic:attributeRestriction_hasValue>
-                    <basic:attribute_isReference rdf:datatype=
-                    "http://www.w3.org/2001/XMLSchema#boolean"
-                    >false</basic:attribute_isReference>
                     <basic:attributeRestriction_hasName rdf:datatype=
                     "http://www.w3.org/2001/XMLSchema#string"
                     >key</basic:attributeRestriction_hasName>
@@ -226,18 +205,13 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 >data</basic:attribute_hasName>
                 <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >data</basic:element_hasName>
-                <basic:attribute_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-                >false</basic:attribute_isReference>
-              </basic:DefaultParameter>
+              </basic:OtherAttribute>
             </basic:element_hasElementChildren>
             <basic:element_hasElementChildren>
-              <basic:DefaultParameter rdf:ID="ProdParameter">
+              <basic:OtherAttribute rdf:ID="ProdParameter">
                 <basic:element_hasAttributeRestriction>
                   <basic:AttributeRestriction rdf:ID="ProdRestriction">
                     <basic:attributeRestriction_ofElement rdf:resource="#ProdParameter"/>
-                    <basic:attribute_isReference rdf:datatype=
-                    "http://www.w3.org/2001/XMLSchema#boolean"
-                    >false</basic:attribute_isReference>
                     <basic:attributeRestriction_hasName rdf:datatype=
                     "http://www.w3.org/2001/XMLSchema#string"
                     >key</basic:attributeRestriction_hasName>
@@ -246,14 +220,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     >edge_prod</basic:attributeRestriction_hasValue>
                   </basic:AttributeRestriction>
                 </basic:element_hasAttributeRestriction>
-                <basic:attribute_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-                >false</basic:attribute_isReference>
                 <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >data</basic:attribute_hasName>
                 <basic:propertyBeanParameter_isParameter rdf:resource="#EdgeProd"/>
                 <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >data</basic:element_hasName>
-              </basic:DefaultParameter>
+              </basic:OtherAttribute>
             </basic:element_hasElementChildren>
             <basic:element_hasPrecedenceElement rdf:resource="#VertexNode"/>
             <basic:element_hasParameterValue rdf:resource="#EdgeTypeParameterValue"/>
@@ -264,8 +236,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 >source</basic:element_hasName>
                 <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >source</basic:attribute_hasName>
-                <basic:attribute_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-                >true</basic:attribute_isReference>
               </basic:EdgeSourceConnection>
             </basic:element_hasAttributes>
             <basic:element_hasAttributes>
@@ -273,8 +243,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >target</basic:element_hasName>
                 <basic:attribute_isReferenceTo rdf:resource="#VertexNode"/>
-                <basic:attribute_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-                >true</basic:attribute_isReference>
                 <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >target</basic:attribute_hasName>
               </basic:EdgeTargetConnection>

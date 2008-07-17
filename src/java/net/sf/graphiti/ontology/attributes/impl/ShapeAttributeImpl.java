@@ -35,7 +35,9 @@ import net.sf.graphiti.ontology.enums.Shapes;
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * @author mwipliez
+ * Implementation of ShapeAttribute.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
 public class ShapeAttributeImpl extends FigureAttributeImpl implements

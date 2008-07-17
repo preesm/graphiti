@@ -53,7 +53,7 @@ import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
-import net.sf.graphiti.ontology.domAttributes.parameters.PropertyBeanParameter;
+import net.sf.graphiti.ontology.domAttributes.otherAttributes.OtherAttribute;
 import net.sf.graphiti.ontology.parameters.Parameter;
 
 import org.w3c.dom.Document;
@@ -173,9 +173,9 @@ public class GenericGraphFileWriterBis {
 		while (ontologyElements.size() > 0) {
 			net.sf.graphiti.ontology.elements.Element node = ontologyElements
 					.get(0);
-			if (node.hasPrecedenceElements() != null) {
-				if (ontologyElements.contains(node.hasPrecedenceElements())) {
-					node = node.hasPrecedenceElements();
+			if (node.hasPrecedenceElement() != null) {
+				if (ontologyElements.contains(node.hasPrecedenceElement())) {
+					node = node.hasPrecedenceElement();
 				}
 			}
 			ontologyElements.remove(node);
@@ -263,17 +263,17 @@ public class GenericGraphFileWriterBis {
 						.getNodeValue());
 			}
 		}
-		if (node.hasOntClass(OntologyFactory.getClassPropertyBeanParameter())) {
-			PropertyBeanParameter param = (PropertyBeanParameter) node;
+		if (node.hasOntClass(OntologyFactory.getClassOtherAttribute())) {
+			OtherAttribute param = (OtherAttribute) node;
 			newElement.setTextContent((String) element.getValue(param
 					.hasParameter().hasName()));
 		}
 		for (DOMAttribute attr : node.hasAttributes()) {
 			if (attr.hasOntClass(OntologyFactory
-					.getClassPropertyBeanParameter())
+					.getClassOtherAttribute())
 					&& (!attr.hasOntClass(OntologyFactory
 							.getClassParameterValue()))) {
-				PropertyBeanParameter beanParam = (PropertyBeanParameter) attr;
+				OtherAttribute beanParam = (OtherAttribute) attr;
 				Parameter param = beanParam.hasParameter();
 				Object val = element.getValue(param.hasName());
 				if (val != null) {
@@ -281,7 +281,7 @@ public class GenericGraphFileWriterBis {
 							.setAttribute(beanParam.hasName(), val.toString());
 				}
 			} else if (attr.hasOntClass(OntologyFactory
-					.getClassEdgeParameterNode())) {
+					.getClassEdgeAttribute())) {
 				if (attr.hasOntClass(OntologyFactory
 						.getClassEdgeSourceConnection())) {
 					newElement.setAttribute(attr.hasName(),

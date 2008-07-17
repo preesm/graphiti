@@ -33,7 +33,9 @@ import net.sf.graphiti.ontology.elements.GraphElement;
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * @author mwipliez
+ * Implementation of GraphElement.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
 public class GraphElementImpl extends DocumentElementImpl implements

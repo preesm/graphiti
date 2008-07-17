@@ -26,14 +26,14 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.domAttributes.parameters;
+package net.sf.graphiti.ontology.domAttributes.edgeAttributes;
 
 /**
- * This class provides an id parameter.
+ * This class provides an (undirected) edge connection.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface IdParameter extends PropertyBeanParameter {
+public interface EdgeConnection extends EdgeAttribute {
 }

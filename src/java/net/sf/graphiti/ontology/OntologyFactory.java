@@ -93,16 +93,16 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#DataTypes";
 	}
 
-	public static String getClassDefaultParameter() {
-		return "http://net.sf.graphiti/basics.owl#DefaultParameter";
-	}
-
 	public static String getClassDocumentElement() {
 		return "http://net.sf.graphiti/basics.owl#DocumentElement";
 	}
 
 	public static String getClassDOMAttribute() {
 		return "http://net.sf.graphiti/basics.owl#DOMAttribute";
+	}
+
+	public static String getClassEdgeAttribute() {
+		return "http://net.sf.graphiti/basics.owl#EdgeAttribute";
 	}
 
 	public static String getClassEdgeConnection() {
@@ -115,10 +115,6 @@ public class OntologyFactory {
 
 	public static String getClassEdgeParameter() {
 		return "http://net.sf.graphiti/basics.owl#EdgeParameter";
-	}
-
-	public static String getClassEdgeParameterNode() {
-		return "http://net.sf.graphiti/basics.owl#EdgeParameterNode";
 	}
 
 	public static String getClassEdgeSourceConnection() {
@@ -153,12 +149,12 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#GraphType";
 	}
 
-	public static String getClassIdParameter() {
-		return "http://net.sf.graphiti/basics.owl#IdParameter";
-	}
-
 	public static String getClassInfoElement() {
 		return "http://net.sf.graphiti/basics.owl#InfoElement";
+	}
+
+	public static String getClassOtherAttribute() {
+		return "http://net.sf.graphiti/basics.owl#OtherAttribute";
 	}
 
 	public static String getClassParameter() {
@@ -171,10 +167,6 @@ public class OntologyFactory {
 
 	public static String getClassPosition() {
 		return "http://net.sf.graphiti/basics.owl#Position";
-	}
-
-	public static String getClassPropertyBeanParameter() {
-		return "http://net.sf.graphiti/basics.owl#PropertyBeanParameter";
 	}
 
 	public static String getClassShapeAttribute() {
@@ -259,10 +251,6 @@ public class OntologyFactory {
 
 	public static String getPropertyFigureAttributeAppliesTo() {
 		return "http://net.sf.graphiti/basics.owl#figureAttribute_appliesTo";
-	}
-
-	public static String getPropertyFigureAttributeHasType() {
-		return "http://net.sf.graphiti/basics.owl#figureAttribute_hasType";
 	}
 
 	public static String getPropertyInfoElementReferencesParameter() {

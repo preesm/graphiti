@@ -1,4 +1,4 @@
-; Tue Jul 15 20:06:17 CEST 2008
+; Thu Jul 17 18:42:42 CEST 2008
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 504")
@@ -1013,7 +1013,7 @@
 ([KB_444675_Instance_0] of  String
 
 	(name "SwitchableClassDefinitionType")
-	(string_value "edu.stanford.smi.protegex.owl.ui.cls.LogicClassDefinitionWidgetType"))
+	(string_value "edu.stanford.smi.protegex.owl.ui.cls.PropertiesClassDefinitionWidget"))
 
 ([KB_465546_Instance_567] of  Widget
 

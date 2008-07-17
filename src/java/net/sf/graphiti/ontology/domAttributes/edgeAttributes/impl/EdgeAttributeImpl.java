@@ -26,14 +26,35 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.domAttributes.parameters;
+package net.sf.graphiti.ontology.domAttributes.edgeAttributes.impl;
+
+import java.util.Set;
+
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.domAttributes.edgeAttributes.EdgeAttribute;
+import net.sf.graphiti.ontology.domAttributes.impl.DOMAttributeImpl;
+import net.sf.graphiti.ontology.elements.Element;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides a default parameter.
+ * Implementation of EdgeAttribute.
  * 
- * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface DefaultParameter extends PropertyBeanParameter {
+public class EdgeAttributeImpl extends DOMAttributeImpl implements
+		EdgeAttribute {
+
+	public EdgeAttributeImpl(Individual individual) {
+		super(individual);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<Element> isReferenceTo() {
+		return (Set<Element>) listIndividuals(OntologyFactory
+				.getPropertyDOMAttributeIsReferenceTo());
+	}
+
 }

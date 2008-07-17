@@ -33,7 +33,9 @@ import net.sf.graphiti.ontology.elements.VertexElement;
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * @author mwipliez
+ * Implementation of VertexElement.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
 public class VertexElementImpl extends ElementImpl implements VertexElement {

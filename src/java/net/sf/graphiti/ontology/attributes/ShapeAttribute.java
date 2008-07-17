@@ -39,6 +39,10 @@ import net.sf.graphiti.ontology.enums.Shapes;
  */
 public interface ShapeAttribute extends FigureAttribute {
 
+	/**
+	 * Returns the shape associated with this attribute.
+	 * @return The shape associated with this attribute.
+	 */
 	public Shapes hasShape();
 
 }

@@ -26,14 +26,14 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.domAttributes.parameters.edges;
+package net.sf.graphiti.ontology.domAttributes.edgeAttributes;
 
 /**
- * This class provides an edge connection.
+ * This class provides a (directed) edge target connection.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface EdgeConnection extends EdgeParameterNode {
+public interface EdgeTargetConnection extends EdgeConnection {
 }

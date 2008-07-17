@@ -26,18 +26,19 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.domAttributes.parameters.edges.impl;
+package net.sf.graphiti.ontology.domAttributes.edgeAttributes.impl;
 
-import net.sf.graphiti.ontology.domAttributes.impl.DOMAttributeImpl;
-import net.sf.graphiti.ontology.domAttributes.parameters.edges.EdgeSourceConnection;
+import net.sf.graphiti.ontology.domAttributes.edgeAttributes.EdgeSourceConnection;
 
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * @author mwipliez
+ * Implementation of EdgeSourceConnection.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
-public class EdgeSourceConnectionImpl extends DOMAttributeImpl implements
+public class EdgeSourceConnectionImpl extends EdgeConnectionImpl implements
 		EdgeSourceConnection {
 
 	public EdgeSourceConnectionImpl(Individual individual) {

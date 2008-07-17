@@ -35,7 +35,9 @@ import net.sf.graphiti.ontology.parameters.Parameter;
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * @author mwipliez
+ * Implementation of InfoElement.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
 public class InfoElementImpl extends DocumentElementImpl implements InfoElement {

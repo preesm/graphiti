@@ -26,22 +26,37 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.domAttributes.parameters.edges.impl;
+package net.sf.graphiti.ontology.domAttributes.otherAttributes.impl;
 
+import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.domAttributes.impl.DOMAttributeImpl;
-import net.sf.graphiti.ontology.domAttributes.parameters.edges.EdgeTargetConnection;
+import net.sf.graphiti.ontology.domAttributes.otherAttributes.OtherAttribute;
+import net.sf.graphiti.ontology.parameters.Parameter;
 
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * @author mwipliez
+ * Implementation of OtherAttribute.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
-public class EdgeTargetConnectionImpl extends DOMAttributeImpl implements
-		EdgeTargetConnection {
+public class OtherAttributeImpl extends DOMAttributeImpl
+		implements OtherAttribute {
 
-	public EdgeTargetConnectionImpl(Individual individual) {
+	public OtherAttributeImpl(Individual individual) {
 		super(individual);
+	}
+
+	@Override
+	public Parameter hasParameter() {
+		return (Parameter) getIndividualProperty(OntologyFactory
+				.getPropertyPropertyBeanParameterHasParameter());
+	}
+
+	public String toString() {
+		return super.toString() + " | OtherAttribute: hasParameter: "
+				+ hasParameter().hasName();
 	}
 
 }

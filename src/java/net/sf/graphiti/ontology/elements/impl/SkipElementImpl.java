@@ -33,7 +33,9 @@ import net.sf.graphiti.ontology.elements.SkipElement;
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * @author mwipliez
+ * Implementation of SkipElement.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
 public class SkipElementImpl extends ElementImpl implements SkipElement {

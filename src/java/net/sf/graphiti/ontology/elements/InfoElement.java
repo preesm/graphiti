@@ -32,14 +32,19 @@ import net.sf.graphiti.ontology.parameters.Parameter;
 
 /**
  * This class provides the ontology-defined representation of a DOM element in
- * the input XML document. An {@link InfoElement} may contain interesting
- * information.
+ * the input XML document. An {@link InfoElement} contains information in its
+ * body that is associated to a {@link Parameter}.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
 public interface InfoElement extends Element {
-	
+
+	/**
+	 * Returns a {@link Parameter} referenced by this {@link InfoElement}.
+	 * 
+	 * @return A {@link Parameter} referenced by this {@link InfoElement}.
+	 */
 	public Parameter referencesParameter();
 }

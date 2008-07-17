@@ -46,6 +46,5 @@ public interface FigureAttribute extends OntologyNode {
 	 * @return The type this figure attribute applies to.
 	 */
 	public Type appliesTo();
-
-	public String hasType();
+	
 }

@@ -36,7 +36,10 @@ import net.sf.graphiti.ontology.elements.Element;
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * @author mwipliez
+ * Implementation of AttributeRestriction.
+ * 
+ * @author Jonathan Piat
+ * @author Matthieu Wipliez
  * 
  */
 public class AttributeRestrictionImpl extends OntologyNodeImpl implements

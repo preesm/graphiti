@@ -52,8 +52,8 @@ import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
 import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
-import net.sf.graphiti.ontology.domAttributes.parameters.PropertyBeanParameter;
-import net.sf.graphiti.ontology.domAttributes.parameters.edges.EdgeParameterNode;
+import net.sf.graphiti.ontology.domAttributes.edgeAttributes.EdgeAttribute;
+import net.sf.graphiti.ontology.domAttributes.otherAttributes.OtherAttribute;
 import net.sf.graphiti.ontology.elements.Element;
 import net.sf.graphiti.ontology.elements.InfoElement;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
@@ -121,7 +121,7 @@ public class GenericGraphFileParser {
 		return null;
 	}
 
-	private PropertyBean getReference(DOMAttribute node, String refVal) {
+	private PropertyBean getReference(EdgeAttribute node, String refVal) {
 		for (Element refType : node.isReferenceTo()) {
 			List<PropertyBean> references = ontDomInstances.get(refType);
 			if (references != null) {
@@ -232,41 +232,35 @@ public class GenericGraphFileParser {
 	 */
 	private void parseAttribute(DOMAttribute ontNode, Node attribute,
 			PropertyBean parentElement) {
-		// TODO: OMG... So it really all boils down to this simple fact: either
-		// we have an attribute that references a parameter, or an element. The
-		// maybe most disturbing thing is that the if branches are not exclusive
-		// (although in the ontology they are...). WHAT A FUCKING MESS! So the
-		// todo is simply to simplify the ontology.
-
-		// if this parameter is a propertyBeanParameter or an IdParameter
-		if (ontNode.hasOntClass(OntologyFactory.getClassIdParameter())
-				|| ontNode.hasOntClass(OntologyFactory
-						.getClassPropertyBeanParameter())) {
+		// if this parameter is an EdgeAttribute
+		if (ontNode.hasOntClass(OntologyFactory.getClassEdgeAttribute())) {
+			PropertyBean ref = getReference((EdgeAttribute) ontNode, attribute
+					.getNodeValue());
+			if (parentElement instanceof Edge
+					&& ontNode.hasOntClass(OntologyFactory
+							.getClassEdgeAttribute())) {
+				Edge edge = (Edge) parentElement;
+				String nodeName = attribute.getNodeName();
+				String nodeValue = attribute.getNodeValue();
+				edge.setValue(nodeName, nodeValue);
+				setEdgeConnection(ref, (EdgeAttribute) ontNode, edge);
+			}
+		} else {
+			// if this parameter is an OtherAttribute
 			if (attribute != null) {
 				String value = attribute.getNodeValue();
 				if (value == null) {
 					value = attribute.getTextContent();
 				}
-				if (ontNode.hasOntClass(OntologyFactory.getClassIdParameter())) {
-					parentElement.setValue(Graph.PARAMETER_ID, value);
-				} else {
-					PropertyBeanParameter beanNode = (PropertyBeanParameter) ontNode;
-					parentElement.setValue(beanNode.hasParameter().hasName(),
-							value);
-				}
-			}
-		}
-
-		if (ontNode.isReference()) {
-			PropertyBean ref = getReference(ontNode, attribute.getNodeValue());
-			if (parentElement instanceof Edge
-					&& ontNode.hasOntClass(OntologyFactory
-							.getClassEdgeParameterNode())) {
-				Edge edge = (Edge) parentElement;
-				String nodeName = attribute.getNodeName();
-				String nodeValue = attribute.getNodeValue();
-				edge.setValue(nodeName, nodeValue);
-				setEdgeConnection(ref, (EdgeParameterNode) ontNode, edge);
+				// if
+				// (ontNode.hasOntClass(OntologyFactory.getClassIdParameter()))
+				// {
+				// parentElement.setValue(Graph.PARAMETER_ID, value);
+				// } else {
+				OtherAttribute beanNode = (OtherAttribute) ontNode;
+				parentElement
+						.setValue(beanNode.hasParameter().hasName(), value);
+				// }
 			}
 		}
 	}
@@ -537,7 +531,7 @@ public class GenericGraphFileParser {
 	}
 
 	private void setEdgeConnection(PropertyBean ref,
-			EdgeParameterNode connectionType, Edge edge) {
+			EdgeAttribute connectionType, Edge edge) {
 		Vertex connection;
 		if (ref == null || ref instanceof Graph) {
 			connection = new Vertex(edge.getParentDocument());

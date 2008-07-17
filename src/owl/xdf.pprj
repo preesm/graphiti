@@ -1,4 +1,4 @@
-; Wed Jul 16 14:38:27 CEST 2008
+; Thu Jul 17 18:08:42 CEST 2008
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 504")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[xdf_ProjectKB_Class207]
-		[xdf_ProjectKB_Class208]
-		[xdf_ProjectKB_Class209]
-		[xdf_ProjectKB_Class210]
-		[xdf_ProjectKB_Class211]))
+		[xdf_ProjectKB_Class142]
+		[xdf_ProjectKB_Class143]
+		[xdf_ProjectKB_Class144]
+		[xdf_ProjectKB_Class145]
+		[xdf_ProjectKB_Class146]))
 
 ([CLSES_TAB] of  Widget
 
@@ -5344,11 +5344,13 @@
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
 		[KB_713803_Instance_477]
+		[xdf_ProjectKB_Class52]
 		[KB_313796_Instance_852]
 		[KB_691299_Instance_398]
 		[PAL_FORM_WIDGET]
 		[Instance_581]
 		[KB_713803_Instance_693]
+		[xdf_ProjectKB_Class81]
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[KB_938545_Instance_166]
 		[STANDARD_SLOT_FORM_WIDGET]
@@ -5648,6 +5650,66 @@
 	(property_list [xdf_ProjectKB_Class11])
 	(widget_class_name "ca.uvic.csr.shrimp.jambalaya.JambalayaTab"))
 
+([xdf_ProjectKB_Class100] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://www.w3.org/2000/01/rdf-schema#seeAlso")
+	(property_list [xdf_ProjectKB_Class101]))
+
+([xdf_ProjectKB_Class101] of  Property_List
+)
+
+([xdf_ProjectKB_Class102] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://www.w3.org/2000/01/rdf-schema#label")
+	(property_list [xdf_ProjectKB_Class103]))
+
+([xdf_ProjectKB_Class103] of  Property_List
+)
+
+([xdf_ProjectKB_Class104] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "http://net.sf.graphiti/basics.owl#attribute_isReferenceTo")
+	(property_list [xdf_ProjectKB_Class105])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([xdf_ProjectKB_Class105] of  Property_List
+)
+
+([xdf_ProjectKB_Class106] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "http://net.sf.graphiti/basics.owl#attribute_hasName")
+	(property_list [xdf_ProjectKB_Class107])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([xdf_ProjectKB_Class107] of  Property_List
+)
+
+([xdf_ProjectKB_Class108] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "http://net.sf.graphiti/basics.owl#attribute_isReference")
+	(property_list [xdf_ProjectKB_Class109])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 360))
+
+([xdf_ProjectKB_Class109] of  Property_List
+)
+
 ([xdf_ProjectKB_Class11] of  Property_List
 )
 
@@ -5665,6 +5727,31 @@
 	(is_hidden TRUE)
 	(property_list [xdf_ProjectKB_Class15])
 	(widget_class_name "edu.stanford.smi.protegex.widget.pal.PalConstraintsTab"))
+
+([xdf_ProjectKB_Class142] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([xdf_ProjectKB_Class143] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Class")
+	(string_value "%3ANAME"))
+
+([xdf_ProjectKB_Class144] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([xdf_ProjectKB_Class145] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([xdf_ProjectKB_Class146] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Thing")
+	(string_value "%3ANAME"))
 
 ([xdf_ProjectKB_Class15] of  Property_List
 )
@@ -5699,33 +5786,8 @@
 	(property_list [xdf_ProjectKB_Class21])
 	(widget_class_name "edu.stanford.smi.RemoteKBTab.UMLSTab"))
 
-([xdf_ProjectKB_Class207] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([xdf_ProjectKB_Class208] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Class")
-	(string_value "%3ANAME"))
-
-([xdf_ProjectKB_Class209] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
 ([xdf_ProjectKB_Class21] of  Property_List
 )
-
-([xdf_ProjectKB_Class210] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([xdf_ProjectKB_Class211] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Thing")
-	(string_value "%3ANAME"))
 
 ([xdf_ProjectKB_Class22] of  Widget
 
@@ -5874,14 +5936,177 @@
 ([xdf_ProjectKB_Class51] of  Property_List
 )
 
+([xdf_ProjectKB_Class52] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://net.sf.graphiti/basics.owl#EdgeSourceConnection")
+	(property_list [xdf_ProjectKB_Class55])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([xdf_ProjectKB_Class55] of  Property_List
+
+	(properties
+		[xdf_ProjectKB_Class56]
+		[xdf_ProjectKB_Class59]
+		[xdf_ProjectKB_Class62]
+		[xdf_ProjectKB_Class65]
+		[xdf_ProjectKB_Class67]
+		[xdf_ProjectKB_Class69]
+		[xdf_ProjectKB_Class71]
+		[xdf_ProjectKB_Class73]
+		[xdf_ProjectKB_Class75]
+		[xdf_ProjectKB_Class77]
+		[xdf_ProjectKB_Class79]))
+
+([xdf_ProjectKB_Class56] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [xdf_ProjectKB_Class57])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([xdf_ProjectKB_Class57] of  Property_List
+
+	(properties [xdf_ProjectKB_Class58]))
+
+([xdf_ProjectKB_Class58] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
+([xdf_ProjectKB_Class59] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[xdf_ProjectKB_Class60]
+		[xdf_ProjectKB_Class61]))
+
 ([xdf_ProjectKB_Class6] of  Widget
 
 	(is_hidden TRUE)
 	(property_list [xdf_ProjectKB_Class7])
 	(widget_class_name "ezpal.EZPalTab"))
 
+([xdf_ProjectKB_Class60] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
+([xdf_ProjectKB_Class61] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([xdf_ProjectKB_Class62] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "http://protege.stanford.edu/plugins/owl/protege#inferredType")
+	(property_list [xdf_ProjectKB_Class63])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([xdf_ProjectKB_Class63] of  Property_List
+
+	(properties [xdf_ProjectKB_Class64]))
+
+([xdf_ProjectKB_Class64] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([xdf_ProjectKB_Class65] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://www.w3.org/2002/07/owl#versionInfo")
+	(property_list [xdf_ProjectKB_Class66]))
+
+([xdf_ProjectKB_Class66] of  Property_List
+)
+
+([xdf_ProjectKB_Class67] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://www.w3.org/2000/01/rdf-schema#isDefinedBy")
+	(property_list [xdf_ProjectKB_Class68]))
+
+([xdf_ProjectKB_Class68] of  Property_List
+)
+
+([xdf_ProjectKB_Class69] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://www.w3.org/2000/01/rdf-schema#comment")
+	(property_list [xdf_ProjectKB_Class70]))
+
 ([xdf_ProjectKB_Class7] of  Property_List
 )
+
+([xdf_ProjectKB_Class70] of  Property_List
+)
+
+([xdf_ProjectKB_Class71] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://www.w3.org/2000/01/rdf-schema#seeAlso")
+	(property_list [xdf_ProjectKB_Class72]))
+
+([xdf_ProjectKB_Class72] of  Property_List
+)
+
+([xdf_ProjectKB_Class73] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://www.w3.org/2000/01/rdf-schema#label")
+	(property_list [xdf_ProjectKB_Class74]))
+
+([xdf_ProjectKB_Class74] of  Property_List
+)
+
+([xdf_ProjectKB_Class75] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "http://net.sf.graphiti/basics.owl#attribute_isReferenceTo")
+	(property_list [xdf_ProjectKB_Class76])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
+	(width 200)
+	(x 0)
+	(y 240))
+
+([xdf_ProjectKB_Class76] of  Property_List
+)
+
+([xdf_ProjectKB_Class77] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "http://net.sf.graphiti/basics.owl#attribute_hasName")
+	(property_list [xdf_ProjectKB_Class78])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([xdf_ProjectKB_Class78] of  Property_List
+)
+
+([xdf_ProjectKB_Class79] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "http://net.sf.graphiti/basics.owl#attribute_isReference")
+	(property_list [xdf_ProjectKB_Class80])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
+	(width 200)
+	(x 0)
+	(y 360))
 
 ([xdf_ProjectKB_Class8] of  Widget
 
@@ -5889,7 +6114,116 @@
 	(property_list [xdf_ProjectKB_Class9])
 	(widget_class_name "edu.stanford.smi.protegex.server_changes.prompt.UsersTab"))
 
+([xdf_ProjectKB_Class80] of  Property_List
+)
+
+([xdf_ProjectKB_Class81] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://net.sf.graphiti/basics.owl#EdgeTargetConnection")
+	(property_list [xdf_ProjectKB_Class84])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+
+([xdf_ProjectKB_Class84] of  Property_List
+
+	(properties
+		[xdf_ProjectKB_Class85]
+		[xdf_ProjectKB_Class88]
+		[xdf_ProjectKB_Class91]
+		[xdf_ProjectKB_Class94]
+		[xdf_ProjectKB_Class96]
+		[xdf_ProjectKB_Class98]
+		[xdf_ProjectKB_Class100]
+		[xdf_ProjectKB_Class102]
+		[xdf_ProjectKB_Class104]
+		[xdf_ProjectKB_Class106]
+		[xdf_ProjectKB_Class108]))
+
+([xdf_ProjectKB_Class85] of  Widget
+
+	(height 0)
+	(is_hidden FALSE)
+	(label "Name")
+	(name ":NAME")
+	(property_list [xdf_ProjectKB_Class86])
+	(width 0)
+	(x 0)
+	(y 0))
+
+([xdf_ProjectKB_Class86] of  Property_List
+
+	(properties [xdf_ProjectKB_Class87]))
+
+([xdf_ProjectKB_Class87] of  Boolean
+
+	(boolean_value TRUE)
+	(name "DisabledByUser"))
+
+([xdf_ProjectKB_Class88] of  Property_List
+
+	(name "layout properties")
+	(properties
+		[xdf_ProjectKB_Class89]
+		[xdf_ProjectKB_Class90]))
+
+([xdf_ProjectKB_Class89] of  String
+
+	(name "horizontal_stretcher")
+	(string_value "<<all>>"))
+
 ([xdf_ProjectKB_Class9] of  Property_List
+)
+
+([xdf_ProjectKB_Class90] of  String
+
+	(name "vertical_stretcher")
+	(string_value "<<none>>"))
+
+([xdf_ProjectKB_Class91] of  Widget
+
+	(height 180)
+	(is_hidden FALSE)
+	(name "http://protege.stanford.edu/plugins/owl/protege#inferredType")
+	(property_list [xdf_ProjectKB_Class92])
+	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
+	(width 550)
+	(x 0)
+	(y 0))
+
+([xdf_ProjectKB_Class92] of  Property_List
+
+	(properties [xdf_ProjectKB_Class93]))
+
+([xdf_ProjectKB_Class93] of  Boolean
+
+	(boolean_value FALSE)
+	(name "DisabledByUser"))
+
+([xdf_ProjectKB_Class94] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://www.w3.org/2002/07/owl#versionInfo")
+	(property_list [xdf_ProjectKB_Class95]))
+
+([xdf_ProjectKB_Class95] of  Property_List
+)
+
+([xdf_ProjectKB_Class96] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://www.w3.org/2000/01/rdf-schema#isDefinedBy")
+	(property_list [xdf_ProjectKB_Class97]))
+
+([xdf_ProjectKB_Class97] of  Property_List
+)
+
+([xdf_ProjectKB_Class98] of  Widget
+
+	(is_hidden FALSE)
+	(name "http://www.w3.org/2000/01/rdf-schema#comment")
+	(property_list [xdf_ProjectKB_Class99]))
+
+([xdf_ProjectKB_Class99] of  Property_List
 )
 
 ([XY_Instance_0] of  Property_List

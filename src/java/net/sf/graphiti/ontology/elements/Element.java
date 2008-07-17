@@ -45,16 +45,56 @@ import net.sf.graphiti.ontology.parameterValues.ParameterValue;
  */
 public interface Element extends OntologyNode {
 
+	/**
+	 * Returns a set of {@link AttributeRestriction} that may be associated with
+	 * this {@link Element}.
+	 * 
+	 * @return A set of {@link AttributeRestriction} that may be associated with
+	 *         this {@link Element}.
+	 */
 	public Set<AttributeRestriction> hasAttributeRestriction();
 
+	/**
+	 * Returns a set of {@link DOMAttribute} that may be associated with this
+	 * {@link Element}.
+	 * 
+	 * @return A set of {@link DOMAttribute} that may be associated with this
+	 *         {@link Element}.
+	 */
 	public Set<DOMAttribute> hasAttributes();
-	
+
+	/**
+	 * Returns a set of {@link Element} that may be children of this
+	 * {@link Element}.
+	 * 
+	 * @return A set of {@link Element} that may be children of this
+	 *         {@link Element}.
+	 */
 	public Set<Element> hasElementChildren();
 
+	/**
+	 * Returns the name of this {@link Element}.
+	 * 
+	 * @return The name of this {@link Element}.
+	 */
 	public String hasName();
 
+	/**
+	 * Returns a set of {@link ParameterValue} that may be associated with this
+	 * {@link Element}.
+	 * 
+	 * @return A set of {@link ParameterValue} that may be associated with this
+	 *         {@link Element}.
+	 */
 	public Set<ParameterValue> hasParameterValues();
 
-	public Element hasPrecedenceElements();
+	/**
+	 * Returns an {@link Element} that should appear before this one (if any,
+	 * otherwise <code>null</code>).
+	 * 
+	 * @return An {@link Element} that should appear before this one (if any,
+	 *         otherwise <code>null</code>).
+	 */
+	public Element hasPrecedenceElement();
 
 }

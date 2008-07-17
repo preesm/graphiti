@@ -28,17 +28,16 @@
  */
 package net.sf.graphiti.ontology.domAttributes.impl;
 
-import java.util.Set;
-
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.OntologyNodeImpl;
 import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
-import net.sf.graphiti.ontology.elements.Element;
 
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * @author mwipliez
+ * Implementation of DOMAttribute.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
 public class DOMAttributeImpl extends OntologyNodeImpl implements
@@ -54,25 +53,8 @@ public class DOMAttributeImpl extends OntologyNodeImpl implements
 				.getPropertyDOMAttributeHasName());
 	}
 
-	@Override
-	public boolean isReference() {
-		return getBooleanProperty(OntologyFactory
-				.getPropertyDOMAttributeIsReference());
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Set<Element> isReferenceTo() {
-		return (Set<Element>) listIndividuals(OntologyFactory
-				.getPropertyDOMAttributeIsReferenceTo());
-	}
-
 	public String toString() {
-		String res = super.toString() + ", isReference: " + isReference();
-		if (isReference()) {
-			// res += ", isReferenceTo: " + isReferenceTo().hasName();
-		}
-
+		String res = super.toString();
 		return res;
 	}
 

@@ -27,7 +27,7 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</rdfs:comment>
     <owl:imports rdf:resource="http://net.sf.graphiti/basics.owl"/>
   </owl:Ontology>
-  <basic:DefaultParameter rdf:ID="destinationPort">
+  <basic:OtherAttribute rdf:ID="destinationPort">
     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >dst-port</basic:element_hasName>
     <basic:propertyBeanParameter_isParameter>
@@ -40,9 +40,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     </basic:propertyBeanParameter_isParameter>
     <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >dst-port</basic:attribute_hasName>
-    <basic:attribute_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-    >false</basic:attribute_isReference>
-  </basic:DefaultParameter>
+  </basic:OtherAttribute>
   <basic:DocumentElement rdf:ID="XNL_Document">
     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Network</basic:element_hasName>
@@ -94,15 +92,13 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >EntityDecl</basic:element_hasName>
         <basic:element_hasAttributes>
-          <basic:IdParameter rdf:ID="Instance_Id">
+          <basic:OtherAttribute rdf:ID="Instance_Id">
             <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >name</basic:attribute_hasName>
             <basic:propertyBeanParameter_isParameter rdf:resource="#vertexIdParameter"/>
             <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >name</basic:element_hasName>
-            <basic:attribute_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-            >false</basic:attribute_isReference>
-          </basic:IdParameter>
+          </basic:OtherAttribute>
         </basic:element_hasAttributes>
         <basic:element_hasPrecedenceElement>
           <basic:VertexElement rdf:ID="Port_Node">
@@ -149,20 +145,16 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 <basic:parameterValue_ofParameter rdf:resource="#portTypeParameter"/>
                 <basic:parameterValue_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >Port</basic:parameterValue_hasValue>
-                <basic:attribute_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-                >false</basic:attribute_isReference>
               </basic:ParameterValue>
             </basic:element_hasParameterValue>
             <basic:element_hasAttributes>
-              <basic:IdParameter rdf:ID="Port_Id">
+              <basic:OtherAttribute rdf:ID="Port_Id">
                 <basic:propertyBeanParameter_isParameter rdf:resource="#vertexIdParameter"/>
                 <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >name</basic:attribute_hasName>
                 <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >name</basic:element_hasName>
-                <basic:attribute_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-                >false</basic:attribute_isReference>
-              </basic:IdParameter>
+              </basic:OtherAttribute>
             </basic:element_hasAttributes>
           </basic:VertexElement>
         </basic:element_hasPrecedenceElement>
@@ -198,9 +190,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     <basic:attribute_isReferenceTo rdf:resource="#Port_Node"/>
                     <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                     >name</basic:attribute_hasName>
-                    <basic:attribute_isReference rdf:datatype=
-                    "http://www.w3.org/2001/XMLSchema#boolean"
-                    >true</basic:attribute_isReference>
                   </basic:EdgeConnection>
                 </basic:element_hasAttributes>
               </basic:SkipElement>
@@ -223,12 +212,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >PortRef</basic:element_hasName>
                 <basic:element_hasAttributes>
-                  <basic:DefaultParameter rdf:ID="sourcePort">
+                  <basic:OtherAttribute rdf:ID="sourcePort">
                     <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                     >name</basic:attribute_hasName>
-                    <basic:attribute_isReference rdf:datatype=
-                    "http://www.w3.org/2001/XMLSchema#boolean"
-                    >false</basic:attribute_isReference>
                     <basic:propertyBeanParameter_isParameter>
                       <basic:EdgeParameter rdf:ID="sourceParameter">
                         <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#Center"/>
@@ -248,9 +234,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                     <basic:parameterValue_hasValue
                                      rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                                     >Connection</basic:parameterValue_hasValue>
-                                    <basic:attribute_isReference
-                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-                                    >false</basic:attribute_isReference>
                                     <basic:propertyBeanParameter_isParameter rdf:resource="#TypeEdgeParameter"/>
                                     <basic:parameterValue_ofParameter rdf:resource="#TypeEdgeParameter"/>
                                   </basic:ParameterValue>
@@ -269,7 +252,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     </basic:propertyBeanParameter_isParameter>
                     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                     >name</basic:element_hasName>
-                  </basic:DefaultParameter>
+                  </basic:OtherAttribute>
                 </basic:element_hasAttributes>
               </basic:SkipElement>
             </basic:element_hasElementChildren>
@@ -298,13 +281,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     </basic:element_hasElementChildren>
     <basic:element_hasElementChildren rdf:resource="#Port_Node"/>
     <basic:element_hasAttributes>
-      <basic:DefaultParameter rdf:ID="portParameterName">
+      <basic:OtherAttribute rdf:ID="portParameterName">
         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >name</basic:element_hasName>
         <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >name</basic:attribute_hasName>
-        <basic:attribute_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-        >false</basic:attribute_isReference>
         <basic:propertyBeanParameter_isParameter>
           <basic:GraphParameter rdf:ID="NameGraphParameter">
             <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
@@ -326,7 +307,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             >name</basic:parameter_hasName>
           </basic:GraphParameter>
         </basic:propertyBeanParameter_isParameter>
-      </basic:DefaultParameter>
+      </basic:OtherAttribute>
     </basic:element_hasAttributes>
   </basic:DocumentElement>
 </rdf:RDF>

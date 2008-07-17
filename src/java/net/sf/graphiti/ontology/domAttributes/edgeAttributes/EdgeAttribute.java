@@ -26,24 +26,27 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.domAttributes.parameters.impl;
+package net.sf.graphiti.ontology.domAttributes.edgeAttributes;
 
-import net.sf.graphiti.ontology.domAttributes.parameters.DefaultParameter;
+import java.util.Set;
 
-import com.hp.hpl.jena.ontology.Individual;
+import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
+import net.sf.graphiti.ontology.elements.Element;
 
 /**
- * @author mwipliez
+ * This class provides a DOM attribute that is specific to edges. It can make
+ * reference to any {@link Element} in the ontology.
+ * 
+ * @author Jonathan Piat
+ * @author Matthieu Wipliez
  * 
  */
-public class DefaultParameterImpl extends PropertyBeanParameterImpl implements
-		DefaultParameter {
+public interface EdgeAttribute extends DOMAttribute {
 
-	public DefaultParameterImpl(Individual individual) {
-		super(individual);
-	}
+	/**
+	 * Returns a set of {@link Element}s this attribute can reference.
+	 * @return A set of {@link Element}s this attribute can reference.
+	 */
+	public Set<Element> isReferenceTo();
 
-	public String toString() {
-		return super.toString() + " | DefaultParameter";
-	}
 }

@@ -28,24 +28,25 @@
  */
 package net.sf.graphiti.ontology.domAttributes;
 
-import java.util.Set;
-
 import net.sf.graphiti.ontology.OntologyNode;
-import net.sf.graphiti.ontology.elements.Element;
+import net.sf.graphiti.ontology.domAttributes.edgeAttributes.EdgeAttribute;
+import net.sf.graphiti.ontology.domAttributes.otherAttributes.OtherAttribute;
 
 /**
- * This class provides a parameter parser node.
+ * This class provides a representation of a DOM attribute. It is not supposed
+ * to be used directly, only {@link EdgeAttribute} and {@link OtherAttribute}
+ * have useful methods.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
 public interface DOMAttribute extends OntologyNode {
-	
+
+	/**
+	 * Returns the name of this DOM attribute.
+	 * @return The name of this DOM attribute.
+	 */
 	public String hasName();
-
-	public boolean isReference();
-
-	public Set<Element> isReferenceTo();
 
 }

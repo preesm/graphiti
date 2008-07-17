@@ -83,8 +83,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                   </basic:VertexParameter>
                 </basic:propertyBeanParameter_isParameter>
                 <basic:parameterValue_ofParameter rdf:resource="#VertexTypeParameter"/>
-                <basic:attribute_isReference rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-                >false</basic:attribute_isReference>
                 <basic:parameterValue_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >operator</basic:parameterValue_hasValue>
               </basic:ParameterValue>
@@ -113,9 +111,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     >spirit:componentRef</basic:element_hasName>
                     <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                     >spirit:componentRef</basic:attribute_hasName>
-                    <basic:attribute_isReference rdf:datatype=
-                    "http://www.w3.org/2001/XMLSchema#boolean"
-                    >true</basic:attribute_isReference>
                     <basic:attribute_isReferenceTo rdf:resource="#VertexComponentInstance"/>
                   </basic:EdgeConnection>
                 </basic:element_hasAttributes>

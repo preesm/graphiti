@@ -26,35 +26,27 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.domAttributes.parameters.impl;
+package net.sf.graphiti.ontology.domAttributes.otherAttributes;
 
-import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.domAttributes.impl.DOMAttributeImpl;
-import net.sf.graphiti.ontology.domAttributes.parameters.PropertyBeanParameter;
+import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
+import net.sf.graphiti.ontology.domAttributes.edgeAttributes.EdgeAttribute;
+import net.sf.graphiti.ontology.elements.Element;
 import net.sf.graphiti.ontology.parameters.Parameter;
 
-import com.hp.hpl.jena.ontology.Individual;
-
 /**
- * @author mwipliez
+ * This class provides a DOM attribute that is not an {@link EdgeAttribute},
+ * that is does not make reference to {@link Element}s in the ontology. However
+ * it can reference {@link Parameter}s.
+ * 
+ * @author Jonathan Piat
+ * @author Matthieu Wipliez
  * 
  */
-public class PropertyBeanParameterImpl extends DOMAttributeImpl
-		implements PropertyBeanParameter {
+public interface OtherAttribute extends DOMAttribute {
 
-	public PropertyBeanParameterImpl(Individual individual) {
-		super(individual);
-	}
-
-	@Override
-	public Parameter hasParameter() {
-		return (Parameter) getIndividualProperty(OntologyFactory
-				.getPropertyPropertyBeanParameterHasParameter());
-	}
-
-	public String toString() {
-		return super.toString() + " | PropertyBeanParameter: hasParameter: "
-				+ hasParameter().hasName();
-	}
-
+	/**
+	 * Returns a {@link Parameter} associated with this attribute.
+	 * @return A {@link Parameter} associated with this attribute.
+	 */
+	public Parameter hasParameter();
 }

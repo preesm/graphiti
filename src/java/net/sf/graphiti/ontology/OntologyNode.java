@@ -29,7 +29,9 @@
 package net.sf.graphiti.ontology;
 
 /**
- * @author mwipliez
+ * The root interface of all ontology nodes.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
 public interface OntologyNode {

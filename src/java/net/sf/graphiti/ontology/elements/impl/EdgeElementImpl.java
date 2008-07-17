@@ -33,7 +33,9 @@ import net.sf.graphiti.ontology.elements.EdgeElement;
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * @author mwipliez
+ * Implementation of EdgeElement.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
 public class EdgeElementImpl extends ElementImpl implements EdgeElement {

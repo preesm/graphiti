@@ -35,7 +35,9 @@ import net.sf.graphiti.ontology.enums.Colors;
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * @author mwipliez
+ * Implementation of ColorAttribute.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
 public class ColorAttributeImpl extends FigureAttributeImpl implements

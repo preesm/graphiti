@@ -40,7 +40,9 @@ import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * @author mwipliez
+ * Implementation of Element.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
 public class ElementImpl extends OntologyNodeImpl implements Element {
@@ -83,7 +85,7 @@ public class ElementImpl extends OntologyNodeImpl implements Element {
 	}
 
 	@Override
-	public Element hasPrecedenceElements() {
+	public Element hasPrecedenceElement() {
 		return (Element) getIndividualProperty(OntologyFactory
 				.getPropertyElementHasPrecedenceElement());
 	}

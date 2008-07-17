@@ -36,7 +36,9 @@ import net.sf.graphiti.ontology.types.Type;
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * @author mwipliez
+ * Implementation of FigureAttribute.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
 public class FigureAttributeImpl extends OntologyNodeImpl implements
@@ -52,14 +54,8 @@ public class FigureAttributeImpl extends OntologyNodeImpl implements
 				.getPropertyFigureAttributeAppliesTo());
 	}
 
-	@Override
-	public String hasType() {
-		return getStringProperty(OntologyFactory
-				.getPropertyFigureAttributeHasType());
-	}
-
 	public String toString() {
-		return super.toString() + " | FigureAttribute: type = " + hasType()
-				+ ", appliesTo: " + appliesTo();
+		return super.toString() + " | FigureAttribute: appliesTo: "
+				+ appliesTo();
 	}
 }

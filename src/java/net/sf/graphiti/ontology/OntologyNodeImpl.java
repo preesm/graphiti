@@ -39,14 +39,12 @@ import net.sf.graphiti.ontology.attributeRestrictions.impl.AttributeRestrictionI
 import net.sf.graphiti.ontology.attributes.impl.ColorAttributeImpl;
 import net.sf.graphiti.ontology.attributes.impl.FigureAttributeImpl;
 import net.sf.graphiti.ontology.attributes.impl.ShapeAttributeImpl;
+import net.sf.graphiti.ontology.domAttributes.edgeAttributes.impl.EdgeAttributeImpl;
+import net.sf.graphiti.ontology.domAttributes.edgeAttributes.impl.EdgeConnectionImpl;
+import net.sf.graphiti.ontology.domAttributes.edgeAttributes.impl.EdgeSourceConnectionImpl;
+import net.sf.graphiti.ontology.domAttributes.edgeAttributes.impl.EdgeTargetConnectionImpl;
 import net.sf.graphiti.ontology.domAttributes.impl.DOMAttributeImpl;
-import net.sf.graphiti.ontology.domAttributes.parameters.edges.impl.EdgeConnectionImpl;
-import net.sf.graphiti.ontology.domAttributes.parameters.edges.impl.EdgeParameterNodeImpl;
-import net.sf.graphiti.ontology.domAttributes.parameters.edges.impl.EdgeSourceConnectionImpl;
-import net.sf.graphiti.ontology.domAttributes.parameters.edges.impl.EdgeTargetConnectionImpl;
-import net.sf.graphiti.ontology.domAttributes.parameters.impl.DefaultParameterImpl;
-import net.sf.graphiti.ontology.domAttributes.parameters.impl.IdParameterImpl;
-import net.sf.graphiti.ontology.domAttributes.parameters.impl.PropertyBeanParameterImpl;
+import net.sf.graphiti.ontology.domAttributes.otherAttributes.impl.OtherAttributeImpl;
 import net.sf.graphiti.ontology.elements.impl.DocumentElementImpl;
 import net.sf.graphiti.ontology.elements.impl.EdgeElementImpl;
 import net.sf.graphiti.ontology.elements.impl.ElementImpl;
@@ -78,7 +76,10 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 
 /**
- * This class provides several methods.
+ * This class provides several methods to retrieve property values, and is the
+ * base class of the ontology hierarchy. It also maintains a hash table (filled
+ * when the class is loaded) that associates ontology classes ({@link String}s
+ * that represent URIs) to concrete classes.
  * 
  * @author Matthieu Wipliez
  * 
@@ -103,7 +104,21 @@ public class OntologyNodeImpl implements OntologyNode {
 		// DOM attribute
 		classes.put(OntologyFactory.getClassDOMAttribute(),
 				DOMAttributeImpl.class);
-		
+
+		// OtherAttribute
+		classes.put(OntologyFactory.getClassOtherAttribute(),
+				OtherAttributeImpl.class);
+
+		// EdgeAttribute
+		classes.put(OntologyFactory.getClassEdgeAttribute(),
+				EdgeAttributeImpl.class);
+		classes.put(OntologyFactory.getClassEdgeConnection(),
+				EdgeConnectionImpl.class);
+		classes.put(OntologyFactory.getClassEdgeSourceConnection(),
+				EdgeSourceConnectionImpl.class);
+		classes.put(OntologyFactory.getClassEdgeTargetConnection(),
+				EdgeTargetConnectionImpl.class);
+
 		// Element
 		classes.put(OntologyFactory.getClassDocumentElement(),
 				DocumentElementImpl.class);
@@ -112,37 +127,22 @@ public class OntologyNodeImpl implements OntologyNode {
 		classes.put(OntologyFactory.getClassElement(), ElementImpl.class);
 		classes.put(OntologyFactory.getClassGraphElement(),
 				GraphElementImpl.class);
-		classes.put(OntologyFactory.getClassInfoElement(), InfoElementImpl.class);
+		classes.put(OntologyFactory.getClassInfoElement(),
+				InfoElementImpl.class);
 		classes.put(OntologyFactory.getClassSkipElement(),
 				SkipElementImpl.class);
 		classes.put(OntologyFactory.getClassVertexElement(),
 				VertexElementImpl.class);
-		
+
 		// enums
 		classes.put(OntologyFactory.getClassShapes(), ShapesImpl.class);
 		classes.put(OntologyFactory.getClassColors(), ColorsImpl.class);
 		classes.put(OntologyFactory.getClassDataTypes(), DataTypesImpl.class);
 		classes.put(OntologyFactory.getClassPosition(), PositionImpl.class);
 
-		// PropertyBeanParameter
+		// ParameterValue
 		classes.put(OntologyFactory.getClassParameterValue(),
 				ParameterValueImpl.class);
-		classes.put(OntologyFactory.getClassDefaultParameter(),
-				DefaultParameterImpl.class);
-		classes.put(OntologyFactory.getClassIdParameter(),
-				IdParameterImpl.class);
-		classes.put(OntologyFactory.getClassPropertyBeanParameter(),
-				PropertyBeanParameterImpl.class);
-
-		// EdgeParameterNode
-		classes.put(OntologyFactory.getClassEdgeConnection(),
-				EdgeConnectionImpl.class);
-		classes.put(OntologyFactory.getClassEdgeParameterNode(),
-				EdgeParameterNodeImpl.class);
-		classes.put(OntologyFactory.getClassEdgeSourceConnection(),
-				EdgeSourceConnectionImpl.class);
-		classes.put(OntologyFactory.getClassEdgeTargetConnection(),
-				EdgeTargetConnectionImpl.class);
 
 		// Parameter
 		classes.put(OntologyFactory.getClassEdgeParameter(),
