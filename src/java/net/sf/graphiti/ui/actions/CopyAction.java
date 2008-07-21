@@ -31,6 +31,8 @@ package net.sf.graphiti.ui.actions;
 import net.sf.graphiti.ui.editparts.GraphitiDocumentEditPart;
 
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -83,7 +85,10 @@ public class CopyAction extends SelectionAction {
 
 	@Override
 	public void run() {
-		PreesmClipboard.getDefault().setContents(getSelectedObjects());
+		LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
+		transfer.setSelection(getSelection());
+		Object[] data = new Object[] { getSelectedObjects() };
+		Transfer[] transfers = new Transfer[] { transfer };
+		GraphitiClipboard.getInstance().setContents(data, transfers);
 	}
-
 }

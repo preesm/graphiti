@@ -37,6 +37,8 @@ import net.sf.graphiti.ui.editparts.GraphEditPart;
 
 import org.eclipse.gef.editparts.AbstractEditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -74,8 +76,14 @@ public class PasteAction extends SelectionAction implements
 
 	@SuppressWarnings("unchecked")
 	protected List<AbstractEditPart> getClipboardContents() {
-		return (List<AbstractEditPart>) PreesmClipboard.getDefault()
-				.getContents();
+		LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
+		Object data = GraphitiClipboard.getInstance().getContents(transfer);
+		if (data == null) {
+			return null;
+		} else {
+			return (List<AbstractEditPart>) ((IStructuredSelection) data)
+					.toList();
+		}
 	}
 
 	/**
@@ -93,11 +101,10 @@ public class PasteAction extends SelectionAction implements
 		setDisabledImageDescriptor(sharedImages
 				.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
 		setEnabled(false);
-		PreesmClipboard._instance.addPropertyChangeListener(this);
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(PreesmClipboard.CONTENTS_SET_EVENT))
+		if (evt.getPropertyName().equals(GraphitiClipboard.CONTENTS_SET_EVENT))
 			setEnabled(calculateEnabled());
 	}
 

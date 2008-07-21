@@ -40,6 +40,7 @@ import net.sf.graphiti.parsers.GenericGraphFileParser;
 import net.sf.graphiti.ui.Activator;
 import net.sf.graphiti.ui.actions.CopyAction;
 import net.sf.graphiti.ui.actions.CutAction;
+import net.sf.graphiti.ui.actions.OpenRefinementAction;
 import net.sf.graphiti.ui.actions.PasteAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
@@ -178,17 +179,9 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		registry.registerAction(printAction);
 		getSelectionActions().add(printAction.getId());
 
-		// IAction routeAllAction = new RouteAction(this);
-		// registry.registerAction(routeAllAction);
-		// getSelectionActions().add(routeAllAction.getId());
-		//
-		// IAction orpAllAction = new OrphanizeAction(this);
-		// registry.registerAction(orpAllAction);
-		// getSelectionActions().add(orpAllAction.getId());
-		//
-		// IAction changeLayoutManagerAction = new AutomaticLayoutAction(this);
-		// registry.registerAction(changeLayoutManagerAction);
-		// getSelectionActions().add(changeLayoutManagerAction.getId());
+		IAction openRefinementAction = new OpenRefinementAction(this);
+		registry.registerAction(openRefinementAction);
+		getSelectionActions().add(openRefinementAction.getId());
 	}
 
 	/*

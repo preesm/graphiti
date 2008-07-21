@@ -74,6 +74,11 @@ public class Vertex extends DOMNode implements Cloneable {
 	public static final String PARAMETER_TYPE = "type";
 
 	/**
+	 * String for the "refinement" parameter. Defines the vertex refinement.
+	 */
+	public static final String PARAMETER_REFINEMENT = "refinement";
+
+	/**
 	 * String for the "destination vertex" property. Set when a vertex becomes
 	 * the destination of a dependency.
 	 */

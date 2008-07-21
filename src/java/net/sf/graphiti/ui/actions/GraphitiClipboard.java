@@ -28,80 +28,32 @@
  */
 package net.sf.graphiti.ui.actions;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
-import org.eclipse.gef.ui.actions.Clipboard;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.widgets.Display;
 
 /**
- * @author stage02
+ * This class is a tailor-made {@link Clipboard}.
+ * 
+ * @author Matthieu Wipliez
  */
-public class PreesmClipboard extends Clipboard {
+public class GraphitiClipboard {
 
-	protected static PreesmClipboard _instance = new PreesmClipboard();
+	private static Clipboard instance;
 
 	/**
-	 * The event name used for {@link PreesmClipboard#fireContentsSet()}
+	 * The event name used for {@link GraphitiClipboard#fireContentsSet()}
 	 */
 	public static final String CONTENTS_SET_EVENT = "ContentsSet";
 
 	/**
-	 * Get the default Clipboard
+	 * Returns the default Clipboard.
 	 * 
-	 * @return - The default Clipboard
+	 * @return The default Clipboard.
 	 */
-	public static Clipboard getDefault() {
-		return _instance;
-	}
-
-	private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-
-	/**
-	 * Do not allow direct instantiation of a Clipboard
-	 */
-	@SuppressWarnings("deprecation")
-	private PreesmClipboard() {
-		super();
-	}
-
-	/**
-	 * Add a {@link PropertyChangeListener} to this Clipboard
-	 * 
-	 * @param l
-	 */
-	public void addPropertyChangeListener(PropertyChangeListener l) {
-		listeners.addPropertyChangeListener(l);
-	}
-
-	/**
-	 * Fires a {@link PropertyChangeEvent} anytime the contents of the
-	 * <code>Clipboard</code> are set.
-	 * 
-	 */
-	protected void fireContentsSet() {
-		PropertyChangeEvent event = new PropertyChangeEvent(this,
-				CONTENTS_SET_EVENT, null, getContents());
-		listeners.firePropertyChange(event);
-	}
-
-	/**
-	 * Remove a {@link PropertyChangeListener} to this Clipboard
-	 * 
-	 * @param l
-	 */
-	public void removePropertyChangeListener(PropertyChangeListener l) {
-		listeners.removePropertyChangeListener(l);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.ui.actions.Clipboard#setContents(java.lang.Object)
-	 */
-	@Override
-	public void setContents(Object contents) {
-		super.setContents(contents);
-		fireContentsSet();
+	public static Clipboard getInstance() {
+		if (instance == null) {
+			instance = new Clipboard(Display.getCurrent());
+		}
+		return instance;
 	}
 }

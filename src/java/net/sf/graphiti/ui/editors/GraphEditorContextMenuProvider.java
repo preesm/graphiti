@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.ui.editors;
 
+import net.sf.graphiti.ui.actions.OpenRefinementAction;
+
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -62,35 +64,28 @@ public class GraphEditorContextMenuProvider extends ContextMenuProvider {
 		IAction action;
 
 		GEFActionConstants.addStandardActionGroups(menu);
+		ActionRegistry registry = getActionRegistry();
 
-		action = getActionRegistry().getAction(ActionFactory.UNDO.getId());
+		action = registry.getAction(ActionFactory.UNDO.getId());
 		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
 
-		action = getActionRegistry().getAction(ActionFactory.REDO.getId());
+		action = registry.getAction(ActionFactory.REDO.getId());
 		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
 
-		action = getActionRegistry().getAction(ActionFactory.CUT.getId());
+		action = registry.getAction(ActionFactory.CUT.getId());
 		menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);
 
-		action = getActionRegistry().getAction(ActionFactory.COPY.getId());
+		action = registry.getAction(ActionFactory.COPY.getId());
 		menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);
 
-		action = getActionRegistry().getAction(ActionFactory.PASTE.getId());
+		action = registry.getAction(ActionFactory.PASTE.getId());
 		menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);
 
-		action = getActionRegistry().getAction(ActionFactory.DELETE.getId());
+		action = registry.getAction(ActionFactory.DELETE.getId());
 		menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 
-		// action =
-		// getActionRegistry().getAction(OrphanizeAction.getActionId());
-		// menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
-		//
-		// action = getActionRegistry().getAction(RouteAction.getActionId());
-		// menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
-		//
-		// action = getActionRegistry().getAction(
-		// AutomaticLayoutAction.getActionId());
-		// menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+		action = registry.getAction(OpenRefinementAction.getActionId());
+		menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
 	}
 
 	/**
