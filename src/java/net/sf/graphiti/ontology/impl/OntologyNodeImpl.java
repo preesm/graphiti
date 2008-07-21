@@ -181,6 +181,14 @@ public class OntologyNodeImpl implements OntologyNode {
 		}
 	}
 
+	/**
+	 * Returns the value associated with this individual and the property called
+	 * <code>propertyName</code>.
+	 * 
+	 * @param propertyName
+	 *            A property of this individual.
+	 * @return The value of the given property on this individual as a boolean.
+	 */
 	protected boolean getBooleanProperty(String propertyName) {
 		DatatypeProperty property = individual.getOntModel()
 				.getDatatypeProperty(propertyName);
@@ -198,10 +206,24 @@ public class OntologyNodeImpl implements OntologyNode {
 		return false;
 	}
 
-	public String getIndividualName() {
+	/**
+	 * Returns the individual local name.
+	 * 
+	 * @return The individual local name.
+	 */
+	protected String getIndividualLocalName() {
 		return individual.getLocalName();
 	}
 
+	/**
+	 * Returns the value associated with this individual and the property called
+	 * <code>propertyName</code>.
+	 * 
+	 * @param propertyName
+	 *            A property of this individual.
+	 * @return The value of the given property on this individual as an
+	 *         {@link Object}.
+	 */
 	protected Object getIndividualProperty(String propertyName) {
 		ObjectProperty property = individual.getOntModel().getObjectProperty(
 				propertyName);
@@ -229,6 +251,24 @@ public class OntologyNodeImpl implements OntologyNode {
 		return null;
 	}
 
+	/**
+	 * Returns the individual unique URI.
+	 * 
+	 * @return The individual unique URI.
+	 */
+	protected String getIndividualURI() {
+		return individual.getURI();
+	}
+
+	/**
+	 * Returns the value associated with this individual and the property called
+	 * <code>propertyName</code>.
+	 * 
+	 * @param propertyName
+	 *            A property of this individual.
+	 * @return The value of the given property on this individual as a
+	 *         {@link String}.
+	 */
 	protected String getStringProperty(String propertyName) {
 		DatatypeProperty property = individual.getOntModel()
 				.getDatatypeProperty(propertyName);
@@ -305,7 +345,7 @@ public class OntologyNodeImpl implements OntologyNode {
 	}
 
 	public String toString() {
-		return individual.getURI();
+		return getIndividualURI();
 	}
 
 }

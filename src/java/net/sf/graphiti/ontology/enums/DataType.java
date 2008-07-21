@@ -26,26 +26,16 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.impl;
-
-import net.sf.graphiti.ontology.enums.Position;
-
-import com.hp.hpl.jena.ontology.Individual;
+package net.sf.graphiti.ontology.enums;
 
 /**
- * Implementation of Position.
+ * This class is an enumeration of parameters different data types.
  * 
  * @author Matthieu Wipliez
- * 
+ *
  */
-public class PositionImpl extends OntologyNodeImpl implements Position {
-
-	public PositionImpl(Individual individual) {
-		super(individual);
-	}
-
-	public String toString() {
-		return this.getIndividualLocalName();
-	}
+public enum DataType {
+	
+	Float, Integer, String, VertexRefinement;
 
 }

@@ -76,6 +76,15 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                         >id</basic:parameter_hasName>
                       </basic:VertexParameter>
                     </basic:type_hasParameters>
+                    <basic:type_hasParameters>
+                      <basic:VertexParameter rdf:ID="VertexParameterRefinement">
+                        <basic:parameter_hasName rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >refinement</basic:parameter_hasName>
+                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#VertexRefinement"/>
+                        <basic:parameter_appliesTo rdf:resource="#InstanceVertexType"/>
+                      </basic:VertexParameter>
+                    </basic:type_hasParameters>
                   </basic:VertexType>
                 </basic:parameter_appliesTo>
                 <basic:parameter_hasParameterValue rdf:resource="#InstanceParameterValue"/>
@@ -100,6 +109,28 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             >name</basic:element_hasName>
           </basic:OtherAttribute>
         </basic:element_hasAttributes>
+        <basic:element_hasElementChildren>
+          <basic:SkipElement rdf:ID="SkipElementEntityExpr">
+            <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >EntityExpr</basic:element_hasName>
+            <basic:element_hasAttributes>
+              <basic:OtherAttribute rdf:ID="OtherAttributeRefinementFilename">
+                <basic:propertyBeanParameter_isParameter rdf:resource="#VertexParameterRefinement"/>
+                <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >name</basic:attribute_hasName>
+              </basic:OtherAttribute>
+            </basic:element_hasAttributes>
+            <basic:element_hasAttributeRestriction>
+              <basic:AttributeRestriction rdf:ID="AttributeRestrictionInstantiationKind">
+                <basic:attributeRestriction_ofElement rdf:resource="#SkipElementEntityExpr"/>
+                <basic:attributeRestriction_hasValue rdf:datatype=
+                "http://www.w3.org/2001/XMLSchema#string">Instantiation</basic:attributeRestriction_hasValue>
+                <basic:attributeRestriction_hasName rdf:datatype=
+                "http://www.w3.org/2001/XMLSchema#string">kind</basic:attributeRestriction_hasName>
+              </basic:AttributeRestriction>
+            </basic:element_hasAttributeRestriction>
+          </basic:SkipElement>
+        </basic:element_hasElementChildren>
         <basic:element_hasPrecedenceElement>
           <basic:VertexElement rdf:ID="Port_Node">
             <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -175,13 +206,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
           </basic:AttributeRestriction>
         </basic:element_hasAttributeRestriction>
         <basic:element_hasElementChildren>
-          <basic:SkipElement rdf:ID="SkipPortSpecLocal">
-            <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >PortSpec</basic:element_hasName>
+          <basic:SkipElement rdf:ID="SkipElementPortSpecLocal">
             <basic:element_hasElementChildren>
-              <basic:SkipElement rdf:ID="SkipPortRef">
-                <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >PortRef</basic:element_hasName>
+              <basic:SkipElement rdf:ID="SkipElementPortRef">
                 <basic:element_hasAttributes>
                   <basic:EdgeConnection rdf:ID="ConnectionRef">
                     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -192,25 +219,43 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     >name</basic:attribute_hasName>
                   </basic:EdgeConnection>
                 </basic:element_hasAttributes>
+                <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >PortRef</basic:element_hasName>
               </basic:SkipElement>
             </basic:element_hasElementChildren>
+            <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >PortSpec</basic:element_hasName>
             <basic:element_hasAttributeRestriction>
               <basic:AttributeRestriction rdf:ID="LocalReference">
                 <basic:attributeRestriction_hasValue rdf:datatype=
                 "http://www.w3.org/2001/XMLSchema#string">Local</basic:attributeRestriction_hasValue>
                 <basic:attributeRestriction_hasName rdf:datatype=
                 "http://www.w3.org/2001/XMLSchema#string">kind</basic:attributeRestriction_hasName>
-                <basic:attributeRestriction_ofElement rdf:resource="#SkipPortSpecLocal"/>
+                <basic:attributeRestriction_ofElement rdf:resource="#SkipElementPortSpecLocal"/>
               </basic:AttributeRestriction>
             </basic:element_hasAttributeRestriction>
           </basic:SkipElement>
         </basic:element_hasElementChildren>
         <basic:element_hasElementChildren>
-          <basic:SkipElement rdf:ID="SkipPortSpecEntity">
+          <basic:SkipElement rdf:ID="SkipElementPortSpecEntity">
+            <basic:element_hasAttributeRestriction>
+              <basic:AttributeRestriction rdf:ID="EntityKind">
+                <basic:attributeRestriction_ofElement rdf:resource="#SkipElementPortSpecEntity"/>
+                <basic:attributeRestriction_hasName rdf:datatype=
+                "http://www.w3.org/2001/XMLSchema#string">kind</basic:attributeRestriction_hasName>
+                <basic:attributeRestriction_hasValue rdf:datatype=
+                "http://www.w3.org/2001/XMLSchema#string">Entity</basic:attributeRestriction_hasValue>
+              </basic:AttributeRestriction>
+            </basic:element_hasAttributeRestriction>
             <basic:element_hasElementChildren>
-              <basic:SkipElement rdf:ID="SkipPortRef2">
+              <basic:SkipElement rdf:ID="SkipElementEntityRef">
                 <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >PortRef</basic:element_hasName>
+                >EntityRef</basic:element_hasName>
+                <basic:element_hasAttributes rdf:resource="#ConnectionRef"/>
+              </basic:SkipElement>
+            </basic:element_hasElementChildren>
+            <basic:element_hasElementChildren>
+              <basic:SkipElement rdf:ID="SkipElementPortRef2">
                 <basic:element_hasAttributes>
                   <basic:OtherAttribute rdf:ID="sourcePort">
                     <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -254,26 +299,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     >name</basic:element_hasName>
                   </basic:OtherAttribute>
                 </basic:element_hasAttributes>
-              </basic:SkipElement>
-            </basic:element_hasElementChildren>
-            <basic:element_hasElementChildren>
-              <basic:SkipElement rdf:ID="SkipEntityRef">
                 <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >EntityRef</basic:element_hasName>
-                <basic:element_hasAttributes rdf:resource="#ConnectionRef"/>
+                >PortRef</basic:element_hasName>
               </basic:SkipElement>
             </basic:element_hasElementChildren>
             <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >PortSpec</basic:element_hasName>
-            <basic:element_hasAttributeRestriction>
-              <basic:AttributeRestriction rdf:ID="EntityKind">
-                <basic:attributeRestriction_ofElement rdf:resource="#SkipPortSpecEntity"/>
-                <basic:attributeRestriction_hasName rdf:datatype=
-                "http://www.w3.org/2001/XMLSchema#string">kind</basic:attributeRestriction_hasName>
-                <basic:attributeRestriction_hasValue rdf:datatype=
-                "http://www.w3.org/2001/XMLSchema#string">Entity</basic:attributeRestriction_hasValue>
-              </basic:AttributeRestriction>
-            </basic:element_hasAttributeRestriction>
           </basic:SkipElement>
         </basic:element_hasElementChildren>
         <basic:element_hasParameterValue rdf:resource="#ConnectionParameterValue"/>

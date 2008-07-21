@@ -197,6 +197,22 @@ public class OntologyFactory {
 	public static String getClassVertexType() {
 		return "http://net.sf.graphiti/basics.owl#VertexType";
 	}
+	
+	public static String getIndividualFloatDataType() {
+		return "http://net.sf.graphiti/basics.owl#Float";
+	}
+	
+	public static String getIndividualIntegerDataType() {
+		return "http://net.sf.graphiti/basics.owl#Integer";
+	}
+	
+	public static String getIndividualStringDataType() {
+		return "http://net.sf.graphiti/basics.owl#String";
+	}
+	
+	public static String getIndividualVertexRefinementDataType() {
+		return "http://net.sf.graphiti/basics.owl#VertexRefinement";
+	}
 
 	public static String getPropertyAttributeRestrictionHasName() {
 		return "http://net.sf.graphiti/basics.owl#attributeRestriction_hasName";
@@ -382,6 +398,34 @@ public class OntologyFactory {
 	 */
 	private void readOwl(InputStream owlInputStream) {
 		fillModelFromInputStream(owlInputStream);
+	}
+
+	public static String getIndividualColorBlue() {
+		return "http://net.sf.graphiti/basics.owl#blue";
+	}
+
+	public static String getIndividualColorRed() {
+		return "http://net.sf.graphiti/basics.owl#red";
+	}
+
+	public static String getIndividualColorPink() {
+		return "http://net.sf.graphiti/basics.owl#pink";
+	}
+
+	public static String getIndividualShapeCircle() {
+		return "http://net.sf.graphiti/basics.owl#Circle";
+	}
+
+	public static String getIndividualShapeTriangle() {
+		return "http://net.sf.graphiti/basics.owl#Triangle";
+	}
+
+	public static String getIndividualShapeHexagon() {
+		return "http://net.sf.graphiti/basics.owl#Hexagon";
+	}
+
+	public static String getIndividualShapeRoundedBox() {
+		return "http://net.sf.graphiti/basics.owl#RoundedBox";
 	}
 
 }

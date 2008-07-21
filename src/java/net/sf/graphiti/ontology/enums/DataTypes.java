@@ -30,6 +30,21 @@ package net.sf.graphiti.ontology.enums;
 
 import net.sf.graphiti.ontology.OntologyNode;
 
+/**
+ * This class provides different parameters data types.
+ * 
+ * @author Matthieu Wipliez
+ * @author Jonathan Piat
+ * 
+ */
 public interface DataTypes extends OntologyNode {
+
+	/**
+	 * Returns the {@link DataType} from this ontology {@link DataTypes}
+	 * individual.
+	 * 
+	 * @return A {@link DataType} value.
+	 */
+	public DataType getDataType();
 
 }

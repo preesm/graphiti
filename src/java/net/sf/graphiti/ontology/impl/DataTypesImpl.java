@@ -28,14 +28,41 @@
  */
 package net.sf.graphiti.ontology.impl;
 
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.enums.DataType;
 import net.sf.graphiti.ontology.enums.DataTypes;
 
 import com.hp.hpl.jena.ontology.Individual;
 
+/**
+ * Implementation of DataTypes.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
 public class DataTypesImpl extends OntologyNodeImpl implements DataTypes {
 
 	public DataTypesImpl(Individual individual) {
 		super(individual);
+	}
+
+	@Override
+	public DataType getDataType() {
+		if (OntologyFactory.getIndividualFloatDataType().equals(
+				getIndividualURI())) {
+			return DataType.Float;
+		} else if (OntologyFactory.getIndividualIntegerDataType().equals(
+				getIndividualURI())) {
+			return DataType.Integer;
+		} else if (OntologyFactory.getIndividualStringDataType().equals(
+				getIndividualURI())) {
+			return DataType.String;
+		} else if (OntologyFactory.getIndividualVertexRefinementDataType()
+				.equals(getIndividualURI())) {
+			return DataType.VertexRefinement;
+		} else {
+			throw new NullPointerException();
+		}
 	}
 
 }

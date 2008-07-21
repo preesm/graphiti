@@ -28,6 +28,7 @@
  */
 package net.sf.graphiti.ontology.impl;
 
+import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.enums.Shapes;
 import net.sf.graphiti.ui.figure.shapes.ShapeCircle;
 import net.sf.graphiti.ui.figure.shapes.ShapeHexagon;
@@ -38,6 +39,12 @@ import org.eclipse.draw2d.IFigure;
 
 import com.hp.hpl.jena.ontology.Individual;
 
+/**
+ * Implementation of Shapes.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
 public class ShapesImpl extends OntologyNodeImpl implements Shapes {
 
 	public ShapesImpl(Individual individual) {
@@ -46,16 +53,16 @@ public class ShapesImpl extends OntologyNodeImpl implements Shapes {
 
 	@Override
 	public IFigure getShape() {
-		if (this.getIndividualName().equals("Circle")) {
+		if (OntologyFactory.getIndividualShapeCircle().equals(getIndividualURI())) {
 			return new ShapeCircle();
-		} else if (this.getIndividualName().equals("Triangle")) {
+		} else if (OntologyFactory.getIndividualShapeTriangle().equals(getIndividualURI())) {
 			return new ShapeTriangle();
-		} else if (this.getIndividualName().equals("Hexagon")) {
+		} else if (OntologyFactory.getIndividualShapeHexagon().equals(getIndividualURI())) {
 			return new ShapeHexagon();
-		} else if (this.getIndividualName().equals("RoundedBox")) {
+		} else if (OntologyFactory.getIndividualShapeRoundedBox().equals(getIndividualURI())) {
 			return new ShapeRoundedBox();
 		} else {
-			return null;
+			throw new NullPointerException();
 		}
 	}
 

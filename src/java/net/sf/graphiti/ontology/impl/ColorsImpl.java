@@ -28,6 +28,7 @@
  */
 package net.sf.graphiti.ontology.impl;
 
+import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.enums.Colors;
 
 import org.eclipse.draw2d.ColorConstants;
@@ -35,6 +36,12 @@ import org.eclipse.swt.graphics.Color;
 
 import com.hp.hpl.jena.ontology.Individual;
 
+/**
+ * Implementation of Colors.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
 public class ColorsImpl extends OntologyNodeImpl implements Colors {
 
 	public static final Color[] colors = { ColorConstants.blue,
@@ -47,11 +54,13 @@ public class ColorsImpl extends OntologyNodeImpl implements Colors {
 
 	@Override
 	public Color getColor() {
-		if (this.getIndividualName().equals("blue")) {
+		if (OntologyFactory.getIndividualColorBlue().equals(getIndividualURI())) {
 			return colors[0];
-		} else if (this.getIndividualName().equals("red")) {
+		} else if (OntologyFactory.getIndividualColorRed().equals(
+				getIndividualURI())) {
 			return colors[1];
-		} else if (this.getIndividualName().equals("pink")) {
+		} else if (OntologyFactory.getIndividualColorPink().equals(
+				getIndividualURI())) {
 			return colors[2];
 		} else {
 			return colors[3];

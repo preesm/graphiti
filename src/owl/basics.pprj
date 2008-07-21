@@ -1,4 +1,4 @@
-; Mon Jul 21 15:12:52 CEST 2008
+; Mon Jul 21 17:06:46 CEST 2008
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 504")
@@ -25,6 +25,31 @@
 	(is_hidden TRUE)
 	(property_list [basics_ProjectKB_Class13])
 	(widget_class_name "edu.stanford.smi.protege.widget.instance_tree.InstanceTreeTab"))
+
+([basics_ProjectKB_Class121] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([basics_ProjectKB_Class122] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Class")
+	(string_value "%3ANAME"))
+
+([basics_ProjectKB_Class123] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([basics_ProjectKB_Class124] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([basics_ProjectKB_Class125] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Thing")
+	(string_value "%3ANAME"))
 
 ([basics_ProjectKB_Class13] of  Property_List
 )
@@ -218,11 +243,6 @@
 ([basics_ProjectKB_Class51] of  Property_List
 )
 
-([basics_ProjectKB_Class52] of  String
-
-	(name "RenameAcrossFiles")
-	(string_value "D:\\repositories\\graphiti-editor\\src\\owl\\GraphML.owl,D:\\repositories\\graphiti-editor\\src\\owl\\spirit.owl,D:\\repositories\\graphiti-editor\\src\\owl\\xdf.owl,D:\\repositories\\graphiti-editor\\src\\owl\\xnl.owl"))
-
 ([basics_ProjectKB_Class6] of  Widget
 
 	(is_hidden TRUE)
@@ -231,31 +251,6 @@
 
 ([basics_ProjectKB_Class7] of  Property_List
 )
-
-([basics_ProjectKB_Class73] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([basics_ProjectKB_Class74] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Class")
-	(string_value "%3ANAME"))
-
-([basics_ProjectKB_Class75] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([basics_ProjectKB_Class76] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([basics_ProjectKB_Class77] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Thing")
-	(string_value "%3ANAME"))
 
 ([basics_ProjectKB_Class8] of  Widget
 
@@ -269,11 +264,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[basics_ProjectKB_Class73]
-		[basics_ProjectKB_Class74]
-		[basics_ProjectKB_Class75]
-		[basics_ProjectKB_Class76]
-		[basics_ProjectKB_Class77]))
+		[basics_ProjectKB_Class121]
+		[basics_ProjectKB_Class122]
+		[basics_ProjectKB_Class123]
+		[basics_ProjectKB_Class124]
+		[basics_ProjectKB_Class125]))
 
 ([CLSES_TAB] of  Widget
 
@@ -1018,7 +1013,7 @@
 ([KB_444675_Instance_0] of  String
 
 	(name "SwitchableClassDefinitionType")
-	(string_value "edu.stanford.smi.protegex.owl.ui.cls.LogicClassDefinitionWidget"))
+	(string_value "edu.stanford.smi.protegex.owl.ui.cls.LogicClassDefinitionWidgetType"))
 
 ([KB_465546_Instance_567] of  Widget
 
@@ -5877,8 +5872,7 @@
 		[KB_325529_Class4]
 		[empty.owl_ProjectKB_Class5]
 		[empty.owl_ProjectKB_Class6]
-		[basics_ProjectKB_Class0]
-		[basics_ProjectKB_Class52]))
+		[basics_ProjectKB_Class0]))
 
 ([STANDARD_CLASS_FORM_WIDGET] of  Widget
 
