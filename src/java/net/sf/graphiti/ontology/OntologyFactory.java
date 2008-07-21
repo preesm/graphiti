@@ -36,6 +36,7 @@ import java.net.URL;
 import java.util.Set;
 
 import net.sf.graphiti.ontology.elements.Element;
+import net.sf.graphiti.ontology.impl.OntologyNodeImpl;
 import net.sf.graphiti.ontology.types.EdgeType;
 import net.sf.graphiti.ontology.types.VertexType;
 
@@ -149,8 +150,8 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#GraphType";
 	}
 
-	public static String getClassInfoElement() {
-		return "http://net.sf.graphiti/basics.owl#InfoElement";
+	public static String getClassTextContentElement() {
+		return "http://net.sf.graphiti/basics.owl#TextContentElement";
 	}
 
 	public static String getClassOtherAttribute() {

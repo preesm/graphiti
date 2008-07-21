@@ -55,7 +55,7 @@ import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
 import net.sf.graphiti.ontology.domAttributes.edgeAttributes.EdgeAttribute;
 import net.sf.graphiti.ontology.domAttributes.otherAttributes.OtherAttribute;
 import net.sf.graphiti.ontology.elements.Element;
-import net.sf.graphiti.ontology.elements.InfoElement;
+import net.sf.graphiti.ontology.elements.TextContentElement;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import net.sf.graphiti.ontology.parameters.Parameter;
 
@@ -367,10 +367,10 @@ public class GenericGraphFileParser {
 		} else if (ontNode.hasOntClass(OntologyFactory.getClassSkipElement())) {
 			// The ontology node is a SkipElement
 			element = new SkipDOMNode(parentElement);
-		} else if (ontNode.hasOntClass(OntologyFactory.getClassInfoElement())) {
+		} else if (ontNode.hasOntClass(OntologyFactory.getClassTextContentElement())) {
 			// Sets parameter values associated with this element
 			element = new InfoDOMNode();
-			setParameter((InfoElement) ontNode, parentElement, domNode);
+			setParameter((TextContentElement) ontNode, parentElement, domNode);
 		} else {
 			element = new DOMNode(domNode.getNodeName());
 		}
@@ -556,7 +556,7 @@ public class GenericGraphFileParser {
 	}
 
 	/**
-	 * This method is called on an InfoElement. A Parameter is obtained from it
+	 * This method is called on an TextContentElement. A Parameter is obtained from it
 	 * using referencesParameter, and we set the value of the parameter name to
 	 * the domElement text content.
 	 * 
@@ -564,7 +564,7 @@ public class GenericGraphFileParser {
 	 * @param parent
 	 * @param domElement
 	 */
-	private void setParameter(InfoElement ontNode, DOMNode parent,
+	private void setParameter(TextContentElement ontNode, DOMNode parent,
 			Node domElement) {
 		Parameter parameter = ontNode.referencesParameter();
 		String parameterName = parameter.hasName();
