@@ -109,7 +109,11 @@ public class VertexParametersView extends ViewPart implements
 				if (cell.getColumnIndex() == 0) {
 					cell.setText(parameter.getName());
 				} else {
-					cell.setText((String) vertex.getValue(parameter.getName()));
+					String value = (String) vertex.getValue(parameter.getName());
+					if (value == null) {
+						value = "";
+					}
+					cell.setText(value);
 				}
 			}
 		}
@@ -191,7 +195,11 @@ public class VertexParametersView extends ViewPart implements
 		protected Object getValue(Object element) {
 			if (element instanceof Parameter) {
 				Parameter parameter = (Parameter) element;
-				return (String) vertex.getValue(parameter.getName());
+				String value = (String) vertex.getValue(parameter.getName());
+				if (value == null) {
+					value = "";
+				}
+				return value;
 			} else {
 				return "";
 			}

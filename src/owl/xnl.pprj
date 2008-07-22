@@ -1,4 +1,4 @@
-; Tue Jul 22 17:24:47 CEST 2008
+; Tue Jul 22 19:18:36 CEST 2008
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 504")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[xnl_ProjectKB_Class110]
-		[xnl_ProjectKB_Class111]
-		[xnl_ProjectKB_Class112]
-		[xnl_ProjectKB_Class113]
-		[xnl_ProjectKB_Class114]))
+		[xnl_ProjectKB_Class209]
+		[xnl_ProjectKB_Class210]
+		[xnl_ProjectKB_Class211]
+		[xnl_ProjectKB_Class212]
+		[xnl_ProjectKB_Class213]))
 
 ([CLSES_TAB] of  Widget
 
@@ -5651,31 +5651,6 @@
 ([xnl_ProjectKB_Class11] of  Property_List
 )
 
-([xnl_ProjectKB_Class110] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([xnl_ProjectKB_Class111] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Class")
-	(string_value "%3ANAME"))
-
-([xnl_ProjectKB_Class112] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([xnl_ProjectKB_Class113] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([xnl_ProjectKB_Class114] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Thing")
-	(string_value "%3ANAME"))
-
 ([xnl_ProjectKB_Class12] of  Widget
 
 	(is_hidden TRUE)
@@ -5724,8 +5699,33 @@
 	(property_list [xnl_ProjectKB_Class21])
 	(widget_class_name "edu.stanford.smi.RemoteKBTab.UMLSTab"))
 
+([xnl_ProjectKB_Class209] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
 ([xnl_ProjectKB_Class21] of  Property_List
 )
+
+([xnl_ProjectKB_Class210] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Class")
+	(string_value "%3ANAME"))
+
+([xnl_ProjectKB_Class211] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([xnl_ProjectKB_Class212] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([xnl_ProjectKB_Class213] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Thing")
+	(string_value "%3ANAME"))
 
 ([xnl_ProjectKB_Class22] of  Widget
 

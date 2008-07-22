@@ -513,8 +513,8 @@ public class GenericGraphFileParser {
 			graphitiDocument = new GraphitiDocument(config);
 
 			// Iterates over the parser root nodes
-			Set<DocumentElement> ontNodes = factory.getDocumentElements();
-			Object[] elements = ontNodes.toArray();
+			Set<DocumentElement> docElements = factory.getDocumentElements();
+			Object[] elements = docElements.toArray();
 			if (elements.length != 1) {
 				throw (new IncompatibleConfigurationFile());
 			} else {
