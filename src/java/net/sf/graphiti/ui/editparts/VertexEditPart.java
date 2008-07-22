@@ -195,6 +195,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connEditPart) {
+		//TODO: provide multiple connection anchors
 		return ((VertexFigure) getFigure()).getConnectionAnchor();
 	}
 
@@ -206,6 +207,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connEditPart) {
+		//TODO: provide multiple connection anchors
 		return ((VertexFigure) getFigure()).getConnectionAnchor();
 	}
 

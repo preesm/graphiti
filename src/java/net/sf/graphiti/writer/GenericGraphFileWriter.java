@@ -115,6 +115,7 @@ public class GenericGraphFileWriter {
 	 * @param factory
 	 */
 	private void fillDocument(OntologyFactory factory) {
+		//TODO: correct writing!
 		Set<DocumentElement> rootNodes = factory.getDocumentElements();
 		for (net.sf.graphiti.ontology.elements.Element root : rootNodes) {
 			writeNode(root, document, domDocument);

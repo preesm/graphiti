@@ -80,10 +80,6 @@ public class VertexFigure extends Figure {
 			bounds = new Rectangle(0, 0, 50, 50);
 		}
 
-		// TODO: what to do? height, width or parameter_size?
-		// Rectangle bounds = (Rectangle)
-		// vertex.getValue(Vertex.PARAMETER_SIZE);
-
 		// Get color
 		Color color = ColorConstants.gray;
 		if (config.getVertexAttribute(vertexType, Vertex.ATTRIBUTE_COLOR) != null) {
