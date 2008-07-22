@@ -35,7 +35,7 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 
 import net.sf.graphiti.model.GraphitiDocument;
-import net.sf.graphiti.writer.GenericGraphFileWriterBis;
+import net.sf.graphiti.writer.GenericGraphFileWriter;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -152,8 +152,7 @@ public class NewGraphWizard extends Wizard implements INewWizard {
 	 */
 	private InputStream openContentStream(GraphitiDocument document) {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		GenericGraphFileWriterBis writer = new GenericGraphFileWriterBis(
-				document);
+		GenericGraphFileWriter writer = new GenericGraphFileWriter(document);
 		writer.write(out);
 		return new ByteArrayInputStream(out.toByteArray());
 	}

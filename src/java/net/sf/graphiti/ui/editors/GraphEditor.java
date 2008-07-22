@@ -45,7 +45,6 @@ import net.sf.graphiti.ui.actions.PasteAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
 import net.sf.graphiti.ui.editparts.GraphitiDocumentEditPart;
 import net.sf.graphiti.writer.GenericGraphFileWriter;
-import net.sf.graphiti.writer.GenericGraphFileWriterBis;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
@@ -198,7 +197,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	public void doSave(IProgressMonitor monitor) {
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		GenericGraphFileWriterBis writer = new GenericGraphFileWriterBis(
+		GenericGraphFileWriter writer = new GenericGraphFileWriter(
 				document);
 		writer.write(out);
 		try {
