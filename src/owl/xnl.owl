@@ -331,7 +331,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                   </basic:GraphParameter>
                 </basic:type_hasParameters>
                 <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >Network</basic:type_hasName>
+                >XNL Dataflow Network</basic:type_hasName>
               </basic:GraphType>
             </basic:parameter_appliesTo>
             <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"

@@ -1,4 +1,4 @@
-; Thu Jul 17 18:06:36 CEST 2008
+; Tue Jul 22 17:25:20 CEST 2008
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 504")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[GraphML_ProjectKB_Class112]
-		[GraphML_ProjectKB_Class113]
-		[GraphML_ProjectKB_Class114]
-		[GraphML_ProjectKB_Class115]
-		[GraphML_ProjectKB_Class116]))
+		[GraphML_ProjectKB_Class81]
+		[GraphML_ProjectKB_Class82]
+		[GraphML_ProjectKB_Class83]
+		[GraphML_ProjectKB_Class84]
+		[GraphML_ProjectKB_Class85]))
 
 ([CLSES_TAB] of  Widget
 
@@ -50,102 +50,8 @@
 	(property_list [GraphML_ProjectKB_Class11])
 	(widget_class_name "ca.uvic.csr.shrimp.jambalaya.JambalayaTab"))
 
-([GraphML_ProjectKB_Class100] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#comment")
-	(property_list [GraphML_ProjectKB_Class101]))
-
-([GraphML_ProjectKB_Class101] of  Property_List
-)
-
-([GraphML_ProjectKB_Class102] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#seeAlso")
-	(property_list [GraphML_ProjectKB_Class103]))
-
-([GraphML_ProjectKB_Class103] of  Property_List
-)
-
-([GraphML_ProjectKB_Class104] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#label")
-	(property_list [GraphML_ProjectKB_Class105]))
-
-([GraphML_ProjectKB_Class105] of  Property_List
-)
-
-([GraphML_ProjectKB_Class106] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#parameterValue_ofParameter")
-	(property_list [GraphML_ProjectKB_Class107])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
-	(width 200)
-	(x 0)
-	(y 240))
-
-([GraphML_ProjectKB_Class107] of  Property_List
-)
-
-([GraphML_ProjectKB_Class108] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#parameterValue_hasValue")
-	(property_list [GraphML_ProjectKB_Class109])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
-	(width 200)
-	(x 0)
-	(y 180))
-
-([GraphML_ProjectKB_Class109] of  Property_List
-)
-
 ([GraphML_ProjectKB_Class11] of  Property_List
 )
-
-([GraphML_ProjectKB_Class110] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#attribute_isReference")
-	(property_list [GraphML_ProjectKB_Class111])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
-	(width 200)
-	(x 0)
-	(y 300))
-
-([GraphML_ProjectKB_Class111] of  Property_List
-)
-
-([GraphML_ProjectKB_Class112] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([GraphML_ProjectKB_Class113] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Class")
-	(string_value "%3ANAME"))
-
-([GraphML_ProjectKB_Class114] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([GraphML_ProjectKB_Class115] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([GraphML_ProjectKB_Class116] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Thing")
-	(string_value "%3ANAME"))
 
 ([GraphML_ProjectKB_Class12] of  Widget
 
@@ -345,178 +251,14 @@
 ([GraphML_ProjectKB_Class51] of  Property_List
 )
 
-([GraphML_ProjectKB_Class52] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#AttributeRestriction")
-	(property_list [GraphML_ProjectKB_Class55])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
-
-([GraphML_ProjectKB_Class55] of  Property_List
-
-	(properties
-		[GraphML_ProjectKB_Class56]
-		[GraphML_ProjectKB_Class59]
-		[GraphML_ProjectKB_Class62]
-		[GraphML_ProjectKB_Class65]
-		[GraphML_ProjectKB_Class67]
-		[GraphML_ProjectKB_Class69]
-		[GraphML_ProjectKB_Class71]
-		[GraphML_ProjectKB_Class73]
-		[GraphML_ProjectKB_Class75]
-		[GraphML_ProjectKB_Class77]
-		[GraphML_ProjectKB_Class79]
-		[GraphML_ProjectKB_Class81]))
-
-([GraphML_ProjectKB_Class56] of  Widget
-
-	(height 0)
-	(is_hidden FALSE)
-	(label "Name")
-	(name ":NAME")
-	(property_list [GraphML_ProjectKB_Class57])
-	(width 0)
-	(x 0)
-	(y 0))
-
-([GraphML_ProjectKB_Class57] of  Property_List
-
-	(properties [GraphML_ProjectKB_Class58]))
-
-([GraphML_ProjectKB_Class58] of  Boolean
-
-	(boolean_value TRUE)
-	(name "DisabledByUser"))
-
-([GraphML_ProjectKB_Class59] of  Property_List
-
-	(name "layout properties")
-	(properties
-		[GraphML_ProjectKB_Class60]
-		[GraphML_ProjectKB_Class61]))
-
 ([GraphML_ProjectKB_Class6] of  Widget
 
 	(is_hidden TRUE)
 	(property_list [GraphML_ProjectKB_Class7])
 	(widget_class_name "ezpal.EZPalTab"))
 
-([GraphML_ProjectKB_Class60] of  String
-
-	(name "horizontal_stretcher")
-	(string_value "<<all>>"))
-
-([GraphML_ProjectKB_Class61] of  String
-
-	(name "vertical_stretcher")
-	(string_value "<<none>>"))
-
-([GraphML_ProjectKB_Class62] of  Widget
-
-	(height 180)
-	(is_hidden FALSE)
-	(name "http://protege.stanford.edu/plugins/owl/protege#inferredType")
-	(property_list [GraphML_ProjectKB_Class63])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
-	(width 550)
-	(x 0)
-	(y 0))
-
-([GraphML_ProjectKB_Class63] of  Property_List
-
-	(properties [GraphML_ProjectKB_Class64]))
-
-([GraphML_ProjectKB_Class64] of  Boolean
-
-	(boolean_value FALSE)
-	(name "DisabledByUser"))
-
-([GraphML_ProjectKB_Class65] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2002/07/owl#versionInfo")
-	(property_list [GraphML_ProjectKB_Class66]))
-
-([GraphML_ProjectKB_Class66] of  Property_List
-)
-
-([GraphML_ProjectKB_Class67] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#isDefinedBy")
-	(property_list [GraphML_ProjectKB_Class68]))
-
-([GraphML_ProjectKB_Class68] of  Property_List
-)
-
-([GraphML_ProjectKB_Class69] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#comment")
-	(property_list [GraphML_ProjectKB_Class70]))
-
 ([GraphML_ProjectKB_Class7] of  Property_List
 )
-
-([GraphML_ProjectKB_Class70] of  Property_List
-)
-
-([GraphML_ProjectKB_Class71] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#seeAlso")
-	(property_list [GraphML_ProjectKB_Class72]))
-
-([GraphML_ProjectKB_Class72] of  Property_List
-)
-
-([GraphML_ProjectKB_Class73] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#label")
-	(property_list [GraphML_ProjectKB_Class74]))
-
-([GraphML_ProjectKB_Class74] of  Property_List
-)
-
-([GraphML_ProjectKB_Class75] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#attributeRestriction_hasName")
-	(property_list [GraphML_ProjectKB_Class76])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
-	(width 200)
-	(x 0)
-	(y 180))
-
-([GraphML_ProjectKB_Class76] of  Property_List
-)
-
-([GraphML_ProjectKB_Class77] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#attributeRestriction_ofElement")
-	(property_list [GraphML_ProjectKB_Class78])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
-	(width 200)
-	(x 0)
-	(y 300))
-
-([GraphML_ProjectKB_Class78] of  Property_List
-)
-
-([GraphML_ProjectKB_Class79] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#attributeRestriction_hasValue")
-	(property_list [GraphML_ProjectKB_Class80])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
-	(width 200)
-	(x 0)
-	(y 240))
 
 ([GraphML_ProjectKB_Class8] of  Widget
 
@@ -524,121 +266,32 @@
 	(property_list [GraphML_ProjectKB_Class9])
 	(widget_class_name "edu.stanford.smi.protegex.server_changes.prompt.UsersTab"))
 
-([GraphML_ProjectKB_Class80] of  Property_List
-)
+([GraphML_ProjectKB_Class81] of  String
 
-([GraphML_ProjectKB_Class81] of  Widget
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
 
-	(height 120)
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#attribute_isReference")
-	(property_list [GraphML_ProjectKB_Class82])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
-	(width 200)
-	(x 0)
-	(y 360))
+([GraphML_ProjectKB_Class82] of  String
 
-([GraphML_ProjectKB_Class82] of  Property_List
-)
+	(name "http://www.w3.org/2002/07/owl#Class")
+	(string_value "%3ANAME"))
 
-([GraphML_ProjectKB_Class83] of  Widget
+([GraphML_ProjectKB_Class83] of  String
 
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#ParameterValue")
-	(property_list [GraphML_ProjectKB_Class86])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
 
-([GraphML_ProjectKB_Class86] of  Property_List
+([GraphML_ProjectKB_Class84] of  String
 
-	(properties
-		[GraphML_ProjectKB_Class87]
-		[GraphML_ProjectKB_Class90]
-		[GraphML_ProjectKB_Class93]
-		[GraphML_ProjectKB_Class96]
-		[GraphML_ProjectKB_Class98]
-		[GraphML_ProjectKB_Class100]
-		[GraphML_ProjectKB_Class102]
-		[GraphML_ProjectKB_Class104]
-		[GraphML_ProjectKB_Class106]
-		[GraphML_ProjectKB_Class108]
-		[GraphML_ProjectKB_Class110]))
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
 
-([GraphML_ProjectKB_Class87] of  Widget
+([GraphML_ProjectKB_Class85] of  String
 
-	(height 0)
-	(is_hidden FALSE)
-	(label "Name")
-	(name ":NAME")
-	(property_list [GraphML_ProjectKB_Class88])
-	(width 0)
-	(x 0)
-	(y 0))
-
-([GraphML_ProjectKB_Class88] of  Property_List
-
-	(properties [GraphML_ProjectKB_Class89]))
-
-([GraphML_ProjectKB_Class89] of  Boolean
-
-	(boolean_value TRUE)
-	(name "DisabledByUser"))
+	(name "http://www.w3.org/2002/07/owl#Thing")
+	(string_value "%3ANAME"))
 
 ([GraphML_ProjectKB_Class9] of  Property_List
-)
-
-([GraphML_ProjectKB_Class90] of  Property_List
-
-	(name "layout properties")
-	(properties
-		[GraphML_ProjectKB_Class91]
-		[GraphML_ProjectKB_Class92]))
-
-([GraphML_ProjectKB_Class91] of  String
-
-	(name "horizontal_stretcher")
-	(string_value "<<all>>"))
-
-([GraphML_ProjectKB_Class92] of  String
-
-	(name "vertical_stretcher")
-	(string_value "<<none>>"))
-
-([GraphML_ProjectKB_Class93] of  Widget
-
-	(height 180)
-	(is_hidden FALSE)
-	(name "http://protege.stanford.edu/plugins/owl/protege#inferredType")
-	(property_list [GraphML_ProjectKB_Class94])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
-	(width 550)
-	(x 0)
-	(y 0))
-
-([GraphML_ProjectKB_Class94] of  Property_List
-
-	(properties [GraphML_ProjectKB_Class95]))
-
-([GraphML_ProjectKB_Class95] of  Boolean
-
-	(boolean_value FALSE)
-	(name "DisabledByUser"))
-
-([GraphML_ProjectKB_Class96] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2002/07/owl#versionInfo")
-	(property_list [GraphML_ProjectKB_Class97]))
-
-([GraphML_ProjectKB_Class97] of  Property_List
-)
-
-([GraphML_ProjectKB_Class98] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#isDefinedBy")
-	(property_list [GraphML_ProjectKB_Class99]))
-
-([GraphML_ProjectKB_Class99] of  Property_List
 )
 
 ([Instance_1005] of  Widget
@@ -5963,7 +5616,6 @@
 		[KB_301165_Instance_856]
 		[KB_691299_Instance_537]
 		[KB_303942_Instance_68]
-		[GraphML_ProjectKB_Class52]
 		[KB_465546_Instance_567]
 		[STANDARD_FACET_FORM_WIDGET]
 		[KB_713803_Instance_780]
@@ -5972,7 +5624,6 @@
 		[KB_713803_Instance_303]
 		[Instance_1005]
 		[KB_938545_Instance_329]
-		[GraphML_ProjectKB_Class83]
 		[KB_764103_Instance_545]
 		[KB_301165_Instance_1013]
 		[KB_713803_Instance_390]

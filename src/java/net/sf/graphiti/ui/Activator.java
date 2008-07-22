@@ -55,15 +55,6 @@ public class Activator extends AbstractUIPlugin {
 	public static final String PLUGIN_ID = "net.sf.graphiti";
 
 	/**
-	 * Returns the list of document configurations of the shared instance.
-	 * 
-	 * @return The list of document configurations.
-	 */
-	public static List<DocumentConfiguration> getConfigurations() {
-		return plugin.configurations;
-	}
-
-	/**
 	 * Returns the shared instance
 	 * 
 	 * @return the shared instance
@@ -113,6 +104,15 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public Activator() {
 		plugin = this;
+	}
+
+	/**
+	 * Returns the list of document configurations of the shared instance.
+	 * 
+	 * @return The list of document configurations.
+	 */
+	public List<DocumentConfiguration> getConfigurations() {
+		return configurations;
 	}
 
 	/*

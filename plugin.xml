@@ -17,9 +17,22 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            id="net.sf.graphiti.ui.wizards.graph"
-            name="Graph">
+            id="net.sf.graphiti.ui.wizards.graphiti"
+            name="Graphiti">
       </category>
+      <wizard
+            category="net.sf.graphiti.ui.wizards.graphiti"
+            class="net.sf.graphiti.ui.wizards.NewGraphWizard"
+            finalPerspective="net.sf.graphiti.ui.perspective"
+            hasPages="true"
+            icon="icons/graphiti.gif"
+            id="net.sf.graphiti.ui.wizards.NewGraphWizard"
+            name="Graph"
+            project="false">
+         <description>
+            Create a graph
+         </description>
+      </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.startup">

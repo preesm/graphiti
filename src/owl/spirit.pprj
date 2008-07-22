@@ -1,4 +1,4 @@
-; Thu Jul 17 18:07:17 CEST 2008
+; Tue Jul 22 17:25:12 CEST 2008
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 504")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[spirit_ProjectKB_Class120]
-		[spirit_ProjectKB_Class121]
-		[spirit_ProjectKB_Class122]
-		[spirit_ProjectKB_Class123]
-		[spirit_ProjectKB_Class124]))
+		[spirit_ProjectKB_Class81]
+		[spirit_ProjectKB_Class82]
+		[spirit_ProjectKB_Class83]
+		[spirit_ProjectKB_Class84]
+		[spirit_ProjectKB_Class85]))
 
 ([CLSES_TAB] of  Widget
 
@@ -5344,7 +5344,6 @@
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
 		[KB_713803_Instance_477]
-		[spirit_ProjectKB_Class52]
 		[KB_313796_Instance_852]
 		[KB_691299_Instance_398]
 		[PAL_FORM_WIDGET]
@@ -5367,7 +5366,6 @@
 		[KB_713803_Instance_303]
 		[Instance_1005]
 		[KB_938545_Instance_329]
-		[spirit_ProjectKB_Class86]
 		[KB_764103_Instance_545]
 		[KB_301165_Instance_1013]
 		[KB_713803_Instance_390]
@@ -5632,88 +5630,7 @@
 	(property_list [spirit_ProjectKB_Class11])
 	(widget_class_name "ca.uvic.csr.shrimp.jambalaya.JambalayaTab"))
 
-([spirit_ProjectKB_Class100] of  Property_List
-)
-
-([spirit_ProjectKB_Class101] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#isDefinedBy")
-	(property_list [spirit_ProjectKB_Class102]))
-
-([spirit_ProjectKB_Class102] of  Property_List
-)
-
-([spirit_ProjectKB_Class103] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#comment")
-	(property_list [spirit_ProjectKB_Class104]))
-
-([spirit_ProjectKB_Class104] of  Property_List
-)
-
-([spirit_ProjectKB_Class105] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#seeAlso")
-	(property_list [spirit_ProjectKB_Class106]))
-
-([spirit_ProjectKB_Class106] of  Property_List
-)
-
-([spirit_ProjectKB_Class107] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#label")
-	(property_list [spirit_ProjectKB_Class108]))
-
-([spirit_ProjectKB_Class108] of  Property_List
-)
-
-([spirit_ProjectKB_Class109] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#parameterValue_ofParameter")
-	(property_list [spirit_ProjectKB_Class110])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleResourceWidget")
-	(width 200)
-	(x 0)
-	(y 240))
-
 ([spirit_ProjectKB_Class11] of  Property_List
-)
-
-([spirit_ProjectKB_Class110] of  Property_List
-)
-
-([spirit_ProjectKB_Class111] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#parameterValue_hasValue")
-	(property_list [spirit_ProjectKB_Class112])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
-	(width 200)
-	(x 0)
-	(y 180))
-
-([spirit_ProjectKB_Class112] of  Property_List
-)
-
-([spirit_ProjectKB_Class113] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#attribute_isReference")
-	(property_list [spirit_ProjectKB_Class114])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
-	(width 200)
-	(x 0)
-	(y 300))
-
-([spirit_ProjectKB_Class114] of  Property_List
 )
 
 ([spirit_ProjectKB_Class12] of  Widget
@@ -5721,31 +5638,6 @@
 	(is_hidden TRUE)
 	(property_list [spirit_ProjectKB_Class13])
 	(widget_class_name "edu.stanford.smi.protege.widget.instance_tree.InstanceTreeTab"))
-
-([spirit_ProjectKB_Class120] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([spirit_ProjectKB_Class121] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Class")
-	(string_value "%3ANAME"))
-
-([spirit_ProjectKB_Class122] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([spirit_ProjectKB_Class123] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([spirit_ProjectKB_Class124] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Thing")
-	(string_value "%3ANAME"))
 
 ([spirit_ProjectKB_Class13] of  Property_List
 )
@@ -5939,177 +5831,14 @@
 ([spirit_ProjectKB_Class51] of  Property_List
 )
 
-([spirit_ProjectKB_Class52] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#EdgeConnection")
-	(property_list [spirit_ProjectKB_Class55])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
-
-([spirit_ProjectKB_Class55] of  Property_List
-
-	(properties
-		[spirit_ProjectKB_Class56]
-		[spirit_ProjectKB_Class59]
-		[spirit_ProjectKB_Class62]
-		[spirit_ProjectKB_Class65]
-		[spirit_ProjectKB_Class67]
-		[spirit_ProjectKB_Class69]
-		[spirit_ProjectKB_Class71]
-		[spirit_ProjectKB_Class73]
-		[spirit_ProjectKB_Class75]
-		[spirit_ProjectKB_Class77]
-		[spirit_ProjectKB_Class79]))
-
-([spirit_ProjectKB_Class56] of  Widget
-
-	(height 0)
-	(is_hidden FALSE)
-	(label "Name")
-	(name ":NAME")
-	(property_list [spirit_ProjectKB_Class57])
-	(width 0)
-	(x 0)
-	(y 0))
-
-([spirit_ProjectKB_Class57] of  Property_List
-
-	(properties [spirit_ProjectKB_Class58]))
-
-([spirit_ProjectKB_Class58] of  Boolean
-
-	(boolean_value TRUE)
-	(name "DisabledByUser"))
-
-([spirit_ProjectKB_Class59] of  Property_List
-
-	(name "layout properties")
-	(properties
-		[spirit_ProjectKB_Class60]
-		[spirit_ProjectKB_Class61]))
-
 ([spirit_ProjectKB_Class6] of  Widget
 
 	(is_hidden TRUE)
 	(property_list [spirit_ProjectKB_Class7])
 	(widget_class_name "ezpal.EZPalTab"))
 
-([spirit_ProjectKB_Class60] of  String
-
-	(name "horizontal_stretcher")
-	(string_value "<<all>>"))
-
-([spirit_ProjectKB_Class61] of  String
-
-	(name "vertical_stretcher")
-	(string_value "<<none>>"))
-
-([spirit_ProjectKB_Class62] of  Widget
-
-	(height 180)
-	(is_hidden FALSE)
-	(name "http://protege.stanford.edu/plugins/owl/protege#inferredType")
-	(property_list [spirit_ProjectKB_Class63])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
-	(width 550)
-	(x 0)
-	(y 0))
-
-([spirit_ProjectKB_Class63] of  Property_List
-
-	(properties [spirit_ProjectKB_Class64]))
-
-([spirit_ProjectKB_Class64] of  Boolean
-
-	(boolean_value FALSE)
-	(name "DisabledByUser"))
-
-([spirit_ProjectKB_Class65] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2002/07/owl#versionInfo")
-	(property_list [spirit_ProjectKB_Class66]))
-
-([spirit_ProjectKB_Class66] of  Property_List
-)
-
-([spirit_ProjectKB_Class67] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#isDefinedBy")
-	(property_list [spirit_ProjectKB_Class68]))
-
-([spirit_ProjectKB_Class68] of  Property_List
-)
-
-([spirit_ProjectKB_Class69] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#comment")
-	(property_list [spirit_ProjectKB_Class70]))
-
 ([spirit_ProjectKB_Class7] of  Property_List
 )
-
-([spirit_ProjectKB_Class70] of  Property_List
-)
-
-([spirit_ProjectKB_Class71] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#seeAlso")
-	(property_list [spirit_ProjectKB_Class72]))
-
-([spirit_ProjectKB_Class72] of  Property_List
-)
-
-([spirit_ProjectKB_Class73] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2000/01/rdf-schema#label")
-	(property_list [spirit_ProjectKB_Class74]))
-
-([spirit_ProjectKB_Class74] of  Property_List
-)
-
-([spirit_ProjectKB_Class75] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#attribute_isReferenceTo")
-	(property_list [spirit_ProjectKB_Class76])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiResourceWidget")
-	(width 200)
-	(x 0)
-	(y 240))
-
-([spirit_ProjectKB_Class76] of  Property_List
-)
-
-([spirit_ProjectKB_Class77] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#attribute_hasName")
-	(property_list [spirit_ProjectKB_Class78])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.SingleLiteralWidget")
-	(width 200)
-	(x 0)
-	(y 180))
-
-([spirit_ProjectKB_Class78] of  Property_List
-)
-
-([spirit_ProjectKB_Class79] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#attribute_isReference")
-	(property_list [spirit_ProjectKB_Class80])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.MultiLiteralWidget")
-	(width 200)
-	(x 0)
-	(y 360))
 
 ([spirit_ProjectKB_Class8] of  Widget
 
@@ -6117,96 +5846,33 @@
 	(property_list [spirit_ProjectKB_Class9])
 	(widget_class_name "edu.stanford.smi.protegex.server_changes.prompt.UsersTab"))
 
-([spirit_ProjectKB_Class80] of  Property_List
-)
+([spirit_ProjectKB_Class81] of  String
 
-([spirit_ProjectKB_Class86] of  Widget
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
 
-	(is_hidden FALSE)
-	(name "http://net.sf.graphiti/basics.owl#ParameterValue")
-	(property_list [spirit_ProjectKB_Class89])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.OWLFormWidget"))
+([spirit_ProjectKB_Class82] of  String
 
-([spirit_ProjectKB_Class89] of  Property_List
+	(name "http://www.w3.org/2002/07/owl#Class")
+	(string_value "%3ANAME"))
 
-	(properties
-		[spirit_ProjectKB_Class90]
-		[spirit_ProjectKB_Class93]
-		[spirit_ProjectKB_Class96]
-		[spirit_ProjectKB_Class99]
-		[spirit_ProjectKB_Class101]
-		[spirit_ProjectKB_Class103]
-		[spirit_ProjectKB_Class105]
-		[spirit_ProjectKB_Class107]
-		[spirit_ProjectKB_Class109]
-		[spirit_ProjectKB_Class111]
-		[spirit_ProjectKB_Class113]))
+([spirit_ProjectKB_Class83] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([spirit_ProjectKB_Class84] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([spirit_ProjectKB_Class85] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Thing")
+	(string_value "%3ANAME"))
 
 ([spirit_ProjectKB_Class9] of  Property_List
 )
-
-([spirit_ProjectKB_Class90] of  Widget
-
-	(height 0)
-	(is_hidden FALSE)
-	(label "Name")
-	(name ":NAME")
-	(property_list [spirit_ProjectKB_Class91])
-	(width 0)
-	(x 0)
-	(y 0))
-
-([spirit_ProjectKB_Class91] of  Property_List
-
-	(properties [spirit_ProjectKB_Class92]))
-
-([spirit_ProjectKB_Class92] of  Boolean
-
-	(boolean_value TRUE)
-	(name "DisabledByUser"))
-
-([spirit_ProjectKB_Class93] of  Property_List
-
-	(name "layout properties")
-	(properties
-		[spirit_ProjectKB_Class94]
-		[spirit_ProjectKB_Class95]))
-
-([spirit_ProjectKB_Class94] of  String
-
-	(name "horizontal_stretcher")
-	(string_value "<<all>>"))
-
-([spirit_ProjectKB_Class95] of  String
-
-	(name "vertical_stretcher")
-	(string_value "<<none>>"))
-
-([spirit_ProjectKB_Class96] of  Widget
-
-	(height 180)
-	(is_hidden FALSE)
-	(name "http://protege.stanford.edu/plugins/owl/protege#inferredType")
-	(property_list [spirit_ProjectKB_Class97])
-	(widget_class_name "edu.stanford.smi.protegex.owl.ui.widget.HeaderWidget")
-	(width 550)
-	(x 0)
-	(y 0))
-
-([spirit_ProjectKB_Class97] of  Property_List
-
-	(properties [spirit_ProjectKB_Class98]))
-
-([spirit_ProjectKB_Class98] of  Boolean
-
-	(boolean_value FALSE)
-	(name "DisabledByUser"))
-
-([spirit_ProjectKB_Class99] of  Widget
-
-	(is_hidden FALSE)
-	(name "http://www.w3.org/2002/07/owl#versionInfo")
-	(property_list [spirit_ProjectKB_Class100]))
 
 ([STANDARD_CLASS_FORM_WIDGET] of  Widget
 

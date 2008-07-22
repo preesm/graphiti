@@ -162,6 +162,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >graphml</basic:element_hasName>
   </basic:DocumentElement>
+  <basic:GraphType rdf:ID="GraphType">
+    <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >GraphML</basic:type_hasName>
+  </basic:GraphType>
   <basic:AttributeRestriction rdf:ID="NameRestriction">
     <basic:attributeRestriction_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >name</basic:attributeRestriction_hasValue>

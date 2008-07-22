@@ -28,11 +28,21 @@
  */
 package net.sf.graphiti.ui.wizards;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
+import net.sf.graphiti.model.DocumentConfiguration;
+import net.sf.graphiti.model.GraphitiDocument;
+import net.sf.graphiti.ontology.types.GraphType;
+import net.sf.graphiti.ui.Activator;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
@@ -44,23 +54,26 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 
 /**
- * The "New" wizard page allows setting the container for the new file as well
- * as the file name. The page will only accept file name without the extension
- * OR with the extension that matches the expected one (graph).
+ * This class provides a page for the new graph wizard.
  */
-
 public class NewGraphWizardPage extends WizardPage {
-	private Text containerText;
 
-	private Text fileText;
+	private Map<String, DocumentConfiguration> graphTypes;
+
+	private Combo listGraphTypes;
 
 	private ISelection selection;
+
+	private Text textContainer;
+
+	private Text textFile;
 
 	/**
 	 * Constructor for SampleNewWizardPage.
@@ -69,53 +82,82 @@ public class NewGraphWizardPage extends WizardPage {
 	 */
 	public NewGraphWizardPage(ISelection selection) {
 		super("wizardPage");
-		setTitle("Multi-page Editor File");
-		setDescription("This wizard creates a new file with *.graph extension that can be opened by a multi-page editor.");
+		setTitle("Choose graph type");
+		setDescription("Create a new graph.");
 		this.selection = selection;
+
+		fillGraphTypes();
 	}
 
-	/**
-	 * @see IDialogPage#createControl(Composite)
-	 */
-	public void createControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NULL);
-		GridLayout layout = new GridLayout();
-		container.setLayout(layout);
-		layout.numColumns = 3;
-		layout.verticalSpacing = 9;
-		Label label = new Label(container, SWT.NULL);
-		label.setText("&Container:");
-
-		containerText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		containerText.setLayoutData(gd);
-		containerText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
-
-		Button button = new Button(container, SWT.PUSH);
+	private void createBrowse(Composite parent) {
+		Button button = new Button(parent, SWT.PUSH);
 		button.setText("Browse...");
 		button.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				handleBrowse();
 			}
 		});
-		label = new Label(container, SWT.NULL);
-		label.setText("&File name:");
+	}
 
-		fileText = new Text(container, SWT.BORDER | SWT.SINGLE);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		fileText.setLayoutData(gd);
-		fileText.addModifyListener(new ModifyListener() {
+	private void createContainer(Composite parent) {
+		Label label = new Label(parent, SWT.NULL);
+		label.setText("&Container:");
+
+		textContainer = new Text(parent, SWT.BORDER | SWT.SINGLE);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		textContainer.setLayoutData(gd);
+		textContainer.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				dialogChanged();
 			}
 		});
+	}
+
+	@Override
+	public void createControl(Composite parent) {
+		Composite container = new Composite(parent, SWT.NULL);
+		GridLayout layout = new GridLayout();
+		container.setLayout(layout);
+
+		layout.numColumns = 3;
+		layout.verticalSpacing = 9;
+
+		createContainer(container);
+		createBrowse(container);
+		createFilename(container);
+		createGraphTypes(container);
+
 		initialize();
 		dialogChanged();
 		setControl(container);
+	}
+
+	private void createFilename(Composite parent) {
+		Label label = new Label(parent, SWT.NULL);
+		label.setText("&File name:");
+
+		textFile = new Text(parent, SWT.BORDER | SWT.SINGLE);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		textFile.setLayoutData(gd);
+		textFile.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+
+		new Label(parent, SWT.NULL);
+	}
+
+	private void createGraphTypes(Composite parent) {
+		Label label = new Label(parent, SWT.NULL);
+		label.setText("&Graph type:");
+
+		listGraphTypes = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY
+				| SWT.SIMPLE);
+		Set<String> typeNames = new TreeSet<String>(this.graphTypes.keySet());
+		String[] items = typeNames.toArray(new String[] {});
+		listGraphTypes.setItems(items);
+		listGraphTypes.select(0);
 	}
 
 	/**
@@ -131,40 +173,64 @@ public class NewGraphWizardPage extends WizardPage {
 			updateStatus("File container must be specified");
 			return;
 		}
+
 		if (container == null
 				|| (container.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
 			updateStatus("File container must exist");
 			return;
 		}
+
 		if (!container.isAccessible()) {
 			updateStatus("Project must be writable");
 			return;
 		}
+
 		if (fileName.length() == 0) {
 			updateStatus("File name must be specified");
 			return;
 		}
+
 		if (fileName.replace('\\', '/').indexOf('/', 1) > 0) {
 			updateStatus("File name must be valid");
 			return;
 		}
-		int dotLoc = fileName.lastIndexOf('.');
-		if (dotLoc != -1) {
-			String ext = fileName.substring(dotLoc + 1);
-			if (ext.equalsIgnoreCase("graph") == false) {
-				updateStatus("File extension must be \"graph\"");
-				return;
-			}
-		}
+
 		updateStatus(null);
 	}
 
+	private void fillGraphTypes() {
+		List<DocumentConfiguration> configs = Activator.getDefault()
+				.getConfigurations();
+		graphTypes = new HashMap<String, DocumentConfiguration>();
+		for (DocumentConfiguration config : configs) {
+			Set<GraphType> graphTypes = config.getOntologyFactory()
+					.getGraphTypes();
+			for (GraphType type : graphTypes) {
+				this.graphTypes.put(type.hasName(), config);
+			}
+		}
+	}
+
 	public String getContainerName() {
-		return containerText.getText();
+		return textContainer.getText();
 	}
 
 	public String getFileName() {
-		return fileText.getText();
+		return textFile.getText();
+	}
+
+	/**
+	 * Creates a new {@link GraphitiDocument} from the given graph type and
+	 * configuration.
+	 * 
+	 * @return A new {@link GraphitiDocument}.
+	 */
+	public GraphitiDocument getNewGraphitiDocument() {
+		int index = listGraphTypes.getSelectionIndex();
+		String graphType = listGraphTypes.getItem(index);
+		DocumentConfiguration config = graphTypes.get(graphType);
+		GraphitiDocument doc = new GraphitiDocument(config);
+		return doc;
 	}
 
 	/**
@@ -179,7 +245,7 @@ public class NewGraphWizardPage extends WizardPage {
 		if (dialog.open() == ContainerSelectionDialog.OK) {
 			Object[] result = dialog.getResult();
 			if (result.length == 1) {
-				containerText.setText(((Path) result[0]).toString());
+				textContainer.setText(((Path) result[0]).toString());
 			}
 		}
 	}
@@ -187,7 +253,6 @@ public class NewGraphWizardPage extends WizardPage {
 	/**
 	 * Tests if the current workbench selection is a suitable container to use.
 	 */
-
 	private void initialize() {
 		if (selection != null && selection.isEmpty() == false
 				&& selection instanceof IStructuredSelection) {
@@ -201,10 +266,9 @@ public class NewGraphWizardPage extends WizardPage {
 					container = (IContainer) obj;
 				else
 					container = ((IResource) obj).getParent();
-				containerText.setText(container.getFullPath().toString());
+				textContainer.setText(container.getFullPath().toString());
 			}
 		}
-		fileText.setText("graph.graph");
 	}
 
 	private void updateStatus(String message) {

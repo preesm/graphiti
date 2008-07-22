@@ -54,6 +54,7 @@ import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
 import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
 import net.sf.graphiti.ontology.domAttributes.edgeAttributes.EdgeAttribute;
 import net.sf.graphiti.ontology.domAttributes.otherAttributes.OtherAttribute;
+import net.sf.graphiti.ontology.elements.DocumentElement;
 import net.sf.graphiti.ontology.elements.Element;
 import net.sf.graphiti.ontology.elements.TextContentElement;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
@@ -67,6 +68,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * This class provides a generic graph file parser.
+ * 
+ * @author Jonathan Piat
+ * @author Matthieu Wipliez
+ *
+ */
 public class GenericGraphFileParser {
 
 	private static final String IS_PORT = "isPort";
@@ -367,7 +375,8 @@ public class GenericGraphFileParser {
 		} else if (ontNode.hasOntClass(OntologyFactory.getClassSkipElement())) {
 			// The ontology node is a SkipElement
 			element = new SkipDOMNode(parentElement);
-		} else if (ontNode.hasOntClass(OntologyFactory.getClassTextContentElement())) {
+		} else if (ontNode.hasOntClass(OntologyFactory
+				.getClassTextContentElement())) {
 			// Sets parameter values associated with this element
 			element = new InfoDOMNode();
 			setParameter((TextContentElement) ontNode, parentElement, domNode);
@@ -504,7 +513,7 @@ public class GenericGraphFileParser {
 			graphitiDocument = new GraphitiDocument(config);
 
 			// Iterates over the parser root nodes
-			Set<Element> ontNodes = factory.getParserRootNodes();
+			Set<DocumentElement> ontNodes = factory.getDocumentElements();
 			Object[] elements = ontNodes.toArray();
 			if (elements.length != 1) {
 				throw (new IncompatibleConfigurationFile());
@@ -556,9 +565,9 @@ public class GenericGraphFileParser {
 	}
 
 	/**
-	 * This method is called on an TextContentElement. A Parameter is obtained from it
-	 * using referencesParameter, and we set the value of the parameter name to
-	 * the domElement text content.
+	 * This method is called on an TextContentElement. A Parameter is obtained
+	 * from it using referencesParameter, and we set the value of the parameter
+	 * name to the domElement text content.
 	 * 
 	 * @param ontNode
 	 * @param parent
