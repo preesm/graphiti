@@ -40,10 +40,10 @@ import net.sf.graphiti.parsers.GenericGraphFileParser;
 import net.sf.graphiti.ui.Activator;
 import net.sf.graphiti.ui.actions.CopyAction;
 import net.sf.graphiti.ui.actions.CutAction;
-import net.sf.graphiti.ui.actions.OpenRefinementAction;
+import net.sf.graphiti.ui.actions.OpenRefinementCurrentTabAction;
+import net.sf.graphiti.ui.actions.OpenRefinementNewTabAction;
 import net.sf.graphiti.ui.actions.PasteAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
-import net.sf.graphiti.ui.editparts.GraphEditPart;
 import net.sf.graphiti.ui.editparts.GraphitiDocumentEditPart;
 import net.sf.graphiti.writer.GenericGraphFileWriter;
 import net.sf.graphiti.writer.GenericGraphFileWriterBis;
@@ -54,16 +54,11 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.draw2d.FigureCanvas;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
-import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -81,13 +76,14 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IShowEditorInput;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
 
-public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
+public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
+		IShowEditorInput {
 
 	/**
 	 * The editor ID
@@ -97,6 +93,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 	private GraphitiDocument document;
 
 	private ZoomManager manager;
+	
+	private PaletteRoot paletteRoot;
 
 	// protected ThumbnailOutlinePage outlinePage;
 
@@ -112,7 +110,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 	@Override
 	public void commandStackChanged(EventObject event) {
 		// The dirty property implies a star near the editor name
-		firePropertyChange(IEditorPart.PROP_DIRTY);
+		firePropertyChange(PROP_DIRTY);
 		super.commandStackChanged(event);
 	}
 
@@ -159,37 +157,35 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		// select-all, save, etc actions
 		ActionRegistry registry = getActionRegistry();
 
-		IAction copyAction = new CopyAction(this);
-		registry.registerAction(copyAction);
-		getSelectionActions().add(copyAction.getId());
+		IAction action = new CopyAction(this);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
 
-		IAction cutAction = new CutAction(this);
-		registry.registerAction(cutAction);
-		getSelectionActions().add(cutAction.getId());
+		action = new CutAction(this);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
 
-		IAction pasteAction = new PasteAction(this);
-		registry.registerAction(pasteAction);
-		getSelectionActions().add(pasteAction.getId());
+		action = new PasteAction(this);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
 
-		IAction selectAllAction = new SelectAllAction(this);
-		registry.registerAction(selectAllAction);
-		getSelectionActions().add(selectAllAction.getId());
+		action = new SelectAllAction(this);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
 
-		IAction printAction = new PrintAction(this);
-		registry.registerAction(printAction);
-		getSelectionActions().add(printAction.getId());
+		action = new PrintAction(this);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
 
-		IAction openRefinementAction = new OpenRefinementAction(this);
-		registry.registerAction(openRefinementAction);
-		getSelectionActions().add(openRefinementAction.getId());
+		action = new OpenRefinementCurrentTabAction(this);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
+
+		action = new OpenRefinementNewTabAction(this);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#
-	 * createPaletteViewerProvider()
-	 */
 	@Override
 	protected PaletteViewerProvider createPaletteViewerProvider() {
 		return new PaletteViewerProvider(getEditDomain()) {
@@ -273,23 +269,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		}
 	}
 
-	/**
-	 * finds the container from its location in the editor
-	 * 
-	 * @param p
-	 * @return The GraphEditPart at the Point p
-	 */
-	public GraphEditPart findScreenGraph(Point p) {
-		EditPartViewer epv = getRootEditPart().getViewer();
-		EditPart ep = epv.findObjectAt(p);
-
-		while (ep != null && !(ep instanceof GraphEditPart)) {
-			ep = ep.getParent();
-		}
-
-		return (GraphEditPart) ep;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object getAdapter(Class type) {
@@ -306,22 +285,13 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		}
 	}
 
-	public FigureCanvas getCanvas() {
-		return (FigureCanvas) getGraphicalViewer().getControl();
-	}
-
-	public GraphicalViewer getGraphicalViewer() {
-		return super.getGraphicalViewer();
-	}
-
 	@Override
 	protected PaletteRoot getPaletteRoot() {
-		GraphitiPalette palette = new GraphitiPalette(document);
-		return palette.getPaletteRoot();
-	}
-
-	public RootEditPart getRootEditPart() {
-		return getGraphicalViewer().getRootEditPart();
+		if (paletteRoot == null) {
+			GraphitiPalette palette = new GraphitiPalette();
+			paletteRoot = palette.getPaletteRoot(document);
+		}
+		return paletteRoot;
 	}
 
 	/**
@@ -342,8 +312,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		// Color test = PreesmColors.algorithm;
 		// getGraphicalViewer().getControl().setBackground(test);
 		viewer.setContents(document);
-		GraphitiDocumentEditPart doc = (GraphitiDocumentEditPart) getRootEditPart()
-				.getContents();
+		GraphitiDocumentEditPart doc = (GraphitiDocumentEditPart) getGraphicalViewer()
+				.getRootEditPart().getContents();
 		doc.automaticallyLayoutGraphs();
 	}
 
@@ -352,12 +322,14 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		return true;
 	}
 
-	public void refreshGraphicalEditor() {
-		getGraphicalViewer().getContents().refresh();
-	}
+	@Override
+	public void setInput(IEditorInput input) {
+		super.setInput(input);
 
-	protected void setInput(IEditorInput input) {
-		superSetInput(input);
+		if (getEditorInput() != null) {
+			IFile file = ((IFileEditorInput) getEditorInput()).getFile();
+			setPartName(file.getName());
+		}
 
 		IFile file = ((IFileEditorInput) input).getFile();
 		try {
@@ -370,6 +342,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		firePropertyChange(PROP_INPUT);
 	}
 
 	/**
@@ -379,23 +353,9 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		manager.setZoomAsText(ZoomManager.FIT_WIDTH);
 	}
 
-	protected void superSetInput(IEditorInput input) {
-		// The workspace never changes for an editor. So, removing and re-adding
-		// the resourceListener is not necessary. But it is being done here for
-		// the sake of proper implementation. Plus, the resourceListener needs
-		// to be added to the workspace the first time around.
-		if (getEditorInput() != null) {
-			// IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-			//file.getWorkspace().removeResourceChangeListener(resourceListener)
-			// ;
-		}
-
-		super.setInput(input);
-
-		if (getEditorInput() != null) {
-			IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-			// file.getWorkspace().addResourceChangeListener(resourceListener);
-			setPartName(file.getName());
-		}
+	@Override
+	public void showEditorInput(IEditorInput editorInput) {
+		setInput(editorInput);
+		initializeGraphicalViewer();
 	}
 }

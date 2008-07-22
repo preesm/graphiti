@@ -28,32 +28,55 @@
  */
 package net.sf.graphiti.ui.actions;
 
-import org.eclipse.swt.dnd.Clipboard;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.part.FileEditorInput;
 
 /**
- * This class is a tailor-made {@link Clipboard}.
+ * This class provides a way to open a vertex refinement.
  * 
  * @author Matthieu Wipliez
+ * 
  */
-public class GraphitiClipboard {
+public class OpenRefinementNewTabAction extends AbstractOpenRefinementAction {
+
+	private static final String ID = "net.sf.graphiti.ui.actions.OpenRefinementNewTabAction";
 
 	/**
-	 * The event name used for {@link GraphitiClipboard#fireContentsSet()}
-	 */
-	public static final String CONTENTS_SET_EVENT = "ContentsSet";
-
-	private static Clipboard instance;
-
-	/**
-	 * Returns the default Clipboard.
+	 * Returns this action identifier.
 	 * 
-	 * @return The default Clipboard.
+	 * @return This action identifier.
 	 */
-	public static Clipboard getInstance() {
-		if (instance == null) {
-			instance = new Clipboard(Display.getCurrent());
-		}
-		return instance;
+	public static Object getActionId() {
+		return ID;
+	}
+
+	/**
+	 * Creates a OpenRefinementNewTabAction action.
+	 * 
+	 * @param part
+	 */
+	public OpenRefinementNewTabAction(IWorkbenchPart part) {
+		super(part);
+	}
+
+	@Override
+	public String getId() {
+		return ID;
+	}
+
+	@Override
+	protected void init() {
+		setId(getId());
+		setText("Open Refinement in New Tab");
+		setToolTipText("Open Refinement in New Tab");
+	}
+
+	@Override
+	public void run() {
+		IFile file = getIFileFromSelection();
+		FileEditorInput input = new FileEditorInput(file);
+
+		openEditor(file.toString(), input);
 	}
 }

@@ -11,6 +11,7 @@
             extensions="xml, xdf, xnl"
             icon="icons/graphiti.gif"
             id="net.sf.graphiti.ui.editors.GraphEditor"
+            matchingStrategy="net.sf.graphiti.ui.editors.GraphEditorMatchingStrategy"
             name="Graphiti graph editor">
       </editor>
    </extension>

@@ -65,27 +65,24 @@ import org.eclipse.swt.widgets.Display;
  */
 public class GraphitiPalette {
 
-	private GraphitiDocument document;
-
 	/**
-	 * Creates a new palette with the given document.
-	 * 
-	 * @param document
-	 *            The graphiti document used to configure this palette. If
-	 *            <code>document == null</code>, this palette will have no
-	 *            vertex entries.
+	 * Creates a new palette.
 	 */
-	public GraphitiPalette(GraphitiDocument document) {
-		this.document = document;
+	public GraphitiPalette() {
 	}
 
 	/**
 	 * Add the different vertex types.
 	 * 
+	 * @param document
+	 *            The graphiti document used to configure this palette. If
+	 *            <code>document == null</code>, this palette will have no
+	 *            vertex entries.
 	 * @param toolGroup
 	 *            The palette group.
 	 */
-	private void addVertexTypes(PaletteGroup toolGroup) {
+	private void addVertexTypes(GraphitiDocument document,
+			PaletteGroup toolGroup) {
 		if (document != null) {
 			DocumentConfiguration config = document.getDocumentConfiguration();
 			OntologyFactory factory = config.getOntologyFactory();
@@ -143,16 +140,20 @@ public class GraphitiPalette {
 		// Disposes image (and GC btw) and SWT graphics
 		image.dispose();
 		graphics.dispose();
-		
+
 		return id;
 	}
 
 	/**
 	 * Gives the Palette Model created
 	 * 
+	 * @param document
+	 *            The graphiti document used to configure this palette. If
+	 *            <code>document == null</code>, this palette will have no
+	 *            vertex entries.
 	 * @return paletteModel
 	 */
-	public PaletteRoot getPaletteRoot() {
+	public PaletteRoot getPaletteRoot(GraphitiDocument document) {
 		PaletteRoot paletteModel = new PaletteRoot();
 
 		PaletteGroup toolGroup = new PaletteGroup("Tools");
@@ -168,7 +169,7 @@ public class GraphitiPalette {
 		// Add an unnamed separator to the group
 		toolGroup.add(new PaletteSeparator());
 
-		addVertexTypes(toolGroup);
+		addVertexTypes(document, toolGroup);
 		paletteModel.add(toolGroup);
 		toolGroup.add(new PaletteSeparator());
 
