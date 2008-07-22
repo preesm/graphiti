@@ -40,7 +40,6 @@ import net.sf.graphiti.parsers.GenericGraphFileParser;
 import net.sf.graphiti.ui.Activator;
 import net.sf.graphiti.ui.actions.CopyAction;
 import net.sf.graphiti.ui.actions.CutAction;
-import net.sf.graphiti.ui.actions.OpenRefinementCurrentTabAction;
 import net.sf.graphiti.ui.actions.OpenRefinementNewTabAction;
 import net.sf.graphiti.ui.actions.PasteAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
@@ -93,7 +92,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	private GraphitiDocument document;
 
 	private ZoomManager manager;
-	
+
 	private PaletteRoot paletteRoot;
 
 	// protected ThumbnailOutlinePage outlinePage;
@@ -174,10 +173,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		getSelectionActions().add(action.getId());
 
 		action = new PrintAction(this);
-		registry.registerAction(action);
-		getSelectionActions().add(action.getId());
-
-		action = new OpenRefinementCurrentTabAction(this);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
 
@@ -288,8 +283,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	@Override
 	protected PaletteRoot getPaletteRoot() {
 		if (paletteRoot == null) {
-			GraphitiPalette palette = new GraphitiPalette();
-			paletteRoot = palette.getPaletteRoot(document);
+			paletteRoot = GraphitiPalette.getPaletteRoot(document);
 		}
 		return paletteRoot;
 	}
@@ -309,8 +303,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		// viewer.addDropTargetListener(new DropTargetListener(
 		// getGraphicalViewer()));
 
-		// Color test = PreesmColors.algorithm;
-		// getGraphicalViewer().getControl().setBackground(test);
 		viewer.setContents(document);
 		GraphitiDocumentEditPart doc = (GraphitiDocumentEditPart) getGraphicalViewer()
 				.getRootEditPart().getContents();

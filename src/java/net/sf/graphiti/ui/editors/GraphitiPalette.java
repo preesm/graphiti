@@ -66,23 +66,15 @@ import org.eclipse.swt.widgets.Display;
 public class GraphitiPalette {
 
 	/**
-	 * Creates a new palette.
-	 */
-	public GraphitiPalette() {
-	}
-
-	/**
 	 * Add the different vertex types.
 	 * 
 	 * @param document
-	 *            The graphiti document used to configure this palette. If
-	 *            <code>document == null</code>, this palette will have no
-	 *            vertex entries.
-	 * @param toolGroup
+	 *            The graphiti document used to configure this palette.
+	 * @param paletteGroup
 	 *            The palette group.
 	 */
-	private void addVertexTypes(GraphitiDocument document,
-			PaletteGroup toolGroup) {
+	private static void addVertexTypes(GraphitiDocument document,
+			PaletteGroup paletteGroup) {
 		if (document != null) {
 			DocumentConfiguration config = document.getDocumentConfiguration();
 			OntologyFactory factory = config.getOntologyFactory();
@@ -96,7 +88,7 @@ public class GraphitiPalette {
 						+ typeStr,
 						new VertexCreationFactory(document, typeStr), id, null);
 
-				toolGroup.add(tool);
+				paletteGroup.add(tool);
 			}
 		}
 	}
@@ -112,7 +104,7 @@ public class GraphitiPalette {
 	 *            A string representation of the vertex type.
 	 * @return A new {@link ImageDescriptor}.
 	 */
-	private ImageDescriptor getImageDescriptorFromType(
+	private static ImageDescriptor getImageDescriptorFromType(
 			DocumentConfiguration config, String typeStr) {
 		// Creates a new vertex figure
 		VertexFigure figure = new VertexFigure(config, typeStr);
@@ -145,15 +137,19 @@ public class GraphitiPalette {
 	}
 
 	/**
-	 * Gives the Palette Model created
+	 * Gets a palette root which is configured by the given
+	 * {@link GraphitiDocument}. If <code>document == null</code>,
+	 * <code>null</code> is returned.
 	 * 
 	 * @param document
-	 *            The graphiti document used to configure this palette. If
-	 *            <code>document == null</code>, this palette will have no
-	 *            vertex entries.
-	 * @return paletteModel
+	 *            The graphiti document used to configure this palette.
+	 * @return A {@link PaletteRoot} or <code>null</code>.
 	 */
-	public PaletteRoot getPaletteRoot(GraphitiDocument document) {
+	public static PaletteRoot getPaletteRoot(GraphitiDocument document) {
+		if (document == null) {
+			return null;
+		}
+
 		PaletteRoot paletteModel = new PaletteRoot();
 
 		PaletteGroup toolGroup = new PaletteGroup("Tools");
