@@ -6,6 +6,5 @@
    <feature url="features/net.sf.graphiti.feature_1.0.0.jar" id="net.sf.graphiti.feature" version="1.0.0" nl="en">
       <category name="net.sf.graphiti.category"/>
    </feature>
-   <archive path="plugins/net.sf.graphiti_1.0.0.jar" url="http://downloads.sourceforge.net/graphiti-editor/net.sf.graphiti_1.0.0.jar"/>
    <category-def name="net.sf.graphiti.category" label="Graphiti"/>
 </site>
