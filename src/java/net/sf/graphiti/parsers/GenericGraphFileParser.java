@@ -73,7 +73,7 @@ import org.xml.sax.SAXException;
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
- *
+ * 
  */
 public class GenericGraphFileParser {
 
@@ -387,7 +387,11 @@ public class GenericGraphFileParser {
 		// adding element and value to the parentElement
 		element.setNodeName(domNode.getNodeName());
 		element.setNodeValue(domNode.getNodeValue());
-		parentElement.addDOMElement(element);
+		// if the element is a skipNode the DOMELementdon't need to be parsed
+		// has they will parsed later
+		if (!(element instanceof SkipDOMNode)) {
+			parentElement.addDOMElement(element);
+		}
 
 		// Sets element to its first non-skip element.
 		while (element instanceof SkipDOMNode) {
