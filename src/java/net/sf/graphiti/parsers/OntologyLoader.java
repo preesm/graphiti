@@ -101,22 +101,29 @@ public class OntologyLoader {
 	 * @throws CoreException
 	 */
 	private List<DocumentConfiguration> loadOntologies() throws CoreException {
-		List<DocumentConfiguration> configurations = new ArrayList<DocumentConfiguration>();
+		// Get all *.owl files
 		Bundle bundle = context.getBundle();
-		Enumeration<?> e = bundle.findEntries("bin", "*.owl", false);
-		while (e.hasMoreElements()) {
-			URL url = (URL) e.nextElement();
+		Enumeration<?> entries = bundle.findEntries("src/owl", "*.owl", false);
+		List<String> ontologyFiles = new ArrayList<String>();
+		while (entries.hasMoreElements()) {
+			URL url = (URL) entries.nextElement();
 			try {
 				url = FileLocator.toFileURL(url);
-				String file = url.getPath();
-				DocumentConfiguration config = loadOntology(file);
-				configurations.add(config);
-			} catch (IOException e1) {
+				ontologyFiles.add(url.getPath());
+			} catch (IOException e) {
 				String pluginId = Long.toString(bundle.getBundleId());
 				String message = "Ontology not found";
-				IStatus status = new Status(Status.ERROR, pluginId, message, e1);
+				IStatus status = new Status(Status.ERROR, pluginId, message, e);
 				throw new CoreException(status);
 			}
+		}
+
+		// Loads all ontology files in ontologyFiles
+		List<DocumentConfiguration> configurations = new ArrayList<DocumentConfiguration>(
+				ontologyFiles.size());
+		for (String file : ontologyFiles) {
+			DocumentConfiguration config = loadOntology(file);
+			configurations.add(config);
 		}
 
 		return configurations;
