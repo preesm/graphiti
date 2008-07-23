@@ -33,21 +33,26 @@ import java.util.List;
 import net.sf.graphiti.model.DocumentConfiguration;
 import net.sf.graphiti.parsers.OntologyLoader;
 
+import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class GraphitiPlugin extends AbstractUIPlugin {
 
 	/**
 	 * The shared instance.
 	 */
-	private static Activator plugin;
+	private static GraphitiPlugin plugin;
 
 	/**
 	 * The plug-in ID.
@@ -59,7 +64,7 @@ public class Activator extends AbstractUIPlugin {
 	 * 
 	 * @return the shared instance
 	 */
-	public static Activator getDefault() {
+	public static GraphitiPlugin getDefault() {
 		return plugin;
 	}
 
@@ -102,7 +107,7 @@ public class Activator extends AbstractUIPlugin {
 	/**
 	 * The constructor
 	 */
-	public Activator() {
+	public GraphitiPlugin() {
 		plugin = this;
 	}
 
@@ -113,6 +118,46 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public List<DocumentConfiguration> getConfigurations() {
 		return configurations;
+	}
+
+	/**
+	 * Returns an {@link IStatus} with the ERROR level.
+	 * 
+	 * @param message
+	 *            A message associated with the status.
+	 * @return An {@link IStatus} with the ERROR level.
+	 */
+	public IStatus getErrorStatus(String message) {
+		return getStatus(Status.ERROR, message);
+	}
+
+	private IStatus getStatus(int severity, String message) {
+		Bundle bundle = getBundle();
+		String pluginId = Long.toString(bundle.getBundleId());
+		IStatus status = new Status(severity, pluginId, message);
+		return status;
+	}
+
+	/**
+	 * Returns an {@link IStatus} with the WARNING level.
+	 * 
+	 * @param message
+	 *            A message associated with the status.
+	 * @return An {@link IStatus} with the WARNING level.
+	 */
+	public IStatus getWarningStatus(String message) {
+		return getStatus(Status.WARNING, message);
+	}
+
+	/**
+	 * Logs the given <code>message</code> with the INFO status.
+	 * 
+	 * @param message
+	 *            A {@link String} to be logged.
+	 */
+	public void logInfoStatus(String message) {
+		ILog log = Platform.getLog(getBundle());
+		log.log(getStatus(Status.INFO, message));
 	}
 
 	/*

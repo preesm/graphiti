@@ -37,7 +37,7 @@ import java.util.TreeSet;
 import net.sf.graphiti.model.DocumentConfiguration;
 import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.ontology.types.GraphType;
-import net.sf.graphiti.ui.Activator;
+import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
@@ -199,7 +199,7 @@ public class NewGraphWizardPage extends WizardPage {
 	}
 
 	private void fillGraphTypes() {
-		List<DocumentConfiguration> configs = Activator.getDefault()
+		List<DocumentConfiguration> configs = GraphitiPlugin.getDefault()
 				.getConfigurations();
 		graphTypes = new HashMap<String, DocumentConfiguration>();
 		for (DocumentConfiguration config : configs) {

@@ -48,6 +48,7 @@ import net.sf.graphiti.ontology.parameters.Parameter;
 import net.sf.graphiti.ontology.parameters.VertexParameter;
 import net.sf.graphiti.ontology.types.EdgeType;
 import net.sf.graphiti.ontology.types.VertexType;
+import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -73,7 +74,7 @@ public class OntologyLoader {
 	 * Creates a new ontology loader in the given bundle context.
 	 * 
 	 * @param context
-	 *            The Activator#start bundle context.
+	 *            The GraphitiPlugin#start bundle context.
 	 * @throws CoreException
 	 *             Whenever something bad happens.
 	 */
@@ -111,9 +112,8 @@ public class OntologyLoader {
 				url = FileLocator.toFileURL(url);
 				ontologyFiles.add(url.getPath());
 			} catch (IOException e) {
-				String pluginId = Long.toString(bundle.getBundleId());
-				String message = "Ontology not found";
-				IStatus status = new Status(Status.ERROR, pluginId, message, e);
+				IStatus status = GraphitiPlugin.getDefault().getErrorStatus(
+						"Ontology not found");
 				throw new CoreException(status);
 			}
 		}

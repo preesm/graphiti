@@ -33,7 +33,7 @@ import org.eclipse.ui.IStartup;
 /**
  * This class is used to load the plug-in at Eclipse startup.
  * 
- * @see {@link Activator#start(org.osgi.framework.BundleContext)}
+ * @see {@link GraphitiPlugin#start(org.osgi.framework.BundleContext)}
  * 
  * @author Matthieu Wipliez
  * 

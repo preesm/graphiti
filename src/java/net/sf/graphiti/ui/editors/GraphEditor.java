@@ -37,7 +37,7 @@ import java.util.EventObject;
 
 import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.parsers.GenericGraphFileParser;
-import net.sf.graphiti.ui.Activator;
+import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.actions.CopyAction;
 import net.sf.graphiti.ui.actions.CutAction;
 import net.sf.graphiti.ui.actions.OpenRefinementNewTabAction;
@@ -325,7 +325,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		IFile file = ((IFileEditorInput) input).getFile();
 		try {
 			GenericGraphFileParser parser = new GenericGraphFileParser(
-					Activator.getDefault().getConfigurations());
+					GraphitiPlugin.getDefault().getConfigurations());
 			document = parser.parse(file);
 
 			// Updates the palette

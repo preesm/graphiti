@@ -148,7 +148,7 @@ public abstract class AbstractOpenRefinementAction extends SelectionAction {
 		// get an IFile from the store URI.
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IFile[] files = root.findFilesForLocationURI(store.toURI());
-		if (files.length == 1) {
+		if (files.length >= 1) {
 			return files[0];
 		} else {
 			return null;

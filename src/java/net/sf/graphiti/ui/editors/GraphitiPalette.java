@@ -35,7 +35,7 @@ import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.model.VertexCreationFactory;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.types.VertexType;
-import net.sf.graphiti.ui.Activator;
+import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.figure.VertexFigure;
 
 import org.eclipse.draw2d.Graphics;
@@ -171,7 +171,7 @@ public class GraphitiPalette {
 
 		// Add connection tool
 		PaletteDrawer depDrawer = new PaletteDrawer("Connections");
-		ImageDescriptor id = ImageDescriptor.createFromImage(Activator
+		ImageDescriptor id = ImageDescriptor.createFromImage(GraphitiPlugin
 				.getImage("icons/dependency.gif"));
 		tool = new ConnectionCreationToolEntry("Connection",
 				"Create a connection", new SimpleFactory(null), id,

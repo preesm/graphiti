@@ -29,6 +29,7 @@
 package net.sf.graphiti.ui.actions;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.FileEditorInput;
 
@@ -75,8 +76,12 @@ public class OpenRefinementNewTabAction extends AbstractOpenRefinementAction {
 	@Override
 	public void run() {
 		IFile file = getIFileFromSelection();
-		FileEditorInput input = new FileEditorInput(file);
-
-		openEditor(file.toString(), input);
+		if (file == null) {
+			MessageDialog.openError(null, "Could not open refinement",
+					"File not found");
+		} else {
+			FileEditorInput input = new FileEditorInput(file);
+			openEditor(file.toString(), input);
+		}
 	}
 }

@@ -34,7 +34,7 @@ import java.util.List;
 
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ui.Activator;
+import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.jface.action.Action;
@@ -401,7 +401,7 @@ public class VertexParametersView extends ViewPart implements
 		};
 		actionAdd.setText("Add parameter");
 		actionAdd.setToolTipText("Adds a parameter to this vertex");
-		actionAdd.setImageDescriptor(Activator
+		actionAdd.setImageDescriptor(GraphitiPlugin
 				.getImageDescriptor("icons/add_obj.gif"));
 
 		actionDelete = new Action() {
@@ -411,7 +411,7 @@ public class VertexParametersView extends ViewPart implements
 		};
 		actionDelete.setText("Remove parameter");
 		actionDelete.setToolTipText("Removes a parameter from this vertex");
-		actionDelete.setImageDescriptor(Activator
+		actionDelete.setImageDescriptor(GraphitiPlugin
 				.getImageDescriptor("icons/remove_obj.gif"));
 
 		// doubleClickAction = new Action() {
