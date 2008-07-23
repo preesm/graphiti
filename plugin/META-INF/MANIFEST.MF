@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Graphiti
+Bundle-Name: Graphiti editor plug-in
 Bundle-SymbolicName: net.sf.graphiti;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: net.sf.graphiti.ui.GraphitiPlugin
