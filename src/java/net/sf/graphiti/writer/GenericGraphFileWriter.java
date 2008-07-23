@@ -334,16 +334,16 @@ public class GenericGraphFileWriter {
 									.getValue("id"));
 				} else if (attr.hasOntClass(OntologyFactory
 						.getClassEdgeConnection())) {
-					if (sourceWritten) {
+					if (!sourceWritten) {
 						newElement.setAttribute(attr.hasName(),
 								(String) ((Edge) element).getSource().getValue(
 										"id"));
-						sourceWritten = false;
+						sourceWritten = true;
 					} else {
 						newElement.setAttribute(attr.hasName(),
 								(String) ((Edge) element).getTarget().getValue(
 										"id"));
-						sourceWritten = true;
+						sourceWritten = false;
 					}
 				}
 			}
