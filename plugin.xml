@@ -7,7 +7,7 @@
       <editor
             class="net.sf.graphiti.ui.editors.GraphEditor"
             contributorClass="net.sf.graphiti.ui.editors.GraphActionBarContributor"
-            default="true"
+            default="false"
             extensions="xml, xdf, xnl"
             icon="icons/graphiti.gif"
             id="net.sf.graphiti.ui.editors.GraphEditor"
