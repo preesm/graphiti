@@ -157,9 +157,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
       </basic:DocumentElement>
     </basic:hasDocumentElement>
     <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >xml</basic:refinementHasFileExtension>
+    >.xml</basic:refinementHasFileExtension>
     <basic:hasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >xml</basic:hasFileExtension>
+    >.xml</basic:hasFileExtension>
   </owl:Ontology>
   <basic:AttributeRestriction rdf:ID="ConsRestriction">
     <basic:attributeRestriction_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"

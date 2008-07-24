@@ -1,4 +1,4 @@
-; Thu Jul 24 12:03:54 CEST 2008
+; Thu Jul 24 18:23:51 CEST 2008
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 504")
@@ -5767,8 +5767,8 @@
 		"http://www.w3.org/2003/11/swrl#builtin"
 		"http://www.w3.org/2001/XMLSchema#decimal"
 		"http://www.w3.org/2003/11/swrl#AtomList"
-		"http://www.w3.org/2002/07/owl#equivalentProperty"
 		"http://www.w3.org/2000/01/rdf-schema#Literal"
+		"http://www.w3.org/2002/07/owl#equivalentProperty"
 		"http://www.w3.org/2003/11/swrl#classPredicate"
 		"http://www.w3.org/2001/XMLSchema#long"
 		"http://www.w3.org/2002/07/owl#SomeValuesFromRestriction"

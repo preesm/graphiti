@@ -15,7 +15,7 @@
   xml:base="http://net.sf.graphiti/spirit.owl">
   <owl:Ontology rdf:about="">
     <basic:hasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >xml</basic:hasFileExtension>
+    >.xml</basic:hasFileExtension>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Copyright (c) 2008, IETR/INSA of Rennes
 All rights reserved.
@@ -131,7 +131,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     </basic:hasDocumentElement>
     <owl:imports rdf:resource="http://net.sf.graphiti/basics.owl"/>
     <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >xml</basic:refinementHasFileExtension>
+    >.xml</basic:refinementHasFileExtension>
   </owl:Ontology>
   <basic:GraphType rdf:ID="GraphType">
     <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
