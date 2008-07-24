@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.attributeRestrictions;
 
-import net.sf.graphiti.ontology.OntologyNode;
+import net.sf.graphiti.ontology.OntologyIndividual;
 import net.sf.graphiti.ontology.elements.Element;
 
 /**
@@ -41,7 +41,7 @@ import net.sf.graphiti.ontology.elements.Element;
  * @author Matthieu Wipliez
  * 
  */
-public interface AttributeRestriction extends OntologyNode {
+public interface AttributeRestriction extends OntologyIndividual {
 
 	/**
 	 * Returns the name of the restricted attribute.

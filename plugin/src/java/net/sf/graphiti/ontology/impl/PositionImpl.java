@@ -38,7 +38,7 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author Matthieu Wipliez
  * 
  */
-public class PositionImpl extends OntologyNodeImpl implements Position {
+public class PositionImpl extends OntologyIndividualImpl implements Position {
 
 	public PositionImpl(Individual individual) {
 		super(individual);

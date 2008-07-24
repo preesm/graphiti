@@ -41,7 +41,7 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author mwipliez
  * 
  */
-public class TypeImpl extends OntologyNodeImpl implements Type {
+public class TypeImpl extends OntologyIndividualImpl implements Type {
 
 	public TypeImpl(Individual individual) {
 		super(individual);

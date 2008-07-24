@@ -42,7 +42,7 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author Matthieu Wipliez
  * 
  */
-public class ColorsImpl extends OntologyNodeImpl implements Colors {
+public class ColorsImpl extends OntologyIndividualImpl implements Colors {
 
 	public static final Color[] colors = { ColorConstants.blue,
 			ColorConstants.red, new Color(null, 251, 115, 203),

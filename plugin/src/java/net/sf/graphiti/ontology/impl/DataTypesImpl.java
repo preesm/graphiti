@@ -40,7 +40,7 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author Matthieu Wipliez
  * 
  */
-public class DataTypesImpl extends OntologyNodeImpl implements DataTypes {
+public class DataTypesImpl extends OntologyIndividualImpl implements DataTypes {
 
 	public DataTypesImpl(Individual individual) {
 		super(individual);

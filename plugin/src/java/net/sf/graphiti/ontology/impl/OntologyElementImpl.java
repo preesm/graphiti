@@ -30,67 +30,39 @@ package net.sf.graphiti.ontology.impl;
 
 import java.util.Set;
 
+import net.sf.graphiti.ontology.OntologyElement;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
-import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
-import net.sf.graphiti.ontology.elements.Element;
-import net.sf.graphiti.ontology.parameterValues.ParameterValue;
+import net.sf.graphiti.ontology.elements.DocumentElement;
 
-import com.hp.hpl.jena.ontology.Individual;
+import com.hp.hpl.jena.ontology.Ontology;
 
 /**
- * Implementation of Element.
+ * This class provides several methods to retrieve annotation property values.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class ElementImpl extends OntologyIndividualImpl implements Element {
+public class OntologyElementImpl extends OntologyBaseImpl implements
+		OntologyElement {
 
-	public ElementImpl(Individual individual) {
-		super(individual);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Set<AttributeRestriction> hasAttributeRestriction() {
-		return (Set<AttributeRestriction>) listIndividuals(OntologyFactory
-				.getPropertyElementHasAttributeRestriction());
+	public OntologyElementImpl(Ontology ontology) {
+		super(ontology);
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public Set<DOMAttribute> hasAttributes() {
-		return (Set<DOMAttribute>) listIndividuals(OntologyFactory
-				.getPropertyElementHasAttributes());
+	public DocumentElement getDocumentElement() {
+		return (DocumentElement) getIndividualProperty(OntologyFactory
+				.getAnnotationPropertyHasDocumentElement());
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public Set<Element> hasElementChildren() {
-		return (Set<Element>) listIndividuals(OntologyFactory
-				.getPropertyElementHasElementChildren());
+	public Set<String> getFileExtensions() {
+		return null;
 	}
 
 	@Override
-	public String hasName() {
-		return getStringProperty(OntologyFactory.getPropertyElementHasName());
+	public Set<String> getRefinementFileExtensions() {
+		return null;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public Set<ParameterValue> hasParameterValues() {
-		return (Set<ParameterValue>) listIndividuals(OntologyFactory
-				.getPropertyElementHasParameterValue());
-	}
-
-	@Override
-	public Element hasPrecedenceElement() {
-		return (Element) getIndividualProperty(OntologyFactory
-				.getPropertyElementHasPrecedenceElement());
-	}
-
-	public String toString() {
-		return super.toString() + " | OntologyElement: hasName: " + hasName()
-				+ ", hasAttributeNode: " + hasAttributes();
-	}
 }

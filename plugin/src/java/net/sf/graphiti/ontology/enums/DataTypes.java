@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.enums;
 
-import net.sf.graphiti.ontology.OntologyNode;
+import net.sf.graphiti.ontology.OntologyIndividual;
 
 /**
  * This class provides different parameters data types.
@@ -37,7 +37,7 @@ import net.sf.graphiti.ontology.OntologyNode;
  * @author Jonathan Piat
  * 
  */
-public interface DataTypes extends OntologyNode {
+public interface DataTypes extends OntologyIndividual {
 
 	/**
 	 * Returns the {@link DataType} from this ontology {@link DataTypes}

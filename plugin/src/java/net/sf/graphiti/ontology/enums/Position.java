@@ -28,9 +28,9 @@
  */
 package net.sf.graphiti.ontology.enums;
 
-import net.sf.graphiti.ontology.OntologyNode;
+import net.sf.graphiti.ontology.OntologyIndividual;
 
-public interface Position extends OntologyNode {
+public interface Position extends OntologyIndividual {
 
 	public String toString();
 

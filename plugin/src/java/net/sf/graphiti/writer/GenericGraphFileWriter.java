@@ -67,7 +67,7 @@ import org.w3c.dom.Node;
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
- *
+ * 
  */
 public class GenericGraphFileWriter {
 
@@ -116,16 +116,16 @@ public class GenericGraphFileWriter {
 	 * @param factory
 	 */
 	private void fillDocument(OntologyFactory factory) {
-		//TODO: correct writing!
-		Set<DocumentElement> rootNodes = factory.getDocumentElements();
-		for (net.sf.graphiti.ontology.elements.Element root : rootNodes) {
-			writeNode(root, document, domDocument);
-		}
+		// TODO: correct writing!
+		DocumentElement ontDocElement = factory.getDocumentElement();
+		writeNode(ontDocElement, document, domDocument);
 	}
 
 	/**
 	 * Sets the xmlns (to use when no xmlns has been set)
-	 * @param ns The name space to set
+	 * 
+	 * @param ns
+	 *            The name space to set
 	 */
 	private void setXmlns(String ns) {
 		((Element) domDocument.getFirstChild()).setAttribute("xmlns", ns);
@@ -179,9 +179,13 @@ public class GenericGraphFileWriter {
 
 	/**
 	 * Choose the element to write has defined in the ontology
-	 * @param nodes The available nodes in the ontology
-	 * @param element The current DOMElement
-	 * @param parentNode The parent node in the dom tree
+	 * 
+	 * @param nodes
+	 *            The available nodes in the ontology
+	 * @param element
+	 *            The current DOMElement
+	 * @param parentNode
+	 *            The parent node in the dom tree
 	 */
 	private void writeCorrespondingNode(
 			Set<net.sf.graphiti.ontology.elements.Element> nodes,
@@ -194,15 +198,16 @@ public class GenericGraphFileWriter {
 			// obtain the current element
 			net.sf.graphiti.ontology.elements.Element node = ontologyElements
 					.get(0);
-			//check if elements needs to be written previously
-			while(node.hasPrecedenceElement() != null && ontologyElements.contains(node.hasPrecedenceElement())) {
-					// There is element to write before writting the current element
-					// and that haven't been written
-					node = node.hasPrecedenceElement();
+			// check if elements needs to be written previously
+			while (node.hasPrecedenceElement() != null
+					&& ontologyElements.contains(node.hasPrecedenceElement())) {
+				// There is element to write before writting the current element
+				// and that haven't been written
+				node = node.hasPrecedenceElement();
 			}
 			// remove the node from the node to write
 			ontologyElements.remove(node);
-			
+
 			// treat the element considering its class
 			if (node.hasOntClass(OntologyFactory.getClassGraphElement())) {
 				if (element instanceof GraphitiDocument) {
@@ -258,7 +263,7 @@ public class GenericGraphFileWriter {
 			}
 
 		}
-		
+
 		for (DOMNode childElement : element.getDOMElements()) {
 			if (!childElement.getNodeName().equals("#text")
 					&& childElement.getClass().equals(DOMNode.class)) {
@@ -282,33 +287,37 @@ public class GenericGraphFileWriter {
 
 	/**
 	 * Write the given node
-	 * @param node The Ontology node 
-	 * @param element The DOMElement to write
-	 * @param parentNode The parent node is the DOM tree
+	 * 
+	 * @param node
+	 *            The Ontology node
+	 * @param element
+	 *            The DOMElement to write
+	 * @param parentNode
+	 *            The parent node is the DOM tree
 	 */
 	private void writeNode(net.sf.graphiti.ontology.elements.Element node,
 			DOMNode element, Node parentNode) {
 		Element newElement = createElement(node, parentNode);
-		for(AttributeRestriction restricts :  node.hasAttributeRestriction()){
+		for (AttributeRestriction restricts : node.hasAttributeRestriction()) {
 			newElement.setAttribute(restricts.hasName(), restricts.hasValue());
 		}
-		
+
 		// write all the attribute which are not described in the ontology
-		/*for (DOMNode attrNode : element.getDOMAttributes()) {
-			if (attrNode.getClass().equals(DOMNode.class)) {
-				newElement.setAttribute(attrNode.getNodeName(), attrNode
-						.getNodeValue());
-			}
-		}*/
-		
-		// If node is an instance of OtherAttributes 
+		/*
+		 * for (DOMNode attrNode : element.getDOMAttributes()) { if
+		 * (attrNode.getClass().equals(DOMNode.class)) {
+		 * newElement.setAttribute(attrNode.getNodeName(), attrNode
+		 * .getNodeValue()); } }
+		 */
+
+		// If node is an instance of OtherAttributes
 		if (node.hasOntClass(OntologyFactory.getClassOtherAttribute())) {
 			OtherAttribute param = (OtherAttribute) node;
 			newElement.setTextContent((String) element.getValue(param
 					.hasParameter().hasName()));
 		}
-		
-		//Write the node attributes
+
+		// Write the node attributes
 		for (DOMAttribute attr : node.hasAttributes()) {
 			if (attr.hasOntClass(OntologyFactory.getClassOtherAttribute())
 					&& (!attr.hasOntClass(OntologyFactory

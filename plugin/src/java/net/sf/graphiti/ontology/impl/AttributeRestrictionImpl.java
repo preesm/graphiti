@@ -41,7 +41,7 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author Matthieu Wipliez
  * 
  */
-public class AttributeRestrictionImpl extends OntologyNodeImpl implements
+public class AttributeRestrictionImpl extends OntologyIndividualImpl implements
 		AttributeRestriction {
 
 	public AttributeRestrictionImpl(Individual individual) {

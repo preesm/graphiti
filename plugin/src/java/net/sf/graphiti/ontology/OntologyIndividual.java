@@ -29,21 +29,21 @@
 package net.sf.graphiti.ontology;
 
 /**
- * The root interface of all ontology nodes.
+ * The root interface of all ontology individuals.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public interface OntologyNode {
+public interface OntologyIndividual {
 
 	/**
-	 * Returns true if this ontology node class is <code>clasz</code>. Note that
-	 * this method also tests parent classes of this node against
+	 * Returns true if this ontology individual class is <code>clasz</code>.
+	 * Note that this method also tests parent classes of this node against
 	 * <code>clasz</code>.
 	 * 
 	 * @param clasz
 	 *            An ontology class URI.
-	 * @return True if this ontology node class is <code>clasz</code>.
+	 * @return True if this ontology individual class is <code>clasz</code>.
 	 */
 	public boolean hasOntClass(String clasz);
 

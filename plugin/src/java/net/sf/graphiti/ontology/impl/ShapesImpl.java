@@ -45,7 +45,7 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author Matthieu Wipliez
  * 
  */
-public class ShapesImpl extends OntologyNodeImpl implements Shapes {
+public class ShapesImpl extends OntologyIndividualImpl implements Shapes {
 
 	public ShapesImpl(Individual individual) {
 		super(individual);

@@ -40,7 +40,7 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author Matthieu Wipliez
  * 
  */
-public class FigureAttributeImpl extends OntologyNodeImpl implements
+public class FigureAttributeImpl extends OntologyIndividualImpl implements
 		FigureAttribute {
 
 	public FigureAttributeImpl(Individual individual) {

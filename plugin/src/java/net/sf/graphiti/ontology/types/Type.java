@@ -30,7 +30,7 @@ package net.sf.graphiti.ontology.types;
 
 import java.util.Set;
 
-import net.sf.graphiti.ontology.OntologyNode;
+import net.sf.graphiti.ontology.OntologyIndividual;
 import net.sf.graphiti.ontology.attributes.FigureAttribute;
 import net.sf.graphiti.ontology.parameters.Parameter;
 
@@ -41,7 +41,7 @@ import net.sf.graphiti.ontology.parameters.Parameter;
  * @author Matthieu Wipliez
  * 
  */
-public interface Type extends OntologyNode {
+public interface Type extends OntologyIndividual {
 
 	public Set<FigureAttribute> hasFigureAttributes();
 

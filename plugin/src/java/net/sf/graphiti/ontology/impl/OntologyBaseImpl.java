@@ -36,27 +36,25 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.OntologyNode;
 
 import com.hp.hpl.jena.ontology.DatatypeProperty;
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.ObjectProperty;
-import com.hp.hpl.jena.ontology.OntClass;
+import com.hp.hpl.jena.ontology.OntResource;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.NodeIterator;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 
 /**
- * This class provides several methods to retrieve property values, and is the
- * base class of the ontology hierarchy. It also maintains a hash table (filled
- * when the class is loaded) that associates ontology classes ({@link String}s
- * that represent URIs) to concrete classes.
+ * This class provides several methods to retrieve property values and also
+ * maintains a hash table (filled when the class is loaded) that associates
+ * ontology classes ({@link String}s that represent URIs) to concrete classes.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class OntologyNodeImpl implements OntologyNode {
+public class OntologyBaseImpl {
 
 	private static Map<String, Class<?>> classes = new HashMap<String, Class<?>>();
 
@@ -165,17 +163,17 @@ public class OntologyNodeImpl implements OntologyNode {
 		return set;
 	}
 
-	private Individual individual;
+	protected OntResource resource;
 
-	protected OntologyNodeImpl(Individual individual) {
-		this.individual = individual;
+	protected OntologyBaseImpl(OntResource resource) {
+		this.resource = resource;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof OntologyNodeImpl) {
-			return individual.getURI().equals(
-					((OntologyNodeImpl) obj).individual.getURI());
+		if (obj instanceof OntologyIndividualImpl) {
+			return resource.getURI().equals(
+					((OntologyIndividualImpl) obj).resource.getURI());
 		} else {
 			return false;
 		}
@@ -190,29 +188,20 @@ public class OntologyNodeImpl implements OntologyNode {
 	 * @return The value of the given property on this individual as a boolean.
 	 */
 	protected boolean getBooleanProperty(String propertyName) {
-		DatatypeProperty property = individual.getOntModel()
-				.getDatatypeProperty(propertyName);
+		DatatypeProperty property = resource.getOntModel().getDatatypeProperty(
+				propertyName);
 		if (property == null) {
 			System.err.println("property " + propertyName + " does not exist");
 			throw new NullPointerException();
 		}
 
-		RDFNode node = individual.getPropertyValue(property);
+		RDFNode node = resource.getPropertyValue(property);
 		if (node.canAs(Literal.class)) {
 			Literal lit = (Literal) node.as(Literal.class);
 			return lit.getBoolean();
 		}
 
 		return false;
-	}
-
-	/**
-	 * Returns the individual local name.
-	 * 
-	 * @return The individual local name.
-	 */
-	protected String getIndividualLocalName() {
-		return individual.getLocalName();
 	}
 
 	/**
@@ -225,14 +214,14 @@ public class OntologyNodeImpl implements OntologyNode {
 	 *         {@link Object}.
 	 */
 	protected Object getIndividualProperty(String propertyName) {
-		ObjectProperty property = individual.getOntModel().getObjectProperty(
+		ObjectProperty property = resource.getOntModel().getObjectProperty(
 				propertyName);
 		if (property == null) {
 			System.err.println("property " + propertyName + " does not exist");
 			throw new NullPointerException();
 		}
 
-		RDFNode node = individual.getPropertyValue(property);
+		RDFNode node = resource.getPropertyValue(property);
 		if (node != null && node.canAs(Individual.class)) {
 			Individual individual = (Individual) node.as(Individual.class);
 			try {
@@ -252,15 +241,6 @@ public class OntologyNodeImpl implements OntologyNode {
 	}
 
 	/**
-	 * Returns the individual unique URI.
-	 * 
-	 * @return The individual unique URI.
-	 */
-	protected String getIndividualURI() {
-		return individual.getURI();
-	}
-
-	/**
 	 * Returns the value associated with this individual and the property called
 	 * <code>propertyName</code>.
 	 * 
@@ -270,14 +250,14 @@ public class OntologyNodeImpl implements OntologyNode {
 	 *         {@link String}.
 	 */
 	protected String getStringProperty(String propertyName) {
-		DatatypeProperty property = individual.getOntModel()
-				.getDatatypeProperty(propertyName);
+		DatatypeProperty property = resource.getOntModel().getDatatypeProperty(
+				propertyName);
 		if (property == null) {
 			System.err.println("property " + propertyName + " does not exist");
 			throw new NullPointerException();
 		}
 
-		RDFNode node = individual.getPropertyValue(property);
+		RDFNode node = resource.getPropertyValue(property);
 		if (node != null && node.canAs(Literal.class)) {
 			Literal lit = (Literal) node.as(Literal.class);
 			return lit.getString();
@@ -287,65 +267,18 @@ public class OntologyNodeImpl implements OntologyNode {
 	}
 
 	public int hashCode() {
-		return individual.getURI().hashCode();
-	}
-
-	@Override
-	public boolean hasOntClass(String clasz) {
-		OntClass ontClass = individual.getOntModel().getOntClass(clasz);
-
-		// Tests all classes of this individual against ontClass
-		ExtendedIterator it = individual.listOntClasses(false);
-		boolean result = false;
-		while (it.hasNext() && !result) {
-			OntClass indOntClass = (OntClass) it.next();
-			result = testOntClass(ontClass, indOntClass);
-		}
-
-		return result;
+		return resource.getURI().hashCode();
 	}
 
 	protected Set<?> listIndividuals(String propertyName) {
-		ObjectProperty property = individual.getOntModel().getObjectProperty(
+		ObjectProperty property = resource.getOntModel().getObjectProperty(
 				propertyName);
 		if (property == null) {
 			System.err.println("property " + propertyName + " does not exist");
 			throw new NullPointerException();
 		}
 
-		NodeIterator it = individual.listPropertyValues(property);
+		NodeIterator it = resource.listPropertyValues(property);
 		return convertIndividuals(it);
 	}
-
-	/**
-	 * Tests if the given ontology class <code>ontClass</code> is the same as
-	 * the class of this individual (<code>indOntClass</code>) or one of its
-	 * parents.
-	 * 
-	 * @param ontClass
-	 *            The class to test against.
-	 * @param indOntClass
-	 *            The class of this individual (or one of its parents).
-	 * @return True if ontClass.equals(indOntClass), or if ontClass.equals(a
-	 *         parent of indOntClass).
-	 */
-	private boolean testOntClass(OntClass ontClass, OntClass indOntClass) {
-		boolean result = false;
-		if (ontClass.equals(indOntClass)) {
-			result = true;
-		} else {
-			ExtendedIterator itClass = indOntClass.listSuperClasses();
-			while (itClass.hasNext() && !result) {
-				OntClass parentOntClass = (OntClass) itClass.next();
-				result = testOntClass(ontClass, parentOntClass);
-			}
-		}
-
-		return result;
-	}
-
-	public String toString() {
-		return getIndividualURI();
-	}
-
 }

@@ -26,35 +26,42 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.impl;
+package net.sf.graphiti.ontology;
 
-import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
+import java.util.Set;
 
-import com.hp.hpl.jena.ontology.Individual;
+import net.sf.graphiti.ontology.elements.DocumentElement;
 
 /**
- * Implementation of DOMAttribute.
+ * This class provides access to an ontology element (owl:Ontology) and
+ * annotation properties.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class DOMAttributeImpl extends OntologyIndividualImpl implements
-		DOMAttribute {
+public interface OntologyElement {
 
-	public DOMAttributeImpl(Individual individual) {
-		super(individual);
-	}
+	/**
+	 * Returns the {@link DocumentElement} to start parsing with.
+	 * 
+	 * @return The {@link DocumentElement} to start parsing with.
+	 */
+	public DocumentElement getDocumentElement();
+	
+	/**
+	 * Returns the file extensions that this ontology may be associated with.
+	 * 
+	 * @return The file extensions that this ontology may be associated with.
+	 */
+	public Set<String> getFileExtensions();
 
-	@Override
-	public String hasName() {
-		return getStringProperty(OntologyFactory
-				.getPropertyDOMAttributeHasName());
-	}
-
-	public String toString() {
-		String res = super.toString();
-		return res;
-	}
+	/**
+	 * Returns the file extensions that a vertex refinement may be associated
+	 * with.
+	 * 
+	 * @return The file extensions that a vertex refinement may be associated
+	 *         with.
+	 */
+	public Set<String> getRefinementFileExtensions();
 
 }

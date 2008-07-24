@@ -30,7 +30,7 @@ package net.sf.graphiti.ontology.elements;
 
 import java.util.Set;
 
-import net.sf.graphiti.ontology.OntologyNode;
+import net.sf.graphiti.ontology.OntologyIndividual;
 import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
 import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
@@ -43,7 +43,7 @@ import net.sf.graphiti.ontology.parameterValues.ParameterValue;
  * @author Matthieu Wipliez
  * 
  */
-public interface Element extends OntologyNode {
+public interface Element extends OntologyIndividual {
 
 	/**
 	 * Returns a set of {@link AttributeRestriction} that may be associated with

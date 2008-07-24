@@ -236,7 +236,7 @@ public class GenericGraphFileParser {
 	 * @param attribute
 	 *            the DOM node to parse
 	 * @param parentElement
-	 *            the parent OntologyNode
+	 *            the parent OntologyIndividual
 	 */
 	private void parseAttribute(DOMAttribute ontNode, Node attribute,
 			PropertyBean parentElement) {
@@ -516,15 +516,14 @@ public class GenericGraphFileParser {
 			Node docElement = doc.getDocumentElement();
 			graphitiDocument = new GraphitiDocument(config);
 
-			// Iterates over the parser root nodes
-			Set<DocumentElement> docElements = factory.getDocumentElements();
-			Object[] elements = docElements.toArray();
-			if (elements.length != 1) {
+			// Gets the ontology DocumentElement
+			DocumentElement ontDocElement = factory.getDocumentElement();
+			if (ontDocElement == null) {
 				throw (new IncompatibleConfigurationFile());
 			} else {
-				Element root = (Element) elements[0];
-				if (isElementDefined(root, docElement, graphitiDocument)) {
-					parseElement(root, docElement, graphitiDocument);
+				if (isElementDefined(ontDocElement, docElement,
+						graphitiDocument)) {
+					parseElement(ontDocElement, docElement, graphitiDocument);
 					log.info("Parsing completed");
 					return graphitiDocument;
 				} else {

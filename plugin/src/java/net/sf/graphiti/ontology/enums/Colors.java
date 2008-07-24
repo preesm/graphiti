@@ -28,11 +28,11 @@
  */
 package net.sf.graphiti.ontology.enums;
 
-import net.sf.graphiti.ontology.OntologyNode;
+import net.sf.graphiti.ontology.OntologyIndividual;
 
 import org.eclipse.swt.graphics.Color;
 
-public interface Colors extends OntologyNode {
+public interface Colors extends OntologyIndividual {
 
 	public Color getColor();
 }

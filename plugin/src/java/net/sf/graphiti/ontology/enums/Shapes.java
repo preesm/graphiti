@@ -28,11 +28,11 @@
  */
 package net.sf.graphiti.ontology.enums;
 
-import net.sf.graphiti.ontology.OntologyNode;
+import net.sf.graphiti.ontology.OntologyIndividual;
 
 import org.eclipse.draw2d.IFigure;
 
-public interface Shapes extends OntologyNode {
+public interface Shapes extends OntologyIndividual {
 
 	public IFigure getShape();
 }

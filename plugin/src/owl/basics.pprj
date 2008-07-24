@@ -1,4 +1,4 @@
-; Mon Jul 21 17:06:46 CEST 2008
+; Thu Jul 24 12:01:28 CEST 2008
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 504")
@@ -25,31 +25,6 @@
 	(is_hidden TRUE)
 	(property_list [basics_ProjectKB_Class13])
 	(widget_class_name "edu.stanford.smi.protege.widget.instance_tree.InstanceTreeTab"))
-
-([basics_ProjectKB_Class121] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([basics_ProjectKB_Class122] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Class")
-	(string_value "%3ANAME"))
-
-([basics_ProjectKB_Class123] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([basics_ProjectKB_Class124] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([basics_ProjectKB_Class125] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Thing")
-	(string_value "%3ANAME"))
 
 ([basics_ProjectKB_Class13] of  Property_List
 )
@@ -243,6 +218,31 @@
 ([basics_ProjectKB_Class51] of  Property_List
 )
 
+([basics_ProjectKB_Class52] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([basics_ProjectKB_Class53] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Class")
+	(string_value "%3ANAME"))
+
+([basics_ProjectKB_Class54] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([basics_ProjectKB_Class55] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([basics_ProjectKB_Class56] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Thing")
+	(string_value "%3ANAME"))
+
 ([basics_ProjectKB_Class6] of  Widget
 
 	(is_hidden TRUE)
@@ -264,11 +264,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[basics_ProjectKB_Class121]
-		[basics_ProjectKB_Class122]
-		[basics_ProjectKB_Class123]
-		[basics_ProjectKB_Class124]
-		[basics_ProjectKB_Class125]))
+		[basics_ProjectKB_Class52]
+		[basics_ProjectKB_Class53]
+		[basics_ProjectKB_Class54]
+		[basics_ProjectKB_Class55]
+		[basics_ProjectKB_Class56]))
 
 ([CLSES_TAB] of  Widget
 

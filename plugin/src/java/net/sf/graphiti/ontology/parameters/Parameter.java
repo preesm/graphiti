@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.parameters;
 
-import net.sf.graphiti.ontology.OntologyNode;
+import net.sf.graphiti.ontology.OntologyIndividual;
 import net.sf.graphiti.ontology.enums.DataTypes;
 import net.sf.graphiti.ontology.enums.Position;
 import net.sf.graphiti.ontology.types.Type;
@@ -40,7 +40,7 @@ import net.sf.graphiti.ontology.types.Type;
  * @author Matthieu Wipliez
  * 
  */
-public interface Parameter extends OntologyNode {
+public interface Parameter extends OntologyIndividual {
 
 	public Type appliesTo();
 

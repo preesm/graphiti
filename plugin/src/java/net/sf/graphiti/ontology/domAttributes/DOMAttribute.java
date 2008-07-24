@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.domAttributes;
 
-import net.sf.graphiti.ontology.OntologyNode;
+import net.sf.graphiti.ontology.OntologyIndividual;
 import net.sf.graphiti.ontology.domAttributes.edgeAttributes.EdgeAttribute;
 import net.sf.graphiti.ontology.domAttributes.otherAttributes.OtherAttribute;
 
@@ -41,7 +41,7 @@ import net.sf.graphiti.ontology.domAttributes.otherAttributes.OtherAttribute;
  * @author Matthieu Wipliez
  * 
  */
-public interface DOMAttribute extends OntologyNode {
+public interface DOMAttribute extends OntologyIndividual {
 
 	/**
 	 * Returns the name of this DOM attribute.

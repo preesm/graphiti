@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.parameterValues;
 
-import net.sf.graphiti.ontology.OntologyNode;
+import net.sf.graphiti.ontology.OntologyIndividual;
 import net.sf.graphiti.ontology.parameters.Parameter;
 
 /**
@@ -38,7 +38,7 @@ import net.sf.graphiti.ontology.parameters.Parameter;
  * @author Matthieu Wipliez
  * 
  */
-public interface ParameterValue extends OntologyNode {
+public interface ParameterValue extends OntologyIndividual {
 	
 	public String hasValue();
 

@@ -14,6 +14,8 @@
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
   xml:base="http://net.sf.graphiti/spirit.owl">
   <owl:Ontology rdf:about="">
+    <basic:hasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >xml</basic:hasFileExtension>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Copyright (c) 2008, IETR/INSA of Rennes
 All rights reserved.
@@ -25,104 +27,112 @@ Redistribution and use in source and binary forms, with or without modification,
     * Neither the name of the IETR/INSA of Rennes nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</rdfs:comment>
-    <owl:imports rdf:resource="http://net.sf.graphiti/basics.owl"/>
-  </owl:Ontology>
-  <basic:DocumentElement rdf:ID="design">
-    <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >spirit:design</basic:element_hasName>
-    <basic:element_hasElementChildren>
-      <basic:SkipElement rdf:ID="SkipComponentInstances">
+    <basic:hasDocumentElement>
+      <basic:DocumentElement rdf:ID="design">
         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >spirit:componentInstances</basic:element_hasName>
+        >spirit:design</basic:element_hasName>
         <basic:element_hasElementChildren>
-          <basic:VertexElement rdf:ID="VertexComponentInstance">
-            <basic:element_hasParameterValue>
-              <basic:ParameterValue rdf:ID="TypeParameterValue">
-                <basic:propertyBeanParameter_isParameter>
-                  <basic:VertexParameter rdf:ID="VertexTypeParameter">
-                    <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
-                    <basic:parameter_appliesTo>
-                      <basic:VertexType rdf:ID="VertexType">
-                        <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                        >operator</basic:type_hasName>
-                        <basic:type_hasParameters rdf:resource="#VertexTypeParameter"/>
-                        <basic:type_hasParameters>
-                          <basic:VertexParameter rdf:ID="VertexIdParameter">
-                            <basic:parameter_appliesTo rdf:resource="#VertexType"/>
-                            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
-                            <basic:parameter_hasName rdf:datatype=
-                            "http://www.w3.org/2001/XMLSchema#string"
-                            >id</basic:parameter_hasName>
-                            <basic:parameter_ofInfoElement>
-                              <basic:TextContentElement rdf:ID="InstanceNameInfoElement">
-                                <basic:infoElement_referencesParameter rdf:resource="#VertexIdParameter"/>
-                                <basic:element_hasName rdf:datatype=
-                                "http://www.w3.org/2001/XMLSchema#string"
-                                >spirit:instanceName</basic:element_hasName>
-                              </basic:TextContentElement>
-                            </basic:parameter_ofInfoElement>
-                          </basic:VertexParameter>
-                        </basic:type_hasParameters>
-                        <basic:type_hasFigureAttributes>
-                          <basic:ShapeAttribute rdf:ID="ShapeAttribute_3">
-                            <basic:figureAttribute_appliesTo rdf:resource="#VertexType"/>
-                            <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Circle"/>
-                          </basic:ShapeAttribute>
-                        </basic:type_hasFigureAttributes>
-                        <basic:type_hasFigureAttributes>
-                          <basic:ColorAttribute rdf:ID="ColorAttribute_1">
-                            <basic:figureAttribute_appliesTo rdf:resource="#VertexType"/>
-                            <basic:colorAttribute_hasColor rdf:resource="http://net.sf.graphiti/basics.owl#blue"/>
-                          </basic:ColorAttribute>
-                        </basic:type_hasFigureAttributes>
-                      </basic:VertexType>
-                    </basic:parameter_appliesTo>
-                    <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                    >type</basic:parameter_hasName>
-                    <basic:parameter_hasParameterValue rdf:resource="#TypeParameterValue"/>
-                  </basic:VertexParameter>
-                </basic:propertyBeanParameter_isParameter>
-                <basic:parameterValue_ofParameter rdf:resource="#VertexTypeParameter"/>
-                <basic:parameterValue_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >operator</basic:parameterValue_hasValue>
-              </basic:ParameterValue>
-            </basic:element_hasParameterValue>
+          <basic:SkipElement rdf:ID="SkipComponentInstances">
             <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >spirit:componentInstance</basic:element_hasName>
-            <basic:element_hasElementChildren rdf:resource="#InstanceNameInfoElement"/>
-          </basic:VertexElement>
-        </basic:element_hasElementChildren>
-      </basic:SkipElement>
-    </basic:element_hasElementChildren>
-    <basic:element_hasElementChildren>
-      <basic:SkipElement rdf:ID="SkipInterConnections">
-        <basic:element_hasPrecedenceElement rdf:resource="#SkipComponentInstances"/>
-        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >spirit:interconnections</basic:element_hasName>
-        <basic:element_hasElementChildren>
-          <basic:EdgeElement rdf:ID="EdgeInterConnection">
+            >spirit:componentInstances</basic:element_hasName>
             <basic:element_hasElementChildren>
-              <basic:SkipElement rdf:ID="SkipActiveInterface">
+              <basic:VertexElement rdf:ID="VertexComponentInstance">
+                <basic:element_hasParameterValue>
+                  <basic:ParameterValue rdf:ID="TypeParameterValue">
+                    <basic:propertyBeanParameter_isParameter>
+                      <basic:VertexParameter rdf:ID="VertexTypeParameter">
+                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                        <basic:parameter_appliesTo>
+                          <basic:VertexType rdf:ID="VertexType">
+                            <basic:type_hasName rdf:datatype=
+                            "http://www.w3.org/2001/XMLSchema#string"
+                            >operator</basic:type_hasName>
+                            <basic:type_hasParameters rdf:resource="#VertexTypeParameter"/>
+                            <basic:type_hasParameters>
+                              <basic:VertexParameter rdf:ID="VertexIdParameter">
+                                <basic:parameter_appliesTo rdf:resource="#VertexType"/>
+                                <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                                <basic:parameter_hasName rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >id</basic:parameter_hasName>
+                                <basic:parameter_ofInfoElement>
+                                  <basic:TextContentElement rdf:ID="InstanceNameInfoElement">
+                                    <basic:infoElement_referencesParameter rdf:resource="#VertexIdParameter"/>
+                                    <basic:element_hasName rdf:datatype=
+                                    "http://www.w3.org/2001/XMLSchema#string"
+                                    >spirit:instanceName</basic:element_hasName>
+                                  </basic:TextContentElement>
+                                </basic:parameter_ofInfoElement>
+                              </basic:VertexParameter>
+                            </basic:type_hasParameters>
+                            <basic:type_hasFigureAttributes>
+                              <basic:ShapeAttribute rdf:ID="ShapeAttribute_3">
+                                <basic:figureAttribute_appliesTo rdf:resource="#VertexType"/>
+                                <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Circle"/>
+                              </basic:ShapeAttribute>
+                            </basic:type_hasFigureAttributes>
+                            <basic:type_hasFigureAttributes>
+                              <basic:ColorAttribute rdf:ID="ColorAttribute_1">
+                                <basic:figureAttribute_appliesTo rdf:resource="#VertexType"/>
+                                <basic:colorAttribute_hasColor rdf:resource="http://net.sf.graphiti/basics.owl#blue"/>
+                              </basic:ColorAttribute>
+                            </basic:type_hasFigureAttributes>
+                          </basic:VertexType>
+                        </basic:parameter_appliesTo>
+                        <basic:parameter_hasName rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >type</basic:parameter_hasName>
+                        <basic:parameter_hasParameterValue rdf:resource="#TypeParameterValue"/>
+                      </basic:VertexParameter>
+                    </basic:propertyBeanParameter_isParameter>
+                    <basic:parameterValue_ofParameter rdf:resource="#VertexTypeParameter"/>
+                    <basic:parameterValue_hasValue rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#string"
+                    >operator</basic:parameterValue_hasValue>
+                  </basic:ParameterValue>
+                </basic:element_hasParameterValue>
                 <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >spirit:activeInterface</basic:element_hasName>
-                <basic:element_hasAttributes>
-                  <basic:EdgeConnection rdf:ID="EdgeConnectionComponentRef">
-                    <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                    >spirit:componentRef</basic:element_hasName>
-                    <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                    >spirit:componentRef</basic:attribute_hasName>
-                    <basic:attribute_isReferenceTo rdf:resource="#VertexComponentInstance"/>
-                  </basic:EdgeConnection>
-                </basic:element_hasAttributes>
-              </basic:SkipElement>
+                >spirit:componentInstance</basic:element_hasName>
+                <basic:element_hasElementChildren rdf:resource="#InstanceNameInfoElement"/>
+              </basic:VertexElement>
             </basic:element_hasElementChildren>
-            <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >spirit:interconnection</basic:element_hasName>
-          </basic:EdgeElement>
+          </basic:SkipElement>
         </basic:element_hasElementChildren>
-      </basic:SkipElement>
-    </basic:element_hasElementChildren>
-  </basic:DocumentElement>
+        <basic:element_hasElementChildren>
+          <basic:SkipElement rdf:ID="SkipInterConnections">
+            <basic:element_hasPrecedenceElement rdf:resource="#SkipComponentInstances"/>
+            <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >spirit:interconnections</basic:element_hasName>
+            <basic:element_hasElementChildren>
+              <basic:EdgeElement rdf:ID="EdgeInterConnection">
+                <basic:element_hasElementChildren>
+                  <basic:SkipElement rdf:ID="SkipActiveInterface">
+                    <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                    >spirit:activeInterface</basic:element_hasName>
+                    <basic:element_hasAttributes>
+                      <basic:EdgeConnection rdf:ID="EdgeConnectionComponentRef">
+                        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                        >spirit:componentRef</basic:element_hasName>
+                        <basic:attribute_hasName rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >spirit:componentRef</basic:attribute_hasName>
+                        <basic:attribute_isReferenceTo rdf:resource="#VertexComponentInstance"/>
+                      </basic:EdgeConnection>
+                    </basic:element_hasAttributes>
+                  </basic:SkipElement>
+                </basic:element_hasElementChildren>
+                <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >spirit:interconnection</basic:element_hasName>
+              </basic:EdgeElement>
+            </basic:element_hasElementChildren>
+          </basic:SkipElement>
+        </basic:element_hasElementChildren>
+      </basic:DocumentElement>
+    </basic:hasDocumentElement>
+    <owl:imports rdf:resource="http://net.sf.graphiti/basics.owl"/>
+    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >xml</basic:refinementHasFileExtension>
+  </owl:Ontology>
   <basic:GraphType rdf:ID="GraphType">
     <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >IP-XACT design</basic:type_hasName>

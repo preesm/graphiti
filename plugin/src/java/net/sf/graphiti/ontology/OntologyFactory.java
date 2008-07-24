@@ -36,7 +36,8 @@ import java.net.URL;
 import java.util.Set;
 
 import net.sf.graphiti.ontology.elements.DocumentElement;
-import net.sf.graphiti.ontology.impl.OntologyNodeImpl;
+import net.sf.graphiti.ontology.impl.OntologyElementImpl;
+import net.sf.graphiti.ontology.impl.OntologyIndividualImpl;
 import net.sf.graphiti.ontology.types.EdgeType;
 import net.sf.graphiti.ontology.types.GraphType;
 import net.sf.graphiti.ontology.types.VertexType;
@@ -45,6 +46,7 @@ import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntDocumentManager;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
+import com.hp.hpl.jena.ontology.Ontology;
 import com.hp.hpl.jena.ontology.OntDocumentManager.ReadHook;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -77,6 +79,10 @@ public class OntologyFactory {
 			}
 			return source;
 		}
+	}
+
+	public static String getAnnotationPropertyHasDocumentElement() {
+		return "http://net.sf.graphiti/basics.owl#hasDocumentElement";
 	}
 
 	public static String getClassAttributeRestriction() {
@@ -348,6 +354,8 @@ public class OntologyFactory {
 	}
 
 	private OntModel model;
+	
+	private String modelURI;
 
 	private String path;
 
@@ -363,7 +371,7 @@ public class OntologyFactory {
 
 		try {
 			InputStream in = new FileInputStream(url);
-			readOwl(in);
+			fillModelFromInputStream(in);
 			in.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -380,20 +388,25 @@ public class OntologyFactory {
 		OntModelSpec spec = OntModelSpec.OWL_DL_MEM;
 		model = ModelFactory.createOntologyModel(spec);
 		model.getDocumentManager().setReadHook(new MyReadHook());
-		model.read(in, "http://net.sf.graphiti#");
+		model.read(in, null);
+
+		// Sets modelURI
+		modelURI = model.getNsPrefixURI("");
+		int index = modelURI.indexOf('#');
+		if (index != -1) {
+			modelURI = modelURI.substring(0, index);
+		}
 	}
 
 	/**
-	 * Returns all the document elements.
+	 * Returns the document element.
 	 * 
-	 * @return A set of {@link DocumentElement}.
+	 * @return A {@link DocumentElement}.
 	 */
-	@SuppressWarnings("unchecked")
-	public Set<DocumentElement> getDocumentElements() {
-		OntClass vertex = model.getOntClass(OntologyFactory
-				.getClassDocumentElement());
-		ExtendedIterator it = model.listIndividuals(vertex);
-		return (Set<DocumentElement>) OntologyNodeImpl.convertIndividuals(it);
+	public DocumentElement getDocumentElement() {
+		Ontology ont = model.getOntology(modelURI);
+		OntologyElement ontElement = new OntologyElementImpl(ont);
+		return ontElement.getDocumentElement();
 	}
 
 	/**
@@ -405,7 +418,7 @@ public class OntologyFactory {
 	public Set<EdgeType> getEdgeTypes() {
 		OntClass edges = model.getOntClass(OntologyFactory.getClassEdgeType());
 		ExtendedIterator it = model.listIndividuals(edges);
-		return (Set<EdgeType>) OntologyNodeImpl.convertIndividuals(it);
+		return (Set<EdgeType>) OntologyIndividualImpl.convertIndividuals(it);
 	}
 
 	/**
@@ -417,7 +430,7 @@ public class OntologyFactory {
 	public Set<GraphType> getGraphTypes() {
 		OntClass edges = model.getOntClass(OntologyFactory.getClassGraphType());
 		ExtendedIterator it = model.listIndividuals(edges);
-		return (Set<GraphType>) OntologyNodeImpl.convertIndividuals(it);
+		return (Set<GraphType>) OntologyIndividualImpl.convertIndividuals(it);
 	}
 
 	/**
@@ -430,15 +443,7 @@ public class OntologyFactory {
 		OntClass vertex = model.getOntClass(OntologyFactory
 				.getClassVertexType());
 		ExtendedIterator it = model.listIndividuals(vertex);
-		return (Set<VertexType>) OntologyNodeImpl.convertIndividuals(it);
-	}
-
-	/**
-	 * 
-	 * @param owlInputStream
-	 */
-	private void readOwl(InputStream owlInputStream) {
-		fillModelFromInputStream(owlInputStream);
+		return (Set<VertexType>) OntologyIndividualImpl.convertIndividuals(it);
 	}
 
 }

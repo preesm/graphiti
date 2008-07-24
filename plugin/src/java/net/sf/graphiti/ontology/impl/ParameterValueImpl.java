@@ -38,7 +38,7 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author mwipliez
  * 
  */
-public class ParameterValueImpl extends OntologyNodeImpl implements
+public class ParameterValueImpl extends OntologyIndividualImpl implements
 		ParameterValue {
 
 	public ParameterValueImpl(Individual individual) {

@@ -1,4 +1,4 @@
-; Tue Jul 22 17:25:12 CEST 2008
+; Thu Jul 24 12:03:46 CEST 2008
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 504")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[spirit_ProjectKB_Class81]
-		[spirit_ProjectKB_Class82]
-		[spirit_ProjectKB_Class83]
-		[spirit_ProjectKB_Class84]
-		[spirit_ProjectKB_Class85]))
+		[spirit_ProjectKB_Class52]
+		[spirit_ProjectKB_Class53]
+		[spirit_ProjectKB_Class54]
+		[spirit_ProjectKB_Class55]
+		[spirit_ProjectKB_Class56]))
 
 ([CLSES_TAB] of  Widget
 
@@ -5509,8 +5509,8 @@
 		"http://www.w3.org/2003/11/swrl#builtin"
 		"http://www.w3.org/2001/XMLSchema#decimal"
 		"http://www.w3.org/2003/11/swrl#AtomList"
-		"http://www.w3.org/2000/01/rdf-schema#Literal"
 		"http://www.w3.org/2002/07/owl#equivalentProperty"
+		"http://www.w3.org/2000/01/rdf-schema#Literal"
 		"http://www.w3.org/2003/11/swrl#classPredicate"
 		"http://www.w3.org/2001/XMLSchema#long"
 		"http://www.w3.org/2002/07/owl#SomeValuesFromRestriction"
@@ -5831,6 +5831,31 @@
 ([spirit_ProjectKB_Class51] of  Property_List
 )
 
+([spirit_ProjectKB_Class52] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([spirit_ProjectKB_Class53] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Class")
+	(string_value "%3ANAME"))
+
+([spirit_ProjectKB_Class54] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([spirit_ProjectKB_Class55] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([spirit_ProjectKB_Class56] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Thing")
+	(string_value "%3ANAME"))
+
 ([spirit_ProjectKB_Class6] of  Widget
 
 	(is_hidden TRUE)
@@ -5845,31 +5870,6 @@
 	(is_hidden TRUE)
 	(property_list [spirit_ProjectKB_Class9])
 	(widget_class_name "edu.stanford.smi.protegex.server_changes.prompt.UsersTab"))
-
-([spirit_ProjectKB_Class81] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([spirit_ProjectKB_Class82] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Class")
-	(string_value "%3ANAME"))
-
-([spirit_ProjectKB_Class83] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([spirit_ProjectKB_Class84] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([spirit_ProjectKB_Class85] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Thing")
-	(string_value "%3ANAME"))
 
 ([spirit_ProjectKB_Class9] of  Property_List
 )

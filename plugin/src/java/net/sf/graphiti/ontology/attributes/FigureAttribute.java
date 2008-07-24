@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.attributes;
 
-import net.sf.graphiti.ontology.OntologyNode;
+import net.sf.graphiti.ontology.OntologyIndividual;
 import net.sf.graphiti.ontology.types.Type;
 
 /**
@@ -38,7 +38,7 @@ import net.sf.graphiti.ontology.types.Type;
  * @author Matthieu Wipliez
  * 
  */
-public interface FigureAttribute extends OntologyNode {
+public interface FigureAttribute extends OntologyIndividual {
 
 	/**
 	 * Returns the type this figure attribute applies to.

@@ -1,4 +1,4 @@
-; Tue Jul 22 19:18:36 CEST 2008
+; Thu Jul 24 12:03:09 CEST 2008
 ; 
 ;+ (version "3.4")
 ;+ (build "Build 504")
@@ -6,11 +6,11 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[xnl_ProjectKB_Class209]
-		[xnl_ProjectKB_Class210]
-		[xnl_ProjectKB_Class211]
-		[xnl_ProjectKB_Class212]
-		[xnl_ProjectKB_Class213]))
+		[xnl_ProjectKB_Class52]
+		[xnl_ProjectKB_Class53]
+		[xnl_ProjectKB_Class54]
+		[xnl_ProjectKB_Class55]
+		[xnl_ProjectKB_Class56]))
 
 ([CLSES_TAB] of  Widget
 
@@ -5509,8 +5509,8 @@
 		"http://www.w3.org/2003/11/swrl#builtin"
 		"http://www.w3.org/2001/XMLSchema#decimal"
 		"http://www.w3.org/2003/11/swrl#AtomList"
-		"http://www.w3.org/2000/01/rdf-schema#Literal"
 		"http://www.w3.org/2002/07/owl#equivalentProperty"
+		"http://www.w3.org/2000/01/rdf-schema#Literal"
 		"http://www.w3.org/2003/11/swrl#classPredicate"
 		"http://www.w3.org/2001/XMLSchema#long"
 		"http://www.w3.org/2002/07/owl#SomeValuesFromRestriction"
@@ -5699,33 +5699,8 @@
 	(property_list [xnl_ProjectKB_Class21])
 	(widget_class_name "edu.stanford.smi.RemoteKBTab.UMLSTab"))
 
-([xnl_ProjectKB_Class209] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
 ([xnl_ProjectKB_Class21] of  Property_List
 )
-
-([xnl_ProjectKB_Class210] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Class")
-	(string_value "%3ANAME"))
-
-([xnl_ProjectKB_Class211] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([xnl_ProjectKB_Class212] of  String
-
-	(name ":META-CLASS")
-	(string_value "%3ANAME"))
-
-([xnl_ProjectKB_Class213] of  String
-
-	(name "http://www.w3.org/2002/07/owl#Thing")
-	(string_value "%3ANAME"))
 
 ([xnl_ProjectKB_Class22] of  Widget
 
@@ -5873,6 +5848,31 @@
 
 ([xnl_ProjectKB_Class51] of  Property_List
 )
+
+([xnl_ProjectKB_Class52] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([xnl_ProjectKB_Class53] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Class")
+	(string_value "%3ANAME"))
+
+([xnl_ProjectKB_Class54] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([xnl_ProjectKB_Class55] of  String
+
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
+
+([xnl_ProjectKB_Class56] of  String
+
+	(name "http://www.w3.org/2002/07/owl#Thing")
+	(string_value "%3ANAME"))
 
 ([xnl_ProjectKB_Class6] of  Widget
 

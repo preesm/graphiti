@@ -14,6 +14,10 @@
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
   xml:base="http://net.sf.graphiti/xnl.owl">
   <owl:Ontology rdf:about="">
+    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >cal</basic:refinementHasFileExtension>
+    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >xnl</basic:refinementHasFileExtension>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Copyright (c) 2008, IETR/INSA of Rennes
 All rights reserved.
@@ -25,7 +29,338 @@ Redistribution and use in source and binary forms, with or without modification,
     * Neither the name of the IETR/INSA of Rennes nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</rdfs:comment>
+    <basic:hasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >xnl</basic:hasFileExtension>
     <owl:imports rdf:resource="http://net.sf.graphiti/basics.owl"/>
+    <basic:hasDocumentElement>
+      <basic:DocumentElement rdf:ID="DocumentElementXNL">
+        <basic:element_hasAttributes>
+          <basic:OtherAttribute rdf:ID="OtherAttributeGraphName">
+            <basic:propertyBeanParameter_isParameter>
+              <basic:GraphParameter rdf:ID="NameGraphParameter">
+                <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                <basic:parameter_appliesTo>
+                  <basic:GraphType rdf:ID="GraphType">
+                    <basic:type_hasParameters rdf:resource="#NameGraphParameter"/>
+                    <basic:type_hasParameters>
+                      <basic:GraphParameter rdf:ID="DirectedGraphParameter">
+                        <basic:parameter_hasName rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >directed</basic:parameter_hasName>
+                        <basic:parameter_appliesTo rdf:resource="#GraphType"/>
+                      </basic:GraphParameter>
+                    </basic:type_hasParameters>
+                    <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                    >XNL Dataflow Network</basic:type_hasName>
+                  </basic:GraphType>
+                </basic:parameter_appliesTo>
+                <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >name</basic:parameter_hasName>
+              </basic:GraphParameter>
+            </basic:propertyBeanParameter_isParameter>
+            <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >name</basic:element_hasName>
+            <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >name</basic:attribute_hasName>
+          </basic:OtherAttribute>
+        </basic:element_hasAttributes>
+        <basic:element_hasElementChildren>
+          <basic:EdgeElement rdf:ID="EdgeElementStructureStmt">
+            <basic:element_hasAttributeRestriction>
+              <basic:AttributeRestriction rdf:ID="ConnectionKind">
+                <basic:attributeRestriction_hasName rdf:datatype=
+                "http://www.w3.org/2001/XMLSchema#string">kind</basic:attributeRestriction_hasName>
+                <basic:attributeRestriction_hasValue rdf:datatype=
+                "http://www.w3.org/2001/XMLSchema#string">Connection</basic:attributeRestriction_hasValue>
+                <basic:attributeRestriction_ofElement rdf:resource="#EdgeElementStructureStmt"/>
+              </basic:AttributeRestriction>
+            </basic:element_hasAttributeRestriction>
+            <basic:element_hasElementChildren>
+              <basic:SkipElement rdf:ID="SkipElementPortSpecLocal">
+                <basic:element_hasElementChildren>
+                  <basic:SkipElement rdf:ID="SkipElementPortRef">
+                    <basic:element_hasAttributes>
+                      <basic:EdgeConnection rdf:ID="ConnectionRef">
+                        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                        >name</basic:element_hasName>
+                        <basic:attribute_isReferenceTo>
+                          <basic:VertexElement rdf:ID="VertexElementInstance">
+                            <basic:element_hasName rdf:datatype=
+                            "http://www.w3.org/2001/XMLSchema#string"
+                            >EntityDecl</basic:element_hasName>
+                            <basic:element_hasPrecedenceElement>
+                              <basic:VertexElement rdf:ID="VertexElementPort">
+                                <basic:element_hasName rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >Port</basic:element_hasName>
+                                <basic:element_hasAttributes>
+                                  <basic:OtherAttribute rdf:ID="Port_Id">
+                                    <basic:propertyBeanParameter_isParameter>
+                                      <basic:VertexParameter rdf:ID="vertexIdParameter">
+                                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                                        <basic:parameter_appliesTo>
+                                          <basic:VertexType rdf:ID="InstanceVertexType">
+                                            <basic:type_hasName
+                                             rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                            >Instance</basic:type_hasName>
+                                            <basic:type_hasFigureAttributes>
+                                              <basic:ShapeAttribute rdf:ID="vertexShape">
+                                                <basic:figureAttribute_appliesTo rdf:resource="#InstanceVertexType"/>
+                                                <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#RoundedBox"/>
+                                              </basic:ShapeAttribute>
+                                            </basic:type_hasFigureAttributes>
+                                            <basic:type_hasFigureAttributes>
+                                              <basic:ColorAttribute rdf:ID="ColorAttribute_1">
+                                                <basic:figureAttribute_appliesTo rdf:resource="#InstanceVertexType"/>
+                                                <basic:colorAttribute_hasColor rdf:resource="http://net.sf.graphiti/basics.owl#red"/>
+                                              </basic:ColorAttribute>
+                                            </basic:type_hasFigureAttributes>
+                                            <basic:type_hasParameters>
+                                              <basic:VertexParameter rdf:ID="vertexTypeParameter">
+                                                <basic:parameter_appliesTo rdf:resource="#InstanceVertexType"/>
+                                                <basic:parameter_hasParameterValue>
+                                                  <basic:ParameterValue rdf:ID="InstanceParameterValue">
+                                                    <basic:propertyBeanParameter_isParameter rdf:resource="#vertexTypeParameter"/>
+                                                    <basic:parameterValue_ofParameter rdf:resource="#vertexTypeParameter"/>
+                                                    <basic:parameterValue_hasValue
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#string"
+                                                    >Instance</basic:parameterValue_hasValue>
+                                                  </basic:ParameterValue>
+                                                </basic:parameter_hasParameterValue>
+                                                <basic:parameter_hasName
+                                                 rdf:datatype=
+                                                "http://www.w3.org/2001/XMLSchema#string"
+                                                >type</basic:parameter_hasName>
+                                                <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                                              </basic:VertexParameter>
+                                            </basic:type_hasParameters>
+                                            <basic:type_hasParameters rdf:resource="#vertexIdParameter"/>
+                                            <basic:type_hasParameters>
+                                              <basic:VertexParameter rdf:ID="VertexParameterRefinement">
+                                                <basic:parameter_hasName
+                                                 rdf:datatype=
+                                                "http://www.w3.org/2001/XMLSchema#string"
+                                                >refinement</basic:parameter_hasName>
+                                                <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#VertexRefinement"/>
+                                                <basic:parameter_appliesTo rdf:resource="#InstanceVertexType"/>
+                                              </basic:VertexParameter>
+                                            </basic:type_hasParameters>
+                                          </basic:VertexType>
+                                        </basic:parameter_appliesTo>
+                                        <basic:parameter_hasName
+                                         rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                        >id</basic:parameter_hasName>
+                                      </basic:VertexParameter>
+                                    </basic:propertyBeanParameter_isParameter>
+                                    <basic:attribute_hasName rdf:datatype=
+                                    "http://www.w3.org/2001/XMLSchema#string"
+                                    >name</basic:attribute_hasName>
+                                    <basic:element_hasName rdf:datatype=
+                                    "http://www.w3.org/2001/XMLSchema#string"
+                                    >name</basic:element_hasName>
+                                  </basic:OtherAttribute>
+                                </basic:element_hasAttributes>
+                                <basic:element_hasParameterValue>
+                                  <basic:ParameterValue rdf:ID="PortParameterValue">
+                                    <basic:propertyBeanParameter_isParameter>
+                                      <basic:VertexParameter rdf:ID="portTypeParameter">
+                                        <basic:parameter_appliesTo>
+                                          <basic:VertexType rdf:ID="PortVertexType">
+                                            <basic:type_hasName
+                                             rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                            >Port</basic:type_hasName>
+                                            <basic:type_hasParameters rdf:resource="#portTypeParameter"/>
+                                            <basic:type_hasParameters>
+                                              <basic:VertexParameter rdf:ID="portIdParameter">
+                                                <basic:parameter_appliesTo rdf:resource="#PortVertexType"/>
+                                                <basic:parameter_hasName
+                                                 rdf:datatype=
+                                                "http://www.w3.org/2001/XMLSchema#string"
+                                                >id</basic:parameter_hasName>
+                                                <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                                              </basic:VertexParameter>
+                                            </basic:type_hasParameters>
+                                            <basic:type_hasFigureAttributes>
+                                              <basic:ColorAttribute rdf:ID="ColorAttribute_2">
+                                                <basic:colorAttribute_hasColor rdf:resource="http://net.sf.graphiti/basics.owl#pink"/>
+                                                <basic:figureAttribute_appliesTo rdf:resource="#PortVertexType"/>
+                                              </basic:ColorAttribute>
+                                            </basic:type_hasFigureAttributes>
+                                            <basic:type_hasFigureAttributes>
+                                              <basic:ShapeAttribute rdf:ID="portShape">
+                                                <basic:figureAttribute_appliesTo rdf:resource="#PortVertexType"/>
+                                                <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Triangle"/>
+                                              </basic:ShapeAttribute>
+                                            </basic:type_hasFigureAttributes>
+                                          </basic:VertexType>
+                                        </basic:parameter_appliesTo>
+                                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                                        <basic:parameter_hasParameterValue rdf:resource="#PortParameterValue"/>
+                                        <basic:parameter_hasName
+                                         rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                        >type</basic:parameter_hasName>
+                                      </basic:VertexParameter>
+                                    </basic:propertyBeanParameter_isParameter>
+                                    <basic:parameterValue_ofParameter rdf:resource="#portTypeParameter"/>
+                                    <basic:parameterValue_hasValue
+                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                    >Port</basic:parameterValue_hasValue>
+                                  </basic:ParameterValue>
+                                </basic:element_hasParameterValue>
+                              </basic:VertexElement>
+                            </basic:element_hasPrecedenceElement>
+                            <basic:element_hasParameterValue rdf:resource="#InstanceParameterValue"/>
+                            <basic:element_hasElementChildren>
+                              <basic:SkipElement rdf:ID="SkipElementEntityExpr">
+                                <basic:element_hasName rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >EntityExpr</basic:element_hasName>
+                                <basic:element_hasAttributes>
+                                  <basic:OtherAttribute rdf:ID="OtherAttributeRefinementFilename">
+                                    <basic:propertyBeanParameter_isParameter rdf:resource="#VertexParameterRefinement"/>
+                                    <basic:attribute_hasName rdf:datatype=
+                                    "http://www.w3.org/2001/XMLSchema#string"
+                                    >name</basic:attribute_hasName>
+                                  </basic:OtherAttribute>
+                                </basic:element_hasAttributes>
+                                <basic:element_hasAttributeRestriction>
+                                  <basic:AttributeRestriction rdf:ID="AttributeRestrictionInstantiationKind">
+                                    <basic:attributeRestriction_ofElement rdf:resource="#SkipElementEntityExpr"/>
+                                    <basic:attributeRestriction_hasValue
+                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                    >Instantiation</basic:attributeRestriction_hasValue>
+                                    <basic:attributeRestriction_hasName
+                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                    >kind</basic:attributeRestriction_hasName>
+                                  </basic:AttributeRestriction>
+                                </basic:element_hasAttributeRestriction>
+                              </basic:SkipElement>
+                            </basic:element_hasElementChildren>
+                            <basic:element_hasAttributes>
+                              <basic:OtherAttribute rdf:ID="Instance_Id">
+                                <basic:attribute_hasName rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >name</basic:attribute_hasName>
+                                <basic:propertyBeanParameter_isParameter rdf:resource="#vertexIdParameter"/>
+                                <basic:element_hasName rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >name</basic:element_hasName>
+                              </basic:OtherAttribute>
+                            </basic:element_hasAttributes>
+                          </basic:VertexElement>
+                        </basic:attribute_isReferenceTo>
+                        <basic:attribute_isReferenceTo rdf:resource="#VertexElementPort"/>
+                        <basic:attribute_hasName rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >name</basic:attribute_hasName>
+                      </basic:EdgeConnection>
+                    </basic:element_hasAttributes>
+                    <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                    >PortRef</basic:element_hasName>
+                  </basic:SkipElement>
+                </basic:element_hasElementChildren>
+                <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >PortSpec</basic:element_hasName>
+                <basic:element_hasAttributeRestriction>
+                  <basic:AttributeRestriction rdf:ID="LocalReference">
+                    <basic:attributeRestriction_hasValue rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#string"
+                    >Local</basic:attributeRestriction_hasValue>
+                    <basic:attributeRestriction_hasName rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#string"
+                    >kind</basic:attributeRestriction_hasName>
+                    <basic:attributeRestriction_ofElement rdf:resource="#SkipElementPortSpecLocal"/>
+                  </basic:AttributeRestriction>
+                </basic:element_hasAttributeRestriction>
+              </basic:SkipElement>
+            </basic:element_hasElementChildren>
+            <basic:element_hasElementChildren>
+              <basic:SkipElement rdf:ID="SkipElementPortSpecEntity">
+                <basic:element_hasAttributeRestriction>
+                  <basic:AttributeRestriction rdf:ID="EntityKind">
+                    <basic:attributeRestriction_ofElement rdf:resource="#SkipElementPortSpecEntity"/>
+                    <basic:attributeRestriction_hasName rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#string"
+                    >kind</basic:attributeRestriction_hasName>
+                    <basic:attributeRestriction_hasValue rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#string"
+                    >Entity</basic:attributeRestriction_hasValue>
+                  </basic:AttributeRestriction>
+                </basic:element_hasAttributeRestriction>
+                <basic:element_hasElementChildren>
+                  <basic:SkipElement rdf:ID="SkipElementEntityRef">
+                    <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                    >EntityRef</basic:element_hasName>
+                    <basic:element_hasAttributes rdf:resource="#ConnectionRef"/>
+                  </basic:SkipElement>
+                </basic:element_hasElementChildren>
+                <basic:element_hasElementChildren>
+                  <basic:SkipElement rdf:ID="SkipElementPortRef2">
+                    <basic:element_hasAttributes>
+                      <basic:OtherAttribute rdf:ID="sourcePort">
+                        <basic:attribute_hasName rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >name</basic:attribute_hasName>
+                        <basic:propertyBeanParameter_isParameter>
+                          <basic:EdgeParameter rdf:ID="sourceParameter">
+                            <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#Center"/>
+                            <basic:parameter_hasName rdf:datatype=
+                            "http://www.w3.org/2001/XMLSchema#string"
+                            >srcPortName</basic:parameter_hasName>
+                            <basic:parameter_appliesTo>
+                              <basic:EdgeType rdf:ID="EdgeType">
+                                <basic:type_hasParameters>
+                                  <basic:EdgeParameter rdf:ID="TypeEdgeParameter">
+                                    <basic:parameter_hasName rdf:datatype=
+                                    "http://www.w3.org/2001/XMLSchema#string"
+                                    >type</basic:parameter_hasName>
+                                    <basic:parameter_appliesTo rdf:resource="#EdgeType"/>
+                                    <basic:parameter_hasParameterValue>
+                                      <basic:ParameterValue rdf:ID="ConnectionParameterValue">
+                                        <basic:parameterValue_hasValue
+                                         rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                        >Connection</basic:parameterValue_hasValue>
+                                        <basic:propertyBeanParameter_isParameter rdf:resource="#TypeEdgeParameter"/>
+                                        <basic:parameterValue_ofParameter rdf:resource="#TypeEdgeParameter"/>
+                                      </basic:ParameterValue>
+                                    </basic:parameter_hasParameterValue>
+                                    <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                                  </basic:EdgeParameter>
+                                </basic:type_hasParameters>
+                                <basic:type_hasParameters rdf:resource="#sourceParameter"/>
+                                <basic:type_hasName rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >Connection</basic:type_hasName>
+                              </basic:EdgeType>
+                            </basic:parameter_appliesTo>
+                            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                          </basic:EdgeParameter>
+                        </basic:propertyBeanParameter_isParameter>
+                        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                        >name</basic:element_hasName>
+                      </basic:OtherAttribute>
+                    </basic:element_hasAttributes>
+                    <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                    >PortRef</basic:element_hasName>
+                  </basic:SkipElement>
+                </basic:element_hasElementChildren>
+                <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >PortSpec</basic:element_hasName>
+              </basic:SkipElement>
+            </basic:element_hasElementChildren>
+            <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >StructureStmt</basic:element_hasName>
+            <basic:element_hasParameterValue rdf:resource="#ConnectionParameterValue"/>
+            <basic:element_hasPrecedenceElement rdf:resource="#VertexElementInstance"/>
+          </basic:EdgeElement>
+        </basic:element_hasElementChildren>
+        <basic:element_hasElementChildren rdf:resource="#VertexElementInstance"/>
+        <basic:element_hasElementChildren rdf:resource="#VertexElementPort"/>
+        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Network</basic:element_hasName>
+      </basic:DocumentElement>
+    </basic:hasDocumentElement>
   </owl:Ontology>
   <basic:OtherAttribute rdf:ID="destinationPort">
     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -41,322 +376,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >dst-port</basic:attribute_hasName>
   </basic:OtherAttribute>
-  <basic:DocumentElement rdf:ID="DocumentElementXNL">
-    <basic:element_hasAttributes>
-      <basic:OtherAttribute rdf:ID="OtherAttributeGraphName">
-        <basic:propertyBeanParameter_isParameter>
-          <basic:GraphParameter rdf:ID="NameGraphParameter">
-            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
-            <basic:parameter_appliesTo>
-              <basic:GraphType rdf:ID="GraphType">
-                <basic:type_hasParameters rdf:resource="#NameGraphParameter"/>
-                <basic:type_hasParameters>
-                  <basic:GraphParameter rdf:ID="DirectedGraphParameter">
-                    <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                    >directed</basic:parameter_hasName>
-                    <basic:parameter_appliesTo rdf:resource="#GraphType"/>
-                  </basic:GraphParameter>
-                </basic:type_hasParameters>
-                <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >XNL Dataflow Network</basic:type_hasName>
-              </basic:GraphType>
-            </basic:parameter_appliesTo>
-            <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >name</basic:parameter_hasName>
-          </basic:GraphParameter>
-        </basic:propertyBeanParameter_isParameter>
-        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >name</basic:element_hasName>
-        <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >name</basic:attribute_hasName>
-      </basic:OtherAttribute>
-    </basic:element_hasAttributes>
-    <basic:element_hasElementChildren>
-      <basic:EdgeElement rdf:ID="EdgeElementStructureStmt">
-        <basic:element_hasAttributeRestriction>
-          <basic:AttributeRestriction rdf:ID="ConnectionKind">
-            <basic:attributeRestriction_hasName rdf:datatype=
-            "http://www.w3.org/2001/XMLSchema#string">kind</basic:attributeRestriction_hasName>
-            <basic:attributeRestriction_hasValue rdf:datatype=
-            "http://www.w3.org/2001/XMLSchema#string">Connection</basic:attributeRestriction_hasValue>
-            <basic:attributeRestriction_ofElement rdf:resource="#EdgeElementStructureStmt"/>
-          </basic:AttributeRestriction>
-        </basic:element_hasAttributeRestriction>
-        <basic:element_hasElementChildren>
-          <basic:SkipElement rdf:ID="SkipElementPortSpecLocal">
-            <basic:element_hasElementChildren>
-              <basic:SkipElement rdf:ID="SkipElementPortRef">
-                <basic:element_hasAttributes>
-                  <basic:EdgeConnection rdf:ID="ConnectionRef">
-                    <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                    >name</basic:element_hasName>
-                    <basic:attribute_isReferenceTo>
-                      <basic:VertexElement rdf:ID="VertexElementInstance">
-                        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                        >EntityDecl</basic:element_hasName>
-                        <basic:element_hasPrecedenceElement>
-                          <basic:VertexElement rdf:ID="VertexElementPort">
-                            <basic:element_hasName rdf:datatype=
-                            "http://www.w3.org/2001/XMLSchema#string"
-                            >Port</basic:element_hasName>
-                            <basic:element_hasAttributes>
-                              <basic:OtherAttribute rdf:ID="Port_Id">
-                                <basic:propertyBeanParameter_isParameter>
-                                  <basic:VertexParameter rdf:ID="vertexIdParameter">
-                                    <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
-                                    <basic:parameter_appliesTo>
-                                      <basic:VertexType rdf:ID="InstanceVertexType">
-                                        <basic:type_hasName rdf:datatype=
-                                        "http://www.w3.org/2001/XMLSchema#string"
-                                        >Instance</basic:type_hasName>
-                                        <basic:type_hasFigureAttributes>
-                                          <basic:ShapeAttribute rdf:ID="vertexShape">
-                                            <basic:figureAttribute_appliesTo rdf:resource="#InstanceVertexType"/>
-                                            <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#RoundedBox"/>
-                                          </basic:ShapeAttribute>
-                                        </basic:type_hasFigureAttributes>
-                                        <basic:type_hasFigureAttributes>
-                                          <basic:ColorAttribute rdf:ID="ColorAttribute_1">
-                                            <basic:figureAttribute_appliesTo rdf:resource="#InstanceVertexType"/>
-                                            <basic:colorAttribute_hasColor rdf:resource="http://net.sf.graphiti/basics.owl#red"/>
-                                          </basic:ColorAttribute>
-                                        </basic:type_hasFigureAttributes>
-                                        <basic:type_hasParameters>
-                                          <basic:VertexParameter rdf:ID="vertexTypeParameter">
-                                            <basic:parameter_appliesTo rdf:resource="#InstanceVertexType"/>
-                                            <basic:parameter_hasParameterValue>
-                                              <basic:ParameterValue rdf:ID="InstanceParameterValue">
-                                                <basic:propertyBeanParameter_isParameter rdf:resource="#vertexTypeParameter"/>
-                                                <basic:parameterValue_ofParameter rdf:resource="#vertexTypeParameter"/>
-                                                <basic:parameterValue_hasValue
-                                                 rdf:datatype=
-                                                "http://www.w3.org/2001/XMLSchema#string"
-                                                >Instance</basic:parameterValue_hasValue>
-                                              </basic:ParameterValue>
-                                            </basic:parameter_hasParameterValue>
-                                            <basic:parameter_hasName
-                                             rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                                            >type</basic:parameter_hasName>
-                                            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
-                                          </basic:VertexParameter>
-                                        </basic:type_hasParameters>
-                                        <basic:type_hasParameters rdf:resource="#vertexIdParameter"/>
-                                        <basic:type_hasParameters>
-                                          <basic:VertexParameter rdf:ID="VertexParameterRefinement">
-                                            <basic:parameter_hasName
-                                             rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                                            >refinement</basic:parameter_hasName>
-                                            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#VertexRefinement"/>
-                                            <basic:parameter_appliesTo rdf:resource="#InstanceVertexType"/>
-                                          </basic:VertexParameter>
-                                        </basic:type_hasParameters>
-                                      </basic:VertexType>
-                                    </basic:parameter_appliesTo>
-                                    <basic:parameter_hasName rdf:datatype=
-                                    "http://www.w3.org/2001/XMLSchema#string"
-                                    >id</basic:parameter_hasName>
-                                  </basic:VertexParameter>
-                                </basic:propertyBeanParameter_isParameter>
-                                <basic:attribute_hasName rdf:datatype=
-                                "http://www.w3.org/2001/XMLSchema#string"
-                                >name</basic:attribute_hasName>
-                                <basic:element_hasName rdf:datatype=
-                                "http://www.w3.org/2001/XMLSchema#string"
-                                >name</basic:element_hasName>
-                              </basic:OtherAttribute>
-                            </basic:element_hasAttributes>
-                            <basic:element_hasParameterValue>
-                              <basic:ParameterValue rdf:ID="PortParameterValue">
-                                <basic:propertyBeanParameter_isParameter>
-                                  <basic:VertexParameter rdf:ID="portTypeParameter">
-                                    <basic:parameter_appliesTo>
-                                      <basic:VertexType rdf:ID="PortVertexType">
-                                        <basic:type_hasName rdf:datatype=
-                                        "http://www.w3.org/2001/XMLSchema#string"
-                                        >Port</basic:type_hasName>
-                                        <basic:type_hasParameters rdf:resource="#portTypeParameter"/>
-                                        <basic:type_hasParameters>
-                                          <basic:VertexParameter rdf:ID="portIdParameter">
-                                            <basic:parameter_appliesTo rdf:resource="#PortVertexType"/>
-                                            <basic:parameter_hasName
-                                             rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                                            >id</basic:parameter_hasName>
-                                            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
-                                          </basic:VertexParameter>
-                                        </basic:type_hasParameters>
-                                        <basic:type_hasFigureAttributes>
-                                          <basic:ColorAttribute rdf:ID="ColorAttribute_2">
-                                            <basic:colorAttribute_hasColor rdf:resource="http://net.sf.graphiti/basics.owl#pink"/>
-                                            <basic:figureAttribute_appliesTo rdf:resource="#PortVertexType"/>
-                                          </basic:ColorAttribute>
-                                        </basic:type_hasFigureAttributes>
-                                        <basic:type_hasFigureAttributes>
-                                          <basic:ShapeAttribute rdf:ID="portShape">
-                                            <basic:figureAttribute_appliesTo rdf:resource="#PortVertexType"/>
-                                            <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Triangle"/>
-                                          </basic:ShapeAttribute>
-                                        </basic:type_hasFigureAttributes>
-                                      </basic:VertexType>
-                                    </basic:parameter_appliesTo>
-                                    <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
-                                    <basic:parameter_hasParameterValue rdf:resource="#PortParameterValue"/>
-                                    <basic:parameter_hasName rdf:datatype=
-                                    "http://www.w3.org/2001/XMLSchema#string"
-                                    >type</basic:parameter_hasName>
-                                  </basic:VertexParameter>
-                                </basic:propertyBeanParameter_isParameter>
-                                <basic:parameterValue_ofParameter rdf:resource="#portTypeParameter"/>
-                                <basic:parameterValue_hasValue
-                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                                >Port</basic:parameterValue_hasValue>
-                              </basic:ParameterValue>
-                            </basic:element_hasParameterValue>
-                          </basic:VertexElement>
-                        </basic:element_hasPrecedenceElement>
-                        <basic:element_hasParameterValue rdf:resource="#InstanceParameterValue"/>
-                        <basic:element_hasElementChildren>
-                          <basic:SkipElement rdf:ID="SkipElementEntityExpr">
-                            <basic:element_hasName rdf:datatype=
-                            "http://www.w3.org/2001/XMLSchema#string"
-                            >EntityExpr</basic:element_hasName>
-                            <basic:element_hasAttributes>
-                              <basic:OtherAttribute rdf:ID="OtherAttributeRefinementFilename">
-                                <basic:propertyBeanParameter_isParameter rdf:resource="#VertexParameterRefinement"/>
-                                <basic:attribute_hasName rdf:datatype=
-                                "http://www.w3.org/2001/XMLSchema#string"
-                                >name</basic:attribute_hasName>
-                              </basic:OtherAttribute>
-                            </basic:element_hasAttributes>
-                            <basic:element_hasAttributeRestriction>
-                              <basic:AttributeRestriction rdf:ID="AttributeRestrictionInstantiationKind">
-                                <basic:attributeRestriction_ofElement rdf:resource="#SkipElementEntityExpr"/>
-                                <basic:attributeRestriction_hasValue
-                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                                >Instantiation</basic:attributeRestriction_hasValue>
-                                <basic:attributeRestriction_hasName
-                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                                >kind</basic:attributeRestriction_hasName>
-                              </basic:AttributeRestriction>
-                            </basic:element_hasAttributeRestriction>
-                          </basic:SkipElement>
-                        </basic:element_hasElementChildren>
-                        <basic:element_hasAttributes>
-                          <basic:OtherAttribute rdf:ID="Instance_Id">
-                            <basic:attribute_hasName rdf:datatype=
-                            "http://www.w3.org/2001/XMLSchema#string"
-                            >name</basic:attribute_hasName>
-                            <basic:propertyBeanParameter_isParameter rdf:resource="#vertexIdParameter"/>
-                            <basic:element_hasName rdf:datatype=
-                            "http://www.w3.org/2001/XMLSchema#string"
-                            >name</basic:element_hasName>
-                          </basic:OtherAttribute>
-                        </basic:element_hasAttributes>
-                      </basic:VertexElement>
-                    </basic:attribute_isReferenceTo>
-                    <basic:attribute_isReferenceTo rdf:resource="#VertexElementPort"/>
-                    <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                    >name</basic:attribute_hasName>
-                  </basic:EdgeConnection>
-                </basic:element_hasAttributes>
-                <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >PortRef</basic:element_hasName>
-              </basic:SkipElement>
-            </basic:element_hasElementChildren>
-            <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >PortSpec</basic:element_hasName>
-            <basic:element_hasAttributeRestriction>
-              <basic:AttributeRestriction rdf:ID="LocalReference">
-                <basic:attributeRestriction_hasValue rdf:datatype=
-                "http://www.w3.org/2001/XMLSchema#string">Local</basic:attributeRestriction_hasValue>
-                <basic:attributeRestriction_hasName rdf:datatype=
-                "http://www.w3.org/2001/XMLSchema#string">kind</basic:attributeRestriction_hasName>
-                <basic:attributeRestriction_ofElement rdf:resource="#SkipElementPortSpecLocal"/>
-              </basic:AttributeRestriction>
-            </basic:element_hasAttributeRestriction>
-          </basic:SkipElement>
-        </basic:element_hasElementChildren>
-        <basic:element_hasElementChildren>
-          <basic:SkipElement rdf:ID="SkipElementPortSpecEntity">
-            <basic:element_hasAttributeRestriction>
-              <basic:AttributeRestriction rdf:ID="EntityKind">
-                <basic:attributeRestriction_ofElement rdf:resource="#SkipElementPortSpecEntity"/>
-                <basic:attributeRestriction_hasName rdf:datatype=
-                "http://www.w3.org/2001/XMLSchema#string">kind</basic:attributeRestriction_hasName>
-                <basic:attributeRestriction_hasValue rdf:datatype=
-                "http://www.w3.org/2001/XMLSchema#string">Entity</basic:attributeRestriction_hasValue>
-              </basic:AttributeRestriction>
-            </basic:element_hasAttributeRestriction>
-            <basic:element_hasElementChildren>
-              <basic:SkipElement rdf:ID="SkipElementEntityRef">
-                <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >EntityRef</basic:element_hasName>
-                <basic:element_hasAttributes rdf:resource="#ConnectionRef"/>
-              </basic:SkipElement>
-            </basic:element_hasElementChildren>
-            <basic:element_hasElementChildren>
-              <basic:SkipElement rdf:ID="SkipElementPortRef2">
-                <basic:element_hasAttributes>
-                  <basic:OtherAttribute rdf:ID="sourcePort">
-                    <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                    >name</basic:attribute_hasName>
-                    <basic:propertyBeanParameter_isParameter>
-                      <basic:EdgeParameter rdf:ID="sourceParameter">
-                        <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#Center"/>
-                        <basic:parameter_hasName rdf:datatype=
-                        "http://www.w3.org/2001/XMLSchema#string"
-                        >srcPortName</basic:parameter_hasName>
-                        <basic:parameter_appliesTo>
-                          <basic:EdgeType rdf:ID="EdgeType">
-                            <basic:type_hasParameters>
-                              <basic:EdgeParameter rdf:ID="TypeEdgeParameter">
-                                <basic:parameter_hasName rdf:datatype=
-                                "http://www.w3.org/2001/XMLSchema#string"
-                                >type</basic:parameter_hasName>
-                                <basic:parameter_appliesTo rdf:resource="#EdgeType"/>
-                                <basic:parameter_hasParameterValue>
-                                  <basic:ParameterValue rdf:ID="ConnectionParameterValue">
-                                    <basic:parameterValue_hasValue
-                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                                    >Connection</basic:parameterValue_hasValue>
-                                    <basic:propertyBeanParameter_isParameter rdf:resource="#TypeEdgeParameter"/>
-                                    <basic:parameterValue_ofParameter rdf:resource="#TypeEdgeParameter"/>
-                                  </basic:ParameterValue>
-                                </basic:parameter_hasParameterValue>
-                                <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
-                              </basic:EdgeParameter>
-                            </basic:type_hasParameters>
-                            <basic:type_hasParameters rdf:resource="#sourceParameter"/>
-                            <basic:type_hasName rdf:datatype=
-                            "http://www.w3.org/2001/XMLSchema#string"
-                            >Connection</basic:type_hasName>
-                          </basic:EdgeType>
-                        </basic:parameter_appliesTo>
-                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
-                      </basic:EdgeParameter>
-                    </basic:propertyBeanParameter_isParameter>
-                    <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                    >name</basic:element_hasName>
-                  </basic:OtherAttribute>
-                </basic:element_hasAttributes>
-                <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >PortRef</basic:element_hasName>
-              </basic:SkipElement>
-            </basic:element_hasElementChildren>
-            <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >PortSpec</basic:element_hasName>
-          </basic:SkipElement>
-        </basic:element_hasElementChildren>
-        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >StructureStmt</basic:element_hasName>
-        <basic:element_hasParameterValue rdf:resource="#ConnectionParameterValue"/>
-        <basic:element_hasPrecedenceElement rdf:resource="#VertexElementInstance"/>
-      </basic:EdgeElement>
-    </basic:element_hasElementChildren>
-    <basic:element_hasElementChildren rdf:resource="#VertexElementInstance"/>
-    <basic:element_hasElementChildren rdf:resource="#VertexElementPort"/>
-    <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Network</basic:element_hasName>
-  </basic:DocumentElement>
 </rdf:RDF>
 
 <!-- Created with Protege (with OWL Plugin 3.4, Build 504)  http://protege.stanford.edu -->
