@@ -119,6 +119,15 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                               <basic:VertexParameter rdf:ID="vertexTypeParameter">
                                                 <basic:parameter_appliesTo rdf:resource="#InstanceVertexType"/>
                                                 <basic:parameter_hasParameterValue>
+                                                  <basic:ParameterValue rdf:ID="ParameterValueEntityKind">
+                                                    <basic:parameterValue_hasValue
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#string"
+                                                    >Instance</basic:parameterValue_hasValue>
+                                                    <basic:parameterValue_ofParameter rdf:resource="#vertexTypeParameter"/>
+                                                  </basic:ParameterValue>
+                                                </basic:parameter_hasParameterValue>
+                                                <basic:parameter_hasParameterValue>
                                                   <basic:ParameterValue rdf:ID="InstanceParameterValue">
                                                     <basic:propertyBeanParameter_isParameter rdf:resource="#vertexTypeParameter"/>
                                                     <basic:parameterValue_ofParameter rdf:resource="#vertexTypeParameter"/>
@@ -126,6 +135,15 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#string"
                                                     >Instance</basic:parameterValue_hasValue>
+                                                  </basic:ParameterValue>
+                                                </basic:parameter_hasParameterValue>
+                                                <basic:parameter_hasParameterValue>
+                                                  <basic:ParameterValue rdf:ID="ParameterValueLocalKind">
+                                                    <basic:parameterValue_hasValue
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#string"
+                                                    >Port</basic:parameterValue_hasValue>
+                                                    <basic:parameterValue_ofParameter rdf:resource="#vertexTypeParameter"/>
                                                   </basic:ParameterValue>
                                                 </basic:parameter_hasParameterValue>
                                                 <basic:parameter_hasName
@@ -271,6 +289,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     "http://www.w3.org/2001/XMLSchema#string"
                     >kind</basic:attributeRestriction_hasName>
                     <basic:attributeRestriction_ofElement rdf:resource="#SkipElementPortSpecLocal"/>
+                    <basic:attributeRestriction_hasParameterValue rdf:resource="#ParameterValueLocalKind"/>
                   </basic:AttributeRestriction>
                 </basic:element_hasAttributeRestriction>
               </basic:SkipElement>
@@ -280,6 +299,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 <basic:element_hasAttributeRestriction>
                   <basic:AttributeRestriction rdf:ID="AttributeRestrictionEntityKind">
                     <basic:attributeRestriction_ofElement rdf:resource="#SkipElementPortSpecEntity"/>
+                    <basic:attributeRestriction_hasParameterValue rdf:resource="#ParameterValueEntityKind"/>
                     <basic:attributeRestriction_hasName rdf:datatype=
                     "http://www.w3.org/2001/XMLSchema#string"
                     >kind</basic:attributeRestriction_hasName>
