@@ -45,6 +45,7 @@ public interface DOMAttribute extends OntologyIndividual {
 
 	/**
 	 * Returns the name of this DOM attribute.
+	 * 
 	 * @return The name of this DOM attribute.
 	 */
 	public String hasName();

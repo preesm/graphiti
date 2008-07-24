@@ -163,8 +163,8 @@ public abstract class AbstractOpenRefinementAction extends SelectionAction {
 	 */
 	protected IFile getIFileFromSelection() {
 		String fileName = getRefinement();
-		// TODO: use vertex to get possible file extensions through ontology
-		String[] fileExts = { ".xnl", ".cal", ".xml", ".xdf" };
+		String[] fileExts = vertex.getDocumentConfiguration()
+				.getRefinementFileExtensions();
 
 		// retrieve editor input
 		IWorkbenchPage page = PlatformUI.getWorkbench()

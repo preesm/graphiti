@@ -529,7 +529,7 @@ public class GenericGraphFileParser {
 
 			// Retrieves the document element
 			DocumentElement ontDocElement = factory.getDocumentElement();
-			if (docElement == null) {
+			if (ontDocElement == null) {
 				throw (new IncompatibleConfigurationFile());
 			} else {
 				if (isElementDefined(ontDocElement, docElement,

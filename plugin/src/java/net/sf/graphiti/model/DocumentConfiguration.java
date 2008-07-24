@@ -470,5 +470,10 @@ public class DocumentConfiguration {
 			Object newValue) {
 		setAttribute(vertexAttributes, vertexType, attributeName, newValue);
 	}
+	
+	@Override
+	public String toString() {
+		return ontologyUrl;
+	}
 
 }

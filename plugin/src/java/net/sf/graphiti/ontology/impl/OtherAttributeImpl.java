@@ -40,8 +40,8 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author Matthieu Wipliez
  * 
  */
-public class OtherAttributeImpl extends DOMAttributeImpl
-		implements OtherAttribute {
+public class OtherAttributeImpl extends DOMAttributeImpl implements
+		OtherAttribute {
 
 	public OtherAttributeImpl(Individual individual) {
 		super(individual);

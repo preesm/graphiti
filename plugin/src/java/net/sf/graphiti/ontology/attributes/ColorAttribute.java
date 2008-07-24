@@ -41,6 +41,7 @@ public interface ColorAttribute extends FigureAttribute {
 
 	/**
 	 * Returns the color associated with this attribute.
+	 * 
 	 * @return The color associated with this attribute.
 	 */
 	public Colors hasColor();

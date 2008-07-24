@@ -32,7 +32,7 @@ package net.sf.graphiti.model;
  * Would a little documentation kill this class author?
  * 
  * @author Jonathan Piat
- *
+ * 
  */
 public class InfoDOMNode extends DOMNode {
 

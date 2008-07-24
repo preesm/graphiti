@@ -48,7 +48,7 @@ public class EdgeAttributeImpl extends DOMAttributeImpl implements
 	public EdgeAttributeImpl(Individual individual) {
 		super(individual);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Set<Element> isReferenceTo() {

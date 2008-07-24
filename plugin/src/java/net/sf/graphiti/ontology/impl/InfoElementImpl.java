@@ -40,7 +40,8 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author Matthieu Wipliez
  * 
  */
-public class InfoElementImpl extends DocumentElementImpl implements TextContentElement {
+public class InfoElementImpl extends DocumentElementImpl implements
+		TextContentElement {
 
 	public InfoElementImpl(Individual individual) {
 		super(individual);

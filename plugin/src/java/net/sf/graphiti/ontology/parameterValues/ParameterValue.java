@@ -39,7 +39,7 @@ import net.sf.graphiti.ontology.parameters.Parameter;
  * 
  */
 public interface ParameterValue extends OntologyIndividual {
-	
+
 	public String hasValue();
 
 	public Parameter ofParameter();

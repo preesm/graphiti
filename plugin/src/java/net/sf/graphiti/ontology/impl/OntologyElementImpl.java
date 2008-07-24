@@ -56,16 +56,14 @@ public class OntologyElementImpl extends OntologyBaseImpl implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public Set<String> getFileExtensions() {
-		return (Set<String>) listIndividuals(OntologyFactory
+		return listStrings(OntologyFactory
 				.getAnnotationPropertyHasFileExtension());
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public Set<String> getRefinementFileExtensions() {
-		return (Set<String>) listIndividuals(OntologyFactory
+		return listStrings(OntologyFactory
 				.getAnnotationPropertyRefinementHasFileExtension());
 	}
 

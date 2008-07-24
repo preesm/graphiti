@@ -131,97 +131,14 @@ public class OntologyBaseImpl {
 	}
 
 	/**
-	 * Converts the individuals accessible using the <code>it</code> iterator to
-	 * the correct class.
+	 * Converts the {@link RDFNode} node to an {@link Object}.
 	 * 
-	 * @param it
-	 *            An ExtendedIterator to a list of individuals.
-	 * @return A set of objects.
+	 * @param node
+	 *            The node to convert.
+	 * @return An object, or <code>null</code> if <code>node == null</code> or
+	 *         if the conversion did not succeed.
 	 */
-	public static Set<?> convertIndividuals(ExtendedIterator it) {
-		Set<Object> set = new HashSet<Object>();
-		while (it.hasNext()) {
-			RDFNode node = (RDFNode) it.next();
-			if (node.canAs(Individual.class)) {
-				Individual individual = (Individual) node.as(Individual.class);
-				try {
-					Class<?> clasz = classes.get(individual.getOntClass()
-							.getURI());
-					Constructor<?> constructors[] = clasz.getConstructors();
-					Object ind = constructors[0].newInstance(individual);
-					set.add(ind);
-				} catch (InstantiationException e) {
-					throw new IllegalArgumentException(e);
-				} catch (IllegalAccessException e) {
-					throw new IllegalArgumentException(e);
-				} catch (InvocationTargetException e) {
-					throw new IllegalArgumentException(e);
-				}
-			}
-		}
-
-		return set;
-	}
-
-	protected OntResource resource;
-
-	protected OntologyBaseImpl(OntResource resource) {
-		this.resource = resource;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof OntologyIndividualImpl) {
-			return resource.getURI().equals(
-					((OntologyIndividualImpl) obj).resource.getURI());
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Returns the value associated with this individual and the property called
-	 * <code>propertyName</code>.
-	 * 
-	 * @param propertyName
-	 *            A property of this individual.
-	 * @return The value of the given property on this individual as a boolean.
-	 */
-	protected boolean getBooleanProperty(String propertyName) {
-		DatatypeProperty property = resource.getOntModel().getDatatypeProperty(
-				propertyName);
-		if (property == null) {
-			System.err.println("property " + propertyName + " does not exist");
-			throw new NullPointerException();
-		}
-
-		RDFNode node = resource.getPropertyValue(property);
-		if (node.canAs(Literal.class)) {
-			Literal lit = (Literal) node.as(Literal.class);
-			return lit.getBoolean();
-		}
-
-		return false;
-	}
-
-	/**
-	 * Returns the value associated with this individual and the property called
-	 * <code>propertyName</code>.
-	 * 
-	 * @param propertyName
-	 *            A property of this individual.
-	 * @return The value of the given property on this individual as an
-	 *         {@link Object}.
-	 */
-	protected Object getIndividualProperty(String propertyName) {
-		ObjectProperty property = resource.getOntModel().getObjectProperty(
-				propertyName);
-		if (property == null) {
-			System.err.println("property " + propertyName + " does not exist");
-			throw new NullPointerException();
-		}
-
-		RDFNode node = resource.getPropertyValue(property);
+	private static Object convertIndividual(RDFNode node) {
 		if (node != null && node.canAs(Individual.class)) {
 			Individual individual = (Individual) node.as(Individual.class);
 			try {
@@ -241,44 +158,191 @@ public class OntologyBaseImpl {
 	}
 
 	/**
-	 * Returns the value associated with this individual and the property called
+	 * Converts the individuals accessible using the <code>it</code> iterator to
+	 * the correct class.
+	 * 
+	 * @param it
+	 *            An ExtendedIterator to a list of individuals.
+	 * @return A set of objects.
+	 */
+	public static Set<?> convertIndividuals(ExtendedIterator it) {
+		Set<Object> set = new HashSet<Object>();
+		while (it.hasNext()) {
+			RDFNode node = (RDFNode) it.next();
+			set.add(convertIndividual(node));
+		}
+
+		return set;
+	}
+
+	protected OntResource resource;
+
+	/**
+	 * Creates a new {@link OntologyBaseImpl} using the given
+	 * {@link OntResource}.
+	 * 
+	 * @param resource
+	 */
+	protected OntologyBaseImpl(OntResource resource) {
+		this.resource = resource;
+	}
+
+	/**
+	 * Converts the given node to a string.
+	 * 
+	 * @param node
+	 *            A {@link RDFNode}.
+	 * @return A {@link String}.
+	 */
+	private String convertString(RDFNode node) {
+		if (node != null && node.canAs(Literal.class)) {
+			Literal lit = (Literal) node.as(Literal.class);
+			return lit.getString();
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * Converts the nodes accessible using the <code>it</code> iterator to a set
+	 * of strings.
+	 * 
+	 * @param it
+	 *            An ExtendedIterator to a list of {@link RDFNode}s.
+	 * @return A {@link Set} of {@link String}s.
+	 */
+	private Set<String> convertStrings(NodeIterator it) {
+		Set<String> set = new HashSet<String>();
+		while (it.hasNext()) {
+			RDFNode node = (RDFNode) it.next();
+			set.add(convertString(node));
+		}
+
+		return set;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof OntologyIndividualImpl) {
+			return resource.getURI().equals(
+					((OntologyIndividualImpl) obj).resource.getURI());
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Returns the value associated with this resource and the property called
 	 * <code>propertyName</code>.
 	 * 
 	 * @param propertyName
-	 *            A property of this individual.
-	 * @return The value of the given property on this individual as a
-	 *         {@link String}.
+	 *            A property of this resource.
+	 * @return The value of the given property on this resource as a boolean.
 	 */
-	protected String getStringProperty(String propertyName) {
+	protected boolean getBooleanProperty(String propertyName) {
+		RDFNode node = resource
+				.getPropertyValue(getDatatypeProperty(propertyName));
+		if (node.canAs(Literal.class)) {
+			Literal lit = (Literal) node.as(Literal.class);
+			return lit.getBoolean();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns the data property whose name is given.
+	 * 
+	 * @param propertyName
+	 *            The property name.
+	 * @return An {@link DatatypeProperty}.
+	 */
+	private DatatypeProperty getDatatypeProperty(String propertyName) {
 		DatatypeProperty property = resource.getOntModel().getDatatypeProperty(
 				propertyName);
 		if (property == null) {
 			System.err.println("property " + propertyName + " does not exist");
 			throw new NullPointerException();
+		} else {
+			return property;
 		}
-
-		RDFNode node = resource.getPropertyValue(property);
-		if (node != null && node.canAs(Literal.class)) {
-			Literal lit = (Literal) node.as(Literal.class);
-			return lit.getString();
-		}
-
-		return "";
 	}
 
-	public int hashCode() {
-		return resource.getURI().hashCode();
+	/**
+	 * Returns the value associated with this resource and the property called
+	 * <code>propertyName</code>.
+	 * 
+	 * @param propertyName
+	 *            A property of this resource.
+	 * @return The value of the given property on this resource as an
+	 *         {@link Object}.
+	 */
+	protected Object getIndividualProperty(String propertyName) {
+		return convertIndividual(resource
+				.getPropertyValue(getObjectProperty(propertyName)));
 	}
 
-	protected Set<?> listIndividuals(String propertyName) {
+	/**
+	 * Returns the object property whose name is given.
+	 * 
+	 * @param propertyName
+	 *            The property name.
+	 * @return An {@link ObjectProperty}.
+	 */
+	private ObjectProperty getObjectProperty(String propertyName) {
 		ObjectProperty property = resource.getOntModel().getObjectProperty(
 				propertyName);
 		if (property == null) {
 			System.err.println("property " + propertyName + " does not exist");
 			throw new NullPointerException();
+		} else {
+			return property;
 		}
+	}
 
-		NodeIterator it = resource.listPropertyValues(property);
+	/**
+	 * Returns the value associated with this resource and the property called
+	 * <code>propertyName</code>.
+	 * 
+	 * @param propertyName
+	 *            A property of this resource.
+	 * @return The value of the given property on this resource as a
+	 *         {@link String}.
+	 */
+	protected String getStringProperty(String propertyName) {
+		RDFNode node = resource
+				.getPropertyValue(getDatatypeProperty(propertyName));
+		return convertString(node);
+	}
+
+	@Override
+	public int hashCode() {
+		return resource.getURI().hashCode();
+	}
+
+	/**
+	 * Lists all the string values of the given property of this resource.
+	 * 
+	 * @param propertyName
+	 *            The property name.
+	 * @return A {@link Set} of {@link String}s.
+	 */
+	protected Set<?> listIndividuals(String propertyName) {
+		NodeIterator it = resource
+				.listPropertyValues(getObjectProperty(propertyName));
 		return convertIndividuals(it);
+	}
+
+	/**
+	 * Lists all the string values of the given property of this resource.
+	 * 
+	 * @param propertyName
+	 *            The property name.
+	 * @return A {@link Set} of {@link String}s.
+	 */
+	protected Set<String> listStrings(String propertyName) {
+		NodeIterator it = resource
+				.listPropertyValues(getDatatypeProperty(propertyName));
+		return convertStrings(it);
 	}
 }

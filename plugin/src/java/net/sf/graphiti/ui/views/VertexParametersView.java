@@ -109,7 +109,8 @@ public class VertexParametersView extends ViewPart implements
 				if (cell.getColumnIndex() == 0) {
 					cell.setText(parameter.getName());
 				} else {
-					String value = (String) vertex.getValue(parameter.getName());
+					String value = (String) vertex
+							.getValue(parameter.getName());
 					if (value == null) {
 						value = "";
 					}
@@ -351,8 +352,8 @@ public class VertexParametersView extends ViewPart implements
 		column = table.getColumn(1);
 		tvc = new TableViewerColumn(tableViewer, column);
 		tvc.setLabelProvider(new VertexParametersCellLabelProvider());
-		tvc.setEditingSupport(new VertexParametersEditingSupport(tvc.getViewer(),
-				table));
+		tvc.setEditingSupport(new VertexParametersEditingSupport(tvc
+				.getViewer(), table));
 	}
 
 	@Override

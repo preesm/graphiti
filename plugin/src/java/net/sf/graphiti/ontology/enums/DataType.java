@@ -32,10 +32,10 @@ package net.sf.graphiti.ontology.enums;
  * This class is an enumeration of parameters different data types.
  * 
  * @author Matthieu Wipliez
- *
+ * 
  */
 public enum DataType {
-	
+
 	Float, Integer, String, VertexRefinement;
 
 }

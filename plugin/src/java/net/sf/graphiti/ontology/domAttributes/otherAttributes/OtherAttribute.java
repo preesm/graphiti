@@ -46,6 +46,7 @@ public interface OtherAttribute extends DOMAttribute {
 
 	/**
 	 * Returns a {@link Parameter} associated with this attribute.
+	 * 
 	 * @return A {@link Parameter} associated with this attribute.
 	 */
 	public Parameter hasParameter();

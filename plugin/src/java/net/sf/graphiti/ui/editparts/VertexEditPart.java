@@ -138,8 +138,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	protected IFigure createFigure() {
 		Vertex vertex = (Vertex) getModel();
-		DocumentConfiguration config = vertex.getParentDocument()
-				.getDocumentConfiguration();
+		DocumentConfiguration config = vertex.getDocumentConfiguration();
 
 		VertexFigure figure = new VertexFigure(config, vertex.getType());
 		String name = (String) vertex.getValue("name");
@@ -195,7 +194,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connEditPart) {
-		//TODO: provide multiple connection anchors
+		// TODO: provide multiple connection anchors
 		return ((VertexFigure) getFigure()).getConnectionAnchor();
 	}
 
@@ -207,7 +206,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connEditPart) {
-		//TODO: provide multiple connection anchors
+		// TODO: provide multiple connection anchors
 		return ((VertexFigure) getFigure()).getConnectionAnchor();
 	}
 

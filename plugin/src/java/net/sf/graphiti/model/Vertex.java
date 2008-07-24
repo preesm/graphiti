@@ -164,6 +164,15 @@ public class Vertex extends DOMNode implements Cloneable {
 	}
 
 	/**
+	 * Returns the document configuration associated with this Vertex.
+	 * 
+	 * @return The document configuration associated with this Vertex.
+	 */
+	public DocumentConfiguration getDocumentConfiguration() {
+		return parentDocument.getDocumentConfiguration();
+	}
+
+	/**
 	 * Returns a list of parameters associated with this vertex type.
 	 * 
 	 * @return A List of Parameters.
@@ -181,15 +190,6 @@ public class Vertex extends DOMNode implements Cloneable {
 	 */
 	public Graph getParent() {
 		return parent;
-	}
-
-	/**
-	 * Give this parent document
-	 * 
-	 * @return
-	 */
-	public GraphitiDocument getParentDocument() {
-		return parentDocument;
 	}
 
 	/**

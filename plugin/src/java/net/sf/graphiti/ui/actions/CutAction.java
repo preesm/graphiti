@@ -92,13 +92,14 @@ public class CutAction extends SelectionAction {
 	@SuppressWarnings("unchecked")
 	public void run() {
 		if (calculateEnabled()) {
-			LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
+			LocalSelectionTransfer transfer = LocalSelectionTransfer
+					.getTransfer();
 			transfer.setSelection(getSelection());
 			Object[] data = new Object[] { getSelectedObjects() };
 			Transfer[] transfers = new Transfer[] { transfer };
 			GraphitiClipboard.getInstance().setContents(data, transfers);
 		}
-		
+
 		CutCommand command = new CutCommand();
 		List<AbstractGraphicalEditPart> l = new ArrayList<AbstractGraphicalEditPart>(
 				getSelectedObjects());

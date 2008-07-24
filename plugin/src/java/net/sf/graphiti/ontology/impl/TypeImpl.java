@@ -56,8 +56,7 @@ public class TypeImpl extends OntologyIndividualImpl implements Type {
 
 	@Override
 	public String hasName() {
-		return getStringProperty(OntologyFactory
-				.getPropertyTypeHasName());
+		return getStringProperty(OntologyFactory.getPropertyTypeHasName());
 	}
 
 	@Override
@@ -69,8 +68,7 @@ public class TypeImpl extends OntologyIndividualImpl implements Type {
 
 	public String toString() {
 		return super.toString() + " | Type: hasStringRepresentation: "
-				+ hasName() + ", hasParameters: "
-				+ hasParameters() + ", hasFigureAttributes:"
-				+ hasFigureAttributes();
+				+ hasName() + ", hasParameters: " + hasParameters()
+				+ ", hasFigureAttributes:" + hasFigureAttributes();
 	}
 }

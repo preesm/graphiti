@@ -53,13 +53,17 @@ public class ShapesImpl extends OntologyIndividualImpl implements Shapes {
 
 	@Override
 	public IFigure getShape() {
-		if (OntologyFactory.getIndividualShapeCircle().equals(getIndividualURI())) {
+		if (OntologyFactory.getIndividualShapeCircle().equals(
+				getIndividualURI())) {
 			return new ShapeCircle();
-		} else if (OntologyFactory.getIndividualShapeTriangle().equals(getIndividualURI())) {
+		} else if (OntologyFactory.getIndividualShapeTriangle().equals(
+				getIndividualURI())) {
 			return new ShapeTriangle();
-		} else if (OntologyFactory.getIndividualShapeHexagon().equals(getIndividualURI())) {
+		} else if (OntologyFactory.getIndividualShapeHexagon().equals(
+				getIndividualURI())) {
 			return new ShapeHexagon();
-		} else if (OntologyFactory.getIndividualShapeRoundedBox().equals(getIndividualURI())) {
+		} else if (OntologyFactory.getIndividualShapeRoundedBox().equals(
+				getIndividualURI())) {
 			return new ShapeRoundedBox();
 		} else {
 			throw new NullPointerException();

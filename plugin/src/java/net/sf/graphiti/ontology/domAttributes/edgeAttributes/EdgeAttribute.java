@@ -45,6 +45,7 @@ public interface EdgeAttribute extends DOMAttribute {
 
 	/**
 	 * Returns a set of {@link Element}s this attribute can reference.
+	 * 
 	 * @return A set of {@link Element}s this attribute can reference.
 	 */
 	public Set<Element> isReferenceTo();

@@ -46,5 +46,5 @@ public interface FigureAttribute extends OntologyIndividual {
 	 * @return The type this figure attribute applies to.
 	 */
 	public Type appliesTo();
-	
+
 }

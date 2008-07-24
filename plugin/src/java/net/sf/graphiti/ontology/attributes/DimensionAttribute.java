@@ -39,12 +39,14 @@ public interface DimensionAttribute extends FigureAttribute {
 
 	/**
 	 * Returns the height associated with this attribute.
+	 * 
 	 * @return The height associated with this attribute.
 	 */
 	public int hasHeight();
 
 	/**
 	 * Returns the width associated with this attribute.
+	 * 
 	 * @return The width associated with this attribute.
 	 */
 	public int hasWidth();

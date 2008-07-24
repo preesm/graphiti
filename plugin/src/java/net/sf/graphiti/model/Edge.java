@@ -80,9 +80,18 @@ public class Edge extends DOMNode {
 	}
 
 	/**
-	 * Returns this parent document.
+	 * Returns the document configuration associated with this Edge.
 	 * 
-	 * @return This parent document.
+	 * @return The document configuration associated with this Edge.
+	 */
+	public DocumentConfiguration getDocumentConfiguration() {
+		return parentDocument.getDocumentConfiguration();
+	}
+
+	/**
+	 * Returns this edge's parent document.
+	 * 
+	 * @return This Edge's parent document.
 	 */
 	public GraphitiDocument getParentDocument() {
 		return parentDocument;

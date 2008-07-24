@@ -41,6 +41,7 @@ public interface ShapeAttribute extends FigureAttribute {
 
 	/**
 	 * Returns the shape associated with this attribute.
+	 * 
 	 * @return The shape associated with this attribute.
 	 */
 	public Shapes hasShape();

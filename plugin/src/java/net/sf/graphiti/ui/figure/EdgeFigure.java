@@ -69,9 +69,8 @@ public class EdgeFigure extends PolylineConnection {
 		this.setLayoutManager(new DelegatingLayout());
 		if (dep != null) {
 			if (dep.getValue("type") != null) {
-				List<Parameter> properties = dep.getParentDocument()
-						.getDocumentConfiguration().getEdgeParameters(
-								(String) dep.getValue("type"));
+				List<Parameter> properties = dep.getDocumentConfiguration()
+						.getEdgeParameters((String) dep.getValue("type"));
 				for (Parameter property : properties) {
 					if (property.getPosition() != null) {
 						PropertyTag propertyLabel = new PropertyTag(

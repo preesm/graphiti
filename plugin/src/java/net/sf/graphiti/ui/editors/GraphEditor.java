@@ -197,8 +197,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	public void doSave(IProgressMonitor monitor) {
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		GenericGraphFileWriter writer = new GenericGraphFileWriter(
-				document);
+		GenericGraphFileWriter writer = new GenericGraphFileWriter(document);
 		writer.write(out);
 		try {
 			file.setContents(new ByteArrayInputStream(out.toByteArray()), true,

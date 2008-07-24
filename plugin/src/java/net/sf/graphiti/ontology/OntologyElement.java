@@ -47,7 +47,7 @@ public interface OntologyElement {
 	 * @return The {@link DocumentElement} to start parsing with.
 	 */
 	public DocumentElement getDocumentElement();
-	
+
 	/**
 	 * Returns the file extensions that this ontology may be associated with.
 	 * 

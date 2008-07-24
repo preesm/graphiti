@@ -464,7 +464,7 @@ public class OntologyFactory {
 		OntologyElement ontElement = new OntologyElementImpl(ont);
 		return ontElement.getRefinementFileExtensions();
 	}
-	
+
 	/**
 	 * Returns all the instances of {@link VertexType}.
 	 * 

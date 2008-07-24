@@ -39,12 +39,14 @@ public interface LocationAttribute extends FigureAttribute {
 
 	/**
 	 * Returns the X coordinate associated with this attribute.
+	 * 
 	 * @return The X coordinate associated with this attribute.
 	 */
 	public int hasXCoordinate();
 
 	/**
 	 * Returns the Y coordinate associated with this attribute.
+	 * 
 	 * @return The Y coordinate associated with this attribute.
 	 */
 	public int hasYCoordinate();

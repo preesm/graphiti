@@ -145,9 +145,18 @@ public class Graph extends DOMNode {
 	}
 
 	/**
-	 * Give this parent document
+	 * Returns the document configuration associated with this Graph.
 	 * 
-	 * @return
+	 * @return The document configuration associated with this Graph.
+	 */
+	public DocumentConfiguration getDocumentConfiguration() {
+		return parentDocument.getDocumentConfiguration();
+	}
+
+	/**
+	 * Returns this parent document of this Graph.
+	 * 
+	 * @return This parent document of this Graph.
 	 */
 	public GraphitiDocument getParentDocument() {
 		return parentDocument;
