@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.graphiti.ontology.OntologyFactory;
 
@@ -70,6 +71,11 @@ public class DocumentConfiguration {
 	private Map<String, List<Parameter>> edgeParameters;
 
 	/**
+	 * File extensions associated with this document configuration.
+	 */
+	private String[] fileExtensions;
+
+	/**
 	 * A graph type -> attributes map.
 	 */
 	private Map<String, PropertyBean> graphAttributes;
@@ -88,6 +94,12 @@ public class DocumentConfiguration {
 	 * The URL of the ontology this document configuration is associated with.
 	 */
 	private String ontologyUrl;
+
+	/**
+	 * File extensions that may be associated with a vertex refinement in this
+	 * document configuration.
+	 */
+	private String[] refinementFileExtensions;
 
 	/**
 	 * A vertex type -> attributes map.
@@ -254,6 +266,13 @@ public class DocumentConfiguration {
 	}
 
 	/**
+	 * @return the fileExtensions
+	 */
+	public String[] getFileExtensions() {
+		return fileExtensions;
+	}
+
+	/**
 	 * Returns the attribute value associated with the given graph type and
 	 * attribute name.
 	 * 
@@ -279,9 +298,11 @@ public class DocumentConfiguration {
 	}
 
 	/**
-	 * Returns the ontology factory this document is associated with.
+	 * Returns the ontology factory this document configuration is associated
+	 * with.
 	 * 
-	 * @return The ontology factory this document is associated with.
+	 * @return The ontology factory this document configuration is associated
+	 *         with.
 	 */
 	public OntologyFactory getOntologyFactory() {
 		return ontologyFactory;
@@ -316,6 +337,13 @@ public class DocumentConfiguration {
 		}
 
 		return parameters;
+	}
+
+	/**
+	 * @return the refinementFileExtensions
+	 */
+	public String[] getRefinementFileExtensions() {
+		return refinementFileExtensions;
 	}
 
 	/**
@@ -395,6 +423,14 @@ public class DocumentConfiguration {
 	}
 
 	/**
+	 * @param fileExtensions
+	 *            the fileExtensions to set
+	 */
+	public void setFileExtensions(Set<String> fileExtensions) {
+		this.fileExtensions = fileExtensions.toArray(new String[] {});
+	}
+
+	/**
 	 * Sets the attribute <code>attributeName</code> to <code>newValue</code>
 	 * for the graph type <code>graphType</code>.
 	 * 
@@ -408,6 +444,15 @@ public class DocumentConfiguration {
 	public void setGraphAttribute(String graphType, String attributeName,
 			Object newValue) {
 		setAttribute(graphAttributes, graphType, attributeName, newValue);
+	}
+
+	/**
+	 * @param refinementFileExtensions
+	 *            the refinementFileExtensions to set
+	 */
+	public void setRefinementFileExtensions(Set<String> refinementFileExtensions) {
+		this.refinementFileExtensions = refinementFileExtensions
+				.toArray(new String[] {});
 	}
 
 	/**

@@ -84,6 +84,87 @@ public class OntologyLoader {
 	}
 
 	/**
+	 * Fills the configuration with parameters of the given {@link EdgeType}.
+	 * 
+	 * @param config
+	 *            The {@link DocumentConfiguration}.
+	 * @param edgeType
+	 *            An {@link EdgeType}.
+	 */
+	private void fillEdgeType(DocumentConfiguration config, EdgeType edgeType) {
+		String edgeTypeName = edgeType.hasName();
+		Set<Parameter> parameters = edgeType.hasParameters();
+		for (Parameter parameter : parameters) {
+			if (parameter.hasOntClass(OntologyFactory.getClassEdgeParameter())) {
+				net.sf.graphiti.model.Parameter param = new net.sf.graphiti.model.Parameter(
+						(EdgeParameter) parameter);
+				config.addEdgeParameter(edgeTypeName, param);
+			}
+		}
+	}
+
+	/**
+	 * Fills the configuration with the given {@link Parameter} of the given
+	 * {@link VertexType}.
+	 * 
+	 * @param config
+	 *            The {@link DocumentConfiguration}.
+	 * @param vertexType
+	 *            A {@link VertexType}.
+	 * @param parameter
+	 *            A {@link Parameter}.
+	 */
+	private void fillVertexParameter(DocumentConfiguration config,
+			String vertexType, Parameter parameter) {
+		if (parameter.hasOntClass(OntologyFactory.getClassVertexParameter())) {
+			net.sf.graphiti.model.Parameter param = new net.sf.graphiti.model.Parameter(
+					(VertexParameter) parameter);
+			config.addVertexParameter(vertexType, param);
+		} else if (parameter.hasOntClass(OntologyFactory
+				.getClassEdgeParameter())) {
+			net.sf.graphiti.model.Parameter param = new net.sf.graphiti.model.Parameter(
+					(EdgeParameter) parameter);
+			config.addEdgeParameter(vertexType, param);
+		} else if (parameter.hasOntClass(OntologyFactory
+				.getClassGraphParameter())) {
+			net.sf.graphiti.model.Parameter param = new net.sf.graphiti.model.Parameter(
+					(GraphParameter) parameter);
+			config.addGraphParameter(vertexType, param);
+		}
+	}
+
+	/**
+	 * Fills the configuration with parameters of the given {@link VertexType}.
+	 * 
+	 * @param config
+	 *            The {@link DocumentConfiguration}.
+	 * @param type
+	 *            A {@link VertexType}.
+	 */
+	private void fillVertexType(DocumentConfiguration config, VertexType type) {
+		String vertexType = type.hasName();
+		Set<FigureAttribute> attributes = type.hasFigureAttributes();
+		for (FigureAttribute attribute : attributes) {
+			if (attribute.hasOntClass(OntologyFactory.getClassColorAttribute())) {
+				Color color = ((ColorAttribute) attribute).hasColor()
+						.getColor();
+				config.setVertexAttribute(vertexType, Vertex.ATTRIBUTE_COLOR,
+						color);
+			} else if (attribute.hasOntClass(OntologyFactory
+					.getClassShapeAttribute())) {
+				Shapes shape = ((ShapeAttribute) attribute).hasShape();
+				config.setVertexAttribute(vertexType, Vertex.ATTRIBUTE_SHAPE,
+						shape);
+			}
+		}
+
+		Set<Parameter> parameters = type.hasParameters();
+		for (Parameter parameter : parameters) {
+			fillVertexParameter(config, vertexType, parameter);
+		}
+	}
+
+	/**
 	 * Returns a reference to the configuration list. Please note that this
 	 * method merely returns the configuration list created by OntologyLoader
 	 * constructor.
@@ -145,59 +226,23 @@ public class OntologyLoader {
 			DocumentConfiguration config = new DocumentConfiguration(file);
 
 			OntologyFactory factory = new OntologyFactory(file);
+
+			// vertex types.
 			Set<VertexType> vertexTypes = factory.getVertexTypes();
 			for (VertexType type : vertexTypes) {
-				String vertexType = type.hasName();
-				Set<FigureAttribute> attributes = type.hasFigureAttributes();
-				for (FigureAttribute attribute : attributes) {
-					if (attribute.hasOntClass(OntologyFactory
-							.getClassColorAttribute())) {
-						Color color = ((ColorAttribute) attribute).hasColor()
-								.getColor();
-						config.setVertexAttribute(vertexType,
-								Vertex.ATTRIBUTE_COLOR, color);
-					} else if (attribute.hasOntClass(OntologyFactory
-							.getClassShapeAttribute())) {
-						Shapes shape = ((ShapeAttribute) attribute).hasShape();
-						config.setVertexAttribute(vertexType,
-								Vertex.ATTRIBUTE_SHAPE, shape);
-					}
-				}
-
-				Set<Parameter> parameters = type.hasParameters();
-				for (Parameter parameter : parameters) {
-					if (parameter.hasOntClass(OntologyFactory
-							.getClassVertexParameter())) {
-						net.sf.graphiti.model.Parameter param = new net.sf.graphiti.model.Parameter(
-								(VertexParameter) parameter);
-						config.addVertexParameter(vertexType, param);
-					} else if (parameter.hasOntClass(OntologyFactory
-							.getClassEdgeParameter())) {
-						net.sf.graphiti.model.Parameter param = new net.sf.graphiti.model.Parameter(
-								(EdgeParameter) parameter);
-						config.addEdgeParameter(vertexType, param);
-					} else if (parameter.hasOntClass(OntologyFactory
-							.getClassGraphParameter())) {
-						net.sf.graphiti.model.Parameter param = new net.sf.graphiti.model.Parameter(
-								(GraphParameter) parameter);
-						config.addGraphParameter(vertexType, param);
-					}
-				}
+				fillVertexType(config, type);
 			}
 
+			// edge types.
 			Set<EdgeType> edgeTypes = factory.getEdgeTypes();
 			for (EdgeType type : edgeTypes) {
-				String edgeType = type.hasName();
-				Set<Parameter> parameters = type.hasParameters();
-				for (Parameter parameter : parameters) {
-					if (parameter.hasOntClass(OntologyFactory
-							.getClassEdgeParameter())) {
-						net.sf.graphiti.model.Parameter param = new net.sf.graphiti.model.Parameter(
-								(EdgeParameter) parameter);
-						config.addEdgeParameter(edgeType, param);
-					}
-				}
+				fillEdgeType(config, type);
 			}
+
+			// file extensions.
+			config.setFileExtensions(factory.getFileExtensions());
+			config.setRefinementFileExtensions(factory
+					.getRefinementFileExtensions());
 
 			return config;
 		} catch (Exception e) {

@@ -187,8 +187,9 @@ public class GenericGraphFileParser {
 					// restriction. It corresponds if the value is the same.
 					String attrRestrictValue = attrRestrict.hasValue();
 					correspond &= node.getNodeValue().equals(attrRestrictValue);
-					if(correspond){
-						parentElement.setValue(attrRestrictName, attrRestrictValue);
+					if (correspond) {
+						parentElement.setValue(attrRestrictName,
+								attrRestrictValue);
 					}
 				}
 			}
@@ -277,8 +278,8 @@ public class GenericGraphFileParser {
 				// parentElement.setValue(Graph.PARAMETER_ID, value);
 				// } else {
 				OtherAttribute beanNode = (OtherAttribute) ontNode;
-				trueParentElement
-						.setValue(beanNode.hasParameter().hasName(), value);
+				trueParentElement.setValue(beanNode.hasParameter().hasName(),
+						value);
 				// }
 			}
 		}
@@ -304,9 +305,9 @@ public class GenericGraphFileParser {
 				if (attribute.getNodeName().equals(name)) {
 					// This attribute is defined by the ontology, we parse it
 					// and return.
-						parseAttribute(ontNode, attribute, parentElement);
-						return;
-					
+					parseAttribute(ontNode, attribute, parentElement);
+					return;
+
 				}
 			}
 		}
@@ -355,7 +356,7 @@ public class GenericGraphFileParser {
 	private void parseElement(Element ontNode, Node domNode,
 			DOMNode parentElement) {
 		DOMNode element;
-		
+
 		// creates the element according to the type defined in the ontology
 		if (ontNode.hasOntClass(OntologyFactory.getClassDocumentElement())) {
 			element = graphitiDocument;
@@ -405,7 +406,7 @@ public class GenericGraphFileParser {
 			nodeToObj.put(domNode, element);
 			// Sets parameter values associated with this element
 			setParameterValues(ontNode, element);
-		}else{
+		} else {
 			parentElement.addDOMElement(element);
 			nodeToObj.put(domNode, ((SkipDOMNode) element).getTrueNode());
 			// Sets parameter values associated with this element
@@ -414,8 +415,8 @@ public class GenericGraphFileParser {
 		// Parses recursively attributes and elements
 		parseAttributes(ontNode, domNode, element);
 		parseElements(ontNode, domNode, element);
-		
-		if(element instanceof SkipDOMNode){
+
+		if (element instanceof SkipDOMNode) {
 			element = ((SkipDOMNode) element).getTrueNode();
 		}
 		if ((parentElement instanceof GraphitiDocument)
@@ -526,15 +527,14 @@ public class GenericGraphFileParser {
 			Node docElement = doc.getDocumentElement();
 			graphitiDocument = new GraphitiDocument(config);
 
-			// Iterates over the parser root nodes
-			Set<DocumentElement> docElements = factory.getDocumentElements();
-			Object[] elements = docElements.toArray();
-			if (elements.length != 1) {
+			// Retrieves the document element
+			DocumentElement ontDocElement = factory.getDocumentElement();
+			if (docElement == null) {
 				throw (new IncompatibleConfigurationFile());
 			} else {
-				Element root = (Element) elements[0];
-				if (isElementDefined(root, docElement, graphitiDocument)) {
-					parseElement(root, docElement, graphitiDocument);
+				if (isElementDefined(ontDocElement, docElement,
+						graphitiDocument)) {
+					parseElement(ontDocElement, docElement, graphitiDocument);
 					log.info("Parsing completed");
 					return graphitiDocument;
 				} else {

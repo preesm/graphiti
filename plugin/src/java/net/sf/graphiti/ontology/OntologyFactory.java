@@ -85,6 +85,14 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#hasDocumentElement";
 	}
 
+	public static String getAnnotationPropertyHasFileExtension() {
+		return "http://net.sf.graphiti/basics.owl#hasFileExtension";
+	}
+
+	public static String getAnnotationPropertyRefinementHasFileExtension() {
+		return "http://net.sf.graphiti/basics.owl#refinementHasFileExtension";
+	}
+
 	public static String getClassAttributeRestriction() {
 		return "http://net.sf.graphiti/basics.owl#AttributeRestriction";
 	}
@@ -354,7 +362,7 @@ public class OntologyFactory {
 	}
 
 	private OntModel model;
-	
+
 	private String modelURI;
 
 	private String path;
@@ -422,6 +430,17 @@ public class OntologyFactory {
 	}
 
 	/**
+	 * Returns the file extensions that this ontology may be associated with.
+	 * 
+	 * @return The file extensions that this ontology may be associated with.
+	 */
+	public Set<String> getFileExtensions() {
+		Ontology ont = model.getOntology(modelURI);
+		OntologyElement ontElement = new OntologyElementImpl(ont);
+		return ontElement.getFileExtensions();
+	}
+
+	/**
 	 * Returns all the instances of {@link GraphType}.
 	 * 
 	 * @return
@@ -433,6 +452,19 @@ public class OntologyFactory {
 		return (Set<GraphType>) OntologyIndividualImpl.convertIndividuals(it);
 	}
 
+	/**
+	 * Returns the file extensions that a vertex refinement may be associated
+	 * with.
+	 * 
+	 * @return The file extensions that a vertex refinement may be associated
+	 *         with.
+	 */
+	public Set<String> getRefinementFileExtensions() {
+		Ontology ont = model.getOntology(modelURI);
+		OntologyElement ontElement = new OntologyElementImpl(ont);
+		return ontElement.getRefinementFileExtensions();
+	}
+	
 	/**
 	 * Returns all the instances of {@link VertexType}.
 	 * 
