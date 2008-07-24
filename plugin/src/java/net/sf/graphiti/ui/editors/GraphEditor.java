@@ -37,6 +37,7 @@ import java.util.EventObject;
 
 import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.parsers.GenericGraphFileParser;
+import net.sf.graphiti.parsers.IncompatibleConfigurationFile;
 import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.actions.CopyAction;
 import net.sf.graphiti.ui.actions.CutAction;
@@ -52,6 +53,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
@@ -74,8 +76,10 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IShowEditorInput;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
@@ -295,6 +299,16 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		return manager.getZoom();
 	}
 
+	public void init(IEditorSite site, IEditorInput input)
+			throws PartInitException {
+		setSite(site);
+		setInputWithException(input);
+		getCommandStack().addCommandStackListener(this);
+		getSite().getWorkbenchWindow().getSelectionService()
+				.addSelectionListener(this);
+		initializeActionRegistry();
+	}
+
 	@Override
 	protected void initializeGraphicalViewer() {
 		GraphicalViewer viewer = getGraphicalViewer();
@@ -312,8 +326,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		return true;
 	}
 
-	@Override
-	public void setInput(IEditorInput input) {
+	private void setInputWithException(IEditorInput input)
+			throws PartInitException {
 		super.setInput(input);
 
 		if (getEditorInput() != null) {
@@ -329,11 +343,13 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 			// Updates the palette
 			getEditDomain().setPaletteRoot(getPaletteRoot());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
-		firePropertyChange(PROP_INPUT);
+			firePropertyChange(PROP_INPUT);
+		} catch (IncompatibleConfigurationFile e) {
+			IStatus status = GraphitiPlugin.getDefault().getErrorStatus(
+					"The editor could not open the given input: " + file);
+			throw new PartInitException(status);
+		}
 	}
 
 	/**

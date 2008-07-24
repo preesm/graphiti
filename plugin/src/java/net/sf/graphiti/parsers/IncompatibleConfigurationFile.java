@@ -28,6 +28,14 @@
  */
 package net.sf.graphiti.parsers;
 
+/**
+ * This class provides an exception that is launched when no configuration file
+ * is compatible with a given input.
+ * 
+ * @author Jonathan Piat
+ * @author Matthieu Wipliez
+ * 
+ */
 public class IncompatibleConfigurationFile extends Exception {
 
 	/**

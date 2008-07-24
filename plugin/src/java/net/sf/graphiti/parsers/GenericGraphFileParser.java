@@ -62,6 +62,7 @@ import net.sf.graphiti.ontology.parameters.Parameter;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -210,26 +211,27 @@ public class GenericGraphFileParser {
 	 * @param file
 	 *            The file to parse.
 	 * @return The new GraphitiDocument
+	 * @throws IncompatibleConfigurationFile
 	 */
-	public GraphitiDocument parse(IFile file) {
+	public GraphitiDocument parse(IFile file)
+			throws IncompatibleConfigurationFile {
 		for (DocumentConfiguration config : configurations) {
 			try {
 				InputStream is = file.getContents(false);
 				factory = config.getOntologyFactory();
 				log = Logger.getLogger(GenericGraphFileParser.class);
 
-				return parseWithConfiguration(config, is);
-			} catch (IncompatibleConfigurationFile e) {
-				// Could not parse the file, trying with another ontology
-				continue;
-			} catch (NullPointerException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
+				GraphitiDocument doc = parseWithConfiguration(config, is);
+				if (doc != null) {
+					return doc;
+				}
+			} catch (CoreException e) {
 				e.printStackTrace();
 			}
 		}
 
-		return null;
+		// could not parse
+		throw new IncompatibleConfigurationFile();
 	}
 
 	/**
@@ -511,8 +513,7 @@ public class GenericGraphFileParser {
 	 *             configuration.
 	 */
 	private GraphitiDocument parseWithConfiguration(
-			DocumentConfiguration config, InputStream inputFile)
-			throws IncompatibleConfigurationFile {
+			DocumentConfiguration config, InputStream inputFile) {
 		try {
 			// When parsing, will ignore useless spaces and comments.
 			DocumentBuilderFactory builderFactory = DocumentBuilderFactory
@@ -530,7 +531,7 @@ public class GenericGraphFileParser {
 			// Retrieves the document element
 			DocumentElement ontDocElement = factory.getDocumentElement();
 			if (ontDocElement == null) {
-				throw (new IncompatibleConfigurationFile());
+				return null;
 			} else {
 				if (isElementDefined(ontDocElement, docElement,
 						graphitiDocument)) {
@@ -538,7 +539,7 @@ public class GenericGraphFileParser {
 					log.info("Parsing completed");
 					return graphitiDocument;
 				} else {
-					throw (new IncompatibleConfigurationFile());
+					return null;
 				}
 			}
 		} catch (ParserConfigurationException e) {
@@ -549,8 +550,9 @@ public class GenericGraphFileParser {
 			e.printStackTrace();
 		}
 
-		// The document could not be parsed using this configuration
-		throw new IncompatibleConfigurationFile();
+		// The document could not be parsed using this configuration, whatever
+		// the reason
+		return null;
 	}
 
 	private void setEdgeConnection(PropertyBean ref,
