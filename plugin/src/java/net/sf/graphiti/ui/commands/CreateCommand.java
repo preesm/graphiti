@@ -81,12 +81,7 @@ public class CreateCommand extends Command {
 				rect.width = width;
 				rect.height = height;
 				vertex.setValue(Vertex.PARAMETER_SIZE, null, rect);
-				for (Vertex sibling : graph.vertexSet()) {
-					if (sibling.getType().equals(vertex.getType())) {
-						vertex.setNodeName(sibling.getNodeName());
-						break;
-					}
-				}
+
 			}
 		}
 	}

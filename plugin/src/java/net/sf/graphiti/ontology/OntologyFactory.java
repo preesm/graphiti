@@ -268,6 +268,10 @@ public class OntologyFactory {
 	public static String getPropertyAttributeRestrictionOfElement() {
 		return "http://net.sf.graphiti/basics.owl#attributeRestriction_ofElement";
 	}
+	
+	public static String getPropertyAttributeRestrictionHasParameterValue() {
+		return "http://net.sf.graphiti/basics.owl#attributeRestriction_hasParameterValue";
+	}
 
 	public static String getPropertyColorAttributeHasColor() {
 		return "http://net.sf.graphiti/basics.owl#colorAttribute_hasColor";

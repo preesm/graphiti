@@ -50,12 +50,14 @@ import net.sf.graphiti.model.DocumentConfiguration;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.GraphitiDocument;
+import net.sf.graphiti.model.SkipDOMNode;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
 import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
 import net.sf.graphiti.ontology.domAttributes.otherAttributes.OtherAttribute;
 import net.sf.graphiti.ontology.elements.DocumentElement;
+import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import net.sf.graphiti.ontology.parameters.Parameter;
 
 import org.w3c.dom.Document;
@@ -220,14 +222,14 @@ public class GenericGraphFileWriter {
 				if (element instanceof GraphitiDocument) {
 					for (Vertex vertex : ((GraphitiDocument) element)
 							.getGraph().vertexSet()) {
-						if (node.hasName().equals(vertex.getNodeName())) {
+						if (isNodeInstance(vertex, node)) {
 							writeNode(node, vertex, parentNode);
 							treated.add(vertex);
 						}
 					}
 				} else if (element instanceof Graph) {
 					for (Vertex vertex : ((Graph) element).vertexSet()) {
-						if (node.hasName().equals(vertex.getNodeName())) {
+						if (isNodeInstance(vertex, node)) {
 							writeNode(node, vertex, parentNode);
 							treated.add(vertex);
 						}
@@ -236,13 +238,10 @@ public class GenericGraphFileWriter {
 			} else if (node.hasOntClass(OntologyFactory.getClassSkipElement())) {
 				boolean isTreated = false;
 				for (DOMNode childNode : element.getDOMElements()) {
-					if (childNode.getNodeName().equals(node.hasName())) {
-						writeNode(node, element, parentNode);
+					if (isNodeInstance(childNode, node)) {
+						writeNode(node, childNode, parentNode);
 						isTreated = true;
 					}
-				}
-				if (!isTreated) {
-					writeNode(node, element, parentNode);
 				}
 				treated.add(element);
 			} else if (node.hasOntClass(OntologyFactory.getClassEdgeElement())) {
@@ -285,6 +284,37 @@ public class GenericGraphFileWriter {
 
 	}
 
+	boolean isNodeInstance(DOMNode inst,
+			net.sf.graphiti.ontology.elements.Element ontNode) {
+		boolean isNodeInstance = true;
+		if(inst.getClass().equals(DOMNode.class)){
+			return false ;
+		}
+		if(inst.getNodeName() != null){
+			isNodeInstance &= inst.getNodeName().equals(ontNode.hasName()) ; 
+		}
+		Set<ParameterValue> pvs = ontNode.hasParameterValues();
+		for (ParameterValue pv : pvs) {
+			isNodeInstance &= inst.getValue(pv.ofParameter().hasName()).equals(
+					pv.hasValue());
+		}
+		Set<AttributeRestriction> aRestrictions = ontNode.hasAttributeRestriction();
+		for (AttributeRestriction pR : aRestrictions) {
+			Object val ;
+			if(inst.getValue(pR.hasName()) == null){
+				if(inst.getDOMAttributeValue(pR.hasName()) == null){
+					return false ;
+				}else{
+					val = inst.getDOMAttributeValue(pR.hasName());
+				}
+			}else{
+				val = inst.getValue(pR.hasName());
+			}
+			isNodeInstance &= val.equals(pR.hasValue());
+		}
+		return isNodeInstance;
+	}
+
 	/**
 	 * Write the given node
 	 * 
@@ -297,6 +327,15 @@ public class GenericGraphFileWriter {
 	 */
 	private void writeNode(net.sf.graphiti.ontology.elements.Element node,
 			DOMNode element, Node parentNode) {
+		DOMNode trueElement;
+
+		// if the element to write is a SkipDOMNode this means that this node
+		// attributes values come from the upper level
+		if (element instanceof SkipDOMNode) {
+			trueElement = ((SkipDOMNode) element).getTrueNode();
+		} else {
+			trueElement = element;
+		}
 		Element newElement = createElement(node, parentNode);
 		for (AttributeRestriction restricts : node.hasAttributeRestriction()) {
 			newElement.setAttribute(restricts.hasName(), restricts.hasValue());
@@ -313,7 +352,7 @@ public class GenericGraphFileWriter {
 		// If node is an instance of OtherAttributes
 		if (node.hasOntClass(OntologyFactory.getClassOtherAttribute())) {
 			OtherAttribute param = (OtherAttribute) node;
-			newElement.setTextContent((String) element.getValue(param
+			newElement.setTextContent((String) trueElement.getValue(param
 					.hasParameter().hasName()));
 		}
 
@@ -324,7 +363,7 @@ public class GenericGraphFileWriter {
 							.getClassParameterValue()))) {
 				OtherAttribute beanParam = (OtherAttribute) attr;
 				Parameter param = beanParam.hasParameter();
-				Object val = element.getValue(param.hasName());
+				Object val = trueElement.getValue(param.hasName());
 				if (val != null) {
 					newElement
 							.setAttribute(beanParam.hasName(), val.toString());
@@ -334,24 +373,24 @@ public class GenericGraphFileWriter {
 				if (attr.hasOntClass(OntologyFactory
 						.getClassEdgeSourceConnection())) {
 					newElement.setAttribute(attr.hasName(),
-							(String) ((Edge) element).getSource()
-									.getValue("id"));
+							(String) ((Edge) trueElement).getSource().getValue(
+									"id"));
 				} else if (attr.hasOntClass(OntologyFactory
 						.getClassEdgeTargetConnection())) {
 					newElement.setAttribute(attr.hasName(),
-							(String) ((Edge) element).getTarget()
-									.getValue("id"));
+							(String) ((Edge) trueElement).getTarget().getValue(
+									"id"));
 				} else if (attr.hasOntClass(OntologyFactory
 						.getClassEdgeConnection())) {
 					if (!sourceWritten) {
 						newElement.setAttribute(attr.hasName(),
-								(String) ((Edge) element).getSource().getValue(
-										"id"));
+								(String) ((Edge) trueElement).getSource()
+										.getValue("id"));
 						sourceWritten = true;
 					} else {
 						newElement.setAttribute(attr.hasName(),
-								(String) ((Edge) element).getTarget().getValue(
-										"id"));
+								(String) ((Edge) trueElement).getTarget()
+										.getValue("id"));
 						sourceWritten = false;
 					}
 				}

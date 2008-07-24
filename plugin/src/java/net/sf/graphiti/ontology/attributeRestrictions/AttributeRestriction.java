@@ -30,6 +30,7 @@ package net.sf.graphiti.ontology.attributeRestrictions;
 
 import net.sf.graphiti.ontology.OntologyIndividual;
 import net.sf.graphiti.ontology.elements.Element;
+import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 
 /**
  * This class provides an attribute restriction. An attribute restriction can be
@@ -63,4 +64,6 @@ public interface AttributeRestriction extends OntologyIndividual {
 	 * @return The element the restricted attribute belongs to.
 	 */
 	public Element ofElement();
+	
+	public ParameterValue hasParameterValue();
 }
