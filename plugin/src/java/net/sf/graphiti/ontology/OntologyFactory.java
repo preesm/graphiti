@@ -317,8 +317,8 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#figureAttribute_appliesTo";
 	}
 
-	public static String getPropertyInfoElementReferencesParameter() {
-		return "http://net.sf.graphiti/basics.owl#infoElement_referencesParameter";
+	public static String getPropertyTextContentElementReferencesParameter() {
+		return "http://net.sf.graphiti/basics.owl#textContentElement_referencesParameter";
 	}
 
 	public static String getPropertyParameterAppliesTo() {
@@ -345,8 +345,8 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#parameterValue_ofParameter";
 	}
 
-	public static String getPropertyPropertyBeanParameterHasParameter() {
-		return "http://net.sf.graphiti/basics.owl#propertyBeanParameter_isParameter";
+	public static String getPropertyOtherAttributeReferencesParameter() {
+		return "http://net.sf.graphiti/basics.owl#otherAttribute_referencesParameter";
 	}
 
 	public static String getPropertyShapeAttributeHasShape() {

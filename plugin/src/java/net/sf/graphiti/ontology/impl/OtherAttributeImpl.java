@@ -50,7 +50,7 @@ public class OtherAttributeImpl extends DOMAttributeImpl implements
 	@Override
 	public Parameter hasParameter() {
 		return (Parameter) getIndividualProperty(OntologyFactory
-				.getPropertyPropertyBeanParameterHasParameter());
+				.getPropertyOtherAttributeReferencesParameter());
 	}
 
 	public String toString() {

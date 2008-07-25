@@ -50,7 +50,7 @@ public class InfoElementImpl extends DocumentElementImpl implements
 	@Override
 	public Parameter referencesParameter() {
 		return (Parameter) getIndividualProperty(OntologyFactory
-				.getPropertyInfoElementReferencesParameter());
+				.getPropertyTextContentElementReferencesParameter());
 	}
 
 	public String toString() {
