@@ -28,8 +28,6 @@
  */
 package net.sf.graphiti.ui;
 
-import java.util.List;
-
 import net.sf.graphiti.model.DocumentConfiguration;
 import net.sf.graphiti.parsers.OntologyLoader;
 
@@ -100,9 +98,10 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	}
 
 	/**
-	 * The list of document configurations found when the plug-in was activated.
+	 * The root of the document configuration tree built when the plug-in was
+	 * activated.
 	 */
-	private List<DocumentConfiguration> configurations;
+	private DocumentConfiguration configuration;
 
 	/**
 	 * The constructor
@@ -112,12 +111,13 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	}
 
 	/**
-	 * Returns the list of document configurations of the shared instance.
+	 * Returns the root of the document configuration tree.
 	 * 
-	 * @return The list of document configurations.
+	 * @return A {@link DocumentConfiguration} that is the root of the document
+	 *         configuration tree.
 	 */
-	public List<DocumentConfiguration> getConfigurations() {
-		return configurations;
+	public DocumentConfiguration getConfiguration() {
+		return configuration;
 	}
 
 	/**
@@ -171,7 +171,7 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		OntologyLoader ontLoader = new OntologyLoader(context);
-		configurations = ontLoader.getConfigurations();
+		configuration = ontLoader.getConfiguration();
 		plugin = this;
 	}
 

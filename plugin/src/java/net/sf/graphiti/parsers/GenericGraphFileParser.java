@@ -80,9 +80,7 @@ public class GenericGraphFileParser {
 
 	private static final String IS_PORT = "isPort";
 
-	private List<DocumentConfiguration> configurations;
-
-	private OntologyFactory factory;
+	private DocumentConfiguration configuration;
 
 	private GraphitiDocument graphitiDocument;
 
@@ -93,13 +91,14 @@ public class GenericGraphFileParser {
 	private HashMap<Element, List<PropertyBean>> ontDomInstances = new HashMap<Element, List<PropertyBean>>();
 
 	/**
-	 * Creates a generic graph parser using the given document configurations.
+	 * Creates a generic graph parser using the given document configuration
+	 * tree.
 	 * 
-	 * @param configurations
-	 *            Available configurations.
+	 * @param configuration
+	 *            The root of the {@link DocumentConfiguration} tree.
 	 */
-	public GenericGraphFileParser(List<DocumentConfiguration> configurations) {
-		this.configurations = configurations;
+	public GenericGraphFileParser(DocumentConfiguration configuration) {
+		this.configuration = configuration;
 	}
 
 	private void addOntDomInstance(Element node, PropertyBean bean) {
@@ -205,33 +204,85 @@ public class GenericGraphFileParser {
 	}
 
 	/**
-	 * Parses the given InputStream using the stream semantic defined in the
-	 * configuration file
+	 * Parses the given {@link IFile} with the semantics defined in the
+	 * configuration file.
 	 * 
 	 * @param file
 	 *            The file to parse.
-	 * @return The new GraphitiDocument
+	 * @return The new {@link GraphitiDocument}.
 	 * @throws IncompatibleConfigurationFile
+	 *             If the given file could not be parsed with any of the
+	 *             document configurations.
 	 */
 	public GraphitiDocument parse(IFile file)
 			throws IncompatibleConfigurationFile {
-		for (DocumentConfiguration config : configurations) {
-			try {
-				InputStream is = file.getContents(false);
-				factory = config.getOntologyFactory();
-				log = Logger.getLogger(GenericGraphFileParser.class);
+		try {
+			InputStream is = file.getContents(false);
+			log = Logger.getLogger(GenericGraphFileParser.class);
 
-				GraphitiDocument doc = parseWithConfiguration(config, is);
-				if (doc != null) {
-					return doc;
-				}
-			} catch (CoreException e) {
-				e.printStackTrace();
+			// When parsing, will ignore useless spaces and comments.
+			DocumentBuilderFactory builderFactory = DocumentBuilderFactory
+					.newInstance();
+			builderFactory.setIgnoringComments(true);
+			builderFactory.setIgnoringElementContentWhitespace(true);
+
+			// Creates the DOM
+			DocumentBuilder docBuilder = builderFactory.newDocumentBuilder();
+			Document document = docBuilder.parse(is);
+
+			// Parses the DOM
+			if (parse(document, configuration)) {
+				return graphitiDocument;
 			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
 		}
 
 		// could not parse
 		throw new IncompatibleConfigurationFile();
+	}
+
+	/**
+	 * Tries to parse file with every configuration in the
+	 * {@link DocumentConfiguration} tree. This method tries first by the most
+	 * specialized ontologies, ie by the leafs of the tree.
+	 * 
+	 * @param file
+	 *            The file to parse.
+	 * @param configuration
+	 *            A {@link DocumentConfiguration}. When called by
+	 *            {@link #parse(IFile)}, this is the root of the document
+	 *            configuration tree.
+	 * @return True if <code>file</code> could be parsed with
+	 *         <code>configuration</code>, <code>false</code> otherwise.
+	 */
+	private boolean parse(Document document, DocumentConfiguration configuration) {
+		List<DocumentConfiguration> children = configuration
+				.getConfigurationList(false);
+		if (children.isEmpty()) {
+			// We have a leaf, try to parse
+			return parseWithConfiguration(document, configuration);
+		} else {
+			// We try the children
+			Iterator<DocumentConfiguration> it = children.iterator();
+			boolean isParsed = false;
+			while (it.hasNext() && !isParsed) {
+				isParsed = parse(document, it.next());
+			}
+			
+			// And then ourselves
+			if (!isParsed) {
+				isParsed = parseWithConfiguration(document, configuration);
+			}
+			
+			return isParsed;
+		}
 	}
 
 	/**
@@ -503,56 +554,32 @@ public class GenericGraphFileParser {
 	}
 
 	/**
-	 * Parses the given InputStream using the stream semantic defined in the
-	 * configuration file
+	 * Parses the given DOM using the semantics defined in the configuration
+	 * file.
 	 * 
-	 * @param inputFile
-	 *            The file to parse.
-	 * @throws IncompatibleConfigurationFile
-	 *             If the given file cannot be parsed with the given
-	 *             configuration.
+	 * @param document
+	 *            The DOM to parse.
+	 * @return True if document could be parsed, false otherwise.
 	 */
-	private GraphitiDocument parseWithConfiguration(
-			DocumentConfiguration config, InputStream inputFile) {
-		try {
-			// When parsing, will ignore useless spaces and comments.
-			DocumentBuilderFactory builderFactory = DocumentBuilderFactory
-					.newInstance();
-			builderFactory.setIgnoringComments(true);
-			builderFactory.setIgnoringElementContentWhitespace(true);
+	private boolean parseWithConfiguration(Document document,
+			DocumentConfiguration configuration) {
+		Node docElement = document.getDocumentElement();
+		graphitiDocument = new GraphitiDocument(configuration);
 
-			// Creates the DOM
-			DocumentBuilder docBuilder = builderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(inputFile);
-
-			Node docElement = doc.getDocumentElement();
-			graphitiDocument = new GraphitiDocument(config);
-
-			// Retrieves the document element
-			DocumentElement ontDocElement = factory.getDocumentElement();
-			if (ontDocElement == null) {
-				return null;
+		// Retrieves the document element
+		OntologyFactory factory = configuration.getOntologyFactory();
+		DocumentElement ontDocElement = factory.getDocumentElement();
+		if (ontDocElement == null) {
+			return false;
+		} else {
+			if (isElementDefined(ontDocElement, docElement, graphitiDocument)) {
+				parseElement(ontDocElement, docElement, graphitiDocument);
+				log.info("Parsing completed");
+				return true;
 			} else {
-				if (isElementDefined(ontDocElement, docElement,
-						graphitiDocument)) {
-					parseElement(ontDocElement, docElement, graphitiDocument);
-					log.info("Parsing completed");
-					return graphitiDocument;
-				} else {
-					return null;
-				}
+				return false;
 			}
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-
-		// The document could not be parsed using this configuration, whatever
-		// the reason
-		return null;
 	}
 
 	private void setEdgeConnection(PropertyBean ref,

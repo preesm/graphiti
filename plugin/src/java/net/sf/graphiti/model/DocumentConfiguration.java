@@ -61,6 +61,11 @@ public class DocumentConfiguration {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * The document configurations that extend this document configuration.
+	 */
+	private List<DocumentConfiguration> children;
+
+	/**
 	 * An edge type -> attributes map.
 	 */
 	private Map<String, PropertyBean> edgeAttributes;
@@ -91,9 +96,9 @@ public class DocumentConfiguration {
 	private OntologyFactory ontologyFactory;
 
 	/**
-	 * The URL of the ontology this document configuration is associated with.
+	 * The document configurations extended by this document configuration.
 	 */
-	private String ontologyUrl;
+	private List<DocumentConfiguration> parents;
 
 	/**
 	 * File extensions that may be associated with a vertex refinement in this
@@ -120,7 +125,6 @@ public class DocumentConfiguration {
 	 *            associated with.
 	 */
 	public DocumentConfiguration(String ontologyUrl) {
-		this.ontologyUrl = ontologyUrl;
 		ontologyFactory = new OntologyFactory(ontologyUrl);
 
 		edgeAttributes = new HashMap<String, PropertyBean>();
@@ -130,6 +134,9 @@ public class DocumentConfiguration {
 		vertexParameters = new HashMap<String, List<Parameter>>();
 		graphParameters = new HashMap<String, List<Parameter>>();
 		edgeParameters = new HashMap<String, List<Parameter>>();
+
+		parents = new ArrayList<DocumentConfiguration>();
+		children = new ArrayList<DocumentConfiguration>();
 	}
 
 	/**
@@ -183,6 +190,16 @@ public class DocumentConfiguration {
 	}
 
 	/**
+	 * Adds a parent of this {@link DocumentConfiguration}.
+	 * 
+	 * @param parent
+	 */
+	public void addParent(DocumentConfiguration parent) {
+		parents.add(parent);
+		parent.children.add(this);
+	}
+
+	/**
 	 * Adds a parameter to the list associated with the given vertex type.
 	 * 
 	 * @param vertexType
@@ -195,6 +212,20 @@ public class DocumentConfiguration {
 	 */
 	public void addVertexParameter(String vertexType, Parameter parameter) {
 		addParameter(vertexParameters, vertexType, parameter);
+	}
+
+	/**
+	 * Recursively adds all children document configuration to
+	 * <code>childrenList</code> list, and then add <code>this</code> to the
+	 * list.
+	 * 
+	 * @param childrenList
+	 */
+	private void enumerateChildren(List<DocumentConfiguration> childrenList) {
+		for (DocumentConfiguration child : children) {
+			child.enumerateChildren(childrenList);
+		}
+		childrenList.add(this);
 	}
 
 	/**
@@ -238,6 +269,27 @@ public class DocumentConfiguration {
 		}
 
 		return attributes;
+	}
+
+	/**
+	 * Returns a list of document configuration children of this
+	 * {@link DocumentConfiguration}. The list returned may be modified.
+	 * 
+	 * @param transitive
+	 *            If true, this method will explore the tree recursively.
+	 *            Otherwise, only the immediate children are returned.
+	 * @return A {@link List} of {@link DocumentConfiguration}.
+	 */
+	public List<DocumentConfiguration> getConfigurationList(boolean transitive) {
+		List<DocumentConfiguration> childrenList = new ArrayList<DocumentConfiguration>();
+		if (transitive) {
+			// Enumerate all children recursively.
+			enumerateChildren(childrenList);
+		} else {
+			// Only adds immediate children.
+			childrenList.addAll(children);
+		}
+		return childrenList;
 	}
 
 	/**
@@ -309,17 +361,6 @@ public class DocumentConfiguration {
 	}
 
 	/**
-	 * Returns the URL of the ontology this document configuration is associated
-	 * with.
-	 * 
-	 * @return The URL of the ontology this document configuration is associated
-	 *         with.
-	 */
-	public String getOntologyUrl() {
-		return ontologyUrl;
-	}
-
-	/**
 	 * Gets the parameter list for the type <code>type</code>.
 	 * 
 	 * @param map
@@ -380,6 +421,17 @@ public class DocumentConfiguration {
 	 */
 	public List<Parameter> getVertexParameters(String vertexType) {
 		return getParameters(vertexParameters, vertexType);
+	}
+
+	/**
+	 * Returns true if this document configuration is the root of the hierarchy,
+	 * meaning if it has no parents.
+	 * 
+	 * @return True if this document configuration is the root of the hierarchy,
+	 *         false otherwise.
+	 */
+	public boolean isRoot() {
+		return parents.isEmpty();
 	}
 
 	/**
@@ -470,10 +522,10 @@ public class DocumentConfiguration {
 			Object newValue) {
 		setAttribute(vertexAttributes, vertexType, attributeName, newValue);
 	}
-	
+
 	@Override
 	public String toString() {
-		return ontologyUrl;
+		return getOntologyFactory().getModelURI();
 	}
 
 }

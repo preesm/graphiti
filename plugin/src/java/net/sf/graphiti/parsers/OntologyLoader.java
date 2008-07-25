@@ -35,8 +35,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -87,7 +89,7 @@ import org.w3c.dom.Element;
  */
 public class OntologyLoader {
 
-	private List<DocumentConfiguration> configurations;
+	private DocumentConfiguration configuration;
 
 	private BundleContext context;
 
@@ -101,7 +103,7 @@ public class OntologyLoader {
 	 */
 	public OntologyLoader(BundleContext context) throws CoreException {
 		this.context = context;
-		configurations = loadOntologies();
+		configuration = loadOntologies();
 		addContribution();
 	}
 
@@ -139,7 +141,8 @@ public class OntologyLoader {
 		// add all file extensions to a set (in case one extension is present
 		// several times, such as .xml)
 		Set<String> extensionSet = new HashSet<String>();
-		for (DocumentConfiguration config : configurations) {
+		for (DocumentConfiguration config : configuration
+				.getConfigurationList(true)) {
 			String[] fileExts = config.getFileExtensions();
 			for (String fileExt : fileExts) {
 				if (fileExt.charAt(0) == '.') {
@@ -161,7 +164,7 @@ public class OntologyLoader {
 		Element extension = document.createElement("extension");
 		extension.setAttribute("point", "org.eclipse.ui.editors");
 		root.appendChild(extension);
-		
+
 		// editor element
 		Element editor = document.createElement("editor");
 		editor.setAttribute("class", "net.sf.graphiti.ui.editors.GraphEditor");
@@ -258,14 +261,14 @@ public class OntologyLoader {
 	}
 
 	/**
-	 * Returns a reference to the configuration list. Please note that this
-	 * method merely returns the configuration list created by OntologyLoader
-	 * constructor.
+	 * Returns a reference to the configuration tree. Please note that this
+	 * method merely returns the root of the configuration tree created by
+	 * OntologyLoader constructor.
 	 * 
-	 * @return A reference to the configuration list.
+	 * @return A reference to the configuration tree root.
 	 */
-	public List<DocumentConfiguration> getConfigurations() {
-		return configurations;
+	public DocumentConfiguration getConfiguration() {
+		return configuration;
 	}
 
 	/**
@@ -314,10 +317,11 @@ public class OntologyLoader {
 	 * Enumerates *.owl files in the bundle, and calls loadOntology on each of
 	 * them.
 	 * 
-	 * @return A list of document configurations, one per ontology.
+	 * @return A tree of document configurations, one per ontology. The
+	 *         {@link DocumentConfiguration} returned is the root.
 	 * @throws CoreException
 	 */
-	private List<DocumentConfiguration> loadOntologies() throws CoreException {
+	private DocumentConfiguration loadOntologies() throws CoreException {
 		// Get all *.owl files
 		Bundle bundle = context.getBundle();
 		Enumeration<?> entries = bundle.findEntries("src/owl", "*.owl", false);
@@ -335,14 +339,34 @@ public class OntologyLoader {
 		}
 
 		// Loads all ontology files in ontologyFiles
-		List<DocumentConfiguration> configurations = new ArrayList<DocumentConfiguration>(
+		Map<String, DocumentConfiguration> configurations = new HashMap<String, DocumentConfiguration>(
 				ontologyFiles.size());
 		for (String file : ontologyFiles) {
 			DocumentConfiguration config = loadOntology(file);
-			configurations.add(config);
+			configurations.put(config.getOntologyFactory().getModelURI(),
+					config);
 		}
 
-		return configurations;
+		// Builds the tree.
+		for (DocumentConfiguration config : configurations.values()) {
+			OntologyFactory factory = config.getOntologyFactory();
+			Set<String> imports = factory.getImports();
+			for (String importURI : imports) {
+				DocumentConfiguration parent = configurations.get(importURI);
+				config.addParent(parent);
+			}
+		}
+
+		// Gets the root.
+		DocumentConfiguration configuration = null;
+		for (DocumentConfiguration config : configurations.values()) {
+			if (config.isRoot()) {
+				configuration = config;
+				break;
+			}
+		}
+
+		return configuration;
 	}
 
 	/**
@@ -359,8 +383,7 @@ public class OntologyLoader {
 		try {
 			System.out.println("Loading ontology: " + file);
 			DocumentConfiguration config = new DocumentConfiguration(file);
-
-			OntologyFactory factory = new OntologyFactory(file);
+			OntologyFactory factory = config.getOntologyFactory();
 
 			// vertex types.
 			Set<VertexType> vertexTypes = factory.getVertexTypes();

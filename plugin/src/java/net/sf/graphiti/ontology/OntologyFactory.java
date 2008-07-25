@@ -33,6 +33,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.graphiti.ontology.elements.DocumentElement;
@@ -46,6 +47,7 @@ import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntDocumentManager;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
+import com.hp.hpl.jena.ontology.OntResource;
 import com.hp.hpl.jena.ontology.Ontology;
 import com.hp.hpl.jena.ontology.OntDocumentManager.ReadHook;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -261,16 +263,16 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#attributeRestriction_hasName";
 	}
 
+	public static String getPropertyAttributeRestrictionHasParameterValue() {
+		return "http://net.sf.graphiti/basics.owl#attributeRestriction_hasParameterValue";
+	}
+
 	public static String getPropertyAttributeRestrictionHasValue() {
 		return "http://net.sf.graphiti/basics.owl#attributeRestriction_hasValue";
 	}
 
 	public static String getPropertyAttributeRestrictionOfElement() {
 		return "http://net.sf.graphiti/basics.owl#attributeRestriction_ofElement";
-	}
-	
-	public static String getPropertyAttributeRestrictionHasParameterValue() {
-		return "http://net.sf.graphiti/basics.owl#attributeRestriction_hasParameterValue";
 	}
 
 	public static String getPropertyColorAttributeHasColor() {
@@ -317,8 +319,8 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#figureAttribute_appliesTo";
 	}
 
-	public static String getPropertyTextContentElementReferencesParameter() {
-		return "http://net.sf.graphiti/basics.owl#textContentElement_referencesParameter";
+	public static String getPropertyOtherAttributeReferencesParameter() {
+		return "http://net.sf.graphiti/basics.owl#otherAttribute_referencesParameter";
 	}
 
 	public static String getPropertyParameterAppliesTo() {
@@ -345,12 +347,12 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#parameterValue_ofParameter";
 	}
 
-	public static String getPropertyOtherAttributeReferencesParameter() {
-		return "http://net.sf.graphiti/basics.owl#otherAttribute_referencesParameter";
-	}
-
 	public static String getPropertyShapeAttributeHasShape() {
 		return "http://net.sf.graphiti/basics.owl#shapeAttribute_hasShape";
+	}
+
+	public static String getPropertyTextContentElementReferencesParameter() {
+		return "http://net.sf.graphiti/basics.owl#textContentElement_referencesParameter";
 	}
 
 	public static String getPropertyTypeHasFigureAttributes() {
@@ -417,8 +419,21 @@ public class OntologyFactory {
 	 */
 	public DocumentElement getDocumentElement() {
 		Ontology ont = model.getOntology(modelURI);
+		return getDocumentElement(ont);
+	}
+
+	private DocumentElement getDocumentElement(Ontology ont) {
 		OntologyElement ontElement = new OntologyElementImpl(ont);
-		return ontElement.getDocumentElement();
+		DocumentElement docElement = ontElement.getDocumentElement();
+		if (docElement == null) {
+			ExtendedIterator it = ont.listImports();
+			while (it.hasNext() && docElement == null) {
+				Ontology ontParent = ((OntResource) it.next()).asOntology();
+				docElement = getDocumentElement(ontParent);
+			}
+		}
+
+		return docElement;
 	}
 
 	/**
@@ -440,8 +455,21 @@ public class OntologyFactory {
 	 */
 	public Set<String> getFileExtensions() {
 		Ontology ont = model.getOntology(modelURI);
+		return getFileExtensions(ont);
+	}
+
+	private Set<String> getFileExtensions(Ontology ont) {
 		OntologyElement ontElement = new OntologyElementImpl(ont);
-		return ontElement.getFileExtensions();
+		Set<String> fileExts = ontElement.getFileExtensions();
+		if (fileExts.isEmpty()) {
+			ExtendedIterator it = ont.listImports();
+			while (it.hasNext() && fileExts.isEmpty()) {
+				Ontology ontParent = ((OntResource) it.next()).asOntology();
+				fileExts = getFileExtensions(ontParent);
+			}
+		}
+
+		return fileExts;
 	}
 
 	/**
@@ -457,6 +485,34 @@ public class OntologyFactory {
 	}
 
 	/**
+	 * Returns the URIs of ontologies imported by this ontology.
+	 * 
+	 * @return The URIs of ontologies imported by this ontology.
+	 */
+	public Set<String> getImports() {
+		Ontology ont = model.getOntology(modelURI);
+		Set<String> imports = new HashSet<String>();
+		ExtendedIterator it = ont.listImports();
+		while (it.hasNext()) {
+			OntResource res = (OntResource) it.next();
+			imports.add(res.getURI());
+		}
+
+		return imports;
+	}
+
+	/**
+	 * Returns the http:// URL of the model this ontology factory is associated
+	 * with.
+	 * 
+	 * @return The http:// URL of the model this ontology factory is associated
+	 *         with.
+	 */
+	public String getModelURI() {
+		return modelURI;
+	}
+
+	/**
 	 * Returns the file extensions that a vertex refinement may be associated
 	 * with.
 	 * 
@@ -465,8 +521,21 @@ public class OntologyFactory {
 	 */
 	public Set<String> getRefinementFileExtensions() {
 		Ontology ont = model.getOntology(modelURI);
+		return getRefinementFileExtensions(ont);
+	}
+
+	private Set<String> getRefinementFileExtensions(Ontology ont) {
 		OntologyElement ontElement = new OntologyElementImpl(ont);
-		return ontElement.getRefinementFileExtensions();
+		Set<String> fileExts = ontElement.getRefinementFileExtensions();
+		if (fileExts.isEmpty()) {
+			ExtendedIterator it = ont.listImports();
+			while (it.hasNext() && fileExts.isEmpty()) {
+				Ontology ontParent = ((OntResource) it.next()).asOntology();
+				fileExts = getRefinementFileExtensions(ontParent);
+			}
+		}
+
+		return fileExts;
 	}
 
 	/**

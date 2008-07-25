@@ -123,6 +123,37 @@ public class GenericGraphFileWriter {
 		writeNode(ontDocElement, document, domDocument);
 	}
 
+	boolean isNodeInstance(DOMNode inst,
+			net.sf.graphiti.ontology.elements.Element ontNode) {
+		boolean isNodeInstance = true;
+		if(inst.getClass().equals(DOMNode.class)){
+			return false ;
+		}
+		if(inst.getNodeName() != null){
+			isNodeInstance &= inst.getNodeName().equals(ontNode.hasName()) ; 
+		}
+		Set<ParameterValue> pvs = ontNode.hasParameterValues();
+		for (ParameterValue pv : pvs) {
+			isNodeInstance &= inst.getValue(pv.ofParameter().hasName()).equals(
+					pv.hasValue());
+		}
+		Set<AttributeRestriction> aRestrictions = ontNode.hasAttributeRestriction();
+		for (AttributeRestriction pR : aRestrictions) {
+			Object val ;
+			if(inst.getValue(pR.hasName()) == null){
+				if(inst.getDOMAttributeValue(pR.hasName()) == null){
+					return false ;
+				}else{
+					val = inst.getDOMAttributeValue(pR.hasName());
+				}
+			}else{
+				val = inst.getValue(pR.hasName());
+			}
+			isNodeInstance &= val.equals(pR.hasValue());
+		}
+		return isNodeInstance;
+	}
+
 	/**
 	 * Sets the xmlns (to use when no xmlns has been set)
 	 * 
@@ -282,37 +313,6 @@ public class GenericGraphFileWriter {
 			}
 		}
 
-	}
-
-	boolean isNodeInstance(DOMNode inst,
-			net.sf.graphiti.ontology.elements.Element ontNode) {
-		boolean isNodeInstance = true;
-		if(inst.getClass().equals(DOMNode.class)){
-			return false ;
-		}
-		if(inst.getNodeName() != null){
-			isNodeInstance &= inst.getNodeName().equals(ontNode.hasName()) ; 
-		}
-		Set<ParameterValue> pvs = ontNode.hasParameterValues();
-		for (ParameterValue pv : pvs) {
-			isNodeInstance &= inst.getValue(pv.ofParameter().hasName()).equals(
-					pv.hasValue());
-		}
-		Set<AttributeRestriction> aRestrictions = ontNode.hasAttributeRestriction();
-		for (AttributeRestriction pR : aRestrictions) {
-			Object val ;
-			if(inst.getValue(pR.hasName()) == null){
-				if(inst.getDOMAttributeValue(pR.hasName()) == null){
-					return false ;
-				}else{
-					val = inst.getDOMAttributeValue(pR.hasName());
-				}
-			}else{
-				val = inst.getValue(pR.hasName());
-			}
-			isNodeInstance &= val.equals(pR.hasValue());
-		}
-		return isNodeInstance;
 	}
 
 	/**

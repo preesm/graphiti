@@ -338,7 +338,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		IFile file = ((IFileEditorInput) input).getFile();
 		try {
 			GenericGraphFileParser parser = new GenericGraphFileParser(
-					GraphitiPlugin.getDefault().getConfigurations());
+					GraphitiPlugin.getDefault().getConfiguration());
 			document = parser.parse(file);
 
 			// Updates the palette

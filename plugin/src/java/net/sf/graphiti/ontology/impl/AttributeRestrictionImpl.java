@@ -56,6 +56,12 @@ public class AttributeRestrictionImpl extends OntologyIndividualImpl implements
 	}
 
 	@Override
+	public ParameterValue hasParameterValue() {
+		return (ParameterValue) getIndividualProperty(OntologyFactory
+				.getPropertyAttributeRestrictionHasParameterValue());
+	}
+
+	@Override
 	public String hasValue() {
 		return getStringProperty(OntologyFactory
 				.getPropertyAttributeRestrictionHasValue());
@@ -70,11 +76,5 @@ public class AttributeRestrictionImpl extends OntologyIndividualImpl implements
 	public String toString() {
 		return super.toString() + " | AttributeRestriction: hasName: "
 				+ hasName() + ", hasValue: " + hasValue();
-	}
-
-	@Override
-	public ParameterValue hasParameterValue() {
-		return (ParameterValue) getIndividualProperty(OntologyFactory
-				.getPropertyAttributeRestrictionHasParameterValue());
 	}
 }

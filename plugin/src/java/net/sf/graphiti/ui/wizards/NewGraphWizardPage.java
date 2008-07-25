@@ -29,7 +29,6 @@
 package net.sf.graphiti.ui.wizards;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -199,10 +198,11 @@ public class NewGraphWizardPage extends WizardPage {
 	}
 
 	private void fillGraphTypes() {
-		List<DocumentConfiguration> configs = GraphitiPlugin.getDefault()
-				.getConfigurations();
+		DocumentConfiguration rootConfig = GraphitiPlugin.getDefault()
+				.getConfiguration();
 		graphTypes = new HashMap<String, DocumentConfiguration>();
-		for (DocumentConfiguration config : configs) {
+		for (DocumentConfiguration config : rootConfig
+				.getConfigurationList(true)) {
 			Set<GraphType> graphTypes = config.getOntologyFactory()
 					.getGraphTypes();
 			for (GraphType type : graphTypes) {
