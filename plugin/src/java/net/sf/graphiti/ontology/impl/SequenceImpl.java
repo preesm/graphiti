@@ -46,6 +46,34 @@ import com.hp.hpl.jena.ontology.Individual;
 public class SequenceImpl extends ComplexTypeImpl implements Sequence {
 
 	/**
+	 * An {@link Iterable} on {@link XMLSchemaType} elements of this
+	 * {@link Sequence}.
+	 * 
+	 * @author Matthieu Wipliez
+	 * 
+	 */
+	private class SequenceIterable implements Iterable<XMLSchemaType> {
+
+		private SequenceImpl sequence;
+
+		/**
+		 * Creates a new {@link SequenceIterable} on this {@link SequenceImpl}.
+		 * 
+		 * @param sequence
+		 *            The sequence.
+		 */
+		public SequenceIterable(SequenceImpl sequence) {
+			this.sequence = sequence;
+		}
+
+		@Override
+		public Iterator<XMLSchemaType> iterator() {
+			return new SequenceIterator(sequence);
+		}
+
+	}
+
+	/**
 	 * An {@link Iterator} on {@link XMLSchemaType} elements of this
 	 * {@link Sequence}.
 	 * 
@@ -99,34 +127,6 @@ public class SequenceImpl extends ComplexTypeImpl implements Sequence {
 		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
-		}
-
-	}
-
-	/**
-	 * An {@link Iterable} on {@link XMLSchemaType} elements of this
-	 * {@link Sequence}.
-	 * 
-	 * @author Matthieu Wipliez
-	 * 
-	 */
-	private class SequenceIterable implements Iterable<XMLSchemaType> {
-
-		private SequenceImpl sequence;
-
-		/**
-		 * Creates a new {@link SequenceIterable} on this {@link SequenceImpl}.
-		 * 
-		 * @param sequence
-		 *            The sequence.
-		 */
-		public SequenceIterable(SequenceImpl sequence) {
-			this.sequence = sequence;
-		}
-
-		@Override
-		public Iterator<XMLSchemaType> iterator() {
-			return new SequenceIterator(sequence);
 		}
 
 	}

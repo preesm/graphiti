@@ -65,13 +65,6 @@ public interface Element extends XMLSchemaType {
 	public Set<XMLAttribute> hasAttributes();
 
 	/**
-	 * Returns a {@link ComplexType}.
-	 * 
-	 * @return A {@link ComplexType}.
-	 */
-	public XMLSchemaType hasSchemaType();
-
-	/**
 	 * Returns the name of this {@link Element}.
 	 * 
 	 * @return The name of this {@link Element}.
@@ -86,5 +79,16 @@ public interface Element extends XMLSchemaType {
 	 *         {@link Element}.
 	 */
 	public Set<ParameterValue> hasParameterValues();
+
+	/**
+	 * Returns a {@link ComplexType}.
+	 * 
+	 * @return A {@link ComplexType}.
+	 */
+	public XMLSchemaType hasSchemaType();
+	
+	public int maxOccurs();
+	
+	public int minOccurs();
 
 }

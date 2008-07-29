@@ -37,13 +37,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.graphiti.ontology.impl.OntologyElementImpl;
-import net.sf.graphiti.ontology.impl.OntologyIndividualImpl;
+import net.sf.graphiti.ontology.impl.OntologyModelImpl;
 import net.sf.graphiti.ontology.types.EdgeType;
 import net.sf.graphiti.ontology.types.GraphType;
 import net.sf.graphiti.ontology.types.VertexType;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
 
-import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntDocumentManager;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
@@ -95,8 +94,16 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#refinementHasFileExtension";
 	}
 
+	public static String getClassAll() {
+		return "http://net.sf.graphiti/basics.owl#All";
+	}
+
 	public static String getClassAttributeRestriction() {
 		return "http://net.sf.graphiti/basics.owl#AttributeRestriction";
+	}
+
+	public static String getClassChoice() {
+		return "http://net.sf.graphiti/basics.owl#Choice";
 	}
 
 	public static String getClassColorAttribute() {
@@ -105,18 +112,6 @@ public class OntologyFactory {
 
 	public static String getClassColors() {
 		return "http://net.sf.graphiti/basics.owl#Colors";
-	}
-
-	public static String getClassAll() {
-		return "http://net.sf.graphiti/basics.owl#All";
-	}
-
-	public static String getClassChoice() {
-		return "http://net.sf.graphiti/basics.owl#Choice";
-	}
-
-	public static String getClassSequence() {
-		return "http://net.sf.graphiti/basics.owl#Sequence";
 	}
 
 	public static String getClassComplexType() {
@@ -129,10 +124,6 @@ public class OntologyFactory {
 
 	public static String getClassDocumentElement() {
 		return "http://net.sf.graphiti/basics.owl#DocumentElement";
-	}
-
-	public static String getClassXMLAttribute() {
-		return "http://net.sf.graphiti/basics.owl#XMLAttribute";
 	}
 
 	public static String getClassEdgeAttribute() {
@@ -199,6 +190,10 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#Position";
 	}
 
+	public static String getClassSequence() {
+		return "http://net.sf.graphiti/basics.owl#Sequence";
+	}
+
 	public static String getClassShapeAttribute() {
 		return "http://net.sf.graphiti/basics.owl#ShapeAttribute";
 	}
@@ -229,6 +224,14 @@ public class OntologyFactory {
 
 	public static String getClassVertexType() {
 		return "http://net.sf.graphiti/basics.owl#VertexType";
+	}
+
+	public static String getClassXMLAttribute() {
+		return "http://net.sf.graphiti/basics.owl#XMLAttribute";
+	}
+
+	public static String getClassXMLSchemaType() {
+		return "http://net.sf.graphiti/basics.owl#XMLSchemaType";
 	}
 
 	public static String getIndividualColorBlue() {
@@ -275,6 +278,10 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#VertexRefinement";
 	}
 
+	public static String getPropertyAllHasElements() {
+		return "http://net.sf.graphiti/basics.owl#all_hasElements";
+	}
+
 	public static String getPropertyAttributeRestrictionHasName() {
 		return "http://net.sf.graphiti/basics.owl#attributeRestriction_hasName";
 	}
@@ -289,6 +296,10 @@ public class OntologyFactory {
 
 	public static String getPropertyAttributeRestrictionOfElement() {
 		return "http://net.sf.graphiti/basics.owl#attributeRestriction_ofElement";
+	}
+
+	public static String getPropertyChoiceHasElements() {
+		return "http://net.sf.graphiti/basics.owl#choice_hasElements";
 	}
 
 	public static String getPropertyColorAttributeHasColor() {
@@ -311,12 +322,24 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#element_hasAttributes";
 	}
 
+	public static String getpropertyElementHasMaxOccurs() {
+		return "http://net.sf.graphiti/basics.owl#element_hasMaxOccurs";
+	}
+
+	public static String getpropertyElementHasMinOccurs() {
+		return "http://net.sf.graphiti/basics.owl#element_hasMinOccurs";
+	}
+
 	public static String getPropertyElementHasName() {
 		return "http://net.sf.graphiti/basics.owl#element_hasName";
 	}
 
 	public static String getPropertyElementHasParameterValue() {
 		return "http://net.sf.graphiti/basics.owl#element_hasParameterValue";
+	}
+
+	public static String getPropertyElementHasSchemaType() {
+		return "http://net.sf.graphiti/basics.owl#element_hasSchemaType";
 	}
 
 	public static String getPropertyFigureAttributeAppliesTo() {
@@ -349,6 +372,14 @@ public class OntologyFactory {
 
 	public static String getPropertyParameterValueOfParameter() {
 		return "http://net.sf.graphiti/basics.owl#parameterValue_ofParameter";
+	}
+
+	public static String getPropertySequenceHasHead() {
+		return "http://net.sf.graphiti/basics.owl#sequence_hasHead";
+	}
+
+	public static String getPropertySequenceHasRest() {
+		return "http://net.sf.graphiti/basics.owl#sequence_hasRest";
 	}
 
 	public static String getPropertyShapeAttributeHasShape() {
@@ -447,9 +478,9 @@ public class OntologyFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	public Set<EdgeType> getEdgeTypes() {
-		OntClass edges = model.getOntClass(OntologyFactory.getClassEdgeType());
-		ExtendedIterator it = model.listIndividuals(edges);
-		return (Set<EdgeType>) OntologyIndividualImpl.convertIndividuals(it);
+		OntologyModelImpl ontModel = new OntologyModelImpl(model);
+		return (Set<EdgeType>) ontModel.listIndividuals(OntologyFactory
+				.getClassEdgeType());
 	}
 
 	/**
@@ -483,9 +514,9 @@ public class OntologyFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	public Set<GraphType> getGraphTypes() {
-		OntClass edges = model.getOntClass(OntologyFactory.getClassGraphType());
-		ExtendedIterator it = model.listIndividuals(edges);
-		return (Set<GraphType>) OntologyIndividualImpl.convertIndividuals(it);
+		OntologyModelImpl ontModel = new OntologyModelImpl(model);
+		return (Set<GraphType>) ontModel.listIndividuals(OntologyFactory
+				.getClassGraphType());
 	}
 
 	/**
@@ -549,34 +580,9 @@ public class OntologyFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	public Set<VertexType> getVertexTypes() {
-		OntClass vertex = model.getOntClass(OntologyFactory
+		OntologyModelImpl ontModel = new OntologyModelImpl(model);
+		return (Set<VertexType>) ontModel.listIndividuals(OntologyFactory
 				.getClassVertexType());
-		ExtendedIterator it = model.listIndividuals(vertex);
-		return (Set<VertexType>) OntologyIndividualImpl.convertIndividuals(it);
-	}
-
-	public static String getPropertyAllHasElements() {
-		return "http://net.sf.graphiti/basics.owl#all_hasElements";
-	}
-
-	public static String getPropertyChoiceHasElements() {
-		return "http://net.sf.graphiti/basics.owl#choice_hasElements";
-	}
-
-	public static String getPropertyElementHasSchemaType() {
-		return "http://net.sf.graphiti/basics.owl#element_hasSchemaType";
-	}
-
-	public static String getPropertySequenceHasHead() {
-		return "http://net.sf.graphiti/basics.owl#sequence_hasHead";
-	}
-
-	public static String getPropertySequenceHasRest() {
-		return "http://net.sf.graphiti/basics.owl#sequence_hasRest";
-	}
-
-	public static String getClassXMLSchemaType() {
-		return "http://net.sf.graphiti/basics.owl#XMLSchemaType";
 	}
 
 }

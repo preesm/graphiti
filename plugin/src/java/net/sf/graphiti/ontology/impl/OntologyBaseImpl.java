@@ -144,6 +144,34 @@ public class OntologyBaseImpl {
 				VertexElementImpl.class);
 	}
 
+	protected OntResource resource;
+
+	/**
+	 * Creates a new {@link OntologyBaseImpl} using the given
+	 * {@link OntResource}.
+	 * 
+	 * @param resource
+	 */
+	protected OntologyBaseImpl(OntResource resource) {
+		this.resource = resource;
+	}
+
+	/**
+	 * Converts the given node to a boolean.
+	 * 
+	 * @param node
+	 *            A {@link RDFNode}.
+	 * @return A boolean.
+	 */
+	private boolean convertBoolean(RDFNode node) {
+		if (node != null && node.canAs(Literal.class)) {
+			Literal lit = (Literal) node.as(Literal.class);
+			return lit.getBoolean();
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * Converts the {@link RDFNode} node to an {@link Object}.
 	 * 
@@ -152,7 +180,7 @@ public class OntologyBaseImpl {
 	 * @return An object, or <code>null</code> if <code>node == null</code> or
 	 *         if the conversion did not succeed.
 	 */
-	private static Object convertIndividual(RDFNode node) {
+	private Object convertIndividual(RDFNode node) {
 		if (node != null && node.canAs(Individual.class)) {
 			Individual individual = (Individual) node.as(Individual.class);
 			try {
@@ -179,7 +207,7 @@ public class OntologyBaseImpl {
 	 *            An ExtendedIterator to a list of individuals.
 	 * @return A set of objects.
 	 */
-	public static Set<?> convertIndividuals(ExtendedIterator it) {
+	protected Set<?> convertIndividuals(ExtendedIterator it) {
 		Set<Object> set = new HashSet<Object>();
 		while (it.hasNext()) {
 			RDFNode node = (RDFNode) it.next();
@@ -189,16 +217,20 @@ public class OntologyBaseImpl {
 		return set;
 	}
 
-	protected OntResource resource;
-
 	/**
-	 * Creates a new {@link OntologyBaseImpl} using the given
-	 * {@link OntResource}.
+	 * Converts the given node to an int.
 	 * 
-	 * @param resource
+	 * @param node
+	 *            A {@link RDFNode}.
+	 * @return An int.
 	 */
-	protected OntologyBaseImpl(OntResource resource) {
-		this.resource = resource;
+	private int convertInteger(RDFNode node) {
+		if (node != null && node.canAs(Literal.class)) {
+			Literal lit = (Literal) node.as(Literal.class);
+			return lit.getInt();
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -254,14 +286,8 @@ public class OntologyBaseImpl {
 	 * @return The value of the given property on this resource as a boolean.
 	 */
 	protected boolean getBooleanProperty(String propertyName) {
-		RDFNode node = resource
-				.getPropertyValue(getDatatypeProperty(propertyName));
-		if (node.canAs(Literal.class)) {
-			Literal lit = (Literal) node.as(Literal.class);
-			return lit.getBoolean();
-		}
-
-		return false;
+		return convertBoolean(resource
+				.getPropertyValue(getDatatypeProperty(propertyName)));
 	}
 
 	/**
@@ -297,6 +323,20 @@ public class OntologyBaseImpl {
 	}
 
 	/**
+	 * Returns the value associated with this resource and the property called
+	 * <code>propertyName</code>.
+	 * 
+	 * @param propertyName
+	 *            A property of this resource.
+	 * @return The value of the given property on this resource as an
+	 *         <code>int</code>.
+	 */
+	protected int getIntegerProperty(String propertyName) {
+		return convertInteger(resource
+				.getPropertyValue(getDatatypeProperty(propertyName)));
+	}
+
+	/**
 	 * Returns the object property whose name is given.
 	 * 
 	 * @param propertyName
@@ -324,9 +364,8 @@ public class OntologyBaseImpl {
 	 *         {@link String}.
 	 */
 	protected String getStringProperty(String propertyName) {
-		RDFNode node = resource
-				.getPropertyValue(getDatatypeProperty(propertyName));
-		return convertString(node);
+		return convertString(resource
+				.getPropertyValue(getDatatypeProperty(propertyName)));
 	}
 
 	@Override
@@ -342,9 +381,8 @@ public class OntologyBaseImpl {
 	 * @return A {@link Set} of {@link String}s.
 	 */
 	protected Set<?> listIndividuals(String propertyName) {
-		NodeIterator it = resource
-				.listPropertyValues(getObjectProperty(propertyName));
-		return convertIndividuals(it);
+		return convertIndividuals(resource
+				.listPropertyValues(getObjectProperty(propertyName)));
 	}
 
 	/**
@@ -355,8 +393,7 @@ public class OntologyBaseImpl {
 	 * @return A {@link Set} of {@link String}s.
 	 */
 	protected Set<String> listStrings(String propertyName) {
-		NodeIterator it = resource
-				.listPropertyValues(getDatatypeProperty(propertyName));
-		return convertStrings(it);
+		return convertStrings(resource
+				.listPropertyValues(getDatatypeProperty(propertyName)));
 	}
 }

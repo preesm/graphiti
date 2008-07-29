@@ -77,14 +77,24 @@ public class ElementImpl extends OntologyIndividualImpl implements Element {
 				.getPropertyElementHasParameterValue());
 	}
 
-	public String toString() {
-		return super.toString() + " | OntologyElement: hasName: " + hasName()
-				+ ", hasAttributeNode: " + hasAttributes();
-	}
-
 	@Override
 	public XMLSchemaType hasSchemaType() {
 		return (XMLSchemaType) getIndividualProperty(OntologyFactory
 				.getPropertyElementHasSchemaType());
+	}
+
+	public int maxOccurs() {
+		return getIntegerProperty(OntologyFactory
+				.getpropertyElementHasMaxOccurs());
+	}
+
+	public int minOccurs() {
+		return getIntegerProperty(OntologyFactory
+				.getpropertyElementHasMinOccurs());
+	}
+
+	public String toString() {
+		return super.toString() + " | OntologyElement: hasName: " + hasName()
+				+ ", hasAttributeNode: " + hasAttributes();
 	}
 }
