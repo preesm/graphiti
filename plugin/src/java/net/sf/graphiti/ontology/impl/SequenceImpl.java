@@ -29,6 +29,7 @@
 package net.sf.graphiti.ontology.impl;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
@@ -44,32 +45,54 @@ import com.hp.hpl.jena.ontology.Individual;
  */
 public class SequenceImpl extends ComplexTypeImpl implements Sequence {
 
-	public class SequenceIterator implements Iterator<XMLSchemaType> {
-
-		private XMLSchemaType head;
+	/**
+	 * An {@link Iterator} on {@link XMLSchemaType} elements of this
+	 * {@link Sequence}.
+	 * 
+	 * @author Matthieu Wipliez
+	 * 
+	 */
+	private class SequenceIterator implements Iterator<XMLSchemaType> {
 
 		private SequenceImpl rest;
 
+		/**
+		 * Creates a new {@link SequenceIterator} on the given
+		 * {@link SequenceImpl}. This initializes {@link #rest} with the value
+		 * of <code>sequence</code>. Calls to {@link #next()} will modify
+		 * {@link #rest} value.
+		 * 
+		 * @param sequence
+		 *            The sequence.
+		 */
 		public SequenceIterator(SequenceImpl sequence) {
 			this.rest = sequence;
 		}
 
 		@Override
 		public boolean hasNext() {
-			if (rest == null) {
-				return false;
-			} else {
-				head = (XMLSchemaType) rest
-						.getIndividualProperty(OntologyFactory
-								.getPropertySequenceHasHead());
-				return (head != null);
-			}
+			// The hasNext test is very simple: since the ontology states that a
+			// Sequence must have a head, and may have a rest, we consider that
+			// when it does not have a rest, it is finished.
+			return (rest != null);
 		}
 
 		@Override
 		public XMLSchemaType next() {
-			rest = (SequenceImpl) getIndividualProperty(OntologyFactory
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
+
+			// Gets the head (see hasNext comment).
+			XMLSchemaType head = (XMLSchemaType) rest
+					.getIndividualProperty(OntologyFactory
+							.getPropertySequenceHasHead());
+
+			// Gets the rest.
+			rest = (SequenceImpl) rest.getIndividualProperty(OntologyFactory
 					.getPropertySequenceHasRest());
+			
+			// Returns the head value.
 			return head;
 		}
 
@@ -80,10 +103,23 @@ public class SequenceImpl extends ComplexTypeImpl implements Sequence {
 
 	}
 
-	public class SequenceIterable implements Iterable<XMLSchemaType> {
+	/**
+	 * An {@link Iterable} on {@link XMLSchemaType} elements of this
+	 * {@link Sequence}.
+	 * 
+	 * @author Matthieu Wipliez
+	 * 
+	 */
+	private class SequenceIterable implements Iterable<XMLSchemaType> {
 
 		private SequenceImpl sequence;
 
+		/**
+		 * Creates a new {@link SequenceIterable} on this {@link SequenceImpl}.
+		 * 
+		 * @param sequence
+		 *            The sequence.
+		 */
 		public SequenceIterable(SequenceImpl sequence) {
 			this.sequence = sequence;
 		}

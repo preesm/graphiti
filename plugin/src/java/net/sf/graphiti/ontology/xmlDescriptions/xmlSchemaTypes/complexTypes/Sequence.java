@@ -42,10 +42,10 @@ import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 public interface Sequence extends ComplexType {
 
 	/**
-	 * Returns an {@link Iterable} on {@link OntologyIndividual} that this
+	 * Returns an {@link Iterable} on {@link OntologyIndividual}s that this
 	 * "sequence" complex type contains.
 	 * 
-	 * @return An {@link Iterable} on {@link OntologyIndividual} that this
+	 * @return An {@link Iterable} on {@link OntologyIndividual}s that this
 	 *         "sequence" complex type contains.
 	 */
 	public Iterable<XMLSchemaType> hasElements();
