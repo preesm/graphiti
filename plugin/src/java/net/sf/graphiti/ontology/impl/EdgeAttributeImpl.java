@@ -31,8 +31,8 @@ package net.sf.graphiti.ontology.impl;
 import java.util.Set;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.domAttributes.edgeAttributes.EdgeAttribute;
-import net.sf.graphiti.ontology.elements.Element;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.edgeAttributes.EdgeAttribute;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -42,7 +42,7 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author Matthieu Wipliez
  * 
  */
-public class EdgeAttributeImpl extends DOMAttributeImpl implements
+public class EdgeAttributeImpl extends XMLAttributeImpl implements
 		EdgeAttribute {
 
 	public EdgeAttributeImpl(Individual individual) {

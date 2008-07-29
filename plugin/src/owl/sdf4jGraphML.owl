@@ -29,94 +29,126 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <owl:imports rdf:resource="http://net.sf.graphiti/GraphML.owl"/>
   </owl:Ontology>
   <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#EdgeElement">
-    <basic:element_hasElementChildren>
-      <basic:TextContentElement rdf:ID="TextContentElementDataEdgeDelay">
-        <basic:textContentElement_referencesParameter>
-          <basic:EdgeParameter rdf:ID="EdgeParameterEdgeDelay">
-            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Integer"/>
-            <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >edgeDelay</basic:parameter_hasName>
-            <basic:parameter_ofInfoElement rdf:resource="#TextContentElementDataEdgeDelay"/>
-            <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#Center"/>
-            <basic:parameter_appliesTo>
-              <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#EdgeType">
-                <basic:type_hasParameters>
-                  <basic:EdgeParameter rdf:ID="EdgeParameterEdgeConsumption">
-                    <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Integer"/>
-                    <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                    >edgeConsumption</basic:parameter_hasName>
-                    <basic:parameter_appliesTo rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeType"/>
-                    <basic:parameter_ofInfoElement>
-                      <basic:TextContentElement rdf:ID="TextContentElementDataEdgeConsumption">
-                        <basic:textContentElement_referencesParameter rdf:resource="#EdgeParameterEdgeConsumption"/>
-                        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                        >data</basic:element_hasName>
-                        <basic:element_hasAttributeRestriction>
-                          <basic:AttributeRestriction rdf:ID="AttributeRestrictionEdgeConsumption">
-                            <basic:attributeRestriction_hasValue
-                             rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                            >edge_cons</basic:attributeRestriction_hasValue>
-                            <basic:attributeRestriction_ofElement rdf:resource="#TextContentElementDataEdgeConsumption"/>
-                            <basic:attributeRestriction_hasName
-                             rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                            >key</basic:attributeRestriction_hasName>
-                          </basic:AttributeRestriction>
-                        </basic:element_hasAttributeRestriction>
-                      </basic:TextContentElement>
-                    </basic:parameter_ofInfoElement>
-                    <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#West"/>
-                  </basic:EdgeParameter>
-                </basic:type_hasParameters>
-                <basic:type_hasParameters>
-                  <basic:EdgeParameter rdf:ID="EdgeParameterEdgeProduction">
-                    <basic:parameter_ofInfoElement>
-                      <basic:TextContentElement rdf:ID="TextContentElementDataEdgeProduction">
-                        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                        >data</basic:element_hasName>
-                        <basic:element_hasAttributeRestriction>
-                          <basic:AttributeRestriction rdf:ID="AttributeRestrictionEdgeProduction">
-                            <basic:attributeRestriction_hasValue
-                             rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                            >edge_prod</basic:attributeRestriction_hasValue>
-                            <basic:attributeRestriction_hasName
-                             rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                            >key</basic:attributeRestriction_hasName>
-                            <basic:attributeRestriction_ofElement rdf:resource="#TextContentElementDataEdgeProduction"/>
-                          </basic:AttributeRestriction>
-                        </basic:element_hasAttributeRestriction>
-                        <basic:textContentElement_referencesParameter rdf:resource="#EdgeParameterEdgeProduction"/>
-                      </basic:TextContentElement>
-                    </basic:parameter_ofInfoElement>
-                    <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                    >edgeProduction</basic:parameter_hasName>
-                    <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#East"/>
-                    <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Integer"/>
-                    <basic:parameter_appliesTo rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeType"/>
-                  </basic:EdgeParameter>
-                </basic:type_hasParameters>
-                <basic:type_hasParameters rdf:resource="#EdgeParameterEdgeDelay"/>
-              </rdf:Description>
-            </basic:parameter_appliesTo>
-          </basic:EdgeParameter>
-        </basic:textContentElement_referencesParameter>
-        <basic:element_hasAttributeRestriction>
-          <basic:AttributeRestriction rdf:ID="AttributeRestrictionEdgeDelay">
-            <basic:attributeRestriction_hasName rdf:datatype=
-            "http://www.w3.org/2001/XMLSchema#string">key</basic:attributeRestriction_hasName>
-            <basic:attributeRestriction_ofElement rdf:resource="#TextContentElementDataEdgeDelay"/>
-            <basic:attributeRestriction_hasValue rdf:datatype=
-            "http://www.w3.org/2001/XMLSchema#string">edge_delay</basic:attributeRestriction_hasValue>
-          </basic:AttributeRestriction>
-        </basic:element_hasAttributeRestriction>
-        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >data</basic:element_hasName>
-      </basic:TextContentElement>
-    </basic:element_hasElementChildren>
-    <basic:element_hasElementChildren rdf:resource="#TextContentElementDataEdgeProduction"/>
-    <basic:element_hasElementChildren rdf:resource="#TextContentElementDataEdgeConsumption"/>
+    <basic:element_hasSchemaType>
+      <basic:Sequence rdf:ID="SequenceEdgeElement1">
+        <basic:sequence_hasHead>
+          <basic:TextContentElement rdf:ID="TextContentElementDataEdgeProduction">
+            <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >data</basic:element_hasName>
+            <basic:element_hasAttributeRestriction>
+              <basic:AttributeRestriction rdf:ID="AttributeRestrictionEdgeProduction">
+                <basic:attributeRestriction_hasValue rdf:datatype=
+                "http://www.w3.org/2001/XMLSchema#string">edge_prod</basic:attributeRestriction_hasValue>
+                <basic:attributeRestriction_hasName rdf:datatype=
+                "http://www.w3.org/2001/XMLSchema#string">key</basic:attributeRestriction_hasName>
+                <basic:attributeRestriction_ofElement rdf:resource="#TextContentElementDataEdgeProduction"/>
+              </basic:AttributeRestriction>
+            </basic:element_hasAttributeRestriction>
+            <basic:textContentElement_referencesParameter>
+              <basic:EdgeParameter rdf:ID="EdgeParameterEdgeProduction">
+                <basic:parameter_ofInfoElement rdf:resource="#TextContentElementDataEdgeProduction"/>
+                <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >edgeProduction</basic:parameter_hasName>
+                <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#East"/>
+                <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Integer"/>
+                <basic:parameter_appliesTo>
+                  <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#EdgeType">
+                    <basic:type_hasParameters>
+                      <basic:EdgeParameter rdf:ID="EdgeParameterEdgeConsumption">
+                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Integer"/>
+                        <basic:parameter_hasName rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >edgeConsumption</basic:parameter_hasName>
+                        <basic:parameter_appliesTo rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeType"/>
+                        <basic:parameter_ofInfoElement>
+                          <basic:TextContentElement rdf:ID="TextContentElementDataEdgeConsumption">
+                            <basic:textContentElement_referencesParameter rdf:resource="#EdgeParameterEdgeConsumption"/>
+                            <basic:element_maxOccurs rdf:datatype=
+                            "http://www.w3.org/2001/XMLSchema#int"
+                            >1</basic:element_maxOccurs>
+                            <basic:element_hasName rdf:datatype=
+                            "http://www.w3.org/2001/XMLSchema#string"
+                            >data</basic:element_hasName>
+                            <basic:element_hasAttributeRestriction>
+                              <basic:AttributeRestriction rdf:ID="AttributeRestrictionEdgeConsumption">
+                                <basic:attributeRestriction_hasValue
+                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                >edge_cons</basic:attributeRestriction_hasValue>
+                                <basic:attributeRestriction_ofElement rdf:resource="#TextContentElementDataEdgeConsumption"/>
+                                <basic:attributeRestriction_hasName
+                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                >key</basic:attributeRestriction_hasName>
+                              </basic:AttributeRestriction>
+                            </basic:element_hasAttributeRestriction>
+                            <basic:element_minOccurs rdf:datatype=
+                            "http://www.w3.org/2001/XMLSchema#int"
+                            >1</basic:element_minOccurs>
+                          </basic:TextContentElement>
+                        </basic:parameter_ofInfoElement>
+                        <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#West"/>
+                      </basic:EdgeParameter>
+                    </basic:type_hasParameters>
+                    <basic:type_hasParameters rdf:resource="#EdgeParameterEdgeProduction"/>
+                    <basic:type_hasParameters>
+                      <basic:EdgeParameter rdf:ID="EdgeParameterEdgeDelay">
+                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Integer"/>
+                        <basic:parameter_hasName rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >edgeDelay</basic:parameter_hasName>
+                        <basic:parameter_ofInfoElement>
+                          <basic:TextContentElement rdf:ID="TextContentElementDataEdgeDelay">
+                            <basic:textContentElement_referencesParameter rdf:resource="#EdgeParameterEdgeDelay"/>
+                            <basic:element_minOccurs rdf:datatype=
+                            "http://www.w3.org/2001/XMLSchema#int"
+                            >1</basic:element_minOccurs>
+                            <basic:element_hasAttributeRestriction>
+                              <basic:AttributeRestriction rdf:ID="AttributeRestrictionEdgeDelay">
+                                <basic:attributeRestriction_hasName
+                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                >key</basic:attributeRestriction_hasName>
+                                <basic:attributeRestriction_ofElement rdf:resource="#TextContentElementDataEdgeDelay"/>
+                                <basic:attributeRestriction_hasValue
+                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                >edge_delay</basic:attributeRestriction_hasValue>
+                              </basic:AttributeRestriction>
+                            </basic:element_hasAttributeRestriction>
+                            <basic:element_hasName rdf:datatype=
+                            "http://www.w3.org/2001/XMLSchema#string"
+                            >data</basic:element_hasName>
+                            <basic:element_maxOccurs rdf:datatype=
+                            "http://www.w3.org/2001/XMLSchema#int"
+                            >1</basic:element_maxOccurs>
+                          </basic:TextContentElement>
+                        </basic:parameter_ofInfoElement>
+                        <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#Center"/>
+                        <basic:parameter_appliesTo rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeType"/>
+                      </basic:EdgeParameter>
+                    </basic:type_hasParameters>
+                  </rdf:Description>
+                </basic:parameter_appliesTo>
+              </basic:EdgeParameter>
+            </basic:textContentElement_referencesParameter>
+            <basic:element_minOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >1</basic:element_minOccurs>
+            <basic:element_maxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >1</basic:element_maxOccurs>
+          </basic:TextContentElement>
+        </basic:sequence_hasHead>
+        <basic:sequence_hasRest>
+          <basic:Sequence rdf:ID="SequenceEdgeElement2">
+            <basic:sequence_hasRest>
+              <basic:Sequence rdf:ID="SequenceEdgeElement3">
+                <basic:sequence_hasHead rdf:resource="#TextContentElementDataEdgeConsumption"/>
+              </basic:Sequence>
+            </basic:sequence_hasRest>
+            <basic:sequence_hasHead rdf:resource="#TextContentElementDataEdgeDelay"/>
+          </basic:Sequence>
+        </basic:sequence_hasRest>
+      </basic:Sequence>
+    </basic:element_hasSchemaType>
   </rdf:Description>
   <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#VertexElement">
-    <basic:element_hasElementChildren>
+    <basic:element_hasSchemaType>
       <basic:TextContentElement rdf:ID="TextContentElementVertexName">
         <basic:element_hasAttributeRestriction>
           <basic:AttributeRestriction rdf:ID="AttributeRestrictionVertexName">
@@ -129,6 +161,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         </basic:element_hasAttributeRestriction>
         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >data</basic:element_hasName>
+        <basic:element_minOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</basic:element_minOccurs>
         <basic:textContentElement_referencesParameter>
           <basic:VertexParameter rdf:ID="VertexParameterName">
             <basic:parameter_ofInfoElement rdf:resource="#TextContentElementVertexName"/>
@@ -141,8 +175,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             </basic:parameter_appliesTo>
           </basic:VertexParameter>
         </basic:textContentElement_referencesParameter>
+        <basic:element_maxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</basic:element_maxOccurs>
       </basic:TextContentElement>
-    </basic:element_hasElementChildren>
+    </basic:element_hasSchemaType>
   </rdf:Description>
   <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#DocumentElementGraphML">
     <basic:element_hasAttributeRestriction>

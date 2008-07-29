@@ -26,27 +26,29 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements;
+package net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes;
 
-import net.sf.graphiti.ontology.parameters.Parameter;
+import java.util.Set;
+
+import net.sf.graphiti.ontology.OntologyIndividual;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
 /**
- * This class provides the ontology-defined representation of a DOM element in
- * the input XML document. An {@link TextContentElement} contains information
- * (text content) in its body that is associated to a {@link Parameter}.
+ * This class provides a representation of a choice of an element among n.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface TextContentElement extends Element {
+public interface Choice extends ComplexType {
 
 	/**
-	 * Returns a {@link Parameter} referenced by this {@link TextContentElement}
-	 * .
+	 * Returns a set of {@link OntologyIndividual} that this "choice" complex
+	 * type contains.
 	 * 
-	 * @return A {@link Parameter} referenced by this {@link TextContentElement}
-	 *         .
+	 * @return A set of {@link OntologyIndividual} that this "choice" complex
+	 *         type contains.
 	 */
-	public Parameter referencesParameter();
+	public Set<XMLSchemaType> hasElements();
+
 }

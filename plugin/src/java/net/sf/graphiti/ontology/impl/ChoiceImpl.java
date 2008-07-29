@@ -26,16 +26,33 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements;
+package net.sf.graphiti.ontology.impl;
+
+import java.util.Set;
+
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Choice;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides the ontology-defined representation of the DOM document
- * element in the input XML document.
+ * Implementation of Choice.
  * 
- * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface DocumentElement extends Element {
+public class ChoiceImpl extends ComplexTypeImpl implements Choice {
+
+	public ChoiceImpl(Individual individual) {
+		super(individual);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Set<XMLSchemaType> hasElements() {
+		return (Set<XMLSchemaType>) listIndividuals(OntologyFactory
+				.getPropertyChoiceHasElements());
+	}
 
 }

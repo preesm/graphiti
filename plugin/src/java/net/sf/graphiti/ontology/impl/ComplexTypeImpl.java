@@ -28,33 +28,21 @@
  */
 package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.ComplexType;
 
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * Implementation of DOMAttribute.
+ * Implementation of ComplexType.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class DOMAttributeImpl extends OntologyIndividualImpl implements
-		DOMAttribute {
+public class ComplexTypeImpl extends OntologyIndividualImpl implements
+		ComplexType {
 
-	public DOMAttributeImpl(Individual individual) {
+	public ComplexTypeImpl(Individual individual) {
 		super(individual);
-	}
-
-	@Override
-	public String hasName() {
-		return getStringProperty(OntologyFactory
-				.getPropertyDOMAttributeHasName());
-	}
-
-	public String toString() {
-		String res = super.toString();
-		return res;
 	}
 
 }

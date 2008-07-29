@@ -50,15 +50,15 @@ import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.SkipDOMNode;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
-import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
-import net.sf.graphiti.ontology.domAttributes.edgeAttributes.EdgeAttribute;
-import net.sf.graphiti.ontology.domAttributes.otherAttributes.OtherAttribute;
-import net.sf.graphiti.ontology.elements.DocumentElement;
-import net.sf.graphiti.ontology.elements.Element;
-import net.sf.graphiti.ontology.elements.TextContentElement;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import net.sf.graphiti.ontology.parameters.Parameter;
+import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeRestriction;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.edgeAttributes.EdgeAttribute;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.otherAttributes.OtherAttribute;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.TextContentElement;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -194,9 +194,9 @@ public class GenericGraphFileParser {
 				}
 			}
 
-			if (ontNode.hasOntClass(OntologyFactory.getClassDOMAttribute())
+			if (ontNode.hasOntClass(OntologyFactory.getClassXMLAttribute())
 					&& correspond) {
-				parseAttribute((DOMAttribute) ontNode, domNode, parentElement);
+				parseAttribute((XMLAttribute) ontNode, domNode, parentElement);
 			}
 		}
 
@@ -295,7 +295,7 @@ public class GenericGraphFileParser {
 	 * @param parentElement
 	 *            the parent OntologyNode
 	 */
-	private void parseAttribute(DOMAttribute ontNode, Node attribute,
+	private void parseAttribute(XMLAttribute ontNode, Node attribute,
 			PropertyBean parentElement) {
 		PropertyBean trueParentElement;
 		// if the element to write is a SkipDOMNode this means that this node
@@ -348,12 +348,12 @@ public class GenericGraphFileParser {
 	 * @param parentElement
 	 *            the parent node
 	 */
-	private void parseAttributeOrStoreDOMAttribute(Set<DOMAttribute> ontNodes,
+	private void parseAttributeOrStoreDOMAttribute(Set<XMLAttribute> ontNodes,
 			Node attribute, DOMNode parentElement) {
 		if (ontNodes != null) {
 			// We iterate over the ontology nodes to see if the DOM attribute is
 			// defined.
-			for (DOMAttribute ontNode : ontNodes) {
+			for (XMLAttribute ontNode : ontNodes) {
 				String name = ontNode.hasName();
 				if (attribute.getNodeName().equals(name)) {
 					// This attribute is defined by the ontology, we parse it
@@ -385,7 +385,7 @@ public class GenericGraphFileParser {
 	 */
 	private void parseAttributes(Element ontElement, Node domNode,
 			DOMNode element) {
-		Set<DOMAttribute> attributesNodes = ontElement.hasAttributes();
+		Set<XMLAttribute> attributesNodes = ontElement.hasAttributes();
 
 		// parses the nodes having a DOM implementation
 		NamedNodeMap attributes = domNode.getAttributes();

@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.ontology.elements.DocumentElement;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
 
 import com.hp.hpl.jena.ontology.Individual;
 

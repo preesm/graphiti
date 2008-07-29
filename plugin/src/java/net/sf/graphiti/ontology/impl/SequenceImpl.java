@@ -26,28 +26,82 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.domAttributes;
+package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.ontology.OntologyIndividual;
-import net.sf.graphiti.ontology.domAttributes.edgeAttributes.EdgeAttribute;
-import net.sf.graphiti.ontology.domAttributes.otherAttributes.OtherAttribute;
+import java.util.Iterator;
+
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Sequence;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides a representation of a DOM attribute. It is not supposed
- * to be used directly, only {@link EdgeAttribute} and {@link OtherAttribute}
- * have useful methods.
+ * Implementation of Sequence.
  * 
- * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface DOMAttribute extends OntologyIndividual {
+public class SequenceImpl extends ComplexTypeImpl implements Sequence {
 
-	/**
-	 * Returns the name of this DOM attribute.
-	 * 
-	 * @return The name of this DOM attribute.
-	 */
-	public String hasName();
+	public class SequenceIterator implements Iterator<XMLSchemaType> {
+
+		private XMLSchemaType head;
+
+		private SequenceImpl rest;
+
+		public SequenceIterator(SequenceImpl sequence) {
+			this.rest = sequence;
+		}
+
+		@Override
+		public boolean hasNext() {
+			if (rest == null) {
+				return false;
+			} else {
+				head = (XMLSchemaType) rest
+						.getIndividualProperty(OntologyFactory
+								.getPropertySequenceHasHead());
+				return (head != null);
+			}
+		}
+
+		@Override
+		public XMLSchemaType next() {
+			rest = (SequenceImpl) getIndividualProperty(OntologyFactory
+					.getPropertySequenceHasRest());
+			return head;
+		}
+
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
+
+	}
+
+	public class SequenceIterable implements Iterable<XMLSchemaType> {
+
+		private SequenceImpl sequence;
+
+		public SequenceIterable(SequenceImpl sequence) {
+			this.sequence = sequence;
+		}
+
+		@Override
+		public Iterator<XMLSchemaType> iterator() {
+			return new SequenceIterator(sequence);
+		}
+
+	}
+
+	public SequenceImpl(Individual individual) {
+		super(individual);
+	}
+
+	@Override
+	public Iterable<XMLSchemaType> hasElements() {
+		return new SequenceIterable(this);
+	}
 
 }

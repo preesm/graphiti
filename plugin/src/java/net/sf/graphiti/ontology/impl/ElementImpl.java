@@ -31,10 +31,11 @@ package net.sf.graphiti.ontology.impl;
 import java.util.Set;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
-import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
-import net.sf.graphiti.ontology.elements.Element;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
+import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeRestriction;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -59,16 +60,9 @@ public class ElementImpl extends OntologyIndividualImpl implements Element {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Set<DOMAttribute> hasAttributes() {
-		return (Set<DOMAttribute>) listIndividuals(OntologyFactory
+	public Set<XMLAttribute> hasAttributes() {
+		return (Set<XMLAttribute>) listIndividuals(OntologyFactory
 				.getPropertyElementHasAttributes());
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public Set<Element> hasElementChildren() {
-		return (Set<Element>) listIndividuals(OntologyFactory
-				.getPropertyElementHasElementChildren());
 	}
 
 	@Override
@@ -83,14 +77,14 @@ public class ElementImpl extends OntologyIndividualImpl implements Element {
 				.getPropertyElementHasParameterValue());
 	}
 
-	@Override
-	public Element hasPrecedenceElement() {
-		return (Element) getIndividualProperty(OntologyFactory
-				.getPropertyElementHasPrecedenceElement());
-	}
-
 	public String toString() {
 		return super.toString() + " | OntologyElement: hasName: " + hasName()
 				+ ", hasAttributeNode: " + hasAttributes();
+	}
+
+	@Override
+	public XMLSchemaType hasSchemaType() {
+		return (XMLSchemaType) getIndividualProperty(OntologyFactory
+				.getPropertyElementHasSchemaType());
 	}
 }

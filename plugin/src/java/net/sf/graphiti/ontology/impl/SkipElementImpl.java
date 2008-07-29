@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.ontology.elements.SkipElement;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.SkipElement;
 
 import com.hp.hpl.jena.ontology.Individual;
 

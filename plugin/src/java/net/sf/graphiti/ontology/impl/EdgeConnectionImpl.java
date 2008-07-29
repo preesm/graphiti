@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.ontology.domAttributes.edgeAttributes.EdgeConnection;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.edgeAttributes.EdgeConnection;
 
 import com.hp.hpl.jena.ontology.Individual;
 

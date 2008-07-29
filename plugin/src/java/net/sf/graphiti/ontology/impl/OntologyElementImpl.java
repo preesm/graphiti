@@ -32,7 +32,7 @@ import java.util.Set;
 
 import net.sf.graphiti.ontology.OntologyElement;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.elements.DocumentElement;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
 
 import com.hp.hpl.jena.ontology.Ontology;
 

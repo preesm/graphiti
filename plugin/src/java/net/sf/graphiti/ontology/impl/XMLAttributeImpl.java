@@ -26,15 +26,35 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements;
+package net.sf.graphiti.ontology.impl;
+
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides the ontology-defined representation of a DOM graph
- * element in the input XML document.
+ * Implementation of XMLAttribute.
  * 
- * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface GraphElement extends Element {
+public class XMLAttributeImpl extends OntologyIndividualImpl implements
+		XMLAttribute {
+
+	public XMLAttributeImpl(Individual individual) {
+		super(individual);
+	}
+
+	@Override
+	public String hasName() {
+		return getStringProperty(OntologyFactory
+				.getPropertyDOMAttributeHasName());
+	}
+
+	public String toString() {
+		String res = super.toString();
+		return res;
+	}
+
 }

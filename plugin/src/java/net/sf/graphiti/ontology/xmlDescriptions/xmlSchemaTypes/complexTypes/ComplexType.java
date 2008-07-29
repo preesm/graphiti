@@ -26,28 +26,18 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.domAttributes.edgeAttributes;
+package net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes;
 
-import java.util.Set;
-
-import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
-import net.sf.graphiti.ontology.elements.Element;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
 /**
- * This class provides a DOM attribute that is specific to edges. It can make
- * reference to any {@link Element} in the ontology.
+ * This class provides the ontology-defined representation of a DOM element in
+ * the input XML document.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface EdgeAttribute extends DOMAttribute {
-
-	/**
-	 * Returns a set of {@link Element}s this attribute can reference.
-	 * 
-	 * @return A set of {@link Element}s this attribute can reference.
-	 */
-	public Set<Element> isReferenceTo();
+public interface ComplexType extends XMLSchemaType {
 
 }

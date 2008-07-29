@@ -26,14 +26,10 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements;
-
-import java.util.Set;
+package net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes;
 
 import net.sf.graphiti.ontology.OntologyIndividual;
-import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
-import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
-import net.sf.graphiti.ontology.parameterValues.ParameterValue;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
 /**
  * This class provides the ontology-defined representation of a DOM element in
@@ -43,58 +39,15 @@ import net.sf.graphiti.ontology.parameterValues.ParameterValue;
  * @author Matthieu Wipliez
  * 
  */
-public interface Element extends OntologyIndividual {
+public interface Sequence extends ComplexType {
 
 	/**
-	 * Returns a set of {@link AttributeRestriction} that may be associated with
-	 * this {@link Element}.
+	 * Returns an {@link Iterable} on {@link OntologyIndividual} that this
+	 * "sequence" complex type contains.
 	 * 
-	 * @return A set of {@link AttributeRestriction} that may be associated with
-	 *         this {@link Element}.
+	 * @return An {@link Iterable} on {@link OntologyIndividual} that this
+	 *         "sequence" complex type contains.
 	 */
-	public Set<AttributeRestriction> hasAttributeRestriction();
-
-	/**
-	 * Returns a set of {@link DOMAttribute} that may be associated with this
-	 * {@link Element}.
-	 * 
-	 * @return A set of {@link DOMAttribute} that may be associated with this
-	 *         {@link Element}.
-	 */
-	public Set<DOMAttribute> hasAttributes();
-
-	/**
-	 * Returns a set of {@link Element} that may be children of this
-	 * {@link Element}.
-	 * 
-	 * @return A set of {@link Element} that may be children of this
-	 *         {@link Element}.
-	 */
-	public Set<Element> hasElementChildren();
-
-	/**
-	 * Returns the name of this {@link Element}.
-	 * 
-	 * @return The name of this {@link Element}.
-	 */
-	public String hasName();
-
-	/**
-	 * Returns a set of {@link ParameterValue} that may be associated with this
-	 * {@link Element}.
-	 * 
-	 * @return A set of {@link ParameterValue} that may be associated with this
-	 *         {@link Element}.
-	 */
-	public Set<ParameterValue> hasParameterValues();
-
-	/**
-	 * Returns an {@link Element} that should appear before this one (if any,
-	 * otherwise <code>null</code>).
-	 * 
-	 * @return An {@link Element} that should appear before this one (if any,
-	 *         otherwise <code>null</code>).
-	 */
-	public Element hasPrecedenceElement();
+	public Iterable<XMLSchemaType> hasElements();
 
 }

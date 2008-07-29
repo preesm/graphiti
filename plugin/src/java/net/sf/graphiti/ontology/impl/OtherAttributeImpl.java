@@ -29,8 +29,8 @@
 package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.domAttributes.otherAttributes.OtherAttribute;
 import net.sf.graphiti.ontology.parameters.Parameter;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.otherAttributes.OtherAttribute;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -40,7 +40,7 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author Matthieu Wipliez
  * 
  */
-public class OtherAttributeImpl extends DOMAttributeImpl implements
+public class OtherAttributeImpl extends XMLAttributeImpl implements
 		OtherAttribute {
 
 	public OtherAttributeImpl(Individual individual) {

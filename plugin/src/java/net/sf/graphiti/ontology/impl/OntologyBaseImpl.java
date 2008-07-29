@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
 import com.hp.hpl.jena.ontology.DatatypeProperty;
 import com.hp.hpl.jena.ontology.Individual;
@@ -59,10 +60,6 @@ public class OntologyBaseImpl {
 	private static Map<String, Class<?>> classes = new HashMap<String, Class<?>>();
 
 	static {
-		// AttributeRestriction
-		classes.put(OntologyFactory.getClassAttributeRestriction(),
-				AttributeRestrictionImpl.class);
-
 		// FigureAttribute
 		classes.put(OntologyFactory.getClassColorAttribute(),
 				ColorAttributeImpl.class);
@@ -71,9 +68,40 @@ public class OntologyBaseImpl {
 		classes.put(OntologyFactory.getClassShapeAttribute(),
 				ShapeAttributeImpl.class);
 
-		// DOM attribute
-		classes.put(OntologyFactory.getClassDOMAttribute(),
-				DOMAttributeImpl.class);
+		// Enums
+		classes.put(OntologyFactory.getClassShapes(), ShapesImpl.class);
+		classes.put(OntologyFactory.getClassColors(), ColorsImpl.class);
+		classes.put(OntologyFactory.getClassDataTypes(), DataTypesImpl.class);
+		classes.put(OntologyFactory.getClassPosition(), PositionImpl.class);
+
+		// Parameter
+		classes.put(OntologyFactory.getClassEdgeParameter(),
+				EdgeParameterImpl.class);
+		classes.put(OntologyFactory.getClassGraphParameter(),
+				GraphParameterImpl.class);
+		classes.put(OntologyFactory.getClassParameter(), ParameterImpl.class);
+		classes.put(OntologyFactory.getClassVertexParameter(),
+				VertexParameterImpl.class);
+
+		// ParameterValue
+		classes.put(OntologyFactory.getClassParameterValue(),
+				ParameterValueImpl.class);
+
+		// Types
+		classes.put(OntologyFactory.getClassEdgeType(), EdgeTypeImpl.class);
+		classes.put(OntologyFactory.getClassGraphType(), GraphTypeImpl.class);
+		classes.put(OntologyFactory.getClassType(), TypeImpl.class);
+		classes.put(OntologyFactory.getClassVertexType(), VertexTypeImpl.class);
+
+		// XML Description
+
+		// AttributeRestriction
+		classes.put(OntologyFactory.getClassAttributeRestriction(),
+				AttributeRestrictionImpl.class);
+
+		// XML attribute
+		classes.put(OntologyFactory.getClassXMLAttribute(),
+				XMLAttributeImpl.class);
 
 		// OtherAttribute
 		classes.put(OntologyFactory.getClassOtherAttribute(),
@@ -89,6 +117,17 @@ public class OntologyBaseImpl {
 		classes.put(OntologyFactory.getClassEdgeTargetConnection(),
 				EdgeTargetConnectionImpl.class);
 
+		// XML Schema Type
+		classes.put(OntologyFactory.getClassXMLSchemaType(),
+				XMLSchemaType.class);
+
+		// Complex Type
+		classes.put(OntologyFactory.getClassComplexType(),
+				ComplexTypeImpl.class);
+		classes.put(OntologyFactory.getClassAll(), AllImpl.class);
+		classes.put(OntologyFactory.getClassChoice(), ChoiceImpl.class);
+		classes.put(OntologyFactory.getClassSequence(), SequenceImpl.class);
+
 		// Element
 		classes.put(OntologyFactory.getClassDocumentElement(),
 				DocumentElementImpl.class);
@@ -103,31 +142,6 @@ public class OntologyBaseImpl {
 				SkipElementImpl.class);
 		classes.put(OntologyFactory.getClassVertexElement(),
 				VertexElementImpl.class);
-
-		// enums
-		classes.put(OntologyFactory.getClassShapes(), ShapesImpl.class);
-		classes.put(OntologyFactory.getClassColors(), ColorsImpl.class);
-		classes.put(OntologyFactory.getClassDataTypes(), DataTypesImpl.class);
-		classes.put(OntologyFactory.getClassPosition(), PositionImpl.class);
-
-		// ParameterValue
-		classes.put(OntologyFactory.getClassParameterValue(),
-				ParameterValueImpl.class);
-
-		// Parameter
-		classes.put(OntologyFactory.getClassEdgeParameter(),
-				EdgeParameterImpl.class);
-		classes.put(OntologyFactory.getClassGraphParameter(),
-				GraphParameterImpl.class);
-		classes.put(OntologyFactory.getClassParameter(), ParameterImpl.class);
-		classes.put(OntologyFactory.getClassVertexParameter(),
-				VertexParameterImpl.class);
-
-		// Types
-		classes.put(OntologyFactory.getClassEdgeType(), EdgeTypeImpl.class);
-		classes.put(OntologyFactory.getClassGraphType(), GraphTypeImpl.class);
-		classes.put(OntologyFactory.getClassType(), TypeImpl.class);
-		classes.put(OntologyFactory.getClassVertexType(), VertexTypeImpl.class);
 	}
 
 	/**

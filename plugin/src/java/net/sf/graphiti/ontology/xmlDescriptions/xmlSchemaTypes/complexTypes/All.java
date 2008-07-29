@@ -26,15 +26,28 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements;
+package net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes;
+
+import java.util.Set;
+
+import net.sf.graphiti.ontology.OntologyIndividual;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
 /**
- * This class provides the ontology-defined representation of a DOM vertex
- * element in the input XML document.
+ * This class provides a representation of a set of n elements.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface VertexElement extends Element {
+public interface All extends ComplexType {
+
+	/**
+	 * Returns a set of {@link OntologyIndividual} that this "all" complex type
+	 * contains.
+	 * 
+	 * @return A set of {@link OntologyIndividual} that this "all" complex type
+	 *         contains.
+	 */
+	public Set<XMLSchemaType> hasElements();
 }

@@ -26,15 +26,17 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.elements;
+package net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes;
+
+import net.sf.graphiti.ontology.OntologyIndividual;
 
 /**
- * This class provides the ontology-defined representation of a DOM edge element
- * in the input XML document.
+ * This class provides a representation of an XML Schema type.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface EdgeElement extends Element {
+public interface XMLSchemaType extends OntologyIndividual {
+	
 }

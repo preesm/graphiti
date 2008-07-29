@@ -53,12 +53,12 @@ import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.model.SkipDOMNode;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.attributeRestrictions.AttributeRestriction;
-import net.sf.graphiti.ontology.domAttributes.DOMAttribute;
-import net.sf.graphiti.ontology.domAttributes.otherAttributes.OtherAttribute;
-import net.sf.graphiti.ontology.elements.DocumentElement;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import net.sf.graphiti.ontology.parameters.Parameter;
+import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeRestriction;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.otherAttributes.OtherAttribute;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -103,7 +103,7 @@ public class GenericGraphFileWriter {
 	 * @return The element created.
 	 */
 	private Element createElement(
-			net.sf.graphiti.ontology.elements.Element ontologyElement,
+			net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element ontologyElement,
 			Node domParentNode) {
 		Element element = domDocument.createElement(ontologyElement.hasName());
 		domParentNode.appendChild(element);
@@ -124,7 +124,7 @@ public class GenericGraphFileWriter {
 	}
 
 	boolean isNodeInstance(DOMNode inst,
-			net.sf.graphiti.ontology.elements.Element ontNode) {
+			net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element ontNode) {
 		boolean isNodeInstance = true;
 		if(inst.getClass().equals(DOMNode.class)){
 			return false ;
@@ -221,15 +221,15 @@ public class GenericGraphFileWriter {
 	 *            The parent node in the dom tree
 	 */
 	private void writeCorrespondingNode(
-			Set<net.sf.graphiti.ontology.elements.Element> nodes,
+			Set<net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element> nodes,
 			DOMNode element, Node parentNode) {
 		List<DOMNode> treated = new ArrayList<DOMNode>();
-		List<net.sf.graphiti.ontology.elements.Element> ontologyElements = new ArrayList<net.sf.graphiti.ontology.elements.Element>(
+		List<net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element> ontologyElements = new ArrayList<net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element>(
 				nodes);
 		// while elements are to be written
 		while (ontologyElements.size() > 0) {
 			// obtain the current element
-			net.sf.graphiti.ontology.elements.Element node = ontologyElements
+			net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element node = ontologyElements
 					.get(0);
 			// check if elements needs to be written previously
 			while (node.hasPrecedenceElement() != null
@@ -308,7 +308,7 @@ public class GenericGraphFileWriter {
 				}
 				parentNode.appendChild(newElt);
 				writeCorrespondingNode(
-						new TreeSet<net.sf.graphiti.ontology.elements.Element>(),
+						new TreeSet<net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element>(),
 						childElement, newElt);
 			}
 		}
@@ -325,7 +325,7 @@ public class GenericGraphFileWriter {
 	 * @param parentNode
 	 *            The parent node is the DOM tree
 	 */
-	private void writeNode(net.sf.graphiti.ontology.elements.Element node,
+	private void writeNode(net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element node,
 			DOMNode element, Node parentNode) {
 		DOMNode trueElement;
 
@@ -357,7 +357,7 @@ public class GenericGraphFileWriter {
 		}
 
 		// Write the node attributes
-		for (DOMAttribute attr : node.hasAttributes()) {
+		for (XMLAttribute attr : node.hasAttributes()) {
 			if (attr.hasOntClass(OntologyFactory.getClassOtherAttribute())
 					&& (!attr.hasOntClass(OntologyFactory
 							.getClassParameterValue()))) {

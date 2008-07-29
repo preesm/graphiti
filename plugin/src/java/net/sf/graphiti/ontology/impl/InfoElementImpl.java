@@ -29,8 +29,8 @@
 package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.elements.TextContentElement;
 import net.sf.graphiti.ontology.parameters.Parameter;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.TextContentElement;
 
 import com.hp.hpl.jena.ontology.Individual;
 
