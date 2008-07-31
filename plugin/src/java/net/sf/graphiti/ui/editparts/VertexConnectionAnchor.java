@@ -44,11 +44,11 @@ import org.eclipse.draw2d.geometry.Rectangle;
  */
 public class VertexConnectionAnchor extends AbstractConnectionAnchor {
 
+	private int anchorNumber;
+
 	private int direction;
 
 	private boolean isTarget;
-
-	private int anchorNumber;
 
 	private int nbAnchors;
 
@@ -71,7 +71,7 @@ public class VertexConnectionAnchor extends AbstractConnectionAnchor {
 	public VertexConnectionAnchor(int direction, boolean isTarget,
 			int anchorNumber, int nbAnchors, VertexFigure owner) {
 		super(owner);
-		
+
 		this.direction = direction;
 		this.isTarget = isTarget;
 		this.anchorNumber = anchorNumber;
@@ -86,7 +86,7 @@ public class VertexConnectionAnchor extends AbstractConnectionAnchor {
 		reference = getNewReference();
 		return anchor.getLocation(reference);
 	}
-	
+
 	/**
 	 * TODO: javadoc.
 	 */
@@ -98,13 +98,15 @@ public class VertexConnectionAnchor extends AbstractConnectionAnchor {
 		double angle = ratio * Math.PI;
 		if (direction == PositionConstants.EAST) {
 			if (isTarget) {
-				angle += Math.PI / 2.0;
+				angle = 3.0 * Math.PI / 2.0 - angle;
 			} else {
 				angle -= Math.PI / 2.0;
 			}
 		} else {
 			if (isTarget) {
 				angle += Math.PI;
+			} else {
+				angle = Math.PI - angle;
 			}
 		}
 
@@ -120,6 +122,17 @@ public class VertexConnectionAnchor extends AbstractConnectionAnchor {
 
 	public Point getReferencePoint() {
 		return super.getReferencePoint();
+	}
+
+	/**
+	 * Sets this anchor direction to the given direction.
+	 * 
+	 * @param direction
+	 *            Either {@link PositionConstants#EAST} or
+	 *            {@link PositionConstants#SOUTH}.
+	 */
+	public void setDirection(int direction) {
+		this.direction = direction;
 	}
 
 }

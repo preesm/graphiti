@@ -171,7 +171,6 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	protected void refreshVisuals() {
 		Graph graph = (Graph) getModel();
 		GraphFigure graphFigure = (GraphFigure) getFigure();
-		graphFigure.setBorder(graph.vertexSet().size() > 0);
 		graphFigure.setName((String) graph.getValue(Graph.PARAMETER_ID));
 
 		Rectangle bounds = (Rectangle) graph.getValue(Graph.PARAMETER_SIZE);

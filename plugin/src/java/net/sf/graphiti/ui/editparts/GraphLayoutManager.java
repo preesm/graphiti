@@ -44,9 +44,9 @@ import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
  */
 public class GraphLayoutManager extends XYLayout {
 
-	private GraphitiDocumentEditPart part;
-	
 	private int direction;
+	
+	private GraphitiDocumentEditPart part;
 
 	/**
 	 * Creates a new graph layout manager on the given document and with the

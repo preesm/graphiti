@@ -48,7 +48,7 @@ public class OpenRefinementNewTabAction extends AbstractOpenRefinementAction {
 	 * 
 	 * @return This action identifier.
 	 */
-	public static Object getActionId() {
+	public static String getActionId() {
 		return ID;
 	}
 

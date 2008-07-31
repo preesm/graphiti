@@ -36,6 +36,7 @@ import net.sf.graphiti.ui.editpolicies.DependencyEditPolicy;
 import net.sf.graphiti.ui.editpolicies.DependencyEndPointEditPolicy;
 import net.sf.graphiti.ui.figure.EdgeFigure;
 
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RoutingAnimator;
 import org.eclipse.gef.EditPolicy;
@@ -130,5 +131,13 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 		// figureConstraint.add(rbp);
 		// }
 		// getConnectionFigure().setRoutingConstraint(figureConstraint);
+	}
+
+	void updateFigures(int direction) {
+		ConnectionAnchor anchor = ((EdgeFigure) getFigure()).getSourceAnchor();
+		((VertexConnectionAnchor) anchor).setDirection(direction);
+
+		anchor = ((EdgeFigure) getFigure()).getTargetAnchor();
+		((VertexConnectionAnchor) anchor).setDirection(direction);
 	}
 }

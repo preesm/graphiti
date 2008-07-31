@@ -31,10 +31,10 @@ package net.sf.graphiti.ui.editparts;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import net.sf.graphiti.model.DocumentConfiguration;
 import net.sf.graphiti.model.Edge;
@@ -48,6 +48,7 @@ import net.sf.graphiti.ui.figure.VertexFigure;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
@@ -76,7 +77,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	/**
 	 * This attribute is set by {@link VertexEditPart#updateFigures(int)}.
 	 */
-	private int direction;
+	private int direction = PositionConstants.EAST;
 
 	/**
 	 * This attribute is set by {@link GraphEditPart#addNodes}.
@@ -99,8 +100,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	 * Creates a new {@link VertexEditPart}.
 	 */
 	public VertexEditPart() {
-		sourceAnchors = new HashMap<String, VertexConnectionAnchor>();
-		targetAnchors = new HashMap<String, VertexConnectionAnchor>();
+		sourceAnchors = new TreeMap<String, VertexConnectionAnchor>();
+		targetAnchors = new TreeMap<String, VertexConnectionAnchor>();
 	}
 
 	@Override
@@ -185,6 +186,45 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		((Vertex) getModel()).removePropertyChangeListener(this);
 	}
 
+	/**
+	 * Fills the given anchor map from the set of edges, using the property
+	 * <code>portName</code>.
+	 * 
+	 * @param edges
+	 *            A {@link Set} of {@link Edge}s.
+	 * @param anchors
+	 *            A {@link Map} of {@link String}s to
+	 *            {@link VertexConnectionAnchor}s.
+	 * @param portName
+	 *            The property: {@link Edge#SRC_PORT_NAME} or
+	 *            {@link Edge#DST_PORT_NAME}.
+	 * @param isTarget
+	 *            True if the vertex is a target, false if it is a source.
+	 */
+	private void fillAnchors(Set<Edge> edges,
+			Map<String, VertexConnectionAnchor> anchors, String portName,
+			boolean isTarget) {
+		// unique edge sources/targets
+		anchors.clear();
+		for (Edge edge : edges) {
+			String port = (String) edge.getValue(portName);
+			if (port != null) {
+				anchors.put(port, null);
+			}
+		}
+
+		// assign anchor ranks
+		int nb = 0;
+		int nbAnchors = anchors.size();
+		for (String port : anchors.keySet()) {
+			VertexConnectionAnchor anchor = new VertexConnectionAnchor(
+					direction, isTarget, nb, nbAnchors,
+					(VertexFigure) getFigure());
+			anchors.put(port, anchor);
+			nb++;
+		}
+	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	protected List getModelSourceConnections() {
@@ -223,30 +263,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		return null;
 	}
 
-	private void fillAnchors(Set<Edge> edges,
-			Map<String, VertexConnectionAnchor> anchors, String portName,
-			boolean isTarget) {
-		// unique edge sources/targets
-		anchors.clear();
-		for (Edge edge : edges) {
-			String port = (String) edge.getValue(portName);
-			if (port != null) {
-				anchors.put(port, null);
-			}
-		}
-
-		// assign anchor ranks
-		int nb = 0;
-		int nbAnchors = anchors.size();
-		for (String port : anchors.keySet()) {
-			VertexConnectionAnchor anchor = new VertexConnectionAnchor(
-					direction, isTarget, nb, nbAnchors,
-					(VertexFigure) getFigure());
-			anchors.put(port, anchor);
-			nb++;
-		}
-	}
-
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
@@ -256,8 +272,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		if (srcPort == null) {
 			anchor = new VertexConnectionAnchor(direction, false, 0, 1,
 					(VertexFigure) getFigure());
-			System.out.println("creating source anchor for: "
-					+ ((Vertex) getModel()).getValue(Vertex.PARAMETER_ID));
 		} else {
 			anchor = sourceAnchors.get(srcPort);
 		}
@@ -267,8 +281,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-		// TODO: implement edge creation with multiple anchors.
-		return null;
+		return new VertexConnectionAnchor(direction, false, 0, 1,
+				(VertexFigure) getFigure());
 	}
 
 	@Override
@@ -280,8 +294,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		if (dstPort == null) {
 			anchor = new VertexConnectionAnchor(direction, true, 0, 1,
 					(VertexFigure) getFigure());
-			System.out.println("creating target anchor for: "
-					+ ((Vertex) getModel()).getValue(Vertex.PARAMETER_ID));
 		} else {
 			anchor = targetAnchors.get(dstPort);
 		}
@@ -291,8 +303,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		// TODO: implement edge creation with multiple anchors.
-		return null;
+		return new VertexConnectionAnchor(direction, true, 0, 1,
+				(VertexFigure) getFigure());
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
@@ -326,9 +338,26 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	 */
 	void updateFigures(int direction) {
 		this.direction = direction;
+		sourceAnchors.clear();
+		targetAnchors.clear();
 		Vertex vertex = (Vertex) getModel();
 		Rectangle bounds = new Rectangle(node.x, node.y, node.width,
 				node.height);
 		vertex.setValue(Vertex.PARAMETER_SIZE, bounds);
+
+		// Updates edges
+		for (Object connection : getSourceConnections()) {
+			if (connection instanceof EdgeEditPart) {
+				EdgeEditPart part = (EdgeEditPart) connection;
+				part.updateFigures(direction);
+			}
+		}
+
+		for (Object connection : getTargetConnections()) {
+			if (connection instanceof EdgeEditPart) {
+				EdgeEditPart part = (EdgeEditPart) connection;
+				part.updateFigures(direction);
+			}
+		}
 	}
 }

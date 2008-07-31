@@ -28,13 +28,17 @@
  */
 package net.sf.graphiti.ui.editors;
 
+import net.sf.graphiti.ui.actions.AutomaticallyLayoutAction;
+
 import org.eclipse.gef.ui.actions.ActionBarContributor;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
 import org.eclipse.gef.ui.actions.ZoomInRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
@@ -66,6 +70,8 @@ public class GraphActionBarContributor extends ActionBarContributor {
 
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
+		
+		addAction(new AutomaticallyLayoutAction());
 	}
 
 	@Override
@@ -85,6 +91,10 @@ public class GraphActionBarContributor extends ActionBarContributor {
 		toolBarManager.add(getAction(GEFActionConstants.ZOOM_IN));
 		toolBarManager.add(getAction(GEFActionConstants.ZOOM_OUT));
 		toolBarManager.add(new ZoomComboContributionItem(getPage()));
+
+		toolBarManager.add(new Separator());
+
+		toolBarManager.add(getAction(AutomaticallyLayoutAction.getActionId()));
 	}
 
 	@Override
@@ -100,6 +110,12 @@ public class GraphActionBarContributor extends ActionBarContributor {
 		addGlobalActionKey(ActionFactory.PASTE.getId());
 
 		addGlobalActionKey(ActionFactory.SELECT_ALL.getId());
+	}
+	
+	public void setActiveEditor(IEditorPart editor) {
+		super.setActiveEditor(editor);
+		IAction action = getAction(AutomaticallyLayoutAction.getActionId());
+		((AutomaticallyLayoutAction) action).setWorkbenchPart(editor);
 	}
 
 }

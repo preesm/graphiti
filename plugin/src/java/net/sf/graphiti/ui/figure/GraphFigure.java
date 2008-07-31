@@ -33,12 +33,10 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.LineBorder;
-import org.eclipse.draw2d.SchemeBorder;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * Gives methods to draw a Graph.
@@ -58,7 +56,7 @@ public class GraphFigure extends Figure {
 	 * Creates a figure that represents a Graph.
 	 */
 	public GraphFigure() {
-		setBorder(new GraphBorder());
+		setBorder(new LineBorder(1));
 		setLayoutManager(new XYLayout());
 
 		labelMulti = new Label();
@@ -94,26 +92,6 @@ public class GraphFigure extends Figure {
 		Rectangle rect = getBounds().getCopy();
 		rect.crop(new Insets(2, 0, 2, 0));
 		graphics.fillRectangle(rect);
-	}
-
-	/**
-	 * Sets the border of this graph figure, which depends on the fact that it
-	 * has children or not.
-	 * 
-	 * @param hasChildren
-	 *            True if the model represented by this figure has children,
-	 *            false otherwise.
-	 */
-	public void setBorder(boolean hasChildren) {
-		if (hasChildren) {
-			SchemeBorder border = new SchemeBorder(new SchemeBorder.Scheme(
-					new Color[] { new Color(null, 128, 128, 128) },
-					new Color[] { new Color(null, 128, 128, 128),
-							new Color(null, 128, 128, 128) }));
-			setBorder(border);
-		} else {
-			setBorder(new LineBorder(1));
-		}
 	}
 
 	/**

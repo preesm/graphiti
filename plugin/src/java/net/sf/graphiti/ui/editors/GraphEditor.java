@@ -110,6 +110,16 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 				FlyoutPaletteComposite.STATE_PINNED_OPEN);
 	}
 
+	/**
+	 * TODO: javadoc
+	 * @param direction
+	 */
+	public void automaticallyLayout(int direction) {
+		GraphitiDocumentEditPart doc = (GraphitiDocumentEditPart) getGraphicalViewer()
+				.getRootEditPart().getContents();
+		doc.automaticallyLayoutGraphs(direction);
+	}
+
 	@Override
 	public void commandStackChanged(EventObject event) {
 		// The dirty property implies a star near the editor name
@@ -317,9 +327,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		// getGraphicalViewer()));
 
 		viewer.setContents(document);
-		GraphitiDocumentEditPart doc = (GraphitiDocumentEditPart) getGraphicalViewer()
-				.getRootEditPart().getContents();
-		doc.automaticallyLayoutGraphs(PositionConstants.EAST);
+		automaticallyLayout(PositionConstants.EAST);
 	}
 
 	@Override
