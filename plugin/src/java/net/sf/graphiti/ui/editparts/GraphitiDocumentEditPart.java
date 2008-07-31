@@ -105,15 +105,20 @@ public class GraphitiDocumentEditPart extends AbstractGraphicalEditPart
 	/**
 	 * Automatically layouts the graphs, vertices and edges in this graphiti
 	 * document edit part.
+	 * 
+	 * @param direction
+	 *            The direction, one of:
+	 *            <UL>
+	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#EAST}
+	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#SOUTH}
+	 *            </UL>
 	 */
-	public void automaticallyLayoutGraphs() {
-		GraphitiDocumentEditPart part = (GraphitiDocumentEditPart) getViewer()
-				.getContents();
-		LayoutManager layoutMgr = new GraphLayoutManager(part);
-		layoutMgr.layout(part.getFigure());
+	public void automaticallyLayoutGraphs(int direction) {
+		LayoutManager layoutMgr = new GraphLayoutManager(this, direction);
+		layoutMgr.layout(getFigure());
 
-		part.getFigure().setLayoutManager(new FreeformLayout());
-		part.getFigure().revalidate();
+		getFigure().setLayoutManager(new FreeformLayout());
+		getFigure().revalidate();
 	}
 
 	@Override
@@ -159,11 +164,11 @@ public class GraphitiDocumentEditPart extends AbstractGraphicalEditPart
 	/**
 	 * Updates all its children figures.
 	 */
-	public void updateFigures() {
+	public void updateFigures(int direction) {
 		for (Object child : getChildren()) {
 			if (child instanceof GraphEditPart) {
 				GraphEditPart part = (GraphEditPart) child;
-				part.updateFigures();
+				part.updateFigures(direction);
 			}
 		}
 	}

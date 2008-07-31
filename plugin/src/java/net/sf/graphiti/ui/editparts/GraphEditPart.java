@@ -41,6 +41,7 @@ import net.sf.graphiti.ui.figure.GraphFigure;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
@@ -185,16 +186,24 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	 * the changes of the {@link CompoundDirectedGraphLayout} algorithm to the
 	 * different figures, by setting their bounds.
 	 */
-	void updateFigures() {
+	void updateFigures(int direction) {
+		Rectangle bounds;
+		if (direction == PositionConstants.EAST) {
+			bounds = new Rectangle(subgraph.x, subgraph.y, subgraph.height,
+					subgraph.width);
+		} else {
+			// SOUTH
+			bounds = new Rectangle(subgraph.x, subgraph.y, subgraph.width,
+					subgraph.height);
+		}
+
 		Graph graph = (Graph) getModel();
-		Rectangle bounds = new Rectangle(subgraph.x, subgraph.y,
-				subgraph.width, subgraph.height);
 		graph.setValue(Graph.PARAMETER_SIZE, bounds);
 
 		for (Object child : getChildren()) {
 			if (child instanceof VertexEditPart) {
 				VertexEditPart part = (VertexEditPart) child;
-				part.updateFigures();
+				part.updateFigures(direction);
 			}
 		}
 	}

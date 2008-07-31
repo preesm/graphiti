@@ -45,9 +45,25 @@ import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
 public class GraphLayoutManager extends XYLayout {
 
 	private GraphitiDocumentEditPart part;
+	
+	private int direction;
 
-	public GraphLayoutManager(GraphitiDocumentEditPart part) {
+	/**
+	 * Creates a new graph layout manager on the given document and with the
+	 * given direction.
+	 * 
+	 * @param part
+	 *            The document to layout.
+	 * @param direction
+	 *            The direction, one of:
+	 *            <UL>
+	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#EAST}
+	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#SOUTH}
+	 *            </UL>
+	 */
+	public GraphLayoutManager(GraphitiDocumentEditPart part, int direction) {
 		this.part = part;
+		this.direction = direction;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -73,6 +89,7 @@ public class GraphLayoutManager extends XYLayout {
 	public void layout(IFigure container) {
 		try {
 			CompoundDirectedGraph graph = new CompoundDirectedGraph();
+			graph.setDirection(direction);
 
 			part.addNodes(graph.nodes);
 			part.addEdges(graph.edges);
@@ -82,13 +99,7 @@ public class GraphLayoutManager extends XYLayout {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		part.updateFigures();
-
-		// Rectangle r = container.getClientArea();
-		// List children = container.getChildren();
-		// for (int i = 0; i < children.size(); i++) {
-		// IFigure child = (IFigure) children.get(i);
-		// child.setBounds(r);
-		// }
+		
+		part.updateFigures(direction);
 	}
 }

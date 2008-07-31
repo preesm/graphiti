@@ -34,7 +34,6 @@ import net.sf.graphiti.ontology.enums.Shapes;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -51,8 +50,6 @@ import org.eclipse.swt.graphics.Color;
  * @author Matthieu Wipliez
  */
 public class VertexFigure extends Figure {
-
-	private ConnectionAnchor anchor;
 
 	private Label labelName;
 
@@ -118,17 +115,8 @@ public class VertexFigure extends Figure {
 					bounds.height));
 			this.add(this.shape, new Rectangle(0, 0, bounds.width,
 					bounds.height));
-			anchor = ((IShape) this.shape).getConnectionAnchor();
 		}
 
-	}
-
-	/**
-	 * 
-	 * @return anchor
-	 */
-	public ConnectionAnchor getConnectionAnchor() {
-		return anchor;
 	}
 
 	/**
@@ -144,6 +132,10 @@ public class VertexFigure extends Figure {
 		Dimension defaultSize = new Dimension(50, 50);
 		prefSize.union(defaultSize);
 		return prefSize;
+	}
+
+	public IFigure getShape() {
+		return shape;
 	}
 
 	/**

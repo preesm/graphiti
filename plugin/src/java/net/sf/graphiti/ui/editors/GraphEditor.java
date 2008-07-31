@@ -54,6 +54,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
@@ -318,7 +319,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		viewer.setContents(document);
 		GraphitiDocumentEditPart doc = (GraphitiDocumentEditPart) getGraphicalViewer()
 				.getRootEditPart().getContents();
-		doc.automaticallyLayoutGraphs();
+		doc.automaticallyLayoutGraphs(PositionConstants.EAST);
 	}
 
 	@Override

@@ -34,6 +34,7 @@ import java.util.List;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Parameter;
 
+import org.eclipse.draw2d.BendpointConnectionRouter;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.PolylineConnection;
@@ -85,8 +86,20 @@ public class EdgeFigure extends PolylineConnection {
 
 		setTargetDecoration(new PolylineDecoration());
 		setLineWidth(1);
+		setConnectionRouter(new BendpointConnectionRouter());
 		addRoutingListener(RoutingAnimator.getDefault());
 		this.setValid(true);
+		
+//		List<Bendpoint> bendPoints = new ArrayList<Bendpoint>();
+//		RelativeBendpoint b1 = new RelativeBendpoint(this);
+//		b1.setRelativeDimensions(new Dimension(40, 40), new Dimension(0, 0));
+//		b1.setWeight(0.3f);
+//		bendPoints.add(b1);
+//		RelativeBendpoint b2 = new RelativeBendpoint(this);
+//		b2.setRelativeDimensions(new Dimension(0, 0), new Dimension(0, 0));
+//		b2.setWeight(0.6f);
+//		bendPoints.add(b2);
+//		setRoutingConstraint(bendPoints);
 	}
 
 }

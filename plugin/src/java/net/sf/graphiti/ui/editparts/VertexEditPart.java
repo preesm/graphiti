@@ -31,10 +31,13 @@ package net.sf.graphiti.ui.editparts;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import net.sf.graphiti.model.DocumentConfiguration;
+import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.editpolicies.DeleteComponentEditPolicy;
@@ -48,7 +51,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
-import org.eclipse.draw2d.graph.Edge;
 import org.eclipse.draw2d.graph.EdgeList;
 import org.eclipse.draw2d.graph.Node;
 import org.eclipse.draw2d.graph.NodeList;
@@ -72,9 +74,34 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		PropertyChangeListener, NodeEditPart {
 
 	/**
+	 * This attribute is set by {@link VertexEditPart#updateFigures(int)}.
+	 */
+	private int direction;
+
+	/**
 	 * This attribute is set by {@link GraphEditPart#addNodes}.
 	 */
 	private Node node;
+
+	/**
+	 * The source anchors. They are computed by
+	 * {@link #getModelSourceConnections()}.
+	 */
+	private Map<String, VertexConnectionAnchor> sourceAnchors;
+
+	/**
+	 * The target anchors. They are computed by
+	 * {@link #getModelTargetConnections()}.
+	 */
+	private Map<String, VertexConnectionAnchor> targetAnchors;
+
+	/**
+	 * Creates a new {@link VertexEditPart}.
+	 */
+	public VertexEditPart() {
+		sourceAnchors = new HashMap<String, VertexConnectionAnchor>();
+		targetAnchors = new HashMap<String, VertexConnectionAnchor>();
+	}
 
 	@Override
 	public void activate() {
@@ -100,7 +127,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 				VertexEditPart target = (VertexEditPart) dependency.getTarget();
 
 				if ((source != null && target != null) && (source != target)) {
-					Edge edge = new Edge(source.node, target.node);
+					org.eclipse.draw2d.graph.Edge edge = new org.eclipse.draw2d.graph.Edge(
+							source.node, target.node);
 					edges.add(edge);
 				}
 			}
@@ -165,8 +193,10 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 			Graph parent = vertex.getParent();
 
 			// we get the *output* dependencies of vertex
-			Set<net.sf.graphiti.model.Edge> edges = parent
-					.outgoingEdgesOf(vertex);
+			Set<Edge> edges = parent.outgoingEdgesOf(vertex);
+			fillAnchors(edges, sourceAnchors, Edge.SRC_PORT_NAME, false);
+
+			// return the dependencies
 			List dependencies = new ArrayList(edges);
 			return dependencies;
 		}
@@ -182,8 +212,10 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 			Graph parent = vertex.getParent();
 
 			// we get the *input* dependencies of vertex
-			Set<net.sf.graphiti.model.Edge> edges = parent
-					.incomingEdgesOf(vertex);
+			Set<Edge> edges = parent.incomingEdgesOf(vertex);
+			fillAnchors(edges, targetAnchors, Edge.SRC_PORT_NAME, true);
+
+			// dependencies
 			List dependencies = new ArrayList(edges);
 			return dependencies;
 		}
@@ -191,28 +223,76 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		return null;
 	}
 
+	private void fillAnchors(Set<Edge> edges,
+			Map<String, VertexConnectionAnchor> anchors, String portName,
+			boolean isTarget) {
+		// unique edge sources/targets
+		anchors.clear();
+		for (Edge edge : edges) {
+			String port = (String) edge.getValue(portName);
+			if (port != null) {
+				anchors.put(port, null);
+			}
+		}
+
+		// assign anchor ranks
+		int nb = 0;
+		int nbAnchors = anchors.size();
+		for (String port : anchors.keySet()) {
+			VertexConnectionAnchor anchor = new VertexConnectionAnchor(
+					direction, isTarget, nb, nbAnchors,
+					(VertexFigure) getFigure());
+			anchors.put(port, anchor);
+			nb++;
+		}
+	}
+
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(
-			ConnectionEditPart connEditPart) {
-		// TODO: provide multiple connection anchors
-		return ((VertexFigure) getFigure()).getConnectionAnchor();
+			ConnectionEditPart connection) {
+		Edge edge = (Edge) connection.getModel();
+		String srcPort = (String) edge.getValue(Edge.SRC_PORT_NAME);
+		VertexConnectionAnchor anchor;
+		if (srcPort == null) {
+			anchor = new VertexConnectionAnchor(direction, false, 0, 1,
+					(VertexFigure) getFigure());
+			System.out.println("creating source anchor for: "
+					+ ((Vertex) getModel()).getValue(Vertex.PARAMETER_ID));
+		} else {
+			anchor = sourceAnchors.get(srcPort);
+		}
+
+		return anchor;
 	}
 
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-		return ((VertexFigure) getFigure()).getConnectionAnchor();
+		// TODO: implement edge creation with multiple anchors.
+		return null;
 	}
 
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(
-			ConnectionEditPart connEditPart) {
-		// TODO: provide multiple connection anchors
-		return ((VertexFigure) getFigure()).getConnectionAnchor();
+			ConnectionEditPart connection) {
+		Edge edge = (Edge) connection.getModel();
+		String dstPort = (String) edge.getValue(Edge.SRC_PORT_NAME);
+		VertexConnectionAnchor anchor;
+		if (dstPort == null) {
+			anchor = new VertexConnectionAnchor(direction, true, 0, 1,
+					(VertexFigure) getFigure());
+			System.out.println("creating target anchor for: "
+					+ ((Vertex) getModel()).getValue(Vertex.PARAMETER_ID));
+		} else {
+			anchor = targetAnchors.get(dstPort);
+		}
+
+		return anchor;
 	}
 
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		return ((VertexFigure) getFigure()).getConnectionAnchor();
+		// TODO: implement edge creation with multiple anchors.
+		return null;
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
@@ -244,7 +324,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	 * the changes of the {@link CompoundDirectedGraphLayout} algorithm to the
 	 * different figures, by setting their bounds.
 	 */
-	void updateFigures() {
+	void updateFigures(int direction) {
+		this.direction = direction;
 		Vertex vertex = (Vertex) getModel();
 		Rectangle bounds = new Rectangle(node.x, node.y, node.width,
 				node.height);
