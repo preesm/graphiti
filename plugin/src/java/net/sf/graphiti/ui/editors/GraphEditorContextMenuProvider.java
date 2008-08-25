@@ -28,6 +28,7 @@
  */
 package net.sf.graphiti.ui.editors;
 
+import net.sf.graphiti.ui.actions.SetRefinementAction;
 import net.sf.graphiti.ui.actions.OpenRefinementNewTabAction;
 
 import org.eclipse.gef.ContextMenuProvider;
@@ -66,8 +67,15 @@ public class GraphEditorContextMenuProvider extends ContextMenuProvider {
 		GEFActionConstants.addStandardActionGroups(menu);
 		ActionRegistry registry = getActionRegistry();
 
+		action = registry.getAction(SetRefinementAction.getActionId());
+		if (action.isEnabled()) {
+			menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
+		}
+
 		action = registry.getAction(OpenRefinementNewTabAction.getActionId());
-		menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
+		if (action.isEnabled()) {
+			menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
+		}
 
 		action = registry.getAction(ActionFactory.UNDO.getId());
 		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);

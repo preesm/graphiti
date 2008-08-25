@@ -39,7 +39,7 @@ import org.eclipse.ui.part.FileEditorInput;
  * @author Matthieu Wipliez
  * 
  */
-public class OpenRefinementNewTabAction extends AbstractOpenRefinementAction {
+public class OpenRefinementNewTabAction extends AbstractRefinementAction {
 
 	private static final String ID = "net.sf.graphiti.ui.actions.OpenRefinementNewTabAction";
 
@@ -53,12 +53,16 @@ public class OpenRefinementNewTabAction extends AbstractOpenRefinementAction {
 	}
 
 	/**
-	 * Creates a OpenRefinementNewTabAction action.
+	 * Creates a {@link OpenRefinementNewTabAction} action.
 	 * 
 	 * @param part
 	 */
 	public OpenRefinementNewTabAction(IWorkbenchPart part) {
 		super(part);
+	}
+
+	public boolean calculateEnabled() {
+		return (getRefinement() != null);
 	}
 
 	@Override

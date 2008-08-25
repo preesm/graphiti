@@ -44,6 +44,13 @@ import net.sf.graphiti.transactions.UnaryOperation;
  */
 public class Calculator {
 
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		new Calculator();
+	}
+
 	public Calculator() {
 		// Example of transaction: (1 + 2 + 3) * 4
 		NestedTransaction rootTransaction = new NestedTransaction();
@@ -97,13 +104,6 @@ public class Calculator {
 		transaction.addOperation(unOp);
 		transaction.commit();
 		System.out.println(unOp.getResult());
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		new Calculator();
 	}
 
 }

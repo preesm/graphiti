@@ -40,11 +40,13 @@ import net.sf.graphiti.parsers.GenericGraphFileParser;
 import net.sf.graphiti.parsers.IncompatibleConfigurationFile;
 import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.actions.CopyAction;
+import net.sf.graphiti.ui.actions.SetRefinementAction;
 import net.sf.graphiti.ui.actions.CutAction;
 import net.sf.graphiti.ui.actions.OpenRefinementNewTabAction;
 import net.sf.graphiti.ui.actions.PasteAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
 import net.sf.graphiti.ui.editparts.GraphitiDocumentEditPart;
+import net.sf.graphiti.ui.perspectives.GraphitiPerspectiveFactory;
 import net.sf.graphiti.writer.GenericGraphFileWriter;
 
 import org.eclipse.core.resources.IFile;
@@ -80,6 +82,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IShowEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
@@ -112,6 +115,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/**
 	 * TODO: javadoc
+	 * 
 	 * @param direction
 	 */
 	public void automaticallyLayout(int direction) {
@@ -187,6 +191,10 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		getSelectionActions().add(action.getId());
 
 		action = new PrintAction(this);
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
+
+		action = new SetRefinementAction(this);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());
 
@@ -313,6 +321,10 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {
 		setSite(site);
+		IWorkbenchPage page = site.getPage();
+		page.setPerspective(GraphitiPerspectiveFactory
+				.getPerspectiveDescriptor());
+
 		setInputWithException(input);
 		getCommandStack().addCommandStackListener(this);
 		getSite().getWorkbenchWindow().getSelectionService()

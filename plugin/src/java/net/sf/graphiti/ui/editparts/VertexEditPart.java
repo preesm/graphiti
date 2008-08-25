@@ -153,7 +153,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		// Graphical stuff
 		Figure figure = (Figure) getFigure();
 		node.setSize(figure.getPreferredSize());
-		node.setPadding(new Insets(20, 20, 20, 20));
+		node.setPadding(new Insets(35, 35, 35, 35));
 	}
 
 	@Override

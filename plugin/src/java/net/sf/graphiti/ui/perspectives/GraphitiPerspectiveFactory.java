@@ -7,7 +7,11 @@ import net.sf.graphiti.ui.views.VertexParametersView;
 
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.IPerspectiveRegistry;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * This class creates the layout associated with the Graphiti perspective.
@@ -16,6 +20,21 @@ import org.eclipse.ui.IPerspectiveFactory;
  * 
  */
 public class GraphitiPerspectiveFactory implements IPerspectiveFactory {
+
+	public static final String ID = "net.sf.graphiti.ui.perspective";
+
+	/**
+	 * Returns a perspective descriptor of the perspective associated with this
+	 * factory.
+	 * 
+	 * @return An {@link IPerspectiveDescriptor} for this perspective (whose id
+	 *         is "net.sf.graphiti.ui.perspective").
+	 */
+	public static IPerspectiveDescriptor getPerspectiveDescriptor() {
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IPerspectiveRegistry registry = workbench.getPerspectiveRegistry();
+		return registry.findPerspectiveWithId(ID);
+	}
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
