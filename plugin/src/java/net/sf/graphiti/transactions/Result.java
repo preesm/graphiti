@@ -29,7 +29,7 @@
 package net.sf.graphiti.transactions;
 
 public class Result<T> {
-	
+
 	private T contents;
 
 	public Result() {
@@ -43,7 +43,7 @@ public class Result<T> {
 	public void setContents(T contents) {
 		this.contents = contents;
 	}
-	
+
 	public String toString() {
 		T contents = getContents();
 		if (contents == null) {

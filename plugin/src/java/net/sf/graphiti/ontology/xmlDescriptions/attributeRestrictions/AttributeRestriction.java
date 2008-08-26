@@ -59,7 +59,7 @@ public interface AttributeRestriction extends OntologyIndividual {
 	 * @return The value of the restricted attribute.
 	 */
 	public String hasValue();
-	
+
 	/**
 	 * Returns the element the restricted attribute belongs to.
 	 * 

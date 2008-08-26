@@ -86,9 +86,9 @@ public interface Element extends XMLSchemaType {
 	 * @return A {@link ComplexType}.
 	 */
 	public XMLSchemaType hasSchemaType();
-	
+
 	public int maxOccurs();
-	
+
 	public int minOccurs();
 
 }

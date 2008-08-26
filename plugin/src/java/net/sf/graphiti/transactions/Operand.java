@@ -30,12 +30,12 @@ package net.sf.graphiti.transactions;
 
 /**
  * @author mwipliez
- *
+ * 
  */
 public class Operand<T> {
-	
+
 	private T contents;
-	
+
 	private Result<T> result;
 
 	public Operand() {
@@ -52,7 +52,7 @@ public class Operand<T> {
 		this.contents = contents;
 		result = null;
 	}
-	
+
 	public T getContents() {
 		if (result == null) {
 			return contents;
@@ -60,7 +60,7 @@ public class Operand<T> {
 			return result.getContents();
 		}
 	}
-	
+
 	public String toString() {
 		if (contents == null) {
 			if (result == null) {
@@ -72,5 +72,5 @@ public class Operand<T> {
 			return contents.toString();
 		}
 	}
-	
+
 }

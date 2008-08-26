@@ -70,7 +70,7 @@ public class GraphActionBarContributor extends ActionBarContributor {
 
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
-		
+
 		addAction(new AutomaticallyLayoutAction());
 	}
 
@@ -111,7 +111,7 @@ public class GraphActionBarContributor extends ActionBarContributor {
 
 		addGlobalActionKey(ActionFactory.SELECT_ALL.getId());
 	}
-	
+
 	public void setActiveEditor(IEditorPart editor) {
 		super.setActiveEditor(editor);
 		IAction action = getAction(AutomaticallyLayoutAction.getActionId());

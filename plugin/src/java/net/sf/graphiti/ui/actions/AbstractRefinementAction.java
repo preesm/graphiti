@@ -102,7 +102,8 @@ public abstract class AbstractRefinementAction extends SelectionAction {
 						}
 					}
 				} else {
-					IFile file = findMatchingFile((IContainer) member, fileName, fileExts);
+					IFile file = findMatchingFile((IContainer) member,
+							fileName, fileExts);
 					if (file != null) {
 						return file;
 					}

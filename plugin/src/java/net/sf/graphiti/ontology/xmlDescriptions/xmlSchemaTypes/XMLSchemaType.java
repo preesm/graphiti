@@ -38,5 +38,5 @@ import net.sf.graphiti.ontology.OntologyIndividual;
  * 
  */
 public interface XMLSchemaType extends OntologyIndividual {
-	
+
 }

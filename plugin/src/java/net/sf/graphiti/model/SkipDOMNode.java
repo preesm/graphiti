@@ -48,7 +48,7 @@ public class SkipDOMNode extends DOMNode {
 	}
 
 	public DOMNode getTrueNode() {
-		DOMNode element  = trueNode ;
+		DOMNode element = trueNode;
 		while (element instanceof SkipDOMNode) {
 			element = ((SkipDOMNode) element).getTrueNode();
 		}

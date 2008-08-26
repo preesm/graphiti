@@ -33,7 +33,6 @@ import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.edgeAttributes.EdgeAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
 
-
 /**
  * This class provides a DOM attribute that is not an {@link EdgeAttribute},
  * that is does not make reference to {@link Element}s in the ontology. However

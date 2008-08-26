@@ -119,7 +119,7 @@ public class SequenceImpl extends ComplexTypeImpl implements Sequence {
 			// Gets the rest.
 			rest = (SequenceImpl) rest.getIndividualProperty(OntologyFactory
 					.getPropertySequenceHasRest());
-			
+
 			// Returns the head value.
 			return head;
 		}

@@ -28,8 +28,8 @@
  */
 package net.sf.graphiti.ui.editors;
 
-import net.sf.graphiti.ui.actions.SetRefinementAction;
 import net.sf.graphiti.ui.actions.OpenRefinementNewTabAction;
+import net.sf.graphiti.ui.actions.SetRefinementAction;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;

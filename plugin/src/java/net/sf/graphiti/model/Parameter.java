@@ -70,7 +70,7 @@ public class Parameter {
 	public void setPosition(String position) {
 		parameterPosition = ParameterPosition.createFromOntString(position);
 	}
-	
+
 	public String toString() {
 		return name;
 	}

@@ -89,14 +89,14 @@ public class EdgeFigure extends PolylineConnection {
 		setConnectionRouter(new BendpointConnectionRouter());
 		addRoutingListener(RoutingAnimator.getDefault());
 		this.setValid(true);
-		
-//		List<Bendpoint> bendPoints = new ArrayList<Bendpoint>();
-//		RelativeBendpoint b1 = new RelativeBendpoint(this);
-//		int n = (int) (50.0 * Math.random());
-//		b1.setRelativeDimensions(new Dimension(0, 0), new Dimension(n, 0));
-//		b1.setWeight(0.5f);
-//		bendPoints.add(b1);
-//		setRoutingConstraint(bendPoints);
+
+		// List<Bendpoint> bendPoints = new ArrayList<Bendpoint>();
+		// RelativeBendpoint b1 = new RelativeBendpoint(this);
+		// int n = (int) (50.0 * Math.random());
+		// b1.setRelativeDimensions(new Dimension(0, 0), new Dimension(n, 0));
+		// b1.setWeight(0.5f);
+		// bendPoints.add(b1);
+		// setRoutingConstraint(bendPoints);
 	}
 
 }
