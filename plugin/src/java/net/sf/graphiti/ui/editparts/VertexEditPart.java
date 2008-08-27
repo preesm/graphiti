@@ -42,7 +42,8 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.editpolicies.DeleteComponentEditPolicy;
 import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
-import net.sf.graphiti.ui.editpolicies.NodeEditPolicy;
+import net.sf.graphiti.ui.editpolicies.VertexDirectEditPolicy;
+import net.sf.graphiti.ui.editpolicies.VertexGraphicalNodeEditPolicy;
 import net.sf.graphiti.ui.figure.VertexFigure;
 
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -60,6 +61,7 @@ import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 /**
@@ -161,7 +163,10 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
 				new DeleteComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new LayoutPolicy());
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new NodeEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
+				new VertexGraphicalNodeEditPolicy());
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+				new VertexDirectEditPolicy());
 	}
 
 	@Override
@@ -305,6 +310,14 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return new VertexConnectionAnchor(direction, true, 0, 1,
 				(VertexFigure) getFigure());
+	}
+
+	@Override
+	public void performRequest(Request request) {
+		Command command = getCommand(request);
+		if (command.canExecute()) {
+			command.execute();
+		}
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {

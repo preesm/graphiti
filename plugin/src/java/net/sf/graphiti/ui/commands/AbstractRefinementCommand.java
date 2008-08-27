@@ -26,7 +26,7 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.actions;
+package net.sf.graphiti.ui.commands;
 
 import java.util.List;
 
@@ -35,12 +35,13 @@ import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -49,7 +50,7 @@ import org.eclipse.ui.PlatformUI;
  * @author Matthieu Wipliez
  * 
  */
-public abstract class AbstractRefinementAction extends SelectionAction {
+public abstract class AbstractRefinementCommand extends Command {
 
 	protected IFile editedFile;
 
@@ -58,13 +59,18 @@ public abstract class AbstractRefinementAction extends SelectionAction {
 	 */
 	protected Vertex vertex;
 
-	/**
-	 * Creates a {@link AbstractRefinementAction} action.
-	 * 
-	 * @param part
-	 */
-	protected AbstractRefinementAction(IWorkbenchPart part) {
-		super(part);
+	@Override
+	public void execute() {
+		// retrieve editor input
+		IWorkbenchPage page = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage();
+		IEditorPart editorPart = page.getActiveEditor();
+		IEditorInput input = editorPart.getEditorInput();
+
+		// it is expected that we have a IFileEditorInput
+		if (input instanceof IFileEditorInput) {
+			editedFile = ((IFileEditorInput) input).getFile();
+		}
 	}
 
 	/**
@@ -76,18 +82,11 @@ public abstract class AbstractRefinementAction extends SelectionAction {
 	 * @return The refinement parameter associated with the current selection,
 	 *         or <code>null</code>.
 	 */
-	protected String getRefinement() {
-		List<?> objs = getSelectedObjects();
-		if (objs.size() == 1) {
-			Object obj = objs.get(0);
-			if (obj instanceof VertexEditPart) {
-				// we are dealing with a vertex edit part
-				vertex = (Vertex) ((VertexEditPart) obj).getModel();
-				Object refinement = vertex
-						.getValue(Vertex.PARAMETER_REFINEMENT);
-				if (refinement instanceof String) {
-					return (String) refinement;
-				}
+	public String getRefinement() {
+		if (vertex != null) {
+			Object refinement = vertex.getValue(Vertex.PARAMETER_REFINEMENT);
+			if (refinement instanceof String) {
+				return (String) refinement;
 			}
 		}
 
@@ -102,17 +101,11 @@ public abstract class AbstractRefinementAction extends SelectionAction {
 	 *         <code>false</code>.
 	 */
 	protected boolean isRefinable() {
-		List<?> objs = getSelectedObjects();
-		if (objs.size() == 1) {
-			Object obj = objs.get(0);
-			if (obj instanceof VertexEditPart) {
-				// we are dealing with a vertex edit part
-				vertex = (Vertex) ((VertexEditPart) obj).getModel();
-				List<Parameter> parameters = vertex.getParameters();
-				for (Parameter parameter : parameters) {
-					if (parameter.getName().equals(Vertex.PARAMETER_REFINEMENT)) {
-						return true;
-					}
+		if (vertex != null) {
+			List<Parameter> parameters = vertex.getParameters();
+			for (Parameter parameter : parameters) {
+				if (parameter.getName().equals(Vertex.PARAMETER_REFINEMENT)) {
+					return true;
 				}
 			}
 		}
@@ -120,17 +113,18 @@ public abstract class AbstractRefinementAction extends SelectionAction {
 		return false;
 	}
 
-	@Override
-	public void run() {
-		// retrieve editor input
-		IWorkbenchPage page = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getActivePage();
-		IEditorPart editorPart = page.getActiveEditor();
-		IEditorInput input = editorPart.getEditorInput();
-
-		// it is expected that we have a IFileEditorInput
-		if (input instanceof IFileEditorInput) {
-			editedFile = ((IFileEditorInput) input).getFile();
+	/**
+	 * Sets the selection.
+	 * 
+	 * @param selection
+	 */
+	public void setSelection(ISelection selection) {
+		if (selection instanceof IStructuredSelection) {
+			Object obj = ((IStructuredSelection) selection).getFirstElement();
+			if (obj instanceof VertexEditPart) {
+				// we are dealing with a vertex edit part
+				vertex = (Vertex) ((VertexEditPart) obj).getModel();
+			}
 		}
 	}
 }

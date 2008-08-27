@@ -48,4 +48,5 @@ public class DeleteComponentEditPolicy extends ComponentEditPolicy {
 		command.setModel(getHost().getModel());
 		return command;
 	}
+
 }

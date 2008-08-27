@@ -68,7 +68,7 @@ public class DependencyReconnectCommand extends DependencyCreateCommand {
 		this.previousPath = path;
 
 		// We also set these because we do not know which one will be set by the
-		// NodeEditPolicy (ie if getReconnectSourceCommand or
+		// VertexGraphicalNodeEditPolicy (ie if getReconnectSourceCommand or
 		// getReconnectTargetCommand is called)
 		source = path.getSource();
 		target = path.getTarget();

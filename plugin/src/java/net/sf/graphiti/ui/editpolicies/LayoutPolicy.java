@@ -33,6 +33,7 @@ import java.util.List;
 import net.sf.graphiti.ui.commands.AddCommand;
 import net.sf.graphiti.ui.commands.CreateCommand;
 import net.sf.graphiti.ui.commands.MoveOrResizeCommand;
+import net.sf.graphiti.ui.commands.OpenRefinementNewTabCommand;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
@@ -48,6 +49,7 @@ import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
  * This class provides the policy of the layout used in the editor view. Namely
@@ -61,7 +63,14 @@ import org.eclipse.gef.requests.CreateRequest;
  */
 public class LayoutPolicy extends XYLayoutEditPolicy {
 
-	public LayoutPolicy() {
+	public Command getCommand(Request request) {
+		if (REQ_OPEN.equals(request.getType())) {
+			OpenRefinementNewTabCommand command = new OpenRefinementNewTabCommand();
+			command.setSelection(new StructuredSelection(getHost()));
+			return command;
+		} else {
+			return super.getCommand(request);
+		}
 	}
 
 	private Command createAddCommand(EditPart child, Point moveDelta) {

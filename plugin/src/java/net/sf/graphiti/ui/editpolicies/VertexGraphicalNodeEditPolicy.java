@@ -56,7 +56,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
  * @author Nicolas Isch
  * @author Matthieu Wipliez
  */
-public class NodeEditPolicy extends GraphicalNodeEditPolicy {
+public class VertexGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
 	@Override
 	protected Connection createDummyConnection(Request req) {

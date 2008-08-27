@@ -33,6 +33,7 @@ import net.sf.graphiti.ui.figure.EdgeFigure;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 
 /**
  * This class provides facilities to change dependencies appearance when they
@@ -41,8 +42,7 @@ import org.eclipse.gef.GraphicalEditPart;
  * @author Samuel Beaussier
  * @author Nicolas Isch
  */
-public class DependencyEndPointEditPolicy extends
-		org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy {
+public class DependencyEndPointEditPolicy extends ConnectionEndpointEditPolicy {
 
 	@Override
 	protected void addSelectionHandles() {
