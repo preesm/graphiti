@@ -28,9 +28,30 @@
  */
 package net.sf.graphiti.ui.actions;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorRegistry;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.EditorSelectionDialog;
+import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
@@ -65,9 +86,97 @@ public class OpenRefinementNewTabAction extends AbstractRefinementAction {
 		return (getRefinement() != null);
 	}
 
+	/**
+	 * This method looks for file named "path.ext" where <code>ext</code> is one
+	 * of the known extensions for refinement files.
+	 * 
+	 * @param path
+	 *            The refinement path (without extension).
+	 * @return The {@link IFile} found.
+	 * @throws FileNotFoundException
+	 */
+	private IFile findFileWithoutExtension(IPath path)
+			throws FileNotFoundException {
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+
+		// get all possible candidates
+		List<IFile> files = new ArrayList<IFile>();
+		String[] fileExts = vertex.getDocumentConfiguration()
+				.getRefinementFileExtensions();
+		for (String fileExt : fileExts) {
+			IResource resource = workspace.getRoot().findMember(
+					path + "." + fileExt);
+			if (resource instanceof IFile) {
+				files.add((IFile) resource);
+			}
+		}
+
+		// check the number of candidates
+		if (files.isEmpty()) {
+			throw new FileNotFoundException();
+		} else if (files.size() == 1) {
+			return files.get(0);
+		} else {
+			// ask the user to select one among n
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+			Shell shell = window.getShell();
+
+			ElementListSelectionDialog dialog = new ElementListSelectionDialog(
+					shell, new LabelProvider() {
+						@Override
+						public String getText(Object element) {
+							if (element instanceof IFile) {
+								return ((IFile) element).getName();
+							} else {
+								return element.toString();
+							}
+						}
+					});
+			dialog.setElements(files.toArray());
+			dialog.setMultipleSelection(false);
+			dialog.setMessage("Several candidates are available, "
+					+ "please choose one below:");
+			dialog.setTitle("Choose an existing file");
+			if (dialog.open() == ElementListSelectionDialog.OK) {
+				return (IFile) dialog.getFirstResult();
+			} else {
+				return null;
+			}
+		}
+	}
+
 	@Override
 	public String getId() {
 		return ID;
+	}
+
+	/**
+	 * Returns a refinement file name from a valid (i.e. hierarchical) vertex
+	 * selection, <code>null</code> otherwise.
+	 * 
+	 * @return
+	 * @throws FileNotFoundException
+	 */
+	private IFile getIFileFromSelection() throws FileNotFoundException {
+		// get the path from the refinement
+		IPath path = new Path(getRefinement());
+		if (path.isAbsolute() == false) {
+			path = editedFile.getParent().getFullPath().append(path);
+		}
+
+		// deal with file extension
+		if (path.getFileExtension() == null) {
+			return findFileWithoutExtension(path);
+		} else {
+			IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			IResource resource = workspace.getRoot().findMember(path);
+			if (resource instanceof IFile) {
+				return (IFile) resource;
+			} else {
+				throw new FileNotFoundException();
+			}
+		}
 	}
 
 	@Override
@@ -77,15 +186,64 @@ public class OpenRefinementNewTabAction extends AbstractRefinementAction {
 		setToolTipText("Open Refinement in New Tab");
 	}
 
+	/**
+	 * Opens an editor on the given {@link IEditorInput}.
+	 * 
+	 * @param input
+	 *            An {@link IEditorInput}.
+	 */
+	private void openEditor(String fileName, IEditorInput input) {
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		IWorkbenchPage page = window.getActivePage();
+		IEditorRegistry registry = workbench.getEditorRegistry();
+
+		// matching editors
+		IEditorDescriptor[] editors = registry.getEditors(fileName);
+		IEditorDescriptor editor;
+		if (editors.length == 0) {
+			editor = registry.getDefaultEditor(fileName);
+		} else if (editors.length == 1) {
+			editor = editors[0];
+		} else {
+			EditorSelectionDialog dialog = new EditorSelectionDialog(window
+					.getShell());
+			dialog.setBlockOnOpen(true);
+
+			// if the user cancels, don't open any editor.
+			if (dialog.open() == EditorSelectionDialog.CANCEL) {
+				return;
+			}
+
+			editor = dialog.getSelectedEditor();
+		}
+
+		// if no editor found, use the default text editor
+		if (editor == null) {
+			editor = registry.findEditor("org.eclipse.ui.DefaultTextEditor");
+		}
+
+		// opens the editor
+		try {
+			page.openEditor(input, editor.getId());
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public void run() {
-		IFile file = getIFileFromSelection();
-		if (file == null) {
+		super.run();
+
+		try {
+			IFile file = getIFileFromSelection();
+			if (file != null) {
+				FileEditorInput input = new FileEditorInput(file);
+				openEditor(file.toString(), input);
+			}
+		} catch (FileNotFoundException e) {
 			MessageDialog.openError(null, "Could not open refinement",
-					"File not found");
-		} else {
-			FileEditorInput input = new FileEditorInput(file);
-			openEditor(file.toString(), input);
+					"File not found or invalid: " + getRefinement());
 		}
 	}
 }

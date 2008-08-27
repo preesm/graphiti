@@ -145,9 +145,6 @@ public class OntologyLoader {
 				.getConfigurationList(true)) {
 			String[] fileExts = config.getFileExtensions();
 			for (String fileExt : fileExts) {
-				if (fileExt.charAt(0) == '.') {
-					fileExt = fileExt.substring(1);
-				}
 				extensionSet.add(fileExt);
 			}
 		}

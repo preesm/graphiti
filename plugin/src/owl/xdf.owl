@@ -16,7 +16,7 @@
   <owl:Ontology rdf:about="">
     <owl:imports rdf:resource="http://net.sf.graphiti/basics.owl"/>
     <basic:hasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >.xdf</basic:hasFileExtension>
+    >xdf</basic:hasFileExtension>
     <basic:hasDocumentElement>
       <basic:DocumentElement rdf:ID="DocumentElementXDF">
         <basic:element_minOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
@@ -304,9 +304,9 @@
       </basic:DocumentElement>
     </basic:hasDocumentElement>
     <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >.xdf</basic:refinementHasFileExtension>
+    >cal</basic:refinementHasFileExtension>
     <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >.cal</basic:refinementHasFileExtension>
+    >xdf</basic:refinementHasFileExtension>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Copyright (c) 2008, IETR/INSA of Rennes
 All rights reserved.

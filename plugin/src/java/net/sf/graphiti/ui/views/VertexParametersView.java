@@ -235,7 +235,6 @@ public class VertexParametersView extends ViewPart implements
 	 * The constructor.
 	 */
 	public VertexParametersView() {
-		// PropertySheetPage
 	}
 
 	/**
@@ -326,12 +325,12 @@ public class VertexParametersView extends ViewPart implements
 		// 1st column
 		TableColumn column = new TableColumn(table, SWT.CENTER, 0);
 		column.setText("Name");
-		column.setWidth(40);
+		column.setWidth(100);
 
 		// 2nd column
 		column = new TableColumn(table, SWT.LEFT, 1);
 		column.setText("Value");
-		column.setWidth(400);
+		column.setWidth(300);
 
 		return table;
 	}

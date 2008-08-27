@@ -28,7 +28,11 @@
  */
 package net.sf.graphiti.ui.actions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -36,15 +40,14 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -52,6 +55,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.NewWizardAction;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
+import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
@@ -102,8 +106,6 @@ public class SetRefinementAction extends AbstractRefinementAction {
 
 	private static final String ID = "net.sf.graphiti.ui.actions.SetRefinementAction";
 
-	private IFile editedFile;
-
 	/**
 	 * Returns this action identifier.
 	 * 
@@ -149,9 +151,88 @@ public class SetRefinementAction extends AbstractRefinementAction {
 		workspace.removeResourceChangeListener(listener);
 	}
 
+	/**
+	 * Checks that the given file name is unique with respect to the known file
+	 * extensions. If it is the case, it is returned with no extension.
+	 * Otherwise, it is returned "as is".
+	 * 
+	 * @param path
+	 *            The full path to the given file.
+	 * @param name
+	 *            The original file name, with an extension.
+	 * @return Either the unmodified file name, or the file name with no
+	 *         extension.
+	 */
+	private String getFileNameWithoutExtension(IPath path, String name) {
+		IPath fileNoExt = new Path(name).removeFileExtension();
+		IPath absolutePath = path.append(fileNoExt);
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+
+		// get all possible candidates
+		List<IFile> files = new ArrayList<IFile>();
+		String[] fileExts = vertex.getDocumentConfiguration()
+				.getRefinementFileExtensions();
+		for (String fileExt : fileExts) {
+			IResource resource = workspace.getRoot().findMember(
+					absolutePath + "." + fileExt);
+			if (resource instanceof IFile) {
+				files.add((IFile) resource);
+			}
+		}
+
+		if (files.size() == 1) {
+			return fileNoExt.toString();
+		} else {
+			// use the original name
+			return name;
+		}
+	}
+
 	@Override
 	public String getId() {
 		return ID;
+	}
+
+	/**
+	 * Returns the refinement value corresponding to the given file. This method
+	 * automatically uses relative or absolute form depending on the location of
+	 * file compared to {@link #editedFile}.
+	 * 
+	 * @param file
+	 *            The file refinining the selected vertex.
+	 * @return A {@link String} with the refinement value.
+	 */
+	private String getRefinementValue(IFile file) {
+		IPath refinement = null;
+		IPath editedFilePath = editedFile.getParent().getFullPath();
+		IPath createdFilePath = file.getParent().getFullPath();
+
+		int n = editedFilePath.matchingFirstSegments(createdFilePath);
+		if (n == 0) {
+			// no common path segments: absolute path
+			refinement = createdFilePath;
+		} else {
+			// common path segments: using a relative path
+			if (editedFilePath.isPrefixOf(createdFilePath)) {
+				// just remove the common segments
+				refinement = createdFilePath.removeFirstSegments(n);
+			} else {
+				// go up
+				int max = editedFilePath.segmentCount();
+				String path = "";
+				for (int i = 0; i < max - n; i++) {
+					path += "../";
+				}
+				// and then down
+				path += createdFilePath.removeFirstSegments(n);
+				refinement = new Path(path);
+			}
+		}
+
+		String fileName = getFileNameWithoutExtension(createdFilePath, file
+				.getName());
+		refinement = refinement.append(fileName);
+		return refinement.toString();
 	}
 
 	@Override
@@ -163,18 +244,13 @@ public class SetRefinementAction extends AbstractRefinementAction {
 
 	@Override
 	public void run() {
+		super.run();
+
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		IWorkbenchPage page = window.getActivePage();
 		Shell shell = window.getShell();
 
-		// saves the current editor input
-		IEditorInput input = page.getActiveEditor().getEditorInput();
-		if (input instanceof IFileEditorInput) {
-			editedFile = ((IFileEditorInput) input).getFile();
-		}
-
-		// prompts the user for a file
+		// prompts the user to choose a file
 		final String message = "The selected vertex can be refined by an existing "
 				+ "file, or by a new file you can create.";
 		MessageDialog dialog = new MessageDialog(shell,
@@ -190,39 +266,13 @@ public class SetRefinementAction extends AbstractRefinementAction {
 
 	/**
 	 * Sets the "refinement" parameter of the selected vertex to the location of
-	 * file. This method automatically uses relative or absolute form depending
-	 * on the location of file compared to {@link #editedFile}.
+	 * file.
 	 * 
 	 * @param file
 	 */
 	private void setRefinement(IFile file) {
-		IPath refinement = null;
-		IPath editedFilePath = editedFile.getParent().getFullPath();
-		IPath createdFilePath = file.getParent().getFullPath();
-
-		int n = editedFilePath.matchingFirstSegments(createdFilePath);
-		if (n == 0) {
-			// no common path segments: absolute path
-			refinement = createdFilePath;
-		} else {
-			// common path segments: using a relative path
-			if (editedFilePath.isPrefixOf(createdFilePath)) {
-				// just remove the common segments
-				refinement = createdFilePath.removeFirstSegments(n);
-			} else {
-				// go up, and then down
-				int max = editedFilePath.segmentCount();
-				String path = "";
-				for (int i = 0; i < max - n; i++) {
-					path += "../";
-				}
-				path += createdFilePath.removeFirstSegments(n);
-				refinement = new Path(path);
-			}
-		}
-
-		refinement = refinement.append(file.getName());
-		vertex.setValue(Vertex.PARAMETER_REFINEMENT, refinement.toString());
+		String refinement = getRefinementValue(file);
+		vertex.setValue(Vertex.PARAMETER_REFINEMENT, refinement);
 	}
 
 	/**
@@ -232,20 +282,36 @@ public class SetRefinementAction extends AbstractRefinementAction {
 	 *            The active window's {@link Shell}.
 	 */
 	private void useExistingFile(Shell shell) {
-		//TODO: implement a IFile validator
 		ElementTreeSelectionDialog tree = new ElementTreeSelectionDialog(shell,
 				WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider(),
 				new WorkbenchContentProvider());
 		tree.setAllowMultiple(false);
+		tree.setInput(ResourcesPlugin.getWorkspace().getRoot());
+		tree.setMessage("Please select an existing file:");
+		tree.setTitle("Choose an existing file");
+		tree.setValidator(new ISelectionStatusValidator() {
 
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		tree.setInput(root);
-		tree.setTitle("Choose existing file");
-		if (tree.open() == Window.OK) {
-			Object result = tree.getFirstResult();
-			if (result instanceof IFile) {
-				setRefinement((IFile) result);
+			@Override
+			public IStatus validate(Object[] selection) {
+				if (selection.length == 1) {
+					if (selection[0] instanceof IFile) {
+						IFile file = (IFile) selection[0];
+						String message = "Vertex refinement: "
+								+ getRefinementValue(file);
+						return new Status(Status.OK, GraphitiPlugin.PLUGIN_ID,
+								message);
+					}
+				}
+
+				return new Status(Status.ERROR, GraphitiPlugin.PLUGIN_ID,
+						"Only files can be selected, not folders nor projects");
 			}
+
+		});
+
+		// opens the dialog
+		if (tree.open() == Window.OK) {
+			setRefinement((IFile) tree.getFirstResult());
 		}
 	}
 }
