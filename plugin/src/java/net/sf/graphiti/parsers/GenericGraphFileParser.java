@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -56,6 +57,8 @@ import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeR
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.edgeAttributes.EdgeAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.otherAttributes.OtherAttribute;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Sequence;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.TextContentElement;
@@ -204,6 +207,43 @@ public class GenericGraphFileParser {
 	}
 
 	/**
+	 * Tries to parse file with every configuration in the
+	 * {@link DocumentConfiguration} tree. This method tries first by the most
+	 * specialized ontologies, ie by the leafs of the tree.
+	 * 
+	 * @param file
+	 *            The file to parse.
+	 * @param configuration
+	 *            A {@link DocumentConfiguration}. When called by
+	 *            {@link #parse(IFile)}, this is the root of the document
+	 *            configuration tree.
+	 * @return True if <code>file</code> could be parsed with
+	 *         <code>configuration</code>, <code>false</code> otherwise.
+	 */
+	private boolean parse(Document document, DocumentConfiguration configuration) {
+		List<DocumentConfiguration> children = configuration
+				.getConfigurationList(false);
+		if (children.isEmpty()) {
+			// We have a leaf, try to parse
+			return parseWithConfiguration(document, configuration);
+		} else {
+			// We try the children
+			Iterator<DocumentConfiguration> it = children.iterator();
+			boolean isParsed = false;
+			while (it.hasNext() && !isParsed) {
+				isParsed = parse(document, it.next());
+			}
+
+			// And then ourselves
+			if (!isParsed) {
+				isParsed = parseWithConfiguration(document, configuration);
+			}
+
+			return isParsed;
+		}
+	}
+
+	/**
 	 * Parses the given {@link IFile} with the semantics defined in the
 	 * configuration file.
 	 * 
@@ -246,43 +286,6 @@ public class GenericGraphFileParser {
 
 		// could not parse
 		throw new IncompatibleConfigurationFile();
-	}
-
-	/**
-	 * Tries to parse file with every configuration in the
-	 * {@link DocumentConfiguration} tree. This method tries first by the most
-	 * specialized ontologies, ie by the leafs of the tree.
-	 * 
-	 * @param file
-	 *            The file to parse.
-	 * @param configuration
-	 *            A {@link DocumentConfiguration}. When called by
-	 *            {@link #parse(IFile)}, this is the root of the document
-	 *            configuration tree.
-	 * @return True if <code>file</code> could be parsed with
-	 *         <code>configuration</code>, <code>false</code> otherwise.
-	 */
-	private boolean parse(Document document, DocumentConfiguration configuration) {
-		List<DocumentConfiguration> children = configuration
-				.getConfigurationList(false);
-		if (children.isEmpty()) {
-			// We have a leaf, try to parse
-			return parseWithConfiguration(document, configuration);
-		} else {
-			// We try the children
-			Iterator<DocumentConfiguration> it = children.iterator();
-			boolean isParsed = false;
-			while (it.hasNext() && !isParsed) {
-				isParsed = parse(document, it.next());
-			}
-			
-			// And then ourselves
-			if (!isParsed) {
-				isParsed = parseWithConfiguration(document, configuration);
-			}
-			
-			return isParsed;
-		}
 	}
 
 	/**
@@ -544,7 +547,20 @@ public class GenericGraphFileParser {
 	 *            parent element of this parameter
 	 */
 	private void parseElements(Element ontElement, Node domNode, DOMNode element) {
-		Set<Element> childNodes = ontElement.hasElementChildren();
+		XMLSchemaType type = ontElement.hasSchemaType();
+		Set<Element> childNodes = new HashSet<Element>();
+		if (type != null) {
+			if (type.hasOntClass(OntologyFactory.getClassElement())) {
+				childNodes.add((Element) type);
+			} else if (type.hasOntClass(OntologyFactory.getClassSequence())) {
+				Sequence sequence = (Sequence) type;
+				for (XMLSchemaType seqElt : sequence.hasElements()) {
+					if (seqElt.hasOntClass(OntologyFactory.getClassElement())) {
+						childNodes.add((Element) seqElt);
+					}
+				}
+			}
+		}
 
 		// parses the nodes having a DOM implementation
 		NodeList children = domNode.getChildNodes();
