@@ -76,7 +76,10 @@ public class SimpleTransaction extends AbstractTransaction {
 	@Override
 	public void commit() {
 		super.beginCommit();
+		int i = 0;
 		for (IOperation<?> operation : operations) {
+			System.out.println("operation " + i);
+			i++;
 			operation.execute();
 		}
 		super.commit();

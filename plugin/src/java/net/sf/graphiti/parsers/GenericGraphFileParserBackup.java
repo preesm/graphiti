@@ -41,13 +41,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sf.graphiti.model.DOMNode;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.InfoDOMNode;
 import net.sf.graphiti.model.PropertyBean;
-import net.sf.graphiti.model.SkipDOMNode;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;

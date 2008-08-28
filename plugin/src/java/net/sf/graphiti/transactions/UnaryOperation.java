@@ -40,8 +40,6 @@ public class UnaryOperation<O, R> extends AbstractOperation<R> implements
 
 	private Operand<O> operand;
 
-	private IUnaryOperationSpecification<O, R> spec;
-
 	/**
 	 * Creates a new {@link UnaryOperation} using the given operation
 	 * specification.
@@ -51,13 +49,13 @@ public class UnaryOperation<O, R> extends AbstractOperation<R> implements
 	 */
 	public UnaryOperation(IUnaryOperationSpecification<O, R> spec) {
 		super(spec);
-		this.spec = spec;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void execute() {
 		nbOperands = (operand != null) ? 1 : 0;
 		super.execute();
-		spec.execute(operand, result);
+		((IUnaryOperationSpecification<O, R>) spec).execute(operand, result);
 	}
 
 	public String operandsToString() {

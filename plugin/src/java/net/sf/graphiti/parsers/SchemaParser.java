@@ -146,7 +146,7 @@ public class SchemaParser {
 		if (!isElementDefined(ontDocElement, docElement)) {
 			throw new NotCompatibleException();
 		}
-		
+
 		parseElement(ontDocElement, docElement);
 		return contentParser.getGraph();
 	}
@@ -169,6 +169,9 @@ public class SchemaParser {
 			String domAttrValue = domElement.getAttribute(ontAttrName);
 			if (domAttrValue == null) {
 				throw new NotCompatibleException();
+			} else {
+				contentParser.parseAttribute(ontAttribute, ontAttrName,
+						domAttrValue);
 			}
 		}
 	}
@@ -204,9 +207,9 @@ public class SchemaParser {
 	 */
 	private void parseElement(Element ontElement, org.w3c.dom.Element domElement)
 			throws NotCompatibleException {
-		parseAttributes(ontElement, domElement);
-
 		contentParser.parseElement(ontElement, domElement);
+
+		parseAttributes(ontElement, domElement);
 
 		XMLSchemaType type = ontElement.hasSchemaType();
 		if (type != null) {

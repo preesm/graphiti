@@ -43,7 +43,7 @@ public class GraphitiPerspectiveFactory implements IPerspectiveFactory {
 
 		// put the navigator on the left
 		IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT,
-				0.15f, editorArea);
+				0.2f, editorArea);
 		left.addView(IPageLayout.ID_RES_NAV);
 
 		IFolderLayout bottom = layout.createFolder("bottom",
@@ -53,7 +53,7 @@ public class GraphitiPerspectiveFactory implements IPerspectiveFactory {
 
 		// put the outline on the right
 		IFolderLayout right = layout.createFolder("right", IPageLayout.RIGHT,
-				0.85f, editorArea);
+				0.8f, editorArea);
 		right.addView(IPageLayout.ID_OUTLINE);
 	}
 

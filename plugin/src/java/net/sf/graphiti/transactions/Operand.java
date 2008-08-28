@@ -43,14 +43,22 @@ public class Operand<T> {
 		result = null;
 	}
 
-	public Operand(Result<T> result) {
-		contents = null;
-		this.result = result;
-	}
-
-	public Operand(T contents) {
-		this.contents = contents;
-		result = null;
+	/**
+	 * Creates a new {@link Operand} with the given contents. Note that the
+	 * behavior of this operand will depend on whether
+	 * <code>(contents <b>instanceof</b> Result)</code> is true or not.
+	 * 
+	 * @param contents
+	 */
+	@SuppressWarnings("unchecked")
+	public Operand(Object contents) {
+		if (contents instanceof Result<?>) {
+			this.contents = null;
+			this.result = (Result<T>) contents;
+		} else {
+			this.contents = (T) contents;
+			result = null;
+		}
 	}
 
 	public T getContents() {

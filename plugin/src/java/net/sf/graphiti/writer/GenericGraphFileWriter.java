@@ -45,11 +45,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import net.sf.graphiti.model.DOMNode;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.SkipDOMNode;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import net.sf.graphiti.ontology.parameters.Parameter;
@@ -116,7 +114,6 @@ public class GenericGraphFileWriter {
 	 * @param factory
 	 */
 	private void fillDocument(OntologyFactory factory) {
-		// TODO: correct writing!
 		DocumentElement ontDocElement = factory.getDocumentElement();
 		writeNode(ontDocElement, document, domDocument);
 	}

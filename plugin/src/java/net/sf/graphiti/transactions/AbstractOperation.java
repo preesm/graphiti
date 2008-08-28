@@ -52,7 +52,7 @@ public abstract class AbstractOperation<T> implements IOperation<T> {
 	/**
 	 * The specification of this operation.
 	 */
-	private IOperationSpecification spec;
+	final protected IOperationSpecification spec;
 
 	/**
 	 * Creates a new {@link AbstractOperation} using the given operation

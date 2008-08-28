@@ -31,8 +31,8 @@ package net.sf.graphiti.model;
 import java.util.List;
 
 /**
- * This class represents a vertex.
- * parameter or graph parameter in the vertex constructors?
+ * This class represents a vertex. parameter or graph parameter in the vertex
+ * constructors?
  * 
  * @author Matthieu Wipliez
  * 

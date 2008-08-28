@@ -43,8 +43,6 @@ public class BinaryOperation<O1, O2, R> extends AbstractOperation<R> implements
 
 	private Operand<O2> operand2;
 
-	private IBinaryOperationSpecification<O1, O2, R> spec;
-
 	/**
 	 * Creates a new {@link BinaryOperation} using the given operation
 	 * specification.
@@ -54,17 +52,18 @@ public class BinaryOperation<O1, O2, R> extends AbstractOperation<R> implements
 	 */
 	public BinaryOperation(IBinaryOperationSpecification<O1, O2, R> spec) {
 		super(spec);
-		this.spec = spec;
 	}
 
 	/**
 	 * Execute this operation.
 	 */
+	@SuppressWarnings("unchecked")
 	public void execute() {
 		nbOperands = ((operand1 != null) ? 1 : 0)
 				+ ((operand2 != null) ? 1 : 0);
 		super.execute();
-		spec.execute(operand1, operand2, result);
+		((IBinaryOperationSpecification<O1, O2, R>) spec).execute(operand1,
+				operand2, result);
 	}
 
 	public String operandsToString() {

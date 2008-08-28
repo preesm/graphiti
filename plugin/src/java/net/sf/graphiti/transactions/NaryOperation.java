@@ -43,11 +43,8 @@ public class NaryOperation<S, T> extends AbstractOperation<T> implements
 
 	private List<Operand<S>> operands;
 
-	private INaryOperationSpecification<S, T> spec;
-
 	public NaryOperation(INaryOperationSpecification<S, T> spec) {
 		super(spec);
-		this.spec = spec;
 		operands = new ArrayList<Operand<S>>();
 	}
 
@@ -61,10 +58,11 @@ public class NaryOperation<S, T> extends AbstractOperation<T> implements
 		operands.add(operand);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void execute() {
 		nbOperands = operands.size();
 		super.execute();
-		spec.execute(operands, result);
+		((INaryOperationSpecification<S, T>) spec).execute(operands, result);
 	}
 
 	public String operandsToString() {
