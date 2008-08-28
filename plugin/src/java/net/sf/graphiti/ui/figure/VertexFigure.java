@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ui.figure;
 
-import net.sf.graphiti.model.DocumentConfiguration;
+import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.enums.Shapes;
 import net.sf.graphiti.ui.figure.shapes.IShape;
@@ -64,7 +64,7 @@ public class VertexFigure extends Figure {
 	 * @param config
 	 * @param vertexType
 	 */
-	public VertexFigure(DocumentConfiguration config, String vertexType) {
+	public VertexFigure(Configuration config, String vertexType) {
 		// Get bounds
 		if (config.getVertexAttribute(vertexType, "height") != null
 				&& config.getVertexAttribute(vertexType, "width") != null) {

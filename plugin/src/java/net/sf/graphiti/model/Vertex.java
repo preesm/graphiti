@@ -37,7 +37,7 @@ import java.util.List;
  * @author Matthieu Wipliez
  * 
  */
-public class Vertex extends DOMNode {
+public class Vertex extends PropertyBean {
 
 	/**
 	 * String for the "color" attribute. Defines the vertex color.
@@ -128,7 +128,7 @@ public class Vertex extends DOMNode {
 	 * @return The value of the attribute as an object.
 	 */
 	public Object getAttribute(String attributeName) {
-		DocumentConfiguration config = parent.getDocumentConfiguration();
+		Configuration config = parent.getDocumentConfiguration();
 		return config.getVertexAttribute(getType(), attributeName);
 	}
 
@@ -138,7 +138,7 @@ public class Vertex extends DOMNode {
 	 * @return A PropertyBean that contain the attributes map.
 	 */
 	public PropertyBean getAttributes() {
-		DocumentConfiguration config = parent.getDocumentConfiguration();
+		Configuration config = parent.getDocumentConfiguration();
 		return config.getVertexAttributes(getType());
 	}
 
@@ -147,7 +147,7 @@ public class Vertex extends DOMNode {
 	 * 
 	 * @return The document configuration associated with this Vertex.
 	 */
-	public DocumentConfiguration getDocumentConfiguration() {
+	public Configuration getDocumentConfiguration() {
 		return parent.getDocumentConfiguration();
 	}
 
@@ -157,7 +157,7 @@ public class Vertex extends DOMNode {
 	 * @return A List of Parameters.
 	 */
 	public List<Parameter> getParameters() {
-		DocumentConfiguration config = parent.getDocumentConfiguration();
+		Configuration config = parent.getDocumentConfiguration();
 		return config.getVertexParameters(getType());
 	}
 
@@ -180,7 +180,7 @@ public class Vertex extends DOMNode {
 	}
 
 	public String toString() {
-		return getType() + " : " + getNodeName();
+		return getType() + " : " + getValue(PARAMETER_ID);
 	}
 
 }

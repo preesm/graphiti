@@ -28,8 +28,8 @@
  */
 package net.sf.graphiti.ui;
 
-import net.sf.graphiti.model.DocumentConfiguration;
-import net.sf.graphiti.parsers.OntologyLoader;
+import net.sf.graphiti.model.Configuration;
+import net.sf.graphiti.parsers.ConfigurationLoader;
 
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
@@ -101,7 +101,7 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	 * The root of the document configuration tree built when the plug-in was
 	 * activated.
 	 */
-	private DocumentConfiguration configuration;
+	private Configuration configuration;
 
 	/**
 	 * The constructor
@@ -113,10 +113,10 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	/**
 	 * Returns the root of the document configuration tree.
 	 * 
-	 * @return A {@link DocumentConfiguration} that is the root of the document
+	 * @return A {@link Configuration} that is the root of the document
 	 *         configuration tree.
 	 */
-	public DocumentConfiguration getConfiguration() {
+	public Configuration getConfiguration() {
 		return configuration;
 	}
 
@@ -170,8 +170,9 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		OntologyLoader ontLoader = new OntologyLoader(context);
-		configuration = ontLoader.getConfiguration();
+		ConfigurationLoader loader = new ConfigurationLoader(context);
+		configuration = loader.getConfiguration();
+		new EditorsContributor(context, configuration);
 		plugin = this;
 	}
 

@@ -121,7 +121,7 @@ public abstract class AbstractRefinementCommand extends Command {
 	public void setSelection(ISelection selection) {
 		// reset the previous selection.
 		vertex = null;
-		
+
 		if (selection instanceof IStructuredSelection) {
 			Object obj = ((IStructuredSelection) selection).getFirstElement();
 			if (obj instanceof VertexEditPart) {

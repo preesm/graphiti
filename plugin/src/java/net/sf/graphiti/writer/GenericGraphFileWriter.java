@@ -46,7 +46,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import net.sf.graphiti.model.DOMNode;
-import net.sf.graphiti.model.DocumentConfiguration;
+import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.SkipDOMNode;
@@ -121,30 +121,32 @@ public class GenericGraphFileWriter {
 		writeNode(ontDocElement, document, domDocument);
 	}
 
-	boolean isNodeInstance(DOMNode inst,
+	boolean isNodeInstance(
+			DOMNode inst,
 			net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element ontNode) {
 		boolean isNodeInstance = true;
-		if(inst.getClass().equals(DOMNode.class)){
-			return false ;
+		if (inst.getClass().equals(DOMNode.class)) {
+			return false;
 		}
-		if(inst.getNodeName() != null){
-			isNodeInstance &= inst.getNodeName().equals(ontNode.hasName()) ; 
+		if (inst.getNodeName() != null) {
+			isNodeInstance &= inst.getNodeName().equals(ontNode.hasName());
 		}
 		Set<ParameterValue> pvs = ontNode.hasParameterValues();
 		for (ParameterValue pv : pvs) {
 			isNodeInstance &= inst.getValue(pv.ofParameter().hasName()).equals(
 					pv.hasValue());
 		}
-		Set<AttributeRestriction> aRestrictions = ontNode.hasAttributeRestriction();
+		Set<AttributeRestriction> aRestrictions = ontNode
+				.hasAttributeRestriction();
 		for (AttributeRestriction pR : aRestrictions) {
-			Object val ;
-			if(inst.getValue(pR.hasName()) == null){
-				if(inst.getDOMAttributeValue(pR.hasName()) == null){
-					return false ;
-				}else{
+			Object val;
+			if (inst.getValue(pR.hasName()) == null) {
+				if (inst.getDOMAttributeValue(pR.hasName()) == null) {
+					return false;
+				} else {
 					val = inst.getDOMAttributeValue(pR.hasName());
 				}
-			}else{
+			} else {
 				val = inst.getValue(pR.hasName());
 			}
 			isNodeInstance &= val.equals(pR.hasValue());
@@ -169,8 +171,7 @@ public class GenericGraphFileWriter {
 	 *            The output stream.
 	 */
 	public void write(OutputStream out) {
-		DocumentConfiguration configuration = document
-				.getDocumentConfiguration();
+		Configuration configuration = document.getDocumentConfiguration();
 		OntologyFactory factory = configuration.getOntologyFactory();
 		try {
 			DocumentBuilderFactory builderFactory = DocumentBuilderFactory
@@ -225,72 +226,73 @@ public class GenericGraphFileWriter {
 		List<net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element> ontologyElements = new ArrayList<net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element>(
 				nodes);
 		// while elements are to be written
-//		while (ontologyElements.size() > 0) {
-//			// obtain the current element
-//			net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element node = ontologyElements
-//					.get(0);
-//			// check if elements needs to be written previously
-//			while (node.hasPrecedenceElement() != null
-//					&& ontologyElements.contains(node.hasPrecedenceElement())) {
-//				// There is element to write before writting the current element
-//				// and that haven't been written
-//				node = node.hasPrecedenceElement();
-//			}
-//			// remove the node from the node to write
-//			ontologyElements.remove(node);
-//
-//			// treat the element considering its class
-//			if (node.hasOntClass(OntologyFactory.getClassGraphElement())) {
-//				if (element instanceof GraphitiDocument) {
-//					writeNode(node, ((GraphitiDocument) element).getGraph(),
-//							parentNode);
-//					treated.add(((GraphitiDocument) element).getGraph());
-//				}
-//			} else if (node
-//					.hasOntClass(OntologyFactory.getClassVertexElement())) {
-//				if (element instanceof GraphitiDocument) {
-//					for (Vertex vertex : ((GraphitiDocument) element)
-//							.getGraph().vertexSet()) {
-//						if (isNodeInstance(vertex, node)) {
-//							writeNode(node, vertex, parentNode);
-//							treated.add(vertex);
-//						}
-//					}
-//				} else if (element instanceof Graph) {
-//					for (Vertex vertex : ((Graph) element).vertexSet()) {
-//						if (isNodeInstance(vertex, node)) {
-//							writeNode(node, vertex, parentNode);
-//							treated.add(vertex);
-//						}
-//					}
-//				}
-//			} else if (node.hasOntClass(OntologyFactory.getClassSkipElement())) {
-//				boolean isTreated = false;
-//				for (DOMNode childNode : element.getDOMElements()) {
-//					if (isNodeInstance(childNode, node)) {
-//						writeNode(node, childNode, parentNode);
-//						isTreated = true;
-//					}
-//				}
-//				treated.add(element);
-//			} else if (node.hasOntClass(OntologyFactory.getClassEdgeElement())) {
-//				if (element instanceof GraphitiDocument) {
-//					for (Edge edge : ((GraphitiDocument) element).getGraph()
-//							.edgeSet()) {
-//						writeNode(node, edge, parentNode);
-//						treated.add(edge);
-//					}
-//				} else if (element instanceof Graph) {
-//					for (Edge edge : ((Graph) element).edgeSet()) {
-//						writeNode(node, edge, parentNode);
-//						treated.add(edge);
-//					}
-//				}
-//			} else {
-//				writeNode(node, element, parentNode);
-//			}
-//
-//		}
+		// while (ontologyElements.size() > 0) {
+		// // obtain the current element
+		// net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.
+		// Element node = ontologyElements
+		// .get(0);
+		// // check if elements needs to be written previously
+		// while (node.hasPrecedenceElement() != null
+		// && ontologyElements.contains(node.hasPrecedenceElement())) {
+		// // There is element to write before writting the current element
+		// // and that haven't been written
+		// node = node.hasPrecedenceElement();
+		// }
+		// // remove the node from the node to write
+		// ontologyElements.remove(node);
+		//
+		// // treat the element considering its class
+		// if (node.hasOntClass(OntologyFactory.getClassGraphElement())) {
+		// if (element instanceof GraphitiDocument) {
+		// writeNode(node, ((GraphitiDocument) element).getGraph(),
+		// parentNode);
+		// treated.add(((GraphitiDocument) element).getGraph());
+		// }
+		// } else if (node
+		// .hasOntClass(OntologyFactory.getClassVertexElement())) {
+		// if (element instanceof GraphitiDocument) {
+		// for (Vertex vertex : ((GraphitiDocument) element)
+		// .getGraph().vertexSet()) {
+		// if (isNodeInstance(vertex, node)) {
+		// writeNode(node, vertex, parentNode);
+		// treated.add(vertex);
+		// }
+		// }
+		// } else if (element instanceof Graph) {
+		// for (Vertex vertex : ((Graph) element).vertexSet()) {
+		// if (isNodeInstance(vertex, node)) {
+		// writeNode(node, vertex, parentNode);
+		// treated.add(vertex);
+		// }
+		// }
+		// }
+		// } else if (node.hasOntClass(OntologyFactory.getClassSkipElement())) {
+		// boolean isTreated = false;
+		// for (DOMNode childNode : element.getDOMElements()) {
+		// if (isNodeInstance(childNode, node)) {
+		// writeNode(node, childNode, parentNode);
+		// isTreated = true;
+		// }
+		// }
+		// treated.add(element);
+		// } else if (node.hasOntClass(OntologyFactory.getClassEdgeElement())) {
+		// if (element instanceof GraphitiDocument) {
+		// for (Edge edge : ((GraphitiDocument) element).getGraph()
+		// .edgeSet()) {
+		// writeNode(node, edge, parentNode);
+		// treated.add(edge);
+		// }
+		// } else if (element instanceof Graph) {
+		// for (Edge edge : ((Graph) element).edgeSet()) {
+		// writeNode(node, edge, parentNode);
+		// treated.add(edge);
+		// }
+		// }
+		// } else {
+		// writeNode(node, element, parentNode);
+		// }
+		//
+		// }
 
 		for (DOMNode childElement : element.getDOMElements()) {
 			if (!childElement.getNodeName().equals("#text")
@@ -323,7 +325,8 @@ public class GenericGraphFileWriter {
 	 * @param parentNode
 	 *            The parent node is the DOM tree
 	 */
-	private void writeNode(net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element node,
+	private void writeNode(
+			net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element node,
 			DOMNode element, Node parentNode) {
 		DOMNode trueElement;
 
@@ -395,7 +398,8 @@ public class GenericGraphFileWriter {
 			}
 		}
 		// Write the children of this node
-		//writeCorrespondingNode(node.hasElementChildren(), element, newElement);
+		// writeCorrespondingNode(node.hasElementChildren(), element,
+		// newElement);
 	}
 
 }

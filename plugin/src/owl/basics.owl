@@ -619,7 +619,7 @@ The &lt;objects&gt; element do not hold any semantic information, yet are necess
     <rdfs:domain rdf:resource="#XMLAttribute"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
   </owl:DatatypeProperty>
-  <owl:FunctionalProperty rdf:ID="element_minOccurs">
+  <owl:FunctionalProperty rdf:ID="element_hasMinOccurs">
     <rdfs:domain rdf:resource="#Element"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
@@ -641,7 +641,7 @@ The &lt;objects&gt; element do not hold any semantic information, yet are necess
     <rdfs:domain rdf:resource="#Sequence"/>
     <rdfs:range rdf:resource="#XMLSchemaType"/>
   </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:ID="element_maxOccurs">
+  <owl:FunctionalProperty rdf:ID="element_hasMaxOccurs">
     <rdfs:domain rdf:resource="#Element"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>

@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import net.sf.graphiti.model.DocumentConfiguration;
+import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
@@ -172,7 +172,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	protected IFigure createFigure() {
 		Vertex vertex = (Vertex) getModel();
-		DocumentConfiguration config = vertex.getDocumentConfiguration();
+		Configuration config = vertex.getDocumentConfiguration();
 
 		VertexFigure figure = new VertexFigure(config, vertex.getType());
 		String name = (String) vertex.getValue("name");

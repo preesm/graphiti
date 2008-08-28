@@ -34,8 +34,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <owl:imports rdf:resource="http://net.sf.graphiti/basics.owl"/>
     <basic:hasDocumentElement>
       <basic:DocumentElement rdf:ID="DocumentElementXNL">
-        <basic:element_minOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</basic:element_minOccurs>
+        <basic:element_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</basic:element_hasMinOccurs>
         <basic:element_hasAttributes>
           <basic:OtherAttribute rdf:ID="OtherAttributeGraphName">
             <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -103,9 +103,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                             <basic:element_hasName
                                              rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                                             >EntityDecl</basic:element_hasName>
-                                            <basic:element_maxOccurs
+                                            <basic:element_hasMaxOccurs
                                              rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                                            >-1</basic:element_maxOccurs>
+                                            >-1</basic:element_hasMaxOccurs>
                                             <basic:element_hasParameterValue>
                                               <basic:ParameterValue rdf:ID="InstanceParameterValue">
                                                 <basic:parameterValue_ofParameter>
@@ -184,9 +184,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                 >Instance</basic:parameterValue_hasValue>
                                               </basic:ParameterValue>
                                             </basic:element_hasParameterValue>
-                                            <basic:element_minOccurs
+                                            <basic:element_hasMinOccurs
                                              rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                                            >0</basic:element_minOccurs>
+                                            >0</basic:element_hasMinOccurs>
                                             <basic:element_hasSchemaType>
                                               <basic:SkipElement rdf:ID="SkipElementEntityExpr">
                                                 <basic:element_hasName
@@ -300,12 +300,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                 >Port</basic:parameterValue_hasValue>
                                               </basic:ParameterValue>
                                             </basic:element_hasParameterValue>
-                                            <basic:element_maxOccurs
+                                            <basic:element_hasMaxOccurs
                                              rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                                            >-1</basic:element_maxOccurs>
-                                            <basic:element_minOccurs
+                                            >-1</basic:element_hasMaxOccurs>
+                                            <basic:element_hasMinOccurs
                                              rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                                            >0</basic:element_minOccurs>
+                                            >0</basic:element_hasMinOccurs>
                                           </basic:VertexElement>
                                         </basic:attribute_isReferenceTo>
                                         <basic:attribute_hasName
@@ -436,12 +436,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                         >StructureStmt</basic:element_hasName>
                         <basic:element_hasParameterValue rdf:resource="#ConnectionParameterValue"/>
-                        <basic:element_maxOccurs rdf:datatype=
+                        <basic:element_hasMaxOccurs rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#int"
-                        >-1</basic:element_maxOccurs>
-                        <basic:element_minOccurs rdf:datatype=
+                        >-1</basic:element_hasMaxOccurs>
+                        <basic:element_hasMinOccurs rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#int"
-                        >0</basic:element_minOccurs>
+                        >0</basic:element_hasMinOccurs>
                       </basic:EdgeElement>
                     </basic:sequence_hasHead>
                   </basic:Sequence>
@@ -454,8 +454,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             ></rdfs:comment>
           </basic:Sequence>
         </basic:element_hasSchemaType>
-        <basic:element_maxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</basic:element_maxOccurs>
+        <basic:element_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</basic:element_hasMaxOccurs>
       </basic:DocumentElement>
     </basic:hasDocumentElement>
   </owl:Ontology>

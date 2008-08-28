@@ -63,9 +63,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                         <basic:parameter_ofInfoElement>
                           <basic:TextContentElement rdf:ID="TextContentElementDataEdgeConsumption">
                             <basic:textContentElement_referencesParameter rdf:resource="#EdgeParameterEdgeConsumption"/>
-                            <basic:element_maxOccurs rdf:datatype=
+                            <basic:element_hasMaxOccurs rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#int"
-                            >1</basic:element_maxOccurs>
+                            >1</basic:element_hasMaxOccurs>
                             <basic:element_hasName rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#string"
                             >data</basic:element_hasName>
@@ -80,9 +80,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                 >key</basic:attributeRestriction_hasName>
                               </basic:AttributeRestriction>
                             </basic:element_hasAttributeRestriction>
-                            <basic:element_minOccurs rdf:datatype=
+                            <basic:element_hasMinOccurs rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#int"
-                            >1</basic:element_minOccurs>
+                            >1</basic:element_hasMinOccurs>
                           </basic:TextContentElement>
                         </basic:parameter_ofInfoElement>
                         <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#West"/>
@@ -98,9 +98,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                         <basic:parameter_ofInfoElement>
                           <basic:TextContentElement rdf:ID="TextContentElementDataEdgeDelay">
                             <basic:textContentElement_referencesParameter rdf:resource="#EdgeParameterEdgeDelay"/>
-                            <basic:element_minOccurs rdf:datatype=
+                            <basic:element_hasMinOccurs rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#int"
-                            >1</basic:element_minOccurs>
+                            >1</basic:element_hasMinOccurs>
                             <basic:element_hasAttributeRestriction>
                               <basic:AttributeRestriction rdf:ID="AttributeRestrictionEdgeDelay">
                                 <basic:attributeRestriction_hasName
@@ -115,9 +115,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                             <basic:element_hasName rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#string"
                             >data</basic:element_hasName>
-                            <basic:element_maxOccurs rdf:datatype=
+                            <basic:element_hasMaxOccurs rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#int"
-                            >1</basic:element_maxOccurs>
+                            >1</basic:element_hasMaxOccurs>
                           </basic:TextContentElement>
                         </basic:parameter_ofInfoElement>
                         <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#Center"/>
@@ -128,10 +128,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 </basic:parameter_appliesTo>
               </basic:EdgeParameter>
             </basic:textContentElement_referencesParameter>
-            <basic:element_minOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-            >1</basic:element_minOccurs>
-            <basic:element_maxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-            >1</basic:element_maxOccurs>
+            <basic:element_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >1</basic:element_hasMinOccurs>
+            <basic:element_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >1</basic:element_hasMaxOccurs>
           </basic:TextContentElement>
         </basic:sequence_hasHead>
         <basic:sequence_hasRest>
@@ -161,8 +161,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         </basic:element_hasAttributeRestriction>
         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >data</basic:element_hasName>
-        <basic:element_minOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</basic:element_minOccurs>
+        <basic:element_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</basic:element_hasMinOccurs>
         <basic:textContentElement_referencesParameter>
           <basic:VertexParameter rdf:ID="VertexParameterName">
             <basic:parameter_ofInfoElement rdf:resource="#TextContentElementVertexName"/>
@@ -175,8 +175,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             </basic:parameter_appliesTo>
           </basic:VertexParameter>
         </basic:textContentElement_referencesParameter>
-        <basic:element_maxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</basic:element_maxOccurs>
+        <basic:element_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</basic:element_hasMaxOccurs>
       </basic:TextContentElement>
     </basic:element_hasSchemaType>
   </rdf:Description>

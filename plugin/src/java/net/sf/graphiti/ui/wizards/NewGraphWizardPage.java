@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import net.sf.graphiti.model.DocumentConfiguration;
+import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.ontology.types.GraphType;
 import net.sf.graphiti.ui.GraphitiPlugin;
@@ -66,7 +66,7 @@ import org.eclipse.ui.dialogs.ContainerSelectionDialog;
  */
 public class NewGraphWizardPage extends WizardPage {
 
-	private Map<String, DocumentConfiguration> graphTypes;
+	private Map<String, Configuration> graphTypes;
 
 	private Combo listGraphTypes;
 
@@ -200,11 +200,10 @@ public class NewGraphWizardPage extends WizardPage {
 	}
 
 	private void fillGraphTypes() {
-		DocumentConfiguration rootConfig = GraphitiPlugin.getDefault()
+		Configuration rootConfig = GraphitiPlugin.getDefault()
 				.getConfiguration();
-		graphTypes = new HashMap<String, DocumentConfiguration>();
-		for (DocumentConfiguration config : rootConfig
-				.getConfigurationList(true)) {
+		graphTypes = new HashMap<String, Configuration>();
+		for (Configuration config : rootConfig.getConfigurationList(true)) {
 			Set<GraphType> graphTypes = config.getOntologyFactory()
 					.getGraphTypes();
 			for (GraphType type : graphTypes) {
@@ -229,7 +228,7 @@ public class NewGraphWizardPage extends WizardPage {
 	public Graph getNewGraph() {
 		int index = listGraphTypes.getSelectionIndex();
 		String graphType = listGraphTypes.getItem(index);
-		DocumentConfiguration config = graphTypes.get(graphType);
+		Configuration config = graphTypes.get(graphType);
 		Graph graph = new Graph(config);
 		return graph;
 	}

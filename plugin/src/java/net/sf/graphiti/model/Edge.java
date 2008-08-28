@@ -35,7 +35,7 @@ package net.sf.graphiti.model;
  * @author Matthieu Wipliez
  * 
  */
-public class Edge extends DOMNode {
+public class Edge extends PropertyBean {
 
 	public static final String DST_PORT_NAME = "dstPortName";
 
@@ -72,9 +72,9 @@ public class Edge extends DOMNode {
 	/**
 	 * Returns the document configuration associated with this edge.
 	 * 
-	 * @return A {@link DocumentConfiguration}.
+	 * @return A {@link Configuration}.
 	 */
-	public DocumentConfiguration getDocumentConfiguration() {
+	public Configuration getDocumentConfiguration() {
 		return source.getDocumentConfiguration();
 	}
 

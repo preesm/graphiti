@@ -64,8 +64,8 @@ import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
  * @author Matthieu Wipliez
  * 
  */
-public class GraphEditPart extends AbstractGraphicalEditPart
-		implements PropertyChangeListener {
+public class GraphEditPart extends AbstractGraphicalEditPart implements
+		PropertyChangeListener {
 
 	/**
 	 * The subgraph associated with this graph edit part. Set by

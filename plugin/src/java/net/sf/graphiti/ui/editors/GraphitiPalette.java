@@ -30,7 +30,7 @@ package net.sf.graphiti.ui.editors;
 
 import java.util.Set;
 
-import net.sf.graphiti.model.DocumentConfiguration;
+import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.VertexCreationFactory;
 import net.sf.graphiti.ontology.OntologyFactory;
@@ -75,7 +75,7 @@ public class GraphitiPalette {
 	 */
 	private static void addVertexTypes(Graph graph, PaletteGroup paletteGroup) {
 		if (graph != null) {
-			DocumentConfiguration config = graph.getDocumentConfiguration();
+			Configuration config = graph.getDocumentConfiguration();
 			OntologyFactory factory = config.getOntologyFactory();
 			Set<VertexType> vertexTypes = factory.getVertexTypes();
 			for (VertexType type : vertexTypes) {
@@ -103,7 +103,7 @@ public class GraphitiPalette {
 	 * @return A new {@link ImageDescriptor}.
 	 */
 	private static ImageDescriptor getImageDescriptorFromType(
-			DocumentConfiguration config, String typeStr) {
+			Configuration config, String typeStr) {
 		// Creates a new vertex figure
 		VertexFigure figure = new VertexFigure(config, typeStr);
 

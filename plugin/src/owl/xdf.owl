@@ -19,10 +19,10 @@
     >xdf</basic:hasFileExtension>
     <basic:hasDocumentElement>
       <basic:DocumentElement rdf:ID="DocumentElementXDF">
-        <basic:element_minOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</basic:element_minOccurs>
-        <basic:element_maxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</basic:element_maxOccurs>
+        <basic:element_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</basic:element_hasMinOccurs>
+        <basic:element_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</basic:element_hasMaxOccurs>
         <basic:element_hasSchemaType>
           <basic:Sequence rdf:ID="SequenceDocumentElementXDF1">
             <basic:sequence_hasHead>
@@ -73,8 +73,8 @@
                     >Port</basic:parameterValue_hasValue>
                   </basic:ParameterValue>
                 </basic:element_hasParameterValue>
-                <basic:element_maxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                >0</basic:element_maxOccurs>
+                <basic:element_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                >0</basic:element_hasMaxOccurs>
                 <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >Port</basic:element_hasName>
                 <basic:element_hasAttributes>
@@ -139,8 +139,8 @@
                     >name</basic:attribute_hasName>
                   </basic:OtherAttribute>
                 </basic:element_hasAttributes>
-                <basic:element_minOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                >-1</basic:element_minOccurs>
+                <basic:element_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                >-1</basic:element_hasMinOccurs>
               </basic:VertexElement>
             </basic:sequence_hasHead>
             <basic:sequence_hasRest>
@@ -160,15 +160,15 @@
                     </basic:element_hasAttributes>
                     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                     >Instance</basic:element_hasName>
-                    <basic:element_minOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                    >-1</basic:element_minOccurs>
+                    <basic:element_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                    >-1</basic:element_hasMinOccurs>
                     <basic:element_hasSchemaType>
                       <basic:SkipElement rdf:ID="SkipElementClass">
                         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                         >Class</basic:element_hasName>
-                        <basic:element_maxOccurs rdf:datatype=
+                        <basic:element_hasMaxOccurs rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#int"
-                        >0</basic:element_maxOccurs>
+                        >0</basic:element_hasMaxOccurs>
                         <basic:element_hasAttributes>
                           <basic:OtherAttribute rdf:ID="vertexParameterName">
                             <basic:element_hasName rdf:datatype=
@@ -180,22 +180,22 @@
                             >name</basic:attribute_hasName>
                           </basic:OtherAttribute>
                         </basic:element_hasAttributes>
-                        <basic:element_minOccurs rdf:datatype=
+                        <basic:element_hasMinOccurs rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#int"
-                        >-1</basic:element_minOccurs>
+                        >-1</basic:element_hasMinOccurs>
                       </basic:SkipElement>
                     </basic:element_hasSchemaType>
-                    <basic:element_maxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                    >0</basic:element_maxOccurs>
+                    <basic:element_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                    >0</basic:element_hasMaxOccurs>
                   </basic:VertexElement>
                 </basic:sequence_hasHead>
                 <basic:sequence_hasRest>
                   <basic:Sequence rdf:ID="SequenceDocumentElementXDF3">
                     <basic:sequence_hasHead>
                       <basic:EdgeElement rdf:ID="ConnectionElement">
-                        <basic:element_maxOccurs rdf:datatype=
+                        <basic:element_hasMaxOccurs rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#int"
-                        >-1</basic:element_maxOccurs>
+                        >-1</basic:element_hasMaxOccurs>
                         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                         >Connection</basic:element_hasName>
                         <basic:element_hasParameterValue>
@@ -243,9 +243,9 @@
                             <basic:otherAttribute_referencesParameter rdf:resource="#EdgeParameterType"/>
                           </basic:ParameterValue>
                         </basic:element_hasParameterValue>
-                        <basic:element_minOccurs rdf:datatype=
+                        <basic:element_hasMinOccurs rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#int"
-                        >0</basic:element_minOccurs>
+                        >0</basic:element_hasMinOccurs>
                         <basic:element_hasAttributes>
                           <basic:OtherAttribute rdf:ID="destinationPort">
                             <basic:element_hasName rdf:datatype=

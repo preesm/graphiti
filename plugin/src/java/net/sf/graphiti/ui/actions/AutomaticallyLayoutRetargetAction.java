@@ -49,7 +49,7 @@ import org.eclipse.ui.actions.RetargetAction;
 public class AutomaticallyLayoutRetargetAction extends RetargetAction {
 
 	public class MenuCreator implements IMenuCreator {
-		
+
 		public void dispose() {
 		}
 

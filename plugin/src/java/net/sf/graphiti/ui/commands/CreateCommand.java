@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ui.commands;
 
-import net.sf.graphiti.model.DocumentConfiguration;
+import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
 
@@ -64,7 +64,7 @@ public class CreateCommand extends Command {
 				Vertex vertex = (Vertex) newObject;
 				graph.addVertex(vertex);
 
-				DocumentConfiguration config = graph.getDocumentConfiguration();
+				Configuration config = graph.getDocumentConfiguration();
 				Integer width = (Integer) config.getVertexAttribute(vertex
 						.getType(), Vertex.ATTRIBUTE_WIDTH);
 				Integer height = (Integer) config.getVertexAttribute(vertex

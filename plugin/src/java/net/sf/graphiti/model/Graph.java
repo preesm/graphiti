@@ -44,7 +44,7 @@ import org.jgrapht.graph.Multigraph;
  * @author Matthieu Wipliez
  * 
  */
-public class Graph extends DOMNode {
+public class Graph extends PropertyBean {
 
 	public static final String PARAMETER_ID = "id";
 
@@ -74,12 +74,22 @@ public class Graph extends DOMNode {
 		return Long.toString(System.currentTimeMillis() - ref);
 	}
 
-	private AbstractBaseGraph<Vertex, Edge> graph;
-
 	/**
 	 * The configuration associated with this graph.
 	 */
-	DocumentConfiguration configuration;
+	Configuration configuration;
+
+	private AbstractBaseGraph<Vertex, Edge> graph;
+
+	/**
+	 * Creates a new directed graph.
+	 * 
+	 * @param config
+	 *            The configuration to use with this graph.
+	 */
+	public Graph(Configuration config) {
+		this(config, true);
+	}
 
 	/**
 	 * Creates a new graph, directed or not.
@@ -89,23 +99,13 @@ public class Graph extends DOMNode {
 	 * @param config
 	 *            The configuration to use with this graph.
 	 */
-	public Graph(DocumentConfiguration config, boolean directed) {
+	public Graph(Configuration config, boolean directed) {
 		configuration = config;
 		if (directed) {
 			graph = new DirectedMultigraph<Vertex, Edge>(Edge.class);
 		} else {
 			graph = new Multigraph<Vertex, Edge>(Edge.class);
 		}
-	}
-
-	/**
-	 * Creates a new directed graph.
-	 * 
-	 * @param config
-	 *            The configuration to use with this graph.
-	 */
-	public Graph(DocumentConfiguration config) {
-		this(config, true);
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class Graph extends DOMNode {
 	 * 
 	 * @return The document configuration associated with this Graph.
 	 */
-	public DocumentConfiguration getDocumentConfiguration() {
+	public Configuration getDocumentConfiguration() {
 		return configuration;
 	}
 

@@ -37,9 +37,9 @@ import java.util.Set;
 import net.sf.graphiti.ontology.OntologyFactory;
 
 /**
- * This class provides the configuration for a GraphitiDocument. A configuration
- * is defined by an ontology, and contains attributes and parameters that are
- * defined for graphs, vertices and edges.
+ * This class provides the configuration for a {@link Graph}. A configuration is
+ * defined by an ontology, and contains attributes and parameters that are
+ * defined for the graph, vertices and edges.
  * <p>
  * Attributes are specified for classes of objects: for example, all vertices of
  * type T will have an attribute A which has the value V. Examples of such
@@ -53,7 +53,7 @@ import net.sf.graphiti.ontology.OntologyFactory;
  * @author Matthieu Wipliez
  * 
  */
-public class DocumentConfiguration {
+public class Configuration {
 
 	/**
 	 * 
@@ -63,7 +63,7 @@ public class DocumentConfiguration {
 	/**
 	 * The document configurations that extend this document configuration.
 	 */
-	private List<DocumentConfiguration> children;
+	private List<Configuration> children;
 
 	/**
 	 * An edge type -> attributes map.
@@ -98,7 +98,7 @@ public class DocumentConfiguration {
 	/**
 	 * The document configurations extended by this document configuration.
 	 */
-	private List<DocumentConfiguration> parents;
+	private List<Configuration> parents;
 
 	/**
 	 * File extensions that may be associated with a vertex refinement in this
@@ -124,7 +124,7 @@ public class DocumentConfiguration {
 	 *            The URL of the ontology this document configuration is
 	 *            associated with.
 	 */
-	public DocumentConfiguration(String ontologyUrl) {
+	public Configuration(String ontologyUrl) {
 		ontologyFactory = new OntologyFactory(ontologyUrl);
 
 		edgeAttributes = new HashMap<String, PropertyBean>();
@@ -135,8 +135,8 @@ public class DocumentConfiguration {
 		graphParameters = new HashMap<String, List<Parameter>>();
 		edgeParameters = new HashMap<String, List<Parameter>>();
 
-		parents = new ArrayList<DocumentConfiguration>();
-		children = new ArrayList<DocumentConfiguration>();
+		parents = new ArrayList<Configuration>();
+		children = new ArrayList<Configuration>();
 	}
 
 	/**
@@ -190,11 +190,11 @@ public class DocumentConfiguration {
 	}
 
 	/**
-	 * Adds a parent of this {@link DocumentConfiguration}.
+	 * Adds a parent of this {@link Configuration}.
 	 * 
 	 * @param parent
 	 */
-	public void addParent(DocumentConfiguration parent) {
+	public void addParent(Configuration parent) {
 		parents.add(parent);
 		parent.children.add(this);
 	}
@@ -221,8 +221,8 @@ public class DocumentConfiguration {
 	 * 
 	 * @param childrenList
 	 */
-	private void enumerateChildren(List<DocumentConfiguration> childrenList) {
-		for (DocumentConfiguration child : children) {
+	private void enumerateChildren(List<Configuration> childrenList) {
+		for (Configuration child : children) {
 			child.enumerateChildren(childrenList);
 		}
 		childrenList.add(this);
@@ -273,15 +273,15 @@ public class DocumentConfiguration {
 
 	/**
 	 * Returns a list of document configuration children of this
-	 * {@link DocumentConfiguration}. The list returned may be modified.
+	 * {@link Configuration}. The list returned may be modified.
 	 * 
 	 * @param transitive
 	 *            If true, this method will explore the tree recursively.
 	 *            Otherwise, only the immediate children are returned.
-	 * @return A {@link List} of {@link DocumentConfiguration}.
+	 * @return A {@link List} of {@link Configuration}.
 	 */
-	public List<DocumentConfiguration> getConfigurationList(boolean transitive) {
-		List<DocumentConfiguration> childrenList = new ArrayList<DocumentConfiguration>();
+	public List<Configuration> getConfigurationList(boolean transitive) {
+		List<Configuration> childrenList = new ArrayList<Configuration>();
 		if (transitive) {
 			// Enumerate all children recursively.
 			enumerateChildren(childrenList);

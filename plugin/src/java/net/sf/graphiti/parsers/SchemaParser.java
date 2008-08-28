@@ -1,0 +1,298 @@
+/**
+ * 
+ */
+package net.sf.graphiti.parsers;
+
+import java.util.Iterator;
+import java.util.Set;
+
+import net.sf.graphiti.model.Configuration;
+import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeRestriction;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.ComplexType;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Sequence;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
+
+import org.w3c.dom.Comment;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
+
+/**
+ * This class parses the given DOM document according to the schema defined in
+ * the ontology.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
+public class SchemaParser {
+
+	private Configuration configuration;
+
+	public SchemaParser(Configuration configuration) {
+		this.configuration = configuration;
+	}
+
+	/**
+	 * Returns the first child of <code>element</code> which is a
+	 * {@link org.w3c.dom.Element} (not {@link Text}, not {@link Comment}, etc.)
+	 * 
+	 * @param element
+	 *            The parent DOM element.
+	 * @return The first {@link org.w3c.dom.Element} child of
+	 *         <code>element</code>.
+	 */
+	private org.w3c.dom.Element getFirstChild(org.w3c.dom.Element element) {
+		Node node = element.getFirstChild();
+		while (node != null && node.getNodeType() != Node.ELEMENT_NODE) {
+			node = node.getNextSibling();
+		}
+
+		return (org.w3c.dom.Element) node;
+	}
+
+	/**
+	 * Returns the next sibling of <code>element</code> which is a
+	 * {@link org.w3c.dom.Element} (not {@link Text}, not {@link Comment}, etc.)
+	 * 
+	 * @param element
+	 *            A DOM element.
+	 * @return The first {@link org.w3c.dom.Element} sibling of
+	 *         <code>element</code>.
+	 */
+	private org.w3c.dom.Element getNextSibling(org.w3c.dom.Element element) {
+		Node node = element.getNextSibling();
+		while (node != null && node.getNodeType() != Node.ELEMENT_NODE) {
+			node = node.getNextSibling();
+		}
+
+		return (org.w3c.dom.Element) node;
+	}
+
+	private boolean isElementDefined(Element ontNode,
+			org.w3c.dom.Element domNode) {
+		boolean correspond = false;
+
+		// If the DOM element has the same name as this ontology element
+		if (ontNode.hasName().equals(domNode.getNodeName())) {
+			// We apply attribute restrictions (if it has any).
+			Iterator<AttributeRestriction> it = ontNode
+					.hasAttributeRestriction().iterator();
+			NamedNodeMap attributes = domNode.getAttributes();
+
+			correspond = true;
+			while (it.hasNext() && correspond) {
+				AttributeRestriction attrRestrict = it.next();
+				String attrRestrictName = attrRestrict.hasName();
+				Node node = attributes.getNamedItem(attrRestrictName);
+
+				if (node == null) {
+					// The DOM has no attribute with the same name as our
+					// attribute restriction.
+					correspond = false;
+				} else {
+					// The DOM node has an attribute that matches our attribute
+					// restriction. It corresponds if the value is the same.
+					String attrRestrictValue = attrRestrict.hasValue();
+					correspond &= node.getNodeValue().equals(attrRestrictValue);
+					if (correspond) {
+						// TODO
+						// parentElement.setValue(attrRestrictName,
+						// attrRestrictValue);
+					}
+				}
+			}
+
+			if (ontNode.hasOntClass(OntologyFactory.getClassXMLAttribute())
+					&& correspond) {
+				// TODO
+				// parseAttribute((XMLAttribute) ontNode, domNode,
+				// parentElement);
+			}
+		}
+
+		return correspond;
+	}
+
+	/**
+	 * //TODO: javadoc
+	 * 
+	 * @param ontDocElement
+	 * @param docElement
+	 * @return
+	 * @throws NotCompatibleException
+	 */
+	public Graph parse(DocumentElement ontDocElement,
+			org.w3c.dom.Element docElement) throws NotCompatibleException {
+		Graph graph = new Graph(configuration);
+
+		if (isElementDefined(ontDocElement, docElement)) {
+			parseElement(ontDocElement, docElement);
+		} else {
+			return null;
+		}
+
+		return graph;
+	}
+
+	/**
+	 * Parses the attributes of <code>domElement</code> according to
+	 * <code>ontElement</code>.
+	 * 
+	 * @param ontElement
+	 * @param domElement
+	 * @throws NotCompatibleException
+	 *             If an attribute is defined in the ontology but not present in
+	 *             the DOM.
+	 */
+	private void parseAttributes(Element ontElement,
+			org.w3c.dom.Element domElement) throws NotCompatibleException {
+		Set<XMLAttribute> attributes = ontElement.hasAttributes();
+		for (XMLAttribute ontAttribute : attributes) {
+			String ontAttrName = ontAttribute.hasName();
+			String domAttrValue = domElement.getAttribute(ontAttrName);
+			if (domAttrValue == null) {
+				throw new NotCompatibleException();
+			}
+		}
+	}
+
+	/**
+	 * Parses the children (<code>firstChild</code> is the first of them) using
+	 * the given {@link ComplexType}.
+	 * 
+	 * @param type
+	 * @param firstChild
+	 * @return The first remaining child (ie not parsed yet). Can be
+	 *         <code>null</code> if there are none left.
+	 * @throws NotCompatibleException
+	 */
+	private org.w3c.dom.Element parseComplexType(ComplexType type,
+			org.w3c.dom.Element firstChild) throws NotCompatibleException {
+		if (type.hasOntClass(OntologyFactory.getClassSequence())) {
+			return parseSequence((Sequence) type, firstChild);
+		} else {
+			// TODO: all types
+			throw new NotCompatibleException();
+		}
+	}
+
+	/**
+	 * Parses the given <code>domElement</code> with the information given by
+	 * <code>ontElement</code>.
+	 * 
+	 * @param ontElement
+	 * @param domElement
+	 * @return True if the element is defined, false otherwise.
+	 * @throws NotCompatibleException
+	 */
+	private void parseElement(Element ontElement, org.w3c.dom.Element domElement)
+			throws NotCompatibleException {
+		parseAttributes(ontElement, domElement);
+
+		if (ontElement
+				.hasOntClass(OntologyFactory.getClassTextContentElement())) {
+			// no children
+		} else {
+			XMLSchemaType type = ontElement.hasSchemaType();
+			org.w3c.dom.Element firstChild = getFirstChild(domElement);
+			parseSchemaType(type, firstChild);
+		}
+	}
+
+	/**
+	 * Parses elements starting with <code>child</code>, and then its siblings.
+	 * This method ensures that the occurs checks on <code>ontElement</code> are
+	 * enforced.
+	 * 
+	 * @param ontElement
+	 * @param child
+	 * @return The first remaining child (ie not parsed yet). Can be
+	 *         <code>null</code> if there are none left.
+	 * @throws NotCompatibleException
+	 */
+	private org.w3c.dom.Element parseElementOccurs(Element ontElement,
+			org.w3c.dom.Element child) throws NotCompatibleException {
+		int minOccurs = ontElement.minOccurs();
+		int maxOccurs = ontElement.maxOccurs();
+
+		// check that occurs are valid.
+		if (minOccurs < 0 || maxOccurs < -1
+				|| (maxOccurs >= 0 && minOccurs > maxOccurs)) {
+			throw new NotCompatibleException();
+		}
+
+		// min occurs
+		int i;
+		for (i = 0; i < minOccurs && child != null
+				&& isElementDefined(ontElement, child); i++) {
+			parseElement(ontElement, child);
+			child = getNextSibling(child);
+		}
+
+		// min occurs check
+		if (i < minOccurs) {
+			throw new NotCompatibleException();
+		}
+
+		// max occurs
+		if (maxOccurs > -1) {
+			for (; i < maxOccurs && child != null
+					&& isElementDefined(ontElement, child); i++) {
+				parseElement(ontElement, child);
+				child = getNextSibling(child);
+			}
+		} else {
+			// parses all children
+			while (child != null && isElementDefined(ontElement, child)) {
+				parseElement(ontElement, child);
+				child = getNextSibling(child);
+			}
+		}
+
+		return child;
+	}
+
+	/**
+	 * Parses the children (<code>firstChild</code> is the first of them) using
+	 * the given schema type.
+	 * 
+	 * @param ontElement
+	 * @param firstChild
+	 * @return The first remaining child (ie not parsed yet). Can be
+	 *         <code>null</code> if there are none left.
+	 * @throws NotCompatibleException
+	 */
+	private org.w3c.dom.Element parseSchemaType(XMLSchemaType type,
+			org.w3c.dom.Element firstChild) throws NotCompatibleException {
+		if (type.hasOntClass(OntologyFactory.getClassComplexType())) {
+			return parseComplexType((ComplexType) type, firstChild);
+		} else {
+			return parseElementOccurs((Element) type, firstChild);
+		}
+	}
+
+	/**
+	 * Parses the children (<code>firstChild</code> is the first of them) using
+	 * the given {@link Sequence}.
+	 * 
+	 * @param sequence
+	 * @param firstChild
+	 * @return The first remaining child (ie not parsed yet). Can be
+	 *         <code>null</code> if there are none left.
+	 * @throws NotCompatibleException
+	 */
+	private org.w3c.dom.Element parseSequence(Sequence sequence,
+			org.w3c.dom.Element firstChild) throws NotCompatibleException {
+		org.w3c.dom.Element child = firstChild;
+		for (XMLSchemaType type : sequence.hasElements()) {
+			child = parseSchemaType(type, child);
+		}
+		return child;
+	}
+
+}
