@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.graphiti.ui.commands.CutCommand;
-import net.sf.graphiti.ui.editparts.GraphitiDocumentEditPart;
+import net.sf.graphiti.ui.editparts.GraphEditPart;
 
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
@@ -69,9 +69,9 @@ public class CutAction extends SelectionAction {
 	@Override
 	protected boolean calculateEnabled() {
 		// enabled when at least one object is selected, and it is not a
-		// GraphitiDocumentEditPart
+		// GraphEditPart
 		return ((getSelectedObjects().isEmpty() == false) && (getSelectedObjects()
-				.size() == 1 && (getSelectedObjects().get(0) instanceof GraphitiDocumentEditPart)) == false);
+				.size() == 1 && (getSelectedObjects().get(0) instanceof GraphEditPart)) == false);
 	}
 
 	@Override

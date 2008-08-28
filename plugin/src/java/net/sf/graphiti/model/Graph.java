@@ -77,35 +77,35 @@ public class Graph extends DOMNode {
 	private AbstractBaseGraph<Vertex, Edge> graph;
 
 	/**
-	 * The document containing this vertex
+	 * The configuration associated with this graph.
 	 */
-	GraphitiDocument parentDocument;
+	DocumentConfiguration configuration;
 
 	/**
 	 * Creates a new graph, directed or not.
 	 * 
 	 * @param directed
 	 *            Specifies whether the graph should be directed or not.
-	 * @param doc
-	 *            The parent document.
+	 * @param config
+	 *            The configuration to use with this graph.
 	 */
-	public Graph(boolean directed, GraphitiDocument doc) {
+	public Graph(DocumentConfiguration config, boolean directed) {
+		configuration = config;
 		if (directed) {
 			graph = new DirectedMultigraph<Vertex, Edge>(Edge.class);
 		} else {
 			graph = new Multigraph<Vertex, Edge>(Edge.class);
 		}
-		parentDocument = doc;
 	}
 
 	/**
 	 * Creates a new directed graph.
 	 * 
-	 * @param doc
-	 *            The parent document.
+	 * @param config
+	 *            The configuration to use with this graph.
 	 */
-	public Graph(GraphitiDocument doc) {
-		this(true, doc);
+	public Graph(DocumentConfiguration config) {
+		this(config, true);
 	}
 
 	/**
@@ -150,16 +150,7 @@ public class Graph extends DOMNode {
 	 * @return The document configuration associated with this Graph.
 	 */
 	public DocumentConfiguration getDocumentConfiguration() {
-		return parentDocument.getDocumentConfiguration();
-	}
-
-	/**
-	 * Returns this parent document of this Graph.
-	 * 
-	 * @return This parent document of this Graph.
-	 */
-	public GraphitiDocument getParentDocument() {
-		return parentDocument;
+		return configuration;
 	}
 
 	/**

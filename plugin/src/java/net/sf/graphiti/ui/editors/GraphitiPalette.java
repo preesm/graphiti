@@ -31,7 +31,7 @@ package net.sf.graphiti.ui.editors;
 import java.util.Set;
 
 import net.sf.graphiti.model.DocumentConfiguration;
-import net.sf.graphiti.model.GraphitiDocument;
+import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.VertexCreationFactory;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.types.VertexType;
@@ -68,15 +68,14 @@ public class GraphitiPalette {
 	/**
 	 * Add the different vertex types.
 	 * 
-	 * @param document
-	 *            The graphiti document used to configure this palette.
+	 * @param graph
+	 *            The graph used to configure this palette.
 	 * @param paletteGroup
 	 *            The palette group.
 	 */
-	private static void addVertexTypes(GraphitiDocument document,
-			PaletteGroup paletteGroup) {
-		if (document != null) {
-			DocumentConfiguration config = document.getDocumentConfiguration();
+	private static void addVertexTypes(Graph graph, PaletteGroup paletteGroup) {
+		if (graph != null) {
+			DocumentConfiguration config = graph.getDocumentConfiguration();
 			OntologyFactory factory = config.getOntologyFactory();
 			Set<VertexType> vertexTypes = factory.getVertexTypes();
 			for (VertexType type : vertexTypes) {
@@ -85,8 +84,7 @@ public class GraphitiPalette {
 				ImageDescriptor id = getImageDescriptorFromType(config, typeStr);
 
 				ToolEntry tool = new CreationToolEntry(typeStr, "Create a new "
-						+ typeStr,
-						new VertexCreationFactory(document, typeStr), id, null);
+						+ typeStr, new VertexCreationFactory(typeStr), id, null);
 
 				paletteGroup.add(tool);
 			}
@@ -137,16 +135,15 @@ public class GraphitiPalette {
 	}
 
 	/**
-	 * Gets a palette root which is configured by the given
-	 * {@link GraphitiDocument}. If <code>document == null</code>,
-	 * <code>null</code> is returned.
+	 * Gets a palette root which is configured by the given {@link Graph}. If
+	 * <code>graph == null</code>, <code>null</code> is returned.
 	 * 
-	 * @param document
-	 *            The graphiti document used to configure this palette.
+	 * @param graph
+	 *            The graph used to configure this palette.
 	 * @return A {@link PaletteRoot} or <code>null</code>.
 	 */
-	public static PaletteRoot getPaletteRoot(GraphitiDocument document) {
-		if (document == null) {
+	public static PaletteRoot getPaletteRoot(Graph graph) {
+		if (graph == null) {
 			return null;
 		}
 
@@ -165,7 +162,7 @@ public class GraphitiPalette {
 		// Add an unnamed separator to the group
 		toolGroup.add(new PaletteSeparator());
 
-		addVertexTypes(document, toolGroup);
+		addVertexTypes(graph, toolGroup);
 		paletteModel.add(toolGroup);
 		toolGroup.add(new PaletteSeparator());
 

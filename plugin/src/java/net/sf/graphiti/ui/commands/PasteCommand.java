@@ -69,7 +69,7 @@ public class PasteCommand extends Command {
 			if (part instanceof VertexEditPart) {
 				VertexEditPart vertexEditPart = (VertexEditPart) part;
 				Vertex vertex = (Vertex) vertexEditPart.getModel();
-				vertex = new Vertex(vertex.getDocument(), vertex.getType());
+				vertex = new Vertex(vertex.getType());
 
 				// Adds the cloned graph to the parent graph and the added list
 				added.add(vertex);

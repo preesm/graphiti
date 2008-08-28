@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ui.actions;
 
-import net.sf.graphiti.ui.editparts.GraphitiDocumentEditPart;
+import net.sf.graphiti.ui.editparts.GraphEditPart;
 
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.util.LocalSelectionTransfer;
@@ -64,9 +64,9 @@ public class CopyAction extends SelectionAction {
 	@Override
 	protected boolean calculateEnabled() {
 		// enabled when at least one object is selected, and it is not a
-		// GraphitiDocumentEditPart
+		// GraphEditPart
 		return ((getSelectedObjects().isEmpty() == false) && (getSelectedObjects()
-				.size() == 1 && (getSelectedObjects().get(0) instanceof GraphitiDocumentEditPart)) == false);
+				.size() == 1 && (getSelectedObjects().get(0) instanceof GraphEditPart)) == false);
 	}
 
 	@Override

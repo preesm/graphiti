@@ -46,7 +46,7 @@ public class GraphLayoutManager extends XYLayout {
 
 	private int direction;
 
-	private GraphitiDocumentEditPart part;
+	private GraphEditPart part;
 
 	/**
 	 * Creates a new graph layout manager on the given document and with the
@@ -61,7 +61,7 @@ public class GraphLayoutManager extends XYLayout {
 	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#SOUTH}
 	 *            </UL>
 	 */
-	public GraphLayoutManager(GraphitiDocumentEditPart part, int direction) {
+	public GraphLayoutManager(GraphEditPart part, int direction) {
 		this.part = part;
 		this.direction = direction;
 	}

@@ -31,7 +31,8 @@ package net.sf.graphiti.model;
 import java.util.List;
 
 /**
- * This class represents a vertex.
+ * This class represents a vertex. //TODO: have a document configuration
+ * parameter or graph parameter in the vertex constructors?
  * 
  * @author Matthieu Wipliez
  * 
@@ -101,33 +102,21 @@ public class Vertex extends DOMNode {
 	Graph parent;
 
 	/**
-	 * The document containing this vertex
-	 */
-	GraphitiDocument parentDocument;
-
-	/**
 	 * Creates a new Vertex with no type.
 	 * 
-	 * @param doc
-	 *            The vertex document.
-	 * 
 	 */
-	public Vertex(GraphitiDocument doc) {
+	public Vertex() {
 		this.setValue(PARAMETER_TYPE, "");
-		parentDocument = doc;
 	}
 
 	/**
 	 * Creates a vertex with the given type.
 	 * 
-	 * @param document
-	 *            The vertex document.
 	 * @param type
 	 *            The vertex type.
 	 */
-	public Vertex(GraphitiDocument document, String type) {
+	public Vertex(String type) {
 		this.setValue(PARAMETER_TYPE, type);
-		parentDocument = document;
 	}
 
 	/**
@@ -139,8 +128,7 @@ public class Vertex extends DOMNode {
 	 * @return The value of the attribute as an object.
 	 */
 	public Object getAttribute(String attributeName) {
-		DocumentConfiguration config = parentDocument
-				.getDocumentConfiguration();
+		DocumentConfiguration config = parent.getDocumentConfiguration();
 		return config.getVertexAttribute(getType(), attributeName);
 	}
 
@@ -150,18 +138,8 @@ public class Vertex extends DOMNode {
 	 * @return A PropertyBean that contain the attributes map.
 	 */
 	public PropertyBean getAttributes() {
-		DocumentConfiguration config = parentDocument
-				.getDocumentConfiguration();
+		DocumentConfiguration config = parent.getDocumentConfiguration();
 		return config.getVertexAttributes(getType());
-	}
-
-	/**
-	 * Returns the document this Vertex belongs to.
-	 * 
-	 * @return The document this Vertex belongs to.
-	 */
-	public GraphitiDocument getDocument() {
-		return parentDocument;
 	}
 
 	/**
@@ -170,7 +148,7 @@ public class Vertex extends DOMNode {
 	 * @return The document configuration associated with this Vertex.
 	 */
 	public DocumentConfiguration getDocumentConfiguration() {
-		return parentDocument.getDocumentConfiguration();
+		return parent.getDocumentConfiguration();
 	}
 
 	/**
@@ -179,8 +157,7 @@ public class Vertex extends DOMNode {
 	 * @return A List of Parameters.
 	 */
 	public List<Parameter> getParameters() {
-		DocumentConfiguration config = parentDocument
-				.getDocumentConfiguration();
+		DocumentConfiguration config = parent.getDocumentConfiguration();
 		return config.getVertexParameters(getType());
 	}
 

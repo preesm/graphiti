@@ -29,7 +29,7 @@
 package net.sf.graphiti.model;
 
 /**
- * This class represents an edge.
+ * This class represents an edge. //TODO: see Vertex
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
@@ -46,23 +46,14 @@ public class Edge extends DOMNode {
 
 	public static final String SRC_PORT_NAME = "srcPortName";
 
-	/**
-	 * The document containing this vertex
-	 */
-	private GraphitiDocument parentDocument;
-
 	private Vertex source;
 
 	private Vertex target;
 
 	/**
-	 * Creates a new un-connected edge.
-	 * 
-	 * @param doc
-	 *            The parent Document.
+	 * Creates a new unconnected edge.
 	 */
-	public Edge(GraphitiDocument doc) {
-		parentDocument = doc;
+	public Edge() {
 	}
 
 	/**
@@ -76,25 +67,15 @@ public class Edge extends DOMNode {
 	public Edge(Vertex source, Vertex target) {
 		this.source = source;
 		this.target = target;
-		parentDocument = source.parentDocument;
 	}
 
 	/**
-	 * Returns the document configuration associated with this Edge.
+	 * Returns the document configuration associated with this edge.
 	 * 
-	 * @return The document configuration associated with this Edge.
+	 * @return A {@link DocumentConfiguration}.
 	 */
 	public DocumentConfiguration getDocumentConfiguration() {
-		return parentDocument.getDocumentConfiguration();
-	}
-
-	/**
-	 * Returns this edge's parent document.
-	 * 
-	 * @return This Edge's parent document.
-	 */
-	public GraphitiDocument getParentDocument() {
-		return parentDocument;
+		return source.getDocumentConfiguration();
 	}
 
 	public Vertex getSource() {

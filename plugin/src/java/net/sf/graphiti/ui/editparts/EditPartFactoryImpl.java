@@ -30,7 +30,6 @@ package net.sf.graphiti.ui.editparts;
 
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.model.Vertex;
 
 import org.eclipse.gef.EditPart;
@@ -48,16 +47,10 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
  */
 public class EditPartFactoryImpl implements EditPartFactory {
 
-	public EditPartFactoryImpl() {
-		// Empty constructor
-	}
-
 	public EditPart createEditPart(EditPart context, Object model) {
 		AbstractGraphicalEditPart child = null;
 
-		if (model instanceof GraphitiDocument) {
-			child = new GraphitiDocumentEditPart();
-		} else if (model instanceof Graph) {
+		if (model instanceof Graph) {
 			child = new GraphEditPart();
 		} else if (model instanceof Vertex) {
 			child = new VertexEditPart();

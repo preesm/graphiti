@@ -40,8 +40,6 @@ import org.eclipse.gef.requests.CreationFactory;
  */
 public class VertexCreationFactory implements CreationFactory {
 
-	private GraphitiDocument document;
-
 	private String type;
 
 	/**
@@ -50,14 +48,13 @@ public class VertexCreationFactory implements CreationFactory {
 	 * @param document
 	 * @param type
 	 */
-	public VertexCreationFactory(GraphitiDocument document, String type) {
-		this.document = document;
+	public VertexCreationFactory(String type) {
 		this.type = type;
 	}
 
 	@Override
 	public Object getNewObject() {
-		return new Vertex(document, type);
+		return new Vertex(type);
 	}
 
 	@Override

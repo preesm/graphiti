@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ui.wizards;
 
-import net.sf.graphiti.model.GraphitiDocument;
+import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.ui.editors.GraphEditor;
 
 import org.eclipse.jface.viewers.ISelection;
@@ -48,11 +48,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * This class provides a page for the new graph wizard.
+ * This class provides a page for the "Export to GraphML" wizard.
+ * 
+ * @author Matthieu Wipliez
  */
 public class GraphMLExportWizardPage extends WizardPage {
 
-	private GraphitiDocument document;
+	private Graph graph;
 
 	private ISelection selection;
 
@@ -66,7 +68,7 @@ public class GraphMLExportWizardPage extends WizardPage {
 	public GraphMLExportWizardPage(ISelection selection) {
 		super("wizardPage");
 		setTitle("GraphML");
-		setDescription("Export the active Graphiti document to a GraphML file "
+		setDescription("Export the active Graphiti graph to a GraphML file "
 				+ "on the local file system.");
 
 		this.selection = selection;
@@ -136,12 +138,12 @@ public class GraphMLExportWizardPage extends WizardPage {
 	}
 
 	/**
-	 * Returns the source document opened in the editor.
+	 * Returns the source graph opened in the editor.
 	 * 
-	 * @return The source document opened in the editor.
+	 * @return The source graph opened in the editor.
 	 */
-	public GraphitiDocument getGraphitiDocument() {
-		return document;
+	public Graph getGraph() {
+		return graph;
 	}
 
 	/**
@@ -168,7 +170,7 @@ public class GraphMLExportWizardPage extends WizardPage {
 				Object obj = ssel.getFirstElement();
 				if (obj instanceof GraphEditor) {
 					GraphEditor editor = (GraphEditor) obj;
-					document = editor.getContents();
+					graph = editor.getContents();
 				}
 			}
 		}

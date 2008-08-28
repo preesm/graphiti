@@ -62,20 +62,20 @@ public class EdgeFigure extends PolylineConnection {
 	/**
 	 * Creates the Figure associated to the connection
 	 * 
-	 * @param dep
+	 * @param edge
 	 *            The Edge model associated with this figure.
 	 */
-	public EdgeFigure(Edge dep) {
+	public EdgeFigure(Edge edge) {
 		// Sets Layout Manager
 		this.setLayoutManager(new DelegatingLayout());
-		if (dep != null) {
-			if (dep.getValue("type") != null) {
-				List<Parameter> properties = dep.getDocumentConfiguration()
-						.getEdgeParameters((String) dep.getValue("type"));
+		if (edge != null) {
+			if (edge.getValue("type") != null) {
+				List<Parameter> properties = edge.getDocumentConfiguration()
+						.getEdgeParameters((String) edge.getValue("type"));
 				for (Parameter property : properties) {
 					if (property.getPosition() != null) {
 						PropertyTag propertyLabel = new PropertyTag(
-								(String) dep.getValue(property.getName()));
+								(String) edge.getValue(property.getName()));
 						this.add(propertyLabel, new PropertyLocator(this,
 								property.getPosition()));
 						this.properties.put(property, propertyLabel);

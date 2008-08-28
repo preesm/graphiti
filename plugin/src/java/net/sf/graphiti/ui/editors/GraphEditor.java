@@ -36,7 +36,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EventObject;
 
-import net.sf.graphiti.model.GraphitiDocument;
+import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.parsers.GenericGraphFileParser;
 import net.sf.graphiti.parsers.IncompatibleConfigurationFile;
 import net.sf.graphiti.ui.GraphitiPlugin;
@@ -48,7 +48,7 @@ import net.sf.graphiti.ui.actions.OpenRefinementNewTabAction;
 import net.sf.graphiti.ui.actions.PasteAction;
 import net.sf.graphiti.ui.actions.SetRefinementAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
-import net.sf.graphiti.ui.editparts.GraphitiDocumentEditPart;
+import net.sf.graphiti.ui.editparts.GraphEditPart;
 import net.sf.graphiti.ui.perspectives.GraphitiPerspectiveFactory;
 import net.sf.graphiti.writer.GenericGraphFileWriter;
 
@@ -100,7 +100,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	 */
 	public static final String ID = "net.sf.graphiti.ui.editors.GraphEditor";
 
-	private GraphitiDocument document;
+	private Graph document;
 
 	private ZoomManager manager;
 
@@ -128,7 +128,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	 *            </UL>
 	 */
 	public void automaticallyLayout(int direction) {
-		GraphitiDocumentEditPart doc = (GraphitiDocumentEditPart) getGraphicalViewer()
+		GraphEditPart doc = (GraphEditPart) getGraphicalViewer()
 				.getRootEditPart().getContents();
 		doc.automaticallyLayoutGraphs(direction);
 	}
@@ -307,7 +307,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	 * 
 	 * @return The contents of this editor.
 	 */
-	public GraphitiDocument getContents() {
+	public Graph getContents() {
 		return document;
 	}
 

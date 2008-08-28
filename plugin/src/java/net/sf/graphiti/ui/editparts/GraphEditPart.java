@@ -35,12 +35,13 @@ import java.util.List;
 
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.PropertyBean;
-import net.sf.graphiti.ui.editpolicies.DeleteComponentEditPolicy;
 import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
-import net.sf.graphiti.ui.figure.GraphFigure;
 
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.FreeformLayer;
+import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.LayoutManager;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -48,21 +49,23 @@ import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
 import org.eclipse.draw2d.graph.EdgeList;
 import org.eclipse.draw2d.graph.NodeList;
 import org.eclipse.draw2d.graph.Subgraph;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 
 /**
- * The EditPart associated to the Graph gives methods to refresh the view when a
- * property has changed.
+ * This class extends {@link AbstractGraphicalEditPart} by setting its figure
+ * layout manager to {@link GraphLayoutManager}. It also extends the
+ * {@link EditPart#isSelectable()} method to return false, causing the selection
+ * tool to act like the marquee tool when no particular children has been
+ * selected.
  * 
- * @author Samuel Beaussier
- * @author Nicolas Isch
  * @author Matthieu Wipliez
  * 
  */
-public class GraphEditPart extends AbstractGraphicalEditPart implements
-		PropertyChangeListener {
+public class GraphEditPart extends AbstractGraphicalEditPart
+		implements PropertyChangeListener {
 
 	/**
 	 * The subgraph associated with this graph edit part. Set by
@@ -119,16 +122,39 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 		}
 	}
 
+	/**
+	 * Automatically layouts the graphs, vertices and edges in this graphiti
+	 * document edit part.
+	 * 
+	 * @param direction
+	 *            The direction, one of:
+	 *            <UL>
+	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#EAST}
+	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#SOUTH}
+	 *            </UL>
+	 */
+	public void automaticallyLayoutGraphs(int direction) {
+		LayoutManager layoutMgr = new GraphLayoutManager(this, direction);
+		layoutMgr.layout(getFigure());
+
+		getFigure().setLayoutManager(new FreeformLayout());
+		getFigure().revalidate();
+	}
+
 	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new DeleteComponentEditPolicy());
+				new RootComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new LayoutPolicy());
 	}
 
 	@Override
 	protected IFigure createFigure() {
-		return new GraphFigure();
+		// The figure associated with this graph edit part is only a
+		// free form layer
+		Figure f = new FreeformLayer();
+		f.setLayoutManager(new FreeformLayout());
+		return f;
 	}
 
 	@Override
@@ -146,7 +172,8 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	}
 
 	@Override
-	public void performRequest(Request req) {
+	public boolean isSelectable() {
+		return false;
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
@@ -154,29 +181,6 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 			refresh();
 		} else if (evt.getPropertyName().equals(PropertyBean.PROPERTY_REMOVE)) {
 			refresh();
-		} else if (evt.getPropertyName().equals(Graph.PARAMETER_SIZE)) {
-			GraphFigure graphFigure = (GraphFigure) getFigure();
-			graphFigure.setBounds((Rectangle) evt.getNewValue());
-			refresh();
-		}
-
-		// PROPERTY_CONNECTION_ROUTER
-		// PROPERTY_REFERENCE
-		// PROPERTY_RENAME
-		// PROPERTY_NB_REPEAT
-		// PROPERTY_ADD_CST_GROUP
-	}
-
-	@Override
-	protected void refreshVisuals() {
-		Graph graph = (Graph) getModel();
-		GraphFigure graphFigure = (GraphFigure) getFigure();
-		graphFigure.setName((String) graph.getValue(Graph.PARAMETER_ID));
-
-		Rectangle bounds = (Rectangle) graph.getValue(Graph.PARAMETER_SIZE);
-		if (bounds != null) {
-			// bounds is null when the graph is created
-			graphFigure.setBounds(bounds);
 		}
 	}
 

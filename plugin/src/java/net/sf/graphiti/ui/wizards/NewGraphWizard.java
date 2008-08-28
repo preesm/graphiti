@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 
-import net.sf.graphiti.model.GraphitiDocument;
+import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.writer.GenericGraphFileWriter;
 
 import org.eclipse.core.resources.IContainer;
@@ -94,10 +94,8 @@ public class NewGraphWizard extends Wizard implements INewWizard {
 	 * or just replace its contents, and open the editor on the newly created
 	 * file.
 	 */
-
 	private void doFinish(String containerName, String fileName,
-			GraphitiDocument document, IProgressMonitor monitor)
-			throws CoreException {
+			Graph graph, IProgressMonitor monitor) throws CoreException {
 		// create a sample file
 		monitor.beginTask("Creating " + fileName, 2);
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -110,7 +108,7 @@ public class NewGraphWizard extends Wizard implements INewWizard {
 		IContainer container = (IContainer) resource;
 		final IFile file = container.getFile(new Path(fileName));
 		try {
-			InputStream stream = openContentStream(document);
+			InputStream stream = openContentStream(graph);
 			if (file.exists()) {
 				file.setContents(stream, true, true, monitor);
 			} else {
@@ -150,9 +148,9 @@ public class NewGraphWizard extends Wizard implements INewWizard {
 	 * 
 	 * @return A {@link ByteArrayInputStream}.
 	 */
-	private InputStream openContentStream(GraphitiDocument document) {
+	private InputStream openContentStream(Graph graph) {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		GenericGraphFileWriter writer = new GenericGraphFileWriter(document);
+		GenericGraphFileWriter writer = new GenericGraphFileWriter(graph);
 		writer.write(out);
 		return new ByteArrayInputStream(out.toByteArray());
 	}
@@ -164,13 +162,13 @@ public class NewGraphWizard extends Wizard implements INewWizard {
 	public boolean performFinish() {
 		final String containerName = page.getContainerName();
 		final String fileName = page.getFileName();
-		final GraphitiDocument doc = page.getNewGraphitiDocument();
+		final Graph graph = page.getNewGraph();
 
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor)
 					throws InvocationTargetException {
 				try {
-					doFinish(containerName, fileName, doc, monitor);
+					doFinish(containerName, fileName, graph, monitor);
 				} catch (CoreException e) {
 					throw new InvocationTargetException(e);
 				} finally {

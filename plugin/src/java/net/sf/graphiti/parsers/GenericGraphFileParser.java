@@ -45,7 +45,6 @@ import net.sf.graphiti.model.DOMNode;
 import net.sf.graphiti.model.DocumentConfiguration;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.model.InfoDOMNode;
 import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.SkipDOMNode;
@@ -84,8 +83,6 @@ public class GenericGraphFileParser {
 	private static final String IS_PORT = "isPort";
 
 	private DocumentConfiguration configuration;
-
-	private GraphitiDocument graphitiDocument;
 
 	private Logger log;
 
@@ -220,7 +217,7 @@ public class GenericGraphFileParser {
 	 * @return True if <code>file</code> could be parsed with
 	 *         <code>configuration</code>, <code>false</code> otherwise.
 	 */
-	private boolean parse(Document document, DocumentConfiguration configuration) {
+	private Graph parse(Document document, DocumentConfiguration configuration) {
 		List<DocumentConfiguration> children = configuration
 				.getConfigurationList(false);
 		if (children.isEmpty()) {
@@ -229,13 +226,13 @@ public class GenericGraphFileParser {
 		} else {
 			// We try the children
 			Iterator<DocumentConfiguration> it = children.iterator();
-			boolean isParsed = false;
-			while (it.hasNext() && !isParsed) {
+			Graph isParsed = null;
+			while (it.hasNext() && (isParsed == null)) {
 				isParsed = parse(document, it.next());
 			}
 
 			// And then ourselves
-			if (!isParsed) {
+			if (isParsed == null) {
 				isParsed = parseWithConfiguration(document, configuration);
 			}
 
@@ -254,7 +251,7 @@ public class GenericGraphFileParser {
 	 *             If the given file could not be parsed with any of the
 	 *             document configurations.
 	 */
-	public GraphitiDocument parse(IFile file)
+	public Graph parse(IFile file)
 			throws IncompatibleConfigurationFile {
 		try {
 			InputStream is = file.getContents(false);
@@ -271,8 +268,9 @@ public class GenericGraphFileParser {
 			Document document = docBuilder.parse(is);
 
 			// Parses the DOM
-			if (parse(document, configuration)) {
-				return graphitiDocument;
+			Graph graph = parse(document, configuration);
+			if (graph != null) {
+				return graph;
 			}
 		} catch (CoreException e) {
 			e.printStackTrace();
@@ -415,31 +413,31 @@ public class GenericGraphFileParser {
 
 		// creates the element according to the type defined in the ontology
 		if (ontNode.hasOntClass(OntologyFactory.getClassDocumentElement())) {
-			element = graphitiDocument;
+			element = null;
 		} else if (ontNode.hasOntClass(OntologyFactory.getClassGraphElement())) {
-			element = new Graph(graphitiDocument);
+			element = new Graph(configuration);
 		} else if (ontNode.hasOntClass(OntologyFactory.getClassVertexElement())) {
-			element = new Vertex(graphitiDocument);
-			if (parentElement instanceof GraphitiDocument) {
-				Graph newGraph = ((GraphitiDocument) parentElement).getGraph();
-				if (newGraph.getValue(Graph.PARAMETER_ID) == null) {
-					newGraph.setValue(Graph.PARAMETER_ID, parentElement
-							.getValue(Graph.PARAMETER_ID));
-				}
-				parentElement = newGraph;
-			}
+			element = new Vertex();
+//			if (parentElement instanceof GraphitiDocument) {
+//				Graph newGraph = ((GraphitiDocument) parentElement).getGraph();
+//				if (newGraph.getValue(Graph.PARAMETER_ID) == null) {
+//					newGraph.setValue(Graph.PARAMETER_ID, parentElement
+//							.getValue(Graph.PARAMETER_ID));
+//				}
+//				parentElement = newGraph;
+//			}
 		} else if (ontNode.hasOntClass(OntologyFactory.getClassEdgeElement())) {
-			element = new Edge(graphitiDocument);
-			if (parentElement instanceof GraphitiDocument) {
-				if (((GraphitiDocument) parentElement).getGraph() == null) {
-					Graph newGraph = new Graph((GraphitiDocument) parentElement);
-					((GraphitiDocument) parentElement).setGraph(newGraph);
-					parentElement = newGraph;
-				} else {
-					parentElement = ((GraphitiDocument) parentElement)
-							.getGraph();
-				}
-			}
+			element = new Edge();
+//			if (parentElement instanceof GraphitiDocument) {
+//				if (((GraphitiDocument) parentElement).getGraph() == null) {
+//					Graph newGraph = new Graph((GraphitiDocument) parentElement);
+//					((GraphitiDocument) parentElement).setGraph(newGraph);
+//					parentElement = newGraph;
+//				} else {
+//					parentElement = ((GraphitiDocument) parentElement)
+//							.getGraph();
+//				}
+//			}
 		} else if (ontNode.hasOntClass(OntologyFactory.getClassSkipElement())) {
 			// The ontology node is a SkipElement
 			element = new SkipDOMNode(parentElement);
@@ -453,8 +451,9 @@ public class GenericGraphFileParser {
 		}
 
 		// adding element and value to the parentElement
-		element.setNodeName(domNode.getNodeName());
-		element.setNodeValue(domNode.getNodeValue());
+		//element.setNodeName(domNode.getNodeName());
+		//element.setNodeValue(domNode.getNodeValue());
+		
 		// if the element is a skipNode the DOMELementdon't need to be parsed
 		// has they will parsed later
 		if (!(element instanceof SkipDOMNode)) {
@@ -475,17 +474,17 @@ public class GenericGraphFileParser {
 		if (element instanceof SkipDOMNode) {
 			element = ((SkipDOMNode) element).getTrueNode();
 		}
-		if ((parentElement instanceof GraphitiDocument)
-				&& (element instanceof Graph)) {
-			((GraphitiDocument) parentElement).setGraph((Graph) element);
-		} else if ((parentElement instanceof Graph)
-				&& (element instanceof Vertex)) {
-			((Graph) parentElement).addVertex((Vertex) element);
-		} else if ((parentElement instanceof Graph)
-				&& (element instanceof Edge)) {
-			treatEdge((Edge) element, (Graph) parentElement);
-			((Graph) parentElement).addEdge((Edge) element);
-		}
+//		if ((parentElement instanceof GraphitiDocument)
+//				&& (element instanceof Graph)) {
+//			((GraphitiDocument) parentElement).setGraph((Graph) element);
+//		} else if ((parentElement instanceof Graph)
+//				&& (element instanceof Vertex)) {
+//			((Graph) parentElement).addVertex((Vertex) element);
+//		} else if ((parentElement instanceof Graph)
+//				&& (element instanceof Edge)) {
+//			treatEdge((Edge) element, (Graph) parentElement);
+//			((Graph) parentElement).addEdge((Edge) element);
+//		}
 
 		// TODO: find out about this...
 		addOntDomInstance(ontNode, element);
@@ -577,50 +576,50 @@ public class GenericGraphFileParser {
 	 *            The DOM to parse.
 	 * @return True if document could be parsed, false otherwise.
 	 */
-	private boolean parseWithConfiguration(Document document,
+	private Graph parseWithConfiguration(Document document,
 			DocumentConfiguration configuration) {
 		Node docElement = document.getDocumentElement();
-		graphitiDocument = new GraphitiDocument(configuration);
+		Graph graph = new Graph(configuration);
 
 		// Retrieves the document element
 		OntologyFactory factory = configuration.getOntologyFactory();
 		DocumentElement ontDocElement = factory.getDocumentElement();
 		if (ontDocElement == null) {
-			return false;
+			return null;
 		} else {
-			if (isElementDefined(ontDocElement, docElement, graphitiDocument)) {
-				parseElement(ontDocElement, docElement, graphitiDocument);
+			if (isElementDefined(ontDocElement, docElement, graph)) {
+				//parseElement(ontDocElement, docElement, graph);
 				log.info("Parsing completed");
-				return true;
+				return graph;
 			} else {
-				return false;
+				return null;
 			}
 		}
 	}
 
 	private void setEdgeConnection(PropertyBean ref,
 			EdgeAttribute connectionType, Edge edge) {
-		Vertex connection;
-		if (ref == null || ref instanceof Graph) {
-			connection = new Vertex(edge.getParentDocument());
-			connection.setValue(IS_PORT, true);
-		} else {
-			connection = (Vertex) ref;
-		}
-		if (connectionType.hasOntClass(OntologyFactory
-				.getClassEdgeSourceConnection())) {
-			edge.setSource(connection);
-		} else if (connectionType.hasOntClass(OntologyFactory
-				.getClassEdgeTargetConnection())) {
-			edge.setTarget(connection);
-		} else if (connectionType.hasOntClass(OntologyFactory
-				.getClassEdgeConnection())) {
-			if (edge.getSource() == null) {
-				edge.setSource(connection);
-			} else if (edge.getTarget() == null) {
-				edge.setTarget(connection);
-			}
-		}
+//		Vertex connection;
+//		if (ref == null || ref instanceof Graph) {
+//			connection = new Vertex(edge.getParentDocument());
+//			connection.setValue(IS_PORT, true);
+//		} else {
+//			connection = (Vertex) ref;
+//		}
+//		if (connectionType.hasOntClass(OntologyFactory
+//				.getClassEdgeSourceConnection())) {
+//			edge.setSource(connection);
+//		} else if (connectionType.hasOntClass(OntologyFactory
+//				.getClassEdgeTargetConnection())) {
+//			edge.setTarget(connection);
+//		} else if (connectionType.hasOntClass(OntologyFactory
+//				.getClassEdgeConnection())) {
+//			if (edge.getSource() == null) {
+//				edge.setSource(connection);
+//			} else if (edge.getTarget() == null) {
+//				edge.setTarget(connection);
+//			}
+//		}
 	}
 
 	/**

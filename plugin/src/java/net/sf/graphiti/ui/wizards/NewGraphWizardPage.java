@@ -34,7 +34,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import net.sf.graphiti.model.DocumentConfiguration;
-import net.sf.graphiti.model.GraphitiDocument;
+import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.ontology.types.GraphType;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
@@ -61,6 +61,8 @@ import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 
 /**
  * This class provides a page for the new graph wizard.
+ * 
+ * @author Matthieu Wipliez
  */
 public class NewGraphWizardPage extends WizardPage {
 
@@ -220,17 +222,16 @@ public class NewGraphWizardPage extends WizardPage {
 	}
 
 	/**
-	 * Creates a new {@link GraphitiDocument} from the given graph type and
-	 * configuration.
+	 * Creates a new {@link Graph} from the given graph type and configuration.
 	 * 
-	 * @return A new {@link GraphitiDocument}.
+	 * @return A new {@link Graph}.
 	 */
-	public GraphitiDocument getNewGraphitiDocument() {
+	public Graph getNewGraph() {
 		int index = listGraphTypes.getSelectionIndex();
 		String graphType = listGraphTypes.getItem(index);
 		DocumentConfiguration config = graphTypes.get(graphType);
-		GraphitiDocument doc = new GraphitiDocument(config);
-		return doc;
+		Graph graph = new Graph(config);
+		return graph;
 	}
 
 	/**
