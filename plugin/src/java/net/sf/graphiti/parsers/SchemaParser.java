@@ -170,8 +170,7 @@ public class SchemaParser {
 			if (domAttrValue == null) {
 				throw new NotCompatibleException();
 			} else {
-				contentParser.parseAttribute(ontAttribute, ontAttrName,
-						domAttrValue);
+				contentParser.parseAttribute(ontAttribute, domAttrValue);
 			}
 		}
 	}
@@ -207,7 +206,7 @@ public class SchemaParser {
 	 */
 	private void parseElement(Element ontElement, org.w3c.dom.Element domElement)
 			throws NotCompatibleException {
-		contentParser.parseElement(ontElement, domElement);
+		contentParser.elementStart(ontElement, domElement);
 
 		parseAttributes(ontElement, domElement);
 
@@ -216,6 +215,8 @@ public class SchemaParser {
 			org.w3c.dom.Element firstChild = getFirstChild(domElement);
 			parseSchemaType(type, firstChild);
 		}
+
+		contentParser.elementEnd(ontElement, domElement);
 	}
 
 	/**

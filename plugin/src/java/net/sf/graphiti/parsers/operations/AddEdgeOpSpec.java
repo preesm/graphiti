@@ -10,7 +10,7 @@ import net.sf.graphiti.transactions.Operand;
 import net.sf.graphiti.transactions.Result;
 
 /**
- * This class provides a binary operation that adds a vertex to a graph.
+ * This class provides a binary operation that adds an edge to a graph.
  * 
  * @author Matthieu Wipliez
  * 
