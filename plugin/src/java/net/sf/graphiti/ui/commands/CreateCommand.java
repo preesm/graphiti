@@ -80,7 +80,7 @@ public class CreateCommand extends Command {
 				Rectangle rect = new Rectangle(bounds);
 				rect.width = width;
 				rect.height = height;
-				vertex.setValue(Vertex.PARAMETER_SIZE, null, rect);
+				vertex.firePropertyChange(Vertex.PARAMETER_SIZE, null, rect);
 
 			}
 		}

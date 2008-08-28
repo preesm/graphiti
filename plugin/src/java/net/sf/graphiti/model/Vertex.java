@@ -36,7 +36,7 @@ import java.util.List;
  * @author Matthieu Wipliez
  * 
  */
-public class Vertex extends DOMNode implements Cloneable {
+public class Vertex extends DOMNode {
 
 	/**
 	 * String for the "color" attribute. Defines the vertex color.
@@ -130,14 +130,6 @@ public class Vertex extends DOMNode implements Cloneable {
 		parentDocument = document;
 	}
 
-	public Object clone() {
-		try {
-			return super.clone();
-		} catch (CloneNotSupportedException e) {
-			return null;
-		}
-	}
-
 	/**
 	 * Returns the value of an attribute associated with this vertex type and
 	 * the given attribute name <code>attributeName</code>.
@@ -161,6 +153,15 @@ public class Vertex extends DOMNode implements Cloneable {
 		DocumentConfiguration config = parentDocument
 				.getDocumentConfiguration();
 		return config.getVertexAttributes(getType());
+	}
+
+	/**
+	 * Returns the document this Vertex belongs to.
+	 * 
+	 * @return The document this Vertex belongs to.
+	 */
+	public GraphitiDocument getDocument() {
+		return parentDocument;
 	}
 
 	/**

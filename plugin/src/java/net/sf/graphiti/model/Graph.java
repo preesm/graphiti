@@ -118,8 +118,8 @@ public class Graph extends DOMNode {
 		Vertex source = edge.getSource();
 		Vertex target = edge.getTarget();
 		boolean res = graph.addEdge(source, target, edge);
-		source.setValue(Vertex.PROPERTY_SRC_VERTEX, null, source);
-		target.setValue(Vertex.PROPERTY_DST_VERTEX, null, target);
+		source.firePropertyChange(Vertex.PROPERTY_SRC_VERTEX, null, source);
+		target.firePropertyChange(Vertex.PROPERTY_DST_VERTEX, null, target);
 		return res;
 	}
 
@@ -132,7 +132,7 @@ public class Graph extends DOMNode {
 	public boolean addVertex(Vertex child) {
 		boolean res = graph.addVertex(child);
 		child.parent = this;
-		setValue(PropertyBean.PROPERTY_ADD, null, child);
+		firePropertyChange(PropertyBean.PROPERTY_ADD, null, child);
 		return res;
 	}
 
@@ -189,8 +189,8 @@ public class Graph extends DOMNode {
 		Vertex source = edge.getSource();
 		Vertex target = edge.getTarget();
 		boolean res = graph.removeEdge(edge);
-		source.setValue(Vertex.PROPERTY_SRC_VERTEX, source, null);
-		target.setValue(Vertex.PROPERTY_DST_VERTEX, target, null);
+		source.firePropertyChange(Vertex.PROPERTY_SRC_VERTEX, source, null);
+		target.firePropertyChange(Vertex.PROPERTY_DST_VERTEX, target, null);
 		return res;
 	}
 
@@ -202,7 +202,7 @@ public class Graph extends DOMNode {
 	public boolean removeVertex(Vertex child) {
 		boolean res = graph.removeVertex(child);
 		child.parent = null;
-		setValue(PropertyBean.PROPERTY_REMOVE, null, child);
+		firePropertyChange(PropertyBean.PROPERTY_REMOVE, null, child);
 		return res;
 	}
 

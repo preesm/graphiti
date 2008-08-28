@@ -30,12 +30,10 @@ package net.sf.graphiti.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
 
 /**
  * This class provides the ability to store properties. Classes may listen to
@@ -45,7 +43,8 @@ import java.util.Observable;
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  */
-public class PropertyBean extends Observable implements Cloneable, Serializable {
+public class PropertyBean {
+
 	/**
 	 * String for the "child added" property. Set when a vertex or a port is
 	 * added to a vertex.
@@ -95,6 +94,27 @@ public class PropertyBean extends Observable implements Cloneable, Serializable 
 	}
 
 	/**
+	 * This methods calls
+	 * {@link PropertyChangeSupport#firePropertyChange(String, Object, Object)}
+	 * on the underlying {@link PropertyChangeSupport} without updating the
+	 * value of the property <code>propertyName</code>. This method is
+	 * particularly useful when a property should be fired regardless of the
+	 * previous value (in case of undo/redo for example, when a same object is
+	 * added, removed, and added again).
+	 * 
+	 * @param propertyName
+	 *            The name of the property concerned.
+	 * @param oldValue
+	 *            The old value of the property.
+	 * @param newValue
+	 *            The new value of the property.
+	 */
+	public void firePropertyChange(String propertyName, Object oldValue,
+			Object newValue) {
+		propertyChange.firePropertyChange(propertyName, oldValue, newValue);
+	}
+
+	/**
 	 * Gives this PropertyBean properties keySet
 	 * 
 	 * @return a List of property Names
@@ -137,27 +157,6 @@ public class PropertyBean extends Observable implements Cloneable, Serializable 
 	 */
 	public void setValue(String propertyName, Object newValue) {
 		Object oldValue = properties.get(propertyName);
-		properties.put(propertyName, newValue);
-		propertyChange.firePropertyChange(propertyName, oldValue, newValue);
-	}
-
-	/**
-	 * Sets the value of the property whose name is <code>propertyName</code> to
-	 * value <code>newValue</code>, and report the property update to any
-	 * registered listeners. This method allows the caller to specify the the
-	 * property's <code>oldValue</code>, thus overriding the value stored in the
-	 * properties map. This may be of use when a property should be fired
-	 * regardless of the previous value (in case of undo/redo for example, when
-	 * a same object is added, removed, and added again).
-	 * 
-	 * @param propertyName
-	 *            The name of the property to set.
-	 * @param oldValue
-	 *            The old value of the property.
-	 * @param newValue
-	 *            The new value of the property.
-	 */
-	public void setValue(String propertyName, Object oldValue, Object newValue) {
 		properties.put(propertyName, newValue);
 		propertyChange.firePropertyChange(propertyName, oldValue, newValue);
 	}
