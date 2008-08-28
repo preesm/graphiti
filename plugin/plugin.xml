@@ -4,11 +4,11 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            id="net.sf.graphiti.ui.wizards.graphiti"
+            id="net.sf.graphiti.ui.newWizards.graphiti"
             name="Graphiti">
       </category>
       <wizard
-            category="net.sf.graphiti.ui.wizards.graphiti"
+            category="net.sf.graphiti.ui.newWizards.graphiti"
             class="net.sf.graphiti.ui.wizards.NewGraphWizard"
             finalPerspective="net.sf.graphiti.ui.perspective"
             hasPages="true"

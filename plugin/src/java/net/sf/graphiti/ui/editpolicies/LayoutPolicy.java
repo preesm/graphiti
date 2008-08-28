@@ -63,16 +63,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
  */
 public class LayoutPolicy extends XYLayoutEditPolicy {
 
-	public Command getCommand(Request request) {
-		if (REQ_OPEN.equals(request.getType())) {
-			OpenRefinementNewTabCommand command = new OpenRefinementNewTabCommand();
-			command.setSelection(new StructuredSelection(getHost()));
-			return command;
-		} else {
-			return super.getCommand(request);
-		}
-	}
-
 	private Command createAddCommand(EditPart child, Point moveDelta) {
 		AddCommand add = new AddCommand();
 		add.setChild(child.getModel());
@@ -114,6 +104,16 @@ public class LayoutPolicy extends XYLayoutEditPolicy {
 					.getMoveDelta()));
 		}
 		return command.unwrap();
+	}
+
+	public Command getCommand(Request request) {
+		if (REQ_OPEN.equals(request.getType())) {
+			OpenRefinementNewTabCommand command = new OpenRefinementNewTabCommand();
+			command.setSelection(new StructuredSelection(getHost()));
+			return command;
+		} else {
+			return super.getCommand(request);
+		}
 	}
 
 	@Override

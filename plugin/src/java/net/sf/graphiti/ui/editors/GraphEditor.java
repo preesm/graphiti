@@ -31,6 +31,7 @@ package net.sf.graphiti.ui.editors;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EventObject;
@@ -39,8 +40,10 @@ import net.sf.graphiti.model.GraphitiDocument;
 import net.sf.graphiti.parsers.GenericGraphFileParser;
 import net.sf.graphiti.parsers.IncompatibleConfigurationFile;
 import net.sf.graphiti.ui.GraphitiPlugin;
+import net.sf.graphiti.ui.actions.AutomaticallyLayoutAction;
 import net.sf.graphiti.ui.actions.CopyAction;
 import net.sf.graphiti.ui.actions.CutAction;
+import net.sf.graphiti.ui.actions.ExportToGraphMLAction;
 import net.sf.graphiti.ui.actions.OpenRefinementNewTabAction;
 import net.sf.graphiti.ui.actions.PasteAction;
 import net.sf.graphiti.ui.actions.SetRefinementAction;
@@ -83,6 +86,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IShowEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
@@ -170,37 +174,29 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void createActions() {
-		super.createActions(); // adds undo, redo, delete,
-		// select-all, save, etc actions
+		// create actions that will be used inside the editor, for instance in a
+		// contextual menu
+		super.createActions();
+
 		ActionRegistry registry = getActionRegistry();
+		Class<?> actions[] = { AutomaticallyLayoutAction.class,
+				CopyAction.class, CutAction.class, ExportToGraphMLAction.class,
+				OpenRefinementNewTabAction.class, PasteAction.class,
+				PrintAction.class, SelectAllAction.class,
+				SetRefinementAction.class };
 
-		IAction action = new CopyAction(this);
-		registry.registerAction(action);
-		getSelectionActions().add(action.getId());
+		// Constructs all actions
+		for (Class<?> clz : actions) {
+			try {
+				Constructor<?> ctor = clz.getConstructor(IWorkbenchPart.class);
 
-		action = new CutAction(this);
-		registry.registerAction(action);
-		getSelectionActions().add(action.getId());
-
-		action = new PasteAction(this);
-		registry.registerAction(action);
-		getSelectionActions().add(action.getId());
-
-		action = new SelectAllAction(this);
-		registry.registerAction(action);
-		getSelectionActions().add(action.getId());
-
-		action = new PrintAction(this);
-		registry.registerAction(action);
-		getSelectionActions().add(action.getId());
-
-		action = new SetRefinementAction(this);
-		registry.registerAction(action);
-		getSelectionActions().add(action.getId());
-
-		action = new OpenRefinementNewTabAction(this);
-		registry.registerAction(action);
-		getSelectionActions().add(action.getId());
+				IAction action = (IAction) ctor.newInstance(this);
+				registry.registerAction(action);
+				getSelectionActions().add(action.getId());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
@@ -299,6 +295,14 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		else {
 			return super.getAdapter(type);
 		}
+	}
+	
+	/**
+	 * Returns the contents of this editor.
+	 * @return The contents of this editor.
+	 */
+	public GraphitiDocument getContents() {
+		return document;
 	}
 
 	@Override

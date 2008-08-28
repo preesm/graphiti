@@ -82,7 +82,7 @@ public abstract class AbstractRefinementCommand extends Command {
 	 * @return The refinement parameter associated with the current selection,
 	 *         or <code>null</code>.
 	 */
-	public String getRefinement() {
+	protected String getRefinement() {
 		if (vertex != null) {
 			Object refinement = vertex.getValue(Vertex.PARAMETER_REFINEMENT);
 			if (refinement instanceof String) {
@@ -119,6 +119,9 @@ public abstract class AbstractRefinementCommand extends Command {
 	 * @param selection
 	 */
 	public void setSelection(ISelection selection) {
+		// reset the previous selection.
+		vertex = null;
+		
 		if (selection instanceof IStructuredSelection) {
 			Object obj = ((IStructuredSelection) selection).getFirstElement();
 			if (obj instanceof VertexEditPart) {

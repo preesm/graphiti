@@ -29,16 +29,17 @@
 package net.sf.graphiti.ui.editors;
 
 import net.sf.graphiti.ui.actions.AutomaticallyLayoutAction;
+import net.sf.graphiti.ui.actions.AutomaticallyLayoutRetargetAction;
+import net.sf.graphiti.ui.actions.ExportToGraphMLAction;
+import net.sf.graphiti.ui.actions.ExportToGraphMLRetargetAction;
 
 import org.eclipse.gef.ui.actions.ActionBarContributor;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
 import org.eclipse.gef.ui.actions.ZoomInRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
@@ -58,24 +59,26 @@ public class GraphActionBarContributor extends ActionBarContributor {
 	protected void buildActions() {
 		IWorkbenchWindow iww = getPage().getWorkbenchWindow();
 
-		addRetargetAction((RetargetAction) ActionFactory.PRINT.create(iww));
-
-		addRetargetAction((RetargetAction) ActionFactory.UNDO.create(iww));
-		addRetargetAction((RetargetAction) ActionFactory.REDO.create(iww));
-		addRetargetAction((RetargetAction) ActionFactory.DELETE.create(iww));
-
-		addRetargetAction((RetargetAction) ActionFactory.CUT.create(iww));
 		addRetargetAction((RetargetAction) ActionFactory.COPY.create(iww));
+		addRetargetAction((RetargetAction) ActionFactory.CUT.create(iww));
+		addRetargetAction((RetargetAction) ActionFactory.DELETE.create(iww));
 		addRetargetAction((RetargetAction) ActionFactory.PASTE.create(iww));
+		addRetargetAction((RetargetAction) ActionFactory.PRINT.create(iww));
+		addRetargetAction((RetargetAction) ActionFactory.REDO.create(iww));
+		addRetargetAction((RetargetAction) ActionFactory.UNDO.create(iww));
 
+		addRetargetAction(new AutomaticallyLayoutRetargetAction());
+		addRetargetAction(new ExportToGraphMLRetargetAction());
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
-
-		addAction(new AutomaticallyLayoutAction());
 	}
 
 	@Override
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
+		toolBarManager.add(getAction(ExportToGraphMLAction.getActionId()));
+
+		toolBarManager.add(new Separator());
+
 		toolBarManager.add(getAction(ActionFactory.UNDO.getId()));
 		toolBarManager.add(getAction(ActionFactory.REDO.getId()));
 		toolBarManager.add(getAction(ActionFactory.DELETE.getId()));
@@ -110,12 +113,6 @@ public class GraphActionBarContributor extends ActionBarContributor {
 		addGlobalActionKey(ActionFactory.PASTE.getId());
 
 		addGlobalActionKey(ActionFactory.SELECT_ALL.getId());
-	}
-
-	public void setActiveEditor(IEditorPart editor) {
-		super.setActiveEditor(editor);
-		IAction action = getAction(AutomaticallyLayoutAction.getActionId());
-		((AutomaticallyLayoutAction) action).setWorkbenchPart(editor);
 	}
 
 }

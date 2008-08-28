@@ -31,7 +31,7 @@ package net.sf.graphiti.ui.actions;
 import net.sf.graphiti.ui.commands.SetRefinementCommand;
 
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * This class provides a way to create a vertex refinement.
@@ -59,7 +59,7 @@ public class SetRefinementAction extends SelectionAction {
 	 * 
 	 * @param part
 	 */
-	public SetRefinementAction(IEditorPart part) {
+	public SetRefinementAction(IWorkbenchPart part) {
 		super(part);
 		command = new SetRefinementCommand();
 	}

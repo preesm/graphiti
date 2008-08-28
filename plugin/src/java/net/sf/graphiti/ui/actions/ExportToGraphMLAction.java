@@ -28,18 +28,27 @@
  */
 package net.sf.graphiti.ui.actions;
 
+import net.sf.graphiti.ui.wizards.GraphMLExportWizard;
+
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 /**
- * This class provides an automatic layout action.
+ * This class provides a "Export to GraphML" action.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class AutomaticallyLayoutAction extends SelectionAction {
+public class ExportToGraphMLAction extends SelectionAction {
 
-	private static final String ID = "net.sf.graphiti.ui.actions.AutomaticallyLayoutAction";
+	private static final String ID = "net.sf.graphiti.ui.actions.ExportToGraphMLAction";
 
 	/**
 	 * Returns this action identifier.
@@ -51,26 +60,33 @@ public class AutomaticallyLayoutAction extends SelectionAction {
 	}
 
 	/**
-	 * Constructs a AutomaticallyLayoutAction.
+	 * Creates a {@link ExportToGraphMLAction} action.
+	 * 
+	 * @param part
 	 */
-	public AutomaticallyLayoutAction(IWorkbenchPart part) {
+	public ExportToGraphMLAction(IWorkbenchPart part) {
 		super(part);
+		setText("Export");
+		setId(ID);
+		setToolTipText("Export the document to GraphML");
 	}
 
 	@Override
-	protected boolean calculateEnabled() {
+	public boolean calculateEnabled() {
 		return true;
 	}
 
 	@Override
-	protected void init() {
-		setId(getActionId());
-		setText("Layout");
-		setToolTipText("Automatically layout the graph in the active editor");
-		setEnabled(true);
-	}
-
-	@Override
 	public void run() {
+		GraphMLExportWizard wizard = new GraphMLExportWizard();
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		IWorkbenchPage page = window.getActivePage();
+		IEditorPart editor = page.getActiveEditor();
+
+		wizard.init(workbench, new StructuredSelection(editor));
+
+		WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
+		dialog.open();
 	}
 }

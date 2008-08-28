@@ -69,7 +69,7 @@ public class OpenRefinementNewTabCommand extends AbstractRefinementCommand {
 	 */
 	public OpenRefinementNewTabCommand() {
 	}
-	
+
 	@Override
 	public boolean canExecute() {
 		return (getRefinement() != null);

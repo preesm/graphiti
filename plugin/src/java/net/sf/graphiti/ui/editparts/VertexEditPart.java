@@ -315,7 +315,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	public void performRequest(Request request) {
 		Command command = getCommand(request);
-		if (command.canExecute()) {
+		if (command != null && command.canExecute()) {
 			command.execute();
 		}
 	}

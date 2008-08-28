@@ -28,49 +28,23 @@
  */
 package net.sf.graphiti.ui.actions;
 
-import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.actions.RetargetAction;
 
 /**
- * This class provides an automatic layout action.
+ * This class provides a "Export to GraphML" retarget action.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class AutomaticallyLayoutAction extends SelectionAction {
-
-	private static final String ID = "net.sf.graphiti.ui.actions.AutomaticallyLayoutAction";
+public class ExportToGraphMLRetargetAction extends RetargetAction {
 
 	/**
-	 * Returns this action identifier.
+	 * Creates a {@link ExportToGraphMLRetargetAction} action.
 	 * 
-	 * @return This action identifier.
+	 * @param part
 	 */
-	public static String getActionId() {
-		return ID;
-	}
-
-	/**
-	 * Constructs a AutomaticallyLayoutAction.
-	 */
-	public AutomaticallyLayoutAction(IWorkbenchPart part) {
-		super(part);
-	}
-
-	@Override
-	protected boolean calculateEnabled() {
-		return true;
-	}
-
-	@Override
-	protected void init() {
-		setId(getActionId());
-		setText("Layout");
-		setToolTipText("Automatically layout the graph in the active editor");
-		setEnabled(true);
-	}
-
-	@Override
-	public void run() {
+	public ExportToGraphMLRetargetAction() {
+		super(ExportToGraphMLAction.getActionId(), "Export");
+		setToolTipText("Export the document to GraphML");
 	}
 }
