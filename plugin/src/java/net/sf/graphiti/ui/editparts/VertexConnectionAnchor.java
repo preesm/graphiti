@@ -88,7 +88,13 @@ public class VertexConnectionAnchor extends AbstractConnectionAnchor {
 	}
 
 	/**
-	 * TODO: javadoc.
+	 * Returns a new reference point for this anchor. This method returns a
+	 * point on the circle whose ray is determined from the bounds. The point
+	 * returned is determined by its angle according to a ratio between
+	 * {@link #anchorNumber} and {@link #nbAnchors}.
+	 * 
+	 * @return A {@link Point} that can be used as reference to get an anchor's
+	 *         location.
 	 */
 	public Point getNewReference() {
 		Point center = getReferencePoint();
@@ -120,6 +126,7 @@ public class VertexConnectionAnchor extends AbstractConnectionAnchor {
 		return new Point(center.x + x, center.y + y);
 	}
 
+	@Override
 	public Point getReferencePoint() {
 		return super.getReferencePoint();
 	}

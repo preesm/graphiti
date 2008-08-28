@@ -118,9 +118,14 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	}
 
 	/**
-	 * TODO: javadoc
+	 * Automatically layout the graph edited with the given direction.
 	 * 
 	 * @param direction
+	 *            The direction, one of:
+	 *            <UL>
+	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#EAST}
+	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#SOUTH}
+	 *            </UL>
 	 */
 	public void automaticallyLayout(int direction) {
 		GraphitiDocumentEditPart doc = (GraphitiDocumentEditPart) getGraphicalViewer()
@@ -296,9 +301,10 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 			return super.getAdapter(type);
 		}
 	}
-	
+
 	/**
 	 * Returns the contents of this editor.
+	 * 
 	 * @return The contents of this editor.
 	 */
 	public GraphitiDocument getContents() {
