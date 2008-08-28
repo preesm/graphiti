@@ -40,7 +40,7 @@ public abstract class AbstractTransaction implements ITransaction {
 
 	private boolean isCommitted;
 
-	private NestedTransaction parent;
+	protected NestedTransaction parent;
 
 	/**
 	 * Creates a new abstract transaction with no parent.

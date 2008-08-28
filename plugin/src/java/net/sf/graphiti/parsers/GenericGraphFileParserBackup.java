@@ -484,7 +484,6 @@ public class GenericGraphFileParserBackup {
 		// ((Graph) parentElement).addEdge((Edge) element);
 		// }
 
-		// TODO: find out about this...
 		addOntDomInstance(ontNode, element);
 	}
 

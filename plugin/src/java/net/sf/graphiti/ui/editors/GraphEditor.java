@@ -100,7 +100,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	 */
 	public static final String ID = "net.sf.graphiti.ui.editors.GraphEditor";
 
-	private Graph document;
+	private Graph graph;
 
 	private ZoomManager manager;
 
@@ -221,7 +221,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	public void doSave(IProgressMonitor monitor) {
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		GenericGraphFileWriter writer = new GenericGraphFileWriter(document);
+		GenericGraphFileWriter writer = new GenericGraphFileWriter(graph);
 		writer.write(out);
 		try {
 			file.setContents(new ByteArrayInputStream(out.toByteArray()), true,
@@ -257,7 +257,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 					throws CoreException {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				GenericGraphFileWriter writer = new GenericGraphFileWriter(
-						document);
+						graph);
 				writer.write(out);
 				try {
 					file.create(new ByteArrayInputStream(out.toByteArray()),
@@ -308,13 +308,13 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	 * @return The contents of this editor.
 	 */
 	public Graph getContents() {
-		return document;
+		return graph;
 	}
 
 	@Override
 	protected PaletteRoot getPaletteRoot() {
 		if (paletteRoot == null) {
-			paletteRoot = GraphitiPalette.getPaletteRoot(document);
+			paletteRoot = GraphitiPalette.getPaletteRoot(graph);
 		}
 		return paletteRoot;
 	}
@@ -348,7 +348,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		// viewer.addDropTargetListener(new DropTargetListener(
 		// getGraphicalViewer()));
 
-		viewer.setContents(document);
+		viewer.setContents(graph);
 		automaticallyLayout(PositionConstants.EAST);
 	}
 
@@ -370,7 +370,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		try {
 			GenericGraphFileParser parser = new GenericGraphFileParser(
 					GraphitiPlugin.getDefault().getConfiguration());
-			document = parser.parse(file);
+			graph = parser.parse(file);
 
 			// Updates the palette
 			getEditDomain().setPaletteRoot(getPaletteRoot());

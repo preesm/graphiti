@@ -29,7 +29,7 @@
 package net.sf.graphiti.model;
 
 /**
- * This class represents an edge. //TODO: see Vertex
+ * This class represents an edge.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
@@ -75,7 +75,13 @@ public class Edge extends PropertyBean {
 	 * @return A {@link Configuration}.
 	 */
 	public Configuration getDocumentConfiguration() {
-		return source.getDocumentConfiguration();
+		if (source != null) {
+			return source.getDocumentConfiguration();
+		} else if (target != null) {
+			return target.getDocumentConfiguration();
+		} else {
+			return null;
+		}
 	}
 
 	public Vertex getSource() {

@@ -69,7 +69,7 @@ public class NestedTransaction extends AbstractTransaction {
 	 * @param transaction
 	 *            An {@link ITransaction}.
 	 */
-	void addTransaction(ITransaction transaction) {
+	public void addTransaction(ITransaction transaction) {
 		transactions.add(transaction);
 	}
 

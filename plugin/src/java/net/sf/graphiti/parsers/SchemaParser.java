@@ -31,10 +31,15 @@ import org.w3c.dom.Text;
  */
 public class SchemaParser {
 
-	private Configuration configuration;
+	private ContentParser contentParser;
 
+	/**
+	 * Creates a new schema parser using the given configuration.
+	 * 
+	 * @param configuration
+	 */
 	public SchemaParser(Configuration configuration) {
-		this.configuration = configuration;
+		contentParser = new ContentParser(configuration);
 	}
 
 	/**
@@ -73,16 +78,25 @@ public class SchemaParser {
 		return (org.w3c.dom.Element) node;
 	}
 
-	private boolean isElementDefined(Element ontNode,
-			org.w3c.dom.Element domNode) {
+	/**
+	 * Returns true if the element <code>domElement</code> fits the profile
+	 * defined by <code>ontElement</code>: name, attribute restriction.
+	 * 
+	 * @param ontElement
+	 * @param domElement
+	 * @return True if the element <code>domElement</code> fits the profile
+	 *         defined by <code>ontElement</code>: name, attribute restriction.
+	 */
+	private boolean isElementDefined(Element ontElement,
+			org.w3c.dom.Element domElement) {
 		boolean correspond = false;
 
 		// If the DOM element has the same name as this ontology element
-		if (ontNode.hasName().equals(domNode.getNodeName())) {
+		if (ontElement.hasName().equals(domElement.getNodeName())) {
 			// We apply attribute restrictions (if it has any).
-			Iterator<AttributeRestriction> it = ontNode
+			Iterator<AttributeRestriction> it = ontElement
 					.hasAttributeRestriction().iterator();
-			NamedNodeMap attributes = domNode.getAttributes();
+			NamedNodeMap attributes = domElement.getAttributes();
 
 			correspond = true;
 			while (it.hasNext() && correspond) {
@@ -107,7 +121,7 @@ public class SchemaParser {
 				}
 			}
 
-			if (ontNode.hasOntClass(OntologyFactory.getClassXMLAttribute())
+			if (ontElement.hasOntClass(OntologyFactory.getClassXMLAttribute())
 					&& correspond) {
 				// TODO
 				// parseAttribute((XMLAttribute) ontNode, domNode,
@@ -119,7 +133,8 @@ public class SchemaParser {
 	}
 
 	/**
-	 * //TODO: javadoc
+	 * This method parses the given DOM document element according to the
+	 * <code>ontDocElement</code>, and returns a {@link Graph} if successful.
 	 * 
 	 * @param ontDocElement
 	 * @param docElement
@@ -128,15 +143,12 @@ public class SchemaParser {
 	 */
 	public Graph parse(DocumentElement ontDocElement,
 			org.w3c.dom.Element docElement) throws NotCompatibleException {
-		Graph graph = new Graph(configuration);
-
-		if (isElementDefined(ontDocElement, docElement)) {
-			parseElement(ontDocElement, docElement);
-		} else {
-			return null;
+		if (!isElementDefined(ontDocElement, docElement)) {
+			throw new NotCompatibleException();
 		}
-
-		return graph;
+		
+		parseElement(ontDocElement, docElement);
+		return contentParser.getGraph();
 	}
 
 	/**
@@ -194,11 +206,10 @@ public class SchemaParser {
 			throws NotCompatibleException {
 		parseAttributes(ontElement, domElement);
 
-		if (ontElement
-				.hasOntClass(OntologyFactory.getClassTextContentElement())) {
-			// no children
-		} else {
-			XMLSchemaType type = ontElement.hasSchemaType();
+		contentParser.parseElement(ontElement, domElement);
+
+		XMLSchemaType type = ontElement.hasSchemaType();
+		if (type != null) {
 			org.w3c.dom.Element firstChild = getFirstChild(domElement);
 			parseSchemaType(type, firstChild);
 		}
