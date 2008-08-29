@@ -41,14 +41,14 @@ import java.util.List;
  */
 public class SimpleTransaction extends AbstractTransaction {
 
-	private List<IOperation<?>> operations;
+	private List<Operation> operations;
 
 	/**
 	 * Creates an orphan simple transaction.
 	 */
 	public SimpleTransaction() {
 		super();
-		operations = new ArrayList<IOperation<?>>();
+		operations = new ArrayList<Operation>();
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class SimpleTransaction extends AbstractTransaction {
 	 */
 	public SimpleTransaction(NestedTransaction parent) {
 		super(parent);
-		operations = new ArrayList<IOperation<?>>();
+		operations = new ArrayList<Operation>();
 	}
 
 	/**
@@ -69,15 +69,16 @@ public class SimpleTransaction extends AbstractTransaction {
 	 * @param operation
 	 *            A {@link IOperation}.
 	 */
-	public void addOperation(IOperation<?> operation) {
+	public void addOperation(Operation operation) {
 		operations.add(operation);
 	}
 
 	@Override
 	public void commit() {
 		super.beginCommit();
+		System.out.println("Committing " + operations.size() + " operations");
 		int i = 0;
-		for (IOperation<?> operation : operations) {
+		for (Operation operation : operations) {
 			operation.execute();
 			i++;
 		}
@@ -92,7 +93,7 @@ public class SimpleTransaction extends AbstractTransaction {
 
 	public String toString() {
 		String res = "";
-		for (IOperation<?> operation : operations) {
+		for (Operation operation : operations) {
 			res += operation.toString() + "\n";
 		}
 

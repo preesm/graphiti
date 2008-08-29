@@ -5,7 +5,7 @@ package net.sf.graphiti.parsers.operations;
 
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.transactions.IBinaryOperationSpecification;
+import net.sf.graphiti.transactions.IOperationSpecification;
 import net.sf.graphiti.transactions.Operand;
 import net.sf.graphiti.transactions.Result;
 
@@ -15,13 +15,13 @@ import net.sf.graphiti.transactions.Result;
  * @author Matthieu Wipliez
  * 
  */
-public class AddEdgeOpSpec implements
-		IBinaryOperationSpecification<Graph, Edge, Void> {
+public class AddEdgeOpSpec implements IOperationSpecification {
 
 	@Override
-	public void execute(Operand<Graph> graph, Operand<Edge> edge,
-			Result<Void> result) {
-		graph.getContents().addEdge(edge.getContents());
+	public void execute(Operand[] operands, Result result) {
+		Graph graph = (Graph) operands[0].getContents();
+		Edge edge = (Edge) operands[1].getContents();
+		graph.addEdge(edge);
 	}
 
 	@Override

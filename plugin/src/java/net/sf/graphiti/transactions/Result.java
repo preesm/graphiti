@@ -28,24 +28,33 @@
  */
 package net.sf.graphiti.transactions;
 
-public class Result<T> {
+/**
+ * This class provides a result for an operation.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
+public class Result {
 
-	private T contents;
+	private Object contents;
 
+	/**
+	 * Creates a result with no contents.
+	 */
 	public Result() {
 		contents = null;
 	}
 
-	public T getContents() {
+	public Object getContents() {
 		return contents;
 	}
 
-	public void setContents(T contents) {
+	public void setContents(Object contents) {
 		this.contents = contents;
 	}
 
 	public String toString() {
-		T contents = getContents();
+		Object contents = getContents();
 		if (contents == null) {
 			return "<result " + super.toString() + ">";
 		} else {

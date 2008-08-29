@@ -29,14 +29,17 @@
 package net.sf.graphiti.transactions;
 
 /**
- * @author mwipliez
+ * This class provides an operand to an operation. An operand may be created on
+ * an arbitrary type, or on a {@link Result}.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
-public class Operand<T> {
+public class Operand {
 
-	private T contents;
+	private Object contents;
 
-	private Result<T> result;
+	private Result result;
 
 	public Operand() {
 		contents = null;
@@ -50,18 +53,23 @@ public class Operand<T> {
 	 * 
 	 * @param contents
 	 */
-	@SuppressWarnings("unchecked")
 	public Operand(Object contents) {
-		if (contents instanceof Result<?>) {
+		if (contents instanceof Result) {
 			this.contents = null;
-			this.result = (Result<T>) contents;
+			this.result = (Result) contents;
 		} else {
-			this.contents = (T) contents;
+			this.contents = contents;
 			result = null;
 		}
 	}
 
-	public T getContents() {
+	/**
+	 * Returns the contents of this operand. If this operand was created on a
+	 * {@link Result}, returns the contents of the result.
+	 * 
+	 * @return An {@link Object}, possibly <code>null</code>.
+	 */
+	public Object getContents() {
 		if (result == null) {
 			return contents;
 		} else {

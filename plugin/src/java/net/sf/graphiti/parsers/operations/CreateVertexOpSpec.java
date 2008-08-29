@@ -4,21 +4,20 @@
 package net.sf.graphiti.parsers.operations;
 
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.transactions.IUnaryOperationSpecification;
+import net.sf.graphiti.transactions.IOperationSpecification;
 import net.sf.graphiti.transactions.Operand;
 import net.sf.graphiti.transactions.Result;
 
 /**
- * This class provides a unary operation that creates a vertex.
+ * This class provides a zero-parameter operation that creates a vertex.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class CreateVertexOpSpec implements
-		IUnaryOperationSpecification<Object, Vertex> {
+public class CreateVertexOpSpec implements IOperationSpecification {
 
 	@Override
-	public void execute(Operand<Object> noop, Result<Vertex> result) {
+	public void execute(Operand[] operands, Result result) {
 		result.setContents(new Vertex());
 	}
 

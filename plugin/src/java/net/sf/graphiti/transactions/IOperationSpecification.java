@@ -38,6 +38,16 @@ package net.sf.graphiti.transactions;
 public interface IOperationSpecification {
 
 	/**
+	 * Executes this operation on the given operand(s), and fills the result in.
+	 * 
+	 * @param operands
+	 *            A possibly empty array of {@link Operand}s.
+	 * @param result
+	 *            A non-null {@link Result}.
+	 */
+	public void execute(Operand[] operands, Result result);
+
+	/**
 	 * Returns the minimum number of operands this operation needs.
 	 * 
 	 * @return The minimum number of operands this operation needs.

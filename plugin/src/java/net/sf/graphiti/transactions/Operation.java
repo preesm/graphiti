@@ -36,76 +36,110 @@ package net.sf.graphiti.transactions;
  * @author Matthieu Wipliez
  * 
  */
-public abstract class AbstractOperation<T> implements IOperation<T> {
+public class Operation {
 
 	/**
 	 * The current number of operands. Should be updated before calling
 	 * {@link #execute()}.
 	 */
-	protected int nbOperands;
+	private Operand[] operands;
 
 	/**
 	 * The result of this operation.
 	 */
-	protected Result<T> result;
+	private Result result;
 
 	/**
 	 * The specification of this operation.
 	 */
-	final protected IOperationSpecification spec;
+	private IOperationSpecification spec;
 
 	/**
-	 * Creates a new {@link AbstractOperation} using the given operation
-	 * specification.
+	 * Creates a new {@link Operation} using the given operation specification.
 	 * 
 	 * @param spec
 	 *            An {@link IOperationSpecification}.
 	 */
-	public AbstractOperation(IOperationSpecification spec) {
+	public Operation(IOperationSpecification spec) {
 		this.spec = spec;
+		operands = new Operand[] {};
 	}
 
 	/**
-	 * This implementation does not actually execute anything, it merely checks
-	 * the operation <b>can</b> be executed.
+	 * Executes this operation.
 	 */
-	@Override
 	public void execute() {
-		if (nbOperands < spec.getNbOperands()) {
+		if (operands.length < spec.getNbOperands()) {
 			throw new NotEnoughOperandsException();
 		}
 
 		if (spec.hasResult() && result == null) {
-			result = new Result<T>();
+			result = new Result();
 		}
+
+		spec.execute(operands, result);
 	}
 
-	@Override
-	public Result<T> getResult() {
+	/**
+	 * Returns the result of this operation.
+	 * 
+	 * @return A {@link Result} if this operation specification specifies it has
+	 *         a result.
+	 * @throws OperationHasNoResultException
+	 *             If this operation has no result.
+	 */
+	public Result getResult() {
 		if (!spec.hasResult()) {
 			throw new OperationHasNoResultException();
 		}
 
 		if (result == null) {
-			result = new Result<T>();
+			result = new Result();
 		}
 
 		return result;
 	}
 
 	/**
-	 * This function must be implemented by subclasses to return a string
-	 * representation of the operation operands.
+	 * Sets this operation only operand.
 	 * 
-	 * @return A string representation of the operation operands.
+	 * @param operand
+	 *            An {@link Operand}.
 	 */
-	protected abstract String operandsToString();
+	public void setOperand(Operand operands) {
+		this.operands = new Operand[] { operands };
+	}
 
+	/**
+	 * Sets this operation's operands.
+	 * 
+	 * @param operand1
+	 *            An array of {@link Operand}.
+	 */
+	public void setOperands(Operand operand1, Operand operand2) {
+		this.operands = new Operand[] { operand1, operand2 };
+	}
+
+	/**
+	 * Sets this operation's operands.
+	 * 
+	 * @param operands
+	 *            An array of {@link Operand}.
+	 */
+	public void setOperands(Operand[] operands) {
+		this.operands = operands;
+	}
+
+	@Override
 	public String toString() {
-		String res = operandsToString();
+		String res = "[ ";
+		for (Operand op : operands) {
+			res += op + " ";
+		}
+		res += "]";
 
 		if (spec.hasResult()) {
-			Result<T> result = getResult();
+			Result result = getResult();
 			res += " -> " + result;
 		}
 

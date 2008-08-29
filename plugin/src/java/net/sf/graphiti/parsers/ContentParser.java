@@ -4,12 +4,11 @@
 package net.sf.graphiti.parsers;
 
 import java.util.Set;
+import java.util.Stack;
 
 import net.sf.graphiti.model.Configuration;
-import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.PropertyBean;
-import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import net.sf.graphiti.ontology.parameters.Parameter;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
@@ -26,12 +25,10 @@ import net.sf.graphiti.parsers.operations.CreateGraphOpSpec;
 import net.sf.graphiti.parsers.operations.CreateVertexOpSpec;
 import net.sf.graphiti.parsers.operations.SetEdgeEndpointOpSpec;
 import net.sf.graphiti.parsers.operations.SetParameterValueOpSpec;
-import net.sf.graphiti.transactions.BinaryOperation;
-import net.sf.graphiti.transactions.NaryOperation;
 import net.sf.graphiti.transactions.Operand;
+import net.sf.graphiti.transactions.Operation;
 import net.sf.graphiti.transactions.Result;
 import net.sf.graphiti.transactions.SimpleTransaction;
-import net.sf.graphiti.transactions.UnaryOperation;
 
 /**
  * @author mwipliez
@@ -39,17 +36,20 @@ import net.sf.graphiti.transactions.UnaryOperation;
  */
 public class ContentParser {
 
-	private UnaryOperation<Configuration, Graph> createGraph;
+	private Operation createGraph;
 
 	/**
-	 * This contains the {@link Result} associated with the current element
-	 * (between a call to {@link #elementStart(Element, org.w3c.dom.Element)}
-	 * and {@link #elementEnd(Element, org.w3c.dom.Element)}). May be
-	 * <code>null</code>.
+	 * {@link Stack#peek()} returns the current {@link Element} (between a call
+	 * to <code>elementStart</code> and <code>elementEnd</code>.
 	 */
-	private Result<?> currentElementResult;
+	private Stack<Element> elementStack;
 
-	private Element currentOntElement;
+	/**
+	 * {@link Stack#peek()} returns the {@link Result} associated with the
+	 * current element (between a call to <code>elementStart</code> and
+	 * <code>elementEnd</code>.
+	 */
+	private Stack<Result> resultStack;
 
 	private SimpleTransaction transaction;
 
@@ -60,9 +60,11 @@ public class ContentParser {
 	 */
 	public ContentParser(Configuration configuration) {
 		this.transaction = new SimpleTransaction();
-		createGraph = new UnaryOperation<Configuration, Graph>(
-				new CreateGraphOpSpec());
-		createGraph.setOperand(new Operand<Configuration>(configuration));
+		elementStack = new Stack<Element>();
+		resultStack = new Stack<Result>();
+
+		createGraph = new Operation(new CreateGraphOpSpec());
+		createGraph.setOperand(new Operand(configuration));
 		transaction.addOperation(createGraph);
 	}
 
@@ -75,16 +77,19 @@ public class ContentParser {
 	 */
 	public void elementEnd(Element ontElement, org.w3c.dom.Element domElement) {
 		if (ontElement instanceof VertexElement) {
+			Operation addVertex = new Operation(new AddVertexOpSpec());
+			addVertex.setOperands(new Operand(createGraph.getResult()),
+					new Operand(resultStack.peek()));
+			transaction.addOperation(addVertex);
 		} else if (ontElement instanceof EdgeElement) {
-			BinaryOperation<Graph, Edge, Void> addEdge = new BinaryOperation<Graph, Edge, Void>(
-					new AddEdgeOpSpec());
-			addEdge.setOperand1(new Operand<Graph>(createGraph.getResult()));
-			addEdge.setOperand2(new Operand<Edge>(currentElementResult));
+			Operation addEdge = new Operation(new AddEdgeOpSpec());
+			addEdge.setOperands(new Operand(createGraph.getResult()),
+					new Operand(resultStack.peek()));
 			transaction.addOperation(addEdge);
 		}
 
-		currentElementResult = null;
-		currentOntElement = null;
+		elementStack.pop();
+		resultStack.pop();
 	}
 
 	/**
@@ -95,20 +100,29 @@ public class ContentParser {
 	 * @param domElement
 	 */
 	public void elementStart(Element ontElement, org.w3c.dom.Element domElement) {
-		currentOntElement = ontElement;
+		elementStack.push(ontElement);
+		Result result;
 
 		if (ontElement instanceof VertexElement) {
-			parseVertexElement(ontElement, domElement);
+			result = parseVertexElement(ontElement, domElement);
 		} else if (ontElement instanceof EdgeElement) {
-			parseEdgeElement(ontElement, domElement);
+			result = parseEdgeElement(ontElement, domElement);
+		} else {
+			result = new Result();
 		}
 
+		resultStack.push(result);
 		setParameterValues(ontElement, domElement);
 	}
 
+	/**
+	 * Commits the top transaction, and returns the graph created.
+	 * 
+	 * @return The {@link Graph} created.
+	 */
 	public Graph getGraph() {
 		transaction.commit();
-		return createGraph.getResult().getContents();
+		return (Graph) createGraph.getResult().getContents();
 	}
 
 	/**
@@ -134,21 +148,23 @@ public class ContentParser {
 	 */
 	private void parseEdgeAttribute(EdgeAttribute ontAttribute,
 			String domAttrValue) {
-		if (currentOntElement instanceof EdgeElement) {
-			NaryOperation<Object, Void> setEdgeEndpoint = new NaryOperation<Object, Void>(
+		if (elementStack.peek() instanceof EdgeElement) {
+			Operation setEdgeEndpoint = new Operation(
 					new SetEdgeEndpointOpSpec());
-			setEdgeEndpoint.addOperand(new Operand<Object>(createGraph
-					.getResult()));
-			setEdgeEndpoint
-					.addOperand(new Operand<Object>(currentElementResult));
+			Operand[] operands = new Operand[4];
+			setEdgeEndpoint.setOperands(operands);
+
+			operands[0] = new Operand(createGraph.getResult());
+			operands[1] = new Operand(resultStack.peek());
 
 			if (ontAttribute instanceof EdgeSourceConnection) {
-				setEdgeEndpoint.addOperand(new Operand<Object>("source"));
+				operands[2] = new Operand("source");
 			} else {
-				setEdgeEndpoint.addOperand(new Operand<Object>("destination"));
+				operands[2] = new Operand("destination");
 			}
 
-			setEdgeEndpoint.addOperand(new Operand<Object>(domAttrValue));
+			operands[3] = new Operand(domAttrValue);
+
 			transaction.addOperation(setEdgeEndpoint);
 		}
 	}
@@ -159,13 +175,11 @@ public class ContentParser {
 	 * @param ontElement
 	 * @param domElement
 	 */
-	private void parseEdgeElement(Element ontElement,
+	private Result parseEdgeElement(Element ontElement,
 			org.w3c.dom.Element domElement) {
-		UnaryOperation<Object, Edge> createEdge = new UnaryOperation<Object, Edge>(
-				new CreateEdgeOpSpec());
+		Operation createEdge = new Operation(new CreateEdgeOpSpec());
 		transaction.addOperation(createEdge);
-
-		currentElementResult = createEdge.getResult();
+		return createEdge.getResult();
 	}
 
 	/**
@@ -180,11 +194,14 @@ public class ContentParser {
 
 		if (parameter != null) {
 			// will set the parameter value
-			NaryOperation<Object, Void> setProperty = new NaryOperation<Object, Void>(
-					new SetParameterValueOpSpec());
-			setProperty.addOperand(new Operand<Object>(currentElementResult));
-			setProperty.addOperand(new Operand<Object>(parameter.hasName()));
-			setProperty.addOperand(new Operand<Object>(domAttrValue));
+			Operation setProperty = new Operation(new SetParameterValueOpSpec());
+			Operand[] operands = new Operand[3];
+			setProperty.setOperands(operands);
+
+			operands[0] = new Operand(resultStack.peek());
+			operands[1] = new Operand(parameter.hasName());
+			operands[2] = new Operand(domAttrValue);
+
 			transaction.addOperation(setProperty);
 		}
 
@@ -196,19 +213,11 @@ public class ContentParser {
 	 * @param ontElement
 	 * @param domElement
 	 */
-	private void parseVertexElement(Element ontElement,
+	private Result parseVertexElement(Element ontElement,
 			org.w3c.dom.Element domElement) {
-		UnaryOperation<Object, Vertex> createVertex = new UnaryOperation<Object, Vertex>(
-				new CreateVertexOpSpec());
+		Operation createVertex = new Operation(new CreateVertexOpSpec());
 		transaction.addOperation(createVertex);
-
-		currentElementResult = createVertex.getResult();
-
-		BinaryOperation<Graph, Vertex, Void> addVertex = new BinaryOperation<Graph, Vertex, Void>(
-				new AddVertexOpSpec());
-		addVertex.setOperand1(new Operand<Graph>(createGraph.getResult()));
-		addVertex.setOperand2(new Operand<Vertex>(createVertex.getResult()));
-		transaction.addOperation(addVertex);
+		return createVertex.getResult();
 	}
 
 	/**
@@ -229,11 +238,14 @@ public class ContentParser {
 			String parameterName = constant.ofParameter().hasName();
 
 			// will set the parameter value
-			NaryOperation<Object, Void> setProperty = new NaryOperation<Object, Void>(
-					new SetParameterValueOpSpec());
-			setProperty.addOperand(new Operand<Object>(currentElementResult));
-			setProperty.addOperand(new Operand<Object>(parameterName));
-			setProperty.addOperand(new Operand<Object>(constant.hasValue()));
+			Operation setProperty = new Operation(new SetParameterValueOpSpec());
+			Operand[] operands = new Operand[3];
+			setProperty.setOperands(operands);
+
+			operands[0] = new Operand(resultStack.peek());
+			operands[1] = new Operand(parameterName);
+			operands[2] = new Operand(constant.hasValue());
+
 			transaction.addOperation(setProperty);
 		}
 	}

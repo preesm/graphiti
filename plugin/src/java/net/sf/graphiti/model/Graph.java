@@ -29,6 +29,8 @@
 package net.sf.graphiti.model;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.jgrapht.graph.AbstractBaseGraph;
@@ -81,6 +83,8 @@ public class Graph extends PropertyBean {
 
 	private AbstractBaseGraph<Vertex, Edge> graph;
 
+	private Map<String, Vertex> vertices;
+
 	/**
 	 * Creates a new directed graph.
 	 * 
@@ -106,6 +110,7 @@ public class Graph extends PropertyBean {
 		} else {
 			graph = new Multigraph<Vertex, Edge>(Edge.class);
 		}
+		vertices = new HashMap<String, Vertex>();
 	}
 
 	/**
@@ -132,6 +137,9 @@ public class Graph extends PropertyBean {
 	public boolean addVertex(Vertex child) {
 		boolean res = graph.addVertex(child);
 		child.parent = this;
+
+		vertices.put((String) child.getValue(Vertex.PARAMETER_ID), child);
+
 		firePropertyChange(PropertyBean.PROPERTY_ADD, null, child);
 		return res;
 	}
@@ -142,6 +150,17 @@ public class Graph extends PropertyBean {
 	 */
 	public Set<Edge> edgeSet() {
 		return graph.edgeSet();
+	}
+
+	/**
+	 * Finds and returns the vertex of the graph with the given vertex id.
+	 * 
+	 * @param vertexId
+	 *            The vertex id.
+	 * @return The vertex with the given id, or <code>null</code> if not found.
+	 */
+	public Vertex findVertex(String vertexId) {
+		return vertices.get(vertexId);
 	}
 
 	/**
@@ -193,6 +212,9 @@ public class Graph extends PropertyBean {
 	public boolean removeVertex(Vertex child) {
 		boolean res = graph.removeVertex(child);
 		child.parent = null;
+
+		vertices.remove((String) child.getValue(Vertex.PARAMETER_ID));
+
 		firePropertyChange(PropertyBean.PROPERTY_REMOVE, null, child);
 		return res;
 	}
