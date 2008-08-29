@@ -11,8 +11,8 @@ import net.sf.graphiti.transactions.Result;
 
 /**
  * This class provides a 4-ary operation that sets an edge source or
- * destination. Parameters: graph, edge, endpoint type ("source" or
- * "destination"), vertexId.
+ * destination. Parameters: graph, edge, endpoint type ("source" or "target"),
+ * vertexId.
  * 
  * @author Matthieu Wipliez
  * 

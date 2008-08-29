@@ -9,6 +9,7 @@ import java.util.Stack;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import net.sf.graphiti.ontology.parameters.Parameter;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
@@ -17,6 +18,7 @@ import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.edgeAttributes.Edg
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.otherAttributes.OtherAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.EdgeElement;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.TextContentElement;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.VertexElement;
 import net.sf.graphiti.parsers.operations.AddEdgeOpSpec;
 import net.sf.graphiti.parsers.operations.AddVertexOpSpec;
@@ -104,15 +106,37 @@ public class ContentParser {
 		Result result;
 
 		if (ontElement instanceof VertexElement) {
-			result = parseVertexElement(ontElement, domElement);
+			result = parseVertexElement((VertexElement) ontElement, domElement);
 		} else if (ontElement instanceof EdgeElement) {
-			result = parseEdgeElement(ontElement, domElement);
+			result = parseEdgeElement((EdgeElement) ontElement, domElement);
+		} else if (ontElement instanceof TextContentElement) {
+			result = parseTextContentElement((TextContentElement) ontElement,
+					domElement);
 		} else {
 			result = new Result();
 		}
 
 		resultStack.push(result);
 		setParameterValues(ontElement, domElement);
+	}
+
+	/**
+	 * Returns the nearest element whose class is <code>ontClass</code>. The
+	 * search is done from inner level to outer level.
+	 * 
+	 * @param ontClass
+	 *            The ontology class.
+	 * @return The index of the nearest element whose class is
+	 *         <code>clasz</code>, or <code>-1</code>.
+	 */
+	private int findNearestElement(String ontClass) {
+		for (int i = elementStack.size() - 1; i >= 0; i--) {
+			if (elementStack.get(i).hasOntClass(ontClass)) {
+				return i;
+			}
+		}
+
+		return -1;
 	}
 
 	/**
@@ -148,19 +172,20 @@ public class ContentParser {
 	 */
 	private void parseEdgeAttribute(EdgeAttribute ontAttribute,
 			String domAttrValue) {
-		if (elementStack.peek() instanceof EdgeElement) {
+		int index = findNearestElement(OntologyFactory.getClassEdgeElement());
+		if (index != -1) {
 			Operation setEdgeEndpoint = new Operation(
 					new SetEdgeEndpointOpSpec());
 			Operand[] operands = new Operand[4];
 			setEdgeEndpoint.setOperands(operands);
 
 			operands[0] = new Operand(createGraph.getResult());
-			operands[1] = new Operand(resultStack.peek());
+			operands[1] = new Operand(resultStack.get(index));
 
 			if (ontAttribute instanceof EdgeSourceConnection) {
 				operands[2] = new Operand("source");
 			} else {
-				operands[2] = new Operand("destination");
+				operands[2] = new Operand("target");
 			}
 
 			operands[3] = new Operand(domAttrValue);
@@ -175,7 +200,7 @@ public class ContentParser {
 	 * @param ontElement
 	 * @param domElement
 	 */
-	private Result parseEdgeElement(Element ontElement,
+	private Result parseEdgeElement(EdgeElement ontElement,
 			org.w3c.dom.Element domElement) {
 		Operation createEdge = new Operation(new CreateEdgeOpSpec());
 		transaction.addOperation(createEdge);
@@ -208,12 +233,37 @@ public class ContentParser {
 	}
 
 	/**
+	 * Parses the given text content element.
+	 * 
+	 * @param ontElement
+	 * @param domElement
+	 */
+	private Result parseTextContentElement(TextContentElement ontElement,
+			org.w3c.dom.Element domElement) {
+		Parameter parameter = ontElement.referencesParameter();
+
+		if (parameter != null) {
+			// will set the parameter value
+			Operation setProperty = new Operation(new SetParameterValueOpSpec());
+			Operand[] operands = new Operand[3];
+			setProperty.setOperands(operands);
+
+			operands[0] = new Operand(resultStack.peek());
+			operands[1] = new Operand(parameter.hasName());
+			operands[2] = new Operand(domElement.getTextContent());
+
+			transaction.addOperation(setProperty);
+		}
+		return new Result();
+	}
+
+	/**
 	 * Parses the given vertex element.
 	 * 
 	 * @param ontElement
 	 * @param domElement
 	 */
-	private Result parseVertexElement(Element ontElement,
+	private Result parseVertexElement(VertexElement ontElement,
 			org.w3c.dom.Element domElement) {
 		Operation createVertex = new Operation(new CreateVertexOpSpec());
 		transaction.addOperation(createVertex);

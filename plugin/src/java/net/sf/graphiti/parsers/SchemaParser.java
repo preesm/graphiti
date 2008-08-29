@@ -17,6 +17,8 @@ import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Sequ
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Comment;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -31,6 +33,8 @@ import org.w3c.dom.Text;
  */
 public class SchemaParser {
 
+	private Logger log;
+
 	private ContentParser contentParser;
 
 	/**
@@ -39,6 +43,8 @@ public class SchemaParser {
 	 * @param configuration
 	 */
 	public SchemaParser(Configuration configuration) {
+		log = Logger.getLogger(SchemaParser.class);
+		log.setLevel(Level.ALL);
 		contentParser = new ContentParser(configuration);
 	}
 
@@ -144,6 +150,8 @@ public class SchemaParser {
 	public Graph parse(DocumentElement ontDocElement,
 			org.w3c.dom.Element docElement) throws NotCompatibleException {
 		if (!isElementDefined(ontDocElement, docElement)) {
+			log.debug("parse: element " + docElement.getNodeName()
+					+ " not defined");
 			throw new NotCompatibleException();
 		}
 
@@ -168,6 +176,8 @@ public class SchemaParser {
 			String ontAttrName = ontAttribute.hasName();
 			String domAttrValue = domElement.getAttribute(ontAttrName);
 			if (domAttrValue == null) {
+				log.debug("parseAttributes: attribute " + ontAttrName
+						+ " not present");
 				throw new NotCompatibleException();
 			} else {
 				contentParser.parseAttribute(ontAttribute, domAttrValue);
@@ -190,6 +200,7 @@ public class SchemaParser {
 		if (type.hasOntClass(OntologyFactory.getClassSequence())) {
 			return parseSequence((Sequence) type, firstChild);
 		} else {
+			log.debug("parseComplexType: type != Sequence");
 			// TODO: all types
 			throw new NotCompatibleException();
 		}
@@ -238,6 +249,7 @@ public class SchemaParser {
 		// check that occurs are valid.
 		if (minOccurs < 0 || maxOccurs < -1
 				|| (maxOccurs >= 0 && minOccurs > maxOccurs)) {
+			log.debug("parseElementOccurs: wrong occurs constraints");
 			throw new NotCompatibleException();
 		}
 
@@ -251,6 +263,7 @@ public class SchemaParser {
 
 		// min occurs check
 		if (i < minOccurs) {
+			log.debug("parseElementOccurs: minOccurs check failed");
 			throw new NotCompatibleException();
 		}
 
