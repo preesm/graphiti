@@ -12,6 +12,10 @@ import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import net.sf.graphiti.ontology.parameters.Parameter;
+import net.sf.graphiti.ontology.types.EdgeType;
+import net.sf.graphiti.ontology.types.GraphType;
+import net.sf.graphiti.ontology.types.Type;
+import net.sf.graphiti.ontology.types.VertexType;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.edgeAttributes.EdgeAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.edgeAttributes.EdgeSourceConnection;
@@ -68,6 +72,21 @@ public class ContentParser {
 		createGraph = new Operation(new CreateGraphOpSpec());
 		createGraph.setOperand(new Operand(configuration));
 		transaction.addOperation(createGraph);
+	}
+
+	/**
+	 * Creates a copy of the given content parser.
+	 * 
+	 * @param parser
+	 *            The source content parser.
+	 */
+	public ContentParser(ContentParser parser) {
+		createGraph = parser.createGraph;
+		elementStack = new Stack<Element>();
+		elementStack.addAll(parser.elementStack);
+		resultStack = new Stack<Result>();
+		resultStack.addAll(parser.resultStack);
+		transaction = new SimpleTransaction(parser.transaction);
 	}
 
 	/**
@@ -150,6 +169,31 @@ public class ContentParser {
 	}
 
 	/**
+	 * Returns the object (from the resultStack) that this parameter applies to.
+	 * 
+	 * @param parameter
+	 * @return
+	 */
+	private Result getParameterObject(Parameter parameter) {
+		Type objectType = parameter.appliesTo();
+		int index = -1;
+
+		if (objectType instanceof EdgeType) {
+			index = findNearestElement(OntologyFactory.getClassEdgeElement());
+		} else if (objectType instanceof GraphType) {
+			index = findNearestElement(OntologyFactory.getClassGraphElement());
+		} else if (objectType instanceof VertexType) {
+			index = findNearestElement(OntologyFactory.getClassVertexElement());
+		}
+
+		if (index == -1) {
+			return resultStack.peek();
+		} else {
+			return resultStack.get(index);
+		}
+	}
+
+	/**
 	 * Parses the given attribute.
 	 * 
 	 * @param ontAttribute
@@ -218,12 +262,14 @@ public class ContentParser {
 		Parameter parameter = ontAttribute.hasParameter();
 
 		if (parameter != null) {
+			Result result = getParameterObject(parameter);
+
 			// will set the parameter value
 			Operation setProperty = new Operation(new SetParameterValueOpSpec());
 			Operand[] operands = new Operand[3];
 			setProperty.setOperands(operands);
 
-			operands[0] = new Operand(resultStack.peek());
+			operands[0] = new Operand(result);
 			operands[1] = new Operand(parameter.hasName());
 			operands[2] = new Operand(domAttrValue);
 

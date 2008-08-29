@@ -12,6 +12,7 @@ import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeRestriction;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Choice;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.ComplexType;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Sequence;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
@@ -119,19 +120,7 @@ public class SchemaParser {
 					// restriction. It corresponds if the value is the same.
 					String attrRestrictValue = attrRestrict.hasValue();
 					correspond &= node.getNodeValue().equals(attrRestrictValue);
-					if (correspond) {
-						// TODO
-						// parentElement.setValue(attrRestrictName,
-						// attrRestrictValue);
-					}
 				}
-			}
-
-			if (ontElement.hasOntClass(OntologyFactory.getClassXMLAttribute())
-					&& correspond) {
-				// TODO
-				// parseAttribute((XMLAttribute) ontNode, domNode,
-				// parentElement);
 			}
 		}
 
@@ -187,6 +176,31 @@ public class SchemaParser {
 
 	/**
 	 * Parses the children (<code>firstChild</code> is the first of them) using
+	 * the given {@link Choice}.
+	 * 
+	 * @param choice
+	 * @param firstChild
+	 * @return The first remaining child (ie not parsed yet). Can be
+	 *         <code>null</code> if there are none left.
+	 * @throws NotCompatibleException
+	 */
+	private org.w3c.dom.Element parseChoice(Choice choice,
+			org.w3c.dom.Element firstChild) throws NotCompatibleException {
+		ContentParser backupParser = contentParser;
+		for (XMLSchemaType type : choice.hasElements()) {
+			try {
+				contentParser = new ContentParser(backupParser);
+				org.w3c.dom.Element child = parseSchemaType(type, firstChild);
+				return child;
+			} catch (NotCompatibleException e) {
+			}
+		}
+
+		throw new NotCompatibleException();
+	}
+
+	/**
+	 * Parses the children (<code>firstChild</code> is the first of them) using
 	 * the given {@link ComplexType}.
 	 * 
 	 * @param type
@@ -197,11 +211,12 @@ public class SchemaParser {
 	 */
 	private org.w3c.dom.Element parseComplexType(ComplexType type,
 			org.w3c.dom.Element firstChild) throws NotCompatibleException {
-		if (type.hasOntClass(OntologyFactory.getClassSequence())) {
+		if (type instanceof Sequence) {
 			return parseSequence((Sequence) type, firstChild);
+		} else if (type instanceof Choice) {
+			return parseChoice((Choice) type, firstChild);
 		} else {
-			log.debug("parseComplexType: type != Sequence");
-			// TODO: all types
+			log.debug("parseComplexType: type = All");
 			throw new NotCompatibleException();
 		}
 	}

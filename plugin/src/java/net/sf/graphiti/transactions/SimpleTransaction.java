@@ -52,6 +52,14 @@ public class SimpleTransaction extends AbstractTransaction {
 	}
 
 	/**
+	 * Creates an orphan simple transaction.
+	 */
+	public SimpleTransaction(SimpleTransaction transaction) {
+		super();
+		operations = new ArrayList<Operation>(transaction.operations);
+	}
+
+	/**
 	 * Creates a simple transaction, and adds it to the given
 	 * {@link NestedTransaction}.
 	 * 
