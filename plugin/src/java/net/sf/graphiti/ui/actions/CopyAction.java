@@ -28,10 +28,10 @@
  */
 package net.sf.graphiti.ui.actions;
 
-import net.sf.graphiti.ui.editparts.GraphEditPart;
-
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
@@ -63,10 +63,14 @@ public class CopyAction extends SelectionAction {
 	 */
 	@Override
 	protected boolean calculateEnabled() {
-		// enabled when at least one object is selected, and it is not a
-		// GraphEditPart
-		return ((getSelectedObjects().isEmpty() == false) && (getSelectedObjects()
-				.size() == 1 && (getSelectedObjects().get(0) instanceof GraphEditPart)) == false);
+		// enabled when at least one object is selected
+		ISelection selection = getSelection();
+		if (selection instanceof IStructuredSelection) {
+			IStructuredSelection ssel = (IStructuredSelection) selection;
+			return (ssel.isEmpty() == false);
+		} else {
+			return false;
+		}
 	}
 
 	@Override

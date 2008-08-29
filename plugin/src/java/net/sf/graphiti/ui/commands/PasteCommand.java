@@ -36,6 +36,7 @@ import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractEditPart;
 
@@ -69,7 +70,12 @@ public class PasteCommand extends Command {
 			if (part instanceof VertexEditPart) {
 				VertexEditPart vertexEditPart = (VertexEditPart) part;
 				Vertex vertex = (Vertex) vertexEditPart.getModel();
-				vertex = new Vertex(vertex.getType());
+				vertex = new Vertex(vertex);
+
+				Rectangle bounds = (Rectangle) vertex
+						.getValue(Vertex.PARAMETER_SIZE);
+				bounds.x += 20;
+				bounds.y += 20;
 
 				// Adds the cloned graph to the parent graph and the added list
 				added.add(vertex);

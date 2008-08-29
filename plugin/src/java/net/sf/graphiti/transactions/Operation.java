@@ -29,9 +29,9 @@
 package net.sf.graphiti.transactions;
 
 /**
- * This class provides an abstract implementation of an {@link IOperation}. It
- * accepts an {@link IOperationSpecification} to get its number of operands and
- * presence of result.
+ * This class provides an operation. It accepts an
+ * {@link IOperationSpecification} to get its number of operands and presence of
+ * result.
  * 
  * @author Matthieu Wipliez
  * 

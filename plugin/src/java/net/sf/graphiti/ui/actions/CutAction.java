@@ -32,11 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.graphiti.ui.commands.CutCommand;
-import net.sf.graphiti.ui.editparts.GraphEditPart;
 
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
@@ -68,10 +69,14 @@ public class CutAction extends SelectionAction {
 	 */
 	@Override
 	protected boolean calculateEnabled() {
-		// enabled when at least one object is selected, and it is not a
-		// GraphEditPart
-		return ((getSelectedObjects().isEmpty() == false) && (getSelectedObjects()
-				.size() == 1 && (getSelectedObjects().get(0) instanceof GraphEditPart)) == false);
+		// enabled when at least one object is selected
+		ISelection selection = getSelection();
+		if (selection instanceof IStructuredSelection) {
+			IStructuredSelection ssel = (IStructuredSelection) selection;
+			return (ssel.isEmpty() == false);
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -101,9 +106,9 @@ public class CutAction extends SelectionAction {
 		}
 
 		CutCommand command = new CutCommand();
-		List<AbstractGraphicalEditPart> l = new ArrayList<AbstractGraphicalEditPart>(
+		List<AbstractGraphicalEditPart> list = new ArrayList<AbstractGraphicalEditPart>(
 				getSelectedObjects());
-		command.setList(l);
+		command.setList(list);
 		execute(command);
 	}
 }

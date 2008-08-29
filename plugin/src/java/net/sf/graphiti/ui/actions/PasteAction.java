@@ -34,6 +34,7 @@ import java.util.List;
 
 import net.sf.graphiti.ui.commands.PasteCommand;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
+import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.gef.editparts.AbstractEditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
@@ -65,13 +66,13 @@ public class PasteAction extends SelectionAction implements
 
 	@Override
 	protected boolean calculateEnabled() {
-		// Enabled if there is one selected object which is a GraphEditPart, and
-		// the clipboard is not empty
+		// Enabled if the clipboard is not empty and we know where to paste:
+		// either the selected object is a GraphEditPart or a VertexEditPart
 		List<?> selection = getSelectedObjects();
-		return (selection != null && selection.size() == 1
-				&& selection.get(0) instanceof GraphEditPart
-				&& getClipboardContents() != null && getClipboardContents()
-				.isEmpty() == false);
+		return (getClipboardContents() != null
+				&& getClipboardContents().isEmpty() == false
+				&& selection != null && selection.size() == 1 && (selection
+				.get(0) instanceof GraphEditPart || selection.get(0) instanceof VertexEditPart));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -113,7 +114,16 @@ public class PasteAction extends SelectionAction implements
 	 */
 	@Override
 	public void run() {
-		GraphEditPart part = (GraphEditPart) getSelectedObjects().get(0);
+		Object obj = getSelectedObjects().get(0);
+		GraphEditPart part = null;
+		if (obj instanceof GraphEditPart) {
+			part = (GraphEditPart) obj;
+		} else if (obj instanceof VertexEditPart) {
+			part = (GraphEditPart) ((VertexEditPart) obj).getParent();
+		} else {
+			return;
+		}
+
 		PasteCommand command = new PasteCommand(part);
 		command.setContents(getClipboardContents());
 		execute(command);

@@ -106,7 +106,7 @@ public class Vertex extends PropertyBean {
 	 * 
 	 */
 	public Vertex() {
-		this.setValue(PARAMETER_TYPE, "");
+		this("");
 	}
 
 	/**
@@ -117,6 +117,17 @@ public class Vertex extends PropertyBean {
 	 */
 	public Vertex(String type) {
 		this.setValue(PARAMETER_TYPE, type);
+	}
+
+	/**
+	 * Creates a new vertex which is a copy of the given vertex.
+	 * 
+	 * @param vertex
+	 *            The source vertex.
+	 */
+	public Vertex(Vertex vertex) {
+		super(vertex);
+		parent = vertex.parent;
 	}
 
 	/**

@@ -84,6 +84,17 @@ public class PropertyBean {
 	}
 
 	/**
+	 * Constructs a new property bean from the given bean.
+	 * 
+	 * @param bean
+	 *            The source bean.
+	 */
+	protected PropertyBean(PropertyBean bean) {
+		propertyChange = new PropertyChangeSupport(this);
+		properties = new HashMap<String, Object>(bean.properties);
+	}
+
+	/**
 	 * Add the listener <code>listener</code> to the registered listeners.
 	 * 
 	 * @param listener
