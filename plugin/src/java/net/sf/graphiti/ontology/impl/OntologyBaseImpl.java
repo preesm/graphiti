@@ -138,8 +138,6 @@ public class OntologyBaseImpl {
 				GraphElementImpl.class);
 		classes.put(OntologyFactory.getClassTextContentElement(),
 				InfoElementImpl.class);
-		classes.put(OntologyFactory.getClassSkipElement(),
-				SkipElementImpl.class);
 		classes.put(OntologyFactory.getClassVertexElement(),
 				VertexElementImpl.class);
 	}

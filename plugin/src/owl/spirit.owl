@@ -36,7 +36,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         <basic:element_hasSchemaType>
           <basic:Sequence rdf:ID="SequenceDocumentElementDesign1">
             <basic:sequence_hasHead>
-              <basic:SkipElement rdf:ID="SkipComponentInstances">
+              <basic:Element rdf:ID="ComponentInstances">
                 <basic:element_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                 >0</basic:element_hasMaxOccurs>
                 <basic:element_hasSchemaType>
@@ -59,7 +59,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                     <basic:parameter_hasName rdf:datatype=
                                     "http://www.w3.org/2001/XMLSchema#string"
                                     >id</basic:parameter_hasName>
-                                    <basic:parameter_ofInfoElement>
+                                    <basic:parameter_ofTextContentElement>
                                       <basic:TextContentElement rdf:ID="InstanceNameInfoElement">
                                         <basic:textContentElement_referencesParameter rdf:resource="#VertexIdParameter"/>
                                         <basic:element_hasMinOccurs
@@ -72,7 +72,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                          rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                                         >spirit:instanceName</basic:element_hasName>
                                       </basic:TextContentElement>
-                                    </basic:parameter_ofInfoElement>
+                                    </basic:parameter_ofTextContentElement>
                                   </basic:VertexParameter>
                                 </basic:type_hasParameters>
                                 <basic:type_hasFigureAttributes>
@@ -114,12 +114,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 >spirit:componentInstances</basic:element_hasName>
                 <basic:element_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                 >-1</basic:element_hasMinOccurs>
-              </basic:SkipElement>
+              </basic:Element>
             </basic:sequence_hasHead>
             <basic:sequence_hasRest>
               <basic:Sequence rdf:ID="SequenceDocumentElementDesign2">
                 <basic:sequence_hasHead>
-                  <basic:SkipElement rdf:ID="SkipInterConnections">
+                  <basic:Element rdf:ID="InterConnections">
                     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                     >spirit:interconnections</basic:element_hasName>
                     <basic:element_hasSchemaType>
@@ -133,7 +133,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                         "http://www.w3.org/2001/XMLSchema#int"
                         >0</basic:element_hasMaxOccurs>
                         <basic:element_hasSchemaType>
-                          <basic:SkipElement rdf:ID="SkipActiveInterface">
+                          <basic:Element rdf:ID="ActiveInterface">
                             <basic:element_hasMinOccurs rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#int"
                             >-1</basic:element_hasMinOccurs>
@@ -154,7 +154,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                 <basic:attribute_isReferenceTo rdf:resource="#VertexComponentInstance"/>
                               </basic:EdgeConnection>
                             </basic:element_hasAttributes>
-                          </basic:SkipElement>
+                          </basic:Element>
                         </basic:element_hasSchemaType>
                       </basic:EdgeElement>
                     </basic:element_hasSchemaType>
@@ -162,7 +162,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     >0</basic:element_hasMaxOccurs>
                     <basic:element_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                     >-1</basic:element_hasMinOccurs>
-                  </basic:SkipElement>
+                  </basic:Element>
                 </basic:sequence_hasHead>
               </basic:Sequence>
             </basic:sequence_hasRest>

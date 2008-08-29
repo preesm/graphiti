@@ -202,10 +202,6 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#Shapes";
 	}
 
-	public static String getClassSkipElement() {
-		return "http://net.sf.graphiti/basics.owl#SkipElement";
-	}
-
 	public static String getClassTextContentElement() {
 		return "http://net.sf.graphiti/basics.owl#TextContentElement";
 	}

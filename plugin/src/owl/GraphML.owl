@@ -199,11 +199,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
               </basic:Sequence>
             </basic:sequence_hasRest>
             <basic:sequence_hasHead>
-              <basic:SkipElement rdf:ID="SkipElementKey">
+              <basic:Element rdf:ID="ElementKey">
                 <basic:element_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                 >-1</basic:element_hasMaxOccurs>
                 <basic:element_hasSchemaType>
-                  <basic:Sequence rdf:ID="SequenceSkipElementKey1">
+                  <basic:Sequence rdf:ID="SequenceElementKey1">
                     <basic:sequence_hasHead>
                       <basic:TextContentElement rdf:ID="TextContentElementDesc">
                         <basic:element_hasMinOccurs rdf:datatype=
@@ -217,7 +217,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                       </basic:TextContentElement>
                     </basic:sequence_hasHead>
                     <basic:sequence_hasRest>
-                      <basic:Sequence rdf:ID="SequenceSkipElementKey2">
+                      <basic:Sequence rdf:ID="SequenceElementKey2">
                         <basic:sequence_hasHead>
                           <basic:TextContentElement rdf:ID="TextContentElementDefault">
                             <basic:element_hasName rdf:datatype=
@@ -251,7 +251,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 >0</basic:element_hasMinOccurs>
                 <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >key</basic:element_hasName>
-              </basic:SkipElement>
+              </basic:Element>
             </basic:sequence_hasHead>
           </basic:Sequence>
         </basic:element_hasSchemaType>

@@ -46,7 +46,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             </basic:element_hasAttributeRestriction>
             <basic:textContentElement_referencesParameter>
               <basic:EdgeParameter rdf:ID="EdgeParameterEdgeProduction">
-                <basic:parameter_ofInfoElement rdf:resource="#TextContentElementDataEdgeProduction"/>
+                <basic:parameter_ofTextContentElement rdf:resource="#TextContentElementDataEdgeProduction"/>
                 <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >edgeProduction</basic:parameter_hasName>
                 <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#East"/>
@@ -60,7 +60,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                         "http://www.w3.org/2001/XMLSchema#string"
                         >edgeConsumption</basic:parameter_hasName>
                         <basic:parameter_appliesTo rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeType"/>
-                        <basic:parameter_ofInfoElement>
+                        <basic:parameter_ofTextContentElement>
                           <basic:TextContentElement rdf:ID="TextContentElementDataEdgeConsumption">
                             <basic:textContentElement_referencesParameter rdf:resource="#EdgeParameterEdgeConsumption"/>
                             <basic:element_hasMaxOccurs rdf:datatype=
@@ -84,7 +84,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                             "http://www.w3.org/2001/XMLSchema#int"
                             >1</basic:element_hasMinOccurs>
                           </basic:TextContentElement>
-                        </basic:parameter_ofInfoElement>
+                        </basic:parameter_ofTextContentElement>
                         <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#West"/>
                       </basic:EdgeParameter>
                     </basic:type_hasParameters>
@@ -95,7 +95,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                         <basic:parameter_hasName rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#string"
                         >edgeDelay</basic:parameter_hasName>
-                        <basic:parameter_ofInfoElement>
+                        <basic:parameter_ofTextContentElement>
                           <basic:TextContentElement rdf:ID="TextContentElementDataEdgeDelay">
                             <basic:textContentElement_referencesParameter rdf:resource="#EdgeParameterEdgeDelay"/>
                             <basic:element_hasMinOccurs rdf:datatype=
@@ -119,7 +119,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                             "http://www.w3.org/2001/XMLSchema#int"
                             >1</basic:element_hasMaxOccurs>
                           </basic:TextContentElement>
-                        </basic:parameter_ofInfoElement>
+                        </basic:parameter_ofTextContentElement>
                         <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#Center"/>
                         <basic:parameter_appliesTo rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeType"/>
                       </basic:EdgeParameter>
@@ -165,7 +165,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         >1</basic:element_hasMinOccurs>
         <basic:textContentElement_referencesParameter>
           <basic:VertexParameter rdf:ID="VertexParameterName">
-            <basic:parameter_ofInfoElement rdf:resource="#TextContentElementVertexName"/>
+            <basic:parameter_ofTextContentElement rdf:resource="#TextContentElementVertexName"/>
             <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >name</basic:parameter_hasName>
             <basic:parameter_appliesTo>

@@ -163,7 +163,7 @@
                     <basic:element_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                     >-1</basic:element_hasMinOccurs>
                     <basic:element_hasSchemaType>
-                      <basic:SkipElement rdf:ID="SkipElementClass">
+                      <basic:Element rdf:ID="ElementClass">
                         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                         >Class</basic:element_hasName>
                         <basic:element_hasMaxOccurs rdf:datatype=
@@ -183,7 +183,7 @@
                         <basic:element_hasMinOccurs rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#int"
                         >-1</basic:element_hasMinOccurs>
-                      </basic:SkipElement>
+                      </basic:Element>
                     </basic:element_hasSchemaType>
                     <basic:element_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                     >0</basic:element_hasMaxOccurs>

@@ -374,19 +374,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
   <owl:Class rdf:about="#XMLAttribute">
     <rdfs:subClassOf rdf:resource="#XMLDescription"/>
   </owl:Class>
-  <owl:Class rdf:ID="SkipElement">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >A SkipElement is a particular element that has no useful information. For example when using something like this:
-&lt;objects&gt;
-  &lt;object id="obj_1"/&gt;
-  ...
-  &lt;object id="obj_n"/&gt;
-&lt;/objects&gt;
-The &lt;objects&gt; element do not hold any semantic information, yet are necessary in the file format. This is the kind of element that is kept in a SkipElement.</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#Element"/>
-    </rdfs:subClassOf>
-  </owl:Class>
   <owl:Class rdf:about="#FigureAttribute">
     <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
     <rdfs:subClassOf>
@@ -653,7 +640,7 @@ The &lt;objects&gt; element do not hold any semantic information, yet are necess
   </owl:FunctionalProperty>
   <owl:FunctionalProperty rdf:ID="textContentElement_referencesParameter">
     <owl:inverseOf>
-      <owl:InverseFunctionalProperty rdf:ID="parameter_ofInfoElement"/>
+      <owl:InverseFunctionalProperty rdf:ID="parameter_ofTextContentElement"/>
     </owl:inverseOf>
     <rdfs:range rdf:resource="#Parameter"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
@@ -665,7 +652,7 @@ The &lt;objects&gt; element do not hold any semantic information, yet are necess
     <rdfs:domain rdf:resource="#Sequence"/>
     <rdfs:range rdf:resource="#Sequence"/>
   </owl:FunctionalProperty>
-  <owl:InverseFunctionalProperty rdf:about="#parameter_ofInfoElement">
+  <owl:InverseFunctionalProperty rdf:about="#parameter_ofTextContentElement">
     <owl:inverseOf rdf:resource="#textContentElement_referencesParameter"/>
     <rdfs:domain rdf:resource="#Parameter"/>
     <rdfs:range rdf:resource="#TextContentElement"/>
