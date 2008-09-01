@@ -275,7 +275,6 @@ public class ContentParser {
 
 			transaction.addOperation(setProperty);
 		}
-
 	}
 
 	/**
