@@ -58,6 +58,11 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 	}
 
 	@Override
+	public Label getLabel() {
+		return labelName;
+	}
+
+	@Override
 	public void paintFigure(Graphics graphics) {
 		GradientPattern.paintFigure(this, getBackgroundColor(), getBounds(),
 				graphics);
@@ -82,7 +87,10 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 	public void setName(String name) {
 		labelName.setText(name);
 		int hDecal = 5;
-		int wDecal = (name.length() * 5) / 2;
+		int wDecal = 0;
+		if (name != null) {
+			wDecal = (name.length() * 5) / 2;
+		}
 		Rectangle bounds = this.getParent().getBounds();
 		this.setConstraint(labelName, new Rectangle(
 				(bounds.width / 2) - wDecal, (bounds.height / 2) - hDecal, -1,

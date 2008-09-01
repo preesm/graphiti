@@ -56,6 +56,11 @@ public class ShapeLosange extends Polygon implements IShape {
 	}
 
 	@Override
+	public Label getLabel() {
+		return labelName;
+	}
+
+	@Override
 	public void paintFigure(Graphics graphics) {
 		GradientPattern.paintFigure(this, getBackgroundColor(), getBounds(),
 				graphics);

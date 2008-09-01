@@ -51,8 +51,6 @@ import org.eclipse.swt.graphics.Color;
  */
 public class VertexFigure extends Figure {
 
-	private Label labelName;
-
 	private Label labelToolTip;
 
 	private IFigure shape;
@@ -91,8 +89,7 @@ public class VertexFigure extends Figure {
 			((IShape) shape).setColor(color);
 		}
 
-		// Creates labels
-		labelName = new Label();
+		// Creates tooltip
 		labelToolTip = new Label();
 
 		// Sets Layout Manager
@@ -102,11 +99,6 @@ public class VertexFigure extends Figure {
 		// Sets the tool tip and adds it so that it is visible
 		labelToolTip.setForegroundColor(ColorConstants.black);
 		setToolTip(labelToolTip);
-		add(labelToolTip);
-
-		// Adds label name
-		labelName.setForegroundColor(ColorConstants.black);
-		add(labelName);
 
 		setBorder(null);
 
@@ -119,19 +111,17 @@ public class VertexFigure extends Figure {
 
 	}
 
+	public Label getLabelId() {
+		return ((IShape) shape).getLabel();
+	}
+
 	/**
 	 * Returns the size of this VertexFigure.
 	 * 
 	 * @return The size of this VertexFigure.
 	 */
 	public Dimension getPreferredSize(int w, int h) {
-		Rectangle rectangle = labelName.getTextBounds();
-		int x = rectangle.width + 10;
-		int y = rectangle.height + 2;
-		Dimension prefSize = new Dimension(x, y);
-		Dimension defaultSize = new Dimension(50, 50);
-		prefSize.union(defaultSize);
-		return prefSize;
+		return new Dimension(50, 50);
 	}
 
 	public IFigure getShape() {
@@ -146,14 +136,9 @@ public class VertexFigure extends Figure {
 	public void setName(String text) {
 		if (shape != null) {
 			((IShape) this.shape).setName(text);
-		} else {
-			labelName.setText(text);
-			this.setConstraint(labelName, new Rectangle(
-					this.getBounds().height / 2, this.getBounds().width / 2,
-					-1, -1));
 		}
-		// labelToolTip.setText(text);
-		// setConstraint(labelToolTip, new Rectangle(0, 0, -1, -1));
+
+		labelToolTip.setText(text);
 	}
 
 	@Override

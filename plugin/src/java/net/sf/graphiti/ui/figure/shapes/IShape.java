@@ -30,6 +30,7 @@ package net.sf.graphiti.ui.figure.shapes;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 
@@ -49,6 +50,13 @@ public interface IShape {
 	 * @return A ConnectionAnchor object.
 	 */
 	public ConnectionAnchor getConnectionAnchor();
+
+	/**
+	 * Returns the label associated with this shape.
+	 * 
+	 * @return A {@link Label}.
+	 */
+	public Label getLabel();
 
 	/**
 	 * Equivalent to <code>super.paintFigure(graphics)</code>.

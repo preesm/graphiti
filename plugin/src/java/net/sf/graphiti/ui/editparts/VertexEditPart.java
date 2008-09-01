@@ -63,6 +63,7 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.gef.tools.DirectEditManager;
 
 /**
  * The EditPart associated to the Graph gives methods to refresh the view when a
@@ -80,6 +81,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	 * This attribute is set by {@link VertexEditPart#updateFigures(int)}.
 	 */
 	private int direction = PositionConstants.EAST;
+
+	private DirectEditManager directEditManager;
 
 	/**
 	 * This attribute is set by {@link GraphEditPart#addNodes}.
@@ -314,9 +317,17 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 	@Override
 	public void performRequest(Request request) {
-		Command command = getCommand(request);
-		if (command != null && command.canExecute()) {
-			command.execute();
+		if (request.getType() == REQ_DIRECT_EDIT) {
+			if (directEditManager == null) {
+				VertexFigure figure = (VertexFigure) getFigure();
+				directEditManager = new VertexDirectEditManager(this, figure);
+			}
+			directEditManager.show();
+		} else if (request.getType() == REQ_OPEN) {
+			Command command = getCommand(request);
+			if (command != null && command.canExecute()) {
+				command.execute();
+			}
 		}
 	}
 
@@ -342,6 +353,9 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 			// bounds is null when the vertex is created
 			getFigure().setBounds(bounds);
 		}
+		
+		VertexFigure figure = (VertexFigure) getFigure();
+		figure.setName((String) vertex.getValue(Vertex.PARAMETER_ID));
 	}
 
 	/**

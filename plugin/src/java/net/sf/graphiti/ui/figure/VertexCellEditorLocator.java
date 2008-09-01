@@ -26,35 +26,53 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.editpolicies;
+package net.sf.graphiti.ui.figure;
 
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ui.commands.RenameVertexCommand;
-import net.sf.graphiti.ui.figure.VertexFigure;
 
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.DirectEditPolicy;
-import org.eclipse.gef.requests.DirectEditRequest;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.tools.CellEditorLocator;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Text;
 
 /**
- * @author mwipliez
+ * This class implements {@link CellEditorLocator} to edit a {@link Vertex}'s
+ * id. It is based on Daniel Lee's implementation for the flow example.
  * 
+ * @author Daniel Lee
+ * @author Matthieu Wipliez
  */
-public class VertexDirectEditPolicy extends DirectEditPolicy {
+public class VertexCellEditorLocator implements CellEditorLocator {
 
-	@Override
-	protected Command getDirectEditCommand(DirectEditRequest request) {
-		RenameVertexCommand cmd = new RenameVertexCommand();
-		cmd.setSource((Vertex) getHost().getModel());
-		cmd.setName((String) request.getCellEditor().getValue());
-		return cmd;
+	private VertexFigure vertexFigure;
+
+	/**
+	 * Creates a new VertexCellEditorLocator for the given vertexFigure
+	 * 
+	 * @param figure
+	 *            the figure
+	 */
+	public VertexCellEditorLocator(VertexFigure figure) {
+		vertexFigure = figure;
 	}
 
-	@Override
-	protected void showCurrentEditValue(DirectEditRequest request) {
-		String value = (String) request.getCellEditor().getValue();
-		VertexFigure figure = (VertexFigure) getHostFigure();
-		figure.getLabelId().setText(value);
+	/**
+	 * @see CellEditorLocator#relocate(org.eclipse.jface.viewers.CellEditor)
+	 */
+	public void relocate(CellEditor celleditor) {
+		Text text = (Text) celleditor.getControl();
+		Point pref = text.computeSize(-1, -1);
+
+		Label label = vertexFigure.getLabelId();
+		Rectangle rect = label.getTextBounds().getCopy();
+		label.translateToAbsolute(rect);
+
+		Rectangle bounds = label.getBounds().getCopy();
+		label.translateToAbsolute(bounds);
+
+		text.setBounds(bounds.x - 1, bounds.y - 1, pref.x, pref.y);
 	}
 
 }
