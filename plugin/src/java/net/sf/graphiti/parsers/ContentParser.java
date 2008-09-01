@@ -6,6 +6,8 @@ package net.sf.graphiti.parsers;
 import java.util.Set;
 import java.util.Stack;
 
+import org.eclipse.core.runtime.Assert;
+
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.PropertyBean;
@@ -42,6 +44,19 @@ import net.sf.graphiti.transactions.SimpleTransaction;
  */
 public class ContentParser {
 
+	class Checkpoint {
+
+		private int depth;
+
+		private int transactionIndex;
+
+		public Checkpoint() {
+			depth = elementStack.size();
+			transactionIndex = transaction.size();
+		}
+
+	}
+
 	private Operation createGraph;
 
 	/**
@@ -72,21 +87,6 @@ public class ContentParser {
 		createGraph = new Operation(new CreateGraphOpSpec());
 		createGraph.setOperand(new Operand(configuration));
 		transaction.addOperation(createGraph);
-	}
-
-	/**
-	 * Creates a copy of the given content parser.
-	 * 
-	 * @param parser
-	 *            The source content parser.
-	 */
-	public ContentParser(ContentParser parser) {
-		createGraph = parser.createGraph;
-		elementStack = new Stack<Element>();
-		elementStack.addAll(parser.elementStack);
-		resultStack = new Stack<Result>();
-		resultStack.addAll(parser.resultStack);
-		transaction = new SimpleTransaction(parser.transaction);
 	}
 
 	/**
@@ -159,6 +159,15 @@ public class ContentParser {
 	}
 
 	/**
+	 * Returns a new checkpoint.
+	 * 
+	 * @return
+	 */
+	public Checkpoint getCheckpoint() {
+		return new Checkpoint();
+	}
+
+	/**
 	 * Commits the top transaction, and returns the graph created.
 	 * 
 	 * @return The {@link Graph} created.
@@ -190,6 +199,25 @@ public class ContentParser {
 			return resultStack.peek();
 		} else {
 			return resultStack.get(index);
+		}
+	}
+
+	/**
+	 * Go back to the given checkpoint.
+	 * 
+	 * @param checkpoint
+	 */
+	public void loadCheckpoint(Checkpoint checkpoint) {
+		Assert.isTrue(elementStack.size() >= checkpoint.depth);
+		Assert.isTrue(transaction.size() >= checkpoint.transactionIndex);
+
+		for (int i = elementStack.size() - 1; i >= checkpoint.depth; i--) {
+			elementStack.remove(i);
+			resultStack.remove(i);
+		}
+
+		for (int i = transaction.size() - 1; i >= checkpoint.transactionIndex; i--) {
+			transaction.remove(i);
 		}
 	}
 

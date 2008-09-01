@@ -28,19 +28,33 @@
  */
 package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.ComplexType;
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.parameters.Parameter;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.TextContentElement;
 
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * Implementation of ComplexType.
+ * Implementation of TextContentElement.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class ComplexTypeImpl extends XMLSchemaTypeImpl implements ComplexType {
+public class TextContentElementImpl extends DocumentElementImpl implements
+		TextContentElement {
 
-	public ComplexTypeImpl(Individual individual) {
+	public TextContentElementImpl(Individual individual) {
 		super(individual);
 	}
+
+	@Override
+	public Parameter referencesParameter() {
+		return (Parameter) getIndividualProperty(OntologyFactory
+				.getPropertyTextContentElementReferencesParameter());
+	}
+
+	public String toString() {
+		return super.toString() + " | TextContentElement";
+	}
+
 }

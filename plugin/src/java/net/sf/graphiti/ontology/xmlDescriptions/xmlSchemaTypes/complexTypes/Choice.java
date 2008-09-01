@@ -28,8 +28,6 @@
  */
 package net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes;
 
-import java.util.Set;
-
 import net.sf.graphiti.ontology.OntologyIndividual;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
@@ -43,12 +41,12 @@ import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 public interface Choice extends ComplexType {
 
 	/**
-	 * Returns a set of {@link OntologyIndividual} that this "choice" complex
-	 * type contains.
+	 * Returns an {@link Iterable} on {@link OntologyIndividual} that this
+	 * "choice" complex type contains.
 	 * 
-	 * @return A set of {@link OntologyIndividual} that this "choice" complex
-	 *         type contains.
+	 * @return An {@link Iterable} {@link OntologyIndividual} that this "choice"
+	 *         complex type contains.
 	 */
-	public Set<XMLSchemaType> hasElements();
+	public Iterable<XMLSchemaType> hasElements();
 
 }

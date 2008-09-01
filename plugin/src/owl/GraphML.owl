@@ -28,10 +28,10 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</rdfs:comment>
     <basic:hasDocumentElement>
       <basic:DocumentElement rdf:ID="DocumentElementGraphML">
-        <basic:element_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</basic:element_hasMaxOccurs>
-        <basic:element_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</basic:element_hasMinOccurs>
+        <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</basic:schemaType_hasMaxOccurs>
+        <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</basic:schemaType_hasMinOccurs>
         <basic:element_hasSchemaType>
           <basic:Sequence rdf:ID="SequenceDocumentElement1">
             <basic:sequence_hasRest>
@@ -42,17 +42,20 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     >graph</basic:element_hasName>
                     <basic:element_hasSchemaType>
                       <basic:Sequence rdf:ID="SequenceGraphElement1">
+                        <basic:schemaType_hasMinOccurs rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#int"
+                        >1</basic:schemaType_hasMinOccurs>
                         <basic:sequence_hasHead>
                           <basic:VertexElement rdf:ID="VertexElement">
                             <basic:element_hasName rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#string"
                             >node</basic:element_hasName>
-                            <basic:element_hasMinOccurs rdf:datatype=
+                            <basic:schemaType_hasMinOccurs rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#int"
-                            >0</basic:element_hasMinOccurs>
-                            <basic:element_hasMaxOccurs rdf:datatype=
+                            >0</basic:schemaType_hasMinOccurs>
+                            <basic:schemaType_hasMaxOccurs rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#int"
-                            >-1</basic:element_hasMaxOccurs>
+                            >-1</basic:schemaType_hasMaxOccurs>
                             <basic:element_hasAttributes>
                               <basic:OtherAttribute rdf:ID="OtherAttributeNodeId">
                                 <basic:element_hasName rdf:datatype=
@@ -113,21 +116,27 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                 <basic:element_hasName rdf:datatype=
                                 "http://www.w3.org/2001/XMLSchema#string"
                                 >data</basic:element_hasName>
-                                <basic:element_hasMaxOccurs rdf:datatype=
-                                "http://www.w3.org/2001/XMLSchema#int"
-                                >-1</basic:element_hasMaxOccurs>
-                                <basic:element_hasMinOccurs rdf:datatype=
-                                "http://www.w3.org/2001/XMLSchema#int"
-                                >0</basic:element_hasMinOccurs>
+                                <basic:schemaType_hasMaxOccurs
+                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                >-1</basic:schemaType_hasMaxOccurs>
+                                <basic:schemaType_hasMinOccurs
+                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                >0</basic:schemaType_hasMinOccurs>
                               </basic:TextContentElement>
                             </basic:element_hasSchemaType>
                             <basic:element_hasParameterValue rdf:resource="#ParameterValueVertexType"/>
                           </basic:VertexElement>
                         </basic:sequence_hasHead>
+                        <basic:schemaType_hasMaxOccurs rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#int"
+                        >1</basic:schemaType_hasMaxOccurs>
                         <basic:sequence_hasRest>
                           <basic:Sequence rdf:ID="SequenceGraphElement2">
                             <basic:sequence_hasHead>
                               <basic:EdgeElement rdf:ID="EdgeElement">
+                                <basic:schemaType_hasMinOccurs
+                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                >0</basic:schemaType_hasMinOccurs>
                                 <basic:element_hasAttributes>
                                   <basic:EdgeTargetConnection rdf:ID="EdgeTargetConnection">
                                     <basic:attribute_hasName rdf:datatype=
@@ -150,12 +159,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                     >source</basic:element_hasName>
                                   </basic:EdgeSourceConnection>
                                 </basic:element_hasAttributes>
-                                <basic:element_hasMinOccurs rdf:datatype=
-                                "http://www.w3.org/2001/XMLSchema#int"
-                                >0</basic:element_hasMinOccurs>
-                                <basic:element_hasMaxOccurs rdf:datatype=
-                                "http://www.w3.org/2001/XMLSchema#int"
-                                >-1</basic:element_hasMaxOccurs>
                                 <basic:element_hasParameterValue>
                                   <basic:ParameterValue rdf:ID="ParameterValueEdgeType">
                                     <basic:otherAttribute_referencesParameter>
@@ -184,38 +187,45 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                 <basic:element_hasName rdf:datatype=
                                 "http://www.w3.org/2001/XMLSchema#string"
                                 >edge</basic:element_hasName>
+                                <basic:schemaType_hasMaxOccurs
+                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                >-1</basic:schemaType_hasMaxOccurs>
                               </basic:EdgeElement>
                             </basic:sequence_hasHead>
                           </basic:Sequence>
                         </basic:sequence_hasRest>
                       </basic:Sequence>
                     </basic:element_hasSchemaType>
-                    <basic:element_hasMinOccurs rdf:datatype=
-                    "http://www.w3.org/2001/XMLSchema#int">1</basic:element_hasMinOccurs>
-                    <basic:element_hasMaxOccurs rdf:datatype=
-                    "http://www.w3.org/2001/XMLSchema#int">1</basic:element_hasMaxOccurs>
+                    <basic:schemaType_hasMinOccurs rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMinOccurs>
+                    <basic:schemaType_hasMaxOccurs rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMaxOccurs>
                   </basic:GraphElement>
                 </basic:sequence_hasHead>
               </basic:Sequence>
             </basic:sequence_hasRest>
+            <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >1</basic:schemaType_hasMaxOccurs>
             <basic:sequence_hasHead>
               <basic:Element rdf:ID="ElementKey">
-                <basic:element_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                >-1</basic:element_hasMaxOccurs>
+                <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >key</basic:element_hasName>
                 <basic:element_hasSchemaType>
                   <basic:Sequence rdf:ID="SequenceElementKey1">
                     <basic:sequence_hasHead>
                       <basic:TextContentElement rdf:ID="TextContentElementDesc">
-                        <basic:element_hasMinOccurs rdf:datatype=
-                        "http://www.w3.org/2001/XMLSchema#int"
-                        >0</basic:element_hasMinOccurs>
                         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                         >desc</basic:element_hasName>
-                        <basic:element_hasMaxOccurs rdf:datatype=
+                        <basic:schemaType_hasMaxOccurs rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#int"
-                        >1</basic:element_hasMaxOccurs>
+                        >1</basic:schemaType_hasMaxOccurs>
+                        <basic:schemaType_hasMinOccurs rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#int"
+                        >0</basic:schemaType_hasMinOccurs>
                       </basic:TextContentElement>
                     </basic:sequence_hasHead>
+                    <basic:schemaType_hasMinOccurs rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMinOccurs>
                     <basic:sequence_hasRest>
                       <basic:Sequence rdf:ID="SequenceElementKey2">
                         <basic:sequence_hasHead>
@@ -223,36 +233,40 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                             <basic:element_hasName rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#string"
                             >default</basic:element_hasName>
-                            <basic:element_hasMaxOccurs rdf:datatype=
+                            <basic:schemaType_hasMinOccurs rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#int"
-                            >1</basic:element_hasMaxOccurs>
-                            <basic:element_hasMinOccurs rdf:datatype=
+                            >0</basic:schemaType_hasMinOccurs>
+                            <basic:schemaType_hasMaxOccurs rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#int"
-                            >0</basic:element_hasMinOccurs>
+                            >1</basic:schemaType_hasMaxOccurs>
                           </basic:TextContentElement>
                         </basic:sequence_hasHead>
                       </basic:Sequence>
                     </basic:sequence_hasRest>
+                    <basic:schemaType_hasMaxOccurs rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMaxOccurs>
                   </basic:Sequence>
                 </basic:element_hasSchemaType>
-                <basic:element_hasAttributes>
-                  <basic:OtherAttribute rdf:ID="OtherAttributeKeyAttrName"/>
-                </basic:element_hasAttributes>
-                <basic:element_hasAttributes>
-                  <basic:OtherAttribute rdf:ID="OtherAttributeKeyFor"/>
-                </basic:element_hasAttributes>
+                <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                >-1</basic:schemaType_hasMaxOccurs>
                 <basic:element_hasAttributes>
                   <basic:OtherAttribute rdf:ID="OtherAttributeKeyAttrType"/>
                 </basic:element_hasAttributes>
                 <basic:element_hasAttributes>
                   <basic:OtherAttribute rdf:ID="OtherAttributeKeyId"/>
                 </basic:element_hasAttributes>
-                <basic:element_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                >0</basic:element_hasMinOccurs>
-                <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >key</basic:element_hasName>
+                <basic:element_hasAttributes>
+                  <basic:OtherAttribute rdf:ID="OtherAttributeKeyFor"/>
+                </basic:element_hasAttributes>
+                <basic:element_hasAttributes>
+                  <basic:OtherAttribute rdf:ID="OtherAttributeKeyAttrName"/>
+                </basic:element_hasAttributes>
+                <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                >0</basic:schemaType_hasMinOccurs>
               </basic:Element>
             </basic:sequence_hasHead>
+            <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >1</basic:schemaType_hasMinOccurs>
           </basic:Sequence>
         </basic:element_hasSchemaType>
         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"

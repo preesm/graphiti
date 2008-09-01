@@ -29,32 +29,36 @@
 package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.parameters.Parameter;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.TextContentElement;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
 import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * Implementation of TextContentElement.
+ * Implementation of XMLSchemaType.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class InfoElementImpl extends DocumentElementImpl implements
-		TextContentElement {
+public class XMLSchemaTypeImpl extends OntologyIndividualImpl implements
+		XMLSchemaType {
 
-	public InfoElementImpl(Individual individual) {
+	public XMLSchemaTypeImpl(Individual individual) {
 		super(individual);
 	}
 
 	@Override
-	public Parameter referencesParameter() {
-		return (Parameter) getIndividualProperty(OntologyFactory
-				.getPropertyTextContentElementReferencesParameter());
+	public int maxOccurs() {
+		return getIntegerProperty(OntologyFactory
+				.getpropertySchemaTypeHasMaxOccurs());
+	}
+
+	@Override
+	public int minOccurs() {
+		return getIntegerProperty(OntologyFactory
+				.getpropertySchemaTypeHasMinOccurs());
 	}
 
 	public String toString() {
-		return super.toString() + " | TextContentElement";
+		return super.toString() + " | XMLSchemaType";
 	}
-
 }

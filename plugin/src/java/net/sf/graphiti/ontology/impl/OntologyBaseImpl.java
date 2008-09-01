@@ -36,7 +36,6 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
 import com.hp.hpl.jena.ontology.DatatypeProperty;
 import com.hp.hpl.jena.ontology.Individual;
@@ -119,13 +118,15 @@ public class OntologyBaseImpl {
 
 		// XML Schema Type
 		classes.put(OntologyFactory.getClassXMLSchemaType(),
-				XMLSchemaType.class);
+				XMLSchemaTypeImpl.class);
 
 		// Complex Type
 		classes.put(OntologyFactory.getClassComplexType(),
 				ComplexTypeImpl.class);
 		classes.put(OntologyFactory.getClassAll(), AllImpl.class);
 		classes.put(OntologyFactory.getClassChoice(), ChoiceImpl.class);
+		classes.put(OntologyFactory.getClassOrderedChoice(),
+				OrderedChoiceImpl.class);
 		classes.put(OntologyFactory.getClassSequence(), SequenceImpl.class);
 
 		// Element
@@ -137,7 +138,7 @@ public class OntologyBaseImpl {
 		classes.put(OntologyFactory.getClassGraphElement(),
 				GraphElementImpl.class);
 		classes.put(OntologyFactory.getClassTextContentElement(),
-				InfoElementImpl.class);
+				TextContentElementImpl.class);
 		classes.put(OntologyFactory.getClassVertexElement(),
 				VertexElementImpl.class);
 	}

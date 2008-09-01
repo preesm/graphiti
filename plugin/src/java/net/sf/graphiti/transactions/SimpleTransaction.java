@@ -52,14 +52,6 @@ public class SimpleTransaction extends AbstractTransaction {
 	}
 
 	/**
-	 * Creates an orphan simple transaction.
-	 */
-	public SimpleTransaction(SimpleTransaction transaction) {
-		super();
-		operations = new ArrayList<Operation>(transaction.operations);
-	}
-
-	/**
 	 * Creates a simple transaction, and adds it to the given
 	 * {@link NestedTransaction}.
 	 * 
@@ -69,6 +61,14 @@ public class SimpleTransaction extends AbstractTransaction {
 	public SimpleTransaction(NestedTransaction parent) {
 		super(parent);
 		operations = new ArrayList<Operation>();
+	}
+
+	/**
+	 * Creates an orphan simple transaction.
+	 */
+	public SimpleTransaction(SimpleTransaction transaction) {
+		super();
+		operations = new ArrayList<Operation>(transaction.operations);
 	}
 
 	/**
@@ -93,10 +93,23 @@ public class SimpleTransaction extends AbstractTransaction {
 		super.commit();
 	}
 
+	public void remove(int i) {
+		operations.remove(i);
+	}
+
 	@Override
 	public void rollback() {
 		super.rollback();
 		operations.clear();
+	}
+
+	/**
+	 * Returns the number of pending operations in this transaction.
+	 * 
+	 * @return The number of pending operations in this transaction.
+	 */
+	public int size() {
+		return operations.size();
 	}
 
 	public String toString() {

@@ -17,6 +17,7 @@ import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Comp
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Sequence;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
+import net.sf.graphiti.parsers.ContentParser.Checkpoint;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -34,9 +35,9 @@ import org.w3c.dom.Text;
  */
 public class SchemaParser {
 
-	private Logger log;
-
 	private ContentParser contentParser;
+
+	private Logger log;
 
 	/**
 	 * Creates a new schema parser using the given configuration.
@@ -47,6 +48,22 @@ public class SchemaParser {
 		log = Logger.getLogger(SchemaParser.class);
 		log.setLevel(Level.ALL);
 		contentParser = new ContentParser(configuration);
+	}
+
+	/**
+	 * Checks that occurs are valid.
+	 * 
+	 * @param minOccurs
+	 * @param maxOccurs
+	 * @throws NotCompatibleException
+	 */
+	private void checkOccurs(int minOccurs, int maxOccurs)
+			throws NotCompatibleException {
+		if (minOccurs < 0 || maxOccurs < -1
+				|| (maxOccurs >= 0 && minOccurs > maxOccurs)) {
+			log.debug("parseElementOccurs: wrong occurs constraints");
+			throw new NotCompatibleException();
+		}
 	}
 
 	/**
@@ -139,8 +156,6 @@ public class SchemaParser {
 	public Graph parse(DocumentElement ontDocElement,
 			org.w3c.dom.Element docElement) throws NotCompatibleException {
 		if (!isElementDefined(ontDocElement, docElement)) {
-			log.debug("parse: element " + docElement.getNodeName()
-					+ " not defined");
 			throw new NotCompatibleException();
 		}
 
@@ -186,17 +201,37 @@ public class SchemaParser {
 	 */
 	private org.w3c.dom.Element parseChoice(Choice choice,
 			org.w3c.dom.Element firstChild) throws NotCompatibleException {
-		ContentParser backupParser = contentParser;
+		Checkpoint checkpoint = contentParser.getCheckpoint();
 		for (XMLSchemaType type : choice.hasElements()) {
 			try {
-				contentParser = new ContentParser(backupParser);
 				org.w3c.dom.Element child = parseSchemaType(type, firstChild);
 				return child;
 			} catch (NotCompatibleException e) {
+				contentParser.loadCheckpoint(checkpoint);
 			}
 		}
 
 		throw new NotCompatibleException();
+	}
+
+	/**
+	 * Parses child with the given {@link ComplexType}.
+	 * 
+	 * @param type
+	 * @param child
+	 * @return
+	 * @throws NotCompatibleException
+	 */
+	private org.w3c.dom.Element parseComplexType(ComplexType type,
+			org.w3c.dom.Element child) throws NotCompatibleException {
+		if (type instanceof Sequence) {
+			return parseSequence((Sequence) type, child);
+		} else if (type instanceof Choice) {
+			return parseChoice((Choice) type, child);
+		} else {
+			log.debug("parseComplexType: type = All");
+			throw new NotCompatibleException();
+		}
 	}
 
 	/**
@@ -209,16 +244,49 @@ public class SchemaParser {
 	 *         <code>null</code> if there are none left.
 	 * @throws NotCompatibleException
 	 */
-	private org.w3c.dom.Element parseComplexType(ComplexType type,
+	private org.w3c.dom.Element parseComplexTypeOccurs(ComplexType type,
 			org.w3c.dom.Element firstChild) throws NotCompatibleException {
-		if (type instanceof Sequence) {
-			return parseSequence((Sequence) type, firstChild);
-		} else if (type instanceof Choice) {
-			return parseChoice((Choice) type, firstChild);
-		} else {
-			log.debug("parseComplexType: type = All");
+		org.w3c.dom.Element child = firstChild;
+		Checkpoint checkpoint = contentParser.getCheckpoint();
+		int minOccurs = type.minOccurs();
+		int maxOccurs = type.maxOccurs();
+		checkOccurs(minOccurs, maxOccurs);
+
+		// min occurs
+		int i = 0;
+		try {
+			for (; i < minOccurs && child != null; i++) {
+				child = parseComplexType(type, child);
+			}
+		} catch (NotCompatibleException e) {
+		}
+
+		// min occurs check
+		if (i < minOccurs) {
+			contentParser.loadCheckpoint(checkpoint);
 			throw new NotCompatibleException();
 		}
+
+		// max occurs
+		checkpoint = contentParser.getCheckpoint();
+		if (maxOccurs > -1) {
+			try {
+				for (; i < maxOccurs && child != null; i++) {
+					child = parseComplexType(type, child);
+				}
+			} catch (NotCompatibleException e) {
+			}
+		} else {
+			// parses all children
+			try {
+				while (child != null) {
+					child = parseComplexType(type, child);
+				}
+			} catch (NotCompatibleException e) {
+			}
+		}
+
+		return child;
 	}
 
 	/**
@@ -260,13 +328,7 @@ public class SchemaParser {
 			org.w3c.dom.Element child) throws NotCompatibleException {
 		int minOccurs = ontElement.minOccurs();
 		int maxOccurs = ontElement.maxOccurs();
-
-		// check that occurs are valid.
-		if (minOccurs < 0 || maxOccurs < -1
-				|| (maxOccurs >= 0 && minOccurs > maxOccurs)) {
-			log.debug("parseElementOccurs: wrong occurs constraints");
-			throw new NotCompatibleException();
-		}
+		checkOccurs(minOccurs, maxOccurs);
 
 		// min occurs
 		int i;
@@ -278,7 +340,6 @@ public class SchemaParser {
 
 		// min occurs check
 		if (i < minOccurs) {
-			log.debug("parseElementOccurs: minOccurs check failed");
 			throw new NotCompatibleException();
 		}
 
@@ -313,7 +374,7 @@ public class SchemaParser {
 	private org.w3c.dom.Element parseSchemaType(XMLSchemaType type,
 			org.w3c.dom.Element firstChild) throws NotCompatibleException {
 		if (type.hasOntClass(OntologyFactory.getClassComplexType())) {
-			return parseComplexType((ComplexType) type, firstChild);
+			return parseComplexTypeOccurs((ComplexType) type, firstChild);
 		} else {
 			return parseElementOccurs((Element) type, firstChild);
 		}

@@ -39,4 +39,8 @@ import net.sf.graphiti.ontology.OntologyIndividual;
  */
 public interface XMLSchemaType extends OntologyIndividual {
 
+	public int maxOccurs();
+
+	public int minOccurs();
+
 }

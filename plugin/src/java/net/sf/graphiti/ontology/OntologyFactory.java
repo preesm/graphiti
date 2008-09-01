@@ -174,6 +174,10 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#GraphType";
 	}
 
+	public static String getClassOrderedChoice() {
+		return "http://net.sf.graphiti/basics.owl#OrderedChoice";
+	}
+
 	public static String getClassOtherAttribute() {
 		return "http://net.sf.graphiti/basics.owl#OtherAttribute";
 	}
@@ -318,14 +322,6 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#element_hasAttributes";
 	}
 
-	public static String getpropertyElementHasMaxOccurs() {
-		return "http://net.sf.graphiti/basics.owl#element_hasMaxOccurs";
-	}
-
-	public static String getpropertyElementHasMinOccurs() {
-		return "http://net.sf.graphiti/basics.owl#element_hasMinOccurs";
-	}
-
 	public static String getPropertyElementHasName() {
 		return "http://net.sf.graphiti/basics.owl#element_hasName";
 	}
@@ -340,6 +336,10 @@ public class OntologyFactory {
 
 	public static String getPropertyFigureAttributeAppliesTo() {
 		return "http://net.sf.graphiti/basics.owl#figureAttribute_appliesTo";
+	}
+
+	public static String getPropertyOrderedChoiceHasElements() {
+		return "http://net.sf.graphiti/basics.owl#orderedChoice_hasElements";
 	}
 
 	public static String getPropertyOtherAttributeReferencesParameter() {
@@ -368,6 +368,14 @@ public class OntologyFactory {
 
 	public static String getPropertyParameterValueOfParameter() {
 		return "http://net.sf.graphiti/basics.owl#parameterValue_ofParameter";
+	}
+
+	public static String getpropertySchemaTypeHasMaxOccurs() {
+		return "http://net.sf.graphiti/basics.owl#schemaType_hasMaxOccurs";
+	}
+
+	public static String getpropertySchemaTypeHasMinOccurs() {
+		return "http://net.sf.graphiti/basics.owl#schemaType_hasMinOccurs";
 	}
 
 	public static String getPropertySequenceHasHead() {

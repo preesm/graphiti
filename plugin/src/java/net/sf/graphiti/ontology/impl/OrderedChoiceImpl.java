@@ -26,65 +26,32 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements;
+package net.sf.graphiti.ontology.impl;
 
-import java.util.Set;
-
-import net.sf.graphiti.ontology.parameterValues.ParameterValue;
-import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeRestriction;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
+import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.ComplexType;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Choice;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Sequence;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides the ontology-defined representation of a DOM element in
- * the input XML document.
+ * Implementation of {@link OrderedChoice}.
  * 
- * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface Element extends XMLSchemaType {
+public class OrderedChoiceImpl extends ComplexTypeImpl implements Choice {
 
-	/**
-	 * Returns a set of {@link AttributeRestriction} that may be associated with
-	 * this {@link Element}.
-	 * 
-	 * @return A set of {@link AttributeRestriction} that may be associated with
-	 *         this {@link Element}.
-	 */
-	public Set<AttributeRestriction> hasAttributeRestriction();
+	public OrderedChoiceImpl(Individual individual) {
+		super(individual);
+	}
 
-	/**
-	 * Returns a set of {@link XMLAttribute} that may be associated with this
-	 * {@link Element}.
-	 * 
-	 * @return A set of {@link XMLAttribute} that may be associated with this
-	 *         {@link Element}.
-	 */
-	public Set<XMLAttribute> hasAttributes();
-
-	/**
-	 * Returns the name of this {@link Element}.
-	 * 
-	 * @return The name of this {@link Element}.
-	 */
-	public String hasName();
-
-	/**
-	 * Returns a set of {@link ParameterValue} that may be associated with this
-	 * {@link Element}.
-	 * 
-	 * @return A set of {@link ParameterValue} that may be associated with this
-	 *         {@link Element}.
-	 */
-	public Set<ParameterValue> hasParameterValues();
-
-	/**
-	 * Returns a {@link ComplexType}.
-	 * 
-	 * @return A {@link ComplexType}.
-	 */
-	public XMLSchemaType hasSchemaType();
+	@Override
+	public Iterable<XMLSchemaType> hasElements() {
+		Sequence sequence = (Sequence) getIndividualProperty(OntologyFactory
+				.getPropertyOrderedChoiceHasElements());
+		return sequence.hasElements();
+	}
 
 }

@@ -45,7 +45,7 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author Matthieu Wipliez
  * 
  */
-public class ElementImpl extends OntologyIndividualImpl implements Element {
+public class ElementImpl extends XMLSchemaTypeImpl implements Element {
 
 	public ElementImpl(Individual individual) {
 		super(individual);
@@ -83,18 +83,7 @@ public class ElementImpl extends OntologyIndividualImpl implements Element {
 				.getPropertyElementHasSchemaType());
 	}
 
-	public int maxOccurs() {
-		return getIntegerProperty(OntologyFactory
-				.getpropertyElementHasMaxOccurs());
-	}
-
-	public int minOccurs() {
-		return getIntegerProperty(OntologyFactory
-				.getpropertyElementHasMinOccurs());
-	}
-
 	public String toString() {
-		return super.toString() + " | OntologyElement: hasName: " + hasName()
-				+ ", hasAttributeNode: " + hasAttributes();
+		return super.toString() + " | Element: hasName: " + hasName();
 	}
 }
