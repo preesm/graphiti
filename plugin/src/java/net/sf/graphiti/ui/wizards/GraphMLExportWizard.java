@@ -29,6 +29,7 @@
 package net.sf.graphiti.ui.wizards;
 
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.writer.GraphMLFileWriter;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -73,9 +74,8 @@ public class GraphMLExportWizard extends Wizard implements IExportWizard {
 		// TODO: write the source file to GraphML.
 		String fileName = mainPage.getDestinationFileName();
 		Graph graph = mainPage.getGraph();
-
+		GraphMLFileWriter.dumpFile(graph, fileName);
 		System.out.println("Writing " + graph + " to " + fileName);
-
 		return true;
 	}
 
