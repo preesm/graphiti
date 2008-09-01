@@ -33,3 +33,4 @@ Bundle-ClassPath: .,
  lib/protege/xercesImpl.jar,
  lib/protege/xml-apis.jar
 Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

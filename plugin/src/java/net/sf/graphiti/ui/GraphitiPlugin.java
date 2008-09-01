@@ -28,13 +28,19 @@
  */
 package net.sf.graphiti.ui;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.parsers.ConfigurationLoader;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.content.IContentType;
+import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
@@ -111,6 +117,39 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	}
 
 	/**
+	 * Associate file extensions defined in the ontologies to the
+	 * org.eclipse.core.runtime.xml content type.
+	 * 
+	 * @param configuration
+	 *            The configuration obtained from the ontologies.
+	 */
+	private void addExtensions(Configuration configuration) {
+		// add all file extensions to a set (in case one extension is present
+		// several times, such as .xml)
+		Set<String> extensionSet = new HashSet<String>();
+		for (Configuration config : configuration.getConfigurationList(true)) {
+			String[] fileExts = config.getFileExtensions();
+			for (String fileExt : fileExts) {
+				extensionSet.add(fileExt);
+			}
+		}
+
+		// add to content type manager
+		IContentTypeManager mgr = Platform.getContentTypeManager();
+		IContentType contentType = mgr
+				.getContentType("org.eclipse.core.runtime.xml");
+
+		for (String fileExt : extensionSet) {
+			try {
+				contentType.addFileSpec(fileExt,
+						IContentType.FILE_EXTENSION_SPEC);
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
 	 * Returns the root of the document configuration tree.
 	 * 
 	 * @return A {@link Configuration} that is the root of the document
@@ -172,7 +211,7 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 		super.start(context);
 		ConfigurationLoader loader = new ConfigurationLoader(context);
 		configuration = loader.getConfiguration();
-		new EditorsContributor(context, configuration);
+		addExtensions(configuration);
 		plugin = this;
 	}
 

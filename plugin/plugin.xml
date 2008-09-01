@@ -52,5 +52,18 @@
             restorable="true">
       </view>
    </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            class="net.sf.graphiti.ui.editors.GraphEditor"
+            contributorClass="net.sf.graphiti.ui.editors.GraphActionBarContributor"
+            default="false"
+            icon="icons/graphiti.gif"
+            id="net.sf.graphiti.ui.editors.GraphEditor"
+            name="Graphiti graph editor">
+         <contentTypeBinding
+               contentTypeId="org.eclipse.core.runtime.xml">
+         </contentTypeBinding>
+      </editor>
+   </extension>
 
 </plugin>
