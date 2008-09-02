@@ -1,0 +1,121 @@
+/*
+ * Copyright (c) 2008, IETR/INSA of Rennes
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice,
+ *     this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice,
+ *     this list of conditions and the following disclaimer in the documentation
+ *     and/or other materials provided with the distribution.
+ *   * Neither the name of the IETR/INSA of Rennes nor the names of its
+ *     contributors may be used to endorse or promote products derived from this
+ *     software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+package net.sf.graphiti.ui.views;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import net.sf.graphiti.model.Parameter;
+import net.sf.graphiti.model.Vertex;
+
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.widgets.Table;
+
+/**
+ * This class provides {@link EditingSupport} for the "value" column.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
+public class PropertiesEditingSupport extends EditingSupport implements
+		PropertyChangeListener {
+
+	private TextCellEditor editor;
+
+	/**
+	 * The vertex we provide editing support for.
+	 */
+	private Vertex vertex;
+
+	/**
+	 * Creates a new {@link PropertiesEditingSupport} on the given column
+	 * viewer and table.
+	 * 
+	 * @param viewer
+	 * @param table
+	 */
+	public PropertiesEditingSupport(ColumnViewer viewer, Table table) {
+		super(viewer);
+		editor = new TextCellEditor(table);
+	}
+
+	@Override
+	protected boolean canEdit(Object element) {
+		return true;
+	}
+
+	@Override
+	protected CellEditor getCellEditor(Object element) {
+		return editor;
+	}
+
+	@Override
+	protected Object getValue(Object element) {
+		if (element instanceof Parameter) {
+			Parameter parameter = (Parameter) element;
+			String value = (String) vertex.getValue(parameter.getName());
+			if (value == null) {
+				value = "";
+			}
+			return value;
+		} else {
+			return "";
+		}
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(
+				PropertiesContentProvider.INPUT_CHANGED)) {
+			vertex = (Vertex) evt.getNewValue();
+		}
+	}
+
+	@Override
+	protected void setValue(Object element, Object value) {
+		if (element instanceof Parameter) {
+			Parameter parameter = (Parameter) element;
+			vertex.setValue(parameter.getName(), (String) value);
+		}
+	}
+
+	/**
+	 * Sets the vertex we provide editing support for.
+	 * 
+	 * @param vertex
+	 *            The new {@link Vertex} to provide editing support for.
+	 */
+	public void setVertex(Vertex vertex) {
+		this.vertex = vertex;
+	}
+
+}

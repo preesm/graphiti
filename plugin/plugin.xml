@@ -45,11 +45,14 @@
       <view
             allowMultiple="false"
             category="net.sf.graphiti.ui.views"
-            class="net.sf.graphiti.ui.views.VertexParametersView"
+            class="net.sf.graphiti.ui.views.PropertyView"
             icon="icons/graphiti.gif"
-            id="net.sf.graphiti.ui.views.VertexParametersView"
-            name="Vertex parameters"
+            id="net.sf.graphiti.ui.views.PropertyView"
+            name="Properties"
             restorable="true">
+         <description>
+            The Properties view displays properties associated with the current selection.
+         </description>
       </view>
    </extension>
    <extension point="org.eclipse.ui.editors">

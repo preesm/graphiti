@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ui.perspectives;
 
-import net.sf.graphiti.ui.views.VertexParametersView;
+import net.sf.graphiti.ui.views.PropertyView;
 
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
@@ -73,8 +73,7 @@ public class GraphitiPerspectiveFactory implements IPerspectiveFactory {
 
 		IFolderLayout bottom = layout.createFolder("bottom",
 				IPageLayout.BOTTOM, 0.80f, editorArea);
-		bottom.addView(IPageLayout.ID_PROBLEM_VIEW);
-		bottom.addView(VertexParametersView.ID_VERTEX_PARAMETERS);
+		bottom.addView(PropertyView.ID_PROPERTY_VIEW);
 
 		// put the outline on the right
 		IFolderLayout right = layout.createFolder("right", IPageLayout.RIGHT,

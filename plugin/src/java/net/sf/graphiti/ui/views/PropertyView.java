@@ -28,14 +28,8 @@
  */
 package net.sf.graphiti.ui.views;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
-
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.GraphitiPlugin;
-import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -44,18 +38,11 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.CellLabelProvider;
-import org.eclipse.jface.viewers.ColumnViewer;
-import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -73,14 +60,14 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 /**
- * This class exposes the Vertex parameters view. Written after the SampleView
- * provided by Eclipse, and adding proper table viewer support for vertex
- * parameters.
+ * This class exposes the Graphiti version of property view. It is a derivative
+ * work from the SampleView provided by Eclipse, with the addition of proper
+ * table viewer support for graph variable declarations, vertex parameters, and
+ * edge properties.
  * 
  * @author Matthieu Wipliez
  */
-public class VertexParametersView extends ViewPart implements
-		ISelectionListener {
+public class PropertyView extends ViewPart implements ISelectionListener {
 
 	private class NameSorter extends ViewerComparator {
 
@@ -93,130 +80,7 @@ public class VertexParametersView extends ViewPart implements
 		}
 	}
 
-	/**
-	 * This class extends {@link CellLabelProvider}.
-	 * 
-	 * @author Matthieu Wipliez
-	 * 
-	 */
-	private class VertexParametersCellLabelProvider extends CellLabelProvider {
-
-		@Override
-		public void update(ViewerCell cell) {
-			Object element = cell.getElement();
-			if (element instanceof Parameter) {
-				Parameter parameter = (Parameter) element;
-				if (cell.getColumnIndex() == 0) {
-					cell.setText(parameter.getName());
-				} else {
-					String value = (String) vertex
-							.getValue(parameter.getName());
-					if (value == null) {
-						value = "";
-					}
-					cell.setText(value);
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * This class defines a content provider for the table displayed in this
-	 * view.
-	 * 
-	 */
-	private class VertexParametersContentProvider implements
-			IStructuredContentProvider, PropertyChangeListener {
-
-		@Override
-		public void dispose() {
-			if (vertex != null) {
-				vertex.removePropertyChangeListener(this);
-			}
-		}
-
-		@Override
-		public Object[] getElements(Object inputElement) {
-			if (vertex == null) {
-				return new Object[] {};
-			} else {
-				List<Parameter> parameters = vertex.getParameters();
-				return parameters.toArray();
-			}
-		}
-
-		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-			if (vertex instanceof Vertex) {
-				vertex.removePropertyChangeListener(this);
-			}
-
-			if (newInput instanceof VertexEditPart) {
-				vertex = (Vertex) ((VertexEditPart) newInput).getModel();
-				vertex.addPropertyChangeListener(this);
-			} else {
-				vertex = null;
-			}
-		}
-
-		@Override
-		public void propertyChange(PropertyChangeEvent evt) {
-			tableViewer.refresh();
-		}
-
-	}
-
-	/**
-	 * This class provides {@link EditingSupport} for the "value" column.
-	 * 
-	 * @author Matthieu Wipliez
-	 * 
-	 */
-	public class VertexParametersEditingSupport extends EditingSupport {
-
-		private TextCellEditor editor;
-
-		public VertexParametersEditingSupport(ColumnViewer viewer, Table table) {
-			super(viewer);
-			editor = new TextCellEditor(table);
-		}
-
-		@Override
-		protected boolean canEdit(Object element) {
-			return true;
-		}
-
-		@Override
-		protected CellEditor getCellEditor(Object element) {
-			return editor;
-		}
-
-		@Override
-		protected Object getValue(Object element) {
-			if (element instanceof Parameter) {
-				Parameter parameter = (Parameter) element;
-				String value = (String) vertex.getValue(parameter.getName());
-				if (value == null) {
-					value = "";
-				}
-				return value;
-			} else {
-				return "";
-			}
-		}
-
-		@Override
-		protected void setValue(Object element, Object value) {
-			if (element instanceof Parameter) {
-				Parameter parameter = (Parameter) element;
-				vertex.setValue(parameter.getName(), (String) value);
-			}
-		}
-
-	}
-
-	public static final String ID_VERTEX_PARAMETERS = "net.sf.graphiti.ui.views.VertexParametersView";
+	public static final String ID_PROPERTY_VIEW = "net.sf.graphiti.ui.views.PropertyView";
 
 	private Action actionAdd;
 
@@ -229,21 +93,54 @@ public class VertexParametersView extends ViewPart implements
 
 	private TableViewer tableViewer;
 
-	private Vertex vertex;
-
 	/**
 	 * The constructor.
 	 */
-	public VertexParametersView() {
+	public PropertyView() {
 	}
 
 	/**
-	 * 
+	 * Contributes to pull down and tool bar menu managers.
 	 */
 	private void contributeToActionBars() {
 		IActionBars bars = getViewSite().getActionBars();
-		fillLocalPullDown(bars.getMenuManager());
-		fillLocalToolBar(bars.getToolBarManager());
+		contributeToPullDown(bars.getMenuManager());
+		contributeToToolBar(bars.getToolBarManager());
+	}
+
+	/**
+	 * Contributes to the context menu manager.
+	 * 
+	 * @param manager
+	 *            The context menu manager.
+	 */
+	private void contributeToContextMenu(IMenuManager manager) {
+		manager.add(actionAdd);
+		manager.add(actionDelete);
+		// Other plug-ins can contribute there actions here
+		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+	}
+
+	/**
+	 * Contributes to the pull down menu manager.
+	 * 
+	 * @param manager
+	 *            The pull down menu manager.
+	 */
+	private void contributeToPullDown(IMenuManager manager) {
+		manager.add(actionAdd);
+		manager.add(actionDelete);
+	}
+
+	/**
+	 * Contributes to the tool bar menu manager.
+	 * 
+	 * @param manager
+	 *            The tool bar menu manager.
+	 */
+	private void contributeToToolBar(IToolBarManager manager) {
+		manager.add(actionAdd);
+		manager.add(actionDelete);
 	}
 
 	/**
@@ -335,24 +232,42 @@ public class VertexParametersView extends ViewPart implements
 		return table;
 	}
 
+	/**
+	 * Creates the table viewer using the given table.
+	 * 
+	 * @param table
+	 *            A {@link Table}.
+	 */
 	private void createTableViewer(Table table) {
 		// Creates the table viewer on the table.
 		tableViewer = new TableViewer(table);
-		tableViewer.setContentProvider(new VertexParametersContentProvider());
-		// tableViewer.setLabelProvider(new VertexParametersLabelProvider());
+
+		// content provider
+		PropertiesContentProvider contentProvider = new PropertiesContentProvider();
+		tableViewer.setContentProvider(contentProvider);
 
 		// Sort by parameter name
 		tableViewer.setComparator(new NameSorter());
 
+		// cell label provider
+		PropertiesCellLabelProvider provider = new PropertiesCellLabelProvider();
+		contentProvider.addPropertyChangeListener(provider);
+
+		// first column
 		TableColumn column = table.getColumn(0);
 		TableViewerColumn tvc = new TableViewerColumn(tableViewer, column);
-		tvc.setLabelProvider(new VertexParametersCellLabelProvider());
+		tvc.setLabelProvider(provider);
 
+		// second column
 		column = table.getColumn(1);
 		tvc = new TableViewerColumn(tableViewer, column);
-		tvc.setLabelProvider(new VertexParametersCellLabelProvider());
-		tvc.setEditingSupport(new VertexParametersEditingSupport(tvc
-				.getViewer(), table));
+		tvc.setLabelProvider(provider);
+
+		// editing support for second column
+		PropertiesEditingSupport editing = new PropertiesEditingSupport(
+				tvc.getViewer(), table);
+		contentProvider.addPropertyChangeListener(editing);
+		tvc.setEditingSupport(editing);
 	}
 
 	@Override
@@ -362,30 +277,12 @@ public class VertexParametersView extends ViewPart implements
 		super.dispose();
 	}
 
-	private void fillContextMenu(IMenuManager manager) {
-		manager.add(actionAdd);
-		manager.add(actionDelete);
-		// Other plug-ins can contribute there actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-	}
-
-	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(actionAdd);
-		manager.add(new Separator());
-		manager.add(actionDelete);
-	}
-
-	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(actionAdd);
-		manager.add(actionDelete);
-	}
-
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 			public void menuAboutToShow(IMenuManager manager) {
-				VertexParametersView.this.fillContextMenu(manager);
+				PropertyView.this.contributeToContextMenu(manager);
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(tableViewer.getControl());
@@ -393,6 +290,9 @@ public class VertexParametersView extends ViewPart implements
 		getSite().registerContextMenu(menuMgr, tableViewer);
 	}
 
+	/**
+	 * Creates the "add" and "delete" actions.
+	 */
 	private void makeActions() {
 		actionAdd = new Action() {
 			public void run() {
