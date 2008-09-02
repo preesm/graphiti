@@ -34,14 +34,12 @@ import net.sf.graphiti.ui.figure.VertexFigure;
 
 import org.eclipse.draw2d.Label;
 import org.eclipse.gef.tools.DirectEditManager;
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -72,20 +70,11 @@ public class VertexDirectEditManager extends DirectEditManager {
 		vertexLabel = vertexFigure.getLabelId();
 	}
 
-	protected CellEditor createCellEditorOn(Composite composite) {
-		try {
-			return (CellEditor) new TextCellEditor(composite, SWT.NONE);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
 	/**
 	 * @see org.eclipse.gef.tools.DirectEditManager#initCellEditor()
 	 */
 	protected void initCellEditor() {
 		final Text text = (Text) getCellEditor().getControl();
-		text.setBackground(null);
 
 		verifyListener = new VerifyListener() {
 			public void verifyText(VerifyEvent event) {
@@ -110,6 +99,7 @@ public class VertexDirectEditManager extends DirectEditManager {
 	
 	@Override
 	public void showFeedback() {
+		// this is to remove the shadow around the Text component
 		getEditPart().showSourceFeedback(getDirectEditRequest());
 	}
 
