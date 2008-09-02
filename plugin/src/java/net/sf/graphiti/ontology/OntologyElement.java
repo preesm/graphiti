@@ -30,7 +30,7 @@ package net.sf.graphiti.ontology;
 
 import java.util.Set;
 
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
 /**
  * This class provides access to an ontology element (owl:Ontology) and
@@ -42,11 +42,11 @@ import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Document
 public interface OntologyElement {
 
 	/**
-	 * Returns the {@link DocumentElement} to start parsing with.
+	 * Returns the {@link XMLSchemaType} to start parsing with.
 	 * 
-	 * @return The {@link DocumentElement} to start parsing with.
+	 * @return The {@link XMLSchemaType} to start parsing with.
 	 */
-	public DocumentElement getDocumentElement();
+	public XMLSchemaType getDocumentElement();
 
 	/**
 	 * Returns the file extensions that this ontology may be associated with.

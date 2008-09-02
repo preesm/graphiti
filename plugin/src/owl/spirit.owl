@@ -28,7 +28,7 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</rdfs:comment>
     <basic:hasDocumentElement>
-      <basic:DocumentElement rdf:ID="DocumentElementDesign">
+      <basic:GraphElement rdf:ID="DocumentElementDesign">
         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >spirit:design</basic:element_hasName>
         <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
@@ -107,23 +107,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                 <basic:type_hasParameters>
                                                   <basic:VertexParameter rdf:ID="VertexIdParameter">
                                                     <basic:parameter_appliesTo rdf:resource="#VertexType"/>
-                                                    <basic:parameter_ofTextContentElement>
-                                                      <basic:TextContentElement rdf:ID="TextContentElementInstanceName">
-                                                        <basic:schemaType_hasMaxOccurs
-                                                         rdf:datatype=
-                                                        "http://www.w3.org/2001/XMLSchema#int"
-                                                        >1</basic:schemaType_hasMaxOccurs>
-                                                        <basic:textContentElement_referencesParameter rdf:resource="#VertexIdParameter"/>
-                                                        <basic:schemaType_hasMinOccurs
-                                                         rdf:datatype=
-                                                        "http://www.w3.org/2001/XMLSchema#int"
-                                                        >1</basic:schemaType_hasMinOccurs>
-                                                        <basic:element_hasName
-                                                         rdf:datatype=
-                                                        "http://www.w3.org/2001/XMLSchema#string"
-                                                        >spirit:instanceName</basic:element_hasName>
-                                                      </basic:TextContentElement>
-                                                    </basic:parameter_ofTextContentElement>
                                                     <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                                                     <basic:parameter_hasName
                                                      rdf:datatype=
@@ -157,7 +140,19 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                         >operator</basic:parameterValue_hasValue>
                                       </basic:ParameterValue>
                                     </basic:element_hasParameterValue>
-                                    <basic:element_hasSchemaType rdf:resource="#TextContentElementInstanceName"/>
+                                    <basic:element_hasSchemaType>
+                                      <basic:TextContentElement rdf:ID="TextContentElementInstanceName">
+                                        <basic:schemaType_hasMaxOccurs
+                                         rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                        >1</basic:schemaType_hasMaxOccurs>
+                                        <basic:schemaType_hasMinOccurs
+                                         rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                        >1</basic:schemaType_hasMinOccurs>
+                                        <basic:element_hasName
+                                         rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                        >spirit:instanceName</basic:element_hasName>
+                                      </basic:TextContentElement>
+                                    </basic:element_hasSchemaType>
                                     <basic:schemaType_hasMinOccurs
                                      rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                     >0</basic:schemaType_hasMinOccurs>
@@ -295,7 +290,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             </basic:sequence_hasRest>
           </basic:Sequence>
         </basic:element_hasSchemaType>
-      </basic:DocumentElement>
+      </basic:GraphElement>
     </basic:hasDocumentElement>
     <owl:imports rdf:resource="http://net.sf.graphiti/basics.owl"/>
     <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"

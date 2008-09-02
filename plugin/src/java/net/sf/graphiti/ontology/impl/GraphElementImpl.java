@@ -38,7 +38,7 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author Matthieu Wipliez
  * 
  */
-public class GraphElementImpl extends DocumentElementImpl implements
+public class GraphElementImpl extends ElementImpl implements
 		GraphElement {
 
 	public GraphElementImpl(Individual individual) {

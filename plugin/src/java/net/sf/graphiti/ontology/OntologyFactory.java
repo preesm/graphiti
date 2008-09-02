@@ -41,7 +41,7 @@ import net.sf.graphiti.ontology.impl.OntologyModelImpl;
 import net.sf.graphiti.ontology.types.EdgeType;
 import net.sf.graphiti.ontology.types.GraphType;
 import net.sf.graphiti.ontology.types.VertexType;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
 import com.hp.hpl.jena.ontology.OntDocumentManager;
 import com.hp.hpl.jena.ontology.OntModel;
@@ -120,10 +120,6 @@ public class OntologyFactory {
 
 	public static String getClassDataTypes() {
 		return "http://net.sf.graphiti/basics.owl#DataTypes";
-	}
-
-	public static String getClassDocumentElement() {
-		return "http://net.sf.graphiti/basics.owl#DocumentElement";
 	}
 
 	public static String getClassEdgeAttribute() {
@@ -454,16 +450,16 @@ public class OntologyFactory {
 	/**
 	 * Returns the document element.
 	 * 
-	 * @return A {@link DocumentElement}.
+	 * @return A {@link XMLSchemaType}.
 	 */
-	public DocumentElement getDocumentElement() {
+	public XMLSchemaType getDocumentElement() {
 		Ontology ont = model.getOntology(modelURI);
 		return getDocumentElement(ont);
 	}
 
-	private DocumentElement getDocumentElement(Ontology ont) {
+	private XMLSchemaType getDocumentElement(Ontology ont) {
 		OntologyElement ontElement = new OntologyElementImpl(ont);
-		DocumentElement docElement = ontElement.getDocumentElement();
+		XMLSchemaType docElement = ontElement.getDocumentElement();
 		if (docElement == null) {
 			ExtendedIterator it = ont.listImports();
 			while (it.hasNext() && docElement == null) {

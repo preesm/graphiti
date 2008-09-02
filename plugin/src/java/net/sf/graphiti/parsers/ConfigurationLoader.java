@@ -49,6 +49,7 @@ import net.sf.graphiti.ontology.parameters.GraphParameter;
 import net.sf.graphiti.ontology.parameters.Parameter;
 import net.sf.graphiti.ontology.parameters.VertexParameter;
 import net.sf.graphiti.ontology.types.EdgeType;
+import net.sf.graphiti.ontology.types.GraphType;
 import net.sf.graphiti.ontology.types.VertexType;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
@@ -107,6 +108,26 @@ public class ConfigurationLoader {
 	}
 
 	/**
+	 * Fills the configuration with parameters of the given {@link GraphType}.
+	 * 
+	 * @param config
+	 *            The {@link Configuration}.
+	 * @param graphType
+	 *            An {@link GraphType}.
+	 */
+	private void fillGraphType(Configuration config, GraphType graphType) {
+		String graphTypeName = graphType.hasName();
+		Set<Parameter> parameters = graphType.hasParameters();
+		for (Parameter parameter : parameters) {
+			if (parameter.hasOntClass(OntologyFactory.getClassGraphParameter())) {
+				net.sf.graphiti.model.Parameter param = new net.sf.graphiti.model.Parameter(
+						(GraphParameter) parameter);
+				config.addGraphParameter(graphTypeName, param);
+			}
+		}
+	}
+
+	/**
 	 * Fills the configuration with the given {@link Parameter} of the given
 	 * {@link VertexType}.
 	 * 
@@ -141,29 +162,29 @@ public class ConfigurationLoader {
 	 * 
 	 * @param config
 	 *            The {@link Configuration}.
-	 * @param type
+	 * @param vertexType
 	 *            A {@link VertexType}.
 	 */
-	private void fillVertexType(Configuration config, VertexType type) {
-		String vertexType = type.hasName();
-		Set<FigureAttribute> attributes = type.hasFigureAttributes();
+	private void fillVertexType(Configuration config, VertexType vertexType) {
+		String vertexTypeName = vertexType.hasName();
+		Set<FigureAttribute> attributes = vertexType.hasFigureAttributes();
 		for (FigureAttribute attribute : attributes) {
 			if (attribute.hasOntClass(OntologyFactory.getClassColorAttribute())) {
 				Color color = ((ColorAttribute) attribute).hasColor()
 						.getColor();
-				config.setVertexAttribute(vertexType, Vertex.ATTRIBUTE_COLOR,
-						color);
+				config.setVertexAttribute(vertexTypeName,
+						Vertex.ATTRIBUTE_COLOR, color);
 			} else if (attribute.hasOntClass(OntologyFactory
 					.getClassShapeAttribute())) {
 				Shapes shape = ((ShapeAttribute) attribute).hasShape();
-				config.setVertexAttribute(vertexType, Vertex.ATTRIBUTE_SHAPE,
-						shape);
+				config.setVertexAttribute(vertexTypeName,
+						Vertex.ATTRIBUTE_SHAPE, shape);
 			}
 		}
 
-		Set<Parameter> parameters = type.hasParameters();
+		Set<Parameter> parameters = vertexType.hasParameters();
 		for (Parameter parameter : parameters) {
-			fillVertexParameter(config, vertexType, parameter);
+			fillVertexParameter(config, vertexTypeName, parameter);
 		}
 	}
 
@@ -248,6 +269,12 @@ public class ConfigurationLoader {
 			System.out.println("Loading ontology: " + file);
 			Configuration config = new Configuration(file);
 			OntologyFactory factory = config.getOntologyFactory();
+
+			// graph types.
+			Set<GraphType> graphTypes = factory.getGraphTypes();
+			for (GraphType type : graphTypes) {
+				fillGraphType(config, type);
+			}
 
 			// vertex types.
 			Set<VertexType> vertexTypes = factory.getVertexTypes();

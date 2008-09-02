@@ -33,8 +33,13 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
+import net.sf.graphiti.model.Edge;
+import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Parameter;
+import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ui.editparts.EdgeEditPart;
+import net.sf.graphiti.ui.editparts.GraphEditPart;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -45,18 +50,28 @@ import org.eclipse.jface.viewers.Viewer;
  * 
  * @author Matthieu Wipliez
  */
-public class PropertiesContentProvider implements
-		IStructuredContentProvider, PropertyChangeListener {
+public class PropertiesContentProvider implements IStructuredContentProvider,
+		PropertyChangeListener {
 
+	/**
+	 * When input has changed.
+	 */
 	public static final String INPUT_CHANGED = "inputChanged";
 
+	/**
+	 * The {@link PropertyChangeSupport} we use.
+	 */
 	private PropertyChangeSupport propertyChange;
 
 	/**
-	 * The vertex we provide content for.
+	 * The object we provide content for: Graph, Vertex and Edge. We use
+	 * {@link PropertyBean} because this the common type.
 	 */
-	private Vertex vertex;
+	private PropertyBean source;
 
+	/**
+	 * The viewer.
+	 */
 	private Viewer viewer;
 
 	/**
@@ -78,18 +93,35 @@ public class PropertiesContentProvider implements
 
 	@Override
 	public void dispose() {
-		if (vertex != null) {
-			vertex.removePropertyChangeListener(this);
+		if (source != null) {
+			source.removePropertyChangeListener(this);
 		}
+
+		// remove all listeners
+		for (PropertyChangeListener listener : propertyChange
+				.getPropertyChangeListeners()) {
+			propertyChange.removePropertyChangeListener(listener);
+		}
+
+		// nothing left
+		propertyChange = null;
+		source = null;
+		viewer = null;
 	}
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		if (vertex == null) {
-			return new Object[] {};
-		} else {
-			List<Parameter> parameters = vertex.getParameters();
+		if (source instanceof Graph) {
+			List<Parameter> parameters = ((Graph) source).getParameters();
 			return parameters.toArray();
+		} else if (source instanceof Vertex) {
+			List<Parameter> parameters = ((Vertex) source).getParameters();
+			return parameters.toArray();
+		} else if (source instanceof Edge) {
+			List<Parameter> parameters = ((Edge) source).getParameters();
+			return parameters.toArray();
+		} else {
+			return new Object[] {};
 		}
 	}
 
@@ -98,22 +130,27 @@ public class PropertiesContentProvider implements
 		this.viewer = viewer;
 
 		// remove ourselves as a listener to the previous model
-		if (vertex instanceof Vertex) {
-			vertex.removePropertyChangeListener(this);
+		if (source instanceof PropertyBean) {
+			source.removePropertyChangeListener(this);
 		}
 
-		if (newInput instanceof VertexEditPart) {
-			Vertex oldVertex = vertex;
-
-			// set the vertex attribute, and add ourselves as a listener
-			vertex = (Vertex) ((VertexEditPart) newInput).getModel();
-			vertex.addPropertyChangeListener(this);
-			
-			// informs registered listeners of the change
-			propertyChange.firePropertyChange(INPUT_CHANGED, oldVertex, vertex);
+		// update the source
+		PropertyBean oldSource = source;
+		if (newInput instanceof GraphEditPart) {
+			source = (Graph) ((GraphEditPart) newInput).getModel();
+		} else if (newInput instanceof VertexEditPart) {
+			source = (Vertex) ((VertexEditPart) newInput).getModel();
+		} else if (newInput instanceof EdgeEditPart) {
+			source = (Edge) ((EdgeEditPart) newInput).getModel();
 		} else {
-			// reset the selection
-			vertex = null;
+			source = null;
+		}
+
+		if (source != null) {
+			// add ourselves as a listener, and informs registered listeners of
+			// the change
+			source.addPropertyChangeListener(this);
+			propertyChange.firePropertyChange(INPUT_CHANGED, oldSource, source);
 		}
 	}
 
@@ -122,19 +159,9 @@ public class PropertiesContentProvider implements
 		if (viewer != null) {
 			viewer.refresh();
 		}
-		
+
 		// Forward the event to registered listeners
 		propertyChange.firePropertyChange(evt);
-	}
-
-	/**
-	 * Sets the vertex we provide content for.
-	 * 
-	 * @param vertex
-	 *            The new {@link Vertex} to provide content for.
-	 */
-	public void setVertex(Vertex vertex) {
-		this.vertex = vertex;
 	}
 
 }

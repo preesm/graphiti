@@ -31,8 +31,6 @@ package net.sf.graphiti.parsers;
 import java.util.Set;
 import java.util.Stack;
 
-import org.eclipse.core.runtime.Assert;
-
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.PropertyBean;
@@ -49,6 +47,7 @@ import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.edgeAttributes.Edg
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.otherAttributes.OtherAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.EdgeElement;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.GraphElement;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.TextContentElement;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.VertexElement;
 import net.sf.graphiti.parsers.operations.AddEdgeOpSpec;
@@ -62,6 +61,8 @@ import net.sf.graphiti.transactions.Operand;
 import net.sf.graphiti.transactions.Operation;
 import net.sf.graphiti.transactions.Result;
 import net.sf.graphiti.transactions.SimpleTransaction;
+
+import org.eclipse.core.runtime.Assert;
 
 /**
  * This class provides methods to parse elements and attributes.
@@ -100,13 +101,21 @@ public class ContentParser {
 
 	}
 
-	private Operation createGraph;
+	/**
+	 * The configuration this content parser was created with.
+	 */
+	private Configuration configuration;
 
 	/**
 	 * {@link Stack#peek()} returns the current {@link Element} (between a call
 	 * to <code>elementStart</code> and <code>elementEnd</code>.
 	 */
 	private Stack<Element> elementStack;
+
+	/**
+	 * This is set by CreateGraphOpSpec.
+	 */
+	private Graph graph;
 
 	/**
 	 * {@link Stack#peek()} returns the {@link Result} associated with the
@@ -123,13 +132,10 @@ public class ContentParser {
 	 * @param configuration
 	 */
 	public ContentParser(Configuration configuration) {
-		this.transaction = new SimpleTransaction();
+		this.configuration = configuration;
 		elementStack = new Stack<Element>();
 		resultStack = new Stack<Result>();
-
-		createGraph = new Operation(new CreateGraphOpSpec());
-		createGraph.setOperand(new Operand(configuration));
-		transaction.addOperation(createGraph);
+		transaction = new SimpleTransaction();
 	}
 
 	/**
@@ -140,14 +146,20 @@ public class ContentParser {
 	 * @param domElement
 	 */
 	public void elementEnd(Element ontElement, org.w3c.dom.Element domElement) {
+		// graph
+		int index = findNearestElement(OntologyFactory.getClassGraphElement());
+		if (index == -1) {
+			return;
+		}
+
 		if (ontElement instanceof VertexElement) {
 			Operation addVertex = new Operation(new AddVertexOpSpec());
-			addVertex.setOperands(new Operand(createGraph.getResult()),
+			addVertex.setOperands(new Operand(resultStack.get(index)),
 					new Operand(resultStack.peek()));
 			transaction.addOperation(addVertex);
 		} else if (ontElement instanceof EdgeElement) {
 			Operation addEdge = new Operation(new AddEdgeOpSpec());
-			addEdge.setOperands(new Operand(createGraph.getResult()),
+			addEdge.setOperands(new Operand(resultStack.get(index)),
 					new Operand(resultStack.peek()));
 			transaction.addOperation(addEdge);
 		}
@@ -167,7 +179,9 @@ public class ContentParser {
 		elementStack.push(ontElement);
 		Result result;
 
-		if (ontElement instanceof VertexElement) {
+		if (ontElement instanceof GraphElement) {
+			result = parseGraphElement((GraphElement) ontElement, domElement);
+		} else if (ontElement instanceof VertexElement) {
 			result = parseVertexElement((VertexElement) ontElement, domElement);
 		} else if (ontElement instanceof EdgeElement) {
 			result = parseEdgeElement((EdgeElement) ontElement, domElement);
@@ -217,7 +231,7 @@ public class ContentParser {
 	 */
 	public Graph getGraph() {
 		transaction.commit();
-		return (Graph) createGraph.getResult().getContents();
+		return graph;
 	}
 
 	/**
@@ -287,26 +301,34 @@ public class ContentParser {
 	 */
 	private void parseEdgeAttribute(EdgeAttribute ontAttribute,
 			String domAttrValue) {
-		int index = findNearestElement(OntologyFactory.getClassEdgeElement());
-		if (index != -1) {
-			Operation setEdgeEndpoint = new Operation(
-					new SetEdgeEndpointOpSpec());
-			Operand[] operands = new Operand[4];
-			setEdgeEndpoint.setOperands(operands);
+		Operation setEdgeEndpoint = new Operation(new SetEdgeEndpointOpSpec());
+		Operand[] operands = new Operand[4];
+		setEdgeEndpoint.setOperands(operands);
 
-			operands[0] = new Operand(createGraph.getResult());
-			operands[1] = new Operand(resultStack.get(index));
-
-			if (ontAttribute instanceof EdgeSourceConnection) {
-				operands[2] = new Operand("source");
-			} else {
-				operands[2] = new Operand("target");
-			}
-
-			operands[3] = new Operand(domAttrValue);
-
-			transaction.addOperation(setEdgeEndpoint);
+		// graph
+		int index = findNearestElement(OntologyFactory.getClassGraphElement());
+		if (index == -1) {
+			return;
 		}
+		operands[0] = new Operand(resultStack.get(index));
+
+		// edge
+		index = findNearestElement(OntologyFactory.getClassEdgeElement());
+		if (index == -1) {
+			return;
+		}
+		operands[1] = new Operand(resultStack.get(index));
+
+		// endpoint
+		if (ontAttribute instanceof EdgeSourceConnection) {
+			operands[2] = new Operand("source");
+		} else {
+			operands[2] = new Operand("target");
+		}
+
+		// value
+		operands[3] = new Operand(domAttrValue);
+		transaction.addOperation(setEdgeEndpoint);
 	}
 
 	/**
@@ -320,6 +342,20 @@ public class ContentParser {
 		Operation createEdge = new Operation(new CreateEdgeOpSpec());
 		transaction.addOperation(createEdge);
 		return createEdge.getResult();
+	}
+
+	/**
+	 * Parses the given graph element.
+	 * 
+	 * @param ontElement
+	 * @param domElement
+	 */
+	private Result parseGraphElement(GraphElement ontElement,
+			org.w3c.dom.Element domElement) {
+		Operation createGraph = new Operation(new CreateGraphOpSpec());
+		createGraph.setOperands(new Operand(this), new Operand(configuration));
+		transaction.addOperation(createGraph);
+		return createGraph.getResult();
 	}
 
 	/**
@@ -384,6 +420,16 @@ public class ContentParser {
 		Operation createVertex = new Operation(new CreateVertexOpSpec());
 		transaction.addOperation(createVertex);
 		return createVertex.getResult();
+	}
+
+	/**
+	 * Sets this graph to the given graph.
+	 * 
+	 * @param graph
+	 *            A {@link Graph}.
+	 */
+	public void setGraph(Graph graph) {
+		this.graph = graph;
 	}
 
 	/**

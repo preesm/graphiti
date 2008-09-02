@@ -32,7 +32,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.model.PropertyBean;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
@@ -52,13 +52,13 @@ public class PropertiesEditingSupport extends EditingSupport implements
 	private TextCellEditor editor;
 
 	/**
-	 * The vertex we provide editing support for.
+	 * The source we provide editing support for.
 	 */
-	private Vertex vertex;
+	private PropertyBean source;
 
 	/**
-	 * Creates a new {@link PropertiesEditingSupport} on the given column
-	 * viewer and table.
+	 * Creates a new {@link PropertiesEditingSupport} on the given column viewer
+	 * and table.
 	 * 
 	 * @param viewer
 	 * @param table
@@ -82,7 +82,7 @@ public class PropertiesEditingSupport extends EditingSupport implements
 	protected Object getValue(Object element) {
 		if (element instanceof Parameter) {
 			Parameter parameter = (Parameter) element;
-			String value = (String) vertex.getValue(parameter.getName());
+			String value = (String) source.getValue(parameter.getName());
 			if (value == null) {
 				value = "";
 			}
@@ -96,7 +96,7 @@ public class PropertiesEditingSupport extends EditingSupport implements
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(
 				PropertiesContentProvider.INPUT_CHANGED)) {
-			vertex = (Vertex) evt.getNewValue();
+			source = (PropertyBean) evt.getNewValue();
 		}
 	}
 
@@ -104,18 +104,8 @@ public class PropertiesEditingSupport extends EditingSupport implements
 	protected void setValue(Object element, Object value) {
 		if (element instanceof Parameter) {
 			Parameter parameter = (Parameter) element;
-			vertex.setValue(parameter.getName(), (String) value);
+			source.setValue(parameter.getName(), (String) value);
 		}
-	}
-
-	/**
-	 * Sets the vertex we provide editing support for.
-	 * 
-	 * @param vertex
-	 *            The new {@link Vertex} to provide editing support for.
-	 */
-	public void setVertex(Vertex vertex) {
-		this.vertex = vertex;
 	}
 
 }

@@ -18,7 +18,7 @@
     <basic:hasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >xdf</basic:hasFileExtension>
     <basic:hasDocumentElement>
-      <basic:DocumentElement rdf:ID="DocumentElementXDF">
+      <basic:GraphElement rdf:ID="DocumentElementXDF">
         <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >1</basic:schemaType_hasMinOccurs>
         <basic:element_hasSchemaType>
@@ -400,7 +400,7 @@
         >1</basic:schemaType_hasMaxOccurs>
         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >XDF</basic:element_hasName>
-      </basic:DocumentElement>
+      </basic:GraphElement>
     </basic:hasDocumentElement>
     <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >cal</basic:refinementHasFileExtension>

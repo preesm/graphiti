@@ -30,6 +30,7 @@ package net.sf.graphiti.model;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,12 +49,15 @@ import org.jgrapht.graph.Multigraph;
  */
 public class Graph extends PropertyBean {
 
-	public static final String PARAMETER_ID = "id";
-
 	/**
-	 * String for the "size" parameter. Defines the vertex size.
+	 * String for the "size" parameter. Defines the graph size.
 	 */
 	public static final String PARAMETER_SIZE = "size";
+
+	/**
+	 * String for the "type" parameter. Defines the graph type.
+	 */
+	public static final String PARAMETER_TYPE = "type";
 
 	/**
 	 * 
@@ -170,6 +174,24 @@ public class Graph extends PropertyBean {
 	 */
 	public Configuration getDocumentConfiguration() {
 		return configuration;
+	}
+
+	/**
+	 * Returns a list of parameters associated with this graph type.
+	 * 
+	 * @return A List of Parameters.
+	 */
+	public List<Parameter> getParameters() {
+		return configuration.getGraphParameters(getType());
+	}
+
+	/**
+	 * Returns this graph's type.
+	 * 
+	 * @return This graph's type.
+	 */
+	public String getType() {
+		return (String) this.getValue(PARAMETER_TYPE);
 	}
 
 	/**

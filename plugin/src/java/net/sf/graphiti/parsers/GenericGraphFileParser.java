@@ -40,7 +40,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -164,7 +164,7 @@ public class GenericGraphFileParser {
 
 		// Retrieves the document element
 		OntologyFactory factory = configuration.getOntologyFactory();
-		DocumentElement ontDocElement = factory.getDocumentElement();
+		XMLSchemaType ontDocElement = factory.getDocumentElement();
 		if (ontDocElement != null) {
 			SchemaParser parser = new SchemaParser(configuration);
 

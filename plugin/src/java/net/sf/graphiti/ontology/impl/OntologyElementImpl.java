@@ -32,7 +32,7 @@ import java.util.Set;
 
 import net.sf.graphiti.ontology.OntologyElement;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
 import com.hp.hpl.jena.ontology.Ontology;
 
@@ -50,8 +50,8 @@ public class OntologyElementImpl extends OntologyBaseImpl implements
 	}
 
 	@Override
-	public DocumentElement getDocumentElement() {
-		return (DocumentElement) getIndividualProperty(OntologyFactory
+	public XMLSchemaType getDocumentElement() {
+		return (XMLSchemaType) getIndividualProperty(OntologyFactory
 				.getAnnotationPropertyHasDocumentElement());
 	}
 

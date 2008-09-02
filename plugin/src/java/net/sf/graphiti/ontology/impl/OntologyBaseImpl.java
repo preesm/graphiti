@@ -130,8 +130,6 @@ public class OntologyBaseImpl {
 		classes.put(OntologyFactory.getClassSequence(), SequenceImpl.class);
 
 		// Element
-		classes.put(OntologyFactory.getClassDocumentElement(),
-				DocumentElementImpl.class);
 		classes.put(OntologyFactory.getClassEdgeElement(),
 				EdgeElementImpl.class);
 		classes.put(OntologyFactory.getClassElement(), ElementImpl.class);

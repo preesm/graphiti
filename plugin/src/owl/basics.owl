@@ -464,16 +464,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     >The document element associated with this ontology.</rdfs:comment>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:range rdf:resource="#DocumentElement"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="parameter_ofTextContentElement">
-    <owl:inverseOf>
-      <owl:ObjectProperty rdf:ID="textContentElement_referencesParameter"/>
-    </owl:inverseOf>
-    <rdfs:domain rdf:resource="#Parameter"/>
-    <rdfs:range rdf:resource="#TextContentElement"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+    <rdfs:range rdf:resource="#XMLSchemaType"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:ID="attributeRestriction_hasParameterValue">
     <rdfs:range rdf:resource="#ParameterValue"/>
@@ -494,10 +485,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <rdfs:domain rdf:resource="#All"/>
     <rdfs:range rdf:resource="#XMLSchemaType"/>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#textContentElement_referencesParameter">
-    <owl:inverseOf rdf:resource="#parameter_ofTextContentElement"/>
+  <owl:ObjectProperty rdf:ID="textContentElement_referencesParameter">
     <rdfs:range rdf:resource="#Parameter"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
     <rdfs:domain rdf:resource="#TextContentElement"/>
   </owl:ObjectProperty>

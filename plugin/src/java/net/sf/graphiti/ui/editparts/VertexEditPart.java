@@ -77,12 +77,12 @@ import org.eclipse.gef.tools.DirectEditManager;
 public class VertexEditPart extends AbstractGraphicalEditPart implements
 		PropertyChangeListener, NodeEditPart {
 
+	private DirectEditManager directEditManager;
+
 	/**
 	 * This attribute is set by {@link VertexEditPart#updateFigures(int)}.
 	 */
 	private int direction = PositionConstants.EAST;
-
-	private DirectEditManager directEditManager;
 
 	/**
 	 * This attribute is set by {@link GraphEditPart#addNodes}.
@@ -204,8 +204,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	 *            A {@link Map} of {@link String}s to
 	 *            {@link VertexConnectionAnchor}s.
 	 * @param portName
-	 *            The property: {@link Edge#SRC_PORT_NAME} or
-	 *            {@link Edge#DST_PORT_NAME}.
+	 *            The property: {@link Edge#PARAMETER_SRC_PORT_NAME} or
+	 *            {@link Edge#PARAMETER_DST_PORT_NAME}.
 	 * @param isTarget
 	 *            True if the vertex is a target, false if it is a source.
 	 */
@@ -242,7 +242,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 			// we get the *output* dependencies of vertex
 			Set<Edge> edges = parent.outgoingEdgesOf(vertex);
-			fillAnchors(edges, sourceAnchors, Edge.SRC_PORT_NAME, false);
+			fillAnchors(edges, sourceAnchors, Edge.PARAMETER_SRC_PORT_NAME, false);
 
 			// return the dependencies
 			List dependencies = new ArrayList(edges);
@@ -261,7 +261,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 			// we get the *input* dependencies of vertex
 			Set<Edge> edges = parent.incomingEdgesOf(vertex);
-			fillAnchors(edges, targetAnchors, Edge.SRC_PORT_NAME, true);
+			fillAnchors(edges, targetAnchors, Edge.PARAMETER_SRC_PORT_NAME, true);
 
 			// dependencies
 			List dependencies = new ArrayList(edges);
@@ -275,7 +275,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
 		Edge edge = (Edge) connection.getModel();
-		String srcPort = (String) edge.getValue(Edge.SRC_PORT_NAME);
+		String srcPort = (String) edge.getValue(Edge.PARAMETER_SRC_PORT_NAME);
 		VertexConnectionAnchor anchor;
 		if (srcPort == null) {
 			anchor = new VertexConnectionAnchor(direction, false, 0, 1,
@@ -297,7 +297,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
 		Edge edge = (Edge) connection.getModel();
-		String dstPort = (String) edge.getValue(Edge.SRC_PORT_NAME);
+		String dstPort = (String) edge.getValue(Edge.PARAMETER_SRC_PORT_NAME);
 		VertexConnectionAnchor anchor;
 		if (dstPort == null) {
 			anchor = new VertexConnectionAnchor(direction, true, 0, 1,

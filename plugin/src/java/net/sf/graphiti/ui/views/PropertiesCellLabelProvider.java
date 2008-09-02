@@ -32,7 +32,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.model.PropertyBean;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
@@ -42,30 +42,26 @@ import org.eclipse.jface.viewers.ViewerCell;
  * 
  * @author Matthieu Wipliez
  */
-public class PropertiesCellLabelProvider extends CellLabelProvider
-		implements PropertyChangeListener {
+public class PropertiesCellLabelProvider extends CellLabelProvider implements
+		PropertyChangeListener {
 
 	/**
-	 * The vertex we provide labels for.
+	 * The source we provide labels for.
 	 */
-	private Vertex vertex;
+	private PropertyBean source;
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		source = null;
+	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(
 				PropertiesContentProvider.INPUT_CHANGED)) {
-			vertex = (Vertex) evt.getNewValue();
+			source = (PropertyBean) evt.getNewValue();
 		}
-	}
-
-	/**
-	 * Sets the vertex we provide labels for.
-	 * 
-	 * @param vertex
-	 *            The new {@link Vertex} to provide labels for.
-	 */
-	public void setVertex(Vertex vertex) {
-		this.vertex = vertex;
 	}
 
 	@Override
@@ -76,7 +72,7 @@ public class PropertiesCellLabelProvider extends CellLabelProvider
 			if (cell.getColumnIndex() == 0) {
 				cell.setText(parameter.getName());
 			} else {
-				String value = (String) vertex.getValue(parameter.getName());
+				String value = (String) source.getValue(parameter.getName());
 				if (value == null) {
 					value = "";
 				}

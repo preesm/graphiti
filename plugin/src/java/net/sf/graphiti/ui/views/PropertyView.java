@@ -30,6 +30,8 @@ package net.sf.graphiti.ui.views;
 
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.ui.GraphitiPlugin;
+import net.sf.graphiti.ui.editparts.GraphEditPart;
+import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -264,8 +266,8 @@ public class PropertyView extends ViewPart implements ISelectionListener {
 		tvc.setLabelProvider(provider);
 
 		// editing support for second column
-		PropertiesEditingSupport editing = new PropertiesEditingSupport(
-				tvc.getViewer(), table);
+		PropertiesEditingSupport editing = new PropertiesEditingSupport(tvc
+				.getViewer(), table);
 		contentProvider.addPropertyChangeListener(editing);
 		tvc.setEditingSupport(editing);
 	}
@@ -331,12 +333,21 @@ public class PropertyView extends ViewPart implements ISelectionListener {
 			return;
 		}
 
+		// enable parameters addition/removal or not
+		boolean flag = false;
+		
 		if (selection.isEmpty() == false) {
 			if (selection instanceof IStructuredSelection) {
 				IStructuredSelection structSel = (IStructuredSelection) selection;
-				tableViewer.setInput(structSel.getFirstElement());
+				Object obj = structSel.getFirstElement();
+				tableViewer.setInput(obj);
+
+				flag = (obj instanceof GraphEditPart || obj instanceof VertexEditPart);
 			}
 		}
+
+		actionAdd.setEnabled(flag);
+		actionDelete.setEnabled(flag);
 	}
 
 	/**

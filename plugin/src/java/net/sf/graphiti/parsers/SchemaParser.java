@@ -40,7 +40,6 @@ import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Choice;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.ComplexType;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Sequence;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.DocumentElement;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
 import net.sf.graphiti.parsers.ContentParser.Checkpoint;
 
@@ -178,13 +177,18 @@ public class SchemaParser {
 	 * @return
 	 * @throws NotCompatibleException
 	 */
-	public Graph parse(DocumentElement ontDocElement,
+	public Graph parse(XMLSchemaType ontDocElement,
 			org.w3c.dom.Element docElement) throws NotCompatibleException {
-		if (!isElementDefined(ontDocElement, docElement)) {
-			throw new NotCompatibleException();
+		if (ontDocElement.hasOntClass(OntologyFactory.getClassComplexType())) {
+			parseComplexTypeOccurs((ComplexType) ontDocElement, docElement);
+		} else {
+			if (!isElementDefined((Element) ontDocElement, docElement)) {
+				throw new NotCompatibleException();
+			}
+
+			parseElement((Element) ontDocElement, docElement);
 		}
 
-		parseElement(ontDocElement, docElement);
 		return contentParser.getGraph();
 	}
 

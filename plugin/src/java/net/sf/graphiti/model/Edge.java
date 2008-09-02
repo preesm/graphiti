@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.model;
 
+import java.util.List;
+
 /**
  * This class represents an edge.
  * 
@@ -37,14 +39,19 @@ package net.sf.graphiti.model;
  */
 public class Edge extends PropertyBean {
 
-	public static final String DST_PORT_NAME = "dstPortName";
+	public static final String PARAMETER_DST_PORT_NAME = "dstPortName";
+
+	public static final String PARAMETER_SRC_PORT_NAME = "srcPortName";
+
+	/**
+	 * String for the "type" parameter. Defines the edge type.
+	 */
+	public static final String PARAMETER_TYPE = "type";
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 863045957077215818L;
-
-	public static final String SRC_PORT_NAME = "srcPortName";
 
 	private Vertex source;
 
@@ -84,12 +91,31 @@ public class Edge extends PropertyBean {
 		}
 	}
 
+	/**
+	 * Returns a list of parameters associated with this graph type.
+	 * 
+	 * @return A List of Parameters.
+	 */
+	public List<Parameter> getParameters() {
+		Configuration configuration = getDocumentConfiguration();
+		return configuration.getEdgeParameters(getType());
+	}
+
 	public Vertex getSource() {
 		return source;
 	}
 
 	public Vertex getTarget() {
 		return target;
+	}
+
+	/**
+	 * Returns this graph's type.
+	 * 
+	 * @return This graph's type.
+	 */
+	public String getType() {
+		return (String) this.getValue(PARAMETER_TYPE);
 	}
 
 	public void setSource(Vertex source) {

@@ -15,6 +15,49 @@
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
   xml:base="http://net.sf.graphiti/sdf4jGraphML.owl">
   <owl:Ontology rdf:about="">
+    <basic:hasDocumentElement>
+      <basic:Element rdf:ID="DocumentElement">
+        <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</basic:schemaType_hasMaxOccurs>
+        <basic:element_hasSchemaType>
+          <basic:Sequence rdf:ID="SequenceDocumentElement1">
+            <basic:sequence_hasHead rdf:resource="http://net.sf.graphiti/GraphML.owl#ElementKey"/>
+            <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >1</basic:schemaType_hasMinOccurs>
+            <basic:sequence_hasRest>
+              <basic:Sequence rdf:ID="SequenceDocumentElement2">
+                <basic:sequence_hasHead>
+                  <basic:GraphElement rdf:ID="GraphElement">
+                    <basic:schemaType_hasMaxOccurs rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMaxOccurs>
+                    <basic:element_hasSchemaType rdf:resource="http://net.sf.graphiti/GraphML.owl#SequenceGraphElement1"/>
+                    <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                    >graph</basic:element_hasName>
+                    <basic:schemaType_hasMinOccurs rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMinOccurs>
+                  </basic:GraphElement>
+                </basic:sequence_hasHead>
+              </basic:Sequence>
+            </basic:sequence_hasRest>
+            <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >1</basic:schemaType_hasMaxOccurs>
+          </basic:Sequence>
+        </basic:element_hasSchemaType>
+        <basic:element_hasAttributeRestriction>
+          <basic:AttributeRestriction rdf:ID="AttributeRestrictionGraphType">
+            <basic:attributeRestriction_hasName rdf:datatype=
+            "http://www.w3.org/2001/XMLSchema#string">graphType</basic:attributeRestriction_hasName>
+            <basic:attributeRestriction_hasValue rdf:datatype=
+            "http://www.w3.org/2001/XMLSchema#string">SDF</basic:attributeRestriction_hasValue>
+            <basic:attributeRestriction_ofElement rdf:resource="#DocumentElement"/>
+          </basic:AttributeRestriction>
+        </basic:element_hasAttributeRestriction>
+        <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</basic:schemaType_hasMinOccurs>
+        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >graphml</basic:element_hasName>
+      </basic:Element>
+    </basic:hasDocumentElement>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Copyright (c) 2008, IETR/INSA of Rennes
 All rights reserved.
@@ -28,6 +71,48 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</rdfs:comment>
     <owl:imports rdf:resource="http://net.sf.graphiti/GraphML.owl"/>
   </owl:Ontology>
+  <basic:Sequence rdf:ID="SequenceGraphElement1">
+    <basic:sequence_hasRest rdf:resource="http://net.sf.graphiti/GraphML.owl#SequenceGraphElement2"/>
+    <basic:sequence_hasHead>
+      <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#VertexElement">
+        <basic:element_hasSchemaType>
+          <basic:TextContentElement rdf:ID="TextContentElementVertexName">
+            <basic:element_hasAttributeRestriction>
+              <basic:AttributeRestriction rdf:ID="AttributeRestrictionVertexName">
+                <basic:attributeRestriction_ofElement rdf:resource="#TextContentElementVertexName"/>
+                <basic:attributeRestriction_hasValue rdf:datatype=
+                "http://www.w3.org/2001/XMLSchema#string">name</basic:attributeRestriction_hasValue>
+                <basic:attributeRestriction_hasName rdf:datatype=
+                "http://www.w3.org/2001/XMLSchema#string">key</basic:attributeRestriction_hasName>
+              </basic:AttributeRestriction>
+            </basic:element_hasAttributeRestriction>
+            <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >1</basic:schemaType_hasMaxOccurs>
+            <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >data</basic:element_hasName>
+            <basic:textContentElement_referencesParameter>
+              <basic:VertexParameter rdf:ID="VertexParameterName">
+                <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                >name</basic:parameter_hasName>
+                <basic:parameter_appliesTo>
+                  <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#VertexType">
+                    <basic:type_hasParameters rdf:resource="#VertexParameterName"/>
+                  </rdf:Description>
+                </basic:parameter_appliesTo>
+                <basic:parameter_ofTextContentElement rdf:resource="#TextContentElementVertexName"/>
+              </basic:VertexParameter>
+            </basic:textContentElement_referencesParameter>
+            <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >1</basic:schemaType_hasMinOccurs>
+          </basic:TextContentElement>
+        </basic:element_hasSchemaType>
+      </rdf:Description>
+    </basic:sequence_hasHead>
+    <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >1</basic:schemaType_hasMinOccurs>
+    <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >1</basic:schemaType_hasMaxOccurs>
+  </basic:Sequence>
   <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#EdgeElement">
     <basic:element_hasSchemaType>
       <basic:Sequence rdf:ID="SequenceEdgeElement1">
@@ -151,50 +236,22 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
       </basic:Sequence>
     </basic:element_hasSchemaType>
   </rdf:Description>
-  <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#VertexElement">
-    <basic:element_hasSchemaType>
-      <basic:TextContentElement rdf:ID="TextContentElementVertexName">
-        <basic:element_hasAttributeRestriction>
-          <basic:AttributeRestriction rdf:ID="AttributeRestrictionVertexName">
-            <basic:attributeRestriction_ofElement rdf:resource="#TextContentElementVertexName"/>
-            <basic:attributeRestriction_hasValue rdf:datatype=
-            "http://www.w3.org/2001/XMLSchema#string">name</basic:attributeRestriction_hasValue>
-            <basic:attributeRestriction_hasName rdf:datatype=
-            "http://www.w3.org/2001/XMLSchema#string">key</basic:attributeRestriction_hasName>
-          </basic:AttributeRestriction>
-        </basic:element_hasAttributeRestriction>
+  <basic:Sequence rdf:ID="SequenceGraphElement2">
+    <basic:sequence_hasHead>
+      <basic:EdgeElement rdf:ID="EdgeElement">
         <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</basic:schemaType_hasMaxOccurs>
+        >-1</basic:schemaType_hasMaxOccurs>
         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >data</basic:element_hasName>
-        <basic:textContentElement_referencesParameter>
-          <basic:VertexParameter rdf:ID="VertexParameterName">
-            <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >name</basic:parameter_hasName>
-            <basic:parameter_appliesTo>
-              <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#VertexType">
-                <basic:type_hasParameters rdf:resource="#VertexParameterName"/>
-              </rdf:Description>
-            </basic:parameter_appliesTo>
-            <basic:parameter_ofTextContentElement rdf:resource="#TextContentElementVertexName"/>
-          </basic:VertexParameter>
-        </basic:textContentElement_referencesParameter>
+        >edge</basic:element_hasName>
+        <basic:element_hasSchemaType rdf:resource="#SequenceEdgeElement1"/>
+        <basic:element_hasAttributes rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeSourceConnection"/>
+        <basic:element_hasAttributes rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeTargetConnection"/>
         <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</basic:schemaType_hasMinOccurs>
-      </basic:TextContentElement>
-    </basic:element_hasSchemaType>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#DocumentElementGraphML">
-    <basic:element_hasAttributeRestriction>
-      <basic:AttributeRestriction rdf:ID="AttributeRestrictionGraphType">
-        <basic:attributeRestriction_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >graphType</basic:attributeRestriction_hasName>
-        <basic:attributeRestriction_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >SDF</basic:attributeRestriction_hasValue>
-        <basic:attributeRestriction_ofElement rdf:resource="http://net.sf.graphiti/GraphML.owl#DocumentElementGraphML"/>
-      </basic:AttributeRestriction>
-    </basic:element_hasAttributeRestriction>
-  </rdf:Description>
+        >0</basic:schemaType_hasMinOccurs>
+        <basic:element_hasParameterValue rdf:resource="http://net.sf.graphiti/GraphML.owl#ParameterValueEdgeType"/>
+      </basic:EdgeElement>
+    </basic:sequence_hasHead>
+  </basic:Sequence>
 </rdf:RDF>
 
 <!-- Created with Protege (with OWL Plugin 3.4, Build 504)  http://protege.stanford.edu -->

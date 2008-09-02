@@ -15,9 +15,9 @@
   xml:base="http://net.sf.graphiti/xnl.owl">
   <owl:Ontology rdf:about="">
     <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >cal</basic:refinementHasFileExtension>
-    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >xnl</basic:refinementHasFileExtension>
+    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >cal</basic:refinementHasFileExtension>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Copyright (c) 2008, IETR/INSA of Rennes
 All rights reserved.
@@ -33,27 +33,44 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     >xnl</basic:hasFileExtension>
     <owl:imports rdf:resource="http://net.sf.graphiti/basics.owl"/>
     <basic:hasDocumentElement>
-      <basic:DocumentElement rdf:ID="DocumentElementXNL">
+      <basic:GraphElement rdf:ID="DocumentElementXNL">
         <basic:element_hasAttributes>
           <basic:OtherAttribute rdf:ID="OtherAttributeGraphName">
             <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >name</basic:element_hasName>
             <basic:otherAttribute_referencesParameter>
-              <basic:GraphParameter rdf:ID="NameGraphParameter">
+              <basic:GraphParameter rdf:ID="GraphParameterName">
                 <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                 <basic:parameter_appliesTo>
                   <basic:GraphType rdf:ID="GraphType">
-                    <basic:type_hasParameters rdf:resource="#NameGraphParameter"/>
                     <basic:type_hasParameters>
-                      <basic:GraphParameter rdf:ID="DirectedGraphParameter">
+                      <basic:GraphParameter rdf:ID="GraphParameterDirected">
                         <basic:parameter_hasName rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#string"
                         >directed</basic:parameter_hasName>
                         <basic:parameter_appliesTo rdf:resource="#GraphType"/>
                       </basic:GraphParameter>
                     </basic:type_hasParameters>
+                    <basic:type_hasParameters>
+                      <basic:GraphParameter rdf:ID="GraphParameterType">
+                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                        <basic:parameter_appliesTo rdf:resource="#GraphType"/>
+                        <basic:parameter_hasParameterValue>
+                          <basic:ParameterValue rdf:ID="ParameterValueGraphTypeNetwork">
+                            <basic:parameterValue_ofParameter rdf:resource="#GraphParameterType"/>
+                            <basic:parameterValue_hasValue rdf:datatype=
+                            "http://www.w3.org/2001/XMLSchema#string"
+                            >Network</basic:parameterValue_hasValue>
+                          </basic:ParameterValue>
+                        </basic:parameter_hasParameterValue>
+                        <basic:parameter_hasName rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >type</basic:parameter_hasName>
+                      </basic:GraphParameter>
+                    </basic:type_hasParameters>
+                    <basic:type_hasParameters rdf:resource="#GraphParameterName"/>
                     <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                    >XNL Dataflow Network</basic:type_hasName>
+                    >Network</basic:type_hasName>
                   </basic:GraphType>
                 </basic:parameter_appliesTo>
                 <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -66,6 +83,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         </basic:element_hasAttributes>
         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >Network</basic:element_hasName>
+        <basic:element_hasParameterValue rdf:resource="#ParameterValueGraphTypeNetwork"/>
         <basic:element_hasSchemaType>
           <basic:Sequence rdf:ID="SequenceDocumentElement1">
             <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
@@ -104,9 +122,30 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                             "http://www.w3.org/2001/XMLSchema#int"
                             >0</basic:schemaType_hasMinOccurs>
                             <basic:element_hasParameterValue>
-                              <basic:ParameterValue rdf:ID="InstanceParameterValue">
+                              <basic:ParameterValue rdf:ID="ParameterValueVertexTypeInstance">
                                 <basic:parameterValue_ofParameter>
-                                  <basic:VertexParameter rdf:ID="vertexTypeParameter">
+                                  <basic:VertexParameter rdf:ID="VertexParameterType">
+                                    <basic:parameter_hasParameterValue>
+                                      <basic:ParameterValue rdf:ID="ParameterValueLocalKind">
+                                        <basic:parameterValue_hasValue
+                                         rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                        >Port</basic:parameterValue_hasValue>
+                                        <basic:parameterValue_ofParameter rdf:resource="#VertexParameterType"/>
+                                      </basic:ParameterValue>
+                                    </basic:parameter_hasParameterValue>
+                                    <basic:parameter_hasParameterValue>
+                                      <basic:ParameterValue rdf:ID="ParameterValueEntityKind">
+                                        <basic:parameterValue_hasValue
+                                         rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                        >Instance</basic:parameterValue_hasValue>
+                                        <basic:parameterValue_ofParameter rdf:resource="#VertexParameterType"/>
+                                      </basic:ParameterValue>
+                                    </basic:parameter_hasParameterValue>
+                                    <basic:parameter_hasParameterValue rdf:resource="#ParameterValueVertexTypeInstance"/>
+                                    <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                                    <basic:parameter_hasName rdf:datatype=
+                                    "http://www.w3.org/2001/XMLSchema#string"
+                                    >type</basic:parameter_hasName>
                                     <basic:parameter_appliesTo>
                                       <basic:VertexType rdf:ID="InstanceVertexType">
                                         <basic:type_hasName rdf:datatype=
@@ -124,11 +163,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                             <basic:colorAttribute_hasColor rdf:resource="http://net.sf.graphiti/basics.owl#red"/>
                                           </basic:ColorAttribute>
                                         </basic:type_hasFigureAttributes>
-                                        <basic:type_hasParameters rdf:resource="#vertexTypeParameter"/>
+                                        <basic:type_hasParameters rdf:resource="#VertexParameterType"/>
                                         <basic:type_hasParameters>
-                                          <basic:VertexParameter rdf:ID="vertexIdParameter">
-                                            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                                          <basic:VertexParameter rdf:ID="VertexParameterId">
                                             <basic:parameter_appliesTo rdf:resource="#InstanceVertexType"/>
+                                            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                                             <basic:parameter_hasName
                                              rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                                             >id</basic:parameter_hasName>
@@ -145,33 +184,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                         </basic:type_hasParameters>
                                       </basic:VertexType>
                                     </basic:parameter_appliesTo>
-                                    <basic:parameter_hasParameterValue rdf:resource="#InstanceParameterValue"/>
-                                    <basic:parameter_hasParameterValue>
-                                      <basic:ParameterValue rdf:ID="ParameterValueEntityKind">
-                                        <basic:parameterValue_hasValue
-                                         rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                                        >Instance</basic:parameterValue_hasValue>
-                                        <basic:parameterValue_ofParameter rdf:resource="#vertexTypeParameter"/>
-                                      </basic:ParameterValue>
-                                    </basic:parameter_hasParameterValue>
-                                    <basic:parameter_hasParameterValue>
-                                      <basic:ParameterValue rdf:ID="ParameterValueLocalKind">
-                                        <basic:parameterValue_hasValue
-                                         rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                                        >Port</basic:parameterValue_hasValue>
-                                        <basic:parameterValue_ofParameter rdf:resource="#vertexTypeParameter"/>
-                                      </basic:ParameterValue>
-                                    </basic:parameter_hasParameterValue>
-                                    <basic:parameter_hasName rdf:datatype=
-                                    "http://www.w3.org/2001/XMLSchema#string"
-                                    >type</basic:parameter_hasName>
-                                    <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                                   </basic:VertexParameter>
                                 </basic:parameterValue_ofParameter>
-                                <basic:otherAttribute_referencesParameter rdf:resource="#vertexTypeParameter"/>
                                 <basic:parameterValue_hasValue
                                  rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                                 >Instance</basic:parameterValue_hasValue>
+                                <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterType"/>
                               </basic:ParameterValue>
                             </basic:element_hasParameterValue>
                             <basic:element_hasSchemaType>
@@ -208,7 +226,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                             </basic:element_hasSchemaType>
                             <basic:element_hasAttributes>
                               <basic:OtherAttribute rdf:ID="OtherAttributeInstanceId">
-                                <basic:otherAttribute_referencesParameter rdf:resource="#vertexIdParameter"/>
+                                <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterId"/>
                                 <basic:attribute_hasName rdf:datatype=
                                 "http://www.w3.org/2001/XMLSchema#string"
                                 >name</basic:attribute_hasName>
@@ -280,11 +298,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     >type</basic:parameter_hasName>
                     <basic:parameter_appliesTo rdf:resource="#EdgeType"/>
                     <basic:parameter_hasParameterValue>
-                      <basic:ParameterValue rdf:ID="ConnectionParameterValue">
-                        <basic:otherAttribute_referencesParameter rdf:resource="#TypeEdgeParameter"/>
+                      <basic:ParameterValue rdf:ID="ParameterValueEdgeTypeConnection">
                         <basic:parameterValue_hasValue rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#string"
                         >Connection</basic:parameterValue_hasValue>
+                        <basic:otherAttribute_referencesParameter rdf:resource="#TypeEdgeParameter"/>
                         <basic:parameterValue_ofParameter rdf:resource="#TypeEdgeParameter"/>
                       </basic:ParameterValue>
                     </basic:parameter_hasParameterValue>
@@ -477,7 +495,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                              rdf:datatype=
                                                             "http://www.w3.org/2001/XMLSchema#string"
                                                             >name</basic:element_hasName>
-                                                            <basic:otherAttribute_referencesParameter rdf:resource="#vertexIdParameter"/>
+                                                            <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterId"/>
                                                             <basic:attribute_hasName
                                                              rdf:datatype=
                                                             "http://www.w3.org/2001/XMLSchema#string"
@@ -485,20 +503,23 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                           </basic:OtherAttribute>
                                                         </basic:element_hasAttributes>
                                                         <basic:element_hasParameterValue>
-                                                          <basic:ParameterValue rdf:ID="PortParameterValue">
+                                                          <basic:ParameterValue rdf:ID="ParameterValueVertexTypePort">
                                                             <basic:otherAttribute_referencesParameter>
-                                                              <basic:VertexParameter rdf:ID="portTypeParameter">
+                                                              <basic:VertexParameter rdf:ID="VertexParameterPortType">
+    <basic:parameter_hasParameterValue rdf:resource="#ParameterValueVertexTypePort"/>
+    <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >type</basic:parameter_hasName>
     <basic:parameter_appliesTo>
       <basic:VertexType rdf:ID="PortVertexType">
         <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >Port</basic:type_hasName>
-        <basic:type_hasParameters rdf:resource="#portTypeParameter"/>
+        <basic:type_hasParameters rdf:resource="#VertexParameterPortType"/>
         <basic:type_hasParameters>
-          <basic:VertexParameter rdf:ID="portIdParameter">
+          <basic:VertexParameter rdf:ID="VertexParameterPortId">
+            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
             <basic:parameter_appliesTo rdf:resource="#PortVertexType"/>
             <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >id</basic:parameter_hasName>
-            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
           </basic:VertexParameter>
         </basic:type_hasParameters>
         <basic:type_hasFigureAttributes>
@@ -516,15 +537,13 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
       </basic:VertexType>
     </basic:parameter_appliesTo>
     <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
-    <basic:parameter_hasParameterValue rdf:resource="#PortParameterValue"/>
-    <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >type</basic:parameter_hasName>                           </basic:VertexParameter>
+                                                              </basic:VertexParameter>
                                                             </basic:otherAttribute_referencesParameter>
-                                                            <basic:parameterValue_ofParameter rdf:resource="#portTypeParameter"/>
                                                             <basic:parameterValue_hasValue
                                                              rdf:datatype=
                                                             "http://www.w3.org/2001/XMLSchema#string"
                                                             >Port</basic:parameterValue_hasValue>
+                                                            <basic:parameterValue_ofParameter rdf:resource="#VertexParameterPortType"/>
                                                           </basic:ParameterValue>
                                                         </basic:element_hasParameterValue>
                                                         <basic:schemaType_hasMaxOccurs
@@ -654,7 +673,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                 <basic:schemaType_hasMaxOccurs
                                  rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                 >-1</basic:schemaType_hasMaxOccurs>
-                                <basic:element_hasParameterValue rdf:resource="#ConnectionParameterValue"/>
+                                <basic:element_hasParameterValue rdf:resource="#ParameterValueEdgeTypeConnection"/>
                               </basic:EdgeElement>
                             </basic:sequence_hasHead>
                           </basic:Sequence>
@@ -682,7 +701,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         >1</basic:schemaType_hasMaxOccurs>
         <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >1</basic:schemaType_hasMinOccurs>
-      </basic:DocumentElement>
+      </basic:GraphElement>
     </basic:hasDocumentElement>
   </owl:Ontology>
 </rdf:RDF>
