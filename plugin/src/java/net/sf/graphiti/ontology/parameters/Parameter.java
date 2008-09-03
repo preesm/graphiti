@@ -29,7 +29,7 @@
 package net.sf.graphiti.ontology.parameters;
 
 import net.sf.graphiti.ontology.OntologyIndividual;
-import net.sf.graphiti.ontology.enums.DataTypes;
+import net.sf.graphiti.ontology.enums.DataType;
 import net.sf.graphiti.ontology.enums.Position;
 import net.sf.graphiti.ontology.types.Type;
 
@@ -48,6 +48,6 @@ public interface Parameter extends OntologyIndividual {
 
 	public Position hasPosition();
 
-	public DataTypes hasValueType();
+	public DataType hasValueType();
 
 }

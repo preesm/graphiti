@@ -56,7 +56,7 @@ import net.sf.graphiti.parsers.operations.CreateEdgeOpSpec;
 import net.sf.graphiti.parsers.operations.CreateGraphOpSpec;
 import net.sf.graphiti.parsers.operations.CreateVertexOpSpec;
 import net.sf.graphiti.parsers.operations.SetEdgeEndpointOpSpec;
-import net.sf.graphiti.parsers.operations.SetParameterValueOpSpec;
+import net.sf.graphiti.parsers.operations.SetValueOpSpec;
 import net.sf.graphiti.transactions.Operand;
 import net.sf.graphiti.transactions.Operation;
 import net.sf.graphiti.transactions.Result;
@@ -372,7 +372,7 @@ public class ContentParser {
 			Result result = getParameterObject(parameter);
 
 			// will set the parameter value
-			Operation setProperty = new Operation(new SetParameterValueOpSpec());
+			Operation setProperty = new Operation(new SetValueOpSpec());
 			Operand[] operands = new Operand[3];
 			setProperty.setOperands(operands);
 
@@ -396,7 +396,7 @@ public class ContentParser {
 
 		if (parameter != null) {
 			// will set the parameter value
-			Operation setProperty = new Operation(new SetParameterValueOpSpec());
+			Operation setProperty = new Operation(new SetValueOpSpec());
 			Operand[] operands = new Operand[3];
 			setProperty.setOperands(operands);
 
@@ -450,7 +450,7 @@ public class ContentParser {
 			String parameterName = constant.ofParameter().hasName();
 
 			// will set the parameter value
-			Operation setProperty = new Operation(new SetParameterValueOpSpec());
+			Operation setProperty = new Operation(new SetValueOpSpec());
 			Operand[] operands = new Operand[3];
 			setProperty.setOperands(operands);
 
@@ -461,7 +461,7 @@ public class ContentParser {
 			transaction.addOperation(setProperty);
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Content Parser";

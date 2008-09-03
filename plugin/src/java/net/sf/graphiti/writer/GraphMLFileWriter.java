@@ -143,10 +143,10 @@ public class GraphMLFileWriter {
 			Vertex vertex = (Vertex) iterator.next();
 			Element node = doc.createElement("node");
 			node.setAttribute("id", vertex.getValue("id").toString());
-			 Element data = doc.createElement("data");
-			 data.setAttribute("key","k3");
-			 data.setTextContent(vertex.getValue("id").toString());
-			 node.appendChild(data);
+			Element data = doc.createElement("data");
+			data.setAttribute("key", "k3");
+			data.setTextContent(vertex.getValue("id").toString());
+			node.appendChild(data);
 			graph.appendChild(node);
 		}
 

@@ -242,7 +242,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 			// we get the *output* dependencies of vertex
 			Set<Edge> edges = parent.outgoingEdgesOf(vertex);
-			fillAnchors(edges, sourceAnchors, Edge.PARAMETER_SRC_PORT_NAME, false);
+			fillAnchors(edges, sourceAnchors, Edge.PARAMETER_SRC_PORT_NAME,
+					false);
 
 			// return the dependencies
 			List dependencies = new ArrayList(edges);
@@ -261,7 +262,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 			// we get the *input* dependencies of vertex
 			Set<Edge> edges = parent.incomingEdgesOf(vertex);
-			fillAnchors(edges, targetAnchors, Edge.PARAMETER_SRC_PORT_NAME, true);
+			fillAnchors(edges, targetAnchors, Edge.PARAMETER_SRC_PORT_NAME,
+					true);
 
 			// dependencies
 			List dependencies = new ArrayList(edges);
@@ -353,7 +355,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 			// bounds is null when the vertex is created
 			getFigure().setBounds(bounds);
 		}
-		
+
 		VertexFigure figure = (VertexFigure) getFigure();
 		figure.setName((String) vertex.getValue(Vertex.PARAMETER_ID));
 	}

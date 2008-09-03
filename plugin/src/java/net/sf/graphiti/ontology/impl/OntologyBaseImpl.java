@@ -69,7 +69,7 @@ public class OntologyBaseImpl {
 
 		// Enums
 		classes.put(OntologyFactory.getClassShapes(), ShapesImpl.class);
-		classes.put(OntologyFactory.getClassDataTypes(), DataTypesImpl.class);
+		classes.put(OntologyFactory.getClassDataType(), DataTypeImpl.class);
 		classes.put(OntologyFactory.getClassPosition(), PositionImpl.class);
 
 		// Parameter

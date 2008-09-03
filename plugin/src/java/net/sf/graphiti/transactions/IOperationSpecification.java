@@ -46,9 +46,10 @@ public interface IOperationSpecification {
 	 *            A non-null {@link Result}.
 	 */
 	public void execute(Operand[] operands, Result result);
-	
+
 	/**
 	 * Returns the name of this operation specification.
+	 * 
 	 * @return The name of this operation specification.
 	 */
 	public String getName();

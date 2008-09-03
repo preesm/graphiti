@@ -52,7 +52,7 @@ public class CreateGraphOpSpec implements IOperationSpecification {
 		result.setContents(graph);
 		parser.setGraph(graph);
 	}
-	
+
 	@Override
 	public String getName() {
 		return "create graph";

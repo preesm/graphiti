@@ -48,7 +48,7 @@ public class AddEdgeOpSpec implements IOperationSpecification {
 		Edge edge = (Edge) operands[1].getContents();
 		graph.addEdge(edge);
 	}
-	
+
 	@Override
 	public String getName() {
 		return "add edge";

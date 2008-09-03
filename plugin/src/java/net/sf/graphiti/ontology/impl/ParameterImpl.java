@@ -29,7 +29,7 @@
 package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.enums.DataTypes;
+import net.sf.graphiti.ontology.enums.DataType;
 import net.sf.graphiti.ontology.enums.Position;
 import net.sf.graphiti.ontology.parameters.Parameter;
 import net.sf.graphiti.ontology.types.Type;
@@ -64,8 +64,8 @@ public class ParameterImpl extends OntologyIndividualImpl implements Parameter {
 	}
 
 	@Override
-	public DataTypes hasValueType() {
-		return (DataTypes) getIndividualProperty(OntologyFactory
+	public DataType hasValueType() {
+		return (DataType) getIndividualProperty(OntologyFactory
 				.getPropertyParameterHasValueType());
 	}
 

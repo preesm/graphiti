@@ -335,7 +335,7 @@ public class PropertyView extends ViewPart implements ISelectionListener {
 
 		// enable parameters addition/removal or not
 		boolean flag = false;
-		
+
 		if (selection.isEmpty() == false) {
 			if (selection instanceof IStructuredSelection) {
 				IStructuredSelection structSel = (IStructuredSelection) selection;

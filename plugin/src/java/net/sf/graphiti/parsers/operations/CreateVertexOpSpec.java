@@ -45,7 +45,7 @@ public class CreateVertexOpSpec implements IOperationSpecification {
 	public void execute(Operand[] operands, Result result) {
 		result.setContents(new Vertex());
 	}
-	
+
 	@Override
 	public String getName() {
 		return "create vertex";

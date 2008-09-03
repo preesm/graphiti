@@ -26,25 +26,45 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.enums;
+package net.sf.graphiti.parsers.operations;
 
-import net.sf.graphiti.ontology.OntologyIndividual;
+import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.transactions.IOperationSpecification;
+import net.sf.graphiti.transactions.Operand;
+import net.sf.graphiti.transactions.Result;
 
 /**
- * This class provides different parameters data types.
+ * This class provides a 3-ary operation that sets a graph/vertex/edge property
+ * value.
  * 
  * @author Matthieu Wipliez
- * @author Jonathan Piat
  * 
  */
-public interface DataTypes extends OntologyIndividual {
+public class SetValueOpSpec implements IOperationSpecification {
 
-	/**
-	 * Returns the {@link DataType} from this ontology {@link DataTypes}
-	 * individual.
-	 * 
-	 * @return A {@link DataType} value.
-	 */
-	public DataType getDataType();
+	@Override
+	public void execute(Operand[] operands, Result result) {
+		PropertyBean obj = (PropertyBean) operands[0].getContents();
+		if (obj != null) {
+			String name = (String) operands[1].getContents();
+			Object value = operands[2].getContents();
+			obj.setValue(name, value);
+		}
+	}
+
+	@Override
+	public String getName() {
+		return "set value";
+	}
+
+	@Override
+	public int getNbOperands() {
+		return 3;
+	}
+
+	@Override
+	public boolean hasResult() {
+		return false;
+	}
 
 }

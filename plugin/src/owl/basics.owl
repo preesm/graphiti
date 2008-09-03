@@ -302,6 +302,41 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
       <owl:Class rdf:about="#Element"/>
     </rdfs:subClassOf>
   </owl:Class>
+  <owl:Class rdf:ID="DataType">
+    <rdfs:subClassOf rdf:resource="#Enums"/>
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:oneOf rdf:parseType="Collection">
+          <DataType rdf:ID="Float">
+            <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >A float.</rdfs:comment>
+          </DataType>
+          <DataType rdf:ID="Integer">
+            <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >An integer.</rdfs:comment>
+          </DataType>
+          <DataType rdf:ID="List">
+            <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >A list of objects.</rdfs:comment>
+          </DataType>
+          <DataType rdf:ID="Map">
+            <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >An associative map.</rdfs:comment>
+          </DataType>
+          <DataType rdf:ID="String">
+            <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >A string.</rdfs:comment>
+          </DataType>
+          <DataType rdf:ID="VertexRefinement">
+            <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >A string which represents a filename that contains a refinement for a particular vertex.</rdfs:comment>
+          </DataType>
+        </owl:oneOf>
+      </owl:Class>
+    </owl:equivalentClass>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Different types available for values of Parameters.</rdfs:comment>
+  </owl:Class>
   <owl:Class rdf:ID="TextContentElement">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >A TextContentElement contains information in its text content.</rdfs:comment>
@@ -402,33 +437,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     >An element represents an element in the input XML Document Object Model.</rdfs:comment>
     <rdfs:subClassOf rdf:resource="#XMLSchemaType"/>
   </owl:Class>
-  <owl:Class rdf:ID="DataTypes">
-    <owl:equivalentClass>
-      <owl:Class>
-        <owl:oneOf rdf:parseType="Collection">
-          <DataTypes rdf:ID="Float">
-            <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >A float.</rdfs:comment>
-          </DataTypes>
-          <DataTypes rdf:ID="VertexRefinement">
-            <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >A string which represents a filename that contains a refinement for a particular vertex.</rdfs:comment>
-          </DataTypes>
-          <DataTypes rdf:ID="Integer">
-            <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >An integer.</rdfs:comment>
-          </DataTypes>
-          <DataTypes rdf:ID="String">
-            <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >A string.</rdfs:comment>
-          </DataTypes>
-        </owl:oneOf>
-      </owl:Class>
-    </owl:equivalentClass>
-    <rdfs:subClassOf rdf:resource="#Enums"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Different types available for values of Parameters.</rdfs:comment>
-  </owl:Class>
   <owl:Class rdf:ID="DocumentElement">
     <rdfs:subClassOf rdf:resource="#Element"/>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -507,7 +515,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
   <owl:FunctionalProperty rdf:ID="parameter_hasValueType">
     <rdfs:domain rdf:resource="#Parameter"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:range rdf:resource="#DataTypes"/>
+    <rdfs:range rdf:resource="#DataType"/>
   </owl:FunctionalProperty>
   <owl:FunctionalProperty rdf:about="#dimensionAtribute_hasHeight">
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>

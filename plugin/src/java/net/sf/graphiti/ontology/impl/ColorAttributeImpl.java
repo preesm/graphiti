@@ -56,7 +56,7 @@ public class ColorAttributeImpl extends FigureAttributeImpl implements
 				.getPropertyColorAttributeHasGreen());
 		int blue = getIntegerProperty(OntologyFactory
 				.getPropertyColorAttributeHasBlue());
-		
+
 		return new Color(null, red, green, blue);
 	}
 

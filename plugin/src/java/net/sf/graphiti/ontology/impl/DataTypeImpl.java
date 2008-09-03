@@ -26,45 +26,51 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.parsers.operations;
+package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.model.PropertyBean;
-import net.sf.graphiti.transactions.IOperationSpecification;
-import net.sf.graphiti.transactions.Operand;
-import net.sf.graphiti.transactions.Result;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.enums.DataType;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides a 3-ary operation that sets a graph/vertex/edge property
- * value.
+ * Implementation of DataType.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class SetParameterValueOpSpec implements IOperationSpecification {
+public class DataTypeImpl extends OntologyIndividualImpl implements DataType {
+
+	public DataTypeImpl(Individual individual) {
+		super(individual);
+	}
 
 	@Override
-	public void execute(Operand[] operands, Result result) {
-		PropertyBean obj = (PropertyBean) operands[0].getContents();
-		if (obj != null) {
-			String name = (String) operands[1].getContents();
-			Object value = operands[2].getContents();
-			obj.setValue(name, value);
+	public Class<?> getDataType() {
+		if (OntologyFactory.getIndividualFloatDataType().equals(
+				getIndividualURI())) {
+			return Float.class;
+		} else if (OntologyFactory.getIndividualIntegerDataType().equals(
+				getIndividualURI())) {
+			return Integer.class;
+		} else if (OntologyFactory.getIndividualStringDataType().equals(
+				getIndividualURI())) {
+			return String.class;
+		} else if (OntologyFactory.getIndividualVertexRefinementDataType()
+				.equals(getIndividualURI())) {
+			return String.class;
+		} else if (OntologyFactory.getIndividualListDataType().equals(
+				getIndividualURI())) {
+			return List.class;
+		} else if (OntologyFactory.getIndividualMapDataType().equals(
+				getIndividualURI())) {
+			return Map.class;
+		} else {
+			throw new NullPointerException();
 		}
-	}
-	
-	@Override
-	public String getName() {
-		return "set value";
-	}
-
-	@Override
-	public int getNbOperands() {
-		return 3;
-	}
-
-	@Override
-	public boolean hasResult() {
-		return false;
 	}
 
 }

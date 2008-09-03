@@ -20,9 +20,9 @@ import org.eclipse.gef.commands.Command;
  * @author Daniel Lee
  */
 public class RenameVertexCommand extends Command {
-	
+
 	private String id;
-	
+
 	private String previousId;
 
 	private Vertex vertex;

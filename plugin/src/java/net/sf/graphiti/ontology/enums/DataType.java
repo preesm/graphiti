@@ -28,14 +28,23 @@
  */
 package net.sf.graphiti.ontology.enums;
 
+import net.sf.graphiti.ontology.OntologyIndividual;
+
 /**
- * This class is an enumeration of parameters different data types.
+ * This class provides different parameters data types.
  * 
  * @author Matthieu Wipliez
+ * @author Jonathan Piat
  * 
  */
-public enum DataType {
+public interface DataType extends OntologyIndividual {
 
-	Float, Integer, String, VertexRefinement;
+	/**
+	 * Returns the {@link DataType} from this ontology {@link DataTypes}
+	 * individual.
+	 * 
+	 * @return A {@link DataType} value.
+	 */
+	public Class<?> getDataType();
 
 }

@@ -65,8 +65,10 @@ public class VertexDirectEditManager extends DirectEditManager {
 	 * @param locator
 	 *            the CellEditorLocator
 	 */
-	public VertexDirectEditManager(VertexEditPart source, VertexFigure vertexFigure) {
-		super(source, TextCellEditor.class, new VertexCellEditorLocator(vertexFigure));
+	public VertexDirectEditManager(VertexEditPart source,
+			VertexFigure vertexFigure) {
+		super(source, TextCellEditor.class, new VertexCellEditorLocator(
+				vertexFigure));
 		vertexLabel = vertexFigure.getLabelId();
 	}
 
@@ -96,7 +98,7 @@ public class VertexDirectEditManager extends DirectEditManager {
 		String initialLabelText = vertexLabel.getText();
 		getCellEditor().setValue(initialLabelText);
 	}
-	
+
 	@Override
 	public void showFeedback() {
 		// this is to remove the shadow around the Text component

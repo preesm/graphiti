@@ -114,8 +114,8 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#ComplexType";
 	}
 
-	public static String getClassDataTypes() {
-		return "http://net.sf.graphiti/basics.owl#DataTypes";
+	public static String getClassDataType() {
+		return "http://net.sf.graphiti/basics.owl#DataType";
 	}
 
 	public static String getClassEdgeAttribute() {
@@ -232,6 +232,14 @@ public class OntologyFactory {
 
 	public static String getIndividualIntegerDataType() {
 		return "http://net.sf.graphiti/basics.owl#Integer";
+	}
+
+	public static String getIndividualListDataType() {
+		return "http://net.sf.graphiti/basics.owl#List";
+	}
+
+	public static String getIndividualMapDataType() {
+		return "http://net.sf.graphiti/basics.owl#Map";
 	}
 
 	public static String getIndividualShapeCircle() {
