@@ -34,12 +34,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <owl:imports rdf:resource="http://net.sf.graphiti/basics.owl"/>
     <basic:hasDocumentElement>
       <basic:GraphElement rdf:ID="DocumentElementXNL">
-        <basic:element_hasAttributes>
-          <basic:OtherAttribute rdf:ID="OtherAttributeGraphName">
-            <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >name</basic:element_hasName>
-            <basic:otherAttribute_referencesParameter>
-              <basic:GraphParameter rdf:ID="GraphParameterName">
+        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >Network</basic:element_hasName>
+        <basic:element_hasParameterValue>
+          <basic:ParameterValue rdf:ID="ParameterValueGraphTypeNetwork">
+            <basic:parameterValue_ofParameter>
+              <basic:GraphParameter rdf:ID="GraphParameterType">
                 <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                 <basic:parameter_appliesTo>
                   <basic:GraphType rdf:ID="GraphType">
@@ -48,7 +48,16 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                         <basic:parameter_hasName rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#string"
                         >variables</basic:parameter_hasName>
-                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Map"/>
+                        <basic:parameter_hasValueType>
+                          <basic:MapType rdf:ID="VariablesMap">
+                            <basic:map_hasValue rdf:datatype=
+                            "http://www.w3.org/2001/XMLSchema#string"
+                            >value</basic:map_hasValue>
+                            <basic:map_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                            <basic:map_hasKey rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                            >name</basic:map_hasKey>
+                          </basic:MapType>
+                        </basic:parameter_hasValueType>
                         <basic:parameter_appliesTo rdf:resource="#GraphType"/>
                       </basic:GraphParameter>
                     </basic:type_hasParameters>
@@ -61,39 +70,29 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                         <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#List"/>
                       </basic:GraphParameter>
                     </basic:type_hasParameters>
+                    <basic:type_hasParameters rdf:resource="#GraphParameterType"/>
                     <basic:type_hasParameters>
-                      <basic:GraphParameter rdf:ID="GraphParameterType">
+                      <basic:GraphParameter rdf:ID="GraphParameterName">
                         <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                         <basic:parameter_appliesTo rdf:resource="#GraphType"/>
-                        <basic:parameter_hasParameterValue>
-                          <basic:ParameterValue rdf:ID="ParameterValueGraphTypeNetwork">
-                            <basic:parameterValue_ofParameter rdf:resource="#GraphParameterType"/>
-                            <basic:parameterValue_hasValue rdf:datatype=
-                            "http://www.w3.org/2001/XMLSchema#string"
-                            >Network</basic:parameterValue_hasValue>
-                          </basic:ParameterValue>
-                        </basic:parameter_hasParameterValue>
                         <basic:parameter_hasName rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#string"
-                        >type</basic:parameter_hasName>
+                        >name</basic:parameter_hasName>
                       </basic:GraphParameter>
                     </basic:type_hasParameters>
-                    <basic:type_hasParameters rdf:resource="#GraphParameterName"/>
                     <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                     >Network</basic:type_hasName>
                   </basic:GraphType>
                 </basic:parameter_appliesTo>
+                <basic:parameter_hasParameterValue rdf:resource="#ParameterValueGraphTypeNetwork"/>
                 <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >name</basic:parameter_hasName>
+                >type</basic:parameter_hasName>
               </basic:GraphParameter>
-            </basic:otherAttribute_referencesParameter>
-            <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >name</basic:attribute_hasName>
-          </basic:OtherAttribute>
-        </basic:element_hasAttributes>
-        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Network</basic:element_hasName>
-        <basic:element_hasParameterValue rdf:resource="#ParameterValueGraphTypeNetwork"/>
+            </basic:parameterValue_ofParameter>
+            <basic:parameterValue_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >Network</basic:parameterValue_hasValue>
+          </basic:ParameterValue>
+        </basic:element_hasParameterValue>
         <basic:element_hasSchemaType>
           <basic:Sequence rdf:ID="SequenceDocumentElement1">
             <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
@@ -169,6 +168,49 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                             <basic:schemaType_hasMaxOccurs rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#int"
                             >-1</basic:schemaType_hasMaxOccurs>
+                            <basic:element_hasSchemaType>
+                              <basic:Element rdf:ID="ElementDeclVariableExpr">
+                                <basic:schemaType_hasMinOccurs
+                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                >1</basic:schemaType_hasMinOccurs>
+                                <basic:schemaType_hasMaxOccurs
+                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                >1</basic:schemaType_hasMaxOccurs>
+                                <basic:element_hasAttributeRestriction>
+                                  <basic:AttributeRestriction rdf:ID="AttributeRestrictionDeclVariableExprKindLiteral">
+                                    <basic:attributeRestriction_hasName
+                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                    >kind</basic:attributeRestriction_hasName>
+                                    <basic:attributeRestriction_hasValue
+                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                    >Literal</basic:attributeRestriction_hasValue>
+                                    <basic:attributeRestriction_ofElement rdf:resource="#ElementDeclVariableExpr"/>
+                                  </basic:AttributeRestriction>
+                                </basic:element_hasAttributeRestriction>
+                                <basic:element_hasAttributeRestriction>
+                                  <basic:AttributeRestriction rdf:ID="AttributeRestrictionDeclVariableExprLiteralKindInteger">
+                                    <basic:attributeRestriction_hasName
+                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                    >literal-kind</basic:attributeRestriction_hasName>
+                                    <basic:attributeRestriction_hasValue
+                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                    >Integer</basic:attributeRestriction_hasValue>
+                                    <basic:attributeRestriction_ofElement rdf:resource="#ElementDeclVariableExpr"/>
+                                  </basic:AttributeRestriction>
+                                </basic:element_hasAttributeRestriction>
+                                <basic:element_hasName rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >Expr</basic:element_hasName>
+                                <basic:element_hasAttributes>
+                                  <basic:OtherAttribute rdf:ID="OtherAttributeDeclVariableExprValue">
+                                    <basic:attribute_hasName rdf:datatype=
+                                    "http://www.w3.org/2001/XMLSchema#string"
+                                    >value</basic:attribute_hasName>
+                                    <basic:otherAttribute_referencesParameter rdf:resource="#GraphParameterVariables"/>
+                                  </basic:OtherAttribute>
+                                </basic:element_hasAttributes>
+                              </basic:Element>
+                            </basic:element_hasSchemaType>
                           </basic:Element>
                         </basic:sequence_hasHead>
                         <basic:sequence_hasRest>
@@ -748,6 +790,15 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 >1</basic:schemaType_hasMaxOccurs>
                 <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                 >1</basic:schemaType_hasMinOccurs>
+                <basic:element_hasAttributes>
+                  <basic:OtherAttribute rdf:ID="OtherAttributeGraphName">
+                    <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                    >name</basic:element_hasName>
+                    <basic:otherAttribute_referencesParameter rdf:resource="#GraphParameterName"/>
+                    <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                    >name</basic:attribute_hasName>
+                  </basic:OtherAttribute>
+                </basic:element_hasAttributes>
               </basic:Element>
             </basic:sequence_hasHead>
           </basic:Sequence>

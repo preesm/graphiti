@@ -29,7 +29,7 @@
 package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.enums.DataType;
+import net.sf.graphiti.ontology.dataTypes.DataType;
 import net.sf.graphiti.ontology.enums.Position;
 import net.sf.graphiti.ontology.parameters.Parameter;
 import net.sf.graphiti.ontology.types.Type;

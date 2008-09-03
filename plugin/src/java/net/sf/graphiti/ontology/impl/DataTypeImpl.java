@@ -29,10 +29,9 @@
 package net.sf.graphiti.ontology.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.enums.DataType;
+import net.sf.graphiti.ontology.dataTypes.DataType;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -65,9 +64,6 @@ public class DataTypeImpl extends OntologyIndividualImpl implements DataType {
 		} else if (OntologyFactory.getIndividualListDataType().equals(
 				getIndividualURI())) {
 			return List.class;
-		} else if (OntologyFactory.getIndividualMapDataType().equals(
-				getIndividualURI())) {
-			return Map.class;
 		} else {
 			throw new NullPointerException();
 		}

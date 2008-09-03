@@ -26,28 +26,47 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.parameters;
+package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.ontology.OntologyIndividual;
+import java.util.Map;
+
+import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.dataTypes.DataType;
-import net.sf.graphiti.ontology.enums.Position;
-import net.sf.graphiti.ontology.types.Type;
+import net.sf.graphiti.ontology.dataTypes.MapType;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides a parameter.
+ * Implementation of MapType.
  * 
- * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface Parameter extends OntologyIndividual {
+public class MapTypeImpl extends DataTypeImpl implements MapType {
 
-	public Type appliesTo();
+	public MapTypeImpl(Individual individual) {
+		super(individual);
+	}
 
-	public String hasName();
+	@Override
+	public Class<?> getDataType() {
+		return Map.class;
+	}
 
-	public Position hasPosition();
+	@Override
+	public String hasKey() {
+		return getStringProperty(OntologyFactory.getPropertyMapHasKey());
+	}
 
-	public DataType hasValueType();
+	@Override
+	public String hasValue() {
+		return getStringProperty(OntologyFactory.getPropertyMapHasValue());
+	}
+
+	@Override
+	public DataType hasValueType() {
+		return (DataType) getIndividualProperty(OntologyFactory
+				.getPropertyMapHasValueType());
+	}
 
 }

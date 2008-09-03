@@ -26,28 +26,25 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.parameters;
+package net.sf.graphiti.ontology.dataTypes;
 
 import net.sf.graphiti.ontology.OntologyIndividual;
-import net.sf.graphiti.ontology.dataTypes.DataType;
-import net.sf.graphiti.ontology.enums.Position;
-import net.sf.graphiti.ontology.types.Type;
 
 /**
- * This class provides a parameter.
+ * This class provides different parameters data types.
  * 
- * @author Jonathan Piat
  * @author Matthieu Wipliez
+ * @author Jonathan Piat
  * 
  */
-public interface Parameter extends OntologyIndividual {
+public interface DataType extends OntologyIndividual {
 
-	public Type appliesTo();
-
-	public String hasName();
-
-	public Position hasPosition();
-
-	public DataType hasValueType();
+	/**
+	 * Returns the {@link DataType} from this ontology {@link DataTypes}
+	 * individual.
+	 * 
+	 * @return A {@link DataType} value.
+	 */
+	public Class<?> getDataType();
 
 }

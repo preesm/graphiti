@@ -104,7 +104,7 @@ public class PropertiesEditingSupport extends EditingSupport implements
 	protected void setValue(Object element, Object value) {
 		if (element instanceof Parameter) {
 			Parameter parameter = (Parameter) element;
-			//TODO: change value type
+			// TODO: change value type
 			source.setValue(parameter.getName(), (String) value);
 		}
 	}

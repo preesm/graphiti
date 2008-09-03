@@ -54,6 +54,18 @@
             The Properties view displays properties associated with the current selection.
          </description>
       </view>
+      <view
+            allowMultiple="true"
+            category="net.sf.graphiti.ui.views"
+            class="net.sf.graphiti.ui.views.ContextualPropertyView"
+            icon="icons/graphiti.gif"
+            id="net.sf.graphiti.ui.views.ContextualPropertyView"
+            name="Contextual Properties"
+            restorable="true">
+         <description>
+            The Contextual Properties view displays properties specific to the current selection.
+         </description>
+      </view>
    </extension>
    <extension point="org.eclipse.ui.editors">
       <editor

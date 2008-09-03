@@ -26,25 +26,36 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.enums;
-
-import net.sf.graphiti.ontology.OntologyIndividual;
+package net.sf.graphiti.ontology.dataTypes;
 
 /**
- * This class provides different parameters data types.
+ * This class provides mthods for the map type.
  * 
  * @author Matthieu Wipliez
  * @author Jonathan Piat
  * 
  */
-public interface DataType extends OntologyIndividual {
+public interface MapType extends DataType {
 
 	/**
-	 * Returns the {@link DataType} from this ontology {@link DataTypes}
-	 * individual.
+	 * Returns this map key's name.
 	 * 
-	 * @return A {@link DataType} value.
+	 * @return This map key's name.
 	 */
-	public Class<?> getDataType();
+	public String hasKey();
+
+	/**
+	 * Returns this map value's name.
+	 * 
+	 * @return This map value's name.
+	 */
+	public String hasValue();
+
+	/**
+	 * Returns this map value's type.
+	 * 
+	 * @return This map value's type.
+	 */
+	public DataType hasValueType();
 
 }

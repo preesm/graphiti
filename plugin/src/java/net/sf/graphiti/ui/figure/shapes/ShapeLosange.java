@@ -89,8 +89,14 @@ public class ShapeLosange extends Polygon implements IShape {
 	@Override
 	public void setName(String name) {
 		labelName.setText(name);
-		this.setConstraint(labelName,
-				new Rectangle(this.getBounds().height / 2,
-						this.getBounds().width / 2, -1, -1));
+		int hDecal = 5;
+		int wDecal = 0;
+		if (name != null) {
+			wDecal = (name.length() * 5) / 2;
+		}
+		Rectangle bounds = this.getParent().getBounds();
+		this.setConstraint(labelName, new Rectangle(
+				(bounds.width / 2) - wDecal, (bounds.height / 2) - hDecal, -1,
+				-1));
 	}
 }

@@ -166,6 +166,10 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#GraphType";
 	}
 
+	public static String getClassMapType() {
+		return "http://net.sf.graphiti/basics.owl#MapType";
+	}
+
 	public static String getClassOrderedChoice() {
 		return "http://net.sf.graphiti/basics.owl#OrderedChoice";
 	}
@@ -332,6 +336,18 @@ public class OntologyFactory {
 
 	public static String getPropertyFigureAttributeAppliesTo() {
 		return "http://net.sf.graphiti/basics.owl#figureAttribute_appliesTo";
+	}
+
+	public static String getPropertyMapHasKey() {
+		return "http://net.sf.graphiti/basics.owl#map_hasKey";
+	}
+
+	public static String getPropertyMapHasValue() {
+		return "http://net.sf.graphiti/basics.owl#map_hasValue";
+	}
+
+	public static String getPropertyMapHasValueType() {
+		return "http://net.sf.graphiti/basics.owl#map_hasValueType";
 	}
 
 	public static String getPropertyOrderedChoiceHasElements() {

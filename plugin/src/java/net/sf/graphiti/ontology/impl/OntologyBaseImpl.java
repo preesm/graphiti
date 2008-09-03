@@ -59,6 +59,14 @@ public class OntologyBaseImpl {
 	private static Map<String, Class<?>> classes = new HashMap<String, Class<?>>();
 
 	static {
+		// DataTypes
+		classes.put(OntologyFactory.getClassDataType(), DataTypeImpl.class);
+		classes.put(OntologyFactory.getClassMapType(), MapTypeImpl.class);
+
+		// Enums
+		classes.put(OntologyFactory.getClassShapes(), ShapesImpl.class);
+		classes.put(OntologyFactory.getClassPosition(), PositionImpl.class);
+
 		// FigureAttribute
 		classes.put(OntologyFactory.getClassColorAttribute(),
 				ColorAttributeImpl.class);
@@ -66,11 +74,6 @@ public class OntologyBaseImpl {
 				FigureAttributeImpl.class);
 		classes.put(OntologyFactory.getClassShapeAttribute(),
 				ShapeAttributeImpl.class);
-
-		// Enums
-		classes.put(OntologyFactory.getClassShapes(), ShapesImpl.class);
-		classes.put(OntologyFactory.getClassDataType(), DataTypeImpl.class);
-		classes.put(OntologyFactory.getClassPosition(), PositionImpl.class);
 
 		// Parameter
 		classes.put(OntologyFactory.getClassEdgeParameter(),

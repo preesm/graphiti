@@ -33,13 +33,15 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.ontology.dataTypes.DataType;
+import net.sf.graphiti.ontology.dataTypes.MapType;
 import net.sf.graphiti.transactions.IOperationSpecification;
 import net.sf.graphiti.transactions.Result;
 
 /**
  * This class provides a 4-ary operation that sets a graph/vertex/edge property
- * value. Operands: object (PropertyBean), parameter type (Class&lt;?&gt;),
- * parameter name and value.
+ * value. Operands: object (PropertyBean), parameter type (DataType), parameter
+ * name and value.
  * 
  * @author Matthieu Wipliez
  * 
@@ -51,10 +53,11 @@ public class SetValueOpSpec implements IOperationSpecification {
 	public void execute(Object[] operands, Result result) {
 		PropertyBean obj = (PropertyBean) operands[0];
 		if (obj != null) {
-			Class<?> clasz = (Class<?>) operands[1];
+			DataType type = (DataType) operands[1];
 			String name = (String) operands[2];
 			Object value = operands[3];
 
+			Class<?> clasz = type.getDataType();
 			if (clasz == Float.class) {
 				value = new Float((String) value);
 			} else if (clasz == Integer.class) {
@@ -65,14 +68,24 @@ public class SetValueOpSpec implements IOperationSpecification {
 					list = new ArrayList<Object>();
 				}
 				list.add(value);
-				
-				value = list;
-			} else if (clasz == Map.class) {
 
+				value = list;
 			} else if (clasz == String.class) {
 				value = (String) value;
+			} else if (type instanceof MapType) {
+				MapType mapType = (MapType) type;
+				String keyName = mapType.hasKey();
+				String valueName = mapType.hasValue();
+
+				Map<Object, Object> map = (Map<Object, Object>) obj
+						.getValue(name);
+				if (name.equals(keyName)) {
+
+				} else if (name.equals(valueName)) {
+
+				}
 			}
-			
+
 			obj.setValue(name, value);
 		}
 	}

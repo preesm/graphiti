@@ -30,9 +30,10 @@ package net.sf.graphiti.model;
 
 /**
  * This class provides a parameter associated with an object (vertex, graph,
- * edge). It has a name and a position.
+ * edge). It has a name, a type, and a position.
  * 
  * @author Jonathan Piat
+ * @author Matthieu Wipliez
  * 
  */
 public class Parameter {
@@ -41,26 +42,50 @@ public class Parameter {
 
 	private ParameterPosition parameterPosition;
 
+	private Class<?> type;
+
+	/**
+	 * Creates a new parameter from an ontology parameter.
+	 * 
+	 * @param ontParam
+	 *            The parameter defined in the ontology.
+	 */
 	public Parameter(net.sf.graphiti.ontology.parameters.Parameter ontParam) {
 		name = ontParam.hasName();
-		if (ontParam.hasPosition() != null) {
+		if (ontParam.hasPosition() == null) {
+			parameterPosition = null;
+		} else {
 			parameterPosition = ParameterPosition
 					.createFromOntPosition(ontParam.hasPosition());
-		} else {
-			parameterPosition = null;
 		}
+		type = ontParam.hasValueType().getDataType();
 	}
 
-	public Parameter(String name) {
-		this.name = name;
-	}
-
+	/**
+	 * Returns this parameter's name.
+	 * 
+	 * @return This parameter's name.
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Returns this parameter's position.
+	 * 
+	 * @return This parameter's position.
+	 */
 	public ParameterPosition getPosition() {
 		return parameterPosition;
+	}
+
+	/**
+	 * Returns this parameter's type.
+	 * 
+	 * @return This parameter's type.
+	 */
+	public Class<?> getType() {
+		return type;
 	}
 
 	public void setName(String name) {
@@ -71,6 +96,7 @@ public class Parameter {
 		parameterPosition = ParameterPosition.createFromOntString(position);
 	}
 
+	@Override
 	public String toString() {
 		return name;
 	}

@@ -73,7 +73,7 @@ public class GraphitiPerspectiveFactory implements IPerspectiveFactory {
 
 		IFolderLayout bottom = layout.createFolder("bottom",
 				IPageLayout.BOTTOM, 0.80f, editorArea);
-		bottom.addView(PropertyView.ID_PROPERTY_VIEW);
+		bottom.addView(PropertyView.ID);
 
 		// put the outline on the right
 		IFolderLayout right = layout.createFolder("right", IPageLayout.RIGHT,

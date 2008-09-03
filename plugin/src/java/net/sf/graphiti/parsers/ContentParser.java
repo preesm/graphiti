@@ -371,8 +371,7 @@ public class ContentParser {
 			// will set the parameter value
 			Operation setProperty = new Operation(new SetValueOpSpec());
 			Object[] operands = new Object[] { result,
-					parameter.hasValueType().getDataType(),
-					parameter.hasName(), domAttrValue };
+					parameter.hasValueType(), parameter.hasName(), domAttrValue };
 
 			setProperty.setOperands(operands);
 			transaction.addOperation(setProperty);
@@ -393,8 +392,8 @@ public class ContentParser {
 			// will set the parameter value
 			Operation setProperty = new Operation(new SetValueOpSpec());
 			Object[] operands = new Object[] { resultStack.peek(),
-					parameter.hasValueType().getDataType(),
-					parameter.hasName(), domElement.getTextContent() };
+					parameter.hasValueType(), parameter.hasName(),
+					domElement.getTextContent() };
 
 			setProperty.setOperands(operands);
 			transaction.addOperation(setProperty);
@@ -446,7 +445,7 @@ public class ContentParser {
 			// will set the parameter value
 			Operation setProperty = new Operation(new SetValueOpSpec());
 			Object[] operands = new Object[] { resultStack.peek(),
-					parameter.hasValueType().getDataType(), parameterName,
+					parameter.hasValueType(), parameterName,
 					constant.hasValue() };
 
 			setProperty.setOperands(operands);

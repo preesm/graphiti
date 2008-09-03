@@ -28,37 +28,28 @@
  */
 package net.sf.graphiti.ui.views;
 
-import java.util.List;
-import java.util.Map;
-
-import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ui.editparts.EdgeEditPart;
-import net.sf.graphiti.ui.editparts.GraphEditPart;
-import net.sf.graphiti.ui.editparts.VertexEditPart;
+import net.sf.graphiti.ui.GraphitiPlugin;
 
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.IActionBars;
 
 /**
- * This class exposes the Graphiti version of property view. It is a derivative
- * work from the SampleView provided by Eclipse, with the addition of proper
- * table viewer support for graph variable declarations, vertex parameters, and
- * edge properties.
+ * This class is a {@link PropertyView} that is shown or not according to the
+ * selection.
  * 
  * @author Matthieu Wipliez
  */
-public class PropertyView extends AbstractPropertyView {
+public class ContextualPropertyView extends AbstractPropertyView {
 
 	/**
 	 * Sorts parameters by name.
@@ -77,7 +68,32 @@ public class PropertyView extends AbstractPropertyView {
 		}
 	}
 
-	public static final String ID = "net.sf.graphiti.ui.views.PropertyView";
+	public static final String ID = "net.sf.graphiti.ui.views.ContextualPropertyView";
+
+	private Action actionAdd;
+
+	private Action actionDelete;
+
+	/**
+	 * Contributes to pull down and tool bar menu managers.
+	 */
+	private void contributeToActionBars() {
+		IActionBars bars = getViewSite().getActionBars();
+
+		IMenuManager manager = bars.getMenuManager();
+		manager.add(actionAdd);
+		manager.add(actionDelete);
+
+		IToolBarManager toolbar = bars.getToolBarManager();
+		toolbar.add(actionAdd);
+		toolbar.add(actionDelete);
+	}
+
+	@Override
+	public void createActions() {
+		makeActions();
+		contributeToActionBars();
+	}
 
 	/**
 	 * Creates the table viewer using the given table.
@@ -117,46 +133,42 @@ public class PropertyView extends AbstractPropertyView {
 		tvc.setEditingSupport(editing);
 	}
 
-	@Override
-	public void selectionChanged(Object object) {
-		List<Parameter> parameters;
-		if (object instanceof GraphEditPart) {
-			Graph graph = (Graph) ((GraphEditPart) object).getModel();
-			parameters = graph.getParameters();
-		} else if (object instanceof VertexEditPart) {
-			Vertex vertex = (Vertex) ((VertexEditPart) object).getModel();
-			parameters = vertex.getParameters();
-		} else if (object instanceof EdgeEditPart) {
-			Edge edge = (Edge) ((EdgeEditPart) object).getModel();
-			parameters = edge.getParameters();
-		} else {
-			return;
-		}
-
-		IWorkbenchPage page = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getActivePage();
-		if (page == null) {
-			return;
-		}
-
-		IViewReference[] views = page.getViewReferences();
-		for (IViewReference view : views) {
-			if (view.getId().equals(ContextualPropertyView.ID)) {
-				page.hideView(view);
+	/**
+	 * Creates the "add" and "delete" actions.
+	 */
+	private void makeActions() {
+		actionAdd = new Action() {
+			public void run() {
+				showMessage("Action 1 executed");
 			}
-		}
+		};
+		actionAdd.setText("Add parameter");
+		actionAdd.setToolTipText("Adds a parameter to this vertex");
+		actionAdd.setImageDescriptor(GraphitiPlugin
+				.getImageDescriptor("icons/add_obj.gif"));
 
-		for (Parameter parameter : parameters) {
-			if (parameter.getType() == Map.class) {
-				try {
-					page.showView(ContextualPropertyView.ID, parameter
-							.getName(), IWorkbenchPage.VIEW_VISIBLE);
-				} catch (PartInitException e) {
-					e.printStackTrace();
-				}
+		actionDelete = new Action() {
+			public void run() {
+				showMessage("Action 2 executed");
 			}
-		}
+		};
+		actionDelete.setText("Remove parameter");
+		actionDelete.setToolTipText("Removes a parameter from this vertex");
+		actionDelete.setImageDescriptor(GraphitiPlugin
+				.getImageDescriptor("icons/remove_obj.gif"));
 
-		page.bringToTop(this);
+		// doubleClickAction = new Action() {
+		// public void run() {
+		// ISelection selection = tableViewer.getSelection();
+		// Object obj = ((IStructuredSelection) selection)
+		// .getFirstElement();
+		// showMessage("Double-click detected on " + obj.toString());
+		// }
+		// };
+	}
+
+	private void showMessage(String message) {
+		MessageDialog.openInformation(tableViewer.getControl().getShell(),
+				"Sample View", message);
 	}
 }
