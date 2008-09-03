@@ -110,10 +110,6 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#ColorAttribute";
 	}
 
-	public static String getClassColors() {
-		return "http://net.sf.graphiti/basics.owl#Colors";
-	}
-
 	public static String getClassComplexType() {
 		return "http://net.sf.graphiti/basics.owl#ComplexType";
 	}
@@ -230,18 +226,6 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#XMLSchemaType";
 	}
 
-	public static String getIndividualColorBlue() {
-		return "http://net.sf.graphiti/basics.owl#blue";
-	}
-
-	public static String getIndividualColorPink() {
-		return "http://net.sf.graphiti/basics.owl#pink";
-	}
-
-	public static String getIndividualColorRed() {
-		return "http://net.sf.graphiti/basics.owl#red";
-	}
-
 	public static String getIndividualFloatDataType() {
 		return "http://net.sf.graphiti/basics.owl#Float";
 	}
@@ -298,8 +282,16 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#choice_hasElements";
 	}
 
-	public static String getPropertyColorAttributeHasColor() {
-		return "http://net.sf.graphiti/basics.owl#colorAttribute_hasColor";
+	public static String getPropertyColorAttributeHasBlue() {
+		return "http://net.sf.graphiti/basics.owl#colorAttribute_hasBlue";
+	}
+
+	public static String getPropertyColorAttributeHasGreen() {
+		return "http://net.sf.graphiti/basics.owl#colorAttribute_hasGreen";
+	}
+
+	public static String getPropertyColorAttributeHasRed() {
+		return "http://net.sf.graphiti/basics.owl#colorAttribute_hasRed";
 	}
 
 	public static String getPropertyDOMAttributeHasName() {

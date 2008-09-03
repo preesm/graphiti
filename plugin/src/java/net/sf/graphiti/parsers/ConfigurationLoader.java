@@ -170,8 +170,7 @@ public class ConfigurationLoader {
 		Set<FigureAttribute> attributes = vertexType.hasFigureAttributes();
 		for (FigureAttribute attribute : attributes) {
 			if (attribute.hasOntClass(OntologyFactory.getClassColorAttribute())) {
-				Color color = ((ColorAttribute) attribute).hasColor()
-						.getColor();
+				Color color = ((ColorAttribute) attribute).hasColor();
 				config.setVertexAttribute(vertexTypeName,
 						Vertex.ATTRIBUTE_COLOR, color);
 			} else if (attribute.hasOntClass(OntologyFactory

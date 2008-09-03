@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.attributes;
 
-import net.sf.graphiti.ontology.enums.Colors;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * This class provides a color attribute.
@@ -44,5 +44,5 @@ public interface ColorAttribute extends FigureAttribute {
 	 * 
 	 * @return The color associated with this attribute.
 	 */
-	public Colors hasColor();
+	public Color hasColor();
 }

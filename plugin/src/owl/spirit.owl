@@ -122,8 +122,19 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                 </basic:type_hasFigureAttributes>
                                                 <basic:type_hasFigureAttributes>
                                                   <basic:ColorAttribute rdf:ID="ColorAttribute_1">
+                                                    <basic:colorAttribute_hasGreen
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#int"
+                                                    >60</basic:colorAttribute_hasGreen>
+                                                    <basic:colorAttribute_hasRed
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#int"
+                                                    >35</basic:colorAttribute_hasRed>
                                                     <basic:figureAttribute_appliesTo rdf:resource="#VertexType"/>
-                                                    <basic:colorAttribute_hasColor rdf:resource="http://net.sf.graphiti/basics.owl#blue"/>
+                                                    <basic:colorAttribute_hasBlue
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#int"
+                                                    >200</basic:colorAttribute_hasBlue>
                                                   </basic:ColorAttribute>
                                                 </basic:type_hasFigureAttributes>
                                               </basic:VertexType>

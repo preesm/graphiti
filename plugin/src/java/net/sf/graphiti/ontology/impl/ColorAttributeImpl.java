@@ -30,7 +30,8 @@ package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.attributes.ColorAttribute;
-import net.sf.graphiti.ontology.enums.Colors;
+
+import org.eclipse.swt.graphics.Color;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -48,9 +49,15 @@ public class ColorAttributeImpl extends FigureAttributeImpl implements
 	}
 
 	@Override
-	public Colors hasColor() {
-		return (Colors) getIndividualProperty(OntologyFactory
-				.getPropertyColorAttributeHasColor());
+	public Color hasColor() {
+		int red = getIntegerProperty(OntologyFactory
+				.getPropertyColorAttributeHasRed());
+		int green = getIntegerProperty(OntologyFactory
+				.getPropertyColorAttributeHasGreen());
+		int blue = getIntegerProperty(OntologyFactory
+				.getPropertyColorAttributeHasBlue());
+		
+		return new Color(null, red, green, blue);
 	}
 
 }

@@ -15,9 +15,9 @@
   xml:base="http://net.sf.graphiti/xnl.owl">
   <owl:Ontology rdf:about="">
     <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >xnl</basic:refinementHasFileExtension>
-    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >cal</basic:refinementHasFileExtension>
+    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >xnl</basic:refinementHasFileExtension>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Copyright (c) 2008, IETR/INSA of Rennes
 All rights reserved.
@@ -159,8 +159,16 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                         </basic:type_hasFigureAttributes>
                                         <basic:type_hasFigureAttributes>
                                           <basic:ColorAttribute rdf:ID="ColorAttribute_1">
+                                            <basic:colorAttribute_hasBlue
+                                             rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                            >100</basic:colorAttribute_hasBlue>
                                             <basic:figureAttribute_appliesTo rdf:resource="#InstanceVertexType"/>
-                                            <basic:colorAttribute_hasColor rdf:resource="http://net.sf.graphiti/basics.owl#red"/>
+                                            <basic:colorAttribute_hasGreen
+                                             rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                            >60</basic:colorAttribute_hasGreen>
+                                            <basic:colorAttribute_hasRed
+                                             rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                            >0</basic:colorAttribute_hasRed>
                                           </basic:ColorAttribute>
                                         </basic:type_hasFigureAttributes>
                                         <basic:type_hasParameters rdf:resource="#VertexParameterType"/>
@@ -524,8 +532,13 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         </basic:type_hasParameters>
         <basic:type_hasFigureAttributes>
           <basic:ColorAttribute rdf:ID="ColorAttribute_2">
-            <basic:colorAttribute_hasColor rdf:resource="http://net.sf.graphiti/basics.owl#pink"/>
+            <basic:colorAttribute_hasBlue rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >130</basic:colorAttribute_hasBlue>
             <basic:figureAttribute_appliesTo rdf:resource="#PortVertexType"/>
+            <basic:colorAttribute_hasGreen rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >200</basic:colorAttribute_hasGreen>
+            <basic:colorAttribute_hasRed rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >125</basic:colorAttribute_hasRed>
           </basic:ColorAttribute>
         </basic:type_hasFigureAttributes>
         <basic:type_hasFigureAttributes>
