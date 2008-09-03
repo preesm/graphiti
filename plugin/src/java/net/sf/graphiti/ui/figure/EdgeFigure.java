@@ -74,11 +74,14 @@ public class EdgeFigure extends PolylineConnection {
 						.getEdgeParameters((String) edge.getValue("type"));
 				for (Parameter property : properties) {
 					if (property.getPosition() != null) {
-						PropertyTag propertyLabel = new PropertyTag(
-								(String) edge.getValue(property.getName()));
-						this.add(propertyLabel, new PropertyLocator(this,
-								property.getPosition()));
-						this.properties.put(property, propertyLabel);
+						Object value = edge.getValue(property.getName());
+						if (value != null) {
+							PropertyTag propertyLabel = new PropertyTag(value
+									.toString());
+							this.add(propertyLabel, new PropertyLocator(this,
+									property.getPosition()));
+							this.properties.put(property, propertyLabel);
+						}
 					}
 				}
 			}

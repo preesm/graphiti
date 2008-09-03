@@ -82,11 +82,11 @@ public class PropertiesEditingSupport extends EditingSupport implements
 	protected Object getValue(Object element) {
 		if (element instanceof Parameter) {
 			Parameter parameter = (Parameter) element;
-			String value = (String) source.getValue(parameter.getName());
+			Object value = (Object) source.getValue(parameter.getName());
 			if (value == null) {
 				value = "";
 			}
-			return value;
+			return value.toString();
 		} else {
 			return "";
 		}
@@ -104,6 +104,7 @@ public class PropertiesEditingSupport extends EditingSupport implements
 	protected void setValue(Object element, Object value) {
 		if (element instanceof Parameter) {
 			Parameter parameter = (Parameter) element;
+			//TODO: change value type
 			source.setValue(parameter.getName(), (String) value);
 		}
 	}

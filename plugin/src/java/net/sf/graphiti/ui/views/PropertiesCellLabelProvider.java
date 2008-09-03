@@ -72,11 +72,11 @@ public class PropertiesCellLabelProvider extends CellLabelProvider implements
 			if (cell.getColumnIndex() == 0) {
 				cell.setText(parameter.getName());
 			} else {
-				String value = (String) source.getValue(parameter.getName());
+				Object value = (Object) source.getValue(parameter.getName());
 				if (value == null) {
 					value = "";
 				}
-				cell.setText(value);
+				cell.setText(value.toString());
 			}
 		}
 	}

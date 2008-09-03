@@ -28,6 +28,10 @@
  */
 package net.sf.graphiti.parsers.operations;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.transactions.IOperationSpecification;
 import net.sf.graphiti.transactions.Result;
@@ -43,12 +47,32 @@ import net.sf.graphiti.transactions.Result;
 public class SetValueOpSpec implements IOperationSpecification {
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void execute(Object[] operands, Result result) {
 		PropertyBean obj = (PropertyBean) operands[0];
 		if (obj != null) {
 			Class<?> clasz = (Class<?>) operands[1];
 			String name = (String) operands[2];
 			Object value = operands[3];
+
+			if (clasz == Float.class) {
+				value = new Float((String) value);
+			} else if (clasz == Integer.class) {
+				value = new Integer((String) value);
+			} else if (clasz == List.class) {
+				List<Object> list = (List<Object>) obj.getValue(name);
+				if (list == null) {
+					list = new ArrayList<Object>();
+				}
+				list.add(value);
+				
+				value = list;
+			} else if (clasz == Map.class) {
+
+			} else if (clasz == String.class) {
+				value = (String) value;
+			}
+			
 			obj.setValue(name, value);
 		}
 	}
