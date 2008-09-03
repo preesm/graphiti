@@ -168,11 +168,8 @@ public abstract class AbstractPropertyView extends ViewPart implements
 				// updates the table viewer input
 				if (tableViewer != null
 						&& tableViewer.getContentProvider() != null) {
-					tableViewer.setInput(object);
+					selectionChanged(object);
 				}
-
-				// calls the abstract method
-				selectionChanged(object);
 			}
 		}
 	}

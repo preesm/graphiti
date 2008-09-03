@@ -28,9 +28,7 @@
  */
 package net.sf.graphiti.ui.views;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
@@ -48,8 +46,12 @@ import org.eclipse.jface.viewers.Viewer;
  * 
  * @author Matthieu Wipliez
  */
-public class PropertiesContentProvider extends
+public class ComplexPropertiesContentProvider extends
 		AbstractPropertiesContentProvider {
+	
+	public class Source {
+		
+	}
 
 	@Override
 	public void dispose() {
@@ -61,26 +63,18 @@ public class PropertiesContentProvider extends
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		List<Parameter> parameters;
 		if (source instanceof Graph) {
-			parameters = ((Graph) source).getParameters();
+			List<Parameter> parameters = ((Graph) source).getParameters();
+			return parameters.toArray();
 		} else if (source instanceof Vertex) {
-			parameters = ((Vertex) source).getParameters();
+			List<Parameter> parameters = ((Vertex) source).getParameters();
+			return parameters.toArray();
 		} else if (source instanceof Edge) {
-			parameters = ((Edge) source).getParameters();
+			List<Parameter> parameters = ((Edge) source).getParameters();
+			return parameters.toArray();
 		} else {
 			return new Object[] {};
 		}
-		
-		Iterator<Parameter> it = parameters.iterator();
-		while (it.hasNext()) {
-			Class<?> type = it.next().getType();
-			if (type == List.class || type == Map.class) {
-				it.remove();
-			}
-		}
-		
-		return parameters.toArray();
 	}
 
 	@Override

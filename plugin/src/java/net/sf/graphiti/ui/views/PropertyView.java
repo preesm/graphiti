@@ -45,6 +45,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -117,28 +118,75 @@ public class PropertyView extends AbstractPropertyView {
 		tvc.setEditingSupport(editing);
 	}
 
-	@Override
-	public void selectionChanged(Object object) {
-		List<Parameter> parameters;
-		if (object instanceof GraphEditPart) {
-			Graph graph = (Graph) ((GraphEditPart) object).getModel();
-			parameters = graph.getParameters();
-		} else if (object instanceof VertexEditPart) {
-			Vertex vertex = (Vertex) ((VertexEditPart) object).getModel();
-			parameters = vertex.getParameters();
-		} else if (object instanceof EdgeEditPart) {
-			Edge edge = (Edge) ((EdgeEditPart) object).getModel();
-			parameters = edge.getParameters();
-		} else {
-			return;
+	/**
+	 * Displays a new {@link ContextualPropertyView} for the given parameter on
+	 * the given page.
+	 * 
+	 * @param page
+	 * @param parameter
+	 */
+	private void displayView(IWorkbenchPage page, Object object) {
+		List<Parameter> parameters = null;
+		if (object instanceof Graph) {
+			parameters = ((Graph) object).getParameters();
+		} else if (object instanceof Vertex) {
+			parameters = ((Vertex) object).getParameters();
+		} else if (object instanceof Edge) {
+			parameters = ((Edge) object).getParameters();
 		}
 
+		// parameters will *never* be null here.
+		for (Parameter parameter : parameters) {
+			Class<?> type = parameter.getType();
+			if (type == Map.class || type == List.class) {
+				String parameterName = parameter.getName();
+				try {
+					IViewPart part = page.showView(ContextualPropertyView.ID,
+							parameterName, IWorkbenchPage.VIEW_VISIBLE);
+					ContextualPropertyView view = (ContextualPropertyView) part;
+					view.selectionChanged(object, parameter);
+				} catch (PartInitException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	/**
+	 * If the object selected is an instance of {@link GraphEditPart},
+	 * {@link VertexEditPart} or {@link EdgeEditPart}, return the model
+	 * associated. Otherwise, return null.
+	 * 
+	 * @param object
+	 *            The object selected.
+	 * @return The model of the object selected if it is a valid edit part.
+	 */
+	private Object getModel(Object object) {
+		if (object instanceof GraphEditPart) {
+			return ((GraphEditPart) object).getModel();
+		} else if (object instanceof VertexEditPart) {
+			return ((VertexEditPart) object).getModel();
+		} else if (object instanceof EdgeEditPart) {
+			return ((EdgeEditPart) object).getModel();
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public void selectionChanged(Object object) {
+		tableViewer.setInput(object);
+		
+		Object selectedObject = getModel(object);
+
+		// active page. Sometimes null, hence the test we do.
 		IWorkbenchPage page = PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getActivePage();
 		if (page == null) {
 			return;
 		}
 
+		// hide all contextual property views
 		IViewReference[] views = page.getViewReferences();
 		for (IViewReference view : views) {
 			if (view.getId().equals(ContextualPropertyView.ID)) {
@@ -146,17 +194,12 @@ public class PropertyView extends AbstractPropertyView {
 			}
 		}
 
-		for (Parameter parameter : parameters) {
-			if (parameter.getType() == Map.class) {
-				try {
-					page.showView(ContextualPropertyView.ID, parameter
-							.getName(), IWorkbenchPage.VIEW_VISIBLE);
-				} catch (PartInitException e) {
-					e.printStackTrace();
-				}
-			}
+		// displays new contextual property views if needed
+		if (selectedObject != null) {
+			displayView(page, selectedObject);
 		}
 
+		// bring us back to top
 		page.bringToTop(this);
 	}
 }

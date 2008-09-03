@@ -28,13 +28,19 @@
  */
 package net.sf.graphiti.ui.views;
 
+import java.util.List;
+import java.util.Map;
+
+import net.sf.graphiti.model.Edge;
+import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Parameter;
+import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -75,6 +81,25 @@ public class ContextualPropertyView extends AbstractPropertyView {
 	private Action actionDelete;
 
 	/**
+	 * Description of the selected object.
+	 */
+	private String objDesc;
+	
+	private Parameter parameter;
+	
+	private PropertyBean source;
+
+	@SuppressWarnings("unchecked")
+	private void addValue() {
+		Object obj = source.getValue(parameter.getName());
+		if (obj instanceof List<?>) {
+			((List<Object>) obj).add("new value");
+		} else {
+			((Map<Object, Object>) obj).put("new key", "new value");
+		}
+	}
+
+	/**
 	 * Contributes to pull down and tool bar menu managers.
 	 */
 	private void contributeToActionBars() {
@@ -106,7 +131,7 @@ public class ContextualPropertyView extends AbstractPropertyView {
 		tableViewer = new TableViewer(table);
 
 		// content provider
-		PropertiesContentProvider contentProvider = new PropertiesContentProvider();
+		ComplexPropertiesContentProvider contentProvider = new ComplexPropertiesContentProvider();
 		tableViewer.setContentProvider(contentProvider);
 
 		// Sort by parameter name
@@ -139,21 +164,19 @@ public class ContextualPropertyView extends AbstractPropertyView {
 	private void makeActions() {
 		actionAdd = new Action() {
 			public void run() {
-				showMessage("Action 1 executed");
+				addValue();
 			}
 		};
 		actionAdd.setText("Add parameter");
-		actionAdd.setToolTipText("Adds a parameter to this vertex");
 		actionAdd.setImageDescriptor(GraphitiPlugin
 				.getImageDescriptor("icons/add_obj.gif"));
 
 		actionDelete = new Action() {
 			public void run() {
-				showMessage("Action 2 executed");
+				removeValue();
 			}
 		};
 		actionDelete.setText("Remove parameter");
-		actionDelete.setToolTipText("Removes a parameter from this vertex");
 		actionDelete.setImageDescriptor(GraphitiPlugin
 				.getImageDescriptor("icons/remove_obj.gif"));
 
@@ -167,8 +190,40 @@ public class ContextualPropertyView extends AbstractPropertyView {
 		// };
 	}
 
-	private void showMessage(String message) {
-		MessageDialog.openInformation(tableViewer.getControl().getShell(),
-				"Sample View", message);
+	private void removeValue() {
+		
+	}
+
+
+	@Override
+	protected void selectionChanged(Object object) {
+		tableViewer.setInput(object);
+	}
+	
+	/**
+	 * Sets this part's name, its content description, and the tooltips of the
+	 * two actions from the given object and parameter.
+	 * 
+	 * @param object
+	 * @param parameter
+	 */
+	public void selectionChanged(Object object, Parameter parameter) {
+		source = (PropertyBean) object;
+		this.parameter = parameter;
+		if (object instanceof Graph) {
+			objDesc = "graph";
+		} else if (object instanceof Vertex) {
+			objDesc = "vertex";
+		} else if (object instanceof Edge) {
+			objDesc = "edge";
+		}
+
+		String parameterName = parameter.getName();
+		String description = parameterName + " of the selected " + objDesc;
+		super.setContentDescription(description);
+		super.setPartName(parameterName);
+
+		actionAdd.setToolTipText("Adds a parameter to this " + objDesc);
+		actionDelete.setToolTipText("Removes a parameter from this " + objDesc);
 	}
 }

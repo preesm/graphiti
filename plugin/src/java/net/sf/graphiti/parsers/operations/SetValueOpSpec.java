@@ -70,9 +70,7 @@ public class SetValueOpSpec implements IOperationSpecification {
 				list.add(value);
 
 				value = list;
-			} else if (clasz == String.class) {
-				value = (String) value;
-			} else if (type instanceof MapType) {
+			} else if (clasz == Map.class) {
 				MapType mapType = (MapType) type;
 				String keyName = mapType.hasKey();
 				String valueName = mapType.hasValue();
@@ -84,6 +82,8 @@ public class SetValueOpSpec implements IOperationSpecification {
 				} else if (name.equals(valueName)) {
 
 				}
+			} else if (clasz == String.class) {
+				value = (String) value;
 			}
 
 			obj.setValue(name, value);

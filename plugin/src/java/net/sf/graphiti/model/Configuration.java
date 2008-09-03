@@ -377,7 +377,7 @@ public class Configuration {
 			map.put(type, parameters);
 		}
 
-		return parameters;
+		return new ArrayList<Parameter>(parameters);
 	}
 
 	/**
