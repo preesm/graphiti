@@ -63,11 +63,13 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                 >id</basic:element_hasName>
                                 <basic:otherAttribute_referencesParameter>
                                   <basic:VertexParameter rdf:ID="VertexParameterId">
+                                    <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                                     <basic:parameter_appliesTo>
                                       <basic:VertexType rdf:ID="VertexType">
                                         <basic:type_hasParameters rdf:resource="#VertexParameterId"/>
                                         <basic:type_hasParameters>
                                           <basic:VertexParameter rdf:ID="VertexParameterType">
+                                            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                                             <basic:parameter_hasName
                                              rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                                             >type</basic:parameter_hasName>
@@ -179,6 +181,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                             <basic:type_hasParameters rdf:resource="#EdgeParameterType"/>
                                           </basic:EdgeType>
                                         </basic:parameter_appliesTo>
+                                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                                         <basic:parameter_hasParameterValue rdf:resource="#ParameterValueEdgeType"/>
                                         <basic:parameter_hasName
                                          rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -282,9 +285,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
       </basic:Element>
     </basic:hasDocumentElement>
     <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >xml</basic:refinementHasFileExtension>
-    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >graphml</basic:refinementHasFileExtension>
+    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >xml</basic:refinementHasFileExtension>
     <basic:hasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >graphml</basic:hasFileExtension>
     <basic:hasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"

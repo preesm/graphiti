@@ -32,7 +32,6 @@ import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.parsers.ContentParser;
 import net.sf.graphiti.transactions.IOperationSpecification;
-import net.sf.graphiti.transactions.Operand;
 import net.sf.graphiti.transactions.Result;
 
 /**
@@ -45,9 +44,9 @@ import net.sf.graphiti.transactions.Result;
 public class CreateGraphOpSpec implements IOperationSpecification {
 
 	@Override
-	public void execute(Operand[] operands, Result result) {
-		ContentParser parser = (ContentParser) operands[0].getContents();
-		Configuration configuration = (Configuration) operands[1].getContents();
+	public void execute(Object[] operands, Result result) {
+		ContentParser parser = (ContentParser) operands[0];
+		Configuration configuration = (Configuration) operands[1];
 		Graph graph = new Graph(configuration);
 		result.setContents(graph);
 		parser.setGraph(graph);

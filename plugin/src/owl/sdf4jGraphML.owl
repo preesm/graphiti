@@ -92,6 +92,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             >data</basic:element_hasName>
             <basic:textContentElement_referencesParameter>
               <basic:VertexParameter rdf:ID="VertexParameterName">
+                <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                 <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >name</basic:parameter_hasName>
                 <basic:parameter_appliesTo>

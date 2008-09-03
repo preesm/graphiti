@@ -30,12 +30,12 @@ package net.sf.graphiti.parsers.operations;
 
 import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.transactions.IOperationSpecification;
-import net.sf.graphiti.transactions.Operand;
 import net.sf.graphiti.transactions.Result;
 
 /**
- * This class provides a 3-ary operation that sets a graph/vertex/edge property
- * value.
+ * This class provides a 4-ary operation that sets a graph/vertex/edge property
+ * value. Operands: object (PropertyBean), parameter type (Class&lt;?&gt;),
+ * parameter name and value.
  * 
  * @author Matthieu Wipliez
  * 
@@ -43,11 +43,12 @@ import net.sf.graphiti.transactions.Result;
 public class SetValueOpSpec implements IOperationSpecification {
 
 	@Override
-	public void execute(Operand[] operands, Result result) {
-		PropertyBean obj = (PropertyBean) operands[0].getContents();
+	public void execute(Object[] operands, Result result) {
+		PropertyBean obj = (PropertyBean) operands[0];
 		if (obj != null) {
-			String name = (String) operands[1].getContents();
-			Object value = operands[2].getContents();
+			Class<?> clasz = (Class<?>) operands[1];
+			String name = (String) operands[2];
+			Object value = operands[3];
 			obj.setValue(name, value);
 		}
 	}
@@ -59,7 +60,7 @@ public class SetValueOpSpec implements IOperationSpecification {
 
 	@Override
 	public int getNbOperands() {
-		return 3;
+		return 4;
 	}
 
 	@Override

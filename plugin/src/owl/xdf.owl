@@ -112,6 +112,7 @@
                             </basic:type_hasParameters>
                             <basic:type_hasParameters>
                               <basic:VertexParameter rdf:ID="vertexNameParameter">
+                                <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                                 <basic:parameter_appliesTo rdf:resource="#VertexTypeInstance"/>
                                 <basic:parameter_hasName rdf:datatype=
                                 "http://www.w3.org/2001/XMLSchema#string"
@@ -419,9 +420,9 @@
       </basic:GraphElement>
     </basic:hasDocumentElement>
     <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >xdf</basic:refinementHasFileExtension>
-    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >cal</basic:refinementHasFileExtension>
+    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >xdf</basic:refinementHasFileExtension>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Copyright (c) 2008, IETR/INSA of Rennes
 All rights reserved.

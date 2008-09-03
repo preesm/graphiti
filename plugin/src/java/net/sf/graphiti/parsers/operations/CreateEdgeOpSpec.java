@@ -30,7 +30,6 @@ package net.sf.graphiti.parsers.operations;
 
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.transactions.IOperationSpecification;
-import net.sf.graphiti.transactions.Operand;
 import net.sf.graphiti.transactions.Result;
 
 /**
@@ -42,7 +41,7 @@ import net.sf.graphiti.transactions.Result;
 public class CreateEdgeOpSpec implements IOperationSpecification {
 
 	@Override
-	public void execute(Operand[] operands, Result result) {
+	public void execute(Object[] operands, Result result) {
 		result.setContents(new Edge());
 	}
 

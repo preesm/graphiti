@@ -57,7 +57,6 @@ import net.sf.graphiti.parsers.operations.CreateGraphOpSpec;
 import net.sf.graphiti.parsers.operations.CreateVertexOpSpec;
 import net.sf.graphiti.parsers.operations.SetEdgeEndpointOpSpec;
 import net.sf.graphiti.parsers.operations.SetValueOpSpec;
-import net.sf.graphiti.transactions.Operand;
 import net.sf.graphiti.transactions.Operation;
 import net.sf.graphiti.transactions.Result;
 import net.sf.graphiti.transactions.SimpleTransaction;
@@ -154,13 +153,11 @@ public class ContentParser {
 
 		if (ontElement instanceof VertexElement) {
 			Operation addVertex = new Operation(new AddVertexOpSpec());
-			addVertex.setOperands(new Operand(resultStack.get(index)),
-					new Operand(resultStack.peek()));
+			addVertex.setOperands(resultStack.get(index), resultStack.peek());
 			transaction.addOperation(addVertex);
 		} else if (ontElement instanceof EdgeElement) {
 			Operation addEdge = new Operation(new AddEdgeOpSpec());
-			addEdge.setOperands(new Operand(resultStack.get(index)),
-					new Operand(resultStack.peek()));
+			addEdge.setOperands(resultStack.get(index), resultStack.peek());
 			transaction.addOperation(addEdge);
 		}
 
@@ -302,32 +299,32 @@ public class ContentParser {
 	private void parseEdgeAttribute(EdgeAttribute ontAttribute,
 			String domAttrValue) {
 		Operation setEdgeEndpoint = new Operation(new SetEdgeEndpointOpSpec());
-		Operand[] operands = new Operand[4];
-		setEdgeEndpoint.setOperands(operands);
+		Object[] operands = new Object[4];
 
 		// graph
 		int index = findNearestElement(OntologyFactory.getClassGraphElement());
 		if (index == -1) {
 			return;
 		}
-		operands[0] = new Operand(resultStack.get(index));
+		operands[0] = resultStack.get(index);
 
 		// edge
 		index = findNearestElement(OntologyFactory.getClassEdgeElement());
 		if (index == -1) {
 			return;
 		}
-		operands[1] = new Operand(resultStack.get(index));
+		operands[1] = resultStack.get(index);
 
 		// endpoint
 		if (ontAttribute instanceof EdgeSourceConnection) {
-			operands[2] = new Operand("source");
+			operands[2] = "source";
 		} else {
-			operands[2] = new Operand("target");
+			operands[2] = "target";
 		}
 
 		// value
-		operands[3] = new Operand(domAttrValue);
+		operands[3] = domAttrValue;
+		setEdgeEndpoint.setOperands(operands);
 		transaction.addOperation(setEdgeEndpoint);
 	}
 
@@ -353,7 +350,7 @@ public class ContentParser {
 	private Result parseGraphElement(GraphElement ontElement,
 			org.w3c.dom.Element domElement) {
 		Operation createGraph = new Operation(new CreateGraphOpSpec());
-		createGraph.setOperands(new Operand(this), new Operand(configuration));
+		createGraph.setOperands(this, configuration);
 		transaction.addOperation(createGraph);
 		return createGraph.getResult();
 	}
@@ -373,13 +370,11 @@ public class ContentParser {
 
 			// will set the parameter value
 			Operation setProperty = new Operation(new SetValueOpSpec());
-			Operand[] operands = new Operand[3];
+			Object[] operands = new Object[] { result,
+					parameter.hasValueType().getDataType(),
+					parameter.hasName(), domAttrValue };
+
 			setProperty.setOperands(operands);
-
-			operands[0] = new Operand(result);
-			operands[1] = new Operand(parameter.hasName());
-			operands[2] = new Operand(domAttrValue);
-
 			transaction.addOperation(setProperty);
 		}
 	}
@@ -397,13 +392,11 @@ public class ContentParser {
 		if (parameter != null) {
 			// will set the parameter value
 			Operation setProperty = new Operation(new SetValueOpSpec());
-			Operand[] operands = new Operand[3];
+			Object[] operands = new Object[] { resultStack.peek(),
+					parameter.hasValueType().getDataType(),
+					parameter.hasName(), domElement.getTextContent() };
+
 			setProperty.setOperands(operands);
-
-			operands[0] = new Operand(resultStack.peek());
-			operands[1] = new Operand(parameter.hasName());
-			operands[2] = new Operand(domElement.getTextContent());
-
 			transaction.addOperation(setProperty);
 		}
 		return new Result();
@@ -447,17 +440,16 @@ public class ContentParser {
 		Set<ParameterValue> attributesNodes = ontElement.hasParameterValues();
 		for (ParameterValue attNode : attributesNodes) {
 			ParameterValue constant = (ParameterValue) attNode;
-			String parameterName = constant.ofParameter().hasName();
+			Parameter parameter = constant.ofParameter();
+			String parameterName = parameter.hasName();
 
 			// will set the parameter value
 			Operation setProperty = new Operation(new SetValueOpSpec());
-			Operand[] operands = new Operand[3];
+			Object[] operands = new Object[] { resultStack.peek(),
+					parameter.hasValueType().getDataType(), parameterName,
+					constant.hasValue() };
+
 			setProperty.setOperands(operands);
-
-			operands[0] = new Operand(resultStack.peek());
-			operands[1] = new Operand(parameterName);
-			operands[2] = new Operand(constant.hasValue());
-
 			transaction.addOperation(setProperty);
 		}
 	}
