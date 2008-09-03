@@ -156,6 +156,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                         <basic:schemaType_hasMaxOccurs
                                          rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                         >1</basic:schemaType_hasMaxOccurs>
+                                        <basic:textContentElement_referencesParameter rdf:resource="#VertexIdParameter"/>
                                         <basic:schemaType_hasMinOccurs
                                          rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                         >1</basic:schemaType_hasMinOccurs>

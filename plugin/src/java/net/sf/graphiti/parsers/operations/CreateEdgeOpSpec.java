@@ -45,6 +45,11 @@ public class CreateEdgeOpSpec implements IOperationSpecification {
 	public void execute(Operand[] operands, Result result) {
 		result.setContents(new Edge());
 	}
+	
+	@Override
+	public String getName() {
+		return "create edge";
+	}
 
 	@Override
 	public int getNbOperands() {

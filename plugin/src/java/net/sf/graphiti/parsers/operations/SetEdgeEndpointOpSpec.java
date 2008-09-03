@@ -59,6 +59,11 @@ public class SetEdgeEndpointOpSpec implements IOperationSpecification {
 			}
 		}
 	}
+	
+	@Override
+	public String getName() {
+		return "set edge endpoint";
+	}
 
 	@Override
 	public int getNbOperands() {

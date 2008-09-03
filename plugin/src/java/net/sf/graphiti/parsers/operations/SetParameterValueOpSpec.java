@@ -51,6 +51,11 @@ public class SetParameterValueOpSpec implements IOperationSpecification {
 			obj.setValue(name, value);
 		}
 	}
+	
+	@Override
+	public String getName() {
+		return "set value";
+	}
 
 	@Override
 	public int getNbOperands() {

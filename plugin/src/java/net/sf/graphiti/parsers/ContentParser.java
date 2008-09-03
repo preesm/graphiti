@@ -461,4 +461,9 @@ public class ContentParser {
 			transaction.addOperation(setProperty);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "Content Parser";
+	}
 }

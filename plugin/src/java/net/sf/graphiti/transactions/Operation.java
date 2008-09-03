@@ -132,7 +132,7 @@ public class Operation {
 
 	@Override
 	public String toString() {
-		String res = "[ ";
+		String res = spec.getName() + ": [ ";
 		for (Operand op : operands) {
 			res += op + " ";
 		}

@@ -56,7 +56,7 @@ public class Result {
 	public String toString() {
 		Object contents = getContents();
 		if (contents == null) {
-			return "<result " + super.toString() + ">";
+			return "<result " + Integer.toHexString(hashCode()) + ">";
 		} else {
 			return contents.toString();
 		}

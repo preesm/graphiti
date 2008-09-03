@@ -48,6 +48,11 @@ public class AddVertexOpSpec implements IOperationSpecification {
 		Vertex vertex = (Vertex) operands[1].getContents();
 		graph.addVertex(vertex);
 	}
+	
+	@Override
+	public String getName() {
+		return "add vertex";
+	}
 
 	@Override
 	public int getNbOperands() {
