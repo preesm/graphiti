@@ -37,7 +37,9 @@ import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
 
 /**
- * @author mwipliez
+ * This class provides a {@link DirectEditPolicy} for a vertex id.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
 public class VertexDirectEditPolicy extends DirectEditPolicy {

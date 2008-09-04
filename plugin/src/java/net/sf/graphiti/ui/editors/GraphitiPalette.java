@@ -31,9 +31,11 @@ package net.sf.graphiti.ui.editors;
 import java.util.Set;
 
 import net.sf.graphiti.model.Configuration;
+import net.sf.graphiti.model.EdgeCreationFactory;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.VertexCreationFactory;
 import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.types.EdgeType;
 import net.sf.graphiti.ontology.types.VertexType;
 import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.figure.VertexFigure;
@@ -49,7 +51,6 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
-import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -64,6 +65,39 @@ import org.eclipse.swt.widgets.Display;
  * 
  */
 public class GraphitiPalette {
+
+	/**
+	 * Add the different edge types.
+	 * 
+	 * @param graph
+	 *            The graph used to configure this palette.
+	 * @param paletteGroup
+	 *            The palette group.
+	 */
+	private static void addEdgeTypes(Graph graph, PaletteRoot paletteModel) {
+		if (graph != null) {
+			ImageDescriptor id = ImageDescriptor.createFromImage(GraphitiPlugin
+					.getImage("icons/dependency.gif"));
+			PaletteDrawer depDrawer = new PaletteDrawer("Connections");
+
+			Configuration config = graph.getDocumentConfiguration();
+			OntologyFactory factory = config.getOntologyFactory();
+			Set<EdgeType> edgeTypes = factory.getEdgeTypes();
+			for (EdgeType type : edgeTypes) {
+				String typeStr = type.hasName();
+
+				ToolEntry tool = new ConnectionCreationToolEntry(typeStr,
+						"Create a new " + typeStr, new EdgeCreationFactory(
+								typeStr), id, ImageDescriptor
+								.getMissingImageDescriptor());
+
+				depDrawer.add(tool);
+			}
+
+			// Add connection tool
+			paletteModel.add(depDrawer);
+		}
+	}
 
 	/**
 	 * Add the different vertex types.
@@ -148,7 +182,6 @@ public class GraphitiPalette {
 		}
 
 		PaletteRoot paletteModel = new PaletteRoot();
-
 		PaletteGroup toolGroup = new PaletteGroup("Tools");
 
 		// Add a selection tool to the group
@@ -165,16 +198,7 @@ public class GraphitiPalette {
 		addVertexTypes(graph, toolGroup);
 		paletteModel.add(toolGroup);
 		toolGroup.add(new PaletteSeparator());
-
-		// Add connection tool
-		PaletteDrawer depDrawer = new PaletteDrawer("Connections");
-		ImageDescriptor id = ImageDescriptor.createFromImage(GraphitiPlugin
-				.getImage("icons/dependency.gif"));
-		tool = new ConnectionCreationToolEntry("Connection",
-				"Create a connection", new SimpleFactory(null), id,
-				ImageDescriptor.getMissingImageDescriptor());
-		depDrawer.add(tool);
-		paletteModel.add(depDrawer);
+		addEdgeTypes(graph, paletteModel);
 
 		return paletteModel;
 	}

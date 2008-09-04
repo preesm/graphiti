@@ -359,8 +359,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 			firePropertyChange(PROP_INPUT);
 		} catch (IncompatibleConfigurationFile e) {
-			IStatus status = GraphitiPlugin.getDefault().getErrorStatus(
-					"The editor could not open the given input: " + file);
 		}
 	}
 

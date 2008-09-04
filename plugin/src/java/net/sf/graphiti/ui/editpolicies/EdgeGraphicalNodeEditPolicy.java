@@ -56,7 +56,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
  * @author Nicolas Isch
  * @author Matthieu Wipliez
  */
-public class VertexGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
+public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
 	@Override
 	protected Connection createDummyConnection(Request req) {
@@ -77,7 +77,8 @@ public class VertexGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
 	@Override
 	protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-		DependencyCreateCommand command = new DependencyCreateCommand();
+		DependencyCreateCommand command = new DependencyCreateCommand(
+				(Edge) request.getNewObject());
 		VertexEditPart vertexEditPart = (VertexEditPart) request
 				.getTargetEditPart();
 		command.setSource((Vertex) (vertexEditPart.getModel()));

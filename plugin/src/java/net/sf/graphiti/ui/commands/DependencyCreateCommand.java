@@ -35,8 +35,8 @@ import net.sf.graphiti.model.Vertex;
 import org.eclipse.gef.commands.Command;
 
 /**
- * This class provides a Command that creates a dependency. ComplexSource and target
- * are set when they are connected.
+ * This class provides a Command that creates a dependency. ComplexSource and
+ * target are set when they are connected.
  * 
  * @author Samuel Beaussier
  * @author Nicolas Isch
@@ -59,9 +59,22 @@ public class DependencyCreateCommand extends Command {
 	protected Vertex source;
 
 	protected Vertex target;
+	
+	/**
+	 * Creates a new command with no initial edge.
+	 */
+	protected DependencyCreateCommand() {
+		
+	}
 
-	public DependencyCreateCommand() {
-
+	/**
+	 * Creates a new command using the given newly created edge.
+	 * 
+	 * @param edge
+	 *            The newly created edge.
+	 */
+	public DependencyCreateCommand(Edge edge) {
+		path = edge;
 	}
 
 	@Override
@@ -72,9 +85,11 @@ public class DependencyCreateCommand extends Command {
 	@Override
 	public void execute() {
 		parentGraph = source.getParent();
-		if (path == null) {
-			path = new Edge(source, target);
-		}
+
+		// path has been set in the constructor.
+		path.setSource(source);
+		path.setTarget(target);
+
 		parentGraph.addEdge(path);
 	}
 

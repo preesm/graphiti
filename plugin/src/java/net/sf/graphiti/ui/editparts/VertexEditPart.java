@@ -43,7 +43,7 @@ import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.editpolicies.DeleteComponentEditPolicy;
 import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
 import net.sf.graphiti.ui.editpolicies.VertexDirectEditPolicy;
-import net.sf.graphiti.ui.editpolicies.VertexGraphicalNodeEditPolicy;
+import net.sf.graphiti.ui.editpolicies.EdgeGraphicalNodeEditPolicy;
 import net.sf.graphiti.ui.figure.VertexFigure;
 
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -167,7 +167,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 				new DeleteComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new LayoutPolicy());
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new VertexGraphicalNodeEditPolicy());
+				new EdgeGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
 				new VertexDirectEditPolicy());
 	}

@@ -31,32 +31,31 @@ package net.sf.graphiti.model;
 import org.eclipse.gef.requests.CreationFactory;
 
 /**
- * Gives methods to create new vertices.
+ * Gives methods to create new edges.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class VertexCreationFactory implements CreationFactory {
+public class EdgeCreationFactory implements CreationFactory {
 
 	private String type;
 
 	/**
-	 * Create a new vertex creation factory.
+	 * Create a new edge creation factory.
 	 * 
-	 * @param type
-	 *            The vertex type.
+	 * @param type The edge type.
 	 */
-	public VertexCreationFactory(String type) {
+	public EdgeCreationFactory(String type) {
 		this.type = type;
 	}
 
 	@Override
 	public Object getNewObject() {
-		return new Vertex(type);
+		return new Edge(type);
 	}
 
 	@Override
 	public Object getObjectType() {
-		return Vertex.class;
+		return Edge.class;
 	}
 }
