@@ -49,7 +49,6 @@ import net.sf.graphiti.ui.actions.PasteAction;
 import net.sf.graphiti.ui.actions.SetRefinementAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
-import net.sf.graphiti.ui.perspectives.GraphitiPerspectiveFactory;
 import net.sf.graphiti.writer.GenericGraphFileWriter;
 
 import org.eclipse.core.resources.IFile;
@@ -82,12 +81,9 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IShowEditorInput;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
@@ -328,20 +324,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		return manager.getZoom();
 	}
 
-	public void init(IEditorSite site, IEditorInput input)
-			throws PartInitException {
-		setSite(site);
-		IWorkbenchPage page = site.getPage();
-		page.setPerspective(GraphitiPerspectiveFactory
-				.getPerspectiveDescriptor());
-
-		setInputWithException(input);
-		getCommandStack().addCommandStackListener(this);
-		getSite().getWorkbenchWindow().getSelectionService()
-				.addSelectionListener(this);
-		initializeActionRegistry();
-	}
-
 	@Override
 	protected void initializeGraphicalViewer() {
 		GraphicalViewer viewer = getGraphicalViewer();
@@ -357,8 +339,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		return true;
 	}
 
-	private void setInputWithException(IEditorInput input)
-			throws PartInitException {
+	@Override
+	protected void setInput(IEditorInput input) {
 		super.setInput(input);
 
 		if (getEditorInput() != null) {
@@ -379,7 +361,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		} catch (IncompatibleConfigurationFile e) {
 			IStatus status = GraphitiPlugin.getDefault().getErrorStatus(
 					"The editor could not open the given input: " + file);
-			throw new PartInitException(status);
 		}
 	}
 

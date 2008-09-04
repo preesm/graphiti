@@ -161,7 +161,7 @@ public class ComplexPropertyView extends AbstractPropertyView {
 	private void configureTableViewer() {
 		Table table = tableViewer.getTable();
 
-		// Sort by parameter name
+		// table viewer comparator
 		tableViewer.setComparator(new NameSorter());
 
 		// content provider
@@ -177,6 +177,8 @@ public class ComplexPropertyView extends AbstractPropertyView {
 		} else if (source.parameter.getType() == Map.class) {
 			setMapContentHandler(table, contentProvider);
 		}
+
+		tableViewer.setInput(source);
 	}
 
 	/**
@@ -232,16 +234,6 @@ public class ComplexPropertyView extends AbstractPropertyView {
 		actionDelete.setText("Remove parameter");
 		actionDelete.setImageDescriptor(GraphitiPlugin
 				.getImageDescriptor("icons/remove_obj.gif"));
-
-		Action doubleClickAction = new Action() {
-			public void run() {
-				ISelection selection = tableViewer.getSelection();
-				Object obj = ((IStructuredSelection) selection)
-						.getFirstElement();
-				
-				System.out.println();
-			}
-		};
 	}
 
 	/**
@@ -280,7 +272,6 @@ public class ComplexPropertyView extends AbstractPropertyView {
 	public void selectionChanged(Object object, Parameter parameter) {
 		source = new ComplexSource((PropertyBean) object, parameter);
 		configureTableViewer();
-		tableViewer.setInput(source);
 
 		if (object instanceof Graph) {
 			objDesc = "graph";

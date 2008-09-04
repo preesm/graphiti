@@ -186,8 +186,6 @@ public class PropertyView extends AbstractPropertyView {
 
 	@Override
 	public void selectionChanged(Object object) {
-		tableViewer.setInput(object);
-		
 		Object selectedObject = getModel(object);
 
 		// active page. Sometimes null, hence the test we do.
@@ -196,6 +194,7 @@ public class PropertyView extends AbstractPropertyView {
 		if (page == null) {
 			return;
 		}
+		tableViewer.setInput(object);
 
 		// hide all contextual property views
 		IViewReference[] views = page.getViewReferences();
