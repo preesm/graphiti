@@ -28,65 +28,79 @@
  */
 package net.sf.graphiti.parsers.operations;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.PropertyBean;
-import net.sf.graphiti.ontology.dataTypes.DataType;
-import net.sf.graphiti.ontology.dataTypes.MapType;
+import net.sf.graphiti.model.Util;
 import net.sf.graphiti.transactions.IOperationSpecification;
 import net.sf.graphiti.transactions.Result;
 
 /**
- * This class provides a 4-ary operation that sets a graph/vertex/edge property
- * value. Operands: object (PropertyBean), parameter type (DataType), parameter
- * name and value.
+ * This class provides a 3-ary operation that sets a graph/vertex/edge property
+ * value. Operands: object (PropertyBean), parameter and value.
  * 
  * @author Matthieu Wipliez
  * 
  */
 public class SetValueOpSpec implements IOperationSpecification {
 
+	private static SetValueOpSpec instance;
+
+	/**
+	 * Returns the single instance of this {@link SetValueOpSpec}.
+	 * 
+	 * @return The single instance of this {@link SetValueOpSpec}.
+	 */
+	public static SetValueOpSpec getInstance() {
+		if (instance == null) {
+			instance = new SetValueOpSpec();
+		}
+
+		return instance;
+	}
+
+	private Object lastKey;
+
+	/**
+	 * Creates a new set value operation specification.
+	 */
+	private SetValueOpSpec() {
+
+	}
+
 	@Override
-	@SuppressWarnings("unchecked")
 	public void execute(Object[] operands, Result result) {
-		PropertyBean obj = (PropertyBean) operands[0];
-		if (obj != null) {
-			DataType type = (DataType) operands[1];
-			String name = (String) operands[2];
-			Object value = operands[3];
+		PropertyBean bean = (PropertyBean) operands[0];
+		if (bean != null) {
+			Parameter parameter = (Parameter) operands[1];
+			Object value = operands[2];
 
-			Class<?> clasz = type.getDataType();
-			if (clasz == Float.class) {
-				value = new Float((String) value);
-			} else if (clasz == Integer.class) {
-				value = new Integer((String) value);
-			} else if (clasz == List.class) {
-				List<Object> list = (List<Object>) obj.getValue(name);
-				if (list == null) {
-					list = new ArrayList<Object>();
-				}
+			Class<?> clasz = parameter.getType();
+			if (clasz == List.class) {
+				List<Object> list = Util.getList(bean, parameter);
 				list.add(value);
-
-				value = list;
 			} else if (clasz == Map.class) {
-				MapType mapType = (MapType) type;
-				String keyName = mapType.hasKey();
-				String valueName = mapType.hasValue();
-
-				Map<Object, Object> map = (Map<Object, Object>) obj
-						.getValue(name);
-				if (name.equals(keyName)) {
-
-				} else if (name.equals(valueName)) {
-
+				if (lastKey == null) {
+					lastKey = value;
+				} else {
+					Map<Object, Object> map = Util.getMap(bean, parameter);
+					map.put(lastKey, value);
+					lastKey = null;
 				}
-			} else if (clasz == String.class) {
-				value = (String) value;
-			}
+			} else {
+				if (clasz == Float.class) {
+					value = new Float((String) value);
+				} else if (clasz == Integer.class) {
+					value = new Integer((String) value);
+				} else if (clasz == String.class) {
+					// just to enforce the String constraint
+					value = (String) value;
+				}
 
-			obj.setValue(name, value);
+				bean.setValue(parameter.getName(), value);
+			}
 		}
 	}
 
@@ -97,7 +111,7 @@ public class SetValueOpSpec implements IOperationSpecification {
 
 	@Override
 	public int getNbOperands() {
-		return 4;
+		return 3;
 	}
 
 	@Override

@@ -34,78 +34,50 @@ import java.beans.PropertyChangeListener;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.PropertyBean;
 
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ColumnViewer;
-import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.swt.widgets.Table;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ViewerCell;
 
 /**
- * This class provides {@link EditingSupport} for the "value" column.
+ * This class extends {@link CellLabelProvider}.
  * 
  * @author Matthieu Wipliez
- * 
  */
-public class PropertiesEditingSupport extends EditingSupport implements
+public class SimpleCellLabelProvider extends CellLabelProvider implements
 		PropertyChangeListener {
 
-	private TextCellEditor editor;
-
 	/**
-	 * The source we provide editing support for.
+	 * The source we provide labels for.
 	 */
 	private PropertyBean source;
 
-	/**
-	 * Creates a new {@link PropertiesEditingSupport} on the given column viewer
-	 * and table.
-	 * 
-	 * @param viewer
-	 * @param table
-	 */
-	public PropertiesEditingSupport(ColumnViewer viewer, Table table) {
-		super(viewer);
-		editor = new TextCellEditor(table);
-	}
-
 	@Override
-	protected boolean canEdit(Object element) {
-		return true;
-	}
-
-	@Override
-	protected CellEditor getCellEditor(Object element) {
-		return editor;
-	}
-
-	@Override
-	protected Object getValue(Object element) {
-		if (element instanceof Parameter) {
-			Parameter parameter = (Parameter) element;
-			Object value = (Object) source.getValue(parameter.getName());
-			if (value == null) {
-				value = "";
-			}
-			return value.toString();
-		} else {
-			return "";
-		}
+	public void dispose() {
+		super.dispose();
+		source = null;
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(
-				PropertiesContentProvider.INPUT_CHANGED)) {
+				SimpleContentProvider.INPUT_CHANGED)) {
 			source = (PropertyBean) evt.getNewValue();
 		}
 	}
 
 	@Override
-	protected void setValue(Object element, Object value) {
+	public void update(ViewerCell cell) {
+		Object element = cell.getElement();
 		if (element instanceof Parameter) {
 			Parameter parameter = (Parameter) element;
-			// TODO: change value type
-			source.setValue(parameter.getName(), (String) value);
+			if (cell.getColumnIndex() == 0) {
+				cell.setText(parameter.getName());
+			} else {
+				Object value = (Object) source.getValue(parameter.getName());
+				if (value == null) {
+					value = "";
+				}
+				cell.setText(value.toString());
+			}
 		}
 	}
 

@@ -369,9 +369,10 @@ public class ContentParser {
 			Result result = getParameterObject(parameter);
 
 			// will set the parameter value
-			Operation setProperty = new Operation(new SetValueOpSpec());
+			Operation setProperty = new Operation(SetValueOpSpec.getInstance());
 			Object[] operands = new Object[] { result,
-					parameter.hasValueType(), parameter.hasName(), domAttrValue };
+					new net.sf.graphiti.model.Parameter(parameter),
+					domAttrValue };
 
 			setProperty.setOperands(operands);
 			transaction.addOperation(setProperty);
@@ -390,9 +391,9 @@ public class ContentParser {
 
 		if (parameter != null) {
 			// will set the parameter value
-			Operation setProperty = new Operation(new SetValueOpSpec());
+			Operation setProperty = new Operation(SetValueOpSpec.getInstance());
 			Object[] operands = new Object[] { resultStack.peek(),
-					parameter.hasValueType(), parameter.hasName(),
+					new net.sf.graphiti.model.Parameter(parameter),
 					domElement.getTextContent() };
 
 			setProperty.setOperands(operands);
@@ -440,12 +441,11 @@ public class ContentParser {
 		for (ParameterValue attNode : attributesNodes) {
 			ParameterValue constant = (ParameterValue) attNode;
 			Parameter parameter = constant.ofParameter();
-			String parameterName = parameter.hasName();
 
 			// will set the parameter value
-			Operation setProperty = new Operation(new SetValueOpSpec());
+			Operation setProperty = new Operation(SetValueOpSpec.getInstance());
 			Object[] operands = new Object[] { resultStack.peek(),
-					parameter.hasValueType(), parameterName,
+					new net.sf.graphiti.model.Parameter(parameter),
 					constant.hasValue() };
 
 			setProperty.setOperands(operands);

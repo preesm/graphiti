@@ -71,7 +71,6 @@ public class GraphMLExportWizard extends Wizard implements IExportWizard {
 
 	@Override
 	public boolean performFinish() {
-		// TODO: write the source file to GraphML.
 		String fileName = mainPage.getDestinationFileName();
 		Graph graph = mainPage.getGraph();
 		GraphMLFileWriter.dumpFile(graph, fileName);

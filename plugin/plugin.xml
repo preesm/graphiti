@@ -57,13 +57,13 @@
       <view
             allowMultiple="true"
             category="net.sf.graphiti.ui.views"
-            class="net.sf.graphiti.ui.views.ContextualPropertyView"
+            class="net.sf.graphiti.ui.views.ComplexPropertyView"
             icon="icons/graphiti.gif"
-            id="net.sf.graphiti.ui.views.ContextualPropertyView"
-            name="Contextual Properties"
+            id="net.sf.graphiti.ui.views.ComplexPropertyView"
+            name="Complex Properties"
             restorable="true">
          <description>
-            The Contextual Properties view displays properties specific to the current selection.
+            The Complex Properties view displays complex properties (of type list, map) associated with the current selection.
          </description>
       </view>
    </extension>

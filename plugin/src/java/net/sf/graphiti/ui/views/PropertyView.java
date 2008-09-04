@@ -43,6 +43,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IViewPart;
@@ -87,22 +88,32 @@ public class PropertyView extends AbstractPropertyView {
 	 *            A {@link Table}.
 	 */
 	protected void createTableViewer(Table table) {
+		// 1st column
+		TableColumn column = new TableColumn(table, SWT.CENTER, 0);
+		column.setText("Name");
+		column.setWidth(100);
+
+		// 2nd column
+		column = new TableColumn(table, SWT.LEFT, 1);
+		column.setText("Value");
+		column.setWidth(300);
+		
 		// Creates the table viewer on the table.
 		tableViewer = new TableViewer(table);
 
 		// content provider
-		PropertiesContentProvider contentProvider = new PropertiesContentProvider();
+		SimpleContentProvider contentProvider = new SimpleContentProvider();
 		tableViewer.setContentProvider(contentProvider);
 
 		// Sort by parameter name
 		tableViewer.setComparator(new NameSorter());
 
 		// cell label provider
-		PropertiesCellLabelProvider provider = new PropertiesCellLabelProvider();
+		SimpleCellLabelProvider provider = new SimpleCellLabelProvider();
 		contentProvider.addPropertyChangeListener(provider);
 
 		// first column
-		TableColumn column = table.getColumn(0);
+		column = table.getColumn(0);
 		TableViewerColumn tvc = new TableViewerColumn(tableViewer, column);
 		tvc.setLabelProvider(provider);
 
@@ -112,14 +123,14 @@ public class PropertyView extends AbstractPropertyView {
 		tvc.setLabelProvider(provider);
 
 		// editing support for second column
-		PropertiesEditingSupport editing = new PropertiesEditingSupport(tvc
+		SimpleEditingSupport editing = new SimpleEditingSupport(tvc
 				.getViewer(), table);
 		contentProvider.addPropertyChangeListener(editing);
 		tvc.setEditingSupport(editing);
 	}
 
 	/**
-	 * Displays a new {@link ContextualPropertyView} for the given parameter on
+	 * Displays a new {@link ComplexPropertyView} for the given parameter on
 	 * the given page.
 	 * 
 	 * @param page
@@ -141,9 +152,9 @@ public class PropertyView extends AbstractPropertyView {
 			if (type == Map.class || type == List.class) {
 				String parameterName = parameter.getName();
 				try {
-					IViewPart part = page.showView(ContextualPropertyView.ID,
+					IViewPart part = page.showView(ComplexPropertyView.ID,
 							parameterName, IWorkbenchPage.VIEW_VISIBLE);
-					ContextualPropertyView view = (ContextualPropertyView) part;
+					ComplexPropertyView view = (ComplexPropertyView) part;
 					view.selectionChanged(object, parameter);
 				} catch (PartInitException e) {
 					e.printStackTrace();
@@ -189,7 +200,7 @@ public class PropertyView extends AbstractPropertyView {
 		// hide all contextual property views
 		IViewReference[] views = page.getViewReferences();
 		for (IViewReference view : views) {
-			if (view.getId().equals(ContextualPropertyView.ID)) {
+			if (view.getId().equals(ComplexPropertyView.ID)) {
 				page.hideView(view);
 			}
 		}

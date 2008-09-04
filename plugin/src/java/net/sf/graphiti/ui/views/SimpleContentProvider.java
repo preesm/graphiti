@@ -48,8 +48,7 @@ import org.eclipse.jface.viewers.Viewer;
  * 
  * @author Matthieu Wipliez
  */
-public class PropertiesContentProvider extends
-		AbstractPropertiesContentProvider {
+public class SimpleContentProvider extends AbstractContentProvider {
 
 	@Override
 	public void dispose() {
@@ -71,7 +70,7 @@ public class PropertiesContentProvider extends
 		} else {
 			return new Object[] {};
 		}
-		
+
 		Iterator<Parameter> it = parameters.iterator();
 		while (it.hasNext()) {
 			Class<?> type = it.next().getType();
@@ -79,7 +78,7 @@ public class PropertiesContentProvider extends
 				it.remove();
 			}
 		}
-		
+
 		return parameters.toArray();
 	}
 

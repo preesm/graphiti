@@ -28,40 +28,40 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
       <owl:Class rdf:ID="Element"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:ID="Choice">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >A choice of elements: one valid branch among several. The order in which branches are tested is not specified, unlike OrderedChoice.</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Class rdf:ID="ComplexType"/>
-    </rdfs:subClassOf>
-    <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</owl:minCardinality>
-        <owl:onProperty>
-          <owl:ObjectProperty rdf:ID="choice_hasElements"/>
-        </owl:onProperty>
-      </owl:Restriction>
-    </rdfs:subClassOf>
-  </owl:Class>
   <owl:Class rdf:ID="Sequence">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >A sequence of elements. Note that the schemaType_hasMinOccurs and schemaType_hasMaxOccurs information must be provided for the first sequence element only.</rdfs:comment>
     <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:onProperty>
-          <owl:FunctionalProperty rdf:ID="sequence_hasRest"/>
-        </owl:onProperty>
-        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</owl:maxCardinality>
-      </owl:Restriction>
+      <owl:Class rdf:ID="ComplexType"/>
     </rdfs:subClassOf>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >1</owl:cardinality>
         <owl:onProperty>
-          <owl:FunctionalProperty rdf:ID="sequence_hasHead"/>
+          <owl:ObjectProperty rdf:ID="sequence_hasHead"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="sequence_hasRest"/>
+        </owl:onProperty>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Choice">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A choice of elements: one valid branch among several. The order in which branches are tested is not specified, unlike OrderedChoice.</rdfs:comment>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:minCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="choice_hasElements"/>
         </owl:onProperty>
       </owl:Restriction>
     </rdfs:subClassOf>
@@ -78,6 +78,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Not used at the moment.</rdfs:comment>
     <rdfs:subClassOf>
+      <owl:Class rdf:about="#ComplexType"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
       <owl:Restriction>
         <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >1</owl:minCardinality>
@@ -86,23 +89,20 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         </owl:onProperty>
       </owl:Restriction>
     </rdfs:subClassOf>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#ComplexType"/>
-    </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:ID="EdgeType">
     <rdfs:subClassOf>
-      <owl:Class rdf:ID="Type"/>
-    </rdfs:subClassOf>
-    <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty>
-          <owl:ObjectProperty rdf:ID="type_hasParameters"/>
+          <owl:InverseFunctionalProperty rdf:ID="type_hasParameters"/>
         </owl:onProperty>
         <owl:allValuesFrom>
           <owl:Class rdf:ID="EdgeParameter"/>
         </owl:allValuesFrom>
       </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Type"/>
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:ID="EdgeTargetConnection">
@@ -117,16 +117,16 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
   </owl:Class>
   <owl:Class rdf:ID="ShapeAttribute">
     <rdfs:subClassOf>
-      <owl:Class rdf:ID="FigureAttribute"/>
-    </rdfs:subClassOf>
-    <rdfs:subClassOf>
       <owl:Restriction>
         <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >1</owl:cardinality>
         <owl:onProperty>
-          <owl:ObjectProperty rdf:ID="shapeAttribute_hasShape"/>
+          <owl:FunctionalProperty rdf:ID="shapeAttribute_hasShape"/>
         </owl:onProperty>
       </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="FigureAttribute"/>
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:ID="XMLSchemaType">
@@ -136,21 +136,18 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
   </owl:Class>
   <owl:Class rdf:ID="LocationAttribute">
     <rdfs:subClassOf>
-      <owl:Class rdf:about="#FigureAttribute"/>
-    </rdfs:subClassOf>
-    <rdfs:subClassOf>
       <owl:Class>
         <owl:unionOf rdf:parseType="Collection">
           <owl:Restriction>
             <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
             >1</owl:cardinality>
             <owl:onProperty>
-              <owl:DatatypeProperty rdf:ID="locationAttribute_hasYCoordinate"/>
+              <owl:FunctionalProperty rdf:ID="locationAttribute_hasYCoordinate"/>
             </owl:onProperty>
           </owl:Restriction>
           <owl:Restriction>
             <owl:onProperty>
-              <owl:DatatypeProperty rdf:ID="locationAttribute_hasXCoordinate"/>
+              <owl:FunctionalProperty rdf:ID="locationAttribute_hasXCoordinate"/>
             </owl:onProperty>
             <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
             >1</owl:cardinality>
@@ -158,22 +155,28 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         </owl:unionOf>
       </owl:Class>
     </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#FigureAttribute"/>
+    </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:ID="OtherAttribute">
-    <rdfs:subClassOf>
-      <owl:Class rdf:ID="XMLAttribute"/>
-    </rdfs:subClassOf>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >1</owl:cardinality>
         <owl:onProperty>
-          <owl:ObjectProperty rdf:ID="otherAttribute_referencesParameter"/>
+          <owl:FunctionalProperty rdf:ID="otherAttribute_referencesParameter"/>
         </owl:onProperty>
       </owl:Restriction>
     </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="XMLAttribute"/>
+    </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:ID="DimensionAttribute">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#FigureAttribute"/>
+    </rdfs:subClassOf>
     <rdfs:subClassOf>
       <owl:Class>
         <owl:unionOf rdf:parseType="Collection">
@@ -181,50 +184,42 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
             >1</owl:cardinality>
             <owl:onProperty>
-              <owl:DatatypeProperty rdf:ID="dimensionAtribute_hasHeight"/>
+              <owl:FunctionalProperty rdf:ID="dimensionAtribute_hasHeight"/>
             </owl:onProperty>
           </owl:Restriction>
           <owl:Restriction>
             <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
             >1</owl:cardinality>
             <owl:onProperty>
-              <owl:DatatypeProperty rdf:ID="dimensionAttribute_hasWidth"/>
+              <owl:FunctionalProperty rdf:ID="dimensionAttribute_hasWidth"/>
             </owl:onProperty>
           </owl:Restriction>
         </owl:unionOf>
       </owl:Class>
-    </rdfs:subClassOf>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#FigureAttribute"/>
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="#ComplexType">
     <rdfs:subClassOf rdf:resource="#XMLSchemaType"/>
   </owl:Class>
   <owl:Class rdf:ID="ParameterValue">
-    <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</owl:cardinality>
-        <owl:onProperty>
-          <owl:DatatypeProperty rdf:ID="parameterValue_hasValue"/>
-        </owl:onProperty>
-      </owl:Restriction>
-    </rdfs:subClassOf>
-    <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:onProperty>
-          <owl:ObjectProperty rdf:ID="parameterValue_ofParameter"/>
-        </owl:onProperty>
-        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</owl:cardinality>
-      </owl:Restriction>
-    </rdfs:subClassOf>
     <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-  </owl:Class>
-  <owl:Class rdf:ID="MapType">
     <rdfs:subClassOf>
-      <owl:Class rdf:ID="DataType"/>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:FunctionalProperty rdf:ID="parameterValue_ofParameter"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty>
+          <owl:FunctionalProperty rdf:ID="parameterValue_hasValue"/>
+        </owl:onProperty>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+      </owl:Restriction>
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:ID="Position">
@@ -256,20 +251,20 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty>
-          <owl:ObjectProperty rdf:ID="parameter_appliesTo"/>
+          <owl:FunctionalProperty rdf:ID="parameter_hasPosition"/>
         </owl:onProperty>
         <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >1</owl:minCardinality>
+        >0</owl:minCardinality>
       </owl:Restriction>
     </rdfs:subClassOf>
     <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty>
-          <owl:ObjectProperty rdf:ID="parameter_hasPosition"/>
+          <owl:FunctionalProperty rdf:ID="parameter_appliesTo"/>
         </owl:onProperty>
         <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >0</owl:minCardinality>
+        >1</owl:minCardinality>
       </owl:Restriction>
     </rdfs:subClassOf>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -277,28 +272,28 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
   </owl:Class>
   <owl:Class rdf:ID="GraphType">
     <rdfs:subClassOf>
-      <owl:Class rdf:about="#Type"/>
-    </rdfs:subClassOf>
-    <rdfs:subClassOf>
       <owl:Restriction>
         <owl:allValuesFrom rdf:resource="#GraphParameter"/>
         <owl:onProperty>
-          <owl:ObjectProperty rdf:about="#type_hasParameters"/>
+          <owl:InverseFunctionalProperty rdf:about="#type_hasParameters"/>
         </owl:onProperty>
       </owl:Restriction>
     </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Type"/>
+    </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="#Type">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >1</owl:cardinality>
         <owl:onProperty>
-          <owl:DatatypeProperty rdf:ID="type_hasName"/>
+          <owl:FunctionalProperty rdf:ID="type_hasName"/>
         </owl:onProperty>
       </owl:Restriction>
     </rdfs:subClassOf>
-    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   </owl:Class>
   <owl:Class rdf:ID="VertexElement">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -307,7 +302,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
       <owl:Class rdf:about="#Element"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:about="#DataType">
+  <owl:Class rdf:ID="DataType">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Different types available for values of Parameters.</rdfs:comment>
   </owl:Class>
@@ -323,25 +318,22 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
       <owl:Class rdf:about="#FigureAttribute"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:ID="MapParameter">
-    <rdfs:subClassOf rdf:resource="#Parameter"/>
-  </owl:Class>
   <owl:Class rdf:about="#EdgeAttribute">
     <rdfs:subClassOf>
       <owl:Class rdf:about="#XMLAttribute"/>
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:ID="AttributeRestriction">
+    <rdfs:subClassOf rdf:resource="#XMLDescription"/>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >1</owl:cardinality>
         <owl:onProperty>
-          <owl:DatatypeProperty rdf:ID="attributeRestriction_hasValue"/>
+          <owl:FunctionalProperty rdf:ID="attributeRestriction_hasValue"/>
         </owl:onProperty>
       </owl:Restriction>
     </rdfs:subClassOf>
-    <rdfs:subClassOf rdf:resource="#XMLDescription"/>
   </owl:Class>
   <owl:Class rdf:ID="EdgeConnection">
     <rdfs:subClassOf rdf:resource="#EdgeAttribute"/>
@@ -354,30 +346,30 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:ID="VertexType">
-    <rdfs:subClassOf rdf:resource="#Type"/>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:allValuesFrom rdf:resource="#VertexParameter"/>
         <owl:onProperty>
-          <owl:ObjectProperty rdf:about="#type_hasParameters"/>
+          <owl:InverseFunctionalProperty rdf:about="#type_hasParameters"/>
         </owl:onProperty>
       </owl:Restriction>
     </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="#Type"/>
   </owl:Class>
   <owl:Class rdf:about="#EdgeParameter">
     <rdfs:subClassOf rdf:resource="#Parameter"/>
   </owl:Class>
   <owl:Class rdf:ID="OrderedChoice">
+    <rdfs:subClassOf rdf:resource="#ComplexType"/>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty>
-          <owl:FunctionalProperty rdf:ID="orderedChoice_hasElements"/>
+          <owl:ObjectProperty rdf:ID="orderedChoice_hasElements"/>
         </owl:onProperty>
         <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >1</owl:cardinality>
       </owl:Restriction>
     </rdfs:subClassOf>
-    <rdfs:subClassOf rdf:resource="#ComplexType"/>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >An ordered choice of elements: one valid branch among several, where the order in which branches are tested is specified (kind of if-then-else statement).</rdfs:comment>
   </owl:Class>
@@ -398,16 +390,16 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <rdfs:subClassOf rdf:resource="#XMLDescription"/>
   </owl:Class>
   <owl:Class rdf:about="#FigureAttribute">
-    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty>
-          <owl:ObjectProperty rdf:ID="figureAttribute_appliesTo"/>
+          <owl:FunctionalProperty rdf:ID="figureAttribute_appliesTo"/>
         </owl:onProperty>
         <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >1</owl:minCardinality>
       </owl:Restriction>
     </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   </owl:Class>
   <owl:Class rdf:about="#Element">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -418,245 +410,218 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <rdfs:range rdf:resource="#XMLSchemaType"/>
     <rdfs:domain rdf:resource="#Choice"/>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#parameter_hasPosition">
-    <rdfs:range rdf:resource="#Position"/>
-    <rdfs:domain rdf:resource="#Parameter"/>
+  <owl:ObjectProperty rdf:ID="hasDocumentElement">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The document element associated with this ontology.</rdfs:comment>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:range rdf:resource="#XMLSchemaType"/>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="parameter_hasValueType">
-    <rdfs:domain rdf:resource="#Parameter"/>
+  <owl:ObjectProperty rdf:ID="attributeRestriction_hasParameterValue">
+    <rdfs:range rdf:resource="#ParameterValue"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:range rdf:resource="#DataType"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#parameter_appliesTo">
-    <owl:inverseOf>
-      <owl:ObjectProperty rdf:about="#type_hasParameters"/>
-    </owl:inverseOf>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:range rdf:resource="#Type"/>
-    <rdfs:domain rdf:resource="#Parameter"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#figureAttribute_appliesTo">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <owl:inverseOf>
-      <owl:ObjectProperty rdf:ID="type_hasFigureAttributes"/>
-    </owl:inverseOf>
-    <rdfs:range rdf:resource="#Type"/>
-    <rdfs:domain rdf:resource="#FigureAttribute"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="attributeRestriction_ofElement">
-    <rdfs:range rdf:resource="#Element"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <owl:inverseOf>
-      <owl:ObjectProperty rdf:ID="element_hasAttributeRestriction"/>
-    </owl:inverseOf>
     <rdfs:domain rdf:resource="#AttributeRestriction"/>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#element_hasAttributeRestriction">
-    <rdfs:domain rdf:resource="#Element"/>
-    <owl:inverseOf rdf:resource="#attributeRestriction_ofElement"/>
-    <rdfs:range rdf:resource="#AttributeRestriction"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#otherAttribute_referencesParameter">
-    <rdfs:domain rdf:resource="#OtherAttribute"/>
-    <rdfs:range rdf:resource="#Parameter"/>
+  <owl:ObjectProperty rdf:about="#sequence_hasHead">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="#Sequence"/>
+    <rdfs:range rdf:resource="#XMLSchemaType"/>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="element_hasParameterValue">
+  <owl:ObjectProperty rdf:ID="element_hasSchemaType">
+    <rdfs:range rdf:resource="#XMLSchemaType"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain rdf:resource="#Element"/>
-    <rdfs:range rdf:resource="#ParameterValue"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#parameterValue_ofParameter">
-    <owl:inverseOf>
-      <owl:ObjectProperty rdf:ID="parameter_hasParameterValue"/>
-    </owl:inverseOf>
-    <rdfs:range rdf:resource="#Parameter"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain rdf:resource="#ParameterValue"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#type_hasParameters">
-    <owl:inverseOf rdf:resource="#parameter_appliesTo"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-    <rdfs:domain rdf:resource="#Type"/>
-    <rdfs:range rdf:resource="#Parameter"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#parameter_hasParameterValue">
-    <rdfs:range rdf:resource="#ParameterValue"/>
-    <owl:inverseOf rdf:resource="#parameterValue_ofParameter"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-    <rdfs:domain rdf:resource="#Parameter"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#type_hasFigureAttributes">
-    <rdfs:domain rdf:resource="#Type"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-    <owl:inverseOf rdf:resource="#figureAttribute_appliesTo"/>
-    <rdfs:range rdf:resource="#FigureAttribute"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:about="#shapeAttribute_hasShape">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain rdf:resource="#ShapeAttribute"/>
-    <rdfs:range rdf:resource="#Shapes"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="attribute_isReferenceTo">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-    <rdfs:range rdf:resource="#Element"/>
-    <rdfs:domain rdf:resource="#EdgeAttribute"/>
-  </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="element_hasAttributes">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
-    <rdfs:range rdf:resource="#XMLAttribute"/>
     <rdfs:domain rdf:resource="#Element"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="#all_hasElements">
     <rdfs:domain rdf:resource="#All"/>
     <rdfs:range rdf:resource="#XMLSchemaType"/>
   </owl:ObjectProperty>
-  <owl:DatatypeProperty rdf:about="#locationAttribute_hasXCoordinate">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
-    <rdfs:domain rdf:resource="#LocationAttribute"/>
+  <owl:ObjectProperty rdf:ID="textContentElement_referencesParameter">
+    <rdfs:range rdf:resource="#Parameter"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:about="#dimensionAtribute_hasHeight">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
-    <rdfs:domain rdf:resource="#DimensionAttribute"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="hasFileExtension">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >This property should be applied to the ontology element to describe a file extension this ontology can be associated with.</rdfs:comment>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="colorAttribute_hasGreen">
-    <rdfs:domain rdf:resource="#ColorAttribute"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="element_hasName">
-    <rdfs:domain rdf:resource="#Element"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:about="#dimensionAttribute_hasWidth">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
-    <rdfs:domain rdf:resource="#DimensionAttribute"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:about="#parameterValue_hasValue">
-    <rdfs:domain rdf:resource="#ParameterValue"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="refinementHasFileExtension">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >This property should be applied to the ontology element to describe a file extension a vertex refinement can be associated with.</rdfs:comment>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="parameter_hasName">
-    <rdfs:domain rdf:resource="#Parameter"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:about="#locationAttribute_hasYCoordinate">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain rdf:resource="#LocationAttribute"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="attributeRestriction_hasName">
-    <rdfs:domain rdf:resource="#AttributeRestriction"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:about="#attributeRestriction_hasValue">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:domain rdf:resource="#AttributeRestriction"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="colorAttribute_hasBlue">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
-    <rdfs:domain rdf:resource="#ColorAttribute"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:about="#type_hasName">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#Type"/>
-  </owl:DatatypeProperty>
-  <owl:DatatypeProperty rdf:ID="attribute_hasName">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdfs:domain rdf:resource="#XMLAttribute"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
-  </owl:DatatypeProperty>
-  <owl:FunctionalProperty rdf:ID="hasDocumentElement">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >The document element associated with this ontology.</rdfs:comment>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:range rdf:resource="#XMLSchemaType"/>
-  </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:ID="schemaType_hasMinOccurs">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
-    <rdfs:domain rdf:resource="#XMLSchemaType"/>
-  </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:ID="attributeRestriction_hasParameterValue">
-    <rdfs:range rdf:resource="#ParameterValue"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="#AttributeRestriction"/>
-  </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:about="#sequence_hasHead">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="#Sequence"/>
-    <rdfs:range rdf:resource="#XMLSchemaType"/>
-  </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:ID="element_hasSchemaType">
-    <rdfs:range rdf:resource="#XMLSchemaType"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="#Element"/>
-  </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:ID="colorAttribute_hasRed">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="#ColorAttribute"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
-  </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:about="#orderedChoice_hasElements">
+    <rdfs:domain rdf:resource="#TextContentElement"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#orderedChoice_hasElements">
     <rdfs:range rdf:resource="#Sequence"/>
     <rdfs:domain rdf:resource="#OrderedChoice"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-  </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:ID="map_hasValueType">
-    <rdfs:domain rdf:resource="#MapType"/>
-    <rdfs:range rdf:resource="#DataType"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-  </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:ID="map_hasKey">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="#MapType"/>
-  </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:ID="map_hasValue">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="#MapType"/>
-  </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:ID="schemaType_hasMaxOccurs">
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-    <rdfs:domain rdf:resource="#XMLSchemaType"/>
-  </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:ID="textContentElement_referencesParameter">
-    <rdfs:range rdf:resource="#Parameter"/>
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:domain rdf:resource="#TextContentElement"/>
-  </owl:FunctionalProperty>
-  <owl:FunctionalProperty rdf:about="#sequence_hasRest">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#sequence_hasRest">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
     <rdfs:domain rdf:resource="#Sequence"/>
     <rdfs:range rdf:resource="#Sequence"/>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:ID="schemaType_hasMinOccurs">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:domain rdf:resource="#XMLSchemaType"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="schemaType_hasMaxOccurs">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="#XMLSchemaType"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="colorAttribute_hasRed">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain rdf:resource="#ColorAttribute"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+  </owl:DatatypeProperty>
+  <owl:FunctionalProperty rdf:about="#locationAttribute_hasXCoordinate">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:domain rdf:resource="#LocationAttribute"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
   </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#parameter_hasPosition">
+    <rdfs:range rdf:resource="#Position"/>
+    <rdfs:domain rdf:resource="#Parameter"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="parameter_hasValueType">
+    <rdfs:domain rdf:resource="#Parameter"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#DataType"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#dimensionAtribute_hasHeight">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:domain rdf:resource="#DimensionAttribute"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#parameter_appliesTo">
+    <owl:inverseOf>
+      <owl:InverseFunctionalProperty rdf:about="#type_hasParameters"/>
+    </owl:inverseOf>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Type"/>
+    <rdfs:domain rdf:resource="#Parameter"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#figureAttribute_appliesTo">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf>
+      <owl:InverseFunctionalProperty rdf:ID="type_hasFigureAttributes"/>
+    </owl:inverseOf>
+    <rdfs:range rdf:resource="#Type"/>
+    <rdfs:domain rdf:resource="#FigureAttribute"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="attributeRestriction_ofElement">
+    <rdfs:range rdf:resource="#Element"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf>
+      <owl:InverseFunctionalProperty rdf:ID="element_hasAttributeRestriction"/>
+    </owl:inverseOf>
+    <rdfs:domain rdf:resource="#AttributeRestriction"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="colorAttribute_hasGreen">
+    <rdfs:domain rdf:resource="#ColorAttribute"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="element_hasName">
+    <rdfs:domain rdf:resource="#Element"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#dimensionAttribute_hasWidth">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:domain rdf:resource="#DimensionAttribute"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#parameterValue_hasValue">
+    <rdfs:domain rdf:resource="#ParameterValue"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#otherAttribute_referencesParameter">
+    <rdfs:domain rdf:resource="#OtherAttribute"/>
+    <rdfs:range rdf:resource="#Parameter"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="element_hasParameterValue">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Element"/>
+    <rdfs:range rdf:resource="#ParameterValue"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="parameter_hasName">
+    <rdfs:domain rdf:resource="#Parameter"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#parameterValue_ofParameter">
+    <owl:inverseOf>
+      <owl:InverseFunctionalProperty rdf:ID="parameter_hasParameterValue"/>
+    </owl:inverseOf>
+    <rdfs:range rdf:resource="#Parameter"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#ParameterValue"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#shapeAttribute_hasShape">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#ShapeAttribute"/>
+    <rdfs:range rdf:resource="#Shapes"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#locationAttribute_hasYCoordinate">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#LocationAttribute"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="attributeRestriction_hasName">
+    <rdfs:domain rdf:resource="#AttributeRestriction"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#attributeRestriction_hasValue">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#AttributeRestriction"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="colorAttribute_hasBlue">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdfs:domain rdf:resource="#ColorAttribute"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="attribute_hasName">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#XMLAttribute"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#type_hasName">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Type"/>
+  </owl:FunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:about="#type_hasParameters">
+    <owl:inverseOf rdf:resource="#parameter_appliesTo"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Type"/>
+    <rdfs:range rdf:resource="#Parameter"/>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:about="#parameter_hasParameterValue">
+    <rdfs:range rdf:resource="#ParameterValue"/>
+    <owl:inverseOf rdf:resource="#parameterValue_ofParameter"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Parameter"/>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:about="#type_hasFigureAttributes">
+    <rdfs:domain rdf:resource="#Type"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf rdf:resource="#figureAttribute_appliesTo"/>
+    <rdfs:range rdf:resource="#FigureAttribute"/>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:about="#element_hasAttributeRestriction">
+    <rdfs:domain rdf:resource="#Element"/>
+    <owl:inverseOf rdf:resource="#attributeRestriction_ofElement"/>
+    <rdfs:range rdf:resource="#AttributeRestriction"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:ID="attribute_isReferenceTo">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Element"/>
+    <rdfs:domain rdf:resource="#EdgeAttribute"/>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:ID="element_hasAttributes">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#XMLAttribute"/>
+    <rdfs:domain rdf:resource="#Element"/>
+  </owl:InverseFunctionalProperty>
   <DataType rdf:ID="String">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >A string.</rdfs:comment>
@@ -665,10 +630,26 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >A float.</rdfs:comment>
   </DataType>
+  <DataType rdf:ID="Map">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >An associative map type. A parameter whose type is MapType will be filled as follows: first the key, then the value.</rdfs:comment>
+  </DataType>
   <DataType rdf:ID="VertexRefinement">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >A string which represents a filename that contains a refinement for a particular vertex.</rdfs:comment>
   </DataType>
+  <owl:AnnotationProperty rdf:ID="hasFileExtension">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >This property should be applied to the ontology element to describe a file extension this ontology can be associated with.</rdfs:comment>
+  </owl:AnnotationProperty>
+  <owl:AnnotationProperty rdf:ID="refinementHasFileExtension">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >This property should be applied to the ontology element to describe a file extension a vertex refinement can be associated with.</rdfs:comment>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:AnnotationProperty>
   <DataType rdf:ID="Integer">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >An integer.</rdfs:comment>

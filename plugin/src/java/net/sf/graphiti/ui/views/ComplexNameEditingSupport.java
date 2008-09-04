@@ -30,55 +30,91 @@ package net.sf.graphiti.ui.views;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.model.Util;
 
-import org.eclipse.jface.viewers.CellLabelProvider;
-import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.widgets.Table;
 
 /**
- * This class extends {@link CellLabelProvider}.
+ * This class provides {@link EditingSupport} for the complex property view.
  * 
  * @author Matthieu Wipliez
+ * 
  */
-public class PropertiesCellLabelProvider extends CellLabelProvider implements
+public class ComplexNameEditingSupport extends EditingSupport implements
 		PropertyChangeListener {
 
+	private TextCellEditor editor;
+
 	/**
-	 * The source we provide labels for.
+	 * The source we provide editing support for.
 	 */
-	private PropertyBean source;
+	private ComplexSource source;
+
+	/**
+	 * Creates a new {@link ComplexNameEditingSupport} on the given column
+	 * viewer and table.
+	 * 
+	 * @param viewer
+	 * @param table
+	 */
+	public ComplexNameEditingSupport(ColumnViewer viewer, Table table) {
+		super(viewer);
+		editor = new TextCellEditor(table);
+	}
 
 	@Override
-	public void dispose() {
-		super.dispose();
-		source = null;
+	protected boolean canEdit(Object element) {
+		return true;
+	}
+
+	@Override
+	protected CellEditor getCellEditor(Object element) {
+		return editor;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	protected Object getValue(Object element) {
+		if (element instanceof Entry<?, ?>) {
+			Entry<Object, Object> entry = (Entry<Object, Object>) element;
+			Object value = entry.getKey();
+			if (value == null) {
+				value = "";
+			}
+			return value.toString();
+		} else {
+			return "";
+		}
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(
-				PropertiesContentProvider.INPUT_CHANGED)) {
-			source = (PropertyBean) evt.getNewValue();
+		if (evt.getPropertyName().equals(ComplexContentProvider.INPUT_CHANGED)) {
+			source = (ComplexSource) evt.getNewValue();
 		}
 	}
 
 	@Override
-	public void update(ViewerCell cell) {
-		Object element = cell.getElement();
-		if (element instanceof Parameter) {
-			Parameter parameter = (Parameter) element;
-			if (cell.getColumnIndex() == 0) {
-				cell.setText(parameter.getName());
-			} else {
-				Object value = (Object) source.getValue(parameter.getName());
-				if (value == null) {
-					value = "";
-				}
-				cell.setText(value.toString());
-			}
+	@SuppressWarnings("unchecked")
+	protected void setValue(Object element, Object newKey) {
+		if (element instanceof Entry<?, ?>) {
+			Entry<Object, Object> entry = (Entry<Object, Object>) element;
+			Object key = entry.getKey();
+			
+			Map<Object, Object> map = Util.getMap(source.bean, source.parameter);
+			Object value = map.get(key);
+			map.remove(key);
+			map.put(newKey, value);
 		}
+		
+		getViewer().refresh();
 	}
 
 }

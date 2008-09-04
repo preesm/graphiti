@@ -26,80 +26,26 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.commands;
+package net.sf.graphiti.ui.views;
 
-import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.Vertex;
-
-import org.eclipse.gef.commands.Command;
+import net.sf.graphiti.model.Parameter;
+import net.sf.graphiti.model.PropertyBean;
 
 /**
- * This class provides a Command that creates a dependency. ComplexSource and target
- * are set when they are connected.
+ * The source used in complex utility classes.
  * 
- * @author Samuel Beaussier
- * @author Nicolas Isch
  * @author Matthieu Wipliez
+ * 
  */
-public class DependencyCreateCommand extends Command {
+public class ComplexSource {
 
-	/**
-	 * The parentGraph is stored as an attribute so it can be used both in the
-	 * <code>execute</code> and <code>undo</code> methods.
-	 */
-	protected Graph parentGraph;
+	public PropertyBean bean;
 
-	/**
-	 * The path is stored as an attribute so it can be used both in the
-	 * <code>execute</code> and <code>undo</code> methods.
-	 */
-	protected Edge path;
+	public Parameter parameter;
 
-	protected Vertex source;
-
-	protected Vertex target;
-
-	public DependencyCreateCommand() {
-
+	public ComplexSource(PropertyBean bean, Parameter parameter) {
+		this.bean = bean;
+		this.parameter = parameter;
 	}
 
-	@Override
-	public boolean canExecute() {
-		return (source.equals(target) == false);
-	}
-
-	@Override
-	public void execute() {
-		parentGraph = source.getParent();
-		if (path == null) {
-			path = new Edge(source, target);
-		}
-		parentGraph.addEdge(path);
-	}
-
-	/**
-	 * Sets the source of the dependency to create/reconnect.
-	 * 
-	 * @param source
-	 *            The dependency source as a Port.
-	 */
-	public void setSource(Vertex source) {
-		this.source = source;
-	}
-
-	/**
-	 * Sets the target of the dependency to create/reconnect.
-	 * 
-	 * @param target
-	 *            The dependency target as a Port.
-	 */
-	public void setTarget(Vertex target) {
-		this.target = target;
-	}
-
-	@Override
-	public void undo() {
-		parentGraph.removeEdge(path);
-	}
 }

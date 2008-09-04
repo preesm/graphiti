@@ -61,7 +61,6 @@ public class OntologyBaseImpl {
 	static {
 		// DataTypes
 		classes.put(OntologyFactory.getClassDataType(), DataTypeImpl.class);
-		classes.put(OntologyFactory.getClassMapType(), MapTypeImpl.class);
 
 		// Enums
 		classes.put(OntologyFactory.getClassShapes(), ShapesImpl.class);

@@ -40,7 +40,7 @@ import org.eclipse.jface.viewers.Viewer;
  * 
  * @author Matthieu Wipliez
  */
-public abstract class AbstractPropertiesContentProvider implements
+public abstract class AbstractContentProvider implements
 		IStructuredContentProvider, PropertyChangeListener {
 
 	/**
@@ -66,7 +66,7 @@ public abstract class AbstractPropertiesContentProvider implements
 	/**
 	 * Creates a new content provider.
 	 */
-	public AbstractPropertiesContentProvider() {
+	public AbstractContentProvider() {
 		propertyChange = new PropertyChangeSupport(this);
 	}
 

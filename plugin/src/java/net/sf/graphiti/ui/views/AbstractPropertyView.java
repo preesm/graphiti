@@ -36,7 +36,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -123,16 +122,6 @@ public abstract class AbstractPropertyView extends ViewPart implements
 
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
-
-		// 1st column
-		TableColumn column = new TableColumn(table, SWT.CENTER, 0);
-		column.setText("Name");
-		column.setWidth(100);
-
-		// 2nd column
-		column = new TableColumn(table, SWT.LEFT, 1);
-		column.setText("Value");
-		column.setWidth(300);
 
 		return table;
 	}

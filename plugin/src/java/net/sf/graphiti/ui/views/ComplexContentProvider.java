@@ -28,78 +28,57 @@
  */
 package net.sf.graphiti.ui.views;
 
-import java.util.List;
+import java.util.Collection;
 
-import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.PropertyBean;
-import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ui.editparts.EdgeEditPart;
-import net.sf.graphiti.ui.editparts.GraphEditPart;
-import net.sf.graphiti.ui.editparts.VertexEditPart;
+import net.sf.graphiti.model.Util;
 
 import org.eclipse.jface.viewers.Viewer;
 
 /**
- * This class defines a content provider for the table displayed in this view.
+ * This class defines a content provider for the table displayed in a complex
+ * property view. The source is a {@link ComplexSource}.
  * 
  * @author Matthieu Wipliez
  */
-public class ComplexPropertiesContentProvider extends
-		AbstractPropertiesContentProvider {
-	
-	public class Source {
-		
-	}
+public class ComplexContentProvider extends AbstractContentProvider {
 
 	@Override
 	public void dispose() {
 		if (source != null) {
-			((PropertyBean) source).removePropertyChangeListener(this);
+			ComplexSource source = (ComplexSource) this.source;
+			source.bean.removePropertyChangeListener(this);
 		}
 		super.dispose();
 	}
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		if (source instanceof Graph) {
-			List<Parameter> parameters = ((Graph) source).getParameters();
-			return parameters.toArray();
-		} else if (source instanceof Vertex) {
-			List<Parameter> parameters = ((Vertex) source).getParameters();
-			return parameters.toArray();
-		} else if (source instanceof Edge) {
-			List<Parameter> parameters = ((Edge) source).getParameters();
-			return parameters.toArray();
-		} else {
-			return new Object[] {};
-		}
+		ComplexSource source = (ComplexSource) this.source;
+		Collection<?> collection = Util.getCollection(source.bean,
+				source.parameter);
+		return collection.toArray();
 	}
 
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		ComplexSource source = (ComplexSource) this.source;
+
 		// remove ourselves as a listener to the previous model
-		if (source instanceof PropertyBean) {
-			((PropertyBean) source).removePropertyChangeListener(this);
+		if (source != null) {
+			source.bean.removePropertyChangeListener(this);
 		}
 
 		// update the source
-		PropertyBean oldSource = (PropertyBean) source;
-		if (newInput instanceof GraphEditPart) {
-			source = (Graph) ((GraphEditPart) newInput).getModel();
-		} else if (newInput instanceof VertexEditPart) {
-			source = (Vertex) ((VertexEditPart) newInput).getModel();
-		} else if (newInput instanceof EdgeEditPart) {
-			source = (Edge) ((EdgeEditPart) newInput).getModel();
-		} else {
-			source = null;
+		ComplexSource oldSource = source;
+		if (newInput instanceof ComplexSource) {
+			source = (ComplexSource) newInput;
+			this.source = source;
 		}
 
 		if (source != null) {
 			// add ourselves as a listener, and informs registered listeners of
 			// the change
-			((PropertyBean) source).addPropertyChangeListener(this);
+			source.bean.addPropertyChangeListener(this);
 			firePropertyChange(INPUT_CHANGED, oldSource, source);
 		}
 	}

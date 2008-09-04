@@ -48,16 +48,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                         <basic:parameter_hasName rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#string"
                         >variables</basic:parameter_hasName>
-                        <basic:parameter_hasValueType>
-                          <basic:MapType rdf:ID="VariablesMap">
-                            <basic:map_hasValue rdf:datatype=
-                            "http://www.w3.org/2001/XMLSchema#string"
-                            >value</basic:map_hasValue>
-                            <basic:map_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
-                            <basic:map_hasKey rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                            >name</basic:map_hasKey>
-                          </basic:MapType>
-                        </basic:parameter_hasValueType>
+                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Map"/>
                         <basic:parameter_appliesTo rdf:resource="#GraphType"/>
                       </basic:GraphParameter>
                     </basic:type_hasParameters>

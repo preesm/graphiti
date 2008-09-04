@@ -26,36 +26,41 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.dataTypes;
+package net.sf.graphiti.ui.views;
+
+import java.util.Map.Entry;
+
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ViewerCell;
 
 /**
- * This class provides mthods for the map type.
+ * This class is a {@link CellLabelProvider} for a complex property view.
  * 
  * @author Matthieu Wipliez
- * @author Jonathan Piat
- * 
  */
-public interface MapType extends DataType {
+public class ComplexCellLabelProvider extends CellLabelProvider {
 
-	/**
-	 * Returns this map key's name.
-	 * 
-	 * @return This map key's name.
-	 */
-	public String hasKey();
-
-	/**
-	 * Returns this map value's name.
-	 * 
-	 * @return This map value's name.
-	 */
-	public String hasValue();
-
-	/**
-	 * Returns this map value's type.
-	 * 
-	 * @return This map value's type.
-	 */
-	public DataType hasValueType();
+	@Override
+	@SuppressWarnings("unchecked")
+	public void update(ViewerCell cell) {
+		Object element = cell.getElement();
+		if (element instanceof String) {
+			String parameter = (String) element;
+			if (cell.getColumnIndex() == 0) {
+				cell.setText(parameter);
+			}
+		} else if (element instanceof Entry<?, ?>) {
+			Entry<Object, Object> entry = (Entry<Object, Object>) element;
+			if (cell.getColumnIndex() == 0) {
+				cell.setText(entry.getKey().toString());
+			} else {
+				Object value = entry.getValue();
+				if (value == null) {
+					value = "";
+				}
+				cell.setText(value.toString());
+			}
+		}
+	}
 
 }

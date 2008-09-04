@@ -26,47 +26,56 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.impl;
+package net.sf.graphiti.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.dataTypes.DataType;
-import net.sf.graphiti.ontology.dataTypes.MapType;
-
-import com.hp.hpl.jena.ontology.Individual;
-
 /**
- * Implementation of MapType.
+ * Utility class.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class MapTypeImpl extends DataTypeImpl implements MapType {
+public class Util {
 
-	public MapTypeImpl(Individual individual) {
-		super(individual);
+	public static Collection<?> getCollection(PropertyBean bean,
+			Parameter parameter) {
+		if (parameter.getType() == List.class) {
+			return getList(bean, parameter);
+		} else {
+			Map<Object, Object> map = getMap(bean, parameter);
+			return map.entrySet();
+		}
 	}
 
-	@Override
-	public Class<?> getDataType() {
-		return Map.class;
+	@SuppressWarnings("unchecked")
+	public static Map<Object, Object> getMap(PropertyBean bean,
+			Parameter parameter) {
+		String parameterName = parameter.getName();
+		Map<Object, Object> map = (Map<Object, Object>) bean
+				.getValue(parameterName);
+		if (map == null) {
+			map = new HashMap<Object, Object>();
+			bean.setValue(parameterName, map);
+		}
+
+		return map;
 	}
 
-	@Override
-	public String hasKey() {
-		return getStringProperty(OntologyFactory.getPropertyMapHasKey());
-	}
+	@SuppressWarnings("unchecked")
+	public static List<Object> getList(PropertyBean bean, Parameter parameter) {
+		String parameterName = parameter.getName();
+		List<Object> list = (List<Object>) bean.getValue(parameterName);
+		if (list == null) {
+			list = new ArrayList<Object>();
+			bean.setValue(parameterName, list);
+		}
 
-	@Override
-	public String hasValue() {
-		return getStringProperty(OntologyFactory.getPropertyMapHasValue());
-	}
-
-	@Override
-	public DataType hasValueType() {
-		return (DataType) getIndividualProperty(OntologyFactory
-				.getPropertyMapHasValueType());
+		return list;
 	}
 
 }
