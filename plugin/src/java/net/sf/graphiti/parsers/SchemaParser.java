@@ -284,7 +284,7 @@ public class SchemaParser {
 		// min occurs
 		int i = 0;
 		try {
-			for (; i < minOccurs && child != null; i++) {
+			for (; i < minOccurs; i++) {
 				child = parseComplexType(type, child);
 			}
 		} catch (NotCompatibleException e) {
