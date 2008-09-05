@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description url="http://graphiti-editor.sourceforge.net/eclipse/">
-      Graphiti update site
-   </description>
-   <feature url="features/net.sf.graphiti.feature_1.0.0.jar" id="net.sf.graphiti.feature" version="1.0.0" nl="en">
-      <category name="net.sf.graphiti.category"/>
+   <feature url="features/Graphiti_feature_1.0.0.jar" id="Graphiti_feature" version="1.0.0">
+      <category name="Graphiti category"/>
    </feature>
-   <category-def name="net.sf.graphiti.category" label="Graphiti"/>
+   <category-def name="Graphiti category" label="New Category 1"/>
 </site>

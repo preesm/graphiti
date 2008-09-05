@@ -1,15 +1,70 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?metadataRepository class='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1.0.0'?>
-<repository name='Graphiti editor' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1.0.0'>
+<repository name='file:/D:/repositories/graphiti-editor/site/ - metadata' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1'>
   <properties size='2'>
     <property name='p2.compressed' value='false'/>
-    <property name='p2.timestamp' value='1216831036406'/>
+    <property name='p2.timestamp' value='1220606331859'/>
   </properties>
-  <references size='2'>
-    <repository url='http://graphiti-editor.sourceforge.net/eclipse/' type='1' options='0'/>
-    <repository url='http://graphiti-editor.sourceforge.net/eclipse/' type='0' options='0'/>
-  </references>
   <units size='8'>
+    <unit id='Graphiti_feature.feature.group' version='1.0.0' singleton='false'>
+      <update id='Graphiti_feature.feature.group' range='[0.0.0,1.0.0)' severity='0'/>
+      <properties size='4'>
+        <property name='org.eclipse.equinox.p2.name' value='Graphiti editor feature'/>
+        <property name='org.eclipse.equinox.p2.description' value='Graphiti editor feature.'/>
+        <property name='org.eclipse.equinox.p2.description.url' value='http://www.example.com/description'/>
+        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
+      </properties>
+      <provides size='1'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='Graphiti_feature.feature.group' version='1.0.0'/>
+      </provides>
+      <requires size='2'>
+        <required namespace='org.eclipse.equinox.p2.iu' name='net.sf.graphiti' range='[0.7.0,0.7.0]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='Graphiti_feature.feature.jar' range='[1.0.0,1.0.0]'>
+          <filter>
+            (org.eclipse.update.install.features=true)
+          </filter>
+        </required>
+      </requires>
+      <touchpoint id='null' version='0.0.0'/>
+      <licenses size='1'>
+        <license>
+          Copyright (c) 2008, IETR/INSA of Rennes&#xA;All rights reserved.&#xA;Redistribution and use in source and binary forms, with or without&#xA;modification, are permitted provided that the following conditions&#xA;are met:&#xA;* Redistributions of source code must retain the above copyright&#xA;notice,&#xA;this list of conditions and the following disclaimer.&#xA;* Redistributions in binary form must reproduce the above copyright&#xA;notice, this list of conditions and the following disclaimer&#xA;in the documentation and/or other materials provided with the&#xA;distribution.&#xA;* Neither the name of the IETR/INSA of Rennes nor the names of&#xA;its contributors may be used to endorse or promote products derived&#xA;from this software without specific prior written permission.&#xA;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&#xA;&quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT&#xA;NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND&#xA;FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT&#xA;SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,&#xA;INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES&#xA;(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS&#xA;OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)&#xA;HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,&#xA;STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)&#xA;ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED&#xA;OF THE POSSIBILITY OF SUCH DAMAGE.
+        </license>
+      </licenses>
+      <copyright>
+        Copyright (c) 2008, IETR/INSA of Rennes&#xA;All rights reserved.&#xA;Redistribution and use in source and binary forms, with or without&#xA;modification, are permitted provided that the following conditions&#xA;are met:&#xA;* Redistributions of source code must retain the above copyright&#xA;notice,&#xA;this list of conditions and the following disclaimer.&#xA;* Redistributions in binary form must reproduce the above copyright&#xA;notice, this list of conditions and the following disclaimer&#xA;in the documentation and/or other materials provided with the&#xA;distribution.&#xA;* Neither the name of the IETR/INSA of Rennes nor the names of&#xA;its contributors may be used to endorse or promote products derived&#xA;from this software without specific prior written permission.&#xA;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&#xA;&quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT&#xA;NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND&#xA;FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT&#xA;SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,&#xA;INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES&#xA;(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS&#xA;OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)&#xA;HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,&#xA;STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)&#xA;ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED&#xA;OF THE POSSIBILITY OF SUCH DAMAGE.
+      </copyright>
+    </unit>
+    <unit id='net.sf.graphiti' version='0.7.0'>
+      <update id='net.sf.graphiti' range='[0.0.0,0.7.0)' severity='0'/>
+      <properties size='1'>
+        <property name='org.eclipse.equinox.p2.name' value='Graphiti editor plug-in'/>
+      </properties>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='net.sf.graphiti' version='0.7.0'/>
+        <provided namespace='osgi.bundle' name='net.sf.graphiti' version='0.7.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='6'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.gef' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.editors' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='net.sf.graphiti' version='0.7.0'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-ManifestVersion: 2&#xA;Bundle-RequiredExecutionEnvironment: JavaSE-1.6&#xA;Require-Bundle: org.eclipse.core.resources,org.eclipse.core.runtime,org.eclipse.gef,org.eclipse.ui,org.eclipse.ui.editors,org.eclipse.ui.ide&#xA;Bundle-Activator: net.sf.graphiti.ui.GraphitiPlugin&#xA;Manifest-Version: 1.0&#xA;Bundle-Version: 0.7.0&#xA;Bundle-SymbolicName: net.sf.graphiti;singleton:=true&#xA;Bundle-ActivationPolicy: lazy&#xA;Bundle-ClassPath: .,lib/jgrapht-jdk1.5.jar,lib/saxon9.jar,lib/saxon9-dom.jar,lib/saxon9-xqj.jar,lib/protege/antlr-2.7.5.jar,lib/protege/arq.jar,lib/protege/arq-extra.jar,lib/protege/commons-logging-1.1.1.jar,lib/protege/concurrent.jar,lib/protege/icu4j_3_4.jar,lib/protege/iri.jar,lib/protege/jena.jar,lib/protege/jenatest.jar,lib/protege/json.jar,lib/protege/junit.jar,lib/protege/log4j-1.2.12.jar,lib/protege/lucene-core-2.2.0.jar,lib/protege/stax-api-1.0.jar,lib/protege/wstx-asl-3.0.0.jar,lib/protege/xercesImpl.jar,lib/protege/xml-apis.jar&#xA;Bundle-Name: Graphiti editor plug-in&#xA;
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
     <unit id='tooling.source.default' version='1.0.0' singleton='false'>
       <hostRequirements size='1'>
         <required namespace='org.eclipse.equinox.p2.eclipse.type' name='source' range='0.0.0' optional='true' multiple='true' greedy='false'/>
@@ -68,37 +123,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='net.sf.graphiti' version='1.0.0'>
-      <update id='net.sf.graphiti' range='[0.0.0,1.0.0)' severity='0'/>
-      <properties size='1'>
-        <property name='org.eclipse.equinox.p2.name' value='Graphiti'/>
-      </properties>
-      <provides size='3'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='net.sf.graphiti' version='1.0.0'/>
-        <provided namespace='osgi.bundle' name='net.sf.graphiti' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
-      </provides>
-      <requires size='7'>
-        <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.gef' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.editors' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='0.0.0'/>
-        <required namespace='osgi.bundle' name='org.eclipse.core.filesystem' range='1.2.0'/>
-      </requires>
-      <artifacts size='1'>
-        <artifact classifier='osgi.bundle' id='net.sf.graphiti' version='1.0.0'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='manifest'>
-            Bundle-ManifestVersion: 2&#xA;Bundle-ActivationPolicy: lazy&#xA;Bundle-Name: Graphiti&#xA;Bundle-Version: 1.0.0&#xA;Require-Bundle: org.eclipse.core.resources,org.eclipse.core.runtime,org.eclipse.gef,org.eclipse.ui,org.eclipse.ui.editors,org.eclipse.ui.ide,org.eclipse.core.filesystem;bundle-version=&quot;1.2.0&quot;&#xA;Bundle-ClassPath: .,lib/jgrapht-jdk1.5.jar,lib/saxon9.jar,lib/saxon9-dom.jar,lib/saxon9-xqj.jar,lib/protege/antlr-2.7.5.jar,lib/protege/arq.jar,lib/protege/arq-extra.jar,lib/protege/commons-logging-1.1.1.jar,lib/protege/concurrent.jar,lib/protege/icu4j_3_4.jar,lib/protege/iri.jar,lib/protege/jena.jar,lib/protege/jenatest.jar,lib/protege/json.jar,lib/protege/junit.jar,lib/protege/log4j-1.2.12.jar,lib/protege/lucene-core-2.2.0.jar,lib/protege/stax-api-1.0.jar,lib/protege/wstx-asl-3.0.0.jar,lib/protege/xercesImpl.jar,lib/protege/xml-apis.jar&#xA;Bundle-SymbolicName: net.sf.graphiti;singleton:=true&#xA;Manifest-Version: 1.0&#xA;Bundle-Activator: net.sf.graphiti.ui.GraphitiPlugin
-          </instruction>
-        </instructions>
-      </touchpointData>
-    </unit>
     <unit id='tooling.org.eclipse.update.feature.default' version='1.0.0' singleton='false'>
       <hostRequirements size='1'>
         <required namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' range='0.0.0' optional='true' multiple='true' greedy='false'/>
@@ -128,41 +152,6 @@
         </instructions>
       </touchpointData>
     </unit>
-    <unit id='net.sf.graphiti.feature.feature.jar' version='1.0.0'>
-      <update id='net.sf.graphiti.feature.feature.jar' range='[0.0.0,1.0.0)' severity='0'/>
-      <properties size='3'>
-        <property name='org.eclipse.equinox.p2.name' value='Graphiti editor feature'/>
-        <property name='org.eclipse.equinox.p2.description' value='Graphiti editor feature.'/>
-        <property name='org.eclipse.equinox.p2.description.url' value='https://sourceforge.net/projects/graphiti-editor/'/>
-      </properties>
-      <provides size='3'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='net.sf.graphiti.feature.feature.jar' version='1.0.0'/>
-        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
-        <provided namespace='org.eclipse.update.feature' name='net.sf.graphiti.feature' version='1.0.0'/>
-      </provides>
-      <filter>
-        (org.eclipse.update.install.features=true)
-      </filter>
-      <artifacts size='1'>
-        <artifact classifier='org.eclipse.update.feature' id='net.sf.graphiti.feature' version='1.0.0'/>
-      </artifacts>
-      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
-      <touchpointData size='1'>
-        <instructions size='1'>
-          <instruction key='zipped'>
-            true
-          </instruction>
-        </instructions>
-      </touchpointData>
-      <licenses size='1'>
-        <license>
-          Copyright (c) 2008, IETR/INSA of Rennes&#xA;All rights reserved.&#xA;Redistribution and use in source and binary forms, with or without&#xA;modification, are permitted provided that the following conditions&#xA;are met:&#xA;* Redistributions of source code must retain the above copyright&#xA;notice,&#xA;this list of conditions and the following disclaimer.&#xA;* Redistributions in binary form must reproduce the above copyright&#xA;notice, this list of conditions and the following disclaimer&#xA;in the documentation and/or other materials provided with the&#xA;distribution.&#xA;* Neither the name of the IETR/INSA of Rennes nor the names of&#xA;its contributors may be used to endorse or promote products derived&#xA;from this software without specific prior written permission.&#xA;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&#xA;&quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT&#xA;NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND&#xA;FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT&#xA;SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,&#xA;INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES&#xA;(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS&#xA;OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)&#xA;HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,&#xA;STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)&#xA;ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED&#xA;OF THE POSSIBILITY OF SUCH DAMAGE.
-        </license>
-      </licenses>
-      <copyright>
-        Copyright (c) 2008, IETR/INSA of Rennes&#xA;All rights reserved.&#xA;Redistribution and use in source and binary forms, with or without&#xA;modification, are permitted provided that the following conditions&#xA;are met:&#xA;* Redistributions of source code must retain the above copyright&#xA;notice,&#xA;this list of conditions and the following disclaimer.&#xA;* Redistributions in binary form must reproduce the above copyright&#xA;notice, this list of conditions and the following disclaimer&#xA;in the documentation and/or other materials provided with the&#xA;distribution.&#xA;* Neither the name of the IETR/INSA of Rennes nor the names of&#xA;its contributors may be used to endorse or promote products derived&#xA;from this software without specific prior written permission.&#xA;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&#xA;&quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT&#xA;NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND&#xA;FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT&#xA;SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,&#xA;INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES&#xA;(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS&#xA;OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)&#xA;HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,&#xA;STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)&#xA;ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED&#xA;OF THE POSSIBILITY OF SUCH DAMAGE.
-      </copyright>
-    </unit>
     <unit id='config.a.jre' version='1.6.0' singleton='false'>
       <hostRequirements size='1'>
         <required namespace='org.eclipse.equinox.p2.iu' name='a.jre' range='1.6.0'/>
@@ -184,6 +173,41 @@
           </instruction>
         </instructions>
       </touchpointData>
+    </unit>
+    <unit id='Graphiti_feature.feature.jar' version='1.0.0'>
+      <update id='Graphiti_feature.feature.jar' range='[0.0.0,1.0.0)' severity='0'/>
+      <properties size='3'>
+        <property name='org.eclipse.equinox.p2.name' value='Graphiti editor feature'/>
+        <property name='org.eclipse.equinox.p2.description' value='Graphiti editor feature.'/>
+        <property name='org.eclipse.equinox.p2.description.url' value='http://www.example.com/description'/>
+      </properties>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='Graphiti_feature.feature.jar' version='1.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
+        <provided namespace='org.eclipse.update.feature' name='Graphiti_feature' version='1.0.0'/>
+      </provides>
+      <filter>
+        (org.eclipse.update.install.features=true)
+      </filter>
+      <artifacts size='1'>
+        <artifact classifier='org.eclipse.update.feature' id='Graphiti_feature' version='1.0.0'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='zipped'>
+            true
+          </instruction>
+        </instructions>
+      </touchpointData>
+      <licenses size='1'>
+        <license>
+          Copyright (c) 2008, IETR/INSA of Rennes&#xA;All rights reserved.&#xA;Redistribution and use in source and binary forms, with or without&#xA;modification, are permitted provided that the following conditions&#xA;are met:&#xA;* Redistributions of source code must retain the above copyright&#xA;notice,&#xA;this list of conditions and the following disclaimer.&#xA;* Redistributions in binary form must reproduce the above copyright&#xA;notice, this list of conditions and the following disclaimer&#xA;in the documentation and/or other materials provided with the&#xA;distribution.&#xA;* Neither the name of the IETR/INSA of Rennes nor the names of&#xA;its contributors may be used to endorse or promote products derived&#xA;from this software without specific prior written permission.&#xA;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&#xA;&quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT&#xA;NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND&#xA;FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT&#xA;SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,&#xA;INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES&#xA;(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS&#xA;OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)&#xA;HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,&#xA;STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)&#xA;ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED&#xA;OF THE POSSIBILITY OF SUCH DAMAGE.
+        </license>
+      </licenses>
+      <copyright>
+        Copyright (c) 2008, IETR/INSA of Rennes&#xA;All rights reserved.&#xA;Redistribution and use in source and binary forms, with or without&#xA;modification, are permitted provided that the following conditions&#xA;are met:&#xA;* Redistributions of source code must retain the above copyright&#xA;notice,&#xA;this list of conditions and the following disclaimer.&#xA;* Redistributions in binary form must reproduce the above copyright&#xA;notice, this list of conditions and the following disclaimer&#xA;in the documentation and/or other materials provided with the&#xA;distribution.&#xA;* Neither the name of the IETR/INSA of Rennes nor the names of&#xA;its contributors may be used to endorse or promote products derived&#xA;from this software without specific prior written permission.&#xA;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&#xA;&quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT&#xA;NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND&#xA;FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT&#xA;SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,&#xA;INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES&#xA;(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS&#xA;OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)&#xA;HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,&#xA;STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)&#xA;ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED&#xA;OF THE POSSIBILITY OF SUCH DAMAGE.
+      </copyright>
     </unit>
     <unit id='a.jre' version='1.6.0' singleton='false'>
       <provides size='117'>
@@ -306,35 +330,6 @@
         <provided namespace='java.package' name='org.xml.sax.helpers' version='0.0.0'/>
       </provides>
       <touchpoint id='org.eclipse.equinox.p2.native' version='1.0.0'/>
-    </unit>
-    <unit id='net.sf.graphiti.feature.feature.group' version='1.0.0' singleton='false'>
-      <update id='net.sf.graphiti.feature.feature.group' range='[0.0.0,1.0.0)' severity='0'/>
-      <properties size='4'>
-        <property name='org.eclipse.equinox.p2.name' value='Graphiti editor feature'/>
-        <property name='org.eclipse.equinox.p2.description' value='Graphiti editor feature.'/>
-        <property name='org.eclipse.equinox.p2.description.url' value='https://sourceforge.net/projects/graphiti-editor/'/>
-        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
-      </properties>
-      <provides size='1'>
-        <provided namespace='org.eclipse.equinox.p2.iu' name='net.sf.graphiti.feature.feature.group' version='1.0.0'/>
-      </provides>
-      <requires size='2'>
-        <required namespace='org.eclipse.equinox.p2.iu' name='net.sf.graphiti' range='[1.0.0,1.0.0]'/>
-        <required namespace='org.eclipse.equinox.p2.iu' name='net.sf.graphiti.feature.feature.jar' range='[1.0.0,1.0.0]'>
-          <filter>
-            (org.eclipse.update.install.features=true)
-          </filter>
-        </required>
-      </requires>
-      <touchpoint id='null' version='0.0.0'/>
-      <licenses size='1'>
-        <license>
-          Copyright (c) 2008, IETR/INSA of Rennes&#xA;All rights reserved.&#xA;Redistribution and use in source and binary forms, with or without&#xA;modification, are permitted provided that the following conditions&#xA;are met:&#xA;* Redistributions of source code must retain the above copyright&#xA;notice,&#xA;this list of conditions and the following disclaimer.&#xA;* Redistributions in binary form must reproduce the above copyright&#xA;notice, this list of conditions and the following disclaimer&#xA;in the documentation and/or other materials provided with the&#xA;distribution.&#xA;* Neither the name of the IETR/INSA of Rennes nor the names of&#xA;its contributors may be used to endorse or promote products derived&#xA;from this software without specific prior written permission.&#xA;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&#xA;&quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT&#xA;NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND&#xA;FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT&#xA;SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,&#xA;INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES&#xA;(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS&#xA;OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)&#xA;HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,&#xA;STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)&#xA;ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED&#xA;OF THE POSSIBILITY OF SUCH DAMAGE.
-        </license>
-      </licenses>
-      <copyright>
-        Copyright (c) 2008, IETR/INSA of Rennes&#xA;All rights reserved.&#xA;Redistribution and use in source and binary forms, with or without&#xA;modification, are permitted provided that the following conditions&#xA;are met:&#xA;* Redistributions of source code must retain the above copyright&#xA;notice,&#xA;this list of conditions and the following disclaimer.&#xA;* Redistributions in binary form must reproduce the above copyright&#xA;notice, this list of conditions and the following disclaimer&#xA;in the documentation and/or other materials provided with the&#xA;distribution.&#xA;* Neither the name of the IETR/INSA of Rennes nor the names of&#xA;its contributors may be used to endorse or promote products derived&#xA;from this software without specific prior written permission.&#xA;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS&#xA;&quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT&#xA;NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND&#xA;FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT&#xA;SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,&#xA;INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES&#xA;(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS&#xA;OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)&#xA;HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,&#xA;STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)&#xA;ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED&#xA;OF THE POSSIBILITY OF SUCH DAMAGE.
-      </copyright>
     </unit>
   </units>
 </repository>

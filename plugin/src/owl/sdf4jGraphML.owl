@@ -134,11 +134,30 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
               <basic:EdgeParameter rdf:ID="EdgeParameterEdgeProduction">
                 <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >edgeProduction</basic:parameter_hasName>
-                <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#East"/>
                 <basic:parameter_ofTextContentElement rdf:resource="#TextContentElementDataEdgeProduction"/>
                 <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Integer"/>
                 <basic:parameter_appliesTo>
                   <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#EdgeType">
+                    <basic:type_hasParameters>
+                      <basic:EdgeParameter rdf:ID="EdgeParameterSourcePort">
+                        <basic:parameter_hasName rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >srcPortName</basic:parameter_hasName>
+                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                        <basic:parameter_appliesTo rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeType"/>
+                        <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#West"/>
+                      </basic:EdgeParameter>
+                    </basic:type_hasParameters>
+                    <basic:type_hasParameters>
+                      <basic:EdgeParameter rdf:ID="EdgeParameterTargetPort">
+                        <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                        <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#East"/>
+                        <basic:parameter_appliesTo rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeType"/>
+                        <basic:parameter_hasName rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >dstPortName</basic:parameter_hasName>
+                      </basic:EdgeParameter>
+                    </basic:type_hasParameters>
                     <basic:type_hasParameters>
                       <basic:EdgeParameter rdf:ID="EdgeParameterEdgeConsumption">
                         <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Integer"/>
@@ -171,7 +190,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                         "http://www.w3.org/2001/XMLSchema#string"
                         >edgeConsumption</basic:parameter_hasName>
                         <basic:parameter_appliesTo rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeType"/>
-                        <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#West"/>
                       </basic:EdgeParameter>
                     </basic:type_hasParameters>
                     <basic:type_hasParameters rdf:resource="#EdgeParameterEdgeProduction"/>
@@ -240,16 +258,30 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
   <basic:Sequence rdf:ID="SequenceGraphElement2">
     <basic:sequence_hasHead>
       <basic:EdgeElement rdf:ID="EdgeElement">
-        <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >-1</basic:schemaType_hasMaxOccurs>
+        <basic:element_hasSchemaType rdf:resource="#SequenceEdgeElement1"/>
+        <basic:element_hasAttributes rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeTargetConnection"/>
+        <basic:element_hasAttributes rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeSourceConnection"/>
         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >edge</basic:element_hasName>
-        <basic:element_hasSchemaType rdf:resource="#SequenceEdgeElement1"/>
-        <basic:element_hasAttributes rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeSourceConnection"/>
-        <basic:element_hasAttributes rdf:resource="http://net.sf.graphiti/GraphML.owl#EdgeTargetConnection"/>
+        <basic:element_hasParameterValue rdf:resource="http://net.sf.graphiti/GraphML.owl#ParameterValueEdgeType"/>
+        <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >-1</basic:schemaType_hasMaxOccurs>
+        <basic:element_hasAttributes>
+          <basic:OtherAttribute rdf:ID="OtherAttributeTargetPort">
+            <basic:otherAttribute_referencesParameter rdf:resource="#EdgeParameterTargetPort"/>
+            <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >targetport</basic:attribute_hasName>
+          </basic:OtherAttribute>
+        </basic:element_hasAttributes>
         <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >0</basic:schemaType_hasMinOccurs>
-        <basic:element_hasParameterValue rdf:resource="http://net.sf.graphiti/GraphML.owl#ParameterValueEdgeType"/>
+        <basic:element_hasAttributes>
+          <basic:OtherAttribute rdf:ID="OtherAttributeSourcePort">
+            <basic:otherAttribute_referencesParameter rdf:resource="#EdgeParameterSourcePort"/>
+            <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >sourceport</basic:attribute_hasName>
+          </basic:OtherAttribute>
+        </basic:element_hasAttributes>
       </basic:EdgeElement>
     </basic:sequence_hasHead>
   </basic:Sequence>

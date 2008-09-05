@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="net.sf.graphiti.feature"
+      id="Graphiti_feature"
       label="Graphiti editor feature"
-      version="1.0.0"
-      nl="en">
+      version="1.0.0">
 
-   <description url="https://sourceforge.net/projects/graphiti-editor/">
+   <description url="http://www.example.com/description">
       Graphiti editor feature.
    </description>
 
@@ -69,13 +68,8 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
 OF THE POSSIBILITY OF SUCH DAMAGE.
    </license>
 
-   <url>
-      <update label="Graphiti" url="http://graphiti-editor.sourceforge.net/eclipse/"/>
-   </url>
-
    <plugin
          id="net.sf.graphiti"
-         nl="en"
          download-size="0"
          install-size="0"
          version="0.0.0"
