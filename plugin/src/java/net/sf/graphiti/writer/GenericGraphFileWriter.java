@@ -46,7 +46,6 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.ontology.OntologyFactory;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * This class provides a generic graph file writer.
@@ -57,107 +56,26 @@ import org.w3c.dom.Element;
  */
 public class GenericGraphFileWriter {
 
-	private Graph document;
-
-	private Document domDocument;
-
-	// private boolean sourceWritten = false;
+	private Graph graph;
 
 	/**
-	 * Creates a new generic graph file writer, with the given document.
+	 * Creates a new generic graph file writer, with the given graph.
 	 * 
-	 * @param document
-	 *            The document to write.
+	 * @param graph
+	 *            The graph to write.
 	 */
 	public GenericGraphFileWriter(Graph graph) {
-		this.document = graph;
+		this.graph = graph;
 	}
 
 	/**
-	 * Creates a DOM element with the given parser node name. The element
-	 * obtained is given attributes, both by exploring the available parser node
-	 * attributes and the DOMNode attributes.
-	 * 
-	 * @param ontologyElement
-	 *            The reference parser node.
-	 * @param node
-	 *            The source DOMNode element.
-	 * @param domParentNode
-	 *            The target parent DOM element node.
-	 * @return The element created.
-	 */
-	// private Element createElement(
-	// net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element
-	// ontologyElement,
-	// Node domParentNode) {
-	// Element element = domDocument.createElement(ontologyElement.hasName());
-	// domParentNode.appendChild(element);
-	// return element;
-	// }
-	/**
-	 * Fills the DOM document in, using the ontology factory. This method starts
-	 * to write the nodes defined in the ontology, and then adds DOM
-	 * information.
-	 * 
-	 * @param factory
-	 */
-	private void fillDocument(OntologyFactory factory) {
-		// DocumentElement ontDocElement = factory.getDocumentElement();
-		// writeNode(ontDocElement, document, domDocument);
-	}
-
-	// boolean isNodeInstance(
-	// DOMNode inst,
-	// net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element
-	// ontNode) {
-	// boolean isNodeInstance = true;
-	// if (inst.getClass().equals(DOMNode.class)) {
-	// return false;
-	// }
-	// if (inst.getNodeName() != null) {
-	// isNodeInstance &= inst.getNodeName().equals(ontNode.hasName());
-	// }
-	// Set<ParameterValue> pvs = ontNode.hasParameterValues();
-	// for (ParameterValue pv : pvs) {
-	// isNodeInstance &= inst.getValue(pv.ofParameter().hasName()).equals(
-	// pv.hasValue());
-	// }
-	// Set<AttributeRestriction> aRestrictions = ontNode
-	// .hasAttributeRestriction();
-	// for (AttributeRestriction pR : aRestrictions) {
-	// Object val;
-	// if (inst.getValue(pR.hasName()) == null) {
-	// if (inst.getDOMAttributeValue(pR.hasName()) == null) {
-	// return false;
-	// } else {
-	// val = inst.getDOMAttributeValue(pR.hasName());
-	// }
-	// } else {
-	// val = inst.getValue(pR.hasName());
-	// }
-	// isNodeInstance &= val.equals(pR.hasValue());
-	// }
-	// return isNodeInstance;
-	// }
-
-	/**
-	 * Sets the xmlns (to use when no xmlns has been set)
-	 * 
-	 * @param ns
-	 *            The name space to set
-	 */
-	private void setXmlns(String ns) {
-		((Element) domDocument.getFirstChild()).setAttribute("xmlns", ns);
-	}
-
-	/**
-	 * Writes the document this writer was created with.
+	 * Writes the graph this writer was created with.
 	 * 
 	 * @param out
 	 *            The output stream.
 	 */
 	public void write(OutputStream out) {
-		Configuration configuration = document.getDocumentConfiguration();
+		Configuration configuration = graph.getDocumentConfiguration();
 		OntologyFactory factory = configuration.getOntologyFactory();
 		try {
 			DocumentBuilderFactory builderFactory = DocumentBuilderFactory
@@ -165,14 +83,11 @@ public class GenericGraphFileWriter {
 			builderFactory.setNamespaceAware(false);
 			builderFactory.setValidating(false);
 			DocumentBuilder builder = builderFactory.newDocumentBuilder();
-			domDocument = builder.newDocument();
+			Document domDocument = builder.newDocument();
 
-			// Fills the DOM document
-			fillDocument(factory);
-			if (domDocument.getNamespaceURI() == null
-					|| domDocument.getNamespaceURI().equals("")) {
-				setXmlns("http://default.0ns");
-			}
+			// Fills the DOM graph
+			SchemaWriter writer = new SchemaWriter(configuration, domDocument);
+			writer.write(factory.getDocumentElement(), graph);
 
 			// Set up the output transformer
 			TransformerFactory transfac = TransformerFactory.newInstance();
@@ -194,203 +109,4 @@ public class GenericGraphFileWriter {
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * Choose the element to write has defined in the ontology
-	 * 
-	 * @param nodes
-	 *            The available nodes in the ontology
-	 * @param element
-	 *            The current DOMElement
-	 * @param parentNode
-	 *            The parent node in the dom tree
-	 */
-	// private void writeCorrespondingNode(
-	// Set<net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.
-	// Element> nodes,
-	// DOMNode element, Node parentNode) {
-	// List<DOMNode> treated = new ArrayList<DOMNode>();
-	// List<net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.
-	// Element> ontologyElements = new
-	// ArrayList<net.sf.graphiti.ontology.xmlDescriptions
-	// .xmlSchemaTypes.elements.Element>(
-	// nodes);
-	// // while elements are to be written
-	// // while (ontologyElements.size() > 0) {
-	// // // obtain the current element
-	// // net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.
-	// // Element node = ontologyElements
-	// // .get(0);
-	// // // check if elements needs to be written previously
-	// // while (node.hasPrecedenceElement() != null
-	// // && ontologyElements.contains(node.hasPrecedenceElement())) {
-	// // // There is element to write before writting the current element
-	// // // and that haven't been written
-	// // node = node.hasPrecedenceElement();
-	// // }
-	// // // remove the node from the node to write
-	// // ontologyElements.remove(node);
-	// //
-	// // // treat the element considering its class
-	// // if (node.hasOntClass(OntologyFactory.getClassGraphElement())) {
-	// // if (element instanceof GraphitiDocument) {
-	// // writeNode(node, ((GraphitiDocument) element).getGraph(),
-	// // parentNode);
-	// // treated.add(((GraphitiDocument) element).getGraph());
-	// // }
-	// // } else if (node
-	// // .hasOntClass(OntologyFactory.getClassVertexElement())) {
-	// // if (element instanceof GraphitiDocument) {
-	// // for (Vertex vertex : ((GraphitiDocument) element)
-	// // .getGraph().vertexSet()) {
-	// // if (isNodeInstance(vertex, node)) {
-	// // writeNode(node, vertex, parentNode);
-	// // treated.add(vertex);
-	// // }
-	// // }
-	// // } else if (element instanceof Graph) {
-	// // for (Vertex vertex : ((Graph) element).vertexSet()) {
-	// // if (isNodeInstance(vertex, node)) {
-	// // writeNode(node, vertex, parentNode);
-	// // treated.add(vertex);
-	// // }
-	// // }
-	// // }
-	// // } else if (node.hasOntClass(OntologyFactory.getClassSkipElement())) {
-	// // boolean isTreated = false;
-	// // for (DOMNode childNode : element.getDOMElements()) {
-	// // if (isNodeInstance(childNode, node)) {
-	// // writeNode(node, childNode, parentNode);
-	// // isTreated = true;
-	// // }
-	// // }
-	// // treated.add(element);
-	// // } else if (node.hasOntClass(OntologyFactory.getClassEdgeElement())) {
-	// // if (element instanceof GraphitiDocument) {
-	// // for (Edge edge : ((GraphitiDocument) element).getGraph()
-	// // .edgeSet()) {
-	// // writeNode(node, edge, parentNode);
-	// // treated.add(edge);
-	// // }
-	// // } else if (element instanceof Graph) {
-	// // for (Edge edge : ((Graph) element).edgeSet()) {
-	// // writeNode(node, edge, parentNode);
-	// // treated.add(edge);
-	// // }
-	// // }
-	// // } else {
-	// // writeNode(node, element, parentNode);
-	// // }
-	// //
-	// // }
-	//
-	// for (DOMNode childElement : element.getDOMElements()) {
-	// if (!childElement.getNodeName().equals("#text")
-	// && childElement.getClass().equals(DOMNode.class)) {
-	// Element newElt = domDocument.createElement(childElement
-	// .getNodeName());
-	// if (childElement.getNodeValue() != null) {
-	// newElt.setTextContent(childElement.getNodeValue());
-	// }
-	// for (DOMNode attribute : childElement.getDOMAttributes()) {
-	// newElt.setAttribute(attribute.getNodeName(), attribute
-	// .getNodeValue());
-	// }
-	// parentNode.appendChild(newElt);
-	// writeCorrespondingNode(
-	// new
-	// TreeSet<net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements
-	// .Element>(),
-	// childElement, newElt);
-	// }
-	// }
-	//
-	// }
-	/**
-	 * Write the given node
-	 * 
-	 * @param node
-	 *            The Ontology node
-	 * @param element
-	 *            The DOMElement to write
-	 * @param parentNode
-	 *            The parent node is the DOM tree
-	 */
-	// private void writeNode(
-	// net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element
-	// node,
-	// DOMNode element, Node parentNode) {
-	// DOMNode trueElement;
-	//
-	// // if the element to write is a SkipDOMNode this means that this node
-	// // attributes values come from the upper level
-	// if (element instanceof SkipDOMNode) {
-	// trueElement = ((SkipDOMNode) element).getTrueNode();
-	// } else {
-	// trueElement = element;
-	// }
-	// Element newElement = createElement(node, parentNode);
-	// for (AttributeRestriction restricts : node.hasAttributeRestriction()) {
-	// newElement.setAttribute(restricts.hasName(), restricts.hasValue());
-	// }
-	//
-	// // write all the attribute which are not described in the ontology
-	// /*
-	// * for (DOMNode attrNode : element.getDOMAttributes()) { if
-	// * (attrNode.getClass().equals(DOMNode.class)) {
-	// * newElement.setAttribute(attrNode.getNodeName(), attrNode
-	// * .getNodeValue()); } }
-	// */
-	//
-	// // If node is an instance of OtherAttributes
-	// if (node.hasOntClass(OntologyFactory.getClassOtherAttribute())) {
-	// OtherAttribute param = (OtherAttribute) node;
-	// newElement.setTextContent((String) trueElement.getValue(param
-	// .hasParameter().hasName()));
-	// }
-	//
-	// // Write the node attributes
-	// for (XMLAttribute attr : node.hasAttributes()) {
-	// if (attr.hasOntClass(OntologyFactory.getClassOtherAttribute())
-	// && (!attr.hasOntClass(OntologyFactory
-	// .getClassParameterValue()))) {
-	// OtherAttribute beanParam = (OtherAttribute) attr;
-	// Parameter param = beanParam.hasParameter();
-	// Object val = trueElement.getValue(param.hasName());
-	// if (val != null) {
-	// newElement
-	// .setAttribute(beanParam.hasName(), val.toString());
-	// }
-	// } else if (attr
-	// .hasOntClass(OntologyFactory.getClassEdgeAttribute())) {
-	// if (attr.hasOntClass(OntologyFactory
-	// .getClassEdgeSourceConnection())) {
-	// newElement.setAttribute(attr.hasName(),
-	// (String) ((Edge) trueElement).getSource().getValue(
-	// "id"));
-	// } else if (attr.hasOntClass(OntologyFactory
-	// .getClassEdgeTargetConnection())) {
-	// newElement.setAttribute(attr.hasName(),
-	// (String) ((Edge) trueElement).getTarget().getValue(
-	// "id"));
-	// } else if (attr.hasOntClass(OntologyFactory
-	// .getClassEdgeConnection())) {
-	// if (!sourceWritten) {
-	// newElement.setAttribute(attr.hasName(),
-	// (String) ((Edge) trueElement).getSource()
-	// .getValue("id"));
-	// sourceWritten = true;
-	// } else {
-	// newElement.setAttribute(attr.hasName(),
-	// (String) ((Edge) trueElement).getTarget()
-	// .getValue("id"));
-	// sourceWritten = false;
-	// }
-	// }
-	// }
-	// }
-	// // Write the children of this node
-	// // writeCorrespondingNode(node.hasElementChildren(), element,
-	// // newElement);
-	// }
 }

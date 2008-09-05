@@ -181,34 +181,12 @@ public class Operation {
 	}
 
 	/**
-	 * Sets this operation only operand.
-	 * 
-	 * @param operand
-	 *            An {@link Object}.
-	 */
-	public void setOperand(Object operand) {
-		this.operands = toOperandsArray(new Object[] { operand });
-	}
-
-	/**
-	 * Sets this operation's two operands.
-	 * 
-	 * @param operand1
-	 *            The first operand.
-	 * @param operand2
-	 *            The second operand.
-	 */
-	public void setOperands(Object operand1, Object operand2) {
-		this.operands = toOperandsArray(new Object[] { operand1, operand2 });
-	}
-
-	/**
 	 * Sets this operation's operands.
 	 * 
 	 * @param operands
 	 *            An array of {@link Object}.
 	 */
-	public void setOperands(Object[] operands) {
+	public void setOperands(Object... operands) {
 		this.operands = toOperandsArray(operands);
 	}
 

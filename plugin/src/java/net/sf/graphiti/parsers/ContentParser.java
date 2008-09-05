@@ -34,7 +34,6 @@ import java.util.Stack;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.PropertyBean;
-import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import net.sf.graphiti.ontology.parameters.Parameter;
 import net.sf.graphiti.ontology.types.EdgeType;
@@ -60,6 +59,7 @@ import net.sf.graphiti.parsers.operations.SetValueOpSpec;
 import net.sf.graphiti.transactions.Operation;
 import net.sf.graphiti.transactions.Result;
 import net.sf.graphiti.transactions.SimpleTransaction;
+import net.sf.graphiti.writer.ContentWriter;
 
 import org.eclipse.core.runtime.Assert;
 
@@ -85,9 +85,24 @@ public class ContentParser {
 		private int depth;
 
 		/**
+		 * Index of the last edge created.
+		 */
+		private int edgeIndex;
+
+		/**
+		 * Index of the last graph created.
+		 */
+		private int graphIndex;
+
+		/**
 		 * The transaction index.
 		 */
 		private int transactionIndex;
+
+		/**
+		 * Index of the last vertex created.
+		 */
+		private int vertexIndex;
 
 		/**
 		 * Creates a new Checkpoint that saves the current state of this content
@@ -95,7 +110,10 @@ public class ContentParser {
 		 */
 		public Checkpoint() {
 			depth = elementStack.size();
+			this.edgeIndex = ContentParser.this.edgeIndex;
+			this.graphIndex = ContentParser.this.graphIndex;
 			transactionIndex = transaction.size();
+			this.vertexIndex = ContentParser.this.vertexIndex;
 		}
 
 	}
@@ -104,6 +122,11 @@ public class ContentParser {
 	 * The configuration this content parser was created with.
 	 */
 	private Configuration configuration;
+
+	/**
+	 * Index of the last edge created.
+	 */
+	private int edgeIndex;
 
 	/**
 	 * {@link Stack#peek()} returns the current {@link Element} (between a call
@@ -117,6 +140,11 @@ public class ContentParser {
 	private Graph graph;
 
 	/**
+	 * Index of the last graph created.
+	 */
+	private int graphIndex;
+
+	/**
 	 * {@link Stack#peek()} returns the {@link Result} associated with the
 	 * current element (between a call to <code>elementStart</code> and
 	 * <code>elementEnd</code>.
@@ -126,15 +154,23 @@ public class ContentParser {
 	private SimpleTransaction transaction;
 
 	/**
-	 * Creates a new {@link ContentParser} with the given {@link Configuration}.
+	 * Index of the last vertex created.
+	 */
+	private int vertexIndex;
+
+	/**
+	 * Creates a new {@link ContentWriter} with the given {@link Configuration}.
 	 * 
 	 * @param configuration
 	 */
 	public ContentParser(Configuration configuration) {
 		this.configuration = configuration;
+		edgeIndex = -1;
 		elementStack = new Stack<Element>();
+		graphIndex = -1;
 		resultStack = new Stack<Result>();
 		transaction = new SimpleTransaction();
+		vertexIndex = -1;
 	}
 
 	/**
@@ -145,20 +181,20 @@ public class ContentParser {
 	 * @param domElement
 	 */
 	public void elementEnd(Element ontElement, org.w3c.dom.Element domElement) {
-		// graph
-		int index = findNearestElement(OntologyFactory.getClassGraphElement());
-		if (index == -1) {
-			return;
-		}
-
-		if (ontElement instanceof VertexElement) {
+		if (ontElement instanceof GraphElement) {
+			graphIndex = -1;
+		} else if (ontElement instanceof VertexElement) {
 			Operation addVertex = new Operation(new AddVertexOpSpec());
-			addVertex.setOperands(resultStack.get(index), resultStack.peek());
+			Result result = resultStack.peek();
+			addVertex.setOperands(resultStack.get(graphIndex), result);
 			transaction.addOperation(addVertex);
+			vertexIndex = -1;
 		} else if (ontElement instanceof EdgeElement) {
 			Operation addEdge = new Operation(new AddEdgeOpSpec());
-			addEdge.setOperands(resultStack.get(index), resultStack.peek());
+			Result result = resultStack.peek();
+			addEdge.setOperands(resultStack.get(graphIndex), result);
 			transaction.addOperation(addEdge);
+			edgeIndex = -1;
 		}
 
 		elementStack.pop();
@@ -178,10 +214,13 @@ public class ContentParser {
 
 		if (ontElement instanceof GraphElement) {
 			result = parseGraphElement((GraphElement) ontElement, domElement);
+			graphIndex = resultStack.size();
 		} else if (ontElement instanceof VertexElement) {
 			result = parseVertexElement((VertexElement) ontElement, domElement);
+			vertexIndex = resultStack.size();
 		} else if (ontElement instanceof EdgeElement) {
 			result = parseEdgeElement((EdgeElement) ontElement, domElement);
+			edgeIndex = resultStack.size();
 		} else if (ontElement instanceof TextContentElement) {
 			result = parseTextContentElement((TextContentElement) ontElement,
 					domElement);
@@ -191,25 +230,6 @@ public class ContentParser {
 
 		resultStack.push(result);
 		setParameterValues(ontElement, domElement);
-	}
-
-	/**
-	 * Returns the nearest element whose class is <code>ontClass</code>. The
-	 * search is done from inner level to outer level.
-	 * 
-	 * @param ontClass
-	 *            The ontology class.
-	 * @return The index of the nearest element whose class is
-	 *         <code>clasz</code>, or <code>-1</code>.
-	 */
-	private int findNearestElement(String ontClass) {
-		for (int i = elementStack.size() - 1; i >= 0; i--) {
-			if (elementStack.get(i).hasOntClass(ontClass)) {
-				return i;
-			}
-		}
-
-		return -1;
 	}
 
 	/**
@@ -242,11 +262,11 @@ public class ContentParser {
 		int index = -1;
 
 		if (objectType instanceof EdgeType) {
-			index = findNearestElement(OntologyFactory.getClassEdgeElement());
+			index = edgeIndex;
 		} else if (objectType instanceof GraphType) {
-			index = findNearestElement(OntologyFactory.getClassGraphElement());
+			index = graphIndex;
 		} else if (objectType instanceof VertexType) {
-			index = findNearestElement(OntologyFactory.getClassVertexElement());
+			index = vertexIndex;
 		}
 
 		if (index == -1) {
@@ -273,6 +293,10 @@ public class ContentParser {
 		for (int i = transaction.size() - 1; i >= checkpoint.transactionIndex; i--) {
 			transaction.remove(i);
 		}
+
+		edgeIndex = checkpoint.edgeIndex;
+		graphIndex = checkpoint.graphIndex;
+		vertexIndex = checkpoint.vertexIndex;
 	}
 
 	/**
@@ -301,19 +325,8 @@ public class ContentParser {
 		Operation setEdgeEndpoint = new Operation(new SetEdgeEndpointOpSpec());
 		Object[] operands = new Object[4];
 
-		// graph
-		int index = findNearestElement(OntologyFactory.getClassGraphElement());
-		if (index == -1) {
-			return;
-		}
-		operands[0] = resultStack.get(index);
-
-		// edge
-		index = findNearestElement(OntologyFactory.getClassEdgeElement());
-		if (index == -1) {
-			return;
-		}
-		operands[1] = resultStack.get(index);
+		operands[0] = resultStack.get(graphIndex);
+		operands[1] = resultStack.get(edgeIndex);
 
 		// endpoint
 		if (ontAttribute instanceof EdgeSourceConnection) {
@@ -370,11 +383,9 @@ public class ContentParser {
 
 			// will set the parameter value
 			Operation setProperty = new Operation(SetValueOpSpec.getInstance());
-			Object[] operands = new Object[] { result,
+			setProperty.setOperands(result,
 					new net.sf.graphiti.model.Parameter(parameter),
-					domAttrValue };
-
-			setProperty.setOperands(operands);
+					domAttrValue);
 			transaction.addOperation(setProperty);
 		}
 	}
@@ -392,11 +403,9 @@ public class ContentParser {
 		if (parameter != null) {
 			// will set the parameter value
 			Operation setProperty = new Operation(SetValueOpSpec.getInstance());
-			Object[] operands = new Object[] { resultStack.peek(),
-					new net.sf.graphiti.model.Parameter(parameter),
-					domElement.getTextContent() };
-
-			setProperty.setOperands(operands);
+			setProperty.setOperands(resultStack.peek(),
+					new net.sf.graphiti.model.Parameter(parameter), domElement
+							.getTextContent());
 			transaction.addOperation(setProperty);
 		}
 		return new Result();
@@ -444,11 +453,10 @@ public class ContentParser {
 
 			// will set the parameter value
 			Operation setProperty = new Operation(SetValueOpSpec.getInstance());
-			Object[] operands = new Object[] { resultStack.peek(),
-					new net.sf.graphiti.model.Parameter(parameter),
-					constant.hasValue() };
-
-			setProperty.setOperands(operands);
+			net.sf.graphiti.model.Parameter modelParameter = new net.sf.graphiti.model.Parameter(
+					parameter);
+			setProperty.setOperands(resultStack.peek(), modelParameter,
+					constant.hasValue());
 			transaction.addOperation(setProperty);
 		}
 	}
