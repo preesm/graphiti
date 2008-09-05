@@ -66,7 +66,9 @@ public class Edge extends PropertyBean {
 
 	/**
 	 * Creates a new unconnected edge with the given type.
-	 * @param type The edge type.
+	 * 
+	 * @param type
+	 *            The edge type.
 	 */
 	public Edge(String type) {
 		setValue(PARAMETER_TYPE, type);

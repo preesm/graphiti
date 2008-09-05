@@ -53,8 +53,4 @@ public class TextContentElementImpl extends ElementImpl implements
 				.getPropertyTextContentElementReferencesParameter());
 	}
 
-	public String toString() {
-		return super.toString() + " | TextContentElement";
-	}
-
 }

@@ -282,10 +282,6 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#attributeRestriction_hasValue";
 	}
 
-	public static String getPropertyAttributeRestrictionOfElement() {
-		return "http://net.sf.graphiti/basics.owl#attributeRestriction_ofElement";
-	}
-
 	public static String getPropertyChoiceHasElements() {
 		return "http://net.sf.graphiti/basics.owl#choice_hasElements";
 	}

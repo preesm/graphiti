@@ -69,10 +69,4 @@ public class ParameterImpl extends OntologyIndividualImpl implements Parameter {
 				.getPropertyParameterHasValueType());
 	}
 
-	public String toString() {
-		return super.toString() + " | Parameter: hasName: " + hasName()
-				+ ", hasValueType: " + hasValueType() + ", appliesTo: "
-				+ appliesTo();
-	}
-
 }

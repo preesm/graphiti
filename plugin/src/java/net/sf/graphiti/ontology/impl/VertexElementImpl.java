@@ -44,8 +44,4 @@ public class VertexElementImpl extends ElementImpl implements VertexElement {
 		super(individual);
 	}
 
-	public String toString() {
-		return super.toString() + " | VertexElement";
-	}
-
 }

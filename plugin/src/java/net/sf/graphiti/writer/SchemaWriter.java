@@ -35,6 +35,7 @@ import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeRestriction;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Choice;
@@ -49,8 +50,8 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 
 /**
- * This class parses the given DOM document according to the schema defined in
- * the ontology.
+ * This class fills a DOM document from a given graph according to the schema
+ * defined in the ontology.
  * 
  * @author Matthieu Wipliez
  * 
@@ -62,8 +63,12 @@ public class SchemaWriter {
 	private Logger log;
 
 	/**
-	 * Creates a new schema writer for the given document.
+	 * Creates a new schema writer for the given configuration and DOM document.
 	 * 
+	 * @param configuration
+	 *            The configuration to use.
+	 * @param document
+	 *            The DOM document to fill in.
 	 */
 	public SchemaWriter(Configuration configuration, Document document) {
 		contentWriter = new ContentWriter(configuration, document);
@@ -72,11 +77,12 @@ public class SchemaWriter {
 	}
 
 	/**
-	 * Writes the graph this schema writer was constructed with to the given
-	 * document using the given ontology document element.
+	 * Writes the given graph using the given ontology document element.
 	 * 
 	 * @param ontDocElement
 	 *            The ontology document element.
+	 * @param graph
+	 *            The graph to write.
 	 */
 	public void write(XMLSchemaType ontDocElement, Graph graph) {
 		if (ontDocElement.hasOntClass(OntologyFactory.getClassComplexType())) {
@@ -84,23 +90,54 @@ public class SchemaWriter {
 		} else {
 			writeElement((Element) ontDocElement, graph);
 		}
-		
+
 		contentWriter.commit();
 	}
 
-	private void writeAttributes(Element ontElement, Object context) {
-		Set<XMLAttribute> attributes = ontElement.hasAttributes();
-		for (XMLAttribute ontAttribute : attributes) {
-			contentWriter.writeAttribute(ontAttribute, context);
+	private void writeAttributeRestrictions(Element ontElement, Object context) {
+		for (AttributeRestriction attr : ontElement.hasAttributeRestriction()) {
+			contentWriter.setAttributeRestriction(attr, context);
 		}
 	}
 
+	/**
+	 * Set the attributes defined by the ontology element in the given context.
+	 * 
+	 * @param ontElement
+	 *            The ontology element.
+	 * @param context
+	 *            The context.
+	 */
+	private void writeAttributes(Element ontElement, Object context) {
+		Set<XMLAttribute> attributes = ontElement.hasAttributes();
+		for (XMLAttribute ontAttribute : attributes) {
+			contentWriter.setAttribute(ontAttribute, context);
+		}
+	}
+
+	/**
+	 * Writes a branch of the given {@link Choice} in the given context.
+	 * 
+	 * @param choice
+	 *            The choice.
+	 * @param context
+	 *            The context.
+	 */
 	private void writeChoice(Choice choice, Object context) {
 		for (XMLSchemaType type : choice.hasElements()) {
+			// TODO: !!
 			writeSchemaType(type, context);
 		}
 	}
 
+	/**
+	 * Writes the given complex type in the given context.
+	 * 
+	 * @param type
+	 *            A {@link ComplexType}.
+	 * @param context
+	 *            The context.
+	 */
 	private void writeComplexType(ComplexType type, Object context) {
 		if (type instanceof Sequence) {
 			writeSequence((Sequence) type, context);
@@ -111,6 +148,15 @@ public class SchemaWriter {
 		}
 	}
 
+	/**
+	 * Writes the given complex type a specified number of times (between
+	 * minOccurs and maxOccurs).
+	 * 
+	 * @param type
+	 *            A {@link ComplexType}.
+	 * @param context
+	 *            The context.
+	 */
 	private void writeComplexTypeOccurs(ComplexType type, Object context) {
 		int minOccurs = type.minOccurs();
 		int maxOccurs = type.maxOccurs();
@@ -127,14 +173,25 @@ public class SchemaWriter {
 				writeComplexType(type, context);
 			}
 		} else {
-			//TODO: other cases?
-			System.out.println();
+			// TODO: other cases?
+			int a = 0;
+			a++;
 		}
 	}
 
+	/**
+	 * Writes the given ontology element in the given context.
+	 * 
+	 * @param ontElement
+	 *            An ontology {@link Element} that describes an XML element in
+	 *            the DOM result.
+	 * @param context
+	 *            The context.
+	 */
 	private void writeElement(Element ontElement, Object context) {
 		contentWriter.elementStart(ontElement, context);
 
+		writeAttributeRestrictions(ontElement, context);
 		writeAttributes(ontElement, context);
 
 		XMLSchemaType type = ontElement.hasSchemaType();
@@ -145,6 +202,16 @@ public class SchemaWriter {
 		contentWriter.elementEnd(ontElement, context);
 	}
 
+	/**
+	 * Writes the given ontology element in the given context a specified number
+	 * of times (between minOccurs and maxOccurs).
+	 * 
+	 * @param ontElement
+	 *            An ontology {@link Element} that describes an XML element in
+	 *            the DOM result.
+	 * @param context
+	 *            The context.
+	 */
 	private void writeElementOccurs(Element ontElement, Object context) {
 		int minOccurs = ontElement.minOccurs();
 		int maxOccurs = ontElement.maxOccurs();
@@ -172,12 +239,21 @@ public class SchemaWriter {
 					writeElement(ontElement, edge);
 				}
 			} else {
-				//TODO: other cases?
-				System.out.println();
+				// TODO: other cases?
+				int a = 0;
+				a++;
 			}
 		}
 	}
 
+	/**
+	 * Writes the given schema type in the given context.
+	 * 
+	 * @param type
+	 *            An {@link XMLSchemaType}.
+	 * @param context
+	 *            The context.
+	 */
 	private void writeSchemaType(XMLSchemaType type, Object context) {
 		if (type.hasOntClass(OntologyFactory.getClassComplexType())) {
 			writeComplexTypeOccurs((ComplexType) type, context);
@@ -186,6 +262,14 @@ public class SchemaWriter {
 		}
 	}
 
+	/**
+	 * Writes the given sequence in the given context.
+	 * 
+	 * @param sequence
+	 *            A {@link Sequence}.
+	 * @param context
+	 *            The context.
+	 */
 	private void writeSequence(Sequence sequence, Object context) {
 		for (XMLSchemaType type : sequence.hasElements()) {
 			writeSchemaType(type, context);

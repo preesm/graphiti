@@ -114,7 +114,7 @@ public class ComplexValueEditingSupport extends EditingSupport implements
 			Entry<Object, Object> entry = (Entry<Object, Object>) element;
 			entry.setValue(value);
 		}
-		
+
 		getViewer().refresh();
 	}
 

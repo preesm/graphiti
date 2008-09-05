@@ -53,6 +53,18 @@ public class Util {
 	}
 
 	@SuppressWarnings("unchecked")
+	public static List<Object> getList(PropertyBean bean, Parameter parameter) {
+		String parameterName = parameter.getName();
+		List<Object> list = (List<Object>) bean.getValue(parameterName);
+		if (list == null) {
+			list = new ArrayList<Object>();
+			bean.setValue(parameterName, list);
+		}
+
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
 	public static Map<Object, Object> getMap(PropertyBean bean,
 			Parameter parameter) {
 		String parameterName = parameter.getName();
@@ -64,18 +76,6 @@ public class Util {
 		}
 
 		return map;
-	}
-
-	@SuppressWarnings("unchecked")
-	public static List<Object> getList(PropertyBean bean, Parameter parameter) {
-		String parameterName = parameter.getName();
-		List<Object> list = (List<Object>) bean.getValue(parameterName);
-		if (list == null) {
-			list = new ArrayList<Object>();
-			bean.setValue(parameterName, list);
-		}
-
-		return list;
 	}
 
 }

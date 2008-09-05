@@ -31,7 +31,6 @@ package net.sf.graphiti.ontology.impl;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeRestriction;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -65,16 +64,5 @@ public class AttributeRestrictionImpl extends OntologyIndividualImpl implements
 	public String hasValue() {
 		return getStringProperty(OntologyFactory
 				.getPropertyAttributeRestrictionHasValue());
-	}
-
-	@Override
-	public Element ofElement() {
-		return (Element) getIndividualProperty(OntologyFactory
-				.getPropertyAttributeRestrictionOfElement());
-	}
-
-	public String toString() {
-		return super.toString() + " | AttributeRestriction: hasName: "
-				+ hasName() + ", hasValue: " + hasValue();
 	}
 }

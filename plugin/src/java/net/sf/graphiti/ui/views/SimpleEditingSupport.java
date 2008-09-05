@@ -57,8 +57,8 @@ public class SimpleEditingSupport extends EditingSupport implements
 	private PropertyBean source;
 
 	/**
-	 * Creates a new {@link SimpleEditingSupport} on the given column viewer
-	 * and table.
+	 * Creates a new {@link SimpleEditingSupport} on the given column viewer and
+	 * table.
 	 * 
 	 * @param viewer
 	 * @param table
@@ -94,8 +94,7 @@ public class SimpleEditingSupport extends EditingSupport implements
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(
-				SimpleContentProvider.INPUT_CHANGED)) {
+		if (evt.getPropertyName().equals(SimpleContentProvider.INPUT_CHANGED)) {
 			source = (PropertyBean) evt.getNewValue();
 		}
 	}
@@ -106,7 +105,7 @@ public class SimpleEditingSupport extends EditingSupport implements
 			Parameter parameter = (Parameter) element;
 			source.setValue(parameter.getName(), value);
 		}
-		
+
 		getViewer().refresh();
 	}
 

@@ -44,8 +44,4 @@ public class GraphElementImpl extends ElementImpl implements GraphElement {
 		super(individual);
 	}
 
-	public String toString() {
-		return super.toString() + " | GraphElement";
-	}
-
 }

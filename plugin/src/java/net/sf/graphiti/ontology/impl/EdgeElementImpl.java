@@ -44,8 +44,4 @@ public class EdgeElementImpl extends ElementImpl implements EdgeElement {
 		super(individual);
 	}
 
-	public String toString() {
-		return super.toString() + " | EdgeElement";
-	}
-
 }

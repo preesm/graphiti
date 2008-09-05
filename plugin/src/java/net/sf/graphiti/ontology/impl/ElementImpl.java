@@ -82,8 +82,4 @@ public class ElementImpl extends XMLSchemaTypeImpl implements Element {
 		return (XMLSchemaType) getIndividualProperty(OntologyFactory
 				.getPropertyElementHasSchemaType());
 	}
-
-	public String toString() {
-		return super.toString() + " | Element: hasName: " + hasName();
-	}
 }

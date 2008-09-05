@@ -65,10 +65,4 @@ public class TypeImpl extends OntologyIndividualImpl implements Type {
 		return (Set<Parameter>) listIndividuals(OntologyFactory
 				.getPropertyTypeHasParameters());
 	}
-
-	public String toString() {
-		return super.toString() + " | Type: hasStringRepresentation: "
-				+ hasName() + ", hasParameters: " + hasParameters()
-				+ ", hasFigureAttributes:" + hasFigureAttributes();
-	}
 }

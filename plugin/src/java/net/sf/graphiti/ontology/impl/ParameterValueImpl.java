@@ -56,8 +56,4 @@ public class ParameterValueImpl extends OntologyIndividualImpl implements
 		return (Parameter) getIndividualProperty(OntologyFactory
 				.getPropertyParameterValueOfParameter());
 	}
-
-	public String toString() {
-		return super.toString() + " | ParameterValue: hasValue: " + hasValue();
-	}
 }

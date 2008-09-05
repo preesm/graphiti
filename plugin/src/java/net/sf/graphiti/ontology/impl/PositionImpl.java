@@ -44,8 +44,4 @@ public class PositionImpl extends OntologyIndividualImpl implements Position {
 		super(individual);
 	}
 
-	public String toString() {
-		return this.getIndividualLocalName();
-	}
-
 }

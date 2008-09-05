@@ -59,12 +59,12 @@ public class DependencyCreateCommand extends Command {
 	protected Vertex source;
 
 	protected Vertex target;
-	
+
 	/**
 	 * Creates a new command with no initial edge.
 	 */
 	protected DependencyCreateCommand() {
-		
+
 	}
 
 	/**

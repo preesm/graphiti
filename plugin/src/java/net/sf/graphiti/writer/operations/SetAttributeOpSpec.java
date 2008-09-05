@@ -28,22 +28,13 @@
  */
 package net.sf.graphiti.writer.operations;
 
-import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ontology.parameters.Parameter;
-import net.sf.graphiti.ontology.types.EdgeType;
-import net.sf.graphiti.ontology.types.GraphType;
-import net.sf.graphiti.ontology.types.Type;
-import net.sf.graphiti.ontology.types.VertexType;
 import net.sf.graphiti.transactions.IOperationSpecification;
 import net.sf.graphiti.transactions.Result;
 
 import org.w3c.dom.Element;
 
 /**
- * Sets an attribute. Operands: parent element, context, attribute name,
- * parameter.
+ * Sets an attribute. Operands: DOM element, attribute name, attribute value.
  * 
  * @author Matthieu Wipliez
  * 
@@ -53,25 +44,10 @@ public class SetAttributeOpSpec implements IOperationSpecification {
 	@Override
 	public void execute(Object[] operands, Result result) {
 		Element element = (Element) operands[0];
-		Object context = operands[1];
-		String attrName = (String) operands[2];
-		Parameter parameter = (Parameter) operands[3];
+		String attrName = (String) operands[1];
+		String attrValue = (String) operands[2];
 
-		Type objectType = parameter.appliesTo();
-		String parameterName = parameter.hasName();
-		Object value;
-
-		if (objectType instanceof GraphType) {
-			value = ((Graph) context).getValue(parameterName);
-		} else if (objectType instanceof VertexType) {
-			value = ((Vertex) context).getValue(parameterName);
-		} else if (objectType instanceof EdgeType) {
-			value = ((Edge) context).getValue(parameterName);
-		} else {
-			return;
-		}
-
-		element.setAttribute(attrName, value.toString());
+		element.setAttribute(attrName, attrValue);
 	}
 
 	@Override
@@ -81,7 +57,7 @@ public class SetAttributeOpSpec implements IOperationSpecification {
 
 	@Override
 	public int getNbOperands() {
-		return 4;
+		return 3;
 	}
 
 	@Override

@@ -28,32 +28,54 @@
  */
 package net.sf.graphiti.writer.operations;
 
+import net.sf.graphiti.model.Edge;
+import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ontology.parameters.Parameter;
+import net.sf.graphiti.ontology.types.EdgeType;
+import net.sf.graphiti.ontology.types.GraphType;
+import net.sf.graphiti.ontology.types.Type;
+import net.sf.graphiti.ontology.types.VertexType;
 import net.sf.graphiti.transactions.IOperationSpecification;
 import net.sf.graphiti.transactions.Result;
 
 import org.w3c.dom.Element;
 
 /**
- * Sets an edge attribute. Operands: parent element, attribute name, attribute
- * value.
+ * Sets the text content of an element. Operands: DOM element, context,
+ * parameter.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class SetEdgeAttributeOpSpec implements IOperationSpecification {
+public class SetTextContentOpSpec implements IOperationSpecification {
 
 	@Override
 	public void execute(Object[] operands, Result result) {
 		Element element = (Element) operands[0];
-		String attrName = (String) operands[1];
-		String attrValue = (String) operands[2];
+		Object context = operands[1];
+		Parameter parameter = (Parameter) operands[2];
 
-		element.setAttribute(attrName, attrValue);
+		Type objectType = parameter.appliesTo();
+		String parameterName = parameter.hasName();
+		Object value;
+
+		if (objectType instanceof GraphType) {
+			value = ((Graph) context).getValue(parameterName);
+		} else if (objectType instanceof VertexType) {
+			value = ((Vertex) context).getValue(parameterName);
+		} else if (objectType instanceof EdgeType) {
+			value = ((Edge) context).getValue(parameterName);
+		} else {
+			return;
+		}
+
+		element.setTextContent(value.toString());
 	}
 
 	@Override
 	public String getName() {
-		return "set attribute";
+		return "set text content";
 	}
 
 	@Override

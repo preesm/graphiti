@@ -403,7 +403,7 @@ public class ContentParser {
 		if (parameter != null) {
 			// will set the parameter value
 			Operation setProperty = new Operation(SetValueOpSpec.getInstance());
-			setProperty.setOperands(resultStack.peek(),
+			setProperty.setOperands(getParameterObject(parameter),
 					new net.sf.graphiti.model.Parameter(parameter), domElement
 							.getTextContent());
 			transaction.addOperation(setProperty);

@@ -26,30 +26,67 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.impl;
+package net.sf.graphiti.writer.operations;
 
-import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.attributes.FigureAttribute;
+import net.sf.graphiti.model.Edge;
+import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ontology.parameters.Parameter;
+import net.sf.graphiti.ontology.types.EdgeType;
+import net.sf.graphiti.ontology.types.GraphType;
 import net.sf.graphiti.ontology.types.Type;
+import net.sf.graphiti.ontology.types.VertexType;
+import net.sf.graphiti.transactions.IOperationSpecification;
+import net.sf.graphiti.transactions.Result;
 
-import com.hp.hpl.jena.ontology.Individual;
+import org.w3c.dom.Element;
 
 /**
- * Implementation of FigureAttribute.
+ * Sets an attribute based on a given parameter. Operands: DOM element, context,
+ * attribute name, parameter.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class FigureAttributeImpl extends OntologyIndividualImpl implements
-		FigureAttribute {
+public class SetParameterAttributeOpSpec implements IOperationSpecification {
 
-	public FigureAttributeImpl(Individual individual) {
-		super(individual);
+	@Override
+	public void execute(Object[] operands, Result result) {
+		Element element = (Element) operands[0];
+		Object context = operands[1];
+		String attrName = (String) operands[2];
+		Parameter parameter = (Parameter) operands[3];
+
+		Type objectType = parameter.appliesTo();
+		String parameterName = parameter.hasName();
+		Object value;
+
+		if (objectType instanceof GraphType) {
+			value = ((Graph) context).getValue(parameterName);
+		} else if (objectType instanceof VertexType) {
+			value = ((Vertex) context).getValue(parameterName);
+		} else if (objectType instanceof EdgeType) {
+			value = ((Edge) context).getValue(parameterName);
+		} else {
+			return;
+		}
+
+		element.setAttribute(attrName, value.toString());
 	}
 
 	@Override
-	public Type appliesTo() {
-		return (Type) getIndividualProperty(OntologyFactory
-				.getPropertyFigureAttributeAppliesTo());
+	public String getName() {
+		return "set parameter attribute";
 	}
+
+	@Override
+	public int getNbOperands() {
+		return 4;
+	}
+
+	@Override
+	public boolean hasResult() {
+		return false;
+	}
+
 }

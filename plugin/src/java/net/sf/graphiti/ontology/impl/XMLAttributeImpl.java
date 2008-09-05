@@ -52,9 +52,4 @@ public class XMLAttributeImpl extends OntologyIndividualImpl implements
 				.getPropertyDOMAttributeHasName());
 	}
 
-	public String toString() {
-		String res = super.toString();
-		return res;
-	}
-
 }

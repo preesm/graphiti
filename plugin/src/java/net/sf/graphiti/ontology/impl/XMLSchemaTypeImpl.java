@@ -57,8 +57,4 @@ public class XMLSchemaTypeImpl extends OntologyIndividualImpl implements
 		return getIntegerProperty(OntologyFactory
 				.getpropertySchemaTypeHasMinOccurs());
 	}
-
-	public String toString() {
-		return super.toString() + " | XMLSchemaType";
-	}
 }

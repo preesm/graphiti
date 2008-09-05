@@ -97,7 +97,7 @@ public class PropertyView extends AbstractPropertyView {
 		column = new TableColumn(table, SWT.LEFT, 1);
 		column.setText("Value");
 		column.setWidth(300);
-		
+
 		// Creates the table viewer on the table.
 		tableViewer = new TableViewer(table);
 
@@ -123,15 +123,15 @@ public class PropertyView extends AbstractPropertyView {
 		tvc.setLabelProvider(provider);
 
 		// editing support for second column
-		SimpleEditingSupport editing = new SimpleEditingSupport(tvc
-				.getViewer(), table);
+		SimpleEditingSupport editing = new SimpleEditingSupport(
+				tvc.getViewer(), table);
 		contentProvider.addPropertyChangeListener(editing);
 		tvc.setEditingSupport(editing);
 	}
 
 	/**
-	 * Displays a new {@link ComplexPropertyView} for the given parameter on
-	 * the given page.
+	 * Displays a new {@link ComplexPropertyView} for the given parameter on the
+	 * given page.
 	 * 
 	 * @param page
 	 * @param parameter

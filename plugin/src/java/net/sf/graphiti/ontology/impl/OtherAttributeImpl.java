@@ -53,9 +53,4 @@ public class OtherAttributeImpl extends XMLAttributeImpl implements
 				.getPropertyOtherAttributeReferencesParameter());
 	}
 
-	public String toString() {
-		return super.toString() + " | OtherAttribute: hasParameter: "
-				+ hasParameter().hasName();
-	}
-
 }

@@ -107,13 +107,14 @@ public class ComplexNameEditingSupport extends EditingSupport implements
 		if (element instanceof Entry<?, ?>) {
 			Entry<Object, Object> entry = (Entry<Object, Object>) element;
 			Object key = entry.getKey();
-			
-			Map<Object, Object> map = Util.getMap(source.bean, source.parameter);
+
+			Map<Object, Object> map = Util
+					.getMap(source.bean, source.parameter);
 			Object value = map.get(key);
 			map.remove(key);
 			map.put(newKey, value);
 		}
-		
+
 		getViewer().refresh();
 	}
 

@@ -36,10 +36,10 @@ import net.sf.graphiti.transactions.IOperationSpecification;
 import net.sf.graphiti.transactions.Result;
 
 /**
- * Creates an element. Operands: parent, element name.
+ * Creates an element. Operands: DOM node parent, element name.
  * 
  * @author Matthieu Wipliez
- *
+ * 
  */
 public class CreateElementOpSpec implements IOperationSpecification {
 
@@ -47,7 +47,7 @@ public class CreateElementOpSpec implements IOperationSpecification {
 	public void execute(Object[] operands, Result result) {
 		Node parent = (Node) operands[0];
 		String elementName = (String) operands[1];
-		
+
 		// get the document
 		Document document;
 		if (parent instanceof Document) {
@@ -55,11 +55,11 @@ public class CreateElementOpSpec implements IOperationSpecification {
 		} else {
 			document = ((Element) parent).getOwnerDocument();
 		}
-		
+
 		// create the element and append it to its parent
 		Element element = document.createElement(elementName);
 		parent.appendChild(element);
-		
+
 		result.setContents(element);
 	}
 

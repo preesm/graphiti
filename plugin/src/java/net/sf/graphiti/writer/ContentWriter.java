@@ -34,17 +34,27 @@ import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.parameters.Parameter;
+import net.sf.graphiti.ontology.types.EdgeType;
+import net.sf.graphiti.ontology.types.GraphType;
+import net.sf.graphiti.ontology.types.Type;
+import net.sf.graphiti.ontology.types.VertexType;
+import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeRestriction;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.edgeAttributes.EdgeAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.edgeAttributes.EdgeSourceConnection;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.otherAttributes.OtherAttribute;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.EdgeElement;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.GraphElement;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.TextContentElement;
+import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.VertexElement;
 import net.sf.graphiti.transactions.Operation;
 import net.sf.graphiti.transactions.Result;
 import net.sf.graphiti.transactions.SimpleTransaction;
 import net.sf.graphiti.writer.operations.CreateElementOpSpec;
 import net.sf.graphiti.writer.operations.SetAttributeOpSpec;
-import net.sf.graphiti.writer.operations.SetEdgeAttributeOpSpec;
+import net.sf.graphiti.writer.operations.SetParameterAttributeOpSpec;
+import net.sf.graphiti.writer.operations.SetTextContentOpSpec;
 
 import org.eclipse.core.runtime.Assert;
 import org.w3c.dom.Document;
@@ -94,10 +104,20 @@ public class ContentWriter {
 	private Document document;
 
 	/**
+	 * Index of the last edge element created.
+	 */
+	private int edgeIndex;
+
+	/**
 	 * {@link Stack#peek()} returns the current {@link Element} (between a call
 	 * to <code>elementStart</code> and <code>elementEnd</code>.
 	 */
 	private Stack<Element> elementStack;
+
+	/**
+	 * Index of the last graph element created.
+	 */
+	private int graphIndex;
 
 	/**
 	 * {@link Stack#peek()} returns the {@link Result} associated with the
@@ -107,6 +127,11 @@ public class ContentWriter {
 	private Stack<Result> resultStack;
 
 	private SimpleTransaction transaction;
+
+	/**
+	 * Index of the last vertex element created.
+	 */
+	private int vertexIndex;
 
 	/**
 	 * Creates a new {@link ContentWriter} with the given {@link Configuration}.
@@ -121,6 +146,9 @@ public class ContentWriter {
 		transaction = new SimpleTransaction();
 	}
 
+	/**
+	 * Commit the underlying transaction.
+	 */
 	public void commit() {
 		transaction.commit();
 	}
@@ -133,6 +161,16 @@ public class ContentWriter {
 	 * @param domElement
 	 */
 	public void elementEnd(Element ontElement, Object context) {
+		if (ontElement instanceof GraphElement) {
+			graphIndex = -1;
+		} else if (ontElement instanceof VertexElement) {
+			vertexIndex = -1;
+		} else if (ontElement instanceof EdgeElement) {
+			edgeIndex = -1;
+		} else if (ontElement instanceof TextContentElement) {
+			writeTextContentElement((TextContentElement) ontElement, context);
+		}
+
 		elementStack.pop();
 		resultStack.pop();
 	}
@@ -147,6 +185,16 @@ public class ContentWriter {
 	public void elementStart(Element ontElement, Object context) {
 		elementStack.push(ontElement);
 
+		// update index
+		if (ontElement instanceof GraphElement) {
+			graphIndex = resultStack.size();
+		} else if (ontElement instanceof VertexElement) {
+			vertexIndex = resultStack.size();
+		} else if (ontElement instanceof EdgeElement) {
+			edgeIndex = resultStack.size();
+		}
+
+		// create the operation to create an element
 		Operation createElement = new Operation(new CreateElementOpSpec());
 		String elementName = ontElement.hasName();
 		if (resultStack.isEmpty()) {
@@ -155,7 +203,10 @@ public class ContentWriter {
 			createElement.setOperands(resultStack.peek(), elementName);
 		}
 
+		// add to transaction
 		transaction.addOperation(createElement);
+
+		// add the result to the stack
 		Result result = createElement.getResult();
 		resultStack.push(result);
 	}
@@ -167,6 +218,32 @@ public class ContentWriter {
 	 */
 	public Checkpoint getCheckpoint() {
 		return new Checkpoint();
+	}
+
+	/**
+	 * Returns the object (from the resultStack) that this parameter applies to.
+	 * 
+	 * @param parameter
+	 *            The parameter.
+	 * @return A {@link Result} from the stack.
+	 */
+	private Result getParameterObject(Parameter parameter) {
+		Type objectType = parameter.appliesTo();
+		int index = -1;
+
+		if (objectType instanceof EdgeType) {
+			index = edgeIndex;
+		} else if (objectType instanceof GraphType) {
+			index = graphIndex;
+		} else if (objectType instanceof VertexType) {
+			index = vertexIndex;
+		}
+
+		if (index == -1) {
+			return resultStack.peek();
+		} else {
+			return resultStack.get(index);
+		}
 	}
 
 	/**
@@ -188,27 +265,47 @@ public class ContentWriter {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return "Content Writer";
-	}
-
 	/**
-	 * Parses the given attribute.
+	 * Sets the given attribute in the given context.
 	 * 
 	 * @param ontAttribute
-	 * @param ontAttrName
-	 * @param domAttrValue
+	 *            The {@link XMLAttribute}.
+	 * @param context
+	 *            The context.
 	 */
-	public void writeAttribute(XMLAttribute ontAttribute, Object context) {
+	public void setAttribute(XMLAttribute ontAttribute, Object context) {
 		if (ontAttribute instanceof EdgeAttribute) {
-			writeEdgeAttribute((EdgeAttribute) ontAttribute, context);
+			setEdgeAttribute((EdgeAttribute) ontAttribute, context);
 		} else {
-			writeOtherAttribute((OtherAttribute) ontAttribute, context);
+			setOtherAttribute((OtherAttribute) ontAttribute, context);
 		}
 	}
 
-	private void writeEdgeAttribute(EdgeAttribute ontAttribute, Object context) {
+	/**
+	 * Sets an attribute restriction in the given context.
+	 * 
+	 * @param attr
+	 *            An attribute restriction (name="value").
+	 * @param context
+	 *            The context.
+	 */
+	public void setAttributeRestriction(AttributeRestriction attr,
+			Object context) {
+		Operation setAttribute = new Operation(new SetAttributeOpSpec());
+		setAttribute.setOperands(resultStack.peek(), attr.hasName(), attr
+				.hasValue());
+		transaction.addOperation(setAttribute);
+	}
+
+	/**
+	 * Sets the given edge attribute in the given context.
+	 * 
+	 * @param ontAttribute
+	 *            An {@link EdgeAttribute} (source or destination).
+	 * @param context
+	 *            The context.
+	 */
+	private void setEdgeAttribute(EdgeAttribute ontAttribute, Object context) {
 		// endpoint
 		Vertex endpoint;
 		if (ontAttribute instanceof EdgeSourceConnection) {
@@ -218,20 +315,44 @@ public class ContentWriter {
 		}
 
 		String ontAttrName = ontAttribute.hasName();
-		Operation setAttribute = new Operation(new SetEdgeAttributeOpSpec());
-		setAttribute.setOperands(resultStack.peek(), ontAttrName, endpoint
-				.getValue(Vertex.PARAMETER_ID));
+		Operation setAttribute = new Operation(new SetAttributeOpSpec());
+		setAttribute.setOperands(resultStack.get(edgeIndex), ontAttrName,
+				endpoint.getValue(Vertex.PARAMETER_ID));
 		transaction.addOperation(setAttribute);
 	}
 
-	private void writeOtherAttribute(OtherAttribute ontAttribute, Object context) {
+	/**
+	 * Sets an attribute in the given context.
+	 * 
+	 * @param ontAttribute
+	 *            An {@link OtherAttribute}.
+	 * @param context
+	 *            The context.
+	 */
+	private void setOtherAttribute(OtherAttribute ontAttribute, Object context) {
 		String ontAttrName = ontAttribute.hasName();
 		Parameter parameter = ontAttribute.hasParameter();
 		if (parameter != null) {
-			Operation setAttribute = new Operation(new SetAttributeOpSpec());
-			setAttribute.setOperands(resultStack.peek(), context, ontAttrName,
-					parameter);
+			Operation setAttribute = new Operation(
+					new SetParameterAttributeOpSpec());
+			Result obj = getParameterObject(parameter);
+			setAttribute.setOperands(obj, context, ontAttrName, parameter);
 			transaction.addOperation(setAttribute);
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Content Writer";
+	}
+
+	private void writeTextContentElement(TextContentElement ontElement,
+			Object context) {
+		Parameter parameter = ontElement.referencesParameter();
+		if (parameter != null) {
+			Operation setText = new Operation(new SetTextContentOpSpec());
+			setText.setOperands(resultStack.peek(), context, parameter);
+			transaction.addOperation(setText);
 		}
 	}
 }

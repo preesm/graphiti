@@ -58,8 +58,7 @@ public class SimpleCellLabelProvider extends CellLabelProvider implements
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(
-				SimpleContentProvider.INPUT_CHANGED)) {
+		if (evt.getPropertyName().equals(SimpleContentProvider.INPUT_CHANGED)) {
 			source = (PropertyBean) evt.getNewValue();
 		}
 	}

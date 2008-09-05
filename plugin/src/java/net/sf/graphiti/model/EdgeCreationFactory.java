@@ -43,7 +43,8 @@ public class EdgeCreationFactory implements CreationFactory {
 	/**
 	 * Create a new edge creation factory.
 	 * 
-	 * @param type The edge type.
+	 * @param type
+	 *            The edge type.
 	 */
 	public EdgeCreationFactory(String type) {
 		this.type = type;

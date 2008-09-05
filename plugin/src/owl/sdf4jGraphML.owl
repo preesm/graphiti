@@ -74,7 +74,15 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
   <basic:Sequence rdf:ID="SequenceGraphElement1">
     <basic:sequence_hasRest rdf:resource="http://net.sf.graphiti/GraphML.owl#SequenceGraphElement2"/>
     <basic:sequence_hasHead>
-      <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#VertexElement">
+      <basic:VertexElement rdf:ID="VertexElement">
+        <basic:element_hasParameterValue rdf:resource="http://net.sf.graphiti/GraphML.owl#ParameterValueVertexType"/>
+        <basic:element_hasAttributes rdf:resource="http://net.sf.graphiti/GraphML.owl#OtherAttributeNodeId"/>
+        <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >-1</basic:schemaType_hasMaxOccurs>
+        <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >0</basic:schemaType_hasMinOccurs>
+        <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >node</basic:element_hasName>
         <basic:element_hasSchemaType>
           <basic:TextContentElement rdf:ID="TextContentElementVertexName">
             <basic:element_hasAttributeRestriction>
@@ -107,7 +115,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             >1</basic:schemaType_hasMinOccurs>
           </basic:TextContentElement>
         </basic:element_hasSchemaType>
-      </rdf:Description>
+      </basic:VertexElement>
     </basic:sequence_hasHead>
     <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
     >1</basic:schemaType_hasMinOccurs>
@@ -254,6 +262,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         >1</basic:schemaType_hasMinOccurs>
       </basic:Sequence>
     </basic:element_hasSchemaType>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#VertexElement">
+    <basic:element_hasSchemaType rdf:resource="#TextContentElementVertexName"/>
   </rdf:Description>
   <basic:Sequence rdf:ID="SequenceGraphElement2">
     <basic:sequence_hasHead>
