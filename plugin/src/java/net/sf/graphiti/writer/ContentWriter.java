@@ -316,8 +316,8 @@ public class ContentWriter {
 
 		String ontAttrName = ontAttribute.hasName();
 		Operation setAttribute = new Operation(new SetAttributeOpSpec());
-		setAttribute.setOperands(resultStack.get(edgeIndex), ontAttrName,
-				endpoint.getValue(Vertex.PARAMETER_ID));
+		setAttribute.setOperands(resultStack.peek(), ontAttrName, endpoint
+				.getValue(Vertex.PARAMETER_ID));
 		transaction.addOperation(setAttribute);
 	}
 
