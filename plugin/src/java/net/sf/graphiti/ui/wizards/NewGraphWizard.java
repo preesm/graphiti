@@ -28,37 +28,18 @@
  */
 package net.sf.graphiti.ui.wizards;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-
-import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.writer.GenericGraphFileWriter;
-
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
 /**
  * This class provides a new graph wizard.
@@ -67,9 +48,9 @@ import org.eclipse.ui.ide.IDE;
  */
 public class NewGraphWizard extends Wizard implements INewWizard {
 
-	private NewGraphWizardPage page;
+	private IStructuredSelection selection;
 
-	private ISelection selection;
+	private IWorkbench workbench;
 
 	/**
 	 * Constructor for NewGraphWizard.
@@ -85,51 +66,17 @@ public class NewGraphWizard extends Wizard implements INewWizard {
 	 */
 
 	public void addPages() {
-		page = new NewGraphWizardPage(selection);
-		addPage(page);
+		addPage(new WizardGraphTypePage(selection));
+		addPage(new WizardNewGraphPage(selection));
 	}
 
 	/**
-	 * The worker method. It will find the container, create the file if missing
-	 * or just replace its contents, and open the editor on the newly created
-	 * file.
+	 * Returns the workbench which was passed to <code>init</code>.
+	 * 
+	 * @return the workbench
 	 */
-	private void doFinish(String containerName, String fileName, Graph graph,
-			IProgressMonitor monitor) throws CoreException {
-		// create a sample file
-		monitor.beginTask("Creating " + fileName, 2);
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IResource resource = root.findMember(new Path(containerName));
-		if (!resource.exists() || !(resource instanceof IContainer)) {
-			throwCoreException("Container \"" + containerName
-					+ "\" does not exist.");
-		}
-
-		IContainer container = (IContainer) resource;
-		final IFile file = container.getFile(new Path(fileName));
-		try {
-			InputStream stream = openContentStream(graph);
-			if (file.exists()) {
-				file.setContents(stream, true, true, monitor);
-			} else {
-				file.create(stream, true, monitor);
-			}
-			stream.close();
-		} catch (IOException e) {
-		}
-		monitor.worked(1);
-		monitor.setTaskName("Opening file for editing...");
-		getShell().getDisplay().asyncExec(new Runnable() {
-			public void run() {
-				IWorkbenchPage page = PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getActivePage();
-				try {
-					IDE.openEditor(page, file, true);
-				} catch (PartInitException e) {
-				}
-			}
-		});
-		monitor.worked(1);
+	public IWorkbench getWorkbench() {
+		return workbench;
 	}
 
 	/**
@@ -140,19 +87,7 @@ public class NewGraphWizard extends Wizard implements INewWizard {
 	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
-	}
-
-	/**
-	 * Writes the content of document to a {@link ByteArrayOutputStream}, and
-	 * returns a {@link ByteArrayInputStream} on it.
-	 * 
-	 * @return A {@link ByteArrayInputStream}.
-	 */
-	private InputStream openContentStream(Graph graph) {
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		GenericGraphFileWriter writer = new GenericGraphFileWriter(graph);
-		writer.write(out);
-		return new ByteArrayInputStream(out.toByteArray());
+		this.workbench = workbench;
 	}
 
 	/**
@@ -160,39 +95,30 @@ public class NewGraphWizard extends Wizard implements INewWizard {
 	 * will create an operation and run it using wizard as execution context.
 	 */
 	public boolean performFinish() {
-		final String containerName = page.getContainerName();
-		final String fileName = page.getFileName();
-		final Graph graph = page.getNewGraph();
+		final WizardGraphTypePage graphTypePage = (WizardGraphTypePage) getPage("graphType");
+		final WizardNewGraphPage page = (WizardNewGraphPage) getPage("newGraph");
+		page.setConfiguration(graphTypePage.getConfiguration());
 
-		IRunnableWithProgress op = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor)
-					throws InvocationTargetException {
-				try {
-					doFinish(containerName, fileName, graph, monitor);
-				} catch (CoreException e) {
-					throw new InvocationTargetException(e);
-				} finally {
-					monitor.done();
-				}
-			}
-		};
-
-		try {
-			getContainer().run(true, false, op);
-		} catch (InterruptedException e) {
-			return false;
-		} catch (InvocationTargetException e) {
-			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), "Error", realException
-					.getMessage());
+		IFile file = page.createNewFile();
+		if (file == null) {
 			return false;
 		}
-		return true;
-	}
 
-	private void throwCoreException(String message) throws CoreException {
-		IStatus status = new Status(IStatus.ERROR, "net.sf.graphiti",
-				IStatus.OK, message, null);
-		throw new CoreException(status);
+		// Open editor on new file.
+		IWorkbenchWindow dw = getWorkbench().getActiveWorkbenchWindow();
+		try {
+			if (dw != null) {
+				BasicNewResourceWizard.selectAndReveal(file, dw);
+				IWorkbenchPage activePage = dw.getActivePage();
+				if (activePage != null) {
+					IDE.openEditor(activePage, file, true);
+				}
+			}
+		} catch (PartInitException e) {
+			MessageDialog.openError(dw.getShell(), "Problem opening editor", e
+					.getMessage());
+		}
+
+		return true;
 	}
 }

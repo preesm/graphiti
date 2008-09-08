@@ -489,15 +489,21 @@ public class OntologyFactory {
 		return getFileExtensions(ont);
 	}
 
+	/**
+	 * Returns the file extensions declared by this ontology (including the ones
+	 * declared by its parents, and their parents, etc.).
+	 * 
+	 * @param ont
+	 *            The {@link Ontology}.
+	 * @return A {@link Set} of strings.
+	 */
 	private Set<String> getFileExtensions(Ontology ont) {
 		OntologyElement ontElement = new OntologyElementImpl(ont);
 		Set<String> fileExts = ontElement.getFileExtensions();
-		if (fileExts.isEmpty()) {
-			ExtendedIterator it = ont.listImports();
-			while (it.hasNext() && fileExts.isEmpty()) {
-				Ontology ontParent = ((OntResource) it.next()).asOntology();
-				fileExts = getFileExtensions(ontParent);
-			}
+		ExtendedIterator it = ont.listImports();
+		while (it.hasNext()) {
+			Ontology ontParent = ((OntResource) it.next()).asOntology();
+			fileExts.addAll(getFileExtensions(ontParent));
 		}
 
 		return fileExts;
@@ -555,15 +561,18 @@ public class OntologyFactory {
 		return getRefinementFileExtensions(ont);
 	}
 
+	/**
+	 * @see OntologyFactory#getFileExtensions(Ontology)
+	 * @param ont
+	 * @return
+	 */
 	private Set<String> getRefinementFileExtensions(Ontology ont) {
 		OntologyElement ontElement = new OntologyElementImpl(ont);
 		Set<String> fileExts = ontElement.getRefinementFileExtensions();
-		if (fileExts.isEmpty()) {
-			ExtendedIterator it = ont.listImports();
-			while (it.hasNext() && fileExts.isEmpty()) {
-				Ontology ontParent = ((OntResource) it.next()).asOntology();
-				fileExts = getRefinementFileExtensions(ontParent);
-			}
+		ExtendedIterator it = ont.listImports();
+		while (it.hasNext()) {
+			Ontology ontParent = ((OntResource) it.next()).asOntology();
+			fileExts.addAll(getRefinementFileExtensions(ontParent));
 		}
 
 		return fileExts;

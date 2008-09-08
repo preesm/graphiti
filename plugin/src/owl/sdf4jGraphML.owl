@@ -35,6 +35,30 @@
                     >graph</basic:element_hasName>
                     <basic:schemaType_hasMinOccurs rdf:datatype=
                     "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMinOccurs>
+                    <basic:element_hasParameterValue>
+                      <basic:ParameterValue rdf:ID="ParameterValueGraphType">
+                        <basic:parameterValue_ofParameter>
+                          <basic:GraphParameter rdf:ID="GraphParameterType">
+                            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                            <basic:parameter_appliesTo>
+                              <basic:GraphType rdf:ID="GraphType">
+                                <basic:type_hasName rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >sdf4j algorithm</basic:type_hasName>
+                                <basic:type_hasParameters rdf:resource="#GraphParameterType"/>
+                              </basic:GraphType>
+                            </basic:parameter_appliesTo>
+                            <basic:parameter_hasName rdf:datatype=
+                            "http://www.w3.org/2001/XMLSchema#string"
+                            >type</basic:parameter_hasName>
+                            <basic:parameter_hasParameterValue rdf:resource="#ParameterValueGraphType"/>
+                          </basic:GraphParameter>
+                        </basic:parameterValue_ofParameter>
+                        <basic:parameterValue_hasValue rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >sdf4j algorithm</basic:parameterValue_hasValue>
+                      </basic:ParameterValue>
+                    </basic:element_hasParameterValue>
                   </basic:GraphElement>
                 </basic:sequence_hasHead>
               </basic:Sequence>

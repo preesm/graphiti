@@ -211,6 +211,30 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMinOccurs>
                     <basic:schemaType_hasMaxOccurs rdf:datatype=
                     "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMaxOccurs>
+                    <basic:element_hasParameterValue>
+                      <basic:ParameterValue rdf:ID="ParameterValueGraphType">
+                        <basic:parameterValue_ofParameter>
+                          <basic:GraphParameter rdf:ID="GraphParameterType">
+                            <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
+                            <basic:parameter_hasName rdf:datatype=
+                            "http://www.w3.org/2001/XMLSchema#string"
+                            >type</basic:parameter_hasName>
+                            <basic:parameter_appliesTo>
+                              <basic:GraphType rdf:ID="GraphType">
+                                <basic:type_hasParameters rdf:resource="#GraphParameterType"/>
+                                <basic:type_hasName rdf:datatype=
+                                "http://www.w3.org/2001/XMLSchema#string"
+                                >GraphML graph</basic:type_hasName>
+                              </basic:GraphType>
+                            </basic:parameter_appliesTo>
+                            <basic:parameter_hasParameterValue rdf:resource="#ParameterValueGraphType"/>
+                          </basic:GraphParameter>
+                        </basic:parameterValue_ofParameter>
+                        <basic:parameterValue_hasValue rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >GraphML graph</basic:parameterValue_hasValue>
+                      </basic:ParameterValue>
+                    </basic:element_hasParameterValue>
                   </basic:GraphElement>
                 </basic:sequence_hasHead>
               </basic:Sequence>
@@ -293,10 +317,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <basic:hasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >xml</basic:hasFileExtension>
   </owl:Ontology>
-  <basic:GraphType rdf:ID="GraphType">
-    <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >GraphML</basic:type_hasName>
-  </basic:GraphType>
 </rdf:RDF>
 
 <!-- Created with Protege (with OWL Plugin 3.4, Build 504)  http://protege.stanford.edu -->
