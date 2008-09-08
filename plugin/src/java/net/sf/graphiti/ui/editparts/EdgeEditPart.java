@@ -38,7 +38,6 @@ import net.sf.graphiti.ui.figure.EdgeFigure;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.RoutingAnimator;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 
@@ -53,20 +52,12 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 public class EdgeEditPart extends AbstractConnectionEditPart implements
 		PropertyChangeListener {
 
-	public static EdgeFigure createNewBendableWire(Edge wire) {
-		EdgeFigure conn = new EdgeFigure(wire);
-		conn.setLineWidth(15);
-		conn.addRoutingListener(RoutingAnimator.getDefault());
-		return conn;
-	}
-
 	private IFigure connectionFigure;
 
 	@Override
 	public void activate() {
 		super.activate();
-		Edge model = (Edge) getModel();
-		model.addPropertyChangeListener(this);
+		((Edge) getModel()).addPropertyChangeListener(this);
 	}
 
 	@Override
@@ -93,44 +84,11 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 	@Override
 	public void deactivate() {
 		super.deactivate();
-		Edge model = (Edge) getModel();
-		model.removePropertyChangeListener(this);
+		((Edge) getModel()).removePropertyChangeListener(this);
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
 		// bendpoints, connection router properties
-	}
-
-	// private void refreshBendpointEditPolicy() {
-	// if (getConnectionFigure().getConnectionRouter() instanceof
-	// ManhattanConnectionRouter)
-	// installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE, null);
-	// else
-	// installEditPolicy(EditPolicy.CONNECTION_BENDPOINTS_ROLE,
-	// new DependencyBendpointEditPolicy());
-	// }
-
-	/**
-	 * Updates the bendpoints, based on the model.
-	 */
-	protected void refreshBendpoints() {
-		// if (getConnectionFigure().getConnectionRouter() instanceof
-		// ManhattanConnectionRouter)
-		// return;
-		// List<Bendpoint> modelConstraint = ((Edge) getModel())
-		// .getBendpoints();
-		// List<RelativeBendpoint> figureConstraint = new
-		// ArrayList<RelativeBendpoint>();
-		// for (int i = 0; i < modelConstraint.size(); i++) {
-		// DependencyBendpoint wbp = (DependencyBendpoint) modelConstraint
-		// .get(i);
-		// RelativeBendpoint rbp = new RelativeBendpoint(getConnectionFigure());
-		// rbp.setRelativeDimensions(wbp.getFirstRelativeDimension(), wbp
-		// .getSecondRelativeDimension());
-		// rbp.setWeight((i + 1) / ((float) modelConstraint.size() + 1));
-		// figureConstraint.add(rbp);
-		// }
-		// getConnectionFigure().setRoutingConstraint(figureConstraint);
 	}
 
 	void updateFigures(int direction) {

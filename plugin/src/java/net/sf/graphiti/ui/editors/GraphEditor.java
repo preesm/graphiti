@@ -38,7 +38,6 @@ import java.util.EventObject;
 
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.parsers.GenericGraphFileParser;
-import net.sf.graphiti.parsers.IncompatibleConfigurationFile;
 import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.actions.AutomaticallyLayoutAction;
 import net.sf.graphiti.ui.actions.CopyAction;
@@ -57,6 +56,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
@@ -100,6 +101,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	private ZoomManager manager;
 
 	private PaletteRoot paletteRoot;
+
+	private IStatus status;
 
 	// protected ThumbnailOutlinePage outlinePage;
 
@@ -326,11 +329,13 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	@Override
 	protected void initializeGraphicalViewer() {
 		GraphicalViewer viewer = getGraphicalViewer();
-		// viewer.addDropTargetListener(new DropTargetListener(
-		// getGraphicalViewer()));
 
-		viewer.setContents(graph);
-		automaticallyLayout(PositionConstants.EAST);
+		if (graph == null) {
+			viewer.setContents(status);
+		} else {
+			viewer.setContents(graph);
+			automaticallyLayout(PositionConstants.EAST);
+		}
 	}
 
 	@Override
@@ -342,12 +347,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	protected void setInput(IEditorInput input) {
 		super.setInput(input);
 
-		if (getEditorInput() != null) {
-			IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-			setPartName(file.getName());
-		}
-
 		IFile file = ((IFileEditorInput) input).getFile();
+		setPartName(file.getName());
 		try {
 			GenericGraphFileParser parser = new GenericGraphFileParser(
 					GraphitiPlugin.getDefault().getConfiguration());
@@ -357,7 +358,9 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 			getEditDomain().setPaletteRoot(getPaletteRoot());
 
 			firePropertyChange(PROP_INPUT);
-		} catch (IncompatibleConfigurationFile e) {
+		} catch (Throwable exception) {
+			status = new Status(Status.ERROR, GraphitiPlugin.PLUGIN_ID,
+					"An error occurred while parsing the file", exception);
 		}
 	}
 

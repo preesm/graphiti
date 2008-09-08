@@ -28,20 +28,15 @@
  */
 package net.sf.graphiti.ui.figure;
 
-import java.util.HashMap;
 import java.util.List;
 
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Parameter;
 
-import org.eclipse.draw2d.BendpointConnectionRouter;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
-import org.eclipse.draw2d.PolylineDecoration;
-import org.eclipse.draw2d.RoutingAnimator;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * This class provides drawing for a dependency.
@@ -52,14 +47,6 @@ import org.eclipse.swt.graphics.Color;
  */
 public class EdgeFigure extends PolylineConnection {
 
-	static public final int basicWidth = 1;
-
-	static public final Color color = ColorConstants.black;
-
-	static public final int selectWidth = 2;
-
-	private HashMap<Parameter, Label> properties = new HashMap<Parameter, Label>();
-
 	/**
 	 * Creates the Figure associated to the connection
 	 * 
@@ -67,8 +54,6 @@ public class EdgeFigure extends PolylineConnection {
 	 *            The Edge model associated with this figure.
 	 */
 	public EdgeFigure(Edge edge) {
-		properties = new HashMap<Parameter, Label>();
-
 		// Sets Layout Manager
 		this.setLayoutManager(new DelegatingLayout());
 		if (edge != null) {
@@ -80,30 +65,17 @@ public class EdgeFigure extends PolylineConnection {
 						Object value = edge.getValue(parameter.getName());
 						if (value != null) {
 							Label parameterLabel = new Label(value.toString());
-							parameterLabel.setOpaque(true);
 							Object locator = new PropertyLocator(this,
 									parameter.getPosition());
 							add(parameterLabel, locator);
-							properties.put(parameter, parameterLabel);
 						}
 					}
 				}
 			}
 		}
 
-		setTargetDecoration(new PolylineDecoration());
+		setTargetDecoration(new PolygonDecoration());
 		setLineWidth(1);
-		setConnectionRouter(new BendpointConnectionRouter());
-		addRoutingListener(RoutingAnimator.getDefault());
 		this.setValid(true);
-
-		// List<Bendpoint> bendPoints = new ArrayList<Bendpoint>();
-		// RelativeBendpoint b1 = new RelativeBendpoint(this);
-		// int n = (int) (50.0 * Math.random());
-		// b1.setRelativeDimensions(new Dimension(0, 0), new Dimension(n, 0));
-		// b1.setWeight(0.5f);
-		// bendPoints.add(b1);
-		// setRoutingConstraint(bendPoints);
 	}
-
 }

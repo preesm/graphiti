@@ -37,12 +37,14 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
 
+import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutManager;
 import org.eclipse.draw2d.PositionConstants;
+import org.eclipse.draw2d.ShortestPathConnectionRouter;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
@@ -51,6 +53,7 @@ import org.eclipse.draw2d.graph.NodeList;
 import org.eclipse.draw2d.graph.Subgraph;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 
@@ -154,6 +157,11 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 		// free form layer
 		Figure f = new FreeformLayer();
 		f.setLayoutManager(new FreeformLayout());
+
+		// Create the static router for the connection layer
+		ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+		connLayer.setConnectionRouter(new ShortestPathConnectionRouter(f));
+
 		return f;
 	}
 

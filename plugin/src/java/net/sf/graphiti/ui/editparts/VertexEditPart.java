@@ -262,7 +262,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 			// we get the *input* dependencies of vertex
 			Set<Edge> edges = parent.incomingEdgesOf(vertex);
-			fillAnchors(edges, targetAnchors, Edge.PARAMETER_SRC_PORT_NAME,
+			fillAnchors(edges, targetAnchors, Edge.PARAMETER_DST_PORT_NAME,
 					true);
 
 			// dependencies
@@ -299,7 +299,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
 		Edge edge = (Edge) connection.getModel();
-		String dstPort = (String) edge.getValue(Edge.PARAMETER_SRC_PORT_NAME);
+		String dstPort = (String) edge.getValue(Edge.PARAMETER_DST_PORT_NAME);
 		VertexConnectionAnchor anchor;
 		if (dstPort == null) {
 			anchor = new VertexConnectionAnchor(direction, true, 0, 1,

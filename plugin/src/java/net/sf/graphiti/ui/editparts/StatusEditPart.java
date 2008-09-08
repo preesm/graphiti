@@ -28,43 +28,55 @@
  */
 package net.sf.graphiti.ui.editparts;
 
-import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.FreeformLayer;
+import org.eclipse.draw2d.FreeformLayout;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.EditPartFactory;
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 
 /**
- * This class is an implementation of an {@link EditPartFactory}. It creates an
- * EditPart associated with a context and model given.
+ * This class extends {@link AbstractGraphicalEditPart} by setting its figure
+ * layout manager to {@link GraphLayoutManager}. It also extends the
+ * {@link EditPart#isSelectable()} method to return false, causing the selection
+ * tool to act like the marquee tool when no particular children has been
+ * selected.
  * 
- * @author Samuel Beaussier
- * @author Nicolas Isch
  * @author Matthieu Wipliez
  * 
  */
-public class EditPartFactoryImpl implements EditPartFactory {
+public class StatusEditPart extends AbstractGraphicalEditPart {
 
-	public EditPart createEditPart(EditPart context, Object model) {
-		AbstractGraphicalEditPart child = null;
+	@Override
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE,
+				new RootComponentEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new LayoutPolicy());
+	}
 
-		if (model instanceof Graph) {
-			child = new GraphEditPart();
-		} else if (model instanceof Vertex) {
-			child = new VertexEditPart();
-		} else if (model instanceof Edge) {
-			child = new EdgeEditPart();
-		} else if (model instanceof IStatus) {
-			child = new StatusEditPart();
-		}
+	@Override
+	protected IFigure createFigure() {
+		// The figure associated with this graph edit part is only a
+		// free form layer
+		Figure f = new FreeformLayer();
+		f.setLayoutManager(new FreeformLayout());
 
-		if (child != null) {
-			child.setModel(model);
-		}
+		IStatus status = (IStatus) getModel();
+		Label label = new Label(status.getMessage() + ": "
+				+ status.getException().getMessage());
+		f.add(label, new Rectangle(0, 0, -1, -1));
+		return f;
+	}
 
-		return child;
+	@Override
+	public boolean isSelectable() {
+		return false;
 	}
 }

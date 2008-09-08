@@ -28,14 +28,12 @@
  */
 package net.sf.graphiti.parsers;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
@@ -43,10 +41,8 @@ import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 /**
  * This class provides a generic graph file parser.
@@ -119,7 +115,7 @@ public class GenericGraphFileParser {
 	 */
 	public Graph parse(IFile file) throws IncompatibleConfigurationFile {
 		try {
-			InputStream is = file.getContents(false);
+			InputStream is = file.getContents(true);
 
 			// When parsing, will ignore useless spaces and comments.
 			DocumentBuilderFactory builderFactory = DocumentBuilderFactory
@@ -133,21 +129,15 @@ public class GenericGraphFileParser {
 
 			// Parses the DOM
 			Graph graph = parse(document, configuration);
-			if (graph != null) {
+			if (graph == null) {
+				throw new IncompatibleConfigurationFile("The file "
+						+ file.getName() + " could not be parsed.");
+			} else {
 				return graph;
 			}
-		} catch (CoreException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new IncompatibleConfigurationFile(e);
 		}
-
-		// could not parse
-		throw new IncompatibleConfigurationFile();
 	}
 
 	/**

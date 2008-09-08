@@ -28,8 +28,6 @@
  */
 package net.sf.graphiti.ui.editpolicies;
 
-import net.sf.graphiti.ui.figure.EdgeFigure;
-
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.GraphicalEditPart;
@@ -47,8 +45,8 @@ public class DependencyEndPointEditPolicy extends ConnectionEndpointEditPolicy {
 	@Override
 	protected void addSelectionHandles() {
 		super.addSelectionHandles();
-		getConnectionFigure().setLineWidth(EdgeFigure.selectWidth);
-		getConnectionFigure().setForegroundColor(ColorConstants.blue);
+		getConnectionFigure().setLineWidth(1);
+		getConnectionFigure().setForegroundColor(ColorConstants.red);
 	}
 
 	/**
@@ -63,8 +61,8 @@ public class DependencyEndPointEditPolicy extends ConnectionEndpointEditPolicy {
 	@Override
 	protected void removeSelectionHandles() {
 		super.removeSelectionHandles();
-		getConnectionFigure().setLineWidth(EdgeFigure.basicWidth);
-		getConnectionFigure().setForegroundColor(EdgeFigure.color);
+		getConnectionFigure().setLineWidth(1);
+		getConnectionFigure().setForegroundColor(ColorConstants.black);
 	}
 
 }
