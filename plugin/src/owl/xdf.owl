@@ -236,7 +236,7 @@
                                                 <basic:parameter_hasName
                                                  rdf:datatype=
                                                 "http://www.w3.org/2001/XMLSchema#string"
-                                                >dstPortName</basic:parameter_hasName>
+                                                >target port</basic:parameter_hasName>
                                                 <basic:parameter_appliesTo rdf:resource="#EdgeTypeConnection"/>
                                                 <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#East"/>
                                                 <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
@@ -250,7 +250,7 @@
                                                 <basic:parameter_hasName
                                                  rdf:datatype=
                                                 "http://www.w3.org/2001/XMLSchema#string"
-                                                >srcPortName</basic:parameter_hasName>
+                                                >source port</basic:parameter_hasName>
                                                 <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#West"/>
                                               </basic:EdgeParameter>
                                             </basic:type_hasParameters>
@@ -420,9 +420,9 @@
       </basic:GraphElement>
     </basic:hasDocumentElement>
     <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >cal</basic:refinementHasFileExtension>
-    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >xdf</basic:refinementHasFileExtension>
+    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >cal</basic:refinementHasFileExtension>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Copyright (c) 2008, IETR/INSA of Rennes
 All rights reserved.

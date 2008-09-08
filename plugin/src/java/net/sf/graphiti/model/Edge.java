@@ -39,9 +39,9 @@ import java.util.List;
  */
 public class Edge extends PropertyBean {
 
-	public static final String PARAMETER_DST_PORT_NAME = "dstPortName";
+	public static final String PARAMETER_SOURCE_PORT = "source port";
 
-	public static final String PARAMETER_SRC_PORT_NAME = "srcPortName";
+	public static final String PARAMETER_TARGET_PORT = "target port";
 
 	/**
 	 * String for the "type" parameter. Defines the edge type.

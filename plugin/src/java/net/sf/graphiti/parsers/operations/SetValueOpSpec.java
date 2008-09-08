@@ -91,9 +91,17 @@ public class SetValueOpSpec implements IOperationSpecification {
 				}
 			} else {
 				if (clasz == Float.class) {
-					value = new Float((String) value);
+					try {
+						value = new Float((String) value);
+					} catch (NumberFormatException e) {
+						value = new Float(0.0);
+					}
 				} else if (clasz == Integer.class) {
-					value = new Integer((String) value);
+					try {
+						value = new Integer((String) value);
+					} catch (NumberFormatException e) {
+						value = new Integer(0);
+					}
 				} else if (clasz == String.class) {
 					// just to enforce the String constraint
 					value = (String) value;

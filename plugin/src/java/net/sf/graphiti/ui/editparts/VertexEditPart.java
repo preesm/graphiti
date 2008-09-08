@@ -204,8 +204,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	 *            A {@link Map} of {@link String}s to
 	 *            {@link VertexConnectionAnchor}s.
 	 * @param portName
-	 *            The property: {@link Edge#PARAMETER_SRC_PORT_NAME} or
-	 *            {@link Edge#PARAMETER_DST_PORT_NAME}.
+	 *            The property: {@link Edge#PARAMETER_SOURCE_PORT} or
+	 *            {@link Edge#PARAMETER_TARGET_PORT}.
 	 * @param isTarget
 	 *            True if the vertex is a target, false if it is a source.
 	 */
@@ -242,7 +242,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 			// we get the *output* dependencies of vertex
 			Set<Edge> edges = parent.outgoingEdgesOf(vertex);
-			fillAnchors(edges, sourceAnchors, Edge.PARAMETER_SRC_PORT_NAME,
+			fillAnchors(edges, sourceAnchors, Edge.PARAMETER_SOURCE_PORT,
 					false);
 
 			// return the dependencies
@@ -262,7 +262,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 			// we get the *input* dependencies of vertex
 			Set<Edge> edges = parent.incomingEdgesOf(vertex);
-			fillAnchors(edges, targetAnchors, Edge.PARAMETER_DST_PORT_NAME,
+			fillAnchors(edges, targetAnchors, Edge.PARAMETER_TARGET_PORT,
 					true);
 
 			// dependencies
@@ -277,7 +277,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
 		Edge edge = (Edge) connection.getModel();
-		String srcPort = (String) edge.getValue(Edge.PARAMETER_SRC_PORT_NAME);
+		String srcPort = (String) edge.getValue(Edge.PARAMETER_SOURCE_PORT);
 		VertexConnectionAnchor anchor;
 		if (srcPort == null) {
 			anchor = new VertexConnectionAnchor(direction, false, 0, 1,
@@ -299,7 +299,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
 		Edge edge = (Edge) connection.getModel();
-		String dstPort = (String) edge.getValue(Edge.PARAMETER_DST_PORT_NAME);
+		String dstPort = (String) edge.getValue(Edge.PARAMETER_TARGET_PORT);
 		VertexConnectionAnchor anchor;
 		if (dstPort == null) {
 			anchor = new VertexConnectionAnchor(direction, true, 0, 1,

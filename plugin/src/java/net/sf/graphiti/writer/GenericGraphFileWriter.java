@@ -80,7 +80,7 @@ public class GenericGraphFileWriter {
 		try {
 			DocumentBuilderFactory builderFactory = DocumentBuilderFactory
 					.newInstance();
-			builderFactory.setNamespaceAware(false);
+			builderFactory.setNamespaceAware(true);
 			builderFactory.setValidating(false);
 			DocumentBuilder builder = builderFactory.newDocumentBuilder();
 			Document domDocument = builder.newDocument();
@@ -92,8 +92,11 @@ public class GenericGraphFileWriter {
 			// Set up the output transformer
 			TransformerFactory transfac = TransformerFactory.newInstance();
 			Transformer trans = transfac.newTransformer();
-			trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+			
+			trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			trans.setOutputProperty(OutputKeys.INDENT, "yes");
+			trans.setOutputProperty(OutputKeys.METHOD, "xml");
+			trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
 
 			// Print the DOM node
 			StreamResult result = new StreamResult(out);

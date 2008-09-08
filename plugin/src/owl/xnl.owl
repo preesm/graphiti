@@ -259,7 +259,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             <basic:otherAttribute_referencesParameter>
               <basic:EdgeParameter rdf:ID="targetParameter">
                 <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >dstPortName</basic:parameter_hasName>
+                >target port</basic:parameter_hasName>
                 <basic:parameter_appliesTo>
                   <basic:EdgeType rdf:ID="EdgeType">
                     <basic:type_hasParameters>
@@ -286,7 +286,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                         <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#West"/>
                         <basic:parameter_hasName rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#string"
-                        >srcPortName</basic:parameter_hasName>
+                        >source port</basic:parameter_hasName>
                         <basic:parameter_appliesTo rdf:resource="#EdgeType"/>
                         <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                       </basic:EdgeParameter>

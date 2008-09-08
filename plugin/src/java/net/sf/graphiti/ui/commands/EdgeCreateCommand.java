@@ -90,12 +90,12 @@ public class EdgeCreateCommand extends Command {
 		edge.setSource(source);
 		edge.setTarget(target);
 		
-		if (edge.getParameter(Edge.PARAMETER_SRC_PORT_NAME) != null) {
-			edge.setValue(Edge.PARAMETER_SRC_PORT_NAME, "src port");
+		if (edge.getParameter(Edge.PARAMETER_SOURCE_PORT) != null) {
+			edge.setValue(Edge.PARAMETER_SOURCE_PORT, "src port");
 		}
 		
-		if (edge.getParameter(Edge.PARAMETER_DST_PORT_NAME) != null) {
-			edge.setValue(Edge.PARAMETER_DST_PORT_NAME, "dst port");
+		if (edge.getParameter(Edge.PARAMETER_TARGET_PORT) != null) {
+			edge.setValue(Edge.PARAMETER_TARGET_PORT, "dst port");
 		}
 
 		parentGraph.addEdge(edge);
