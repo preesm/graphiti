@@ -42,7 +42,7 @@ import org.eclipse.gef.commands.Command;
  * @author Nicolas Isch
  * @author Matthieu Wipliez
  */
-public class DependencyCreateCommand extends Command {
+public class EdgeCreateCommand extends Command {
 
 	/**
 	 * The parentGraph is stored as an attribute so it can be used both in the
@@ -51,10 +51,10 @@ public class DependencyCreateCommand extends Command {
 	protected Graph parentGraph;
 
 	/**
-	 * The path is stored as an attribute so it can be used both in the
+	 * The edge is stored as an attribute so it can be used both in the
 	 * <code>execute</code> and <code>undo</code> methods.
 	 */
-	protected Edge path;
+	protected Edge edge;
 
 	protected Vertex source;
 
@@ -63,7 +63,7 @@ public class DependencyCreateCommand extends Command {
 	/**
 	 * Creates a new command with no initial edge.
 	 */
-	protected DependencyCreateCommand() {
+	protected EdgeCreateCommand() {
 
 	}
 
@@ -73,8 +73,8 @@ public class DependencyCreateCommand extends Command {
 	 * @param edge
 	 *            The newly created edge.
 	 */
-	public DependencyCreateCommand(Edge edge) {
-		path = edge;
+	public EdgeCreateCommand(Edge edge) {
+		this.edge = edge;
 	}
 
 	@Override
@@ -86,11 +86,19 @@ public class DependencyCreateCommand extends Command {
 	public void execute() {
 		parentGraph = source.getParent();
 
-		// path has been set in the constructor.
-		path.setSource(source);
-		path.setTarget(target);
+		// edge has been set in the constructor.
+		edge.setSource(source);
+		edge.setTarget(target);
+		
+		if (edge.getParameter(Edge.PARAMETER_SRC_PORT_NAME) != null) {
+			edge.setValue(Edge.PARAMETER_SRC_PORT_NAME, "src port");
+		}
+		
+		if (edge.getParameter(Edge.PARAMETER_DST_PORT_NAME) != null) {
+			edge.setValue(Edge.PARAMETER_DST_PORT_NAME, "dst port");
+		}
 
-		parentGraph.addEdge(path);
+		parentGraph.addEdge(edge);
 	}
 
 	/**
@@ -115,6 +123,6 @@ public class DependencyCreateCommand extends Command {
 
 	@Override
 	public void undo() {
-		parentGraph.removeEdge(path);
+		parentGraph.removeEdge(edge);
 	}
 }

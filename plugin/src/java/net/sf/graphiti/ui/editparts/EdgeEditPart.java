@@ -68,7 +68,6 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 				new DependencyEndPointEditPolicy());
 		installEditPolicy(EditPolicy.CONNECTION_ROLE,
 				new DependencyEditPolicy());
-		// refreshBendpointEditPolicy();
 	}
 
 	/**
@@ -76,8 +75,8 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 	 */
 	@Override
 	protected IFigure createFigure() {
-		Edge model = (Edge) getModel();
-		return new EdgeFigure(model);
+		Edge edge = (Edge) getModel();
+		return new EdgeFigure(edge);
 	}
 
 	@Override
@@ -92,6 +91,10 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 		EdgeFigure figure = (EdgeFigure) getFigure();
 		figure.refresh(evt.getPropertyName(), evt.getNewValue());
 
+		refreshConnections();
+	}
+
+	private void refreshConnections() {
 		// get source, target and graph of model
 		Edge model = (Edge) getModel();
 		Vertex source = model.getSource();
@@ -99,7 +102,8 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 		Graph graph = source.getParent();
 
 		// remove and add all edges of source and target
-		// I know this is not the most beautiful way to have proper anchor placement
+		// I know this is not the most beautiful way to have proper anchor
+		// placement
 		// but honestly I don't care :)
 		List<Edge> edges = new ArrayList<Edge>();
 		edges.addAll(graph.outgoingEdgesOf(source));

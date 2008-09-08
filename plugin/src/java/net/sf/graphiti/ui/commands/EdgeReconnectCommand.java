@@ -34,12 +34,12 @@ import net.sf.graphiti.model.Graph;
 /**
  * This class provides a Command that reconnects a dependency. Reconnection is a
  * bit trickier than creation, since we must remember the previous dependency.
- * We inherit from DependencyCreateCommand so we just need to store the previous
+ * We inherit from EdgeCreateCommand so we just need to store the previous
  * dependency and parent graph, while keeping most of the original behavior.
  * 
  * @author Matthieu Wipliez
  */
-public class DependencyReconnectCommand extends DependencyCreateCommand {
+public class EdgeReconnectCommand extends EdgeCreateCommand {
 
 	private Graph previousParentGraph;
 
@@ -54,14 +54,14 @@ public class DependencyReconnectCommand extends DependencyCreateCommand {
 		previousParentGraph.removeEdge(previousPath);
 
 		// Reconnect
-		path = new Edge(source, target);
-		parentGraph.addEdge(path);
+		edge = new Edge(source, target);
+		parentGraph.addEdge(edge);
 	}
 
 	/**
 	 * Sets the original dependency (before it is reconnected).
 	 * 
-	 * @param path
+	 * @param edge
 	 *            The dependency.
 	 */
 	public void setOriginalDependency(Edge path) {
@@ -76,7 +76,7 @@ public class DependencyReconnectCommand extends DependencyCreateCommand {
 
 	@Override
 	public void undo() {
-		parentGraph.removeEdge(path);
+		parentGraph.removeEdge(edge);
 		previousParentGraph.addEdge(previousPath);
 	}
 }

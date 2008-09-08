@@ -30,8 +30,8 @@ package net.sf.graphiti.ui.editpolicies;
 
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ui.commands.DependencyCreateCommand;
-import net.sf.graphiti.ui.commands.DependencyReconnectCommand;
+import net.sf.graphiti.ui.commands.EdgeCreateCommand;
+import net.sf.graphiti.ui.commands.EdgeReconnectCommand;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 import net.sf.graphiti.ui.figure.EdgeFigure;
 
@@ -67,7 +67,7 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 	@Override
 	protected Command getConnectionCompleteCommand(
 			CreateConnectionRequest request) {
-		DependencyCreateCommand command = (DependencyCreateCommand) request
+		EdgeCreateCommand command = (EdgeCreateCommand) request
 				.getStartCommand();
 		VertexEditPart vertexEditPart = (VertexEditPart) request
 				.getTargetEditPart();
@@ -77,7 +77,7 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
 	@Override
 	protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-		DependencyCreateCommand command = new DependencyCreateCommand(
+		EdgeCreateCommand command = new EdgeCreateCommand(
 				(Edge) request.getNewObject());
 		VertexEditPart vertexEditPart = (VertexEditPart) request
 				.getTargetEditPart();
@@ -88,7 +88,7 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
 	@Override
 	protected Command getReconnectSourceCommand(ReconnectRequest request) {
-		DependencyReconnectCommand command = new DependencyReconnectCommand();
+		EdgeReconnectCommand command = new EdgeReconnectCommand();
 		command.setOriginalDependency((Edge) request.getConnectionEditPart()
 				.getModel());
 		VertexEditPart vertexEditPart = (VertexEditPart) getHost();
@@ -98,7 +98,7 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
 	@Override
 	protected Command getReconnectTargetCommand(ReconnectRequest request) {
-		DependencyReconnectCommand command = new DependencyReconnectCommand();
+		EdgeReconnectCommand command = new EdgeReconnectCommand();
 		command.setOriginalDependency((Edge) request.getConnectionEditPart()
 				.getModel());
 		VertexEditPart vertexEditPart = (VertexEditPart) getHost();
