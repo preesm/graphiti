@@ -55,8 +55,7 @@ public class Parameter {
 		if (ontParam.hasPosition() == null) {
 			parameterPosition = null;
 		} else {
-			parameterPosition = ParameterPosition
-					.createFromOntPosition(ontParam.hasPosition());
+			parameterPosition = ontParam.hasPosition().getPosition();
 		}
 		type = ontParam.hasValueType().getDataType();
 	}
@@ -90,10 +89,6 @@ public class Parameter {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public void setPosition(String position) {
-		parameterPosition = ParameterPosition.createFromOntString(position);
 	}
 
 	@Override

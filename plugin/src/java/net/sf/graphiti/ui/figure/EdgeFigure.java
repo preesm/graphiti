@@ -37,6 +37,7 @@ import net.sf.graphiti.model.Parameter;
 import org.eclipse.draw2d.BendpointConnectionRouter;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.DelegatingLayout;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.draw2d.RoutingAnimator;
@@ -57,7 +58,7 @@ public class EdgeFigure extends PolylineConnection {
 
 	static public final int selectWidth = 2;
 
-	protected HashMap<Parameter, PropertyTag> properties = new HashMap<Parameter, PropertyTag>();
+	private HashMap<Parameter, Label> properties = new HashMap<Parameter, Label>();
 
 	/**
 	 * Creates the Figure associated to the connection
@@ -66,21 +67,24 @@ public class EdgeFigure extends PolylineConnection {
 	 *            The Edge model associated with this figure.
 	 */
 	public EdgeFigure(Edge edge) {
+		properties = new HashMap<Parameter, Label>();
+
 		// Sets Layout Manager
 		this.setLayoutManager(new DelegatingLayout());
 		if (edge != null) {
 			if (edge.getValue("type") != null) {
-				List<Parameter> properties = edge.getDocumentConfiguration()
+				List<Parameter> parameters = edge.getDocumentConfiguration()
 						.getEdgeParameters((String) edge.getValue("type"));
-				for (Parameter property : properties) {
-					if (property.getPosition() != null) {
-						Object value = edge.getValue(property.getName());
+				for (Parameter parameter : parameters) {
+					if (parameter.getPosition() != null) {
+						Object value = edge.getValue(parameter.getName());
 						if (value != null) {
-							PropertyTag propertyLabel = new PropertyTag(value
-									.toString());
-							this.add(propertyLabel, new PropertyLocator(this,
-									property.getPosition()));
-							this.properties.put(property, propertyLabel);
+							Label parameterLabel = new Label(value.toString());
+							parameterLabel.setOpaque(true);
+							Object locator = new PropertyLocator(this,
+									parameter.getPosition());
+							add(parameterLabel, locator);
+							properties.put(parameter, parameterLabel);
 						}
 					}
 				}

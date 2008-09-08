@@ -28,10 +28,17 @@
  */
 package net.sf.graphiti.ontology.enums;
 
+import net.sf.graphiti.model.ParameterPosition;
 import net.sf.graphiti.ontology.OntologyIndividual;
 
+/**
+ * This class provides positions.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
 public interface Position extends OntologyIndividual {
 
-	public String toString();
+	public ParameterPosition getPosition();
 
 }

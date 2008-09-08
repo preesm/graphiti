@@ -28,6 +28,7 @@
  */
 package net.sf.graphiti.ontology.impl;
 
+import net.sf.graphiti.model.ParameterPosition;
 import net.sf.graphiti.ontology.enums.Position;
 
 import com.hp.hpl.jena.ontology.Individual;
@@ -44,4 +45,27 @@ public class PositionImpl extends OntologyIndividualImpl implements Position {
 		super(individual);
 	}
 
+	@Override
+	public ParameterPosition getPosition() {
+		String uri = getIndividualURI();
+		if (uri.equals("http://net.sf.graphiti/basics.owl#North")) {
+			return ParameterPosition.North;
+		} else if (uri.equals("http://net.sf.graphiti/basics.owl#East")) {
+			return ParameterPosition.East;
+		} else if (uri.equals("http://net.sf.graphiti/basics.owl#West")) {
+			return ParameterPosition.West;
+		} else if (uri.equals("http://net.sf.graphiti/basics.owl#Center")) {
+			return ParameterPosition.Center;
+		} else if (uri.equals("http://net.sf.graphiti/basics.owl#NorthEast")) {
+			return ParameterPosition.NorthEast;
+		} else if (uri.equals("http://net.sf.graphiti/basics.owl#NorthWest")) {
+			return ParameterPosition.NorthWest;
+		} else if (uri.equals("http://net.sf.graphiti/basics.owl#SouthEast")) {
+			return ParameterPosition.SouthEast;
+		} else if (uri.equals("http://net.sf.graphiti/basics.owl#SouthWest")) {
+			return ParameterPosition.SouthWest;
+		} else {
+			throw new NullPointerException();
+		}
+	}
 }

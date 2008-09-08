@@ -32,7 +32,14 @@ import net.sf.graphiti.ontology.OntologyIndividual;
 
 import org.eclipse.draw2d.IFigure;
 
+/**
+ * This class provides shapes.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
 public interface Shapes extends OntologyIndividual {
 
 	public IFigure getShape();
+	
 }
