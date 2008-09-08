@@ -68,12 +68,12 @@ public class Configuration {
 	/**
 	 * An edge type -> attributes map.
 	 */
-	private Map<String, PropertyBean> edgeAttributes;
+	private Map<String, Map<String, Object>> edgeAttributes;
 
 	/**
 	 * An edge type -> (parameter name list) map.
 	 */
-	private Map<String, List<Parameter>> edgeParameters;
+	private Map<String, Map<String, Parameter>> edgeParameters;
 
 	/**
 	 * File extensions associated with this document configuration.
@@ -83,12 +83,12 @@ public class Configuration {
 	/**
 	 * A graph type -> attributes map.
 	 */
-	private Map<String, PropertyBean> graphAttributes;
+	private Map<String, Map<String, Object>> graphAttributes;
 
 	/**
 	 * An graph type -> (parameter name list) map.
 	 */
-	private Map<String, List<Parameter>> graphParameters;
+	private Map<String, Map<String, Parameter>> graphParameters;
 
 	/**
 	 * The ontology factory this document configuration is associated with.
@@ -109,12 +109,12 @@ public class Configuration {
 	/**
 	 * A vertex type -> attributes map.
 	 */
-	private Map<String, PropertyBean> vertexAttributes;
+	private Map<String, Map<String, Object>> vertexAttributes;
 
 	/**
 	 * An vertex type -> (parameter name list) map.
 	 */
-	private Map<String, List<Parameter>> vertexParameters;
+	private Map<String, Map<String, Parameter>> vertexParameters;
 
 	/**
 	 * Creates a new document configuration with no initial attributes or
@@ -127,13 +127,13 @@ public class Configuration {
 	public Configuration(String ontologyUrl) {
 		ontologyFactory = new OntologyFactory(ontologyUrl);
 
-		edgeAttributes = new HashMap<String, PropertyBean>();
-		graphAttributes = new HashMap<String, PropertyBean>();
-		vertexAttributes = new HashMap<String, PropertyBean>();
+		edgeAttributes = new HashMap<String, Map<String, Object>>();
+		graphAttributes = new HashMap<String, Map<String, Object>>();
+		vertexAttributes = new HashMap<String, Map<String, Object>>();
 
-		vertexParameters = new HashMap<String, List<Parameter>>();
-		graphParameters = new HashMap<String, List<Parameter>>();
-		edgeParameters = new HashMap<String, List<Parameter>>();
+		vertexParameters = new HashMap<String, Map<String, Parameter>>();
+		graphParameters = new HashMap<String, Map<String, Parameter>>();
+		edgeParameters = new HashMap<String, Map<String, Parameter>>();
 
 		parents = new ArrayList<Configuration>();
 		children = new ArrayList<Configuration>();
@@ -178,15 +178,15 @@ public class Configuration {
 	 * @param parameterName
 	 *            The parameter name.
 	 */
-	private void addParameter(Map<String, List<Parameter>> map, String type,
-			Parameter parameter) {
-		List<Parameter> parameters = map.get(type);
+	private void addParameter(Map<String, Map<String, Parameter>> map,
+			String type, Parameter parameter) {
+		Map<String, Parameter> parameters = map.get(type);
 		if (parameters == null) {
-			parameters = new ArrayList<Parameter>();
+			parameters = new HashMap<String, Parameter>();
 			map.put(type, parameters);
 		}
 
-		parameters.add(parameter);
+		parameters.put(parameter.getName(), parameter);
 	}
 
 	/**
@@ -240,15 +240,15 @@ public class Configuration {
 	 *            The attribute name.
 	 * @return The attribute value (or null if not set).
 	 */
-	private Object getAttribute(Map<String, PropertyBean> map, String type,
-			String attributeName) {
-		PropertyBean attributes = map.get(type);
+	private Object getAttribute(Map<String, Map<String, Object>> map,
+			String type, String attributeName) {
+		Map<String, Object> attributes = map.get(type);
 		if (attributes == null) {
-			attributes = new PropertyBean();
+			attributes = new HashMap<String, Object>();
 			map.put(type, attributes);
 		}
 
-		return attributes.getValue(attributeName);
+		return attributes.get(attributeName);
 	}
 
 	/**
@@ -260,11 +260,11 @@ public class Configuration {
 	 *            The type represented by a string.
 	 * @return The attributes.
 	 */
-	private PropertyBean getAttributes(Map<String, PropertyBean> map,
-			String type) {
-		PropertyBean attributes = map.get(type);
+	private Map<String, Object> getAttributes(
+			Map<String, Map<String, Object>> map, String type) {
+		Map<String, Object> attributes = map.get(type);
 		if (attributes == null) {
-			attributes = new PropertyBean();
+			attributes = new HashMap<String, Object>();
 			map.put(type, attributes);
 		}
 
@@ -304,6 +304,18 @@ public class Configuration {
 	 */
 	public Object getEdgeAttribute(String edgeType, String attributeName) {
 		return getAttribute(edgeAttributes, edgeType, attributeName);
+	}
+
+	/**
+	 * Returns the parameter associated with the given edge type and parameter
+	 * name.
+	 * 
+	 * @param edgeType
+	 *            The edge type.
+	 * @return The parameter associated with the edge type and parameter name.
+	 */
+	public Parameter getEdgeParameter(String edgeType, String parameterName) {
+		return getParameter(edgeParameters, edgeType, parameterName);
 	}
 
 	/**
@@ -361,6 +373,29 @@ public class Configuration {
 	}
 
 	/**
+	 * Gets the parameter for the type <code>type</code> which has the given
+	 * name.
+	 * 
+	 * @param map
+	 *            The map to look in.
+	 * @param type
+	 *            The type represented by a string.
+	 * @param name
+	 *            The parameter name.
+	 * @return The parameter.
+	 */
+	private Parameter getParameter(Map<String, Map<String, Parameter>> map,
+			String type, String parameterName) {
+		Map<String, Parameter> parameters = map.get(type);
+		if (parameters == null) {
+			parameters = new HashMap<String, Parameter>();
+			map.put(type, parameters);
+		}
+
+		return parameters.get(parameterName);
+	}
+
+	/**
 	 * Gets the parameter list for the type <code>type</code>.
 	 * 
 	 * @param map
@@ -369,15 +404,15 @@ public class Configuration {
 	 *            The type represented by a string.
 	 * @return The parameter list.
 	 */
-	private List<Parameter> getParameters(Map<String, List<Parameter>> map,
-			String type) {
-		List<Parameter> parameters = map.get(type);
+	private List<Parameter> getParameters(
+			Map<String, Map<String, Parameter>> map, String type) {
+		Map<String, Parameter> parameters = map.get(type);
 		if (parameters == null) {
-			parameters = new ArrayList<Parameter>();
+			parameters = new HashMap<String, Parameter>();
 			map.put(type, parameters);
 		}
 
-		return new ArrayList<Parameter>(parameters);
+		return new ArrayList<Parameter>(parameters.values());
 	}
 
 	/**
@@ -408,8 +443,21 @@ public class Configuration {
 	 *            The vertex type.
 	 * @return The attributes associated.
 	 */
-	public PropertyBean getVertexAttributes(String vertexType) {
+	public Map<String, Object> getVertexAttributes(String vertexType) {
 		return getAttributes(vertexAttributes, vertexType);
+	}
+
+	/**
+	 * Returns the parameter associated with the given vertex type and parameter
+	 * name.
+	 * 
+	 * @param vertexType
+	 *            The vertex type.
+	 * @return The parameters associated with the vertex type and parameter
+	 *         name.
+	 */
+	public Parameter getVertexParameter(String vertexType, String parameterName) {
+		return getParameter(vertexParameters, vertexType, parameterName);
 	}
 
 	/**
@@ -447,15 +495,15 @@ public class Configuration {
 	 * @param newValue
 	 *            The new property value.
 	 */
-	private void setAttribute(Map<String, PropertyBean> map, String type,
-			String attributeName, Object newValue) {
-		PropertyBean attributes = map.get(type);
+	private void setAttribute(Map<String, Map<String, Object>> map,
+			String type, String attributeName, Object newValue) {
+		Map<String, Object> attributes = map.get(type);
 		if (attributes == null) {
-			attributes = new PropertyBean();
+			attributes = new HashMap<String, Object>();
 			map.put(type, attributes);
 		}
 
-		attributes.setValue(attributeName, newValue);
+		attributes.put(attributeName, newValue);
 	}
 
 	/**

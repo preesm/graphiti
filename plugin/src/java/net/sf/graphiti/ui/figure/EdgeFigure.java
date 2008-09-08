@@ -28,10 +28,12 @@
  */
 package net.sf.graphiti.ui.figure;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Parameter;
+import net.sf.graphiti.model.ParameterPosition;
 
 import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.Label;
@@ -47,6 +49,10 @@ import org.eclipse.draw2d.PolylineConnection;
  */
 public class EdgeFigure extends PolylineConnection {
 
+	private Edge edge;
+
+	private Map<String, Label> parameterFigures;
+
 	/**
 	 * Creates the Figure associated to the connection
 	 * 
@@ -56,26 +62,39 @@ public class EdgeFigure extends PolylineConnection {
 	public EdgeFigure(Edge edge) {
 		// Sets Layout Manager
 		this.setLayoutManager(new DelegatingLayout());
+		this.edge = edge;
+
+		parameterFigures = new HashMap<String, Label>();
+
+		// update parameters
 		if (edge != null) {
-			if (edge.getValue("type") != null) {
-				List<Parameter> parameters = edge.getDocumentConfiguration()
-						.getEdgeParameters((String) edge.getValue("type"));
-				for (Parameter parameter : parameters) {
-					if (parameter.getPosition() != null) {
-						Object value = edge.getValue(parameter.getName());
-						if (value != null) {
-							Label parameterLabel = new Label(value.toString());
-							Object locator = new PropertyLocator(this,
-									parameter.getPosition());
-							add(parameterLabel, locator);
-						}
-					}
-				}
+			for (Parameter parameter : edge.getParameters()) {
+				refresh(parameter.getName(), edge.getValue(parameter.getName()));
 			}
 		}
 
 		setTargetDecoration(new PolygonDecoration());
 		setLineWidth(1);
 		this.setValid(true);
+	}
+
+	public void refresh(String parameterName, Object value) {
+		Label label = parameterFigures.get(parameterName);
+		if (label == null) {
+			value = edge.getValue(parameterName);
+			if (value != null) {
+				Parameter parameter = edge.getParameter(parameterName);
+				ParameterPosition position = parameter.getPosition();
+
+				if (position != null) {
+					Label parameterLabel = new Label(value.toString());
+					Object locator = new PropertyLocator(this, position);
+					add(parameterLabel, locator);
+					parameterFigures.put(parameterName, parameterLabel);
+				}
+			}
+		} else {
+			label.setText(value.toString());
+		}
 	}
 }

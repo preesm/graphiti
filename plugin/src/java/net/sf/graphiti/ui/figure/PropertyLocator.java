@@ -46,9 +46,9 @@ import org.eclipse.draw2d.geometry.Point;
  */
 public class PropertyLocator extends ConnectionLocator {
 	
-	private HashMap<Connection, List<PropertyLocator>> positions = new HashMap<Connection, List<PropertyLocator>>();
-	
 	private ParameterPosition pos;
+	
+	private HashMap<Connection, List<PropertyLocator>> positions = new HashMap<Connection, List<PropertyLocator>>();
 
 	public PropertyLocator(Connection c, ParameterPosition p) {
 		super(c);

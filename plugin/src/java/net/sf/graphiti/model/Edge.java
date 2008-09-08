@@ -103,7 +103,20 @@ public class Edge extends PropertyBean {
 	}
 
 	/**
-	 * Returns a list of parameters associated with this graph type.
+	 * Returns the parameter associated with this edge type and the given
+	 * parameter name.
+	 * 
+	 * @param parameterName
+	 *            The parameter name.
+	 * @return The parameter.
+	 */
+	public Parameter getParameter(String parameterName) {
+		Configuration configuration = getDocumentConfiguration();
+		return configuration.getEdgeParameter(getType(), parameterName);
+	}
+
+	/**
+	 * Returns a list of parameters associated with this edge type.
 	 * 
 	 * @return A List of Parameters.
 	 */
@@ -112,27 +125,49 @@ public class Edge extends PropertyBean {
 		return configuration.getEdgeParameters(getType());
 	}
 
+	/**
+	 * Returns this edge's source.
+	 * 
+	 * @return This edge's source.
+	 */
 	public Vertex getSource() {
 		return source;
 	}
-
+	
+	/**
+	 * Returns this edge's target.
+	 * 
+	 * @return This edge's target.
+	 */
 	public Vertex getTarget() {
 		return target;
 	}
 
 	/**
-	 * Returns this graph's type.
+	 * Returns this edge's type.
 	 * 
-	 * @return This graph's type.
+	 * @return This edge's type.
 	 */
 	public String getType() {
 		return (String) this.getValue(PARAMETER_TYPE);
 	}
 
+	/**
+	 * Sets this edge's source.
+	 * 
+	 * @param source
+	 *            A {@link Vertex}.
+	 */
 	public void setSource(Vertex source) {
 		this.source = source;
 	}
-
+	
+	/**
+	 * Sets this edge's target.
+	 * 
+	 * @param target
+	 *            A {@link Vertex}.
+	 */
 	public void setTarget(Vertex target) {
 		this.target = target;
 	}

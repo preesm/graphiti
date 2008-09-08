@@ -144,22 +144,24 @@ public class Vertex extends PropertyBean {
 	}
 
 	/**
-	 * Returns an attributes map associated with this vertex type.
-	 * 
-	 * @return A PropertyBean that contain the attributes map.
-	 */
-	public PropertyBean getAttributes() {
-		Configuration config = parent.getDocumentConfiguration();
-		return config.getVertexAttributes(getType());
-	}
-
-	/**
 	 * Returns the document configuration associated with this Vertex.
 	 * 
 	 * @return The document configuration associated with this Vertex.
 	 */
 	public Configuration getDocumentConfiguration() {
 		return parent.getDocumentConfiguration();
+	}
+
+	/**
+	 * Returns the parameter in this vertex type with the given name.
+	 * 
+	 * @param parameterName
+	 *            The parameter name.
+	 * @return A {@link Parameter}.
+	 */
+	public Parameter getParameter(String parameterName) {
+		Configuration config = parent.getDocumentConfiguration();
+		return config.getVertexParameter(getType(), parameterName);
 	}
 
 	/**
