@@ -41,5 +41,5 @@ import org.eclipse.draw2d.IFigure;
 public interface Shapes extends OntologyIndividual {
 
 	public IFigure getShape();
-	
+
 }

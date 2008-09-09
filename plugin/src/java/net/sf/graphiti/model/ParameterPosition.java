@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.model;
 
-
 /**
  * This class enumerates the position of a parameter.
  * 

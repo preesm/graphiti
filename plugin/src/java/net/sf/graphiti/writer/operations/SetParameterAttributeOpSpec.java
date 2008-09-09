@@ -74,7 +74,7 @@ public class SetParameterAttributeOpSpec implements IOperationSpecification {
 		if (value == null) {
 			value = "";
 		}
-		
+
 		element.setAttribute(attrName, value.toString());
 	}
 

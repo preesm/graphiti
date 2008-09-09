@@ -42,12 +42,12 @@ import org.eclipse.draw2d.geometry.Point;
  * This class provides a connection locator.
  * 
  * @author Jonathan Piat
- *
+ * 
  */
 public class PropertyLocator extends ConnectionLocator {
-	
+
 	private ParameterPosition pos;
-	
+
 	private HashMap<Connection, List<PropertyLocator>> positions = new HashMap<Connection, List<PropertyLocator>>();
 
 	public PropertyLocator(Connection c, ParameterPosition p) {
@@ -70,7 +70,7 @@ public class PropertyLocator extends ConnectionLocator {
 				dec += 10;
 			}
 		}
-		
+
 		int xdirec = 0;
 		int ydirec = 0;
 		Point p = Point.SINGLETON;
@@ -105,7 +105,7 @@ public class PropertyLocator extends ConnectionLocator {
 			conn.getParent().translateToAbsolute(refP);
 			p.setLocation(refP.x - (dec * xdirec), refP.y - (dec * ydirec));
 		}
-		
+
 		return p;
 	}
 

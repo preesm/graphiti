@@ -77,8 +77,8 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
 	@Override
 	protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-		EdgeCreateCommand command = new EdgeCreateCommand(
-				(Edge) request.getNewObject());
+		EdgeCreateCommand command = new EdgeCreateCommand((Edge) request
+				.getNewObject());
 		VertexEditPart vertexEditPart = (VertexEditPart) request
 				.getTargetEditPart();
 		command.setSource((Vertex) (vertexEditPart.getModel()));

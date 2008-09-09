@@ -69,7 +69,7 @@ public class SetTextContentOpSpec implements IOperationSpecification {
 		} else {
 			return;
 		}
-		
+
 		if (value == null) {
 			value = "";
 		}

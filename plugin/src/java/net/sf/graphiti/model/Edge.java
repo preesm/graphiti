@@ -133,7 +133,7 @@ public class Edge extends PropertyBean {
 	public Vertex getSource() {
 		return source;
 	}
-	
+
 	/**
 	 * Returns this edge's target.
 	 * 
@@ -161,7 +161,7 @@ public class Edge extends PropertyBean {
 	public void setSource(Vertex source) {
 		this.source = source;
 	}
-	
+
 	/**
 	 * Sets this edge's target.
 	 * 

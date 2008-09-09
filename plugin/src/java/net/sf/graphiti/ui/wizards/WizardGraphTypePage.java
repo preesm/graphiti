@@ -82,7 +82,7 @@ public class WizardGraphTypePage extends WizardPage {
 		layout.verticalSpacing = 9;
 
 		createGraphTypes(container);
-		
+
 		setControl(container);
 		setPageComplete(false);
 	}

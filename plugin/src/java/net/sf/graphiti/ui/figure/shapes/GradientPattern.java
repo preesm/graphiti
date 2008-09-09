@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.ui.figure.shapes;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -61,7 +60,7 @@ public class GradientPattern {
 			Rectangle bounds, Graphics graphics) {
 		if (graphics instanceof SWTGraphics) {
 			// advanced graphics
-			Color fg = ColorConstants.lightGray;
+			Color fg = new Color(null, 224, 224, 224);
 			Pattern pattern = new Pattern(backgroundColor.getDevice(), 0, 0,
 					bounds.width, bounds.height, backgroundColor, 192, fg, 192);
 

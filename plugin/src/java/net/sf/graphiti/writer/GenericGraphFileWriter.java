@@ -92,7 +92,7 @@ public class GenericGraphFileWriter {
 			// Set up the output transformer
 			TransformerFactory transfac = TransformerFactory.newInstance();
 			Transformer trans = transfac.newTransformer();
-			
+
 			trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			trans.setOutputProperty(OutputKeys.INDENT, "yes");
 			trans.setOutputProperty(OutputKeys.METHOD, "xml");

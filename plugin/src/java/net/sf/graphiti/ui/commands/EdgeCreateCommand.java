@@ -89,11 +89,11 @@ public class EdgeCreateCommand extends Command {
 		// edge has been set in the constructor.
 		edge.setSource(source);
 		edge.setTarget(target);
-		
+
 		if (edge.getParameter(Edge.PARAMETER_SOURCE_PORT) != null) {
 			edge.setValue(Edge.PARAMETER_SOURCE_PORT, "src port");
 		}
-		
+
 		if (edge.getParameter(Edge.PARAMETER_TARGET_PORT) != null) {
 			edge.setValue(Edge.PARAMETER_TARGET_PORT, "dst port");
 		}
