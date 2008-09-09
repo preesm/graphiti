@@ -28,6 +28,7 @@
  */
 package net.sf.graphiti.writer;
 
+import java.util.Iterator;
 import java.util.Set;
 
 import net.sf.graphiti.model.Configuration;
@@ -35,6 +36,8 @@ import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.parameterValues.ParameterValue;
+import net.sf.graphiti.ontology.parameters.Parameter;
 import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeRestriction;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
@@ -229,10 +232,7 @@ public class SchemaWriter {
 			}
 		} else {
 			if (ontElement instanceof VertexElement) {
-				Set<Vertex> vertices = ((Graph) context).vertexSet();
-				for (Vertex vertex : vertices) {
-					writeElement(ontElement, vertex);
-				}
+				writeVertices((VertexElement) ontElement, (Graph) context);
 			} else if (ontElement instanceof EdgeElement) {
 				Set<Edge> edges = ((Graph) context).edgeSet();
 				for (Edge edge : edges) {
@@ -273,6 +273,37 @@ public class SchemaWriter {
 	private void writeSequence(Sequence sequence, Object context) {
 		for (XMLSchemaType type : sequence.hasElements()) {
 			writeSchemaType(type, context);
+		}
+	}
+
+	/**
+	 * Writes all the vertices in the graph that satisfy the constraints in
+	 * vertex element (parameter values).
+	 * 
+	 * @param vertexElt
+	 *            A {@link VertexElement}.
+	 * @param graph
+	 *            A {@link Graph}.
+	 */
+	private void writeVertices(VertexElement vertexElt, Graph graph) {
+		Set<ParameterValue> values = vertexElt.hasParameterValues();
+		Set<Vertex> vertices = graph.vertexSet();
+		for (Vertex vertex : vertices) {
+			boolean writeIt = true;
+			Iterator<ParameterValue> it = values.iterator();
+			while (writeIt && it.hasNext()) {
+				// check the vertex has the right parameter value.
+				ParameterValue value = it.next();
+				Parameter pa = value.ofParameter();
+				if (!value.hasValue().equals(vertex.getValue(pa.hasName()))) {
+					writeIt = false;
+				}
+			}
+
+			// writes the vertex if writeIt is true.
+			if (writeIt) {
+				writeElement(vertexElt, vertex);
+			}
 		}
 	}
 

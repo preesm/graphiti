@@ -45,16 +45,16 @@ import org.eclipse.gef.commands.Command;
 public class EdgeCreateCommand extends Command {
 
 	/**
-	 * The parentGraph is stored as an attribute so it can be used both in the
-	 * <code>execute</code> and <code>undo</code> methods.
-	 */
-	protected Graph parentGraph;
-
-	/**
 	 * The edge is stored as an attribute so it can be used both in the
 	 * <code>execute</code> and <code>undo</code> methods.
 	 */
 	protected Edge edge;
+
+	/**
+	 * The parentGraph is stored as an attribute so it can be used both in the
+	 * <code>execute</code> and <code>undo</code> methods.
+	 */
+	protected Graph parentGraph;
 
 	protected Vertex source;
 

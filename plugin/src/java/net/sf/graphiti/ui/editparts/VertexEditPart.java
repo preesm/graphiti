@@ -41,9 +41,9 @@ import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.editpolicies.DeleteComponentEditPolicy;
+import net.sf.graphiti.ui.editpolicies.EdgeGraphicalNodeEditPolicy;
 import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
 import net.sf.graphiti.ui.editpolicies.VertexDirectEditPolicy;
-import net.sf.graphiti.ui.editpolicies.EdgeGraphicalNodeEditPolicy;
 import net.sf.graphiti.ui.figure.VertexFigure;
 
 import org.eclipse.draw2d.ConnectionAnchor;

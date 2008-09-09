@@ -28,12 +28,12 @@
  */
 package net.sf.graphiti.writer.operations;
 
+import net.sf.graphiti.transactions.IOperationSpecification;
+import net.sf.graphiti.transactions.Result;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
-import net.sf.graphiti.transactions.IOperationSpecification;
-import net.sf.graphiti.transactions.Result;
 
 /**
  * Creates an element. Operands: DOM node parent, element name.
