@@ -31,9 +31,9 @@ package net.sf.graphiti.ontology.impl;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import net.sf.graphiti.ontology.OntologyFactory;
 
@@ -54,7 +54,7 @@ import com.hp.hpl.jena.util.iterator.ExtendedIterator;
  * @author Matthieu Wipliez
  * 
  */
-public class OntologyBaseImpl {
+public abstract class OntologyBaseImpl {
 
 	private static Map<String, Class<?>> classes = new HashMap<String, Class<?>>();
 
@@ -206,7 +206,7 @@ public class OntologyBaseImpl {
 	 * @return A set of objects.
 	 */
 	protected Set<?> convertIndividuals(ExtendedIterator it) {
-		Set<Object> set = new HashSet<Object>();
+		Set<Object> set = new TreeSet<Object>();
 		while (it.hasNext()) {
 			RDFNode node = (RDFNode) it.next();
 			set.add(convertIndividual(node));
@@ -256,7 +256,7 @@ public class OntologyBaseImpl {
 	 * @return A {@link Set} of {@link String}s.
 	 */
 	private Set<String> convertStrings(NodeIterator it) {
-		Set<String> set = new HashSet<String>();
+		Set<String> set = new TreeSet<String>();
 		while (it.hasNext()) {
 			RDFNode node = (RDFNode) it.next();
 			set.add(convertString(node));

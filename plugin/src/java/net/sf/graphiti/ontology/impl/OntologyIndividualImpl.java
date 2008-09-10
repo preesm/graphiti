@@ -42,10 +42,15 @@ import com.hp.hpl.jena.util.iterator.ExtendedIterator;
  * 
  */
 public class OntologyIndividualImpl extends OntologyBaseImpl implements
-		OntologyIndividual {
+		OntologyIndividual, Comparable<OntologyIndividualImpl> {
 
 	protected OntologyIndividualImpl(Individual individual) {
 		super(individual);
+	}
+
+	@Override
+	public int compareTo(OntologyIndividualImpl o) {
+		return getIndividualURI().compareTo(o.getIndividualURI());
 	}
 
 	/**
