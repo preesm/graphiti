@@ -51,22 +51,22 @@ public class DataTypeImpl extends OntologyIndividualImpl implements DataType {
 	@Override
 	public Class<?> getDataType() {
 		if (OntologyFactory.getIndividualFloatDataType().equals(
-				getIndividualURI())) {
+				getResourceURI())) {
 			return Float.class;
 		} else if (OntologyFactory.getIndividualIntegerDataType().equals(
-				getIndividualURI())) {
+				getResourceURI())) {
 			return Integer.class;
 		} else if (OntologyFactory.getIndividualStringDataType().equals(
-				getIndividualURI())) {
+				getResourceURI())) {
 			return String.class;
 		} else if (OntologyFactory.getIndividualVertexRefinementDataType()
-				.equals(getIndividualURI())) {
+				.equals(getResourceURI())) {
 			return String.class;
 		} else if (OntologyFactory.getIndividualListDataType().equals(
-				getIndividualURI())) {
+				getResourceURI())) {
 			return List.class;
 		} else if (OntologyFactory.getIndividualMapDataType().equals(
-				getIndividualURI())) {
+				getResourceURI())) {
 			return Map.class;
 		} else {
 			throw new NullPointerException();

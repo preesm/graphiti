@@ -353,6 +353,15 @@ public abstract class OntologyBaseImpl {
 	}
 
 	/**
+	 * Returns the unique URI of this resource.
+	 * 
+	 * @return This resource's URI.
+	 */
+	public String getResourceURI() {
+		return resource.getURI();
+	}
+
+	/**
 	 * Returns the value associated with this resource and the property called
 	 * <code>propertyName</code>.
 	 * 
@@ -368,7 +377,7 @@ public abstract class OntologyBaseImpl {
 
 	@Override
 	public int hashCode() {
-		return resource.getURI().hashCode();
+		return getResourceURI().hashCode();
 	}
 
 	/**

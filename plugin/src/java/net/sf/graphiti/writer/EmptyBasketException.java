@@ -26,42 +26,19 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.writer.operations;
-
-import net.sf.graphiti.transactions.IOperationSpecification;
-import net.sf.graphiti.transactions.Result;
-
-import org.w3c.dom.Element;
+package net.sf.graphiti.writer;
 
 /**
- * Sets the text content of an element. Operands: DOM element, value.
+ * This class provides an empty basket exception.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class SetTextContentOpSpec implements IOperationSpecification {
+public class EmptyBasketException extends Exception {
 
-	@Override
-	public void execute(Object[] operands, Result result) {
-		Element element = (Element) operands[0];
-		String value = (String) operands[1];
-
-		element.setTextContent(value);
-	}
-
-	@Override
-	public String getName() {
-		return "set text content";
-	}
-
-	@Override
-	public int getNbOperands() {
-		return 2;
-	}
-
-	@Override
-	public boolean hasResult() {
-		return false;
-	}
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 }

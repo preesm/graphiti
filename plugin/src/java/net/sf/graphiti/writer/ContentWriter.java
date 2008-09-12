@@ -28,39 +28,39 @@
  */
 package net.sf.graphiti.writer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
+import java.util.Map.Entry;
 
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
+import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.parameters.Parameter;
-import net.sf.graphiti.ontology.types.EdgeType;
-import net.sf.graphiti.ontology.types.GraphType;
-import net.sf.graphiti.ontology.types.Type;
-import net.sf.graphiti.ontology.types.VertexType;
 import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeRestriction;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.edgeAttributes.EdgeAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.edgeAttributes.EdgeSourceConnection;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.otherAttributes.OtherAttribute;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.EdgeElement;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.GraphElement;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.TextContentElement;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.VertexElement;
 import net.sf.graphiti.transactions.Operation;
 import net.sf.graphiti.transactions.Result;
 import net.sf.graphiti.transactions.SimpleTransaction;
 import net.sf.graphiti.writer.operations.CreateElementOpSpec;
 import net.sf.graphiti.writer.operations.SetAttributeOpSpec;
-import net.sf.graphiti.writer.operations.SetParameterAttributeOpSpec;
 import net.sf.graphiti.writer.operations.SetTextContentOpSpec;
 
 import org.eclipse.core.runtime.Assert;
 import org.w3c.dom.Document;
 
 /**
- * This class provides methods to parse elements and attributes.
+ * This class provides methods to write elements and attributes.
  * 
  * @author Matthieu Wipliez
  * 
@@ -68,7 +68,7 @@ import org.w3c.dom.Document;
 public class ContentWriter {
 
 	/**
-	 * This class provides a checkpoint for this content parser.
+	 * This class provides a checkpoint for this content writer.
 	 * 
 	 * @author Matthieu Wipliez
 	 * 
@@ -87,37 +87,20 @@ public class ContentWriter {
 
 		/**
 		 * Creates a new Checkpoint that saves the current state of this content
-		 * parser.
+		 * writer.
 		 */
 		public Checkpoint() {
-			depth = elementStack.size();
+			depth = resultStack.size();
 			transactionIndex = transaction.size();
 		}
 
 	}
 
-	/**
-	 * The configuration this content parser was created with.
-	 */
-	private Configuration configuration;
-
 	private Document document;
 
-	/**
-	 * Index of the last edge element created.
-	 */
-	private int edgeIndex;
+	private Object lastKey;
 
-	/**
-	 * {@link Stack#peek()} returns the current {@link Element} (between a call
-	 * to <code>elementStart</code> and <code>elementEnd</code>.
-	 */
-	private Stack<Element> elementStack;
-
-	/**
-	 * Index of the last graph element created.
-	 */
-	private int graphIndex;
+	private Map<Object, Object> parametersBasket;
 
 	/**
 	 * {@link Stack#peek()} returns the {@link Result} associated with the
@@ -129,19 +112,13 @@ public class ContentWriter {
 	private SimpleTransaction transaction;
 
 	/**
-	 * Index of the last vertex element created.
-	 */
-	private int vertexIndex;
-
-	/**
 	 * Creates a new {@link ContentWriter} with the given {@link Configuration}.
 	 * 
 	 * @param configuration
 	 */
-	public ContentWriter(Configuration configuration, Document document) {
-		this.configuration = configuration;
+	public ContentWriter(Graph graph, Document document) {
 		this.document = document;
-		elementStack = new Stack<Element>();
+		parametersBasket = new HashMap<Object, Object>();
 		resultStack = new Stack<Result>();
 		transaction = new SimpleTransaction();
 	}
@@ -159,19 +136,14 @@ public class ContentWriter {
 	 * 
 	 * @param ontElement
 	 * @param domElement
+	 * @throws EmptyBasketException
 	 */
-	public void elementEnd(Element ontElement, Object context) {
-		if (ontElement instanceof GraphElement) {
-			graphIndex = -1;
-		} else if (ontElement instanceof VertexElement) {
-			vertexIndex = -1;
-		} else if (ontElement instanceof EdgeElement) {
-			edgeIndex = -1;
-		} else if (ontElement instanceof TextContentElement) {
+	public void elementEnd(Element ontElement, Object context)
+			throws EmptyBasketException {
+		if (ontElement instanceof TextContentElement) {
 			writeTextContentElement((TextContentElement) ontElement, context);
 		}
 
-		elementStack.pop();
 		resultStack.pop();
 	}
 
@@ -183,17 +155,6 @@ public class ContentWriter {
 	 * @param domElement
 	 */
 	public void elementStart(Element ontElement, Object context) {
-		elementStack.push(ontElement);
-
-		// update index
-		if (ontElement instanceof GraphElement) {
-			graphIndex = resultStack.size();
-		} else if (ontElement instanceof VertexElement) {
-			vertexIndex = resultStack.size();
-		} else if (ontElement instanceof EdgeElement) {
-			edgeIndex = resultStack.size();
-		}
-
 		// create the operation to create an element
 		Operation createElement = new Operation(new CreateElementOpSpec());
 		String elementName = ontElement.hasName();
@@ -220,30 +181,61 @@ public class ContentWriter {
 		return new Checkpoint();
 	}
 
-	/**
-	 * Returns the object (from the resultStack) that this parameter applies to.
-	 * 
-	 * @param parameter
-	 *            The parameter.
-	 * @return A {@link Result} from the stack.
-	 */
-	private Result getParameterObject(Parameter parameter) {
-		Type objectType = parameter.appliesTo();
-		int index = -1;
+	@SuppressWarnings("unchecked")
+	private String getParameterValue(Parameter parameter, Object context)
+			throws EmptyBasketException {
+		String parameterName = parameter.hasName();
+		Object value = ((PropertyBean) context).getValue(parameterName);
 
-		if (objectType instanceof EdgeType) {
-			index = edgeIndex;
-		} else if (objectType instanceof GraphType) {
-			index = graphIndex;
-		} else if (objectType instanceof VertexType) {
-			index = vertexIndex;
-		}
+		Class<?> clasz = parameter.hasValueType().getDataType();
+		if (clasz == List.class) {
+			if (value == null) {
+				throw new EmptyBasketException();
+			}
 
-		if (index == -1) {
-			return resultStack.peek();
+			List<?> list = (List<?>) parametersBasket.get(value);
+			if (list == null) {
+				list = new ArrayList<Object>((List<?>) value);
+				parametersBasket.put(value, list);
+			}
+
+			if (list.isEmpty()) {
+				throw new EmptyBasketException();
+			}
+			return list.remove(0).toString();
+		} else if (clasz == Map.class) {
+			if (value == null) {
+				throw new EmptyBasketException();
+			}
+
+			Map<Object, Object> map = (Map<Object, Object>) parametersBasket
+					.get(value);
+			if (map == null) {
+				map = new HashMap<Object, Object>((Map<?, ?>) value);
+				parametersBasket.put(value, map);
+			}
+
+			if (map.isEmpty()) {
+				throw new EmptyBasketException();
+			}
+
+			Iterator<Entry<Object, Object>> it = map.entrySet().iterator();
+			Entry<Object, Object> entry = it.next();
+			if (lastKey == null) {
+				lastKey = entry.getKey().toString();
+				return lastKey.toString();
+			} else {
+				String stringValue = map.remove(lastKey).toString();
+				lastKey = null;
+				return stringValue;
+			}
 		} else {
-			return resultStack.get(index);
+			if (value == null) {
+				value = "";
+			}
 		}
+
+		return value.toString();
 	}
 
 	/**
@@ -252,11 +244,10 @@ public class ContentWriter {
 	 * @param checkpoint
 	 */
 	public void loadCheckpoint(Checkpoint checkpoint) {
-		Assert.isTrue(elementStack.size() >= checkpoint.depth);
+		Assert.isTrue(resultStack.size() >= checkpoint.depth);
 		Assert.isTrue(transaction.size() >= checkpoint.transactionIndex);
 
-		for (int i = elementStack.size() - 1; i >= checkpoint.depth; i--) {
-			elementStack.remove(i);
+		for (int i = resultStack.size() - 1; i >= checkpoint.depth; i--) {
 			resultStack.remove(i);
 		}
 
@@ -272,8 +263,10 @@ public class ContentWriter {
 	 *            The {@link XMLAttribute}.
 	 * @param context
 	 *            The context.
+	 * @throws EmptyBasketException
 	 */
-	public void setAttribute(XMLAttribute ontAttribute, Object context) {
+	public void setAttribute(XMLAttribute ontAttribute, Object context)
+			throws EmptyBasketException {
 		if (ontAttribute instanceof EdgeAttribute) {
 			setEdgeAttribute((EdgeAttribute) ontAttribute, context);
 		} else {
@@ -328,15 +321,17 @@ public class ContentWriter {
 	 *            An {@link OtherAttribute}.
 	 * @param context
 	 *            The context.
+	 * @throws EmptyBasketException
 	 */
-	private void setOtherAttribute(OtherAttribute ontAttribute, Object context) {
+	private void setOtherAttribute(OtherAttribute ontAttribute, Object context)
+			throws EmptyBasketException {
 		String ontAttrName = ontAttribute.hasName();
 		Parameter parameter = ontAttribute.hasParameter();
 		if (parameter != null) {
-			Operation setAttribute = new Operation(
-					new SetParameterAttributeOpSpec());
-			Result obj = getParameterObject(parameter);
-			setAttribute.setOperands(obj, context, ontAttrName, parameter);
+			Operation setAttribute = new Operation(new SetAttributeOpSpec());
+			String attrValue = getParameterValue(parameter, context);
+			setAttribute
+					.setOperands(resultStack.peek(), ontAttrName, attrValue);
 			transaction.addOperation(setAttribute);
 		}
 	}
@@ -347,11 +342,12 @@ public class ContentWriter {
 	}
 
 	private void writeTextContentElement(TextContentElement ontElement,
-			Object context) {
+			Object context) throws EmptyBasketException {
 		Parameter parameter = ontElement.referencesParameter();
 		if (parameter != null) {
+			String value = getParameterValue(parameter, context);
 			Operation setText = new Operation(new SetTextContentOpSpec());
-			setText.setOperands(resultStack.peek(), context, parameter);
+			setText.setOperands(resultStack.peek(), value);
 			transaction.addOperation(setText);
 		}
 	}

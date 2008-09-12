@@ -47,7 +47,7 @@ public class PositionImpl extends OntologyIndividualImpl implements Position {
 
 	@Override
 	public ParameterPosition getPosition() {
-		String uri = getIndividualURI();
+		String uri = getResourceURI();
 		if (uri.equals("http://net.sf.graphiti/basics.owl#North")) {
 			return ParameterPosition.North;
 		} else if (uri.equals("http://net.sf.graphiti/basics.owl#East")) {

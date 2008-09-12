@@ -50,7 +50,7 @@ public class OntologyIndividualImpl extends OntologyBaseImpl implements
 
 	@Override
 	public int compareTo(OntologyIndividualImpl o) {
-		return getIndividualURI().compareTo(o.getIndividualURI());
+		return getResourceURI().compareTo(o.getResourceURI());
 	}
 
 	/**
@@ -60,15 +60,6 @@ public class OntologyIndividualImpl extends OntologyBaseImpl implements
 	 */
 	protected String getIndividualLocalName() {
 		return resource.getLocalName();
-	}
-
-	/**
-	 * Returns the individual unique URI.
-	 * 
-	 * @return The individual unique URI.
-	 */
-	protected String getIndividualURI() {
-		return resource.getURI();
 	}
 
 	@Override
@@ -114,7 +105,7 @@ public class OntologyIndividualImpl extends OntologyBaseImpl implements
 	}
 
 	public String toString() {
-		return getIndividualURI();
+		return getResourceURI();
 	}
 
 }

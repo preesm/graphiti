@@ -28,12 +28,14 @@
  */
 package net.sf.graphiti.writer;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
-import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
@@ -47,6 +49,8 @@ import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Sequ
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.EdgeElement;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.VertexElement;
+import net.sf.graphiti.parsers.NotCompatibleException;
+import net.sf.graphiti.writer.ContentWriter.Checkpoint;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -63,7 +67,13 @@ public class SchemaWriter {
 
 	private ContentWriter contentWriter;
 
+	private List<Edge> edgeBasket;
+
+	private Graph graph;
+
 	private Logger log;
+
+	private List<Vertex> vertexBasket;
 
 	/**
 	 * Creates a new schema writer for the given configuration and DOM document.
@@ -73,10 +83,49 @@ public class SchemaWriter {
 	 * @param document
 	 *            The DOM document to fill in.
 	 */
-	public SchemaWriter(Configuration configuration, Document document) {
-		contentWriter = new ContentWriter(configuration, document);
+	public SchemaWriter(Graph graph, Document document) {
+		contentWriter = new ContentWriter(graph, document);
+		edgeBasket = new ArrayList<Edge>(graph.edgeSet());
+		this.graph = graph;
 		log = Logger.getLogger(SchemaWriter.class);
 		log.setLevel(Level.ALL);
+		vertexBasket = new ArrayList<Vertex>(graph.vertexSet());
+	}
+
+	/**
+	 * Picks an element in the list that satisfies the constraints set on the
+	 * given element.
+	 * 
+	 * @param list
+	 * @param element
+	 * @return
+	 * @throws EmptyBasketException
+	 *             If the list provided is empty.
+	 */
+	private Object pick(List<?> list, Element element)
+			throws EmptyBasketException {
+		Set<ParameterValue> values = element.hasParameterValues();
+		for (Object object : list) {
+			boolean ok = true;
+			Iterator<ParameterValue> itValue = values.iterator();
+			while (ok && itValue.hasNext()) {
+				// check the vertex has the right parameter value.
+				ParameterValue value = itValue.next();
+				Parameter pa = value.ofParameter();
+				String paName = pa.hasName();
+				Object objValue = ((PropertyBean) object).getValue(paName);
+				if (!value.hasValue().equals(objValue)) {
+					ok = false;
+				}
+			}
+
+			if (ok) {
+				list.remove(object);
+				return object;
+			}
+		}
+
+		throw new EmptyBasketException();
 	}
 
 	/**
@@ -87,11 +136,16 @@ public class SchemaWriter {
 	 * @param graph
 	 *            The graph to write.
 	 */
-	public void write(XMLSchemaType ontDocElement, Graph graph) {
-		if (ontDocElement.hasOntClass(OntologyFactory.getClassComplexType())) {
-			writeComplexTypeOccurs((ComplexType) ontDocElement, graph);
-		} else {
-			writeElement((Element) ontDocElement, graph);
+	public void write(XMLSchemaType ontDocElement) {
+		try {
+			if (ontDocElement
+					.hasOntClass(OntologyFactory.getClassComplexType())) {
+				writeComplexTypeOccurs((ComplexType) ontDocElement, graph);
+			} else {
+				writeElement((Element) ontDocElement, graph);
+			}
+		} catch (EmptyBasketException e) {
+			e.printStackTrace();
 		}
 
 		contentWriter.commit();
@@ -104,14 +158,17 @@ public class SchemaWriter {
 	}
 
 	/**
-	 * Set the attributes defined by the ontology element in the given context.
+	 * Set the attributes defined by the ontology element with the given
+	 * context.
 	 * 
 	 * @param ontElement
 	 *            The ontology element.
 	 * @param context
 	 *            The context.
+	 * @throws EmptyBasketException
 	 */
-	private void writeAttributes(Element ontElement, Object context) {
+	private void writeAttributes(Element ontElement, Object context)
+			throws EmptyBasketException {
 		Set<XMLAttribute> attributes = ontElement.hasAttributes();
 		for (XMLAttribute ontAttribute : attributes) {
 			contentWriter.setAttribute(ontAttribute, context);
@@ -119,29 +176,40 @@ public class SchemaWriter {
 	}
 
 	/**
-	 * Writes a branch of the given {@link Choice} in the given context.
+	 * Writes a branch of the given {@link Choice} with the given context.
 	 * 
 	 * @param choice
 	 *            The choice.
 	 * @param context
 	 *            The context.
+	 * @throws NotCompatibleException
 	 */
-	private void writeChoice(Choice choice, Object context) {
+	private void writeChoice(Choice choice, Object context)
+			throws EmptyBasketException {
+		Checkpoint checkpoint = contentWriter.getCheckpoint();
 		for (XMLSchemaType type : choice.hasElements()) {
-			// TODO: !!
-			writeSchemaType(type, context);
+			try {
+				writeSchemaType(type, context);
+				return;
+			} catch (EmptyBasketException e) {
+				contentWriter.loadCheckpoint(checkpoint);
+			}
 		}
+
+		throw new EmptyBasketException();
 	}
 
 	/**
-	 * Writes the given complex type in the given context.
+	 * Writes the given complex type with the given context.
 	 * 
 	 * @param type
 	 *            A {@link ComplexType}.
 	 * @param context
 	 *            The context.
+	 * @throws NotCompatibleException
 	 */
-	private void writeComplexType(ComplexType type, Object context) {
+	private void writeComplexType(ComplexType type, Object context)
+			throws EmptyBasketException {
 		if (type instanceof Sequence) {
 			writeSequence((Sequence) type, context);
 		} else if (type instanceof Choice) {
@@ -159,8 +227,10 @@ public class SchemaWriter {
 	 *            A {@link ComplexType}.
 	 * @param context
 	 *            The context.
+	 * @throws EmptyBasketException
 	 */
-	private void writeComplexTypeOccurs(ComplexType type, Object context) {
+	private void writeComplexTypeOccurs(ComplexType type, Object context)
+			throws EmptyBasketException {
 		int minOccurs = type.minOccurs();
 		int maxOccurs = type.maxOccurs();
 
@@ -176,29 +246,43 @@ public class SchemaWriter {
 				writeComplexType(type, context);
 			}
 		} else {
-			// TODO: other cases?
-			int a = 0;
-			a++;
+			try {
+				while (true) {
+					writeComplexType(type, context);
+				}
+			} catch (EmptyBasketException e) {
+			}
 		}
 	}
 
 	/**
-	 * Writes the given ontology element in the given context.
+	 * Writes the given ontology element with the given context.
 	 * 
 	 * @param ontElement
 	 *            An ontology {@link Element} that describes an XML element in
 	 *            the DOM result.
 	 * @param context
 	 *            The context.
+	 * @throws EmptyBasketException
 	 */
-	private void writeElement(Element ontElement, Object context) {
+	private void writeElement(Element ontElement, Object context)
+			throws EmptyBasketException {
+		XMLSchemaType type = ontElement.hasSchemaType();
+
+		// new context
+		if (ontElement instanceof VertexElement) {
+			context = pick(vertexBasket, ontElement);
+		} else if (ontElement instanceof EdgeElement) {
+			context = pick(edgeBasket, ontElement);
+		}
+
 		contentWriter.elementStart(ontElement, context);
 
 		writeAttributeRestrictions(ontElement, context);
 		writeAttributes(ontElement, context);
 
-		XMLSchemaType type = ontElement.hasSchemaType();
-		if (type != null) {
+		if (type == null) {
+		} else {
 			writeSchemaType(type, context);
 		}
 
@@ -206,55 +290,63 @@ public class SchemaWriter {
 	}
 
 	/**
-	 * Writes the given ontology element in the given context a specified number
-	 * of times (between minOccurs and maxOccurs).
+	 * Writes the given ontology element with the given context a specified
+	 * number of times (between minOccurs and maxOccurs).
 	 * 
 	 * @param ontElement
 	 *            An ontology {@link Element} that describes an XML element in
 	 *            the DOM result.
 	 * @param context
 	 *            The context.
+	 * @throws EmptyBasketException
 	 */
-	private void writeElementOccurs(Element ontElement, Object context) {
+	private void writeElementOccurs(Element ontElement, Object context)
+			throws EmptyBasketException {
 		int minOccurs = ontElement.minOccurs();
 		int maxOccurs = ontElement.maxOccurs();
+		Checkpoint checkpoint = null;
 
 		// min occurs
 		int i;
 		for (i = 0; i < minOccurs; i++) {
-			writeElement(ontElement, context);
+			try {
+				writeElement(ontElement, context);
+			} catch (EmptyBasketException e) {
+				throw new EmptyBasketException();
+			}
 		}
 
 		// max occurs
 		if (maxOccurs > -1) {
 			for (; i < maxOccurs; i++) {
-				writeElement(ontElement, context);
+				try {
+					writeElement(ontElement, context);
+				} catch (EmptyBasketException e) {
+					throw new EmptyBasketException();
+				}
 			}
 		} else {
-			if (ontElement instanceof VertexElement) {
-				writeVertices((VertexElement) ontElement, (Graph) context);
-			} else if (ontElement instanceof EdgeElement) {
-				Set<Edge> edges = ((Graph) context).edgeSet();
-				for (Edge edge : edges) {
-					writeElement(ontElement, edge);
+			try {
+				while (true) {
+					checkpoint = contentWriter.getCheckpoint();
+					writeElement(ontElement, context);
 				}
-			} else {
-				// TODO: other cases?
-				int a = 0;
-				a++;
+			} catch (EmptyBasketException e) {
+				contentWriter.loadCheckpoint(checkpoint);
 			}
 		}
 	}
 
 	/**
-	 * Writes the given schema type in the given context.
+	 * Writes the given schema type with the given context.
 	 * 
 	 * @param type
 	 *            An {@link XMLSchemaType}.
 	 * @param context
 	 *            The context.
 	 */
-	private void writeSchemaType(XMLSchemaType type, Object context) {
+	private void writeSchemaType(XMLSchemaType type, Object context)
+			throws EmptyBasketException {
 		if (type.hasOntClass(OntologyFactory.getClassComplexType())) {
 			writeComplexTypeOccurs((ComplexType) type, context);
 		} else {
@@ -263,47 +355,17 @@ public class SchemaWriter {
 	}
 
 	/**
-	 * Writes the given sequence in the given context.
+	 * Writes the given sequence with the given context.
 	 * 
 	 * @param sequence
 	 *            A {@link Sequence}.
 	 * @param context
 	 *            The context.
 	 */
-	private void writeSequence(Sequence sequence, Object context) {
+	private void writeSequence(Sequence sequence, Object context)
+			throws EmptyBasketException {
 		for (XMLSchemaType type : sequence.hasElements()) {
 			writeSchemaType(type, context);
-		}
-	}
-
-	/**
-	 * Writes all the vertices in the graph that satisfy the constraints in
-	 * vertex element (parameter values).
-	 * 
-	 * @param vertexElt
-	 *            A {@link VertexElement}.
-	 * @param graph
-	 *            A {@link Graph}.
-	 */
-	private void writeVertices(VertexElement vertexElt, Graph graph) {
-		Set<ParameterValue> values = vertexElt.hasParameterValues();
-		Set<Vertex> vertices = graph.vertexSet();
-		for (Vertex vertex : vertices) {
-			boolean writeIt = true;
-			Iterator<ParameterValue> it = values.iterator();
-			while (writeIt && it.hasNext()) {
-				// check the vertex has the right parameter value.
-				ParameterValue value = it.next();
-				Parameter pa = value.ofParameter();
-				if (!value.hasValue().equals(vertex.getValue(pa.hasName()))) {
-					writeIt = false;
-				}
-			}
-
-			// writes the vertex if writeIt is true.
-			if (writeIt) {
-				writeElement(vertexElt, vertex);
-			}
 		}
 	}
 
