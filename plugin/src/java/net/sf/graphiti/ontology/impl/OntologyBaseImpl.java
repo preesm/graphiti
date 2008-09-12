@@ -63,8 +63,9 @@ public abstract class OntologyBaseImpl {
 		classes.put(OntologyFactory.getClassDataType(), DataTypeImpl.class);
 
 		// Enums
-		classes.put(OntologyFactory.getClassShapes(), ShapesImpl.class);
+		classes.put(OntologyFactory.getClassParameterSource(), ParameterSourceImpl.class);
 		classes.put(OntologyFactory.getClassPosition(), PositionImpl.class);
+		classes.put(OntologyFactory.getClassShapes(), ShapeImpl.class);
 
 		// FigureAttribute
 		classes.put(OntologyFactory.getClassColorAttribute(),

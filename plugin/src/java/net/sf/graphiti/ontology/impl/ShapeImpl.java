@@ -26,24 +26,47 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.attributes;
+package net.sf.graphiti.ontology.impl;
 
+import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.enums.Shape;
+import net.sf.graphiti.ui.figure.shapes.ShapeCircle;
+import net.sf.graphiti.ui.figure.shapes.ShapeHexagon;
+import net.sf.graphiti.ui.figure.shapes.ShapeRoundedBox;
+import net.sf.graphiti.ui.figure.shapes.ShapeTriangle;
+
+import org.eclipse.draw2d.IFigure;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides a shape attribute.
+ * Implementation of Shape.
  * 
- * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface ShapeAttribute extends FigureAttribute {
+public class ShapeImpl extends OntologyIndividualImpl implements Shape {
 
-	/**
-	 * Returns the shape associated with this attribute.
-	 * 
-	 * @return The shape associated with this attribute.
-	 */
-	public Shape hasShape();
+	public ShapeImpl(Individual individual) {
+		super(individual);
+	}
+
+	@Override
+	public IFigure getShape() {
+		if (OntologyFactory.getIndividualShapeCircle().equals(getResourceURI())) {
+			return new ShapeCircle();
+		} else if (OntologyFactory.getIndividualShapeTriangle().equals(
+				getResourceURI())) {
+			return new ShapeTriangle();
+		} else if (OntologyFactory.getIndividualShapeHexagon().equals(
+				getResourceURI())) {
+			return new ShapeHexagon();
+		} else if (OntologyFactory.getIndividualShapeRoundedBox().equals(
+				getResourceURI())) {
+			return new ShapeRoundedBox();
+		} else {
+			throw new NullPointerException();
+		}
+	}
 
 }

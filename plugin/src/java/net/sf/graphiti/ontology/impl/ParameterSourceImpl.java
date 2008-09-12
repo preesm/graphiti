@@ -26,24 +26,47 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.attributes;
+package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.ontology.enums.Shape;
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.enums.ParameterSource;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides a shape attribute.
+ * Implementation of ParameterSource.
  * 
- * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface ShapeAttribute extends FigureAttribute {
+public class ParameterSourceImpl extends OntologyIndividualImpl implements
+		ParameterSource {
 
-	/**
-	 * Returns the shape associated with this attribute.
-	 * 
-	 * @return The shape associated with this attribute.
-	 */
-	public Shape hasShape();
+	public ParameterSourceImpl(Individual individual) {
+		super(individual);
+	}
 
+	@Override
+	public boolean isCurrentElement() {
+		return getResourceURI().equals(
+				OntologyFactory.getIndividualParameterSourceCurrentElement());
+	}
+
+	@Override
+	public boolean isEdgeSource() {
+		return getResourceURI().equals(
+				OntologyFactory.getIndividualParameterSourceEdgeSource());
+	}
+
+	@Override
+	public boolean isEdgeTarget() {
+		return getResourceURI().equals(
+				OntologyFactory.getIndividualParameterSourceEdgeTarget());
+	}
+
+	@Override
+	public boolean isParentElement() {
+		return getResourceURI().equals(
+				OntologyFactory.getIndividualParameterSourceParentElement());
+	}
 }

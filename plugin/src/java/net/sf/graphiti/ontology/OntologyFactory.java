@@ -624,4 +624,28 @@ public class OntologyFactory {
 				.getClassVertexType());
 	}
 
+	public static Object getIndividualParameterSourceCurrentElement() {
+		return "http://net.sf.graphiti/basics.owl#CurrentElement";
+	}
+
+	public static Object getIndividualParameterSourceEdgeSource() {
+		return "http://net.sf.graphiti/basics.owl#EdgeSource";
+	}
+
+	public static Object getIndividualParameterSourceEdgeTarget() {
+		return "http://net.sf.graphiti/basics.owl#EdgeTarget";
+	}
+
+	public static Object getIndividualParameterSourceParentElement() {
+		return "http://net.sf.graphiti/basics.owl#ParentElement";
+	}
+
+	public static String getClassParameterSource() {
+		return "http://net.sf.graphiti/basics.owl#ParameterSource";
+	}
+
+	public static String getPropertyParameterValueHasParameterSource() {
+		return "http://net.sf.graphiti/basics.owl#parameterValue_hasParameterSource";
+	}
+
 }

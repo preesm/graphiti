@@ -38,7 +38,7 @@ import org.eclipse.draw2d.IFigure;
  * @author Matthieu Wipliez
  * 
  */
-public interface Shapes extends OntologyIndividual {
+public interface Shape extends OntologyIndividual {
 
 	public IFigure getShape();
 

@@ -29,6 +29,7 @@
 package net.sf.graphiti.ontology.parameterValues;
 
 import net.sf.graphiti.ontology.OntologyIndividual;
+import net.sf.graphiti.ontology.enums.ParameterSource;
 import net.sf.graphiti.ontology.parameters.Parameter;
 
 /**
@@ -43,4 +44,7 @@ public interface ParameterValue extends OntologyIndividual {
 	public String hasValue();
 
 	public Parameter ofParameter();
+	
+	public ParameterSource hasSource();
+	
 }

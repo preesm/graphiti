@@ -29,7 +29,8 @@
 package net.sf.graphiti.writer;
 
 /**
- * This class provides an empty basket exception.
+ * This class provides an empty basket exception. This exception is thrown when
+ * they are no more elements to write that satisfy ontology constraints.
  * 
  * @author Matthieu Wipliez
  * 

@@ -32,17 +32,19 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
 import org.eclipse.core.resources.IFile;
+import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSInput;
+import org.w3c.dom.ls.LSParser;
 
 /**
  * This class provides a generic graph file parser.
@@ -115,17 +117,22 @@ public class GenericGraphFileParser {
 	 */
 	public Graph parse(IFile file) throws IncompatibleConfigurationFile {
 		try {
+			// DOM LS implementation
+			DOMImplementationLS impl = (DOMImplementationLS) DOMImplementationRegistry
+					.newInstance().getDOMImplementation("LS");
+
+			// input
+			LSInput input = impl.createLSInput();
 			InputStream is = file.getContents(true);
+			input.setByteStream(is);
 
-			// When parsing, will ignore useless spaces and comments.
-			DocumentBuilderFactory builderFactory = DocumentBuilderFactory
-					.newInstance();
-			builderFactory.setIgnoringComments(true);
-			builderFactory.setIgnoringElementContentWhitespace(true);
-
-			// Creates the DOM
-			DocumentBuilder docBuilder = builderFactory.newDocumentBuilder();
-			Document document = docBuilder.parse(is);
+			// parse without comments and whitespace
+			LSParser builder = impl.createLSParser(
+					DOMImplementationLS.MODE_SYNCHRONOUS, null);
+			DOMConfiguration config = builder.getDomConfig();
+			config.setParameter("comments", false);
+			config.setParameter("element-content-whitespace", false);
+			Document document = builder.parse(input);
 
 			// Parses the DOM
 			Graph graph = parse(document, configuration);

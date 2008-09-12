@@ -38,8 +38,13 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.enums.ParameterSource;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import net.sf.graphiti.ontology.parameters.Parameter;
+import net.sf.graphiti.ontology.types.EdgeType;
+import net.sf.graphiti.ontology.types.GraphType;
+import net.sf.graphiti.ontology.types.Type;
+import net.sf.graphiti.ontology.types.VertexType;
 import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeRestriction;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
 import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
@@ -88,6 +93,53 @@ public class SchemaWriter {
 		log = Logger.getLogger(SchemaWriter.class);
 		log.setLevel(Level.ALL);
 		vertexBasket = new ArrayList<Vertex>(graph.vertexSet());
+	}
+
+	/**
+	 * Checks that the given context will satisfy the ontology element attribute
+	 * restrictions.
+	 * 
+	 * @param ontElement
+	 *            The ontology element.
+	 * @param context
+	 *            The context
+	 */
+	private void checkAttributeRestrictions(Element ontElement, Object context)
+			throws EmptyBasketException {
+		for (AttributeRestriction attr : ontElement.hasAttributeRestriction()) {
+			ParameterValue paValue = attr.hasParameterValue();
+			if (paValue != null) {
+				Parameter parameter = paValue.ofParameter();
+				ParameterSource source = paValue.hasSource();
+				if (parameter != null) {
+					String parameterName = parameter.hasName();
+					Object value = null;
+
+					if (source.isParentElement()) {
+					} else if (source.isEdgeSource()) {
+						Vertex vertex = ((Edge) context).getSource();
+						value = vertex.getValue(parameterName);
+					} else if (source.isEdgeTarget()) {
+						Vertex vertex = ((Edge) context).getTarget();
+						value = vertex.getValue(parameterName);
+					} else {
+						Type objectType = parameter.appliesTo();
+						if (objectType instanceof EdgeType) {
+							value = ((Edge) context).getValue(parameterName);
+						} else if (objectType instanceof GraphType) {
+							value = ((Graph) context).getValue(parameterName);
+						} else if (objectType instanceof VertexType) {
+							value = ((Vertex) context).getValue(parameterName);
+						}
+					}
+
+					String expectedValue = paValue.hasValue();
+					if (!expectedValue.equals(value)) {
+						throw new EmptyBasketException();
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -273,16 +325,22 @@ public class SchemaWriter {
 			context = pick(edgeBasket, ontElement);
 		}
 
+		// check that the element will satisfy attribute restrictions
+		checkAttributeRestrictions(ontElement, context);
+
+		// start the element
 		contentWriter.elementStart(ontElement, context);
 
+		// write attributes and attribute restrictions
 		writeAttributeRestrictions(ontElement, context);
 		writeAttributes(ontElement, context);
 
-		if (type == null) {
-		} else {
+		// children
+		if (type != null) {
 			writeSchemaType(type, context);
 		}
 
+		// end the element
 		contentWriter.elementEnd(ontElement, context);
 	}
 
@@ -306,21 +364,13 @@ public class SchemaWriter {
 		// min occurs
 		int i;
 		for (i = 0; i < minOccurs; i++) {
-			try {
-				writeElement(ontElement, context);
-			} catch (EmptyBasketException e) {
-				throw new EmptyBasketException();
-			}
+			writeElement(ontElement, context);
 		}
 
 		// max occurs
 		if (maxOccurs > -1) {
 			for (; i < maxOccurs; i++) {
-				try {
-					writeElement(ontElement, context);
-				} catch (EmptyBasketException e) {
-					throw new EmptyBasketException();
-				}
+				writeElement(ontElement, context);
 			}
 		} else {
 			try {

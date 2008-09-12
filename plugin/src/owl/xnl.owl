@@ -232,9 +232,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                 "http://www.w3.org/2001/XMLSchema#int"
                                                 >1</basic:schemaType_hasMaxOccurs>
                                                 <basic:element_hasAttributeRestriction>
-                                                  <basic:AttributeRestriction rdf:ID="AttributeRestrictionEntityKind">
+                                                  <basic:AttributeRestriction rdf:ID="AttributeRestrictionKindEntitySource">
                                                     <basic:attributeRestriction_hasParameterValue>
-                                                      <basic:ParameterValue rdf:ID="ParameterValueEntityKind">
+                                                      <basic:ParameterValue rdf:ID="ParameterValueEntityKindSource">
+                                                        <basic:parameterValue_hasParameterSource rdf:resource="http://net.sf.graphiti/basics.owl#EdgeSource"/>
                                                         <basic:parameterValue_hasValue
                                                          rdf:datatype=
                                                         "http://www.w3.org/2001/XMLSchema#string"
@@ -242,19 +243,35 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                         <basic:parameterValue_ofParameter>
                                                           <basic:VertexParameter rdf:ID="VertexParameterType">
                                                             <basic:parameter_hasParameterValue>
-                                                              <basic:ParameterValue rdf:ID="ParameterValueLocalKind">
+                                                              <basic:ParameterValue rdf:ID="ParameterValueLocalKindTarget">
     <basic:parameterValue_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Port</basic:parameterValue_hasValue>
+    <basic:parameterValue_hasParameterSource rdf:resource="http://net.sf.graphiti/basics.owl#EdgeTarget"/>
     <basic:parameterValue_ofParameter rdf:resource="#VertexParameterType"/>
                                                               </basic:ParameterValue>
                                                             </basic:parameter_hasParameterValue>
-                                                            <basic:parameter_hasParameterValue rdf:resource="#ParameterValueEntityKind"/>
+                                                            <basic:parameter_hasParameterValue rdf:resource="#ParameterValueEntityKindSource"/>
+                                                            <basic:parameter_hasParameterValue>
+                                                              <basic:ParameterValue rdf:ID="ParameterValueLocalKindSource">
+    <basic:parameterValue_hasParameterSource rdf:resource="http://net.sf.graphiti/basics.owl#EdgeSource"/>
+    <basic:parameterValue_ofParameter rdf:resource="#VertexParameterType"/>
+    <basic:parameterValue_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Port</basic:parameterValue_hasValue>                     </basic:ParameterValue>
+                                                            </basic:parameter_hasParameterValue>
                                                             <basic:parameter_hasParameterValue>
                                                               <basic:ParameterValue rdf:ID="ParameterValueVertexTypeInstance">
     <basic:parameterValue_ofParameter rdf:resource="#VertexParameterType"/>
     <basic:parameterValue_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Instance</basic:parameterValue_hasValue>
     <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterType"/>
+                                                              </basic:ParameterValue>
+                                                            </basic:parameter_hasParameterValue>
+                                                            <basic:parameter_hasParameterValue>
+                                                              <basic:ParameterValue rdf:ID="ParameterValueEntityKindTarget">
+    <basic:parameterValue_ofParameter rdf:resource="#VertexParameterType"/>
+    <basic:parameterValue_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Instance</basic:parameterValue_hasValue>
+    <basic:parameterValue_hasParameterSource rdf:resource="http://net.sf.graphiti/basics.owl#EdgeTarget"/>
                                                               </basic:ParameterValue>
                                                             </basic:parameter_hasParameterValue>
                                                             <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
@@ -313,14 +330,14 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                         </basic:parameterValue_ofParameter>
                                                       </basic:ParameterValue>
                                                     </basic:attributeRestriction_hasParameterValue>
-                                                    <basic:attributeRestriction_hasName
-                                                     rdf:datatype=
-                                                    "http://www.w3.org/2001/XMLSchema#string"
-                                                    >kind</basic:attributeRestriction_hasName>
                                                     <basic:attributeRestriction_hasValue
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#string"
                                                     >Entity</basic:attributeRestriction_hasValue>
+                                                    <basic:attributeRestriction_hasName
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#string"
+                                                    >kind</basic:attributeRestriction_hasName>
                                                   </basic:AttributeRestriction>
                                                 </basic:element_hasAttributeRestriction>
                                                 <basic:schemaType_hasMinOccurs
@@ -704,7 +721,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                 "http://www.w3.org/2001/XMLSchema#string"
                                                 >PortSpec</basic:element_hasName>
                                                 <basic:element_hasAttributeRestriction>
-                                                  <basic:AttributeRestriction rdf:ID="AttributeRestrictionLocalReference">
+                                                  <basic:AttributeRestriction rdf:ID="AttributeRestrictionKindLocalSource">
                                                     <basic:attributeRestriction_hasValue
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#string"
@@ -713,7 +730,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#string"
                                                     >kind</basic:attributeRestriction_hasName>
-                                                    <basic:attributeRestriction_hasParameterValue rdf:resource="#ParameterValueLocalKind"/>
+                                                    <basic:attributeRestriction_hasParameterValue rdf:resource="#ParameterValueLocalKindSource"/>
                                                   </basic:AttributeRestriction>
                                                 </basic:element_hasAttributeRestriction>
                                                 <basic:schemaType_hasMinOccurs
@@ -779,7 +796,19 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#int"
                                                     >1</basic:schemaType_hasMinOccurs>
-                                                    <basic:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionLocalReference"/>
+                                                    <basic:element_hasAttributeRestriction>
+                                                      <basic:AttributeRestriction rdf:ID="AttributeRestrictionKindLocalTarget">
+                                                        <basic:attributeRestriction_hasName
+                                                         rdf:datatype=
+                                                        "http://www.w3.org/2001/XMLSchema#string"
+                                                        >kind</basic:attributeRestriction_hasName>
+                                                        <basic:attributeRestriction_hasParameterValue rdf:resource="#ParameterValueLocalKindTarget"/>
+                                                        <basic:attributeRestriction_hasValue
+                                                         rdf:datatype=
+                                                        "http://www.w3.org/2001/XMLSchema#string"
+                                                        >Local</basic:attributeRestriction_hasValue>
+                                                      </basic:AttributeRestriction>
+                                                    </basic:element_hasAttributeRestriction>
                                                     <basic:schemaType_hasMaxOccurs
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#int"
@@ -852,7 +881,19 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#int"
                                                     >1</basic:schemaType_hasMinOccurs>
-                                                    <basic:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionEntityKind"/>
+                                                    <basic:element_hasAttributeRestriction>
+                                                      <basic:AttributeRestriction rdf:ID="AttributeRestrictionKindEntityTarget">
+                                                        <basic:attributeRestriction_hasValue
+                                                         rdf:datatype=
+                                                        "http://www.w3.org/2001/XMLSchema#string"
+                                                        >Entity</basic:attributeRestriction_hasValue>
+                                                        <basic:attributeRestriction_hasParameterValue rdf:resource="#ParameterValueEntityKindTarget"/>
+                                                        <basic:attributeRestriction_hasName
+                                                         rdf:datatype=
+                                                        "http://www.w3.org/2001/XMLSchema#string"
+                                                        >kind</basic:attributeRestriction_hasName>
+                                                      </basic:AttributeRestriction>
+                                                    </basic:element_hasAttributeRestriction>
                                                     <basic:element_hasName
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#string"

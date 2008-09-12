@@ -43,7 +43,7 @@ import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.attributes.ColorAttribute;
 import net.sf.graphiti.ontology.attributes.FigureAttribute;
 import net.sf.graphiti.ontology.attributes.ShapeAttribute;
-import net.sf.graphiti.ontology.enums.Shapes;
+import net.sf.graphiti.ontology.enums.Shape;
 import net.sf.graphiti.ontology.parameters.EdgeParameter;
 import net.sf.graphiti.ontology.parameters.GraphParameter;
 import net.sf.graphiti.ontology.parameters.Parameter;
@@ -175,7 +175,7 @@ public class ConfigurationLoader {
 						Vertex.ATTRIBUTE_COLOR, color);
 			} else if (attribute.hasOntClass(OntologyFactory
 					.getClassShapeAttribute())) {
-				Shapes shape = ((ShapeAttribute) attribute).hasShape();
+				Shape shape = ((ShapeAttribute) attribute).hasShape();
 				config.setVertexAttribute(vertexTypeName,
 						Vertex.ATTRIBUTE_SHAPE, shape);
 			}

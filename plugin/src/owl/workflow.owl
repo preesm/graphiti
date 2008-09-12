@@ -41,7 +41,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 <basic:parameter_appliesTo>
                   <basic:GraphType rdf:ID="GraphTypeWorkflow">
                     <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                    >Workflow</basic:type_hasName>
+                    >Preesm Workflow</basic:type_hasName>
                     <basic:type_hasParameters rdf:resource="#GraphParameterType"/>
                   </basic:GraphType>
                 </basic:parameter_appliesTo>

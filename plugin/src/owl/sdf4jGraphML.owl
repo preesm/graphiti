@@ -313,17 +313,17 @@
                                                             <basic:element_hasSchemaType>
                                                               <basic:Element rdf:ID="ElementVertexDataArgument">
     <basic:element_hasAttributes>
-      <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentValue">
-        <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
-        <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >value</basic:attribute_hasName>
-      </basic:OtherAttribute>
-    </basic:element_hasAttributes>
-    <basic:element_hasAttributes>
       <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentName">
         <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >name</basic:attribute_hasName>
         <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
+      </basic:OtherAttribute>
+    </basic:element_hasAttributes>
+    <basic:element_hasAttributes>
+      <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentValue">
+        <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
+        <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >value</basic:attribute_hasName>
       </basic:OtherAttribute>
     </basic:element_hasAttributes>
     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -592,7 +592,7 @@
                                                 <basic:type_hasName
                                                  rdf:datatype=
                                                 "http://www.w3.org/2001/XMLSchema#string"
-                                                >graph</basic:type_hasName>
+                                                >SDF graph (sdf4j GraphML)</basic:type_hasName>
                                                 <basic:type_hasParameters rdf:resource="#GraphParameterVariables"/>
                                                 <basic:type_hasParameters>
                                                   <basic:GraphParameter rdf:ID="GraphParameterArguments">

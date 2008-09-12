@@ -30,7 +30,7 @@ package net.sf.graphiti.ui.figure;
 
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ontology.enums.Shapes;
+import net.sf.graphiti.ontology.enums.Shape;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 
 import org.eclipse.draw2d.ColorConstants;
@@ -84,7 +84,7 @@ public class VertexFigure extends Figure {
 
 		// Get shape
 		if (config.getVertexAttribute(vertexType, Vertex.ATTRIBUTE_SHAPE) != null) {
-			shape = ((Shapes) config.getVertexAttribute(vertexType,
+			shape = ((Shape) config.getVertexAttribute(vertexType,
 					Vertex.ATTRIBUTE_SHAPE)).getShape();
 			((IShape) shape).setColor(color);
 		}

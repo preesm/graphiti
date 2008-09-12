@@ -29,6 +29,7 @@
 package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.enums.ParameterSource;
 import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import net.sf.graphiti.ontology.parameters.Parameter;
 
@@ -55,5 +56,11 @@ public class ParameterValueImpl extends OntologyIndividualImpl implements
 	public Parameter ofParameter() {
 		return (Parameter) getIndividualProperty(OntologyFactory
 				.getPropertyParameterValueOfParameter());
+	}
+
+	@Override
+	public ParameterSource hasSource() {
+		return (ParameterSource) getIndividualProperty(OntologyFactory
+				.getPropertyParameterValueHasParameterSource());
 	}
 }

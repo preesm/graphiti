@@ -30,7 +30,7 @@ package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.attributes.ShapeAttribute;
-import net.sf.graphiti.ontology.enums.Shapes;
+import net.sf.graphiti.ontology.enums.Shape;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -48,8 +48,8 @@ public class ShapeAttributeImpl extends FigureAttributeImpl implements
 	}
 
 	@Override
-	public Shapes hasShape() {
-		return (Shapes) getIndividualProperty(OntologyFactory
+	public Shape hasShape() {
+		return (Shape) getIndividualProperty(OntologyFactory
 				.getPropertyShapeAttributeHasShape());
 	}
 
