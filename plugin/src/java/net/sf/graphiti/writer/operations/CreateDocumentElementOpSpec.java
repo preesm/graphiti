@@ -52,8 +52,8 @@ public class CreateDocumentElementOpSpec implements IOperationSpecification {
 		// create the document
 		try {
 			DOMImplementation impl = DOMImplementationRegistry.newInstance()
-					.getDOMImplementation("");
-			if (namespace == null || namespace.isEmpty()) {
+					.getDOMImplementation("Core 3.0 XML 3.0 LS");
+			if (namespace.isEmpty()) {
 				namespace = "http://namespace.org";
 			}
 			Document domDocument = impl.createDocument(namespace, elementName,

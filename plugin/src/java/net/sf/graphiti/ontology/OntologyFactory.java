@@ -560,8 +560,27 @@ public class OntologyFactory {
 	 */
 	public String getNamespace() {
 		Ontology ont = model.getOntology(modelURI);
+		return getNamespace(ont);
+	}
+
+	/**
+	 * Returns the namespace declared by this ontology (or its parents', or
+	 * their parents, etc.).
+	 * 
+	 * @param ont
+	 *            The {@link Ontology}.
+	 * @return A String.
+	 */
+	private String getNamespace(Ontology ont) {
 		OntologyElement ontElement = new OntologyElementImpl(ont);
-		return ontElement.getNamespace();
+		String namespace = ontElement.getNamespace();
+		ExtendedIterator it = ont.listImports();
+		while (it.hasNext() && namespace.isEmpty()) {
+			Ontology ontParent = ((OntResource) it.next()).asOntology();
+			namespace = getNamespace(ontParent);
+		}
+
+		return namespace;
 	}
 
 	/**

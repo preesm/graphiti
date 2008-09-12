@@ -30,17 +30,15 @@ package net.sf.graphiti.writer;
 
 import java.io.OutputStream;
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.ontology.OntologyFactory;
 
+import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSOutput;
+import org.w3c.dom.ls.LSSerializer;
 
 /**
  * This class provides a generic graph file writer.
@@ -77,21 +75,15 @@ public class GenericGraphFileWriter {
 			SchemaWriter writer = new SchemaWriter(graph);
 			Document domDocument = writer.write(factory.getDocumentElement());
 
-			// Set up the output transformer
-			TransformerFactory transfac = TransformerFactory.newInstance();
-			Transformer trans = transfac.newTransformer();
-
-			trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-			trans.setOutputProperty(OutputKeys.INDENT, "yes");
-			trans.setOutputProperty(OutputKeys.METHOD, "xml");
-			trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-			trans.setOutputProperty(
-					"{http://xml.apache.org/xslt}indent-amount", "4");
-
-			// Print the DOM node
-			StreamResult result = new StreamResult(out);
-			DOMSource source = new DOMSource(domDocument);
-			trans.transform(source, result);
+			// Gets the DOM implementation of document
+			DOMImplementation impl = domDocument.getImplementation();
+			DOMImplementationLS implLS = (DOMImplementationLS) impl;
+			
+			LSOutput output = implLS.createLSOutput();
+			output.setByteStream(out);
+			
+			LSSerializer serializer = implLS.createLSSerializer();
+			serializer.write(domDocument, output);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
