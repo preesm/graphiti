@@ -30,7 +30,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
       <basic:Element rdf:ID="DocumentElementGraphML">
         <basic:element_hasAttributeRestriction>
           <basic:AttributeRestriction rdf:ID="AttributeRestrictionXmlns">
-            <basic:attributeRestriction_ofElement rdf:resource="#DocumentElementGraphML"/>
             <basic:attributeRestriction_hasName rdf:datatype=
             "http://www.w3.org/2001/XMLSchema#string">xmlns</basic:attributeRestriction_hasName>
             <basic:attributeRestriction_hasValue rdf:datatype=

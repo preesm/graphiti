@@ -59,7 +59,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             "http://www.w3.org/2001/XMLSchema#string">xmlns:preesm</basic:attributeRestriction_hasName>
             <basic:attributeRestriction_hasValue rdf:datatype=
             "http://www.w3.org/2001/XMLSchema#string">http://ietr-image.insa-rennes.fr/projects/Preesm</basic:attributeRestriction_hasValue>
-            <basic:attributeRestriction_ofElement rdf:resource="#GraphElementWorkflow"/>
           </basic:AttributeRestriction>
         </basic:element_hasAttributeRestriction>
         <basic:element_hasSchemaType>

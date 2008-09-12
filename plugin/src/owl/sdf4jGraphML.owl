@@ -26,7 +26,7 @@
                 <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                 >0</basic:schemaType_hasMinOccurs>
                 <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                >-1</basic:schemaType_hasMaxOccurs>
+                >0</basic:schemaType_hasMaxOccurs>
                 <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >key</basic:element_hasName>
               </basic:Element>
@@ -59,7 +59,6 @@
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#string"
                                                     >edge_prod</basic:attributeRestriction_hasValue>
-                                                    <basic:attributeRestriction_ofElement rdf:resource="#TextContentElementDataEdgeProd"/>
                                                     <basic:attributeRestriction_hasName
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#string"
@@ -164,7 +163,6 @@
                                                       <basic:TextContentElement rdf:ID="TextContentElementDataEdgeCons">
                                                         <basic:element_hasAttributeRestriction>
                                                           <basic:AttributeRestriction rdf:ID="AttributeRestrictionEdgeDataKeyEdgeCons">
-                                                            <basic:attributeRestriction_ofElement rdf:resource="#TextContentElementDataEdgeCons"/>
                                                             <basic:attributeRestriction_hasValue
                                                              rdf:datatype=
                                                             "http://www.w3.org/2001/XMLSchema#string"
@@ -205,7 +203,6 @@
                                                          rdf:datatype=
                                                         "http://www.w3.org/2001/XMLSchema#string"
                                                         >edge_delay</basic:attributeRestriction_hasValue>
-                                                        <basic:attributeRestriction_ofElement rdf:resource="#TextContentElementDataEdgeDelay"/>
                                                         <basic:attributeRestriction_hasName
                                                          rdf:datatype=
                                                         "http://www.w3.org/2001/XMLSchema#string"
@@ -348,7 +345,6 @@
                                                               <basic:AttributeRestriction rdf:ID="AttributeRestrictionVertexDataKeyArguments">
     <basic:attributeRestriction_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >arguments</basic:attributeRestriction_hasValue>
-    <basic:attributeRestriction_ofElement rdf:resource="#ElementVertexDataArguments"/>
     <basic:attributeRestriction_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >key</basic:attributeRestriction_hasName>                 </basic:AttributeRestriction>
                                                             </basic:element_hasAttributeRestriction>
@@ -376,7 +372,6 @@
                                                         >data</basic:element_hasName>
                                                         <basic:element_hasAttributeRestriction>
                                                           <basic:AttributeRestriction rdf:ID="AttributeRestrictionDataKeyGraphDesc">
-                                                            <basic:attributeRestriction_ofElement rdf:resource="#TextContentElementVertexRefinement"/>
                                                             <basic:attributeRestriction_hasName
                                                              rdf:datatype=
                                                             "http://www.w3.org/2001/XMLSchema#string"
@@ -423,7 +418,6 @@
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#string"
                                                     >vertex</basic:attributeRestriction_hasValue>
-                                                    <basic:attributeRestriction_ofElement rdf:resource="#VertexElementVertex"/>
                                                   </basic:AttributeRestriction>
                                                 </basic:element_hasAttributeRestriction>
                                                 <basic:schemaType_hasMaxOccurs
@@ -488,7 +482,6 @@
                                                 </basic:element_hasParameterValue>
                                                 <basic:element_hasAttributeRestriction>
                                                   <basic:AttributeRestriction rdf:ID="AttributeRestrictionNodeKindPort">
-                                                    <basic:attributeRestriction_ofElement rdf:resource="#VertexElementPort"/>
                                                     <basic:attributeRestriction_hasName
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#string"
@@ -664,7 +657,6 @@
                                 </basic:element_hasSchemaType>
                                 <basic:element_hasAttributeRestriction>
                                   <basic:AttributeRestriction rdf:ID="AttributeRestrictionKeyVariables">
-                                    <basic:attributeRestriction_ofElement rdf:resource="#ElementGraphDataVariables"/>
                                     <basic:attributeRestriction_hasName
                                      rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                                     >key</basic:attributeRestriction_hasName>
@@ -711,7 +703,6 @@
                             >data</basic:element_hasName>
                             <basic:element_hasAttributeRestriction>
                               <basic:AttributeRestriction rdf:ID="AttributeRestrictionKeyParameters">
-                                <basic:attributeRestriction_ofElement rdf:resource="#ElementGraphDataParameters"/>
                                 <basic:attributeRestriction_hasValue
                                  rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                                 >parameters</basic:attributeRestriction_hasValue>
@@ -740,7 +731,6 @@
                         <basic:attributeRestriction_hasValue rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#string"
                         >directed</basic:attributeRestriction_hasValue>
-                        <basic:attributeRestriction_ofElement rdf:resource="#GraphElement"/>
                         <basic:attributeRestriction_hasName rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#string"
                         >edgedefault</basic:attributeRestriction_hasName>
@@ -757,11 +747,7 @@
             >1</basic:schemaType_hasMaxOccurs>
           </basic:Sequence>
         </basic:element_hasSchemaType>
-        <basic:element_hasAttributeRestriction>
-          <rdf:Description rdf:about="http://net.sf.graphiti/GraphML.owl#AttributeRestrictionXmlns">
-            <basic:attributeRestriction_ofElement rdf:resource="#DocumentElement"/>
-          </rdf:Description>
-        </basic:element_hasAttributeRestriction>
+        <basic:element_hasAttributeRestriction rdf:resource="http://net.sf.graphiti/GraphML.owl#AttributeRestrictionXmlns"/>
         <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >1</basic:schemaType_hasMinOccurs>
         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"

@@ -35,7 +35,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             "http://www.w3.org/2001/XMLSchema#string">xmlns:spirit</basic:attributeRestriction_hasName>
             <basic:attributeRestriction_hasValue rdf:datatype=
             "http://www.w3.org/2001/XMLSchema#string">http://www.spiritconsortium.org/XMLSchema/SPIRIT/1.2</basic:attributeRestriction_hasValue>
-            <basic:attributeRestriction_ofElement rdf:resource="#DocumentElementDesign"/>
           </basic:AttributeRestriction>
         </basic:element_hasAttributeRestriction>
         <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
