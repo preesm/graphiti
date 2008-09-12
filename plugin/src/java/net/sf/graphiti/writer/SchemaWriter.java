@@ -76,15 +76,13 @@ public class SchemaWriter {
 	private List<Vertex> vertexBasket;
 
 	/**
-	 * Creates a new schema writer for the given configuration and DOM document.
+	 * Creates a new schema writer for the given configuration.
 	 * 
 	 * @param configuration
 	 *            The configuration to use.
-	 * @param document
-	 *            The DOM document to fill in.
 	 */
-	public SchemaWriter(Graph graph, Document document) {
-		contentWriter = new ContentWriter(graph, document);
+	public SchemaWriter(Graph graph) {
+		contentWriter = new ContentWriter();
 		edgeBasket = new ArrayList<Edge>(graph.edgeSet());
 		this.graph = graph;
 		log = Logger.getLogger(SchemaWriter.class);
@@ -133,10 +131,9 @@ public class SchemaWriter {
 	 * 
 	 * @param ontDocElement
 	 *            The ontology document element.
-	 * @param graph
-	 *            The graph to write.
+	 * @return The DOM document created.
 	 */
-	public void write(XMLSchemaType ontDocElement) {
+	public Document write(XMLSchemaType ontDocElement) {
 		try {
 			if (ontDocElement
 					.hasOntClass(OntologyFactory.getClassComplexType())) {
@@ -148,7 +145,7 @@ public class SchemaWriter {
 			e.printStackTrace();
 		}
 
-		contentWriter.commit();
+		return contentWriter.commit();
 	}
 
 	private void writeAttributeRestrictions(Element ontElement, Object context) {

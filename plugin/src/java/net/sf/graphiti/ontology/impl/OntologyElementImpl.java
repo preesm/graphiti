@@ -62,6 +62,12 @@ public class OntologyElementImpl extends OntologyBaseImpl implements
 	}
 
 	@Override
+	public String getNamespace() {
+		return (String) getStringProperty(OntologyFactory
+				.getAnnotationPropertyHasNamespace());
+	}
+
+	@Override
 	public Set<String> getRefinementFileExtensions() {
 		return listStrings(OntologyFactory
 				.getAnnotationPropertyRefinementHasFileExtension());

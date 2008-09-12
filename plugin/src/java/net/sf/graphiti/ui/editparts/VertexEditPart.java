@@ -175,7 +175,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	protected IFigure createFigure() {
 		Vertex vertex = (Vertex) getModel();
-		Configuration config = vertex.getDocumentConfiguration();
+		Configuration config = vertex.getConfiguration();
 
 		VertexFigure figure = new VertexFigure(config, vertex.getType());
 		String name = (String) vertex.getValue("name");

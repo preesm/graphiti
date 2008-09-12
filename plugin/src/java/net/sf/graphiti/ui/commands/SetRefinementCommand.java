@@ -178,7 +178,7 @@ public class SetRefinementCommand extends AbstractRefinementCommand {
 
 		// get all possible candidates
 		List<IFile> files = new ArrayList<IFile>();
-		String[] fileExts = vertex.getDocumentConfiguration()
+		String[] fileExts = vertex.getConfiguration()
 				.getRefinementFileExtensions();
 		for (String fileExt : fileExts) {
 			IResource resource = workspace.getRoot().findMember(

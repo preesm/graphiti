@@ -28,14 +28,6 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</rdfs:comment>
     <basic:hasDocumentElement>
       <basic:Element rdf:ID="DocumentElementGraphML">
-        <basic:element_hasAttributeRestriction>
-          <basic:AttributeRestriction rdf:ID="AttributeRestrictionXmlns">
-            <basic:attributeRestriction_hasName rdf:datatype=
-            "http://www.w3.org/2001/XMLSchema#string">xmlns</basic:attributeRestriction_hasName>
-            <basic:attributeRestriction_hasValue rdf:datatype=
-            "http://www.w3.org/2001/XMLSchema#string">http://graphml.graphdrawing.org/xmlns/1.0rc</basic:attributeRestriction_hasValue>
-          </basic:AttributeRestriction>
-        </basic:element_hasAttributeRestriction>
         <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >1</basic:schemaType_hasMaxOccurs>
         <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
@@ -317,9 +309,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
       </basic:Element>
     </basic:hasDocumentElement>
     <basic:hasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >xml</basic:hasFileExtension>
-    <basic:hasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >graphml</basic:hasFileExtension>
+    <basic:hasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >xml</basic:hasFileExtension>
+    <basic:hasNamespace rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >http://graphml.graphdrawing.org/xmlns/1.0rc</basic:hasNamespace>
   </owl:Ontology>
 </rdf:RDF>
 

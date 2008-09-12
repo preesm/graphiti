@@ -56,6 +56,13 @@ public interface OntologyElement {
 	public Set<String> getFileExtensions();
 
 	/**
+	 * Returns the namespace of this document.
+	 * 
+	 * @return The namespace of this document.
+	 */
+	public String getNamespace();
+
+	/**
 	 * Returns the file extensions that a vertex refinement may be associated
 	 * with.
 	 * 

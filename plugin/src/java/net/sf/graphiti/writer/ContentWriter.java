@@ -52,6 +52,7 @@ import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.TextCont
 import net.sf.graphiti.transactions.Operation;
 import net.sf.graphiti.transactions.Result;
 import net.sf.graphiti.transactions.SimpleTransaction;
+import net.sf.graphiti.writer.operations.CreateDocumentElementOpSpec;
 import net.sf.graphiti.writer.operations.CreateElementOpSpec;
 import net.sf.graphiti.writer.operations.SetAttributeOpSpec;
 import net.sf.graphiti.writer.operations.SetTextContentOpSpec;
@@ -96,7 +97,7 @@ public class ContentWriter {
 
 	}
 
-	private Document document;
+	private Result documentElement;
 
 	private Object lastKey;
 
@@ -112,12 +113,9 @@ public class ContentWriter {
 	private SimpleTransaction transaction;
 
 	/**
-	 * Creates a new {@link ContentWriter} with the given {@link Configuration}.
-	 * 
-	 * @param configuration
+	 * Creates a new {@link ContentWriter}.
 	 */
-	public ContentWriter(Graph graph, Document document) {
-		this.document = document;
+	public ContentWriter() {
 		parametersBasket = new HashMap<Object, Object>();
 		resultStack = new Stack<Result>();
 		transaction = new SimpleTransaction();
@@ -125,9 +123,14 @@ public class ContentWriter {
 
 	/**
 	 * Commit the underlying transaction.
+	 * 
+	 * @return The DOM documentElement created.
 	 */
-	public void commit() {
+	public Document commit() {
 		transaction.commit();
+		Object contents = documentElement.getContents();
+		org.w3c.dom.Element element = (org.w3c.dom.Element) contents;
+		return element.getOwnerDocument();
 	}
 
 	/**
@@ -156,20 +159,22 @@ public class ContentWriter {
 	 */
 	public void elementStart(Element ontElement, Object context) {
 		// create the operation to create an element
-		Operation createElement = new Operation(new CreateElementOpSpec());
 		String elementName = ontElement.hasName();
+		Operation op;
 		if (resultStack.isEmpty()) {
-			createElement.setOperands(document, elementName);
+			op = new Operation(new CreateDocumentElementOpSpec());
+			Configuration configuration = ((Graph) context).getConfiguration();
+			String ns = configuration.getOntologyFactory().getNamespace();
+			op.setOperands(ns, elementName);
+			documentElement = op.getResult();
 		} else {
-			createElement.setOperands(resultStack.peek(), elementName);
+			op = new Operation(new CreateElementOpSpec());
+			op.setOperands(resultStack.peek(), elementName);
 		}
 
-		// add to transaction
-		transaction.addOperation(createElement);
-
-		// add the result to the stack
-		Result result = createElement.getResult();
-		resultStack.push(result);
+		// add the operation to transaction, the result to the stack
+		transaction.addOperation(op);
+		resultStack.push(op.getResult());
 	}
 
 	/**

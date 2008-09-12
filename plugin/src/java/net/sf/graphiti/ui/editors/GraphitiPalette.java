@@ -80,7 +80,7 @@ public class GraphitiPalette {
 					.getImage("icons/dependency.gif"));
 			PaletteDrawer depDrawer = new PaletteDrawer("Connections");
 
-			Configuration config = graph.getDocumentConfiguration();
+			Configuration config = graph.getConfiguration();
 			OntologyFactory factory = config.getOntologyFactory();
 			Set<EdgeType> edgeTypes = factory.getEdgeTypes();
 			for (EdgeType type : edgeTypes) {
@@ -109,7 +109,7 @@ public class GraphitiPalette {
 	 */
 	private static void addVertexTypes(Graph graph, PaletteGroup paletteGroup) {
 		if (graph != null) {
-			Configuration config = graph.getDocumentConfiguration();
+			Configuration config = graph.getConfiguration();
 			OntologyFactory factory = config.getOntologyFactory();
 			Set<VertexType> vertexTypes = factory.getVertexTypes();
 			for (VertexType type : vertexTypes) {

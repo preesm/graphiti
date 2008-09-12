@@ -64,7 +64,7 @@ public class CreateCommand extends Command {
 				Vertex vertex = (Vertex) newObject;
 				graph.addVertex(vertex);
 
-				Configuration config = graph.getDocumentConfiguration();
+				Configuration config = graph.getConfiguration();
 				Integer width = (Integer) config.getVertexAttribute(vertex
 						.getType(), Vertex.ATTRIBUTE_WIDTH);
 				Integer height = (Integer) config.getVertexAttribute(vertex

@@ -90,6 +90,10 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#hasFileExtension";
 	}
 
+	public static String getAnnotationPropertyHasNamespace() {
+		return "http://net.sf.graphiti/basics.owl#hasNamespace";
+	}
+
 	public static String getAnnotationPropertyRefinementHasFileExtension() {
 		return "http://net.sf.graphiti/basics.owl#refinementHasFileExtension";
 	}
@@ -547,6 +551,17 @@ public class OntologyFactory {
 	 */
 	public String getModelURI() {
 		return modelURI;
+	}
+
+	/**
+	 * Returns the namespace of the document described by this ontology.
+	 * 
+	 * @return The namespace of the document described by this ontology.
+	 */
+	public String getNamespace() {
+		Ontology ont = model.getOntology(modelURI);
+		OntologyElement ontElement = new OntologyElementImpl(ont);
+		return ontElement.getNamespace();
 	}
 
 	/**

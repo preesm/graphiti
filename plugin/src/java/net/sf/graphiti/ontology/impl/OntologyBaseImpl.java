@@ -31,6 +31,7 @@ package net.sf.graphiti.ontology.impl;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -44,7 +45,6 @@ import com.hp.hpl.jena.ontology.OntResource;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.NodeIterator;
 import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 
 /**
  * This class provides several methods to retrieve property values and also
@@ -205,7 +205,7 @@ public abstract class OntologyBaseImpl {
 	 *            An ExtendedIterator to a list of individuals.
 	 * @return A set of objects.
 	 */
-	protected Set<?> convertIndividuals(ExtendedIterator it) {
+	protected Set<?> convertIndividuals(Iterator<?> it) {
 		Set<Object> set = new TreeSet<Object>();
 		while (it.hasNext()) {
 			RDFNode node = (RDFNode) it.next();

@@ -31,8 +31,7 @@ package net.sf.graphiti.model;
 import java.util.List;
 
 /**
- * This class represents a vertex. parameter or graph parameter in the vertex
- * constructors?
+ * This class represents a vertex.
  * 
  * @author Matthieu Wipliez
  * 
@@ -139,17 +138,17 @@ public class Vertex extends PropertyBean {
 	 * @return The value of the attribute as an object.
 	 */
 	public Object getAttribute(String attributeName) {
-		Configuration config = parent.getDocumentConfiguration();
+		Configuration config = parent.getConfiguration();
 		return config.getVertexAttribute(getType(), attributeName);
 	}
 
 	/**
-	 * Returns the document configuration associated with this Vertex.
+	 * Returns the configuration associated with this Vertex.
 	 * 
-	 * @return The document configuration associated with this Vertex.
+	 * @return The configuration associated with this Vertex.
 	 */
-	public Configuration getDocumentConfiguration() {
-		return parent.getDocumentConfiguration();
+	public Configuration getConfiguration() {
+		return parent.getConfiguration();
 	}
 
 	/**
@@ -160,7 +159,7 @@ public class Vertex extends PropertyBean {
 	 * @return A {@link Parameter}.
 	 */
 	public Parameter getParameter(String parameterName) {
-		Configuration config = parent.getDocumentConfiguration();
+		Configuration config = parent.getConfiguration();
 		return config.getVertexParameter(getType(), parameterName);
 	}
 
@@ -170,7 +169,7 @@ public class Vertex extends PropertyBean {
 	 * @return A List of Parameters.
 	 */
 	public List<Parameter> getParameters() {
-		Configuration config = parent.getDocumentConfiguration();
+		Configuration config = parent.getConfiguration();
 		return config.getVertexParameters(getType());
 	}
 

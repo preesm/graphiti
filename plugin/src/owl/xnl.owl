@@ -15,9 +15,9 @@
   xml:base="http://net.sf.graphiti/xnl.owl">
   <owl:Ontology rdf:about="">
     <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >xnl</basic:refinementHasFileExtension>
-    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >cal</basic:refinementHasFileExtension>
+    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >xnl</basic:refinementHasFileExtension>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Copyright (c) 2008, IETR/INSA of Rennes
 All rights reserved.
@@ -166,16 +166,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                  rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                 >1</basic:schemaType_hasMaxOccurs>
                                 <basic:element_hasAttributeRestriction>
-                                  <basic:AttributeRestriction rdf:ID="AttributeRestrictionExprKindLiteral">
-                                    <basic:attributeRestriction_hasName
-                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                                    >kind</basic:attributeRestriction_hasName>
-                                    <basic:attributeRestriction_hasValue
-                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                                    >Literal</basic:attributeRestriction_hasValue>
-                                  </basic:AttributeRestriction>
-                                </basic:element_hasAttributeRestriction>
-                                <basic:element_hasAttributeRestriction>
                                   <basic:AttributeRestriction rdf:ID="AttributeRestrictionExprLiteralKindInteger">
                                     <basic:attributeRestriction_hasValue
                                      rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -183,6 +173,16 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                     <basic:attributeRestriction_hasName
                                      rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                                     >literal-kind</basic:attributeRestriction_hasName>
+                                  </basic:AttributeRestriction>
+                                </basic:element_hasAttributeRestriction>
+                                <basic:element_hasAttributeRestriction>
+                                  <basic:AttributeRestriction rdf:ID="AttributeRestrictionExprKindLiteral">
+                                    <basic:attributeRestriction_hasName
+                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                    >kind</basic:attributeRestriction_hasName>
+                                    <basic:attributeRestriction_hasValue
+                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                                    >Literal</basic:attributeRestriction_hasValue>
                                   </basic:AttributeRestriction>
                                 </basic:element_hasAttributeRestriction>
                                 <basic:element_hasName rdf:datatype=
@@ -380,6 +380,35 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                 >1</basic:schemaType_hasMinOccurs>
                 <basic:choice_hasElements>
+                  <basic:Element rdf:ID="ElementEntityExprArgExprString">
+                    <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+                    >Expr</basic:element_hasName>
+                    <basic:schemaType_hasMaxOccurs rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMaxOccurs>
+                    <basic:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprKindLiteral"/>
+                    <basic:element_hasAttributeRestriction>
+                      <basic:AttributeRestriction rdf:ID="AttributeRestrictionExprLiteralKindString">
+                        <basic:attributeRestriction_hasName rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >literal-kind</basic:attributeRestriction_hasName>
+                        <basic:attributeRestriction_hasValue rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >String</basic:attributeRestriction_hasValue>
+                      </basic:AttributeRestriction>
+                    </basic:element_hasAttributeRestriction>
+                    <basic:schemaType_hasMinOccurs rdf:datatype=
+                    "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMinOccurs>
+                    <basic:element_hasAttributes>
+                      <basic:OtherAttribute rdf:ID="OtherAttributeEntityExprArgExprValue">
+                        <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterArguments"/>
+                        <basic:attribute_hasName rdf:datatype=
+                        "http://www.w3.org/2001/XMLSchema#string"
+                        >value</basic:attribute_hasName>
+                      </basic:OtherAttribute>
+                    </basic:element_hasAttributes>
+                  </basic:Element>
+                </basic:choice_hasElements>
+                <basic:choice_hasElements>
                   <basic:Element rdf:ID="ElementEntityExprArgExprVar">
                     <basic:element_hasAttributeRestriction>
                       <basic:AttributeRestriction rdf:ID="AttributeRestrictionExprKindVar">
@@ -408,35 +437,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                   </basic:Element>
                 </basic:choice_hasElements>
                 <basic:choice_hasElements>
-                  <basic:Element rdf:ID="ElementEntityExprArgExprString">
-                    <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                    >Expr</basic:element_hasName>
-                    <basic:schemaType_hasMaxOccurs rdf:datatype=
-                    "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMaxOccurs>
-                    <basic:element_hasAttributeRestriction>
-                      <basic:AttributeRestriction rdf:ID="AttributeRestrictionExprLiteralKindString">
-                        <basic:attributeRestriction_hasName rdf:datatype=
-                        "http://www.w3.org/2001/XMLSchema#string"
-                        >literal-kind</basic:attributeRestriction_hasName>
-                        <basic:attributeRestriction_hasValue rdf:datatype=
-                        "http://www.w3.org/2001/XMLSchema#string"
-                        >String</basic:attributeRestriction_hasValue>
-                      </basic:AttributeRestriction>
-                    </basic:element_hasAttributeRestriction>
-                    <basic:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprKindLiteral"/>
-                    <basic:schemaType_hasMinOccurs rdf:datatype=
-                    "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMinOccurs>
-                    <basic:element_hasAttributes>
-                      <basic:OtherAttribute rdf:ID="OtherAttributeEntityExprArgExprValue">
-                        <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterArguments"/>
-                        <basic:attribute_hasName rdf:datatype=
-                        "http://www.w3.org/2001/XMLSchema#string"
-                        >value</basic:attribute_hasName>
-                      </basic:OtherAttribute>
-                    </basic:element_hasAttributes>
-                  </basic:Element>
-                </basic:choice_hasElements>
-                <basic:choice_hasElements>
                   <basic:Element rdf:ID="ElementEntityExprArgExprInteger">
                     <basic:element_hasAttributes rdf:resource="#OtherAttributeEntityExprArgExprValue"/>
                     <basic:schemaType_hasMaxOccurs rdf:datatype=
@@ -445,12 +445,13 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     >Expr</basic:element_hasName>
                     <basic:schemaType_hasMinOccurs rdf:datatype=
                     "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMinOccurs>
-                    <basic:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprLiteralKindInteger"/>
                     <basic:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprKindLiteral"/>
+                    <basic:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprLiteralKindInteger"/>
                   </basic:Element>
                 </basic:choice_hasElements>
                 <basic:choice_hasElements>
                   <basic:Element rdf:ID="ElementEntityExprArgExprBoolean">
+                    <basic:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprKindLiteral"/>
                     <basic:element_hasAttributeRestriction>
                       <basic:AttributeRestriction rdf:ID="AttributeRestrictionExprLiteralKindBoolean">
                         <basic:attributeRestriction_hasValue rdf:datatype=
@@ -461,7 +462,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                         >literal-kind</basic:attributeRestriction_hasName>
                       </basic:AttributeRestriction>
                     </basic:element_hasAttributeRestriction>
-                    <basic:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprKindLiteral"/>
                     <basic:element_hasAttributes rdf:resource="#OtherAttributeEntityExprArgExprValue"/>
                     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                     >Expr</basic:element_hasName>

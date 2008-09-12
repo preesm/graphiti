@@ -28,8 +28,10 @@
  */
 package net.sf.graphiti.ontology.impl;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
@@ -67,7 +69,15 @@ public class OntologyModelImpl extends OntologyBaseImpl {
 	public Set<?> listIndividuals(String clasz) {
 		OntClass individuals = model.getOntClass(clasz);
 		ExtendedIterator it = model.listIndividuals(individuals);
-		return convertIndividuals(it);
+		Set<Individual> individualsSet = new HashSet<Individual>();
+		while (it.hasNext()) {
+			Individual ind = (Individual) it.next();
+			if (model.isInBaseModel(ind)) {
+				individualsSet.add(ind);
+			}
+		}
+
+		return convertIndividuals(individualsSet.iterator());
 	}
 
 }

@@ -168,11 +168,11 @@ public class Graph extends PropertyBean {
 	}
 
 	/**
-	 * Returns the document configuration associated with this Graph.
+	 * Returns the configuration associated with this Graph.
 	 * 
-	 * @return The document configuration associated with this Graph.
+	 * @return The configuration associated with this Graph.
 	 */
-	public Configuration getDocumentConfiguration() {
+	public Configuration getConfiguration() {
 		return configuration;
 	}
 

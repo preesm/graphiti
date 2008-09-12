@@ -26,50 +26,59 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.transactions;
+package net.sf.graphiti.writer.operations;
+
+import net.sf.graphiti.transactions.IOperationSpecification;
+import net.sf.graphiti.transactions.Result;
+
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
 /**
- * This class provides a result for an operation.
+ * Creates a document element. Operands: document namespace, element name.
+ * Returns the document element created.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class Result {
+public class CreateDocumentElementOpSpec implements IOperationSpecification {
 
-	private Object contents;
+	@Override
+	public void execute(Object[] operands, Result result) {
+		String namespace = (String) operands[0];
+		String elementName = (String) operands[1];
 
-	/**
-	 * Creates a result with no contents.
-	 */
-	public Result() {
-		contents = null;
-	}
+		// create the document
+		try {
+			DOMImplementation impl = DOMImplementationRegistry.newInstance()
+					.getDOMImplementation("");
+			if (namespace == null || namespace.isEmpty()) {
+				namespace = "http://namespace.org";
+			}
+			Document domDocument = impl.createDocument(namespace, elementName,
+					null);
 
-	/**
-	 * Returns the contents of this result.
-	 * 
-	 * @return The contents of this result.
-	 */
-	public Object getContents() {
-		return contents;
-	}
-
-	/**
-	 * Sets the contents of this result.
-	 * 
-	 * @param contents
-	 *            The new contents.
-	 */
-	public void setContents(Object contents) {
-		this.contents = contents;
-	}
-
-	public String toString() {
-		Object contents = getContents();
-		if (contents == null) {
-			return "<result " + Integer.toHexString(hashCode()) + ">";
-		} else {
-			return contents.toString();
+			// set the result to the element created
+			result.setContents(domDocument.getDocumentElement());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public String getName() {
+		return "create document element";
+	}
+
+	@Override
+	public int getNbOperands() {
+		return 2;
+	}
+
+	@Override
+	public boolean hasResult() {
+		return true;
+	}
+
 }

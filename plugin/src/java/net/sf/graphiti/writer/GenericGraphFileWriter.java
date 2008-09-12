@@ -30,8 +30,6 @@ package net.sf.graphiti.writer;
 
 import java.io.OutputStream;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -72,17 +70,12 @@ public class GenericGraphFileWriter {
 	 *            The output stream.
 	 */
 	public void write(OutputStream out) {
-		Configuration configuration = graph.getDocumentConfiguration();
+		Configuration configuration = graph.getConfiguration();
 		OntologyFactory factory = configuration.getOntologyFactory();
 		try {
-			DocumentBuilderFactory builderFactory = DocumentBuilderFactory
-					.newInstance();
-			DocumentBuilder builder = builderFactory.newDocumentBuilder();
-			Document domDocument = builder.newDocument();
-
 			// Fills the DOM graph
-			SchemaWriter writer = new SchemaWriter(graph, domDocument);
-			writer.write(factory.getDocumentElement());
+			SchemaWriter writer = new SchemaWriter(graph);
+			Document domDocument = writer.write(factory.getDocumentElement());
 
 			// Set up the output transformer
 			TransformerFactory transfac = TransformerFactory.newInstance();
@@ -92,6 +85,8 @@ public class GenericGraphFileWriter {
 			trans.setOutputProperty(OutputKeys.INDENT, "yes");
 			trans.setOutputProperty(OutputKeys.METHOD, "xml");
 			trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+			trans.setOutputProperty(
+					"{http://xml.apache.org/xslt}indent-amount", "4");
 
 			// Print the DOM node
 			StreamResult result = new StreamResult(out);

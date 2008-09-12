@@ -88,15 +88,15 @@ public class Edge extends PropertyBean {
 	}
 
 	/**
-	 * Returns the document configuration associated with this edge.
+	 * Returns the configuration associated with this edge.
 	 * 
 	 * @return A {@link Configuration}.
 	 */
-	public Configuration getDocumentConfiguration() {
+	public Configuration getConfiguration() {
 		if (source != null) {
-			return source.getDocumentConfiguration();
+			return source.getConfiguration();
 		} else if (target != null) {
-			return target.getDocumentConfiguration();
+			return target.getConfiguration();
 		} else {
 			return null;
 		}
@@ -111,7 +111,7 @@ public class Edge extends PropertyBean {
 	 * @return The parameter.
 	 */
 	public Parameter getParameter(String parameterName) {
-		Configuration configuration = getDocumentConfiguration();
+		Configuration configuration = getConfiguration();
 		return configuration.getEdgeParameter(getType(), parameterName);
 	}
 
@@ -121,7 +121,7 @@ public class Edge extends PropertyBean {
 	 * @return A List of Parameters.
 	 */
 	public List<Parameter> getParameters() {
-		Configuration configuration = getDocumentConfiguration();
+		Configuration configuration = getConfiguration();
 		return configuration.getEdgeParameters(getType());
 	}
 
