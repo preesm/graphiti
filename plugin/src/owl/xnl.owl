@@ -280,44 +280,52 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                             "http://www.w3.org/2001/XMLSchema#string"
                                                             >type</basic:parameter_hasName>
                                                             <basic:parameter_appliesTo>
-                                                              <basic:VertexType rdf:ID="InstanceVertexType">
-    <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Instance</basic:type_hasName>
+                                                              <basic:VertexType rdf:ID="VertexTypeInstance">
     <basic:type_hasFigureAttributes>
-      <basic:ShapeAttribute rdf:ID="vertexShape">
+      <basic:ShapeAttribute rdf:ID="ShapeAttributeInstance">
         <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#RoundedBox"/>
       </basic:ShapeAttribute>
     </basic:type_hasFigureAttributes>
     <basic:type_hasFigureAttributes>
-      <basic:ColorAttribute rdf:ID="ColorAttribute_1">
-        <basic:colorAttribute_hasBlue rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >100</basic:colorAttribute_hasBlue>
-        <basic:colorAttribute_hasGreen rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >60</basic:colorAttribute_hasGreen>
+      <basic:DimensionAttribute rdf:ID="DimensionAttributeInstance">
+        <basic:dimensionAttribute_hasWidth rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >40</basic:dimensionAttribute_hasWidth>
+        <basic:dimensionAttribute_hasHeight rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >40</basic:dimensionAttribute_hasHeight>
+      </basic:DimensionAttribute>
+    </basic:type_hasFigureAttributes>
+    <basic:type_hasFigureAttributes>
+      <basic:ColorAttribute rdf:ID="ColorAttributeInstance">
         <basic:colorAttribute_hasRed rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >0</basic:colorAttribute_hasRed>
+        <basic:colorAttribute_hasGreen rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >60</basic:colorAttribute_hasGreen>
+        <basic:colorAttribute_hasBlue rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >100</basic:colorAttribute_hasBlue>
       </basic:ColorAttribute>
     </basic:type_hasFigureAttributes>
+    <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Instance</basic:type_hasName>
     <basic:type_hasParameters rdf:resource="#VertexParameterType"/>
     <basic:type_hasParameters>
       <basic:VertexParameter rdf:ID="VertexParameterRefinement">
         <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >refinement</basic:parameter_hasName>
         <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#VertexRefinement"/>
-        <basic:parameter_appliesTo rdf:resource="#InstanceVertexType"/>
+        <basic:parameter_appliesTo rdf:resource="#VertexTypeInstance"/>
       </basic:VertexParameter>
     </basic:type_hasParameters>
     <basic:type_hasParameters>
       <basic:VertexParameter rdf:ID="VertexParameterArguments">
         <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >Actual parameters</basic:parameter_hasName>
-        <basic:parameter_appliesTo rdf:resource="#InstanceVertexType"/>
+        <basic:parameter_appliesTo rdf:resource="#VertexTypeInstance"/>
         <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Map"/>
       </basic:VertexParameter>
     </basic:type_hasParameters>
     <basic:type_hasParameters>
       <basic:VertexParameter rdf:ID="VertexParameterId">
-        <basic:parameter_appliesTo rdf:resource="#InstanceVertexType"/>
+        <basic:parameter_appliesTo rdf:resource="#VertexTypeInstance"/>
         <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
         <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >id</basic:parameter_hasName>
@@ -649,20 +657,25 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >type</basic:parameter_hasName>
         <basic:parameter_appliesTo>
-          <basic:VertexType rdf:ID="PortVertexType">
-            <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >Port</basic:type_hasName>
-            <basic:type_hasParameters rdf:resource="#VertexParameterPortType"/>
+          <basic:VertexType rdf:ID="VertexTypePort">
             <basic:type_hasParameters>
               <basic:VertexParameter rdf:ID="VertexParameterPortId">
                 <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
-                <basic:parameter_appliesTo rdf:resource="#PortVertexType"/>
+                <basic:parameter_appliesTo rdf:resource="#VertexTypePort"/>
                 <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >id</basic:parameter_hasName>
               </basic:VertexParameter>
             </basic:type_hasParameters>
+            <basic:type_hasParameters rdf:resource="#VertexParameterPortType"/>
+            <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+            >Port</basic:type_hasName>
             <basic:type_hasFigureAttributes>
-              <basic:ColorAttribute rdf:ID="ColorAttribute_2">
+              <basic:ShapeAttribute rdf:ID="ShapeAttributePort">
+                <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Triangle"/>
+              </basic:ShapeAttribute>
+            </basic:type_hasFigureAttributes>
+            <basic:type_hasFigureAttributes>
+              <basic:ColorAttribute rdf:ID="ColorAttributePort">
                 <basic:colorAttribute_hasBlue rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                 >130</basic:colorAttribute_hasBlue>
                 <basic:colorAttribute_hasGreen rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
@@ -672,9 +685,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
               </basic:ColorAttribute>
             </basic:type_hasFigureAttributes>
             <basic:type_hasFigureAttributes>
-              <basic:ShapeAttribute rdf:ID="portShape">
-                <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Triangle"/>
-              </basic:ShapeAttribute>
+              <basic:DimensionAttribute rdf:ID="DimensionAttributePort">
+                <basic:dimensionAttribute_hasWidth rdf:datatype=
+                "http://www.w3.org/2001/XMLSchema#int">10</basic:dimensionAttribute_hasWidth>
+                <basic:dimensionAttribute_hasHeight rdf:datatype=
+                "http://www.w3.org/2001/XMLSchema#int">10</basic:dimensionAttribute_hasHeight>
+              </basic:DimensionAttribute>
             </basic:type_hasFigureAttributes>
           </basic:VertexType>
         </basic:parameter_appliesTo>

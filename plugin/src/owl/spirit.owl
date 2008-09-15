@@ -124,16 +124,24 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                   </basic:VertexParameter>
                                                 </basic:type_hasParameters>
                                                 <basic:type_hasFigureAttributes>
-                                                  <basic:ShapeAttribute rdf:ID="ShapeAttribute_3">
+                                                  <basic:DimensionAttribute rdf:ID="DimensionAttributeOperator">
+                                                    <basic:dimensionAttribute_hasHeight
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#int"
+                                                    >30</basic:dimensionAttribute_hasHeight>
+                                                    <basic:dimensionAttribute_hasWidth
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#int"
+                                                    >30</basic:dimensionAttribute_hasWidth>
+                                                  </basic:DimensionAttribute>
+                                                </basic:type_hasFigureAttributes>
+                                                <basic:type_hasFigureAttributes>
+                                                  <basic:ShapeAttribute rdf:ID="ShapeAttributeOperator">
                                                     <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Circle"/>
                                                   </basic:ShapeAttribute>
                                                 </basic:type_hasFigureAttributes>
                                                 <basic:type_hasFigureAttributes>
-                                                  <basic:ColorAttribute rdf:ID="ColorAttribute_1">
-                                                    <basic:colorAttribute_hasGreen
-                                                     rdf:datatype=
-                                                    "http://www.w3.org/2001/XMLSchema#int"
-                                                    >60</basic:colorAttribute_hasGreen>
+                                                  <basic:ColorAttribute rdf:ID="ColorAttributeOperator">
                                                     <basic:colorAttribute_hasRed
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#int"
@@ -142,6 +150,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#int"
                                                     >200</basic:colorAttribute_hasBlue>
+                                                    <basic:colorAttribute_hasGreen
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#int"
+                                                    >60</basic:colorAttribute_hasGreen>
                                                   </basic:ColorAttribute>
                                                 </basic:type_hasFigureAttributes>
                                               </basic:VertexType>

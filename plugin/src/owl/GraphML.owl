@@ -87,6 +87,16 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                           </basic:VertexParameter>
                                         </basic:type_hasParameters>
                                         <basic:type_hasFigureAttributes>
+                                          <basic:DimensionAttribute rdf:ID="DimensionAttributeVertex">
+                                            <basic:dimensionAttribute_hasWidth
+                                             rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                            >20</basic:dimensionAttribute_hasWidth>
+                                            <basic:dimensionAttribute_hasHeight
+                                             rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                            >20</basic:dimensionAttribute_hasHeight>
+                                          </basic:DimensionAttribute>
+                                        </basic:type_hasFigureAttributes>
+                                        <basic:type_hasFigureAttributes>
                                           <basic:ColorAttribute rdf:ID="ColorAttributeVertex">
                                             <basic:colorAttribute_hasBlue
                                              rdf:datatype="http://www.w3.org/2001/XMLSchema#int"

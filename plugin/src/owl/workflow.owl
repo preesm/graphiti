@@ -90,6 +90,16 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                             </basic:type_hasParameters>
                             <basic:type_hasParameters rdf:resource="#VertexParameterAlgorithmId"/>
                             <basic:type_hasFigureAttributes>
+                              <basic:DimensionAttribute rdf:ID="DimensionAttributeAlgo">
+                                <basic:dimensionAttribute_hasWidth
+                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                >20</basic:dimensionAttribute_hasWidth>
+                                <basic:dimensionAttribute_hasHeight
+                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                >20</basic:dimensionAttribute_hasHeight>
+                              </basic:DimensionAttribute>
+                            </basic:type_hasFigureAttributes>
+                            <basic:type_hasFigureAttributes>
                               <basic:ColorAttribute rdf:ID="ColorAttributeAlgorithm">
                                 <basic:colorAttribute_hasBlue
                                  rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
@@ -197,6 +207,18 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                  rdf:datatype=
                                                 "http://www.w3.org/2001/XMLSchema#string"
                                                 >Task</basic:type_hasName>
+                                                <basic:type_hasFigureAttributes>
+                                                  <basic:DimensionAttribute rdf:ID="DimensionAttributeTask">
+                                                    <basic:dimensionAttribute_hasHeight
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#int"
+                                                    >30</basic:dimensionAttribute_hasHeight>
+                                                    <basic:dimensionAttribute_hasWidth
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#int"
+                                                    >30</basic:dimensionAttribute_hasWidth>
+                                                  </basic:DimensionAttribute>
+                                                </basic:type_hasFigureAttributes>
                                                 <basic:type_hasFigureAttributes>
                                                   <basic:ColorAttribute rdf:ID="ColorAttributeTask">
                                                     <basic:colorAttribute_hasBlue
@@ -327,6 +349,16 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                 <basic:type_hasName rdf:datatype=
                                 "http://www.w3.org/2001/XMLSchema#string"
                                 >Architecture source</basic:type_hasName>
+                                <basic:type_hasFigureAttributes>
+                                  <basic:DimensionAttribute rdf:ID="DimensionAttributeArchi">
+                                    <basic:dimensionAttribute_hasHeight
+                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                    >20</basic:dimensionAttribute_hasHeight>
+                                    <basic:dimensionAttribute_hasWidth
+                                     rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                    >20</basic:dimensionAttribute_hasWidth>
+                                  </basic:DimensionAttribute>
+                                </basic:type_hasFigureAttributes>
                                 <basic:type_hasFigureAttributes>
                                   <basic:ShapeAttribute rdf:ID="ShapeAttributeArchitecture">
                                     <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Triangle"/>

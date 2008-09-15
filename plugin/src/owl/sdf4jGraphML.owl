@@ -245,6 +245,13 @@
                                                         <basic:parameter_appliesTo>
                                                           <basic:VertexType rdf:ID="VertexTypeVertex">
                                                             <basic:type_hasFigureAttributes>
+                                                              <basic:DimensionAttribute rdf:ID="DimensionAttributeVertex">
+    <basic:dimensionAttribute_hasWidth rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >20</basic:dimensionAttribute_hasWidth>
+    <basic:dimensionAttribute_hasHeight rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >20</basic:dimensionAttribute_hasHeight>                  </basic:DimensionAttribute>
+                                                            </basic:type_hasFigureAttributes>
+                                                            <basic:type_hasFigureAttributes>
                                                               <basic:ShapeAttribute rdf:ID="ShapeAttributeVertex">
     <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#RoundedBox"/>
                                                               </basic:ShapeAttribute>
@@ -451,6 +458,13 @@
                                                             </basic:type_hasParameters>
                                                             <basic:type_hasParameters rdf:resource="#VertexParameterPortType"/>
                                                             <basic:type_hasFigureAttributes>
+                                                              <basic:DimensionAttribute rdf:ID="DimensionAttributePort">
+    <basic:dimensionAttribute_hasWidth rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >10</basic:dimensionAttribute_hasWidth>
+    <basic:dimensionAttribute_hasHeight rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >10</basic:dimensionAttribute_hasHeight>                  </basic:DimensionAttribute>
+                                                            </basic:type_hasFigureAttributes>
+                                                            <basic:type_hasFigureAttributes>
                                                               <basic:ShapeAttribute rdf:ID="ShapeAttributePort">
     <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Circle"/>
                                                               </basic:ShapeAttribute>
@@ -462,8 +476,7 @@
     <basic:colorAttribute_hasGreen rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
     >184</basic:colorAttribute_hasGreen>
     <basic:colorAttribute_hasBlue rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-    >72</basic:colorAttribute_hasBlue>
-                                                              </basic:ColorAttribute>
+    >72</basic:colorAttribute_hasBlue>                        </basic:ColorAttribute>
                                                             </basic:type_hasFigureAttributes>
                                                             <basic:type_hasName
                                                              rdf:datatype=
