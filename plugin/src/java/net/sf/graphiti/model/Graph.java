@@ -50,17 +50,12 @@ import org.jgrapht.graph.Multigraph;
 public class Graph extends PropertyBean {
 
 	/**
-	 * String for the "size" parameter. Defines the graph size.
-	 */
-	public static final String PARAMETER_SIZE = "size";
-
-	/**
 	 * String for the "type" parameter. Defines the graph type.
 	 */
 	public static final String PARAMETER_TYPE = "type";
 
 	/**
-	 * 
+	 * Serial ID.
 	 */
 	private static final long serialVersionUID = 1L;
 

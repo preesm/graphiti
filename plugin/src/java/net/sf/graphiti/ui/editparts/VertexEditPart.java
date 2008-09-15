@@ -178,13 +178,11 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		Configuration config = vertex.getConfiguration();
 
 		VertexFigure figure = new VertexFigure(config, vertex.getType());
-		String name = (String) vertex.getValue("name");
-		if (name == null) {
-			name = (String) vertex.getValue("id");
-			if (name == null)
-				name = "";
+		String id = (String) vertex.getValue(Vertex.PARAMETER_ID);
+		if (id == null) {
+			id = "";
 		}
-		figure.setName(name);
+		figure.setName(id);
 		return figure;
 	}
 
@@ -336,7 +334,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 			VertexFigure figure = (VertexFigure) getFigure();
 			figure.setName((String) evt.getNewValue());
 			// refresh();
-		} else if (evt.getPropertyName().equals(Vertex.PARAMETER_SIZE)) {
+		} else if (evt.getPropertyName().equals(Vertex.PROPERTY_SIZE)) {
 			VertexFigure vertexFigure = (VertexFigure) getFigure();
 			vertexFigure.setBounds((Rectangle) evt.getNewValue());
 			refresh();
@@ -348,11 +346,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	protected void refreshVisuals() {
 		Vertex vertex = (Vertex) getModel();
-		Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PARAMETER_SIZE);
-		if (bounds != null) {
-			// bounds is null when the vertex is created
-			getFigure().setBounds(bounds);
-		}
 
 		VertexFigure figure = (VertexFigure) getFigure();
 		figure.setName((String) vertex.getValue(Vertex.PARAMETER_ID));
@@ -370,7 +363,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		Vertex vertex = (Vertex) getModel();
 		Rectangle bounds = new Rectangle(node.x, node.y, node.width,
 				node.height);
-		vertex.setValue(Vertex.PARAMETER_SIZE, bounds);
+		vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, bounds);
 
 		// Updates edges
 		for (Object connection : getSourceConnections()) {

@@ -47,6 +47,12 @@ public class ParameterValueImpl extends OntologyIndividualImpl implements
 	}
 
 	@Override
+	public ParameterSource hasSource() {
+		return (ParameterSource) getIndividualProperty(OntologyFactory
+				.getPropertyParameterValueHasParameterSource());
+	}
+
+	@Override
 	public String hasValue() {
 		return getStringProperty(OntologyFactory
 				.getPropertyParameterValueHasValue());
@@ -56,11 +62,5 @@ public class ParameterValueImpl extends OntologyIndividualImpl implements
 	public Parameter ofParameter() {
 		return (Parameter) getIndividualProperty(OntologyFactory
 				.getPropertyParameterValueOfParameter());
-	}
-
-	@Override
-	public ParameterSource hasSource() {
-		return (ParameterSource) getIndividualProperty(OntologyFactory
-				.getPropertyParameterValueHasParameterSource());
 	}
 }

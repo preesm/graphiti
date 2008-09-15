@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 /**
  * This class provides the ability to store properties. Classes may listen to
@@ -50,12 +52,6 @@ public class PropertyBean {
 	 * added to a vertex.
 	 */
 	public static final String PROPERTY_ADD = "child added";
-
-	/**
-	 * String for the "name" property. Set when the name of a vertex or a port
-	 * changes. This includes when it is first set.
-	 */
-	public static final String PROPERTY_NAME = "name";
 
 	/**
 	 * String for the "child removed" property. Set when a vertex or a port is
@@ -89,9 +85,27 @@ public class PropertyBean {
 	 * @param bean
 	 *            The source bean.
 	 */
+	@SuppressWarnings("unchecked")
 	protected PropertyBean(PropertyBean bean) {
 		propertyChange = new PropertyChangeSupport(this);
-		properties = new HashMap<String, Object>(bean.properties);
+		properties = new HashMap<String, Object>();
+		Set<Entry<String, Object>> entries = bean.properties.entrySet();
+		for (Entry<String, Object> entry : entries) {
+			Object value = entry.getValue();
+			if (value instanceof String) {
+				value = new String((String) value);
+			} else if (value instanceof Integer) {
+				value = new Integer((Integer) value);
+			} else if (value instanceof Float) {
+				value = new Float((Float) value);
+			} else if (value instanceof List<?>) {
+				value = new ArrayList<Object>((List<?>) value);
+			} else if (value instanceof Map<?, ?>) {
+				value = new HashMap<String, Object>((Map<String, Object>) value);
+			}
+			
+			properties.put(entry.getKey(), value);
+		}
 	}
 
 	/**

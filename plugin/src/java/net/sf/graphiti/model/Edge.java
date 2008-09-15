@@ -39,8 +39,16 @@ import java.util.List;
  */
 public class Edge extends PropertyBean {
 
+	/**
+	 * String for the "source port" parameter. Defines the edge source port (if
+	 * any).
+	 */
 	public static final String PARAMETER_SOURCE_PORT = "source port";
 
+	/**
+	 * String for the "target port" parameter. Defines the edge target port (if
+	 * any).
+	 */
 	public static final String PARAMETER_TARGET_PORT = "target port";
 
 	/**
@@ -49,7 +57,7 @@ public class Edge extends PropertyBean {
 	public static final String PARAMETER_TYPE = "type";
 
 	/**
-	 * 
+	 * Serial ID.
 	 */
 	private static final long serialVersionUID = 863045957077215818L;
 

@@ -41,6 +41,7 @@ import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.attributes.ColorAttribute;
+import net.sf.graphiti.ontology.attributes.DimensionAttribute;
 import net.sf.graphiti.ontology.attributes.FigureAttribute;
 import net.sf.graphiti.ontology.attributes.ShapeAttribute;
 import net.sf.graphiti.ontology.enums.Shape;
@@ -178,6 +179,13 @@ public class ConfigurationLoader {
 				Shape shape = ((ShapeAttribute) attribute).hasShape();
 				config.setVertexAttribute(vertexTypeName,
 						Vertex.ATTRIBUTE_SHAPE, shape);
+			} else if (attribute.hasOntClass(OntologyFactory
+					.getClassDimensionAttribute())) {
+				DimensionAttribute dimAttr = (DimensionAttribute) attribute;
+				config.setVertexAttribute(vertexTypeName,
+						Vertex.ATTRIBUTE_WIDTH, dimAttr.hasWidth());
+				config.setVertexAttribute(vertexTypeName,
+						Vertex.ATTRIBUTE_HEIGHT, dimAttr.hasHeight());
 			}
 		}
 

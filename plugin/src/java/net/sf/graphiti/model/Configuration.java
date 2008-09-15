@@ -47,7 +47,7 @@ import net.sf.graphiti.ontology.OntologyFactory;
  * </p>
  * <p>
  * Parameters are specified for each instance of graph/vertex/edge. Examples of
- * parameters are "position" or "name".
+ * parameters are position or id.
  * </p>
  * 
  * @author Matthieu Wipliez

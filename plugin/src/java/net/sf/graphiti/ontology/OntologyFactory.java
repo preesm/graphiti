@@ -122,6 +122,10 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#DataType";
 	}
 
+	public static String getClassDimensionAttribute() {
+		return "http://net.sf.graphiti/basics.owl#DimensionAttribute";
+	}
+
 	public static String getClassEdgeAttribute() {
 		return "http://net.sf.graphiti/basics.owl#EdgeAttribute";
 	}
@@ -180,6 +184,10 @@ public class OntologyFactory {
 
 	public static String getClassParameter() {
 		return "http://net.sf.graphiti/basics.owl#Parameter";
+	}
+
+	public static String getClassParameterSource() {
+		return "http://net.sf.graphiti/basics.owl#ParameterSource";
 	}
 
 	public static String getClassParameterValue() {
@@ -246,6 +254,22 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#Map";
 	}
 
+	public static Object getIndividualParameterSourceCurrentElement() {
+		return "http://net.sf.graphiti/basics.owl#CurrentElement";
+	}
+
+	public static Object getIndividualParameterSourceEdgeSource() {
+		return "http://net.sf.graphiti/basics.owl#EdgeSource";
+	}
+
+	public static Object getIndividualParameterSourceEdgeTarget() {
+		return "http://net.sf.graphiti/basics.owl#EdgeTarget";
+	}
+
+	public static Object getIndividualParameterSourceParentElement() {
+		return "http://net.sf.graphiti/basics.owl#ParentElement";
+	}
+
 	public static String getIndividualShapeCircle() {
 		return "http://net.sf.graphiti/basics.owl#Circle";
 	}
@@ -302,6 +326,14 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#colorAttribute_hasRed";
 	}
 
+	public static String getPropertyDimensionAttributeHasHeight() {
+		return "http://net.sf.graphiti/basics.owl#dimensionAttribute_hasHeight";
+	}
+
+	public static String getPropertyDimensionAttributeHasWidth() {
+		return "http://net.sf.graphiti/basics.owl#dimensionAttribute_hasWidth";
+	}
+
 	public static String getPropertyDOMAttributeHasName() {
 		return "http://net.sf.graphiti/basics.owl#attribute_hasName";
 	}
@@ -352,6 +384,10 @@ public class OntologyFactory {
 
 	public static String getPropertyParameterHasValueType() {
 		return "http://net.sf.graphiti/basics.owl#parameter_hasValueType";
+	}
+
+	public static String getPropertyParameterValueHasParameterSource() {
+		return "http://net.sf.graphiti/basics.owl#parameterValue_hasParameterSource";
 	}
 
 	public static String getPropertyParameterValueHasValue() {
@@ -618,30 +654,6 @@ public class OntologyFactory {
 		OntologyModelImpl ontModel = new OntologyModelImpl(model);
 		return (Set<VertexType>) ontModel.listIndividuals(OntologyFactory
 				.getClassVertexType());
-	}
-
-	public static Object getIndividualParameterSourceCurrentElement() {
-		return "http://net.sf.graphiti/basics.owl#CurrentElement";
-	}
-
-	public static Object getIndividualParameterSourceEdgeSource() {
-		return "http://net.sf.graphiti/basics.owl#EdgeSource";
-	}
-
-	public static Object getIndividualParameterSourceEdgeTarget() {
-		return "http://net.sf.graphiti/basics.owl#EdgeTarget";
-	}
-
-	public static Object getIndividualParameterSourceParentElement() {
-		return "http://net.sf.graphiti/basics.owl#ParentElement";
-	}
-
-	public static String getClassParameterSource() {
-		return "http://net.sf.graphiti/basics.owl#ParameterSource";
-	}
-
-	public static String getPropertyParameterValueHasParameterSource() {
-		return "http://net.sf.graphiti/basics.owl#parameterValue_hasParameterSource";
 	}
 
 }

@@ -72,8 +72,7 @@ public class PasteCommand extends Command {
 				Vertex vertex = (Vertex) vertexEditPart.getModel();
 				vertex = new Vertex(vertex);
 
-				Rectangle bounds = (Rectangle) vertex
-						.getValue(Vertex.PARAMETER_SIZE);
+				Rectangle bounds = vertexEditPart.getFigure().getBounds();
 				bounds.x += 20;
 				bounds.y += 20;
 

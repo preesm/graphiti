@@ -69,11 +69,6 @@ public class Vertex extends PropertyBean {
 	public static final String PARAMETER_REFINEMENT = "refinement";
 
 	/**
-	 * String for the "size" parameter. Defines the vertex size.
-	 */
-	public static final String PARAMETER_SIZE = "size";
-
-	/**
 	 * String for the "type" parameter. Defines the vertex type.
 	 */
 	public static final String PARAMETER_TYPE = "type";
@@ -83,6 +78,12 @@ public class Vertex extends PropertyBean {
 	 * the destination of a dependency.
 	 */
 	public static final String PROPERTY_DST_VERTEX = "destination vertex";
+
+	/**
+	 * String for the "size" property. Set when the location/size of a vertex
+	 * changes.
+	 */
+	public static final String PROPERTY_SIZE = "size";
 
 	/**
 	 * String for the "source vertex" property. Set when a vertex becomes the

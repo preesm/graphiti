@@ -65,23 +65,15 @@ public class CreateCommand extends Command {
 				graph.addVertex(vertex);
 
 				Configuration config = graph.getConfiguration();
-				Integer width = (Integer) config.getVertexAttribute(vertex
+				int width = (Integer) config.getVertexAttribute(vertex
 						.getType(), Vertex.ATTRIBUTE_WIDTH);
-				Integer height = (Integer) config.getVertexAttribute(vertex
+				int height = (Integer) config.getVertexAttribute(vertex
 						.getType(), Vertex.ATTRIBUTE_HEIGHT);
-
-				if (width == null) {
-					width = 50;
-				}
-				if (height == null) {
-					height = 50;
-				}
 
 				Rectangle rect = new Rectangle(bounds);
 				rect.width = width;
 				rect.height = height;
-				vertex.firePropertyChange(Vertex.PARAMETER_SIZE, null, rect);
-
+				vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, rect);
 			}
 		}
 	}

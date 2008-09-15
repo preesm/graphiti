@@ -63,17 +63,13 @@ public class VertexFigure extends Figure {
 	 * @param vertexType
 	 */
 	public VertexFigure(Configuration config, String vertexType) {
+		int width = (Integer) config.getVertexAttribute(vertexType,
+				Vertex.ATTRIBUTE_WIDTH);
+		int height = (Integer) config.getVertexAttribute(vertexType,
+				Vertex.ATTRIBUTE_HEIGHT);
+
 		// Get bounds
-		if (config.getVertexAttribute(vertexType, "height") != null
-				&& config.getVertexAttribute(vertexType, "width") != null) {
-			int width = (Integer) config
-					.getVertexAttribute(vertexType, "width");
-			int height = (Integer) config.getVertexAttribute(vertexType,
-					"height");
-			bounds = new Rectangle(0, 0, width, height);
-		} else {
-			bounds = new Rectangle(0, 0, 50, 50);
-		}
+		bounds = new Rectangle(0, 0, width, height);
 
 		// Get color
 		Color color = ColorConstants.gray;
@@ -100,8 +96,6 @@ public class VertexFigure extends Figure {
 		labelToolTip.setForegroundColor(ColorConstants.black);
 		setToolTip(labelToolTip);
 
-		setBorder(null);
-
 		if (shape != null) {
 			((IShape) shape).setDimension(new Dimension(bounds.width,
 					bounds.height));
@@ -121,7 +115,7 @@ public class VertexFigure extends Figure {
 	 * @return The size of this VertexFigure.
 	 */
 	public Dimension getPreferredSize(int w, int h) {
-		return new Dimension(50, 50);
+		return shape.getPreferredSize();
 	}
 
 	public IFigure getShape() {

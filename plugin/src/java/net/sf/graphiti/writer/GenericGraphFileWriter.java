@@ -78,10 +78,10 @@ public class GenericGraphFileWriter {
 			// Gets the DOM implementation of document
 			DOMImplementation impl = domDocument.getImplementation();
 			DOMImplementationLS implLS = (DOMImplementationLS) impl;
-			
+
 			LSOutput output = implLS.createLSOutput();
 			output.setByteStream(out);
-			
+
 			LSSerializer serializer = implLS.createLSSerializer();
 			serializer.write(domDocument, output);
 		} catch (Exception e) {

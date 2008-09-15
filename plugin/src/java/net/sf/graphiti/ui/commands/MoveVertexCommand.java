@@ -35,13 +35,13 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
 /**
- * This class executes a command that moves a graph.
+ * This class executes a command that moves a vertex.
  * 
  * @author Samuel Beaussier
  * @author Nicolas Isch
  * @author Matthieu Wipliez
  */
-public class MoveOrResizeCommand extends Command {
+public class MoveVertexCommand extends Command {
 
 	private Rectangle bounds;
 
@@ -51,7 +51,8 @@ public class MoveOrResizeCommand extends Command {
 
 	@Override
 	public void execute() {
-		model.setValue(Vertex.PARAMETER_SIZE, new Rectangle(bounds));
+		model.firePropertyChange(Vertex.PROPERTY_SIZE, null, new Rectangle(
+				bounds));
 	}
 
 	public void setConstraint(Rectangle rect) {
@@ -60,11 +61,14 @@ public class MoveOrResizeCommand extends Command {
 
 	public void setModel(Object model) {
 		this.model = (PropertyBean) model;
-		this.oldLayout = (Rectangle) this.model.getValue(Vertex.PARAMETER_SIZE);
+	}
+
+	public void setPreviousBounds(Rectangle bounds) {
+		this.oldLayout = bounds;
 	}
 
 	@Override
 	public void undo() {
-		model.setValue(Vertex.PARAMETER_SIZE, oldLayout);
+		model.firePropertyChange(Vertex.PROPERTY_SIZE, null, oldLayout);
 	}
 }

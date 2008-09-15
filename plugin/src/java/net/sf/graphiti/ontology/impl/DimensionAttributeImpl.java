@@ -26,23 +26,36 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.enums;
+package net.sf.graphiti.ontology.impl;
+
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.attributes.DimensionAttribute;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides a way to know what source to use for the parameter
- * associated with a parameter value.
+ * Implementation of DimensionAttribute.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public interface ParameterSource {
+public class DimensionAttributeImpl extends FigureAttributeImpl implements
+		DimensionAttribute {
 
-	public boolean isCurrentElement();
+	public DimensionAttributeImpl(Individual individual) {
+		super(individual);
+	}
 
-	public boolean isEdgeSource();
+	@Override
+	public int hasHeight() {
+		return getIntegerProperty(OntologyFactory
+				.getPropertyDimensionAttributeHasHeight());
+	}
 
-	public boolean isEdgeTarget();
-
-	public boolean isParentElement();
+	@Override
+	public int hasWidth() {
+		return getIntegerProperty(OntologyFactory
+				.getPropertyDimensionAttributeHasWidth());
+	}
 
 }

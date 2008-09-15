@@ -43,10 +43,8 @@ import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutManager;
-import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.ShortestPathConnectionRouter;
 import org.eclipse.draw2d.geometry.Insets;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
 import org.eclipse.draw2d.graph.EdgeList;
 import org.eclipse.draw2d.graph.NodeList;
@@ -198,19 +196,6 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	 * different figures, by setting their bounds.
 	 */
 	void updateFigures(int direction) {
-		Rectangle bounds;
-		if (direction == PositionConstants.EAST) {
-			bounds = new Rectangle(subgraph.x, subgraph.y, subgraph.height,
-					subgraph.width);
-		} else {
-			// SOUTH
-			bounds = new Rectangle(subgraph.x, subgraph.y, subgraph.width,
-					subgraph.height);
-		}
-
-		Graph graph = (Graph) getModel();
-		graph.setValue(Graph.PARAMETER_SIZE, bounds);
-
 		for (Object child : getChildren()) {
 			if (child instanceof VertexEditPart) {
 				VertexEditPart part = (VertexEditPart) child;

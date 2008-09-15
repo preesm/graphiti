@@ -33,6 +33,7 @@ import java.util.Set;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.EdgeCreationFactory;
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexCreationFactory;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.types.EdgeType;
@@ -142,12 +143,10 @@ public class GraphitiPalette {
 		VertexFigure figure = new VertexFigure(config, typeStr);
 
 		// Gets width and height
-		Integer width = (Integer) config.getVertexAttribute(typeStr, "width");
-		Integer height = (Integer) config.getVertexAttribute(typeStr, "height");
-		if (width == null || height == null) {
-			width = 50;
-			height = 50;
-		}
+		Integer width = (Integer) config.getVertexAttribute(typeStr,
+				Vertex.ATTRIBUTE_WIDTH);
+		Integer height = (Integer) config.getVertexAttribute(typeStr,
+				Vertex.ATTRIBUTE_HEIGHT);
 
 		// Creates a new image of width x height on the current display
 		Image image = new Image(Display.getCurrent(), width, height);

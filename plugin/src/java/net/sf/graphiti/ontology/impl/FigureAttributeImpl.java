@@ -44,5 +44,5 @@ public class FigureAttributeImpl extends OntologyIndividualImpl implements
 	public FigureAttributeImpl(Individual individual) {
 		super(individual);
 	}
-	
+
 }
