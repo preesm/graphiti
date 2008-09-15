@@ -28,9 +28,7 @@
  */
 package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.attributes.FigureAttribute;
-import net.sf.graphiti.ontology.types.Type;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -46,10 +44,5 @@ public class FigureAttributeImpl extends OntologyIndividualImpl implements
 	public FigureAttributeImpl(Individual individual) {
 		super(individual);
 	}
-
-	@Override
-	public Type appliesTo() {
-		return (Type) getIndividualProperty(OntologyFactory
-				.getPropertyFigureAttributeAppliesTo());
-	}
+	
 }

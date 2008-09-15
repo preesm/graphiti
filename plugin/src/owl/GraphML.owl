@@ -97,13 +97,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                             <basic:colorAttribute_hasGreen
                                              rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                             >100</basic:colorAttribute_hasGreen>
-                                            <basic:figureAttribute_appliesTo rdf:resource="#VertexType"/>
                                           </basic:ColorAttribute>
                                         </basic:type_hasFigureAttributes>
                                         <basic:type_hasFigureAttributes>
                                           <basic:ShapeAttribute rdf:ID="ShapeAttributeVertex">
                                             <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#RoundedBox"/>
-                                            <basic:figureAttribute_appliesTo rdf:resource="#VertexType"/>
                                           </basic:ShapeAttribute>
                                         </basic:type_hasFigureAttributes>
                                         <basic:type_hasName rdf:datatype=

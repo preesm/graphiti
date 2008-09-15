@@ -247,12 +247,10 @@
                                                             <basic:type_hasFigureAttributes>
                                                               <basic:ShapeAttribute rdf:ID="ShapeAttributeVertex">
     <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#RoundedBox"/>
-    <basic:figureAttribute_appliesTo rdf:resource="#VertexTypeVertex"/>
                                                               </basic:ShapeAttribute>
                                                             </basic:type_hasFigureAttributes>
                                                             <basic:type_hasFigureAttributes>
                                                               <basic:ColorAttribute rdf:ID="ColorAttributeVertex">
-    <basic:figureAttribute_appliesTo rdf:resource="#VertexTypeVertex"/>
     <basic:colorAttribute_hasRed rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
     >61</basic:colorAttribute_hasRed>
     <basic:colorAttribute_hasGreen rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
@@ -454,7 +452,6 @@
                                                             <basic:type_hasParameters rdf:resource="#VertexParameterPortType"/>
                                                             <basic:type_hasFigureAttributes>
                                                               <basic:ShapeAttribute rdf:ID="ShapeAttributePort">
-    <basic:figureAttribute_appliesTo rdf:resource="#VertexTypePort"/>
     <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Circle"/>
                                                               </basic:ShapeAttribute>
                                                             </basic:type_hasFigureAttributes>
@@ -466,7 +463,6 @@
     >184</basic:colorAttribute_hasGreen>
     <basic:colorAttribute_hasBlue rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
     >72</basic:colorAttribute_hasBlue>
-    <basic:figureAttribute_appliesTo rdf:resource="#VertexTypePort"/>
                                                               </basic:ColorAttribute>
                                                             </basic:type_hasFigureAttributes>
                                                             <basic:type_hasName

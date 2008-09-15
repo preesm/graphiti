@@ -125,7 +125,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                 </basic:type_hasParameters>
                                                 <basic:type_hasFigureAttributes>
                                                   <basic:ShapeAttribute rdf:ID="ShapeAttribute_3">
-                                                    <basic:figureAttribute_appliesTo rdf:resource="#VertexType"/>
                                                     <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Circle"/>
                                                   </basic:ShapeAttribute>
                                                 </basic:type_hasFigureAttributes>
@@ -139,7 +138,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#int"
                                                     >35</basic:colorAttribute_hasRed>
-                                                    <basic:figureAttribute_appliesTo rdf:resource="#VertexType"/>
                                                     <basic:colorAttribute_hasBlue
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#int"

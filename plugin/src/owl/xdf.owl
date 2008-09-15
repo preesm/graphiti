@@ -55,12 +55,10 @@
                                 <basic:colorAttribute_hasRed rdf:datatype=
                                 "http://www.w3.org/2001/XMLSchema#int"
                                 >0</basic:colorAttribute_hasRed>
-                                <basic:figureAttribute_appliesTo rdf:resource="#VertexTypePort"/>
                               </basic:ColorAttribute>
                             </basic:type_hasFigureAttributes>
                             <basic:type_hasFigureAttributes>
                               <basic:ShapeAttribute rdf:ID="portShape">
-                                <basic:figureAttribute_appliesTo rdf:resource="#VertexTypePort"/>
                                 <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Triangle"/>
                               </basic:ShapeAttribute>
                             </basic:type_hasFigureAttributes>
@@ -131,7 +129,6 @@
                                 <basic:colorAttribute_hasBlue
                                  rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                 >85</basic:colorAttribute_hasBlue>
-                                <basic:figureAttribute_appliesTo rdf:resource="#VertexTypeInstance"/>
                                 <basic:colorAttribute_hasRed rdf:datatype=
                                 "http://www.w3.org/2001/XMLSchema#int"
                                 >163</basic:colorAttribute_hasRed>
@@ -139,7 +136,6 @@
                             </basic:type_hasFigureAttributes>
                             <basic:type_hasFigureAttributes>
                               <basic:ShapeAttribute rdf:ID="vertexShape">
-                                <basic:figureAttribute_appliesTo rdf:resource="#VertexTypeInstance"/>
                                 <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#RoundedBox"/>
                               </basic:ShapeAttribute>
                             </basic:type_hasFigureAttributes>

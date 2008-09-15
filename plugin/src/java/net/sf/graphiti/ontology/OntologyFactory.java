@@ -330,10 +330,6 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#element_hasSchemaType";
 	}
 
-	public static String getPropertyFigureAttributeAppliesTo() {
-		return "http://net.sf.graphiti/basics.owl#figureAttribute_appliesTo";
-	}
-
 	public static String getPropertyOrderedChoiceHasElements() {
 		return "http://net.sf.graphiti/basics.owl#orderedChoice_hasElements";
 	}

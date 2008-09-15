@@ -94,7 +94,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                 <basic:colorAttribute_hasBlue
                                  rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                 >53</basic:colorAttribute_hasBlue>
-                                <basic:figureAttribute_appliesTo rdf:resource="#VertexTypeAlgorithm"/>
                                 <basic:colorAttribute_hasGreen
                                  rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                 >196</basic:colorAttribute_hasGreen>
@@ -106,7 +105,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                             <basic:type_hasFigureAttributes>
                               <basic:ShapeAttribute rdf:ID="ShapeAttributeAlgorithm">
                                 <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Circle"/>
-                                <basic:figureAttribute_appliesTo rdf:resource="#VertexTypeAlgorithm"/>
                               </basic:ShapeAttribute>
                             </basic:type_hasFigureAttributes>
                             <basic:type_hasName rdf:datatype=
@@ -209,7 +207,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#int"
                                                     >140</basic:colorAttribute_hasGreen>
-                                                    <basic:figureAttribute_appliesTo rdf:resource="#VertexTypeTask"/>
                                                     <basic:colorAttribute_hasRed
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#int"
@@ -219,7 +216,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                 <basic:type_hasFigureAttributes>
                                                   <basic:ShapeAttribute rdf:ID="ShapeAttributeTask">
                                                     <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#RoundedBox"/>
-                                                    <basic:figureAttribute_appliesTo rdf:resource="#VertexTypeTask"/>
                                                   </basic:ShapeAttribute>
                                                 </basic:type_hasFigureAttributes>
                                               </basic:VertexType>
@@ -334,7 +330,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                 <basic:type_hasFigureAttributes>
                                   <basic:ShapeAttribute rdf:ID="ShapeAttributeArchitecture">
                                     <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Triangle"/>
-                                    <basic:figureAttribute_appliesTo rdf:resource="#VertexTypeArchitecture"/>
                                   </basic:ShapeAttribute>
                                 </basic:type_hasFigureAttributes>
                                 <basic:type_hasFigureAttributes>
@@ -348,7 +343,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                     <basic:colorAttribute_hasGreen
                                      rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                     >22</basic:colorAttribute_hasGreen>
-                                    <basic:figureAttribute_appliesTo rdf:resource="#VertexTypeArchitecture"/>
                                   </basic:ColorAttribute>
                                 </basic:type_hasFigureAttributes>
                               </basic:VertexType>
