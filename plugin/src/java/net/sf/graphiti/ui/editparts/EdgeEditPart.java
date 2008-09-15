@@ -30,12 +30,8 @@ package net.sf.graphiti.ui.editparts;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.editpolicies.DependencyEditPolicy;
 import net.sf.graphiti.ui.editpolicies.DependencyEndPointEditPolicy;
 import net.sf.graphiti.ui.figure.EdgeFigure;
@@ -87,31 +83,9 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		// bendpoints, connection router properties
+		// parameter modification
 		EdgeFigure figure = (EdgeFigure) getFigure();
 		figure.refresh(evt.getPropertyName(), evt.getNewValue());
-
-		refreshConnections();
-	}
-
-	private void refreshConnections() {
-		// get source, target and graph of model
-		Edge model = (Edge) getModel();
-		Vertex source = model.getSource();
-		Vertex target = model.getTarget();
-		Graph graph = source.getParent();
-
-		// remove and add all edges of source and target
-		// I know this is not the most beautiful way to have proper anchor
-		// placement
-		// but honestly I don't care :)
-		List<Edge> edges = new ArrayList<Edge>();
-		edges.addAll(graph.outgoingEdgesOf(source));
-		edges.addAll(graph.incomingEdgesOf(target));
-		for (Edge edge : edges) {
-			graph.removeEdge(edge);
-			graph.addEdge(edge);
-		}
 	}
 
 	void updateFigures(int direction) {

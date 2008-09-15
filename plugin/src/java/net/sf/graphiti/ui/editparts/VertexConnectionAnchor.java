@@ -33,7 +33,6 @@ import net.sf.graphiti.ui.figure.shapes.IShape;
 
 import org.eclipse.draw2d.AbstractConnectionAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -81,8 +80,8 @@ public class VertexConnectionAnchor extends AbstractConnectionAnchor {
 	@Override
 	public Point getLocation(Point reference) {
 		VertexFigure figure = (VertexFigure) getOwner();
-		IFigure shape = figure.getShape();
-		ConnectionAnchor anchor = ((IShape) shape).getConnectionAnchor();
+		IShape shape = figure.getShape();
+		ConnectionAnchor anchor = shape.getConnectionAnchor();
 		reference = getNewReference();
 		return anchor.getLocation(reference);
 	}

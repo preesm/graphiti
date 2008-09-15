@@ -36,20 +36,22 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ontology.enums.Shape;
 import net.sf.graphiti.ui.editpolicies.DeleteComponentEditPolicy;
 import net.sf.graphiti.ui.editpolicies.EdgeGraphicalNodeEditPolicy;
 import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
 import net.sf.graphiti.ui.editpolicies.VertexDirectEditPolicy;
 import net.sf.graphiti.ui.figure.VertexFigure;
+import net.sf.graphiti.ui.figure.shapes.IShape;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
@@ -64,6 +66,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * The EditPart associated to the Graph gives methods to refresh the view when a
@@ -175,9 +178,15 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	protected IFigure createFigure() {
 		Vertex vertex = (Vertex) getModel();
-		Configuration config = vertex.getConfiguration();
 
-		VertexFigure figure = new VertexFigure(config, vertex.getType());
+		// Get dimension, color, shape
+		Dimension dimension = getVertexSize();
+		Color color = (Color) vertex.getAttribute(Vertex.ATTRIBUTE_COLOR);
+		IShape shape = ((Shape) vertex.getAttribute(Vertex.ATTRIBUTE_SHAPE))
+				.getShape();
+
+		VertexFigure figure = new VertexFigure(dimension, color, shape);
+
 		String id = (String) vertex.getValue(Vertex.PARAMETER_ID);
 		if (id == null) {
 			id = "";
@@ -313,6 +322,22 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 				(VertexFigure) getFigure());
 	}
 
+	private Dimension getVertexSize() {
+		Vertex vertex = (Vertex) getModel();
+
+		int width = (Integer) vertex.getAttribute(Vertex.ATTRIBUTE_WIDTH);
+		int height = (Integer) vertex.getAttribute(Vertex.ATTRIBUTE_HEIGHT);
+
+		Graph graph = vertex.getParent();
+		int nbEdges = graph.incomingEdgesOf(vertex).size();
+		nbEdges += graph.outgoingEdgesOf(vertex).size();
+
+		int newWidth = (int) ((double) width * (.5 + (double) nbEdges / 6));
+		int newHeight = (int) ((double) height * (0.5 + (double) nbEdges / 2));
+
+		return new Dimension(newWidth, newHeight);
+	}
+
 	@Override
 	public void performRequest(Request request) {
 		if (request.getType() == REQ_DIRECT_EDIT) {
@@ -330,14 +355,24 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Vertex.PARAMETER_ID)) {
+		String propertyName = evt.getPropertyName();
+		if (propertyName.equals(Vertex.PARAMETER_ID)) {
 			VertexFigure figure = (VertexFigure) getFigure();
 			figure.setName((String) evt.getNewValue());
-			// refresh();
-		} else if (evt.getPropertyName().equals(Vertex.PROPERTY_SIZE)) {
+		} else if (propertyName.equals(Vertex.PROPERTY_SIZE)) {
 			VertexFigure vertexFigure = (VertexFigure) getFigure();
 			vertexFigure.setBounds((Rectangle) evt.getNewValue());
 			refresh();
+		} else if (propertyName.equals(Vertex.PROPERTY_SRC_VERTEX)) {
+			Rectangle bounds = getFigure().getBounds();
+			bounds.setSize(getVertexSize());
+			((Vertex) getModel()).firePropertyChange(Vertex.PROPERTY_SIZE,
+					null, bounds);
+		} else if (propertyName.equals(Vertex.PROPERTY_DST_VERTEX)) {
+			Rectangle bounds = getFigure().getBounds();
+			bounds.setSize(getVertexSize());
+			((Vertex) getModel()).firePropertyChange(Vertex.PROPERTY_SIZE,
+					null, bounds);
 		} else {
 			refresh();
 		}

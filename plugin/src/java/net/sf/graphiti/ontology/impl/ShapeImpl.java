@@ -30,12 +30,11 @@ package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.enums.Shape;
+import net.sf.graphiti.ui.figure.shapes.IShape;
 import net.sf.graphiti.ui.figure.shapes.ShapeCircle;
 import net.sf.graphiti.ui.figure.shapes.ShapeHexagon;
 import net.sf.graphiti.ui.figure.shapes.ShapeRoundedBox;
 import net.sf.graphiti.ui.figure.shapes.ShapeTriangle;
-
-import org.eclipse.draw2d.IFigure;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -52,7 +51,7 @@ public class ShapeImpl extends OntologyIndividualImpl implements Shape {
 	}
 
 	@Override
-	public IFigure getShape() {
+	public IShape getShape() {
 		if (OntologyFactory.getIndividualShapeCircle().equals(getResourceURI())) {
 			return new ShapeCircle();
 		} else if (OntologyFactory.getIndividualShapeTriangle().equals(

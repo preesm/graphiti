@@ -36,13 +36,16 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexCreationFactory;
 import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.enums.Shape;
 import net.sf.graphiti.ontology.types.EdgeType;
 import net.sf.graphiti.ontology.types.VertexType;
 import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.figure.VertexFigure;
+import net.sf.graphiti.ui.figure.shapes.IShape;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.SWTGraphics;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
@@ -53,6 +56,7 @@ import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -139,14 +143,24 @@ public class GraphitiPalette {
 	 */
 	private static ImageDescriptor getImageDescriptorFromType(
 			Configuration config, String typeStr) {
-		// Creates a new vertex figure
-		VertexFigure figure = new VertexFigure(config, typeStr);
-
-		// Gets width and height
-		Integer width = (Integer) config.getVertexAttribute(typeStr,
+		// attributes
+		int width = (Integer) config.getVertexAttribute(typeStr,
 				Vertex.ATTRIBUTE_WIDTH);
-		Integer height = (Integer) config.getVertexAttribute(typeStr,
+		int height = (Integer) config.getVertexAttribute(typeStr,
 				Vertex.ATTRIBUTE_HEIGHT);
+		Color color = (Color) config.getVertexAttribute(typeStr,
+				Vertex.ATTRIBUTE_COLOR);
+		IShape shape = ((Shape) config.getVertexAttribute(typeStr,
+				Vertex.ATTRIBUTE_SHAPE)).getShape();
+
+		// adjust width and height
+		double ratio = (double) width / (double) height;
+		width = 16;
+		height = (int) ((double) width / ratio);
+
+		// Creates a new vertex figure
+		VertexFigure figure = new VertexFigure(new Dimension(width, height),
+				color, shape);
 
 		// Creates a new image of width x height on the current display
 		Image image = new Image(Display.getCurrent(), width, height);
@@ -156,8 +170,8 @@ public class GraphitiPalette {
 		Graphics graphics = new SWTGraphics(gc);
 		figure.paint(graphics);
 
-		// Get the image data back, scaled to 16x16
-		ImageData data = image.getImageData().scaledTo(16, 16);
+		// Get the image data back
+		ImageData data = image.getImageData();
 		ImageDescriptor id = ImageDescriptor.createFromImageData(data);
 
 		// Disposes image (and GC btw) and SWT graphics

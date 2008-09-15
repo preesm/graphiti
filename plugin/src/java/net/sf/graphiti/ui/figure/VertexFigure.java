@@ -28,14 +28,10 @@
  */
 package net.sf.graphiti.ui.figure;
 
-import net.sf.graphiti.model.Configuration;
-import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ontology.enums.Shape;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -53,60 +49,39 @@ public class VertexFigure extends Figure {
 
 	private Label labelToolTip;
 
-	private IFigure shape;
+	private IShape shape;
 
 	/**
-	 * Creates a new VertexFigure using the given document configuration and
-	 * vertex type.
+	 * Creates a new VertexFigure using the given vertex model.
 	 * 
-	 * @param config
-	 * @param vertexType
+	 * @param dimension
+	 * @param color
+	 * @param shape
 	 */
-	public VertexFigure(Configuration config, String vertexType) {
-		int width = (Integer) config.getVertexAttribute(vertexType,
-				Vertex.ATTRIBUTE_WIDTH);
-		int height = (Integer) config.getVertexAttribute(vertexType,
-				Vertex.ATTRIBUTE_HEIGHT);
-
+	public VertexFigure(Dimension dimension, Color color, IShape shape) {
 		// Get bounds
-		bounds = new Rectangle(0, 0, width, height);
-
-		// Get color
-		Color color = ColorConstants.gray;
-		if (config.getVertexAttribute(vertexType, Vertex.ATTRIBUTE_COLOR) != null) {
-			color = (Color) config.getVertexAttribute(vertexType,
-					Vertex.ATTRIBUTE_COLOR);
-		}
-
-		// Get shape
-		if (config.getVertexAttribute(vertexType, Vertex.ATTRIBUTE_SHAPE) != null) {
-			shape = ((Shape) config.getVertexAttribute(vertexType,
-					Vertex.ATTRIBUTE_SHAPE)).getShape();
-			((IShape) shape).setColor(color);
-		}
-
-		// Creates tooltip
-		labelToolTip = new Label();
+		bounds = new Rectangle(0, 0, dimension.width, dimension.height);
+		setBounds(bounds);
+		setOpaque(true);
 
 		// Sets Layout Manager
-		XYLayout layout = new XYLayout();
-		setLayoutManager(layout);
+		setLayoutManager(new XYLayout());
 
 		// Sets the tool tip and adds it so that it is visible
+		labelToolTip = new Label();
 		labelToolTip.setForegroundColor(ColorConstants.black);
 		setToolTip(labelToolTip);
 
 		if (shape != null) {
-			((IShape) shape).setDimension(new Dimension(bounds.width,
-					bounds.height));
-			this.add(this.shape, new Rectangle(0, 0, bounds.width,
-					bounds.height));
+			this.shape = shape;
+			shape.setColor(color);
+			shape.setDimension(new Dimension(bounds.width, bounds.height));
+			add(shape, new Rectangle(0, 0, bounds.width, bounds.height));
 		}
-
 	}
 
 	public Label getLabelId() {
-		return ((IShape) shape).getLabel();
+		return shape.getLabel();
 	}
 
 	/**
@@ -115,11 +90,20 @@ public class VertexFigure extends Figure {
 	 * @return The size of this VertexFigure.
 	 */
 	public Dimension getPreferredSize(int w, int h) {
-		return shape.getPreferredSize();
+		return getBounds().getSize();
 	}
 
-	public IFigure getShape() {
+	public IShape getShape() {
 		return shape;
+	}
+
+	public void setBounds(Rectangle rect) {
+		if (shape != null) {
+			shape.setDimension(rect.getSize());
+			setConstraint(shape, new Rectangle(0, 0, rect.width, rect.height));
+		}
+
+		super.setBounds(rect);
 	}
 
 	/**
@@ -129,7 +113,7 @@ public class VertexFigure extends Figure {
 	 */
 	public void setName(String text) {
 		if (shape != null) {
-			((IShape) this.shape).setName(text);
+			shape.setName(text);
 		}
 
 		labelToolTip.setText(text);

@@ -29,8 +29,7 @@
 package net.sf.graphiti.ontology.enums;
 
 import net.sf.graphiti.ontology.OntologyIndividual;
-
-import org.eclipse.draw2d.IFigure;
+import net.sf.graphiti.ui.figure.shapes.IShape;
 
 /**
  * This class provides shapes.
@@ -40,6 +39,6 @@ import org.eclipse.draw2d.IFigure;
  */
 public interface Shape extends OntologyIndividual {
 
-	public IFigure getShape();
+	public IShape getShape();
 
 }

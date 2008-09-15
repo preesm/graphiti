@@ -30,18 +30,20 @@ package net.sf.graphiti.ui.figure.shapes;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * This interface defines a IShape. A shape has a name and a connection anchor.
+ * This interface defines a IShape. A shape is a figure with a name and a
+ * connection anchor.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface IShape {
+public interface IShape extends IFigure {
 
 	/**
 	 * Returns the connection anchor associated with this shape. The connection
@@ -65,8 +67,20 @@ public interface IShape {
 	 */
 	public void paintSuperFigure(Graphics graphics);
 
+	/**
+	 * Sets the color of this shape.
+	 * 
+	 * @param color
+	 *            A {@link Color}.
+	 */
 	public void setColor(Color color);
 
+	/**
+	 * Sets the size of this shape.
+	 * 
+	 * @param dim
+	 *            The {@link Dimension}.
+	 */
 	public void setDimension(Dimension dim);
 
 	/**
