@@ -15,16 +15,16 @@ Require-Bundle: org.eclipse.core.resources,
  com.ibm.icu
 Bundle-ClassPath: .,
  lib/jgrapht-jdk1.5.jar,
- lib/protege/antlr-2.7.5.jar,
- lib/protege/arq.jar,
- lib/protege/arq-extra.jar,
- lib/protege/commons-logging-1.1.1.jar,
- lib/protege/concurrent.jar,
- lib/protege/iri.jar,
- lib/protege/jena.jar,
- lib/protege/json.jar,
- lib/protege/log4j-1.2.12.jar,
- lib/protege/lucene-core-2.2.0.jar,
- lib/protege/wstx-asl-3.0.0.jar
+ lib/jena/antlr-2.7.5.jar,
+ lib/jena/arq.jar,
+ lib/jena/arq-extra.jar,
+ lib/jena/commons-logging-1.1.1.jar,
+ lib/jena/concurrent.jar,
+ lib/jena/iri.jar,
+ lib/jena/jena.jar,
+ lib/jena/json.jar,
+ lib/jena/log4j-1.2.12.jar,
+ lib/jena/lucene-core-2.2.0.jar,
+ lib/jena/wstx-asl-3.0.0.jar
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
