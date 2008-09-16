@@ -9,28 +9,22 @@ Require-Bundle: org.eclipse.core.resources,
  org.eclipse.gef,
  org.eclipse.ui,
  org.eclipse.ui.editors,
- org.eclipse.ui.ide
+ org.eclipse.ui.ide,
+ org.apache.xerces,
+ org.junit,
+ com.ibm.icu
 Bundle-ClassPath: .,
  lib/jgrapht-jdk1.5.jar,
- lib/saxon9.jar,
- lib/saxon9-dom.jar,
- lib/saxon9-xqj.jar,
  lib/protege/antlr-2.7.5.jar,
  lib/protege/arq.jar,
  lib/protege/arq-extra.jar,
  lib/protege/commons-logging-1.1.1.jar,
  lib/protege/concurrent.jar,
- lib/protege/icu4j_3_4.jar,
  lib/protege/iri.jar,
  lib/protege/jena.jar,
- lib/protege/jenatest.jar,
  lib/protege/json.jar,
- lib/protege/junit.jar,
  lib/protege/log4j-1.2.12.jar,
  lib/protege/lucene-core-2.2.0.jar,
- lib/protege/stax-api-1.0.jar,
- lib/protege/wstx-asl-3.0.0.jar,
- lib/protege/xercesImpl.jar,
- lib/protege/xml-apis.jar
+ lib/protege/wstx-asl-3.0.0.jar
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

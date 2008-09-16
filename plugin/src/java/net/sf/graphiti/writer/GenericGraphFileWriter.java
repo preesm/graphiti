@@ -83,6 +83,7 @@ public class GenericGraphFileWriter {
 			output.setByteStream(out);
 
 			LSSerializer serializer = implLS.createLSSerializer();
+			serializer.getDomConfig().setParameter("format-pretty-print", true);
 			serializer.write(domDocument, output);
 		} catch (Exception e) {
 			e.printStackTrace();
