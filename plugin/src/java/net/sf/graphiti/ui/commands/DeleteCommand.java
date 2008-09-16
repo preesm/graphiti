@@ -32,28 +32,47 @@ import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
 
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Gives methods to delete graphs, ports and dependencies
+ * This class provides a command that deletes a vertex.
  * 
- * @author Samuel Beaussier & Nicolas Isch
+ * @author Samuel Beaussier
+ * @author Nicolas Isch
+ * @author Matthieu Wipliez
  * 
  */
 public class DeleteCommand extends Command {
 
-	private Object model;
-
 	private Graph parent;
 
+	private GraphicalEditPart part;
+
+	/**
+	 * Creates a new delete command with the selected object.
+	 * 
+	 * @param model
+	 *            An object to delete.
+	 */
+	public DeleteCommand(GraphicalEditPart part) {
+		this.part = part;
+	}
+
 	public boolean canExecute() {
+		Object model = part.getModel();
 		return (model instanceof Edge || model instanceof Vertex);
 	}
 
 	@Override
 	public void execute() {
+		Object model = part.getModel();
 		if (model instanceof Vertex) {
+			Rectangle bounds = part.getFigure().getBounds();
 			Vertex vertex = (Vertex) model;
+			vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
+
 			parent = vertex.getParent();
 			parent.removeVertex(vertex);
 		} else if (model instanceof Edge) {
@@ -63,20 +82,16 @@ public class DeleteCommand extends Command {
 		}
 	}
 
-	/**
-	 * 
-	 * @param model
-	 *            the model to set
-	 */
-	public void setModel(Object model) {
-		this.model = model;
-	}
-
 	@Override
 	public void undo() {
+		Object model = part.getModel();
 		if (model instanceof Vertex) {
 			Vertex vertex = (Vertex) model;
 			parent.addVertex(vertex);
+
+			Rectangle bounds = (Rectangle) vertex
+					.getValue(Vertex.PROPERTY_SIZE);
+			vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, bounds);
 		} else if (model instanceof Edge) {
 			Edge edge = (Edge) model;
 			parent.addEdge(edge);

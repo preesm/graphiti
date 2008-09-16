@@ -28,45 +28,36 @@
  */
 package net.sf.graphiti.ui.actions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.graphiti.ui.commands.CutCommand;
 
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 /**
- * Action called when cut tool is required
+ * This class provides an implementation of the cut action.
  * 
  * @author Samuel Beaussier
  * @author Nicolas Isch
+ * @author Matthieu Wipliez
  * 
  */
 public class CutAction extends SelectionAction {
 
 	/**
-	 * Construct a CutAction.
+	 * Constructs a CutAction and associates it with the given workbench part.
 	 * 
 	 * @param part
+	 *            The workbench part.
 	 */
 	public CutAction(IWorkbenchPart part) {
 		super(part);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-	 */
 	@Override
 	protected boolean calculateEnabled() {
 		// enabled when at least one object is selected
@@ -84,6 +75,7 @@ public class CutAction extends SelectionAction {
 		setId(ActionFactory.CUT.getId());
 		setText("Cut");
 		setToolTipText("Cut");
+
 		ISharedImages sharedImages = PlatformUI.getWorkbench()
 				.getSharedImages();
 		setImageDescriptor(sharedImages
@@ -94,21 +86,9 @@ public class CutAction extends SelectionAction {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void run() {
-		if (calculateEnabled()) {
-			LocalSelectionTransfer transfer = LocalSelectionTransfer
-					.getTransfer();
-			transfer.setSelection(getSelection());
-			Object[] data = new Object[] { getSelectedObjects() };
-			Transfer[] transfers = new Transfer[] { transfer };
-			GraphitiClipboard.getInstance().setContents(data, transfers);
-		}
-
-		CutCommand command = new CutCommand();
-		List<AbstractGraphicalEditPart> list = new ArrayList<AbstractGraphicalEditPart>(
-				getSelectedObjects());
-		command.setList(list);
+		// execute the cut command
+		CutCommand command = new CutCommand(getSelectedObjects());
 		execute(command);
 	}
 }

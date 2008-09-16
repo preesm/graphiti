@@ -30,6 +30,7 @@ package net.sf.graphiti.ui.editpolicies;
 
 import net.sf.graphiti.ui.commands.DeleteCommand;
 
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
@@ -45,8 +46,7 @@ public class DependencyEditPolicy extends ConnectionEditPolicy {
 
 	@Override
 	protected Command getDeleteCommand(GroupRequest request) {
-		DeleteCommand command = new DeleteCommand();
-		command.setModel(getHost().getModel());
+		DeleteCommand command = new DeleteCommand((GraphicalEditPart) getHost());
 		return command;
 	}
 

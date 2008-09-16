@@ -28,39 +28,36 @@
  */
 package net.sf.graphiti.ui.actions;
 
+import net.sf.graphiti.ui.commands.CopyCommand;
+
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 /**
- * Action called when copy tool is required
+ * This class provides an implementation of the copy action.
  * 
  * @author Samuel Beaussier
  * @author Nicolas Isch
+ * @author Matthieu Wipliez
  * 
  */
 public class CopyAction extends SelectionAction {
 
 	/**
-	 * Constructs a CopyAction.
+	 * Constructs a CopyAction and associates it with the given workbench part.
 	 * 
 	 * @param part
+	 *            The workbench part.
 	 */
 	public CopyAction(IWorkbenchPart part) {
 		super(part);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-	 */
 	@Override
 	protected boolean calculateEnabled() {
 		// enabled when at least one object is selected
@@ -78,6 +75,7 @@ public class CopyAction extends SelectionAction {
 		setId(ActionFactory.COPY.getId());
 		setText("Copy");
 		setToolTipText("Copy");
+
 		ISharedImages sharedImages = PlatformUI.getWorkbench()
 				.getSharedImages();
 		setImageDescriptor(sharedImages
@@ -89,10 +87,8 @@ public class CopyAction extends SelectionAction {
 
 	@Override
 	public void run() {
-		LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
-		transfer.setSelection(getSelection());
-		Object[] data = new Object[] { getSelectedObjects() };
-		Transfer[] transfers = new Transfer[] { transfer };
-		GraphitiClipboard.getInstance().setContents(data, transfers);
+		// execute the copy command
+		CopyCommand command = new CopyCommand(getSelectedObjects());
+		execute(command);
 	}
 }

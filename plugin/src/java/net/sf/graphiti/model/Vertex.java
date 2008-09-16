@@ -81,7 +81,9 @@ public class Vertex extends PropertyBean {
 
 	/**
 	 * String for the "size" property. Set when the location/size of a vertex
-	 * changes.
+	 * changes. This property should only be stored when the vertex has
+	 * temporarily no associated edit part, like when cut/copy/paste occurs.
+	 * Otherwise, one shall use the figure bounds.
 	 */
 	public static final String PROPERTY_SIZE = "size";
 

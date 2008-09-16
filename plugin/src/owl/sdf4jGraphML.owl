@@ -247,9 +247,9 @@
                                                             <basic:type_hasFigureAttributes>
                                                               <basic:DimensionAttribute rdf:ID="DimensionAttributeVertex">
     <basic:dimensionAttribute_hasWidth rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-    >20</basic:dimensionAttribute_hasWidth>
+    >40</basic:dimensionAttribute_hasWidth>
     <basic:dimensionAttribute_hasHeight rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-    >20</basic:dimensionAttribute_hasHeight>                  </basic:DimensionAttribute>
+    >40</basic:dimensionAttribute_hasHeight>                  </basic:DimensionAttribute>
                                                             </basic:type_hasFigureAttributes>
                                                             <basic:type_hasFigureAttributes>
                                                               <basic:ShapeAttribute rdf:ID="ShapeAttributeVertex">
@@ -318,17 +318,17 @@
                                                             <basic:element_hasSchemaType>
                                                               <basic:Element rdf:ID="ElementVertexDataArgument">
     <basic:element_hasAttributes>
-      <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentValue">
-        <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
-        <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >value</basic:attribute_hasName>
-      </basic:OtherAttribute>
-    </basic:element_hasAttributes>
-    <basic:element_hasAttributes>
       <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentName">
         <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >name</basic:attribute_hasName>
         <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
+      </basic:OtherAttribute>
+    </basic:element_hasAttributes>
+    <basic:element_hasAttributes>
+      <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentValue">
+        <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
+        <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >value</basic:attribute_hasName>
       </basic:OtherAttribute>
     </basic:element_hasAttributes>
     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -460,9 +460,9 @@
                                                             <basic:type_hasFigureAttributes>
                                                               <basic:DimensionAttribute rdf:ID="DimensionAttributePort">
     <basic:dimensionAttribute_hasWidth rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-    >10</basic:dimensionAttribute_hasWidth>
+    >30</basic:dimensionAttribute_hasWidth>
     <basic:dimensionAttribute_hasHeight rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-    >10</basic:dimensionAttribute_hasHeight>                  </basic:DimensionAttribute>
+    >30</basic:dimensionAttribute_hasHeight>                  </basic:DimensionAttribute>
                                                             </basic:type_hasFigureAttributes>
                                                             <basic:type_hasFigureAttributes>
                                                               <basic:ShapeAttribute rdf:ID="ShapeAttributePort">

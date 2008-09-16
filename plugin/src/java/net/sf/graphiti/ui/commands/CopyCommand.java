@@ -31,67 +31,68 @@ package net.sf.graphiti.ui.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ui.editparts.GraphEditPart;
+import net.sf.graphiti.ui.actions.GraphitiClipboard;
+import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.dnd.Transfer;
 
 /**
- * This class provides a command that pastes vertices from the clipboard.
+ * This class provides a command that copies vertices.
  * 
  * @author Samuel Beaussier
  * @author Nicolas Isch
  * @author Matthieu Wipliez
  * 
  */
-public class PasteCommand extends Command {
+public class CopyCommand extends Command {
 
-	private List<Object> added;
-
-	/**
-	 * The target EditPart.
-	 */
-	private GraphEditPart part;
-
-	private List<Vertex> vertices;
+	private List<?> list;
 
 	/**
-	 * Creates a new paste command with the given target part and vertices.
+	 * Creates a new cut command with the selected objects.
 	 * 
-	 * @param target
-	 *            The target part.
-	 * @param vertices
-	 *            A list of vertices to cut.
+	 * @param objects
+	 *            A list of objects to cut.
 	 */
-	public PasteCommand(GraphEditPart target, List<Vertex> vertices) {
-		this.part = target;
-		this.vertices = vertices;
+	public CopyCommand(List<?> objects) {
+		list = objects;
+	}
+
+	@Override
+	public boolean canUndo() {
+		return false;
 	}
 
 	@Override
 	public void execute() {
-		added = new ArrayList<Object>();
-		Graph parentGraph = (Graph) part.getModel();
+		// copy vertices
+		List<Vertex> vertices = new ArrayList<Vertex>();
+		for (Object obj : list) {
+			if (obj instanceof VertexEditPart) {
+				VertexEditPart vertexEditPart = (VertexEditPart) obj;
+				Rectangle bounds = vertexEditPart.getFigure().getBounds();
+				Vertex vertex = (Vertex) vertexEditPart.getModel();
 
-		for (Vertex vertex : vertices) {
-			// Adds the cloned graph to the parent graph and the added list
-			added.add(vertex);
-			parentGraph.addVertex(vertex);
-			Rectangle bounds = (Rectangle) vertex
-					.getValue(Vertex.PROPERTY_SIZE);
-			vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, bounds);
-		}
-	}
-
-	@Override
-	public void undo() {
-		Graph parentGraph = (Graph) this.part.getModel();
-		for (Object model : added) {
-			if (model instanceof Vertex) {
-				parentGraph.removeVertex((Vertex) model);
+				// copy vertex and add to list
+				vertex = new Vertex(vertex);
+				vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
+				vertices.add(vertex);
 			}
 		}
+
+		// prepare transfer
+		LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
+		Object[] verticesArray = vertices.toArray();
+		transfer.setSelection(new StructuredSelection(verticesArray));
+
+		// put in clipboard
+		Object[] data = new Object[] { verticesArray };
+		Transfer[] transfers = new Transfer[] { transfer };
+		GraphitiClipboard.getInstance().setContents(data, transfers);
 	}
 }

@@ -32,11 +32,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
+import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.commands.PasteCommand;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
-import org.eclipse.gef.editparts.AbstractEditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -46,10 +46,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 /**
- * Action when paste tool is required
+ * This class provides an implementation of the paste action.
  * 
  * @author Samuel Beaussier
  * @author Nicolas Isch
+ * @author Matthieu Wipliez
  * 
  */
 public class PasteAction extends SelectionAction implements
@@ -69,21 +70,20 @@ public class PasteAction extends SelectionAction implements
 		// Enabled if the clipboard is not empty and we know where to paste:
 		// either the selected object is a GraphEditPart or a VertexEditPart
 		List<?> selection = getSelectedObjects();
-		return (getClipboardContents() != null
-				&& getClipboardContents().isEmpty() == false
+		List<Vertex> vertices = getClipboardContents();
+		return (vertices != null && vertices.isEmpty() == false
 				&& selection != null && selection.size() == 1 && (selection
 				.get(0) instanceof GraphEditPart || selection.get(0) instanceof VertexEditPart));
 	}
 
 	@SuppressWarnings("unchecked")
-	protected List<AbstractEditPart> getClipboardContents() {
+	protected List<Vertex> getClipboardContents() {
 		LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
 		Object data = GraphitiClipboard.getInstance().getContents(transfer);
-		if (data == null) {
-			return null;
+		if (data instanceof IStructuredSelection) {
+			return (List<Vertex>) ((IStructuredSelection) data).toList();
 		} else {
-			return (List<AbstractEditPart>) ((IStructuredSelection) data)
-					.toList();
+			return null;
 		}
 	}
 
@@ -95,6 +95,7 @@ public class PasteAction extends SelectionAction implements
 		setId(ActionFactory.PASTE.getId());
 		setText("Paste");
 		setToolTipText("Paste");
+
 		ISharedImages sharedImages = PlatformUI.getWorkbench()
 				.getSharedImages();
 		setImageDescriptor(sharedImages
@@ -120,12 +121,10 @@ public class PasteAction extends SelectionAction implements
 			part = (GraphEditPart) obj;
 		} else if (obj instanceof VertexEditPart) {
 			part = (GraphEditPart) ((VertexEditPart) obj).getParent();
-		} else {
-			return;
 		}
 
-		PasteCommand command = new PasteCommand(part);
-		command.setContents(getClipboardContents());
+		// execute the paste command
+		PasteCommand command = new PasteCommand(part, getClipboardContents());
 		execute(command);
 	}
 }

@@ -62,7 +62,6 @@ public class VertexFigure extends Figure {
 		// Get bounds
 		bounds = new Rectangle(0, 0, dimension.width, dimension.height);
 		setBounds(bounds);
-		setOpaque(true);
 
 		// Sets Layout Manager
 		setLayoutManager(new XYLayout());

@@ -34,13 +34,17 @@ import java.util.List;
 
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ui.actions.GraphitiClipboard;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.dnd.Transfer;
 
 /**
- * This class provides a command that removes vertices or ports from their
- * parent.
+ * This class provides a command that removes vertices from their parent.
  * 
  * @author Samuel Beaussier
  * @author Nicolas Isch
@@ -56,30 +60,52 @@ public class CutCommand extends Command {
 	 */
 	private List<Graph> parents;
 
+	/**
+	 * Creates a new cut command with the selected objects.
+	 * 
+	 * @param objects
+	 *            A list of objects to cut.
+	 */
+	public CutCommand(List<?> objects) {
+		list = objects;
+	}
+
 	@Override
 	public void execute() {
 		parents = new ArrayList<Graph>();
+		List<Vertex> vertices = new ArrayList<Vertex>();
 
 		for (Object obj : list) {
 			if (obj instanceof VertexEditPart) {
 				VertexEditPart part = (VertexEditPart) obj;
 				Vertex vertex = (Vertex) part.getModel();
-				Graph parent = vertex.getParent();
 
+				// store bounds
+				Rectangle bounds = part.getFigure().getBounds();
+				vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
+
+				// remove from parent
+				Graph parent = vertex.getParent();
 				parent.removeVertex(vertex);
+
+				// copy and add to cut list
+				vertex = new Vertex(vertex);
+				vertices.add(vertex);
+
+				// for undo
 				parents.add(parent);
 			}
 		}
-	}
 
-	/**
-	 * Defines the objects list to cut
-	 * 
-	 * @param list
-	 *            the list to set
-	 */
-	public void setList(List<?> list) {
-		this.list = list;
+		// prepare transfer
+		LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
+		Object[] verticesArray = vertices.toArray();
+		transfer.setSelection(new StructuredSelection(verticesArray));
+
+		// put in clipboard
+		Object[] data = new Object[] { verticesArray };
+		Transfer[] transfers = new Transfer[] { transfer };
+		GraphitiClipboard.getInstance().setContents(data, transfers);
 	}
 
 	@Override
@@ -91,6 +117,11 @@ public class CutCommand extends Command {
 				Vertex vertex = (Vertex) part.getModel();
 				Graph parent = it.next();
 				parent.addVertex(vertex);
+
+				// update bounds
+				Rectangle bounds = (Rectangle) vertex
+						.getValue(Vertex.PROPERTY_SIZE);
+				vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, bounds);
 			}
 		}
 
