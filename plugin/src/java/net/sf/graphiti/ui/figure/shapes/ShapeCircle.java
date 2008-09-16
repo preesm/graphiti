@@ -49,7 +49,7 @@ import org.eclipse.swt.graphics.Color;
 public class ShapeCircle extends Ellipse implements IShape {
 
 	private Label labelName;
-	
+
 	/**
 	 * Creates a new circle shape.
 	 */
@@ -58,7 +58,7 @@ public class ShapeCircle extends Ellipse implements IShape {
 		labelName = new Label();
 		labelName.setForegroundColor(ColorConstants.black);
 		add(labelName);
-		
+
 		setFill(true);
 	}
 
@@ -101,7 +101,7 @@ public class ShapeCircle extends Ellipse implements IShape {
 		if (name != null) {
 			wDecal = (name.length() * 5) / 2;
 		}
-		
+
 		Rectangle bounds = this.getParent().getBounds();
 		this.setConstraint(labelName, new Rectangle(
 				(bounds.width / 2) - wDecal, (bounds.height / 2) - hDecal, -1,

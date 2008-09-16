@@ -89,7 +89,8 @@ public class EdgeFigure extends PolylineConnection {
 
 				if (position != null) {
 					Label parameterLabel = new Label(value.toString());
-					parameterLabel.setForegroundColor(new Color(null, 224, 0, 0));
+					parameterLabel
+							.setForegroundColor(new Color(null, 224, 0, 0));
 					Object locator = new PropertyLocator(this, position);
 					add(parameterLabel, locator);
 					parameterFigures.put(parameterName, parameterLabel);

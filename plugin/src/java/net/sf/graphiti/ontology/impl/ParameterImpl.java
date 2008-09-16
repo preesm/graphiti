@@ -28,9 +28,12 @@
  */
 package net.sf.graphiti.ontology.impl;
 
+import java.util.Set;
+
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.dataTypes.DataType;
 import net.sf.graphiti.ontology.enums.Position;
+import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import net.sf.graphiti.ontology.parameters.Parameter;
 import net.sf.graphiti.ontology.types.Type;
 
@@ -55,6 +58,13 @@ public class ParameterImpl extends OntologyIndividualImpl implements Parameter {
 	@Override
 	public String hasName() {
 		return getStringProperty(OntologyFactory.getPropertyParameterHasName());
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Set<ParameterValue> hasParameterValue() {
+		return (Set<ParameterValue>) listIndividuals(OntologyFactory
+				.getPropertyParameterHasParameterValue());
 	}
 
 	@Override

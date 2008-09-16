@@ -54,5 +54,5 @@ public class ShapeTriangle extends AbstractPolygonShape implements IShape {
 		addPoint(new Point(dim.width, dim.height - 1));
 		addPoint(new Point(0, dim.height - 1));
 	}
-	
+
 }

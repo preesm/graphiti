@@ -123,7 +123,8 @@ public class GraphitiPalette {
 				ImageDescriptor id = getImageDescriptorFromType(config, typeStr);
 
 				ToolEntry tool = new CreationToolEntry(typeStr, "Create a new "
-						+ typeStr, new VertexCreationFactory(typeStr), id, null);
+						+ typeStr, new VertexCreationFactory(config, typeStr),
+						id, null);
 
 				paletteGroup.add(tool);
 			}

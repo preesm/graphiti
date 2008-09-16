@@ -28,9 +28,12 @@
  */
 package net.sf.graphiti.ontology.parameters;
 
+import java.util.Set;
+
 import net.sf.graphiti.ontology.OntologyIndividual;
 import net.sf.graphiti.ontology.dataTypes.DataType;
 import net.sf.graphiti.ontology.enums.Position;
+import net.sf.graphiti.ontology.parameterValues.ParameterValue;
 import net.sf.graphiti.ontology.types.Type;
 
 /**
@@ -42,12 +45,39 @@ import net.sf.graphiti.ontology.types.Type;
  */
 public interface Parameter extends OntologyIndividual {
 
+	/**
+	 * Returns the type (vertex, graph, edge) this parameter applies to.
+	 * 
+	 * @return A {@link Type}.
+	 */
 	public Type appliesTo();
 
+	/**
+	 * Returns the name of this parameter.
+	 * 
+	 * @return A {@link String} representation of this parameter.
+	 */
 	public String hasName();
 
+	/**
+	 * Returns the parameter values that may be associated with this parameter.
+	 * 
+	 * @return A set of {@link ParameterValue}.
+	 */
+	public Set<ParameterValue> hasParameterValue();
+
+	/**
+	 * Returns the visual position of this parameter, if any.
+	 * 
+	 * @return The {@link Position} of this parameter, or <code>null</code>.
+	 */
 	public Position hasPosition();
 
+	/**
+	 * Returns the type of this parameter. This is mandatory.
+	 * 
+	 * @return A {@link DataType}.
+	 */
 	public DataType hasValueType();
 
 }

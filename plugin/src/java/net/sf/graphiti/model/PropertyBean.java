@@ -103,7 +103,7 @@ public class PropertyBean {
 			} else if (value instanceof Map<?, ?>) {
 				value = new HashMap<String, Object>((Map<String, Object>) value);
 			}
-			
+
 			properties.put(entry.getKey(), value);
 		}
 	}

@@ -59,5 +59,5 @@ public class ShapeHexagon extends AbstractPolygonShape implements IShape {
 		addPoint(new Point(dim.width - (2 * quantx), dim.height));
 		addPoint(new Point(0, dim.height / 2));
 	}
-	
+
 }

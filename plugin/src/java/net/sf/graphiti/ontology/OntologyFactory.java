@@ -378,6 +378,10 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#parameter_hasName";
 	}
 
+	public static String getPropertyParameterHasParameterValue() {
+		return "http://net.sf.graphiti/basics.owl#parameter_hasParameterValue";
+	}
+
 	public static String getPropertyParameterHasPosition() {
 		return "http://net.sf.graphiti/basics.owl#parameter_hasPosition";
 	}

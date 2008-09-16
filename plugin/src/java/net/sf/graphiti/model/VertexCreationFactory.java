@@ -28,6 +28,11 @@
  */
 package net.sf.graphiti.model;
 
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.parameterValues.ParameterValue;
+import net.sf.graphiti.ontology.parameters.Parameter;
+import net.sf.graphiti.ontology.types.VertexType;
+
 import org.eclipse.gef.requests.CreationFactory;
 
 /**
@@ -38,25 +43,61 @@ import org.eclipse.gef.requests.CreationFactory;
  */
 public class VertexCreationFactory implements CreationFactory {
 
+	private Configuration configuration;
+
 	private String type;
 
 	/**
 	 * Create a new vertex creation factory.
 	 * 
+	 * @param configuration
+	 *            The configuration.
 	 * @param type
 	 *            The vertex type.
 	 */
-	public VertexCreationFactory(String type) {
+	public VertexCreationFactory(Configuration configuration, String type) {
+		this.configuration = configuration;
 		this.type = type;
 	}
 
 	@Override
 	public Object getNewObject() {
-		return new Vertex(type);
+		Vertex vertex = new Vertex(type);
+		OntologyFactory factory = configuration.getOntologyFactory();
+		for (VertexType vertexType : factory.getVertexTypes()) {
+			if (vertexType.hasName().equals(type)) {
+				// we found the matching type, let's set the parameters and
+				// leave
+				setParameters(vertex, vertexType);
+				break;
+			}
+		}
+
+		return vertex;
 	}
 
 	@Override
 	public Object getObjectType() {
 		return Vertex.class;
+	}
+
+	/**
+	 * Sets parameter values to the given vertex, according to vertex type.
+	 * 
+	 * @param vertex
+	 *            The newly created vertex.
+	 * @param vertexType
+	 *            Its type as defined by the ontology.
+	 */
+	private void setParameters(Vertex vertex, VertexType vertexType) {
+		for (Parameter parameter : vertexType.hasParameters()) {
+			if (!parameter.hasName().equals("type")) {
+				// everything but type, because type is constrained
+				String parameterName = parameter.hasName();
+				for (ParameterValue paramValue : parameter.hasParameterValue()) {
+					vertex.setValue(parameterName, paramValue.hasValue());
+				}
+			}
+		}
 	}
 }

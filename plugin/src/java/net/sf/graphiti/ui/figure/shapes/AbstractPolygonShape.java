@@ -72,14 +72,14 @@ abstract public class AbstractPolygonShape extends Polygon implements IShape {
 	}
 
 	@Override
-	public void paintSuperFigure(Graphics graphics) {
-		super.paintFigure(graphics);
-	}
-
-	@Override
 	public void paintFigure(Graphics graphics) {
 		GradientPattern.paintFigure(this, getBackgroundColor(), getBounds(),
 				graphics);
+	}
+
+	@Override
+	public void paintSuperFigure(Graphics graphics) {
+		super.paintFigure(graphics);
 	}
 
 	@Override
