@@ -74,7 +74,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     </basic:type_hasParameters>
                     <basic:type_hasParameters rdf:resource="#GraphParameterType"/>
                     <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                    >Network</basic:type_hasName>
+                    >XNL Network</basic:type_hasName>
                   </basic:GraphType>
                 </basic:parameter_appliesTo>
                 <basic:parameter_hasParameterValue rdf:resource="#ParameterValueGraphTypeNetwork"/>
@@ -83,7 +83,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
               </basic:GraphParameter>
             </basic:parameterValue_ofParameter>
             <basic:parameterValue_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-            >Network</basic:parameterValue_hasValue>
+            >XNL Network</basic:parameterValue_hasValue>
           </basic:ParameterValue>
         </basic:element_hasParameterValue>
         <basic:element_hasSchemaType>
@@ -282,11 +282,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                             <basic:parameter_appliesTo>
                                                               <basic:VertexType rdf:ID="VertexTypeInstance">
     <basic:type_hasFigureAttributes>
-      <basic:ShapeAttribute rdf:ID="ShapeAttributeInstance">
-        <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#RoundedBox"/>
-      </basic:ShapeAttribute>
-    </basic:type_hasFigureAttributes>
-    <basic:type_hasFigureAttributes>
       <basic:DimensionAttribute rdf:ID="DimensionAttributeInstance">
         <basic:dimensionAttribute_hasWidth rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >40</basic:dimensionAttribute_hasWidth>
@@ -303,6 +298,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         <basic:colorAttribute_hasBlue rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >100</basic:colorAttribute_hasBlue>
       </basic:ColorAttribute>
+    </basic:type_hasFigureAttributes>
+    <basic:type_hasFigureAttributes>
+      <basic:ShapeAttribute rdf:ID="ShapeAttributeInstance">
+        <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#RoundedBox"/>
+      </basic:ShapeAttribute>
     </basic:type_hasFigureAttributes>
     <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Instance</basic:type_hasName>

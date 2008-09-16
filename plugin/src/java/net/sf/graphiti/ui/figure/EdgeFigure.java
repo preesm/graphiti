@@ -39,6 +39,7 @@ import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * This class provides drawing for a dependency.
@@ -88,6 +89,7 @@ public class EdgeFigure extends PolylineConnection {
 
 				if (position != null) {
 					Label parameterLabel = new Label(value.toString());
+					parameterLabel.setForegroundColor(new Color(null, 224, 0, 0));
 					Object locator = new PropertyLocator(this, position);
 					add(parameterLabel, locator);
 					parameterFigures.put(parameterName, parameterLabel);

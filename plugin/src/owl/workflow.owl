@@ -134,7 +134,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >preesm:algorithm</basic:element_hasName>
                 <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                >1</basic:schemaType_hasMinOccurs>
+                >0</basic:schemaType_hasMinOccurs>
                 <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                 >1</basic:schemaType_hasMaxOccurs>
               </basic:VertexElement>
@@ -208,18 +208,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                 "http://www.w3.org/2001/XMLSchema#string"
                                                 >Task</basic:type_hasName>
                                                 <basic:type_hasFigureAttributes>
-                                                  <basic:DimensionAttribute rdf:ID="DimensionAttributeTask">
-                                                    <basic:dimensionAttribute_hasHeight
-                                                     rdf:datatype=
-                                                    "http://www.w3.org/2001/XMLSchema#int"
-                                                    >30</basic:dimensionAttribute_hasHeight>
-                                                    <basic:dimensionAttribute_hasWidth
-                                                     rdf:datatype=
-                                                    "http://www.w3.org/2001/XMLSchema#int"
-                                                    >30</basic:dimensionAttribute_hasWidth>
-                                                  </basic:DimensionAttribute>
-                                                </basic:type_hasFigureAttributes>
-                                                <basic:type_hasFigureAttributes>
                                                   <basic:ColorAttribute rdf:ID="ColorAttributeTask">
                                                     <basic:colorAttribute_hasBlue
                                                      rdf:datatype=
@@ -234,6 +222,18 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                                     "http://www.w3.org/2001/XMLSchema#int"
                                                     >213</basic:colorAttribute_hasRed>
                                                   </basic:ColorAttribute>
+                                                </basic:type_hasFigureAttributes>
+                                                <basic:type_hasFigureAttributes>
+                                                  <basic:DimensionAttribute rdf:ID="DimensionAttributeTask">
+                                                    <basic:dimensionAttribute_hasHeight
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#int"
+                                                    >30</basic:dimensionAttribute_hasHeight>
+                                                    <basic:dimensionAttribute_hasWidth
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#int"
+                                                    >30</basic:dimensionAttribute_hasWidth>
+                                                  </basic:DimensionAttribute>
                                                 </basic:type_hasFigureAttributes>
                                                 <basic:type_hasFigureAttributes>
                                                   <basic:ShapeAttribute rdf:ID="ShapeAttributeTask">
@@ -317,7 +317,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 <basic:sequence_hasHead>
                   <basic:VertexElement rdf:ID="VertexElementArchitecture">
                     <basic:schemaType_hasMinOccurs rdf:datatype=
-                    "http://www.w3.org/2001/XMLSchema#int">1</basic:schemaType_hasMinOccurs>
+                    "http://www.w3.org/2001/XMLSchema#int">0</basic:schemaType_hasMinOccurs>
                     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                     >preesm:architecture</basic:element_hasName>
                     <basic:schemaType_hasMaxOccurs rdf:datatype=
@@ -350,6 +350,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                 "http://www.w3.org/2001/XMLSchema#string"
                                 >Architecture source</basic:type_hasName>
                                 <basic:type_hasFigureAttributes>
+                                  <basic:ShapeAttribute rdf:ID="ShapeAttributeArchitecture">
+                                    <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Triangle"/>
+                                  </basic:ShapeAttribute>
+                                </basic:type_hasFigureAttributes>
+                                <basic:type_hasFigureAttributes>
                                   <basic:DimensionAttribute rdf:ID="DimensionAttributeArchi">
                                     <basic:dimensionAttribute_hasHeight
                                      rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
@@ -358,11 +363,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                      rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                     >20</basic:dimensionAttribute_hasWidth>
                                   </basic:DimensionAttribute>
-                                </basic:type_hasFigureAttributes>
-                                <basic:type_hasFigureAttributes>
-                                  <basic:ShapeAttribute rdf:ID="ShapeAttributeArchitecture">
-                                    <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Triangle"/>
-                                  </basic:ShapeAttribute>
                                 </basic:type_hasFigureAttributes>
                                 <basic:type_hasFigureAttributes>
                                   <basic:ColorAttribute rdf:ID="ColorAttributeArchitecture">
