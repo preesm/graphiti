@@ -36,9 +36,12 @@ import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.ParameterPosition;
 
 import org.eclipse.draw2d.DelegatingLayout;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.draw2d.SWTGraphics;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 /**
@@ -77,6 +80,26 @@ public class EdgeFigure extends PolylineConnection {
 		setTargetDecoration(new PolygonDecoration());
 		setLineWidth(1);
 		this.setValid(true);
+	}
+
+	@Override
+	public void paintFigure(Graphics graphics) {
+		if (graphics instanceof SWTGraphics) {
+			graphics.pushState();
+			try {
+				// Needs advanced capabilities or throws SWTException
+				graphics.setAntialias(SWT.ON);
+			} catch (RuntimeException e) {
+				// No anti alias, less pretty but it will work!
+			}
+
+			super.paintFigure(graphics);
+			graphics.popState();
+		} else {
+			// ScaledGraphics and PrinterGraphics do not have advanced
+			// capabilities... so we try with SWTGraphics
+			super.paintFigure(graphics);
+		}
 	}
 
 	public void refresh(String parameterName, Object value) {
