@@ -61,12 +61,14 @@ import org.eclipse.draw2d.graph.NodeList;
 import org.eclipse.draw2d.graph.Subgraph;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 
 /**
  * The EditPart associated to the Graph gives methods to refresh the view when a
@@ -180,15 +182,19 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		Vertex vertex = (Vertex) getModel();
 
 		// Get dimension, color, shape
-		Dimension dimension = getVertexSize();
+		int width = (Integer) vertex.getAttribute(Vertex.ATTRIBUTE_WIDTH);
+		int height = (Integer) vertex.getAttribute(Vertex.ATTRIBUTE_HEIGHT);
+
+		Dimension dimension = new Dimension(width, height);
 		Color color = (Color) vertex.getAttribute(Vertex.ATTRIBUTE_COLOR);
 		IShape shape = ((Shape) vertex.getAttribute(Vertex.ATTRIBUTE_SHAPE))
 				.getShape();
 
-		VertexFigure figure = new VertexFigure(dimension, color, shape);
-
+		Font font = ((GraphicalEditPart) getParent()).getFigure().getFont();
+		VertexFigure figure = new VertexFigure(font, dimension, color, shape);
 		String id = (String) vertex.getValue(Vertex.PARAMETER_ID);
 		figure.setId(id);
+		updatePorts(figure);
 
 		return figure;
 	}
@@ -279,17 +285,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
-		Edge edge = (Edge) connection.getModel();
-		String srcPort = (String) edge.getValue(Edge.PARAMETER_SOURCE_PORT);
-		VertexConnectionAnchor anchor;
-		if (srcPort == null) {
-			anchor = new VertexConnectionAnchor(direction, false, 0, 1,
-					(VertexFigure) getFigure());
-		} else {
-			anchor = sourceAnchors.get(srcPort);
-		}
-
-		return anchor;
+		return new VertexConnectionAnchor(direction, false, 0, 1,
+				(VertexFigure) getFigure());
 	}
 
 	@Override
@@ -301,39 +298,14 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
-		Edge edge = (Edge) connection.getModel();
-		String dstPort = (String) edge.getValue(Edge.PARAMETER_TARGET_PORT);
-		VertexConnectionAnchor anchor;
-		if (dstPort == null) {
-			anchor = new VertexConnectionAnchor(direction, true, 0, 1,
-					(VertexFigure) getFigure());
-		} else {
-			anchor = targetAnchors.get(dstPort);
-		}
-
-		return anchor;
+		return new VertexConnectionAnchor(direction, true, 0, 1,
+				(VertexFigure) getFigure());
 	}
 
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return new VertexConnectionAnchor(direction, true, 0, 1,
 				(VertexFigure) getFigure());
-	}
-
-	private Dimension getVertexSize() {
-		Vertex vertex = (Vertex) getModel();
-
-		int width = (Integer) vertex.getAttribute(Vertex.ATTRIBUTE_WIDTH);
-		int height = (Integer) vertex.getAttribute(Vertex.ATTRIBUTE_HEIGHT);
-
-		Graph graph = vertex.getParent();
-		int nbEdges = graph.incomingEdgesOf(vertex).size();
-		nbEdges += graph.outgoingEdgesOf(vertex).size();
-
-		int newWidth = (int) ((double) width * (.5 + (double) nbEdges / 6));
-		int newHeight = (int) ((double) height * (0.5 + (double) nbEdges / 2));
-
-		return new Dimension(newWidth, newHeight);
 	}
 
 	@Override
@@ -355,24 +327,28 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	public void propertyChange(PropertyChangeEvent evt) {
 		String propertyName = evt.getPropertyName();
 		if (propertyName.equals(Vertex.PARAMETER_ID)) {
+			Vertex vertex = (Vertex) getModel();
 			VertexFigure figure = (VertexFigure) getFigure();
 			figure.setId((String) evt.getNewValue());
+			figure.adjustSize();
+			vertex.setValue(Vertex.PROPERTY_SIZE, getFigure().getBounds());
 		} else if (propertyName.equals(Vertex.PROPERTY_SIZE)) {
 			VertexFigure vertexFigure = (VertexFigure) getFigure();
 			vertexFigure.setBounds((Rectangle) evt.getNewValue());
 			refresh();
 		} else if (propertyName.equals(Vertex.PROPERTY_SRC_VERTEX)) {
 			Vertex vertex = (Vertex) getModel();
-			Rectangle bounds = getFigure().getBounds();
-			bounds.setSize(getVertexSize());
-			vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
+			updatePorts(getFigure());
+			vertex.setValue(Vertex.PROPERTY_SIZE, getFigure().getBounds());
 		} else if (propertyName.equals(Vertex.PROPERTY_DST_VERTEX)) {
 			Vertex vertex = (Vertex) getModel();
-			Rectangle bounds = getFigure().getBounds();
-			bounds.setSize(getVertexSize());
-			vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
+			updatePorts(getFigure());
+			vertex.setValue(Vertex.PROPERTY_SIZE, getFigure().getBounds());
 		} else {
-			refresh();
+			// another parameter
+			Vertex vertex = (Vertex) getModel();
+			((VertexFigure) getFigure()).adjustSize();
+			vertex.setValue(Vertex.PROPERTY_SIZE, getFigure().getBounds());
 		}
 	}
 
@@ -412,5 +388,36 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 				part.updateFigures(direction);
 			}
 		}
+	}
+
+	/**
+	 * Update the ports of the given figure. The figure has to be passed to the
+	 * function because updatePorts can be called by createFigure, and
+	 * getFigure() at this time returns null.
+	 * 
+	 * @param fig
+	 */
+	private void updatePorts(IFigure fig) {
+		Vertex vertex = (Vertex) getModel();
+		VertexFigure figure = (VertexFigure) fig;
+		Graph parent = vertex.getParent();
+
+		figure.clearInputPorts();
+		for (Edge edge : parent.incomingEdgesOf(vertex)) {
+			String port = (String) edge.getValue(Edge.PARAMETER_TARGET_PORT);
+			if (port != null) {
+				figure.addInputPort(port);
+			}
+		}
+
+		figure.clearOutputPorts();
+		for (Edge edge : parent.outgoingEdgesOf(vertex)) {
+			String port = (String) edge.getValue(Edge.PARAMETER_SOURCE_PORT);
+			if (port != null) {
+				figure.addOutputPort(port);
+			}
+		}
+
+		figure.adjustSize();
 	}
 }

@@ -75,6 +75,7 @@
                                                 >1</basic:schemaType_hasMaxOccurs>
                                                 <basic:textContentElement_referencesParameter>
                                                   <basic:EdgeParameter rdf:ID="EdgeParameterSourceProduction">
+                                                    <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#West"/>
                                                     <basic:parameter_hasName
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#string"
@@ -93,13 +94,11 @@
                                                             >source port</basic:parameter_hasName>
                                                             <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                                                             <basic:parameter_appliesTo rdf:resource="#EdgeType"/>
-                                                            <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#West"/>
                                                           </basic:EdgeParameter>
                                                         </basic:type_hasParameters>
                                                         <basic:type_hasParameters>
                                                           <basic:EdgeParameter rdf:ID="EdgeParameterTargetPort">
                                                             <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
-                                                            <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#East"/>
                                                             <basic:parameter_appliesTo rdf:resource="#EdgeType"/>
                                                             <basic:parameter_hasName
                                                              rdf:datatype=
@@ -132,6 +131,7 @@
                                                             >delay</basic:parameter_hasName>
                                                             <basic:parameter_appliesTo rdf:resource="#EdgeType"/>
                                                             <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Integer"/>
+                                                            <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#Center"/>
                                                           </basic:EdgeParameter>
                                                         </basic:type_hasParameters>
                                                         <basic:type_hasParameters>
@@ -142,6 +142,7 @@
                                                              rdf:datatype=
                                                             "http://www.w3.org/2001/XMLSchema#string"
                                                             >target consumption</basic:parameter_hasName>
+                                                            <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#East"/>
                                                           </basic:EdgeParameter>
                                                         </basic:type_hasParameters>
                                                       </basic:EdgeType>
@@ -318,17 +319,17 @@
                                                             <basic:element_hasSchemaType>
                                                               <basic:Element rdf:ID="ElementVertexDataArgument">
     <basic:element_hasAttributes>
-      <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentName">
-        <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >name</basic:attribute_hasName>
-        <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
-      </basic:OtherAttribute>
-    </basic:element_hasAttributes>
-    <basic:element_hasAttributes>
       <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentValue">
         <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
         <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >value</basic:attribute_hasName>
+      </basic:OtherAttribute>
+    </basic:element_hasAttributes>
+    <basic:element_hasAttributes>
+      <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentName">
+        <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >name</basic:attribute_hasName>
+        <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
       </basic:OtherAttribute>
     </basic:element_hasAttributes>
     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"

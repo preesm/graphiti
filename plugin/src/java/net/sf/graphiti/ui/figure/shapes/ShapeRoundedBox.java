@@ -29,15 +29,11 @@
 package net.sf.graphiti.ui.figure.shapes;
 
 import org.eclipse.draw2d.ChopboxAnchor;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.RoundedRectangle;
-import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * This class provides a rounded box shape.
@@ -48,28 +44,17 @@ import org.eclipse.swt.graphics.Color;
  */
 public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 
-	private Label labelName;
-
 	/**
 	 * Creates a new rounded box shape.
 	 */
 	public ShapeRoundedBox() {
-		setLayoutManager(new XYLayout());
-		labelName = new Label();
-		labelName.setForegroundColor(ColorConstants.black);
-		add(labelName);
-
+		setLayoutManager(new GridLayout(2, false));
 		setFill(true);
 	}
 
 	@Override
 	public ConnectionAnchor getConnectionAnchor() {
 		return new ChopboxAnchor(this);
-	}
-
-	@Override
-	public Label getLabel() {
-		return labelName;
 	}
 
 	@Override
@@ -84,28 +69,8 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 	}
 
 	@Override
-	public void setColor(Color color) {
-		setBackgroundColor(color);
-	}
-
-	@Override
 	public void setDimension(Dimension dim) {
 		setSize(dim);
-	}
-
-	@Override
-	public void setId(String name) {
-		labelName.setText(name);
-		int hDecal = 5;
-		int wDecal = 0;
-		if (name != null) {
-			wDecal = (name.length() * 5) / 2;
-		}
-
-		Rectangle bounds = this.getParent().getBounds();
-		this.setConstraint(labelName, new Rectangle(
-				(bounds.width / 2) - wDecal, (bounds.height / 2) - hDecal, -1,
-				-1));
 	}
 
 }

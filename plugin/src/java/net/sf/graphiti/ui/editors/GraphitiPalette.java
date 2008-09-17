@@ -160,7 +160,7 @@ public class GraphitiPalette {
 		height = (int) ((double) width / ratio);
 
 		// Creates a new vertex figure
-		VertexFigure figure = new VertexFigure(new Dimension(width, height),
+		VertexFigure figure = new VertexFigure(null, new Dimension(width, height),
 				color, shape);
 
 		// Creates a new image of width x height on the current display

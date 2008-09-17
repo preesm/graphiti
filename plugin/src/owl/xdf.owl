@@ -45,6 +45,11 @@
                               </basic:VertexParameter>
                             </basic:type_hasParameters>
                             <basic:type_hasFigureAttributes>
+                              <basic:ShapeAttribute rdf:ID="ShapePort">
+                                <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Triangle"/>
+                              </basic:ShapeAttribute>
+                            </basic:type_hasFigureAttributes>
+                            <basic:type_hasFigureAttributes>
                               <basic:DimensionAttribute rdf:ID="DimensionAttributePort">
                                 <basic:dimensionAttribute_hasHeight
                                  rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
@@ -66,11 +71,6 @@
                                  rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                 >100</basic:colorAttribute_hasBlue>
                               </basic:ColorAttribute>
-                            </basic:type_hasFigureAttributes>
-                            <basic:type_hasFigureAttributes>
-                              <basic:ShapeAttribute rdf:ID="ShapePort">
-                                <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Triangle"/>
-                              </basic:ShapeAttribute>
                             </basic:type_hasFigureAttributes>
                             <basic:type_hasName rdf:datatype=
                             "http://www.w3.org/2001/XMLSchema#string"
@@ -132,16 +132,6 @@
                             "http://www.w3.org/2001/XMLSchema#string"
                             >Instance</basic:type_hasName>
                             <basic:type_hasFigureAttributes>
-                              <basic:DimensionAttribute rdf:ID="DimensionAttributeInstance">
-                                <basic:dimensionAttribute_hasHeight
-                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                                >40</basic:dimensionAttribute_hasHeight>
-                                <basic:dimensionAttribute_hasWidth
-                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                                >40</basic:dimensionAttribute_hasWidth>
-                              </basic:DimensionAttribute>
-                            </basic:type_hasFigureAttributes>
-                            <basic:type_hasFigureAttributes>
                               <basic:ColorAttribute rdf:ID="ColorAttributeInstance">
                                 <basic:colorAttribute_hasGreen
                                  rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
@@ -158,6 +148,16 @@
                               <basic:ShapeAttribute rdf:ID="ShapeInstance">
                                 <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#RoundedBox"/>
                               </basic:ShapeAttribute>
+                            </basic:type_hasFigureAttributes>
+                            <basic:type_hasFigureAttributes>
+                              <basic:DimensionAttribute rdf:ID="DimensionAttributeInstance">
+                                <basic:dimensionAttribute_hasHeight
+                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                >40</basic:dimensionAttribute_hasHeight>
+                                <basic:dimensionAttribute_hasWidth
+                                 rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                                >40</basic:dimensionAttribute_hasWidth>
+                              </basic:DimensionAttribute>
                             </basic:type_hasFigureAttributes>
                           </basic:VertexType>
                         </basic:parameter_appliesTo>
@@ -254,7 +254,6 @@
                                                 "http://www.w3.org/2001/XMLSchema#string"
                                                 >target port</basic:parameter_hasName>
                                                 <basic:parameter_appliesTo rdf:resource="#EdgeTypeConnection"/>
-                                                <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#East"/>
                                                 <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                                               </basic:EdgeParameter>
                                             </basic:type_hasParameters>
@@ -267,7 +266,6 @@
                                                  rdf:datatype=
                                                 "http://www.w3.org/2001/XMLSchema#string"
                                                 >source port</basic:parameter_hasName>
-                                                <basic:parameter_hasPosition rdf:resource="http://net.sf.graphiti/basics.owl#West"/>
                                               </basic:EdgeParameter>
                                             </basic:type_hasParameters>
                                             <basic:type_hasName
@@ -359,6 +357,7 @@
                                                 >src</basic:element_hasName>
                                               </basic:EdgeSourceConnection>
                                             </basic:element_hasAttributes>
+                                            <basic:element_hasAttributes rdf:resource="#EdgeTargetConnectionEntity"/>
                                             <basic:element_hasAttributes>
                                               <basic:OtherAttribute rdf:ID="OtherAttributeSourcePort">
                                                 <basic:attribute_hasName
@@ -372,7 +371,6 @@
                                                 <basic:otherAttribute_referencesParameter rdf:resource="#sourceParameter"/>
                                               </basic:OtherAttribute>
                                             </basic:element_hasAttributes>
-                                            <basic:element_hasAttributes rdf:resource="#EdgeTargetConnectionEntity"/>
                                             <basic:schemaType_hasMinOccurs
                                              rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                             >1</basic:schemaType_hasMinOccurs>

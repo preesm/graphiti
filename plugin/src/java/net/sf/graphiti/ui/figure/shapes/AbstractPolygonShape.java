@@ -28,15 +28,11 @@
  */
 package net.sf.graphiti.ui.figure.shapes;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.Polygon;
-import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * This class provides an abstract polygon shape for hexagon, losange and
@@ -47,28 +43,17 @@ import org.eclipse.swt.graphics.Color;
  */
 abstract public class AbstractPolygonShape extends Polygon implements IShape {
 
-	private Label labelName;
-
 	/**
 	 * Creates a new abstract polygon shape.
 	 */
 	public AbstractPolygonShape() {
-		setLayoutManager(new XYLayout());
-		labelName = new Label();
-		labelName.setForegroundColor(ColorConstants.black);
-		add(labelName);
-
+		setLayoutManager(new GridLayout(2, false));
 		setFill(true);
 	}
 
 	@Override
 	public ConnectionAnchor getConnectionAnchor() {
 		return new PolygonConnectionAnchor(this);
-	}
-
-	@Override
-	public Label getLabel() {
-		return labelName;
 	}
 
 	@Override
@@ -83,26 +68,6 @@ abstract public class AbstractPolygonShape extends Polygon implements IShape {
 	}
 
 	@Override
-	public void setColor(Color color) {
-		setBackgroundColor(color);
-	}
-
-	@Override
 	abstract public void setDimension(Dimension dim);
-
-	@Override
-	public void setId(String name) {
-		labelName.setText(name);
-		int hDecal = 5;
-		int wDecal = 0;
-		if (name != null) {
-			wDecal = (name.length() * 5) / 2;
-		}
-
-		Rectangle bounds = this.getParent().getBounds();
-		this.setConstraint(labelName, new Rectangle(
-				(bounds.width / 2) - wDecal, (bounds.height / 2) - hDecal, -1,
-				-1));
-	}
 
 }
