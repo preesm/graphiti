@@ -31,8 +31,8 @@ package net.sf.graphiti.ui.figure;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.Set;
+import java.util.TreeSet;
 
 import net.sf.graphiti.ui.figure.shapes.IShape;
 
@@ -41,6 +41,7 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -57,13 +58,13 @@ import org.eclipse.swt.graphics.Font;
  */
 public class VertexFigure extends Figure {
 
-	private Map<String, Rectangle> inputPorts;
+	private Set<String> inputPorts;
 
 	private Label labelId;
 
 	private Label labelToolTip;
 
-	private Map<String, Rectangle> outputPorts;
+	private Set<String> outputPorts;
 
 	private IShape shape;
 
@@ -76,40 +77,15 @@ public class VertexFigure extends Figure {
 	 */
 	public VertexFigure(Font font, Dimension dimension, Color color,
 			IShape shape) {
+		inputPorts = new TreeSet<String>();
+		outputPorts = new TreeSet<String>();
+
 		// necessary for adjustSize
 		setFont(font);
 
-		// ports
-		inputPorts = new TreeMap<String, Rectangle>();
-		outputPorts = new TreeMap<String, Rectangle>();
-
-		// Get bounds
-		bounds = new Rectangle(0, 0, dimension.width, dimension.height);
-		setBounds(bounds);
-
-		// Sets Layout Manager
 		setLayoutManager(new XYLayout());
-
-		// Label id
-		labelId = new Label();
-		labelId.setFont(font);
-		labelId.setForegroundColor(ColorConstants.black);
-
-		// Sets the tool tip and adds it so that it is visible
-		labelToolTip = new Label();
-		labelToolTip.setForegroundColor(ColorConstants.black);
-		setToolTip(labelToolTip);
-
-		// Sets shape properties and size
-		this.shape = shape;
-		shape.setBackgroundColor(color);
-		shape.setDimension(new Dimension(bounds.width, bounds.height));
-
-		// Adds shape to this, and label to shape.
-		add(shape, new Rectangle(0, 0, -1, -1));
-		GridData data = new GridData(SWT.CENTER, SWT.CENTER, true, true);
-		data.horizontalSpan = 2;
-		shape.add(labelId, data);
+		initLabels();
+		initShape(shape, color, dimension);
 	}
 
 	/**
@@ -119,7 +95,7 @@ public class VertexFigure extends Figure {
 	 *            The port name.
 	 */
 	public void addInputPort(String portName) {
-		inputPorts.put(portName, null);
+		inputPorts.add(portName);
 	}
 
 	/**
@@ -129,70 +105,29 @@ public class VertexFigure extends Figure {
 	 *            The port name.
 	 */
 	public void addOutputPort(String portName) {
-		outputPorts.put(portName, null);
+		outputPorts.add(portName);
 	}
 
 	/**
 	 * Adjusts the size of this figure according to its id and ports.
 	 */
+	@SuppressWarnings("unchecked")
 	public void adjustSize() {
-		Iterator<String> itInput = inputPorts.keySet().iterator();
-		Iterator<String> itOutput = outputPorts.keySet().iterator();
-		while (itInput.hasNext()) {
-			if (itOutput.hasNext()) {
-				Label label = new Label(itInput.next());
-				shape.add(label, new GridData(SWT.BEGINNING, SWT.CENTER, true,
-						true));
-
-				label = new Label(itOutput.next());
-				shape.add(label, new GridData(SWT.END, SWT.CENTER, true, true));
-			} else {
-				Label label = new Label(itInput.next());
-				GridData data = new GridData(SWT.BEGINNING, SWT.CENTER, true, true);
-				data.horizontalSpan = 2;
-				shape.add(label, data);
-			}
-		}
-
-		while (itOutput.hasNext()) {
-			Label label = new Label(itOutput.next());
-			GridData data = new GridData(SWT.END, SWT.CENTER, true, true);
-			data.horizontalSpan = 2;
-			shape.add(label, data);
-		}
-
-		Dimension size = shape.getPreferredSize();
-		shape.setSize(size);
-		setConstraint(shape, new Rectangle(0, 0, size.width, size.height));
-		setSize(size);
-	}
-
-	/**
-	 * Clears the input ports.
-	 */
-	@SuppressWarnings("unchecked")
-	public void clearInputPorts() {
-		inputPorts.clear();
-		List<IFigure> children = new ArrayList<IFigure>(shape.getChildren());
+		List<IFigure> children = new ArrayList<IFigure>((List<IFigure>) shape
+				.getChildren());
+		children.remove(labelId);
 		for (IFigure child : children) {
-			if (child != labelId) {
-				shape.remove(child);
-			}
+			shape.remove(child);
 		}
-	}
 
-	/**
-	 * Clears the output ports.
-	 */
-	@SuppressWarnings("unchecked")
-	public void clearOutputPorts() {
-		outputPorts.clear();
-		List<IFigure> children = (List<IFigure>) shape.getChildren();
-		for (IFigure child : children) {
-			if (child != labelId) {
-				shape.remove(child);
-			}
+		// update the figure ports
+		updatePorts();
+
+		// set the shape dimension (if polyline), and our size.
+		if (shape instanceof Polyline) {
+			shape.setDimension(shape.getPreferredSize());
 		}
+		setSize(shape.getPreferredSize());
 	}
 
 	/**
@@ -217,13 +152,49 @@ public class VertexFigure extends Figure {
 		return shape;
 	}
 
-	public void setBounds(Rectangle rect) {
-		if (shape != null) {
-			shape.setDimension(rect.getSize());
-			setConstraint(shape, new Rectangle(0, 0, rect.width, rect.height));
-		}
+	/**
+	 * Initializes the labels.
+	 */
+	private void initLabels() {
+		// Label id
+		labelId = new Label();
+		labelId.setForegroundColor(ColorConstants.black);
 
-		super.setBounds(rect);
+		// Sets the tool tip and adds it so that it is visible
+		labelToolTip = new Label();
+		labelToolTip.setForegroundColor(ColorConstants.black);
+		setToolTip(labelToolTip);
+	}
+
+	/**
+	 * Initializes the shape and adds it to this figure.
+	 * 
+	 * @param shape
+	 *            An {@link IShape}.
+	 * @param color
+	 *            Its {@link Color}.
+	 * @param dimension
+	 *            Its {@link Dimension}.
+	 */
+	private void initShape(IShape shape, Color color, Dimension dimension) {
+		// Sets shape properties and size
+		this.shape = shape;
+		shape.setBackgroundColor(color);
+		shape.setDimension(new Dimension(dimension.width, dimension.height));
+
+		// Adds shape to this, and label to shape.
+		add(shape, new Rectangle(0, 0, -1, -1));
+		GridData data = new GridData(SWT.CENTER, SWT.CENTER, true, true);
+		data.horizontalSpan = 2;
+		shape.add(labelId, data);
+	}
+
+	/**
+	 * Resets the ports sets.
+	 */
+	public void resetPorts() {
+		inputPorts.clear();
+		outputPorts.clear();
 	}
 
 	/**
@@ -234,6 +205,45 @@ public class VertexFigure extends Figure {
 	public void setId(String text) {
 		labelId.setText(text);
 		labelToolTip.setText(text);
+	}
+
+	/**
+	 * Adds label for all ports of this figure in the grid layout.
+	 */
+	private void updatePorts() {
+		Iterator<String> itInput = inputPorts.iterator();
+		Iterator<String> itOutput = outputPorts.iterator();
+
+		// we iterate on input ports first
+		while (itInput.hasNext()) {
+			if (itOutput.hasNext()) {
+				// If the output port iterator has at least one output port, we
+				// add both.
+				Label label = new Label(itInput.next());
+				shape.add(label, new GridData(SWT.BEGINNING, SWT.CENTER, true,
+						true));
+
+				label = new Label(itOutput.next());
+				shape.add(label, new GridData(SWT.END, SWT.CENTER, true, true));
+			} else {
+				// Otherwise, we add only the input port with an horizontal span
+				// equal to 2
+				Label label = new Label(itInput.next());
+				GridData data = new GridData(SWT.BEGINNING, SWT.CENTER, true,
+						true);
+				data.horizontalSpan = 2;
+				shape.add(label, data);
+			}
+		}
+
+		// Finally, we proceed to add any remaining output port with an
+		// horizontal span of 2.
+		while (itOutput.hasNext()) {
+			Label label = new Label(itOutput.next());
+			GridData data = new GridData(SWT.END, SWT.CENTER, true, true);
+			data.horizontalSpan = 2;
+			shape.add(label, data);
+		}
 	}
 
 	@Override

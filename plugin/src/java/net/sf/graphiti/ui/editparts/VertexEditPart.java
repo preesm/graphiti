@@ -402,7 +402,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		VertexFigure figure = (VertexFigure) fig;
 		Graph parent = vertex.getParent();
 
-		figure.clearInputPorts();
+		figure.resetPorts();
+		
 		for (Edge edge : parent.incomingEdgesOf(vertex)) {
 			String port = (String) edge.getValue(Edge.PARAMETER_TARGET_PORT);
 			if (port != null) {
@@ -410,7 +411,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 			}
 		}
 
-		figure.clearOutputPorts();
 		for (Edge edge : parent.outgoingEdgesOf(vertex)) {
 			String port = (String) edge.getValue(Edge.PARAMETER_SOURCE_PORT);
 			if (port != null) {

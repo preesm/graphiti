@@ -61,8 +61,11 @@ public class GradientPattern {
 		if (graphics instanceof SWTGraphics) {
 			// advanced graphics
 			Color fg = new Color(null, 224, 224, 224);
-			Pattern pattern = new Pattern(backgroundColor.getDevice(), 0, 0,
-					bounds.width, bounds.height, backgroundColor, 192, fg, 192);
+
+			// square gradient, from left-bottom to right-top
+			int max = Math.max(bounds.width, bounds.height);
+			Pattern pattern = new Pattern(backgroundColor.getDevice(), 0, max,
+					max, 0, backgroundColor, 192, fg, 192);
 
 			graphics.pushState();
 			try {
