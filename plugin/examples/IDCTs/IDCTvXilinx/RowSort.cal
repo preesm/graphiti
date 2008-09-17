@@ -93,5 +93,8 @@ actor RowSort ( int sz ) int(size=sz) ROW ==> int(size=sz) Y0, int(size=sz) Y1 :
     s8( a9 ) --> s0;
   end
 
+  priority
+    a8 > a9;
+  end
   
 end

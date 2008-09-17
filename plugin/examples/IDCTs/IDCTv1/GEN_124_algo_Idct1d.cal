@@ -24,7 +24,6 @@ actor GEN_124_algo_Idct1d ( bool ROW ) int X ==> int Y :
    int y7,
    list[ int ] o = if ROW then [ 128, 128, 0, 0, 0, 0, 0, 0 ] else [ 65536, 65536, 4, 4, 4, 4, 4, 4 ] end
   do
-      println("GEN_124_algo_Idct1d: " + ROW );
     x := [ x[0], x[4], x[2], x[6], x[1], x[7], x[5], x[3] ];
     y := [ (x[2*i] * W0[i] +  x[2*i+1] * W1[i]), (x[2*i] * W1[i] -  x[2*i+1] * W0[i]) : for i in Integers(0,3) ];
     y := [ rshift( y[i] + o[i], if ROW then 0 else 3 end ) : for i in Integers( 0, 7 ) ];

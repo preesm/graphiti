@@ -1,8 +1,6 @@
 actor idct2d_data_generate () ==> bool S, int DATA :
 
   write_sign: action ==> S:[ true ] 
-  do
-    println("write_sign: ");
   end
 
   write_data: action ==> DATA:[ [data[s]:for s in Integers(0,63)] ] repeat 64

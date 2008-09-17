@@ -13,8 +13,6 @@
 actor GEN_algo_Transpose (  ) int X ==> int Y :
 
   action X:[ x ] repeat 64 ==> Y: [ [ x[ 8 * c + r ] : for r in Integers(0,7), for c in Integers(0,7) ] ] repeat 64
-  do
-      println("GEN_algo_Transpose: " );
   end
 
  end

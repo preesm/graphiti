@@ -54,7 +54,12 @@ actor FairMerge ( int rsz, int csz )
   row_low: action R0:[a], R1:[b] ==> Y0:[a], Y1:[b], ROWOUT:[true] end
   col_low: action C0:[a], C1:[b] ==> Y0:[a], Y1:[b], ROWOUT:[false] end  
 
-  schedule fsm r0 :
+  schedule fsm r0_init :
+    r0_init( row ) --> r1_init;
+    r1_init( row ) --> r2_init;
+    r2_init( row ) --> r3_init;
+    r3_init( row ) --> c0;
+
     r0( row ) --> r1;
     r1( row ) --> r2;
     r2( row ) --> r3;
