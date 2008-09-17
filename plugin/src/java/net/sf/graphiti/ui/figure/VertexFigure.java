@@ -31,12 +31,15 @@ package net.sf.graphiti.ui.figure;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 
+import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.IFigure;
@@ -58,13 +61,13 @@ import org.eclipse.swt.graphics.Font;
  */
 public class VertexFigure extends Figure {
 
-	private Set<String> inputPorts;
+	private Map<String, Label> inputPorts;
 
 	private Label labelId;
 
 	private Label labelToolTip;
 
-	private Set<String> outputPorts;
+	private Map<String, Label> outputPorts;
 
 	private IShape shape;
 
@@ -77,8 +80,8 @@ public class VertexFigure extends Figure {
 	 */
 	public VertexFigure(Font font, Dimension dimension, Color color,
 			IShape shape) {
-		inputPorts = new TreeSet<String>();
-		outputPorts = new TreeSet<String>();
+		inputPorts = new TreeMap<String, Label>();
+		outputPorts = new TreeMap<String, Label>();
 
 		// necessary for adjustSize
 		setFont(font);
@@ -95,7 +98,7 @@ public class VertexFigure extends Figure {
 	 *            The port name.
 	 */
 	public void addInputPort(String portName) {
-		inputPorts.add(portName);
+		inputPorts.put(portName, null);
 	}
 
 	/**
@@ -105,7 +108,7 @@ public class VertexFigure extends Figure {
 	 *            The port name.
 	 */
 	public void addOutputPort(String portName) {
-		outputPorts.add(portName);
+		outputPorts.put(portName, null);
 	}
 
 	/**
@@ -129,6 +132,17 @@ public class VertexFigure extends Figure {
 		}
 		setSize(shape.getPreferredSize());
 	}
+	
+	/**
+	 * Returns the label for the input port whose name is given.
+	 * 
+	 * @param portName
+	 *            The input port name.
+	 * @return Its label.
+	 */
+	public Label getInputPortLabel(String portName) {
+		return inputPorts.get(portName);
+	}
 
 	/**
 	 * Returns the id label object.
@@ -137,6 +151,17 @@ public class VertexFigure extends Figure {
 	 */
 	public Label getLabelId() {
 		return labelId;
+	}
+
+	/**
+	 * Returns the label for the output port whose name is given.
+	 * 
+	 * @param portName
+	 *            The output port name.
+	 * @return Its label.
+	 */
+	public Label getOutputPortLabel(String portName) {
+		return outputPorts.get(portName);
 	}
 
 	/**
@@ -150,6 +175,26 @@ public class VertexFigure extends Figure {
 
 	public IShape getShape() {
 		return shape;
+	}
+
+	public ConnectionAnchor getSourceAnchor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ConnectionAnchor getSourceAnchor(Edge edge) {
+		String portName = (String) edge.getValue(Edge.PARAMETER_SOURCE_PORT);
+		return shape.getConnectionAnchor(this, portName, true);
+	}
+
+	public ConnectionAnchor getTargetAnchor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ConnectionAnchor getTargetAnchor(Edge edge) {
+		String portName = (String) edge.getValue(Edge.PARAMETER_TARGET_PORT);
+		return shape.getConnectionAnchor(this, portName, false);
 	}
 
 	/**
@@ -211,24 +256,32 @@ public class VertexFigure extends Figure {
 	 * Adds label for all ports of this figure in the grid layout.
 	 */
 	private void updatePorts() {
-		Iterator<String> itInput = inputPorts.iterator();
-		Iterator<String> itOutput = outputPorts.iterator();
+		Iterator<Entry<String, Label>> itInput = inputPorts.entrySet()
+				.iterator();
+		Iterator<Entry<String, Label>> itOutput = outputPorts.entrySet()
+				.iterator();
 
 		// we iterate on input ports first
 		while (itInput.hasNext()) {
 			if (itOutput.hasNext()) {
 				// If the output port iterator has at least one output port, we
 				// add both.
-				Label label = new Label(itInput.next());
+				Entry<String, Label> entry = itInput.next();
+				Label label = new Label(entry.getKey());
+				entry.setValue(label);
 				shape.add(label, new GridData(SWT.BEGINNING, SWT.CENTER, true,
 						true));
 
-				label = new Label(itOutput.next());
+				entry = itOutput.next();
+				label = new Label(entry.getKey());
+				entry.setValue(label);
 				shape.add(label, new GridData(SWT.END, SWT.CENTER, true, true));
 			} else {
 				// Otherwise, we add only the input port with an horizontal span
 				// equal to 2
-				Label label = new Label(itInput.next());
+				Entry<String, Label> entry = itInput.next();
+				Label label = new Label(entry.getKey());
+				entry.setValue(label);
 				GridData data = new GridData(SWT.BEGINNING, SWT.CENTER, true,
 						true);
 				data.horizontalSpan = 2;
@@ -239,7 +292,9 @@ public class VertexFigure extends Figure {
 		// Finally, we proceed to add any remaining output port with an
 		// horizontal span of 2.
 		while (itOutput.hasNext()) {
-			Label label = new Label(itOutput.next());
+			Entry<String, Label> entry = itOutput.next();
+			Label label = new Label(entry.getKey());
+			entry.setValue(label);
 			GridData data = new GridData(SWT.END, SWT.CENTER, true, true);
 			data.horizontalSpan = 2;
 			shape.add(label, data);

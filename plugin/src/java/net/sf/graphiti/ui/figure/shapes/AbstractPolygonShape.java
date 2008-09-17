@@ -28,6 +28,9 @@
  */
 package net.sf.graphiti.ui.figure.shapes;
 
+import net.sf.graphiti.ui.figure.PolygonPortAnchor;
+import net.sf.graphiti.ui.figure.VertexFigure;
+
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridLayout;
@@ -43,6 +46,8 @@ import org.eclipse.draw2d.geometry.Dimension;
  */
 abstract public class AbstractPolygonShape extends Polygon implements IShape {
 
+	private PolygonPortAnchor anchor;
+
 	/**
 	 * Creates a new abstract polygon shape.
 	 */
@@ -52,8 +57,13 @@ abstract public class AbstractPolygonShape extends Polygon implements IShape {
 	}
 
 	@Override
-	public ConnectionAnchor getConnectionAnchor() {
-		return new PolygonConnectionAnchor(this);
+	public ConnectionAnchor getConnectionAnchor(VertexFigure figure, String portName,
+			boolean isOutput) {
+		if (anchor == null) {
+			anchor = new PolygonPortAnchor(figure);
+		}
+		anchor.setParameters(portName, isOutput);
+		return anchor;
 	}
 
 	@Override

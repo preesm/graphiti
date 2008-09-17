@@ -32,11 +32,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import net.sf.graphiti.model.Edge;
+import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.editpolicies.DependencyEditPolicy;
 import net.sf.graphiti.ui.editpolicies.DependencyEndPointEditPolicy;
 import net.sf.graphiti.ui.figure.EdgeFigure;
 
-import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
@@ -83,16 +83,29 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		// parameter modification
+		String propertyName = evt.getPropertyName();
+		if (propertyName.equals(Edge.PARAMETER_SOURCE_PORT)) {
+			VertexEditPart vertexEP = (VertexEditPart) getSource();
+			vertexEP.propertyChange(new PropertyChangeEvent(this,
+					Vertex.PROPERTY_SRC_VERTEX, null, null));
+		} else if (propertyName.equals(Edge.PARAMETER_TARGET_PORT)) {
+			VertexEditPart vertexEP = (VertexEditPart) getTarget();
+			vertexEP.propertyChange(new PropertyChangeEvent(this,
+					Vertex.PROPERTY_DST_VERTEX, null, null));
+		}
+
+		// any parameter
+		// (including ports in case they are also displayed on the edge)
 		EdgeFigure figure = (EdgeFigure) getFigure();
 		figure.refresh(evt.getPropertyName(), evt.getNewValue());
 	}
 
 	void updateFigures(int direction) {
-		ConnectionAnchor anchor = ((EdgeFigure) getFigure()).getSourceAnchor();
-		((VertexConnectionAnchor) anchor).setDirection(direction);
+		//TODO
+		//ConnectionAnchor anchor = ((EdgeFigure) getFigure()).getSourceAnchor();
+		// ((VertexConnectionAnchor) anchor).setDirection(direction);
 
-		anchor = ((EdgeFigure) getFigure()).getTargetAnchor();
-		((VertexConnectionAnchor) anchor).setDirection(direction);
+		//anchor = ((EdgeFigure) getFigure()).getTargetAnchor();
+		// ((VertexConnectionAnchor) anchor).setDirection(direction);
 	}
 }

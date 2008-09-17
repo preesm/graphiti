@@ -70,14 +70,15 @@ public class PasteAction extends SelectionAction implements
 		// Enabled if the clipboard is not empty and we know where to paste:
 		// either the selected object is a GraphEditPart or a VertexEditPart
 		List<?> selection = getSelectedObjects();
-		List<Vertex> vertices = getClipboardContents();
+		List<?> vertices = getClipboardContents();
 		return (vertices != null && vertices.isEmpty() == false
-				&& selection != null && selection.size() == 1 && (selection
-				.get(0) instanceof GraphEditPart || selection.get(0) instanceof VertexEditPart));
+				&& vertices.get(0) instanceof Vertex && selection != null
+				&& selection.size() == 1 && (selection.get(0) instanceof GraphEditPart || selection
+				.get(0) instanceof VertexEditPart));
 	}
 
 	@SuppressWarnings("unchecked")
-	protected List<Vertex> getClipboardContents() {
+	protected List<?> getClipboardContents() {
 		LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
 		Object data = GraphitiClipboard.getInstance().getContents(transfer);
 		if (data instanceof IStructuredSelection) {
@@ -114,6 +115,7 @@ public class PasteAction extends SelectionAction implements
 	 * Executes a new {@link PasteCommand}.
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public void run() {
 		Object obj = getSelectedObjects().get(0);
 		GraphEditPart part = null;
@@ -124,7 +126,8 @@ public class PasteAction extends SelectionAction implements
 		}
 
 		// execute the paste command
-		PasteCommand command = new PasteCommand(part, getClipboardContents());
+		List<Vertex> contents = (List<Vertex>) getClipboardContents();
+		PasteCommand command = new PasteCommand(part, contents);
 		execute(command);
 	}
 }

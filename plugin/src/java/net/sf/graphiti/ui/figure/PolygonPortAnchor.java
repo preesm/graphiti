@@ -26,15 +26,13 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.figure.shapes;
+package net.sf.graphiti.ui.figure;
 
 import org.eclipse.draw2d.AbstractConnectionAnchor;
-import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.Polygon;
 import org.eclipse.draw2d.geometry.Geometry;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
-import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * This class provides a connection anchor for polygons.
@@ -43,45 +41,19 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * @author Matthieu Wipliez
  * 
  */
-public class PolygonConnectionAnchor extends AbstractConnectionAnchor {
+public class PolygonPortAnchor extends AbstractConnectionAnchor {
+
+	private PortAnchorReferenceManager mgr;
 
 	/**
-	 * Constructs a new PolygonConnectionAnchor with the given <i>owner</i>
-	 * figure.
-	 * 
-	 * @param owner
-	 *            The owner figure
+	 * Constructs a new PolygonPortAnchor.
 	 */
-	public PolygonConnectionAnchor(Polygon owner) {
-		super(owner);
+	public PolygonPortAnchor(VertexFigure figure) {
+		super(figure);
 	}
 
-	/**
-	 * Returns <code>true</code> if the other anchor has the same owner and box.
-	 * 
-	 * @param obj
-	 *            the other anchor
-	 * @return <code>true</code> if equal
-	 */
-	public boolean equals(Object obj) {
-		if (obj instanceof ChopboxAnchor) {
-			PolygonConnectionAnchor other = (PolygonConnectionAnchor) obj;
-			return other.getOwner() == getOwner()
-					&& other.getBox().equals(getBox());
-		}
-		return false;
-	}
-
-	/**
-	 * Returns the bounds of this PolygonConnectionAnchor's owner. Subclasses
-	 * can override this method to adjust the box the anchor can be placed on.
-	 * For instance, the owner figure may have a drop shadow that should not be
-	 * included in the box.
-	 * 
-	 * @return The bounds of this PolygonConnectionAnchor's owner
-	 */
-	protected Rectangle getBox() {
-		return getOwner().getBounds();
+	public void setParameters(String portName, boolean isOutput) {
+		mgr = new PortAnchorReferenceManager((VertexFigure) getOwner(), portName, isOutput);
 	}
 
 	/**
@@ -93,8 +65,15 @@ public class PolygonConnectionAnchor extends AbstractConnectionAnchor {
 	 *            The reference point
 	 * @return The anchor location
 	 */
+	@Override
 	public Point getLocation(Point reference) {
-		Polygon owner = ((Polygon) getOwner());
+		Polygon owner;
+		if (getOwner() instanceof VertexFigure) {
+			owner = (Polygon) getOwner().getChildren().get(0);
+		} else {
+			throw new NullPointerException();
+		}
+
 		Point center = getReferencePoint();
 		if (reference.x == center.x && reference.y == center.y) {
 			return center;
@@ -143,29 +122,14 @@ public class PolygonConnectionAnchor extends AbstractConnectionAnchor {
 		return center;
 	}
 
-	/**
-	 * Returns the anchor's reference point. In the case of the
-	 * PolygonConnectionAnchor, this is the center of the anchor's owner.
-	 * 
-	 * @return The reference point
-	 */
+	@Override
 	public Point getReferencePoint() {
-		Point ref = getBox().getCenter();
-		getOwner().translateToAbsolute(ref);
-		return ref;
-	}
-
-	/**
-	 * The owning figure's hashcode is used since equality is approximately
-	 * based on the owner.
-	 * 
-	 * @return the hash code.
-	 */
-	public int hashCode() {
-		if (getOwner() != null)
-			return getOwner().hashCode();
-		else
-			return super.hashCode();
+		Point reference = mgr.getReferencePoint(this);
+		if (reference == null) {
+			return super.getReferencePoint();
+		} else {
+			return reference;
+		}
 	}
 
 }

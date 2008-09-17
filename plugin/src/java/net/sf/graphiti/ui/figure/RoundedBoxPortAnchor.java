@@ -26,41 +26,46 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.commands;
+package net.sf.graphiti.ui.figure;
 
-import net.sf.graphiti.model.Vertex;
-
-import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.commands.Command;
+import org.eclipse.draw2d.ChopboxAnchor;
+import org.eclipse.draw2d.geometry.Point;
 
 /**
- * This class executes a command that moves a vertex.
+ * This class provides a connection anchor for rounded boxes.
  * 
- * @author Samuel Beaussier
- * @author Nicolas Isch
+ * @author Jonathan Piat
  * @author Matthieu Wipliez
+ * 
  */
-public class MoveVertexCommand extends Command {
+public class RoundedBoxPortAnchor extends ChopboxAnchor {
 
-	private Rectangle newBounds;
+	private PortAnchorReferenceManager mgr;
 
-	private Rectangle oldBounds;
+	private VertexFigure figure;
 
-	private Vertex vertex;
+	public RoundedBoxPortAnchor(VertexFigure figure) {
+		super(figure);
+		this.figure = figure;
+	}
 
-	public MoveVertexCommand(Vertex vertex, Rectangle newBounds) {
-		this.newBounds = newBounds;
-		this.vertex = vertex;
-		this.oldBounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
+	public void setParameters(String portName, boolean isOutput) {
+		mgr = new PortAnchorReferenceManager(figure, portName, isOutput);
 	}
 
 	@Override
-	public void execute() {
-		vertex.setValue(Vertex.PROPERTY_SIZE, newBounds);
+	public Point getLocation(Point reference) {
+		return reference.getCopy();
 	}
 
 	@Override
-	public void undo() {
-		vertex.setValue(Vertex.PROPERTY_SIZE, oldBounds);
+	public Point getReferencePoint() {
+		Point reference = mgr.getReferencePoint(this);
+		if (reference == null) {
+			return super.getReferencePoint();
+		} else {
+			return reference;
+		}
 	}
+
 }

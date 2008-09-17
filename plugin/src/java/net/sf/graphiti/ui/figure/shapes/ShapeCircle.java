@@ -28,9 +28,11 @@
  */
 package net.sf.graphiti.ui.figure.shapes;
 
+import net.sf.graphiti.ui.figure.EllipsePortAnchor;
+import net.sf.graphiti.ui.figure.VertexFigure;
+
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Ellipse;
-import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -44,6 +46,8 @@ import org.eclipse.draw2d.geometry.Dimension;
  */
 public class ShapeCircle extends Ellipse implements IShape {
 
+	private EllipsePortAnchor anchor;
+
 	/**
 	 * Creates a new circle shape.
 	 */
@@ -53,8 +57,13 @@ public class ShapeCircle extends Ellipse implements IShape {
 	}
 
 	@Override
-	public ConnectionAnchor getConnectionAnchor() {
-		return new EllipseAnchor(this);
+	public ConnectionAnchor getConnectionAnchor(VertexFigure figure,
+			String portName, boolean isOutput) {
+		if (anchor == null) {
+			anchor = new EllipsePortAnchor(figure);
+		}
+		anchor.setParameters(portName, isOutput);
+		return anchor;
 	}
 
 	@Override

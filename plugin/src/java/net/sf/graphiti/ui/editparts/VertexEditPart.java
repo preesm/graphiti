@@ -32,9 +32,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
@@ -93,26 +91,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	 * This attribute is set by {@link GraphEditPart#addNodes}.
 	 */
 	private Node node;
-
-	/**
-	 * The source anchors. They are computed by
-	 * {@link #getModelSourceConnections()}.
-	 */
-	private Map<String, VertexConnectionAnchor> sourceAnchors;
-
-	/**
-	 * The target anchors. They are computed by
-	 * {@link #getModelTargetConnections()}.
-	 */
-	private Map<String, VertexConnectionAnchor> targetAnchors;
-
-	/**
-	 * Creates a new {@link VertexEditPart}.
-	 */
-	public VertexEditPart() {
-		sourceAnchors = new TreeMap<String, VertexConnectionAnchor>();
-		targetAnchors = new TreeMap<String, VertexConnectionAnchor>();
-	}
 
 	@Override
 	public void activate() {
@@ -205,45 +183,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		((Vertex) getModel()).removePropertyChangeListener(this);
 	}
 
-	/**
-	 * Fills the given anchor map from the set of edges, using the property
-	 * <code>portName</code>.
-	 * 
-	 * @param edges
-	 *            A {@link Set} of {@link Edge}s.
-	 * @param anchors
-	 *            A {@link Map} of {@link String}s to
-	 *            {@link VertexConnectionAnchor}s.
-	 * @param portName
-	 *            The property: {@link Edge#PARAMETER_SOURCE_PORT} or
-	 *            {@link Edge#PARAMETER_TARGET_PORT}.
-	 * @param isTarget
-	 *            True if the vertex is a target, false if it is a source.
-	 */
-	private void fillAnchors(Set<Edge> edges,
-			Map<String, VertexConnectionAnchor> anchors, String portName,
-			boolean isTarget) {
-		// unique edge sources/targets
-		anchors.clear();
-		for (Edge edge : edges) {
-			String port = (String) edge.getValue(portName);
-			if (port != null) {
-				anchors.put(port, null);
-			}
-		}
-
-		// assign anchor ranks
-		int nb = 0;
-		int nbAnchors = anchors.size();
-		for (String port : anchors.keySet()) {
-			VertexConnectionAnchor anchor = new VertexConnectionAnchor(
-					direction, isTarget, nb, nbAnchors,
-					(VertexFigure) getFigure());
-			anchors.put(port, anchor);
-			nb++;
-		}
-	}
-
 	@Override
 	@SuppressWarnings("unchecked")
 	protected List getModelSourceConnections() {
@@ -253,7 +192,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 			// we get the *output* dependencies of vertex
 			Set<Edge> edges = parent.outgoingEdgesOf(vertex);
-			fillAnchors(edges, sourceAnchors, Edge.PARAMETER_SOURCE_PORT, false);
 
 			// return the dependencies
 			List dependencies = new ArrayList(edges);
@@ -272,7 +210,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 			// we get the *input* dependencies of vertex
 			Set<Edge> edges = parent.incomingEdgesOf(vertex);
-			fillAnchors(edges, targetAnchors, Edge.PARAMETER_TARGET_PORT, true);
 
 			// dependencies
 			List dependencies = new ArrayList(edges);
@@ -285,27 +222,27 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
-		return new VertexConnectionAnchor(direction, false, 0, 1,
-				(VertexFigure) getFigure());
+		VertexFigure figure = (VertexFigure) getFigure();
+		return figure.getSourceAnchor((Edge) connection.getModel());
 	}
 
 	@Override
 	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-		return new VertexConnectionAnchor(direction, false, 0, 1,
-				(VertexFigure) getFigure());
+		VertexFigure figure = (VertexFigure) getFigure();
+		return figure.getSourceAnchor();
 	}
 
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
-		return new VertexConnectionAnchor(direction, true, 0, 1,
-				(VertexFigure) getFigure());
+		VertexFigure figure = (VertexFigure) getFigure();
+		return figure.getTargetAnchor((Edge) connection.getModel());
 	}
 
 	@Override
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		return new VertexConnectionAnchor(direction, true, 0, 1,
-				(VertexFigure) getFigure());
+		VertexFigure figure = (VertexFigure) getFigure();
+		return figure.getTargetAnchor();
 	}
 
 	@Override
@@ -334,6 +271,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 			vertex.setValue(Vertex.PROPERTY_SIZE, getFigure().getBounds());
 		} else if (propertyName.equals(Vertex.PROPERTY_SIZE)) {
 			VertexFigure vertexFigure = (VertexFigure) getFigure();
+			updatePorts(vertexFigure);
 			vertexFigure.setBounds((Rectangle) evt.getNewValue());
 			refresh();
 		} else if (propertyName.equals(Vertex.PROPERTY_SRC_VERTEX)) {
@@ -367,8 +305,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	 */
 	void updateFigures(int direction) {
 		this.direction = direction;
-		sourceAnchors.clear();
-		targetAnchors.clear();
 		Vertex vertex = (Vertex) getModel();
 		Rectangle bounds = new Rectangle(node.x, node.y, node.width,
 				node.height);
@@ -403,7 +339,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		Graph parent = vertex.getParent();
 
 		figure.resetPorts();
-		
+
 		for (Edge edge : parent.incomingEdgesOf(vertex)) {
 			String port = (String) edge.getValue(Edge.PARAMETER_TARGET_PORT);
 			if (port != null) {

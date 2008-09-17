@@ -28,7 +28,9 @@
  */
 package net.sf.graphiti.ui.figure.shapes;
 
-import org.eclipse.draw2d.ChopboxAnchor;
+import net.sf.graphiti.ui.figure.RoundedBoxPortAnchor;
+import net.sf.graphiti.ui.figure.VertexFigure;
+
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridLayout;
@@ -44,6 +46,8 @@ import org.eclipse.draw2d.geometry.Dimension;
  */
 public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 
+	private RoundedBoxPortAnchor anchor;
+
 	/**
 	 * Creates a new rounded box shape.
 	 */
@@ -53,8 +57,11 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 	}
 
 	@Override
-	public ConnectionAnchor getConnectionAnchor() {
-		return new ChopboxAnchor(this);
+	public ConnectionAnchor getConnectionAnchor(VertexFigure figure, String portName,
+			boolean isOutput) {
+		anchor = new RoundedBoxPortAnchor(figure);
+		anchor.setParameters(portName, isOutput);
+		return anchor;
 	}
 
 	@Override

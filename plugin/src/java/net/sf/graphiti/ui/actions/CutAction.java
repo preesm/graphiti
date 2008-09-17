@@ -29,6 +29,7 @@
 package net.sf.graphiti.ui.actions;
 
 import net.sf.graphiti.ui.commands.CutCommand;
+import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -64,7 +65,7 @@ public class CutAction extends SelectionAction {
 		ISelection selection = getSelection();
 		if (selection instanceof IStructuredSelection) {
 			IStructuredSelection ssel = (IStructuredSelection) selection;
-			return (ssel.isEmpty() == false);
+			return (ssel.isEmpty() == false && ssel.getFirstElement() instanceof VertexEditPart);
 		} else {
 			return false;
 		}

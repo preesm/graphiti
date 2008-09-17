@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.ui.figure.shapes;
 
+import net.sf.graphiti.ui.figure.VertexFigure;
+
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -48,7 +50,8 @@ public interface IShape extends IFigure {
 	 * 
 	 * @return A ConnectionAnchor object.
 	 */
-	public ConnectionAnchor getConnectionAnchor();
+	public ConnectionAnchor getConnectionAnchor(VertexFigure figure,
+			String portName, boolean isOutput);
 
 	/**
 	 * Equivalent to <code>super.paintFigure(graphics)</code>.

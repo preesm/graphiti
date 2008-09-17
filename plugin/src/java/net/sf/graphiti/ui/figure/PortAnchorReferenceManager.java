@@ -26,41 +26,65 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.commands;
+package net.sf.graphiti.ui.figure;
 
-import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ui.figure.shapes.IShape;
 
+import org.eclipse.draw2d.AbstractConnectionAnchor;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.commands.Command;
 
 /**
- * This class executes a command that moves a vertex.
+ * @author mwipliez
  * 
- * @author Samuel Beaussier
- * @author Nicolas Isch
- * @author Matthieu Wipliez
  */
-public class MoveVertexCommand extends Command {
+public class PortAnchorReferenceManager {
 
-	private Rectangle newBounds;
+	VertexFigure figure;
+	
+	IShape shape;
 
-	private Rectangle oldBounds;
+	boolean isOutput;
 
-	private Vertex vertex;
+	String portName;
 
-	public MoveVertexCommand(Vertex vertex, Rectangle newBounds) {
-		this.newBounds = newBounds;
-		this.vertex = vertex;
-		this.oldBounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
+	public PortAnchorReferenceManager(VertexFigure figure, String portName,
+			boolean isOutput) {
+		this.figure = figure;
+		this.shape = figure.getShape();
+		this.portName = portName;
+		this.isOutput = isOutput;
 	}
 
-	@Override
-	public void execute() {
-		vertex.setValue(Vertex.PROPERTY_SIZE, newBounds);
-	}
+	public Point getReferencePoint(AbstractConnectionAnchor anchor) {
+		if (portName == null) {
+			return null;
+		} else {
+			Label label;
+			if (isOutput) {
+				label = figure.getOutputPortLabel(portName);
 
-	@Override
-	public void undo() {
-		vertex.setValue(Vertex.PROPERTY_SIZE, oldBounds);
+				Rectangle bounds = label.getBounds();
+				int x = bounds.x + bounds.width;
+				int y = bounds.y + bounds.height / 2;
+
+				Point ref = new Point(x, y);
+				shape.translateToAbsolute(ref);
+
+				return ref;
+			} else {
+				label = figure.getInputPortLabel(portName);
+
+				Rectangle bounds = label.getBounds();
+				int x = bounds.x;
+				int y = bounds.y + bounds.height / 2;
+
+				Point ref = new Point(x, y);
+				shape.translateToAbsolute(ref);
+
+				return ref;
+			}
+		}
 	}
 }
