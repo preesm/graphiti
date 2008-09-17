@@ -363,10 +363,14 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 			refresh();
 		} else if (propertyName.equals(Vertex.PROPERTY_SRC_VERTEX)) {
 			Vertex vertex = (Vertex) getModel();
-			vertex.setValue(Vertex.PROPERTY_SIZE, getVertexSize());
+			Rectangle bounds = getFigure().getBounds();
+			bounds.setSize(getVertexSize());
+			vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
 		} else if (propertyName.equals(Vertex.PROPERTY_DST_VERTEX)) {
 			Vertex vertex = (Vertex) getModel();
-			vertex.setValue(Vertex.PROPERTY_SIZE, getVertexSize());
+			Rectangle bounds = getFigure().getBounds();
+			bounds.setSize(getVertexSize());
+			vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
 		} else {
 			refresh();
 		}
