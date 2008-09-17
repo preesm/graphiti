@@ -84,11 +84,11 @@ public interface IShape extends IFigure {
 	public void setDimension(Dimension dim);
 
 	/**
-	 * Sets the name of this shape.
+	 * Sets the id of this shape.
 	 * 
-	 * @param name
-	 *            The new name of this shape.
+	 * @param id
+	 *            The new id of this shape.
 	 */
-	public void setName(String name);
+	public void setId(String id);
 
 }

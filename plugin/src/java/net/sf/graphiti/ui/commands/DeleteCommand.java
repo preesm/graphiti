@@ -69,10 +69,7 @@ public class DeleteCommand extends Command {
 	public void execute() {
 		Object model = part.getModel();
 		if (model instanceof Vertex) {
-			Rectangle bounds = part.getFigure().getBounds();
 			Vertex vertex = (Vertex) model;
-			vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
-
 			parent = vertex.getParent();
 			parent.removeVertex(vertex);
 		} else if (model instanceof Edge) {

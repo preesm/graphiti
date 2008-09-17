@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.ui.commands;
 
-import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Vertex;
 
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -43,32 +42,25 @@ import org.eclipse.gef.commands.Command;
  */
 public class MoveVertexCommand extends Command {
 
-	private Rectangle bounds;
+	private Rectangle newBounds;
 
-	private PropertyBean model;
+	private Vertex vertex;
 
-	private Rectangle oldLayout;
+	private Rectangle oldBounds;
+
+	public MoveVertexCommand(Vertex vertex, Rectangle newBounds) {
+		this.newBounds = newBounds;
+		this.vertex = vertex;
+		this.oldBounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
+	}
 
 	@Override
 	public void execute() {
-		model.firePropertyChange(Vertex.PROPERTY_SIZE, null, new Rectangle(
-				bounds));
-	}
-
-	public void setConstraint(Rectangle rect) {
-		this.bounds = rect;
-	}
-
-	public void setModel(Object model) {
-		this.model = (PropertyBean) model;
-	}
-
-	public void setPreviousBounds(Rectangle bounds) {
-		this.oldLayout = bounds;
+		vertex.setValue(Vertex.PROPERTY_SIZE, newBounds);
 	}
 
 	@Override
 	public void undo() {
-		model.firePropertyChange(Vertex.PROPERTY_SIZE, null, oldLayout);
+		vertex.setValue(Vertex.PROPERTY_SIZE, oldBounds);
 	}
 }

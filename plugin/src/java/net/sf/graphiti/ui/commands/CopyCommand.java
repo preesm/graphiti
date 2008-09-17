@@ -35,7 +35,6 @@ import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.actions.GraphitiClipboard;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -75,12 +74,10 @@ public class CopyCommand extends Command {
 		for (Object obj : list) {
 			if (obj instanceof VertexEditPart) {
 				VertexEditPart vertexEditPart = (VertexEditPart) obj;
-				Rectangle bounds = vertexEditPart.getFigure().getBounds();
 				Vertex vertex = (Vertex) vertexEditPart.getModel();
 
 				// copy vertex and add to list
 				vertex = new Vertex(vertex);
-				vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
 				vertices.add(vertex);
 			}
 		}

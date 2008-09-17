@@ -94,7 +94,7 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 	}
 
 	@Override
-	public void setName(String name) {
+	public void setId(String name) {
 		labelName.setText(name);
 		int hDecal = 5;
 		int wDecal = 0;

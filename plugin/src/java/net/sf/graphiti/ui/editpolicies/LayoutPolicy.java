@@ -28,6 +28,7 @@
  */
 package net.sf.graphiti.ui.editpolicies;
 
+import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.commands.CreateCommand;
 import net.sf.graphiti.ui.commands.MoveVertexCommand;
 import net.sf.graphiti.ui.commands.OpenRefinementNewTabCommand;
@@ -62,11 +63,9 @@ public class LayoutPolicy extends XYLayoutEditPolicy {
 
 		if (child instanceof VertexEditPart) {
 			VertexEditPart editPart = (VertexEditPart) child;
+			Vertex vertex = (Vertex) editPart.getModel();
 
-			command = new MoveVertexCommand();
-			command.setModel(editPart.getModel());
-			command.setPreviousBounds(editPart.getFigure().getBounds());
-			command.setConstraint((Rectangle) constraint);
+			command = new MoveVertexCommand(vertex, (Rectangle) constraint);
 		}
 
 		return command;

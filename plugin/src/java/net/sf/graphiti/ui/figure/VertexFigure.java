@@ -110,9 +110,9 @@ public class VertexFigure extends Figure {
 	 * 
 	 * @param text
 	 */
-	public void setName(String text) {
+	public void setId(String text) {
 		if (shape != null) {
-			shape.setName(text);
+			shape.setId(text);
 		}
 
 		labelToolTip.setText(text);

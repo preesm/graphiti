@@ -188,10 +188,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		VertexFigure figure = new VertexFigure(dimension, color, shape);
 
 		String id = (String) vertex.getValue(Vertex.PARAMETER_ID);
-		if (id == null) {
-			id = "";
-		}
-		figure.setName(id);
+		figure.setId(id);
+
 		return figure;
 	}
 
@@ -358,21 +356,17 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		String propertyName = evt.getPropertyName();
 		if (propertyName.equals(Vertex.PARAMETER_ID)) {
 			VertexFigure figure = (VertexFigure) getFigure();
-			figure.setName((String) evt.getNewValue());
+			figure.setId((String) evt.getNewValue());
 		} else if (propertyName.equals(Vertex.PROPERTY_SIZE)) {
 			VertexFigure vertexFigure = (VertexFigure) getFigure();
 			vertexFigure.setBounds((Rectangle) evt.getNewValue());
 			refresh();
 		} else if (propertyName.equals(Vertex.PROPERTY_SRC_VERTEX)) {
-			Rectangle bounds = getFigure().getBounds();
-			bounds.setSize(getVertexSize());
-			((Vertex) getModel()).firePropertyChange(Vertex.PROPERTY_SIZE,
-					null, bounds);
+			Vertex vertex = (Vertex) getModel();
+			vertex.setValue(Vertex.PROPERTY_SIZE, getVertexSize());
 		} else if (propertyName.equals(Vertex.PROPERTY_DST_VERTEX)) {
-			Rectangle bounds = getFigure().getBounds();
-			bounds.setSize(getVertexSize());
-			((Vertex) getModel()).firePropertyChange(Vertex.PROPERTY_SIZE,
-					null, bounds);
+			Vertex vertex = (Vertex) getModel();
+			vertex.setValue(Vertex.PROPERTY_SIZE, getVertexSize());
 		} else {
 			refresh();
 		}
@@ -383,7 +377,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		Vertex vertex = (Vertex) getModel();
 
 		VertexFigure figure = (VertexFigure) getFigure();
-		figure.setName((String) vertex.getValue(Vertex.PARAMETER_ID));
+		figure.setId((String) vertex.getValue(Vertex.PARAMETER_ID));
 	}
 
 	/**
@@ -398,7 +392,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		Vertex vertex = (Vertex) getModel();
 		Rectangle bounds = new Rectangle(node.x, node.y, node.width,
 				node.height);
-		vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, bounds);
+		vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
 
 		// Updates edges
 		for (Object connection : getSourceConnections()) {

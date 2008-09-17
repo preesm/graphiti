@@ -80,10 +80,6 @@ public class CutCommand extends Command {
 				VertexEditPart part = (VertexEditPart) obj;
 				Vertex vertex = (Vertex) part.getModel();
 
-				// store bounds
-				Rectangle bounds = part.getFigure().getBounds();
-				vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
-
 				// remove from parent
 				Graph parent = vertex.getParent();
 				parent.removeVertex(vertex);
