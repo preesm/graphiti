@@ -263,25 +263,24 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 	public void propertyChange(PropertyChangeEvent evt) {
 		String propertyName = evt.getPropertyName();
-		if (propertyName.equals(Vertex.PARAMETER_ID)) {
-			Vertex vertex = (Vertex) getModel();
-			VertexFigure figure = (VertexFigure) getFigure();
-			figure.setId((String) evt.getNewValue());
-			figure.adjustSize();
-			vertex.setValue(Vertex.PROPERTY_SIZE, getFigure().getBounds());
-		} else if (propertyName.equals(Vertex.PROPERTY_SIZE)) {
+		if (propertyName.equals(Vertex.PROPERTY_SIZE)) {
 			VertexFigure vertexFigure = (VertexFigure) getFigure();
-			updatePorts(vertexFigure);
 			vertexFigure.setBounds((Rectangle) evt.getNewValue());
 			refresh();
 		} else if (propertyName.equals(Vertex.PROPERTY_SRC_VERTEX)) {
 			Vertex vertex = (Vertex) getModel();
 			updatePorts(getFigure());
+			// if size has not changed, nothing happens
 			vertex.setValue(Vertex.PROPERTY_SIZE, getFigure().getBounds());
+			// refresh will cause target anchor to be rightly put
+			refresh();
 		} else if (propertyName.equals(Vertex.PROPERTY_DST_VERTEX)) {
 			Vertex vertex = (Vertex) getModel();
 			updatePorts(getFigure());
+			// if size has not changed, nothing happens
 			vertex.setValue(Vertex.PROPERTY_SIZE, getFigure().getBounds());
+			// refresh will cause source anchor to be rightly put
+			refresh();
 		} else {
 			// another parameter
 			Vertex vertex = (Vertex) getModel();

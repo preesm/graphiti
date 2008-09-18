@@ -46,8 +46,6 @@ import org.eclipse.draw2d.geometry.Dimension;
  */
 public class ShapeCircle extends Ellipse implements IShape {
 
-	private EllipsePortAnchor anchor;
-
 	/**
 	 * Creates a new circle shape.
 	 */
@@ -59,11 +57,7 @@ public class ShapeCircle extends Ellipse implements IShape {
 	@Override
 	public ConnectionAnchor getConnectionAnchor(VertexFigure figure,
 			String portName, boolean isOutput) {
-		if (anchor == null) {
-			anchor = new EllipsePortAnchor(figure);
-		}
-		anchor.setParameters(portName, isOutput);
-		return anchor;
+		return new EllipsePortAnchor(figure, portName, isOutput);
 	}
 
 	@Override
@@ -80,6 +74,11 @@ public class ShapeCircle extends Ellipse implements IShape {
 	@Override
 	public void setDimension(Dimension dim) {
 		setSize(dim);
+	}
+
+	@Override
+	protected boolean useLocalCoordinates() {
+		return true;
 	}
 
 }

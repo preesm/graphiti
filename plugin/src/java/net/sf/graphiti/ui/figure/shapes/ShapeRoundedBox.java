@@ -46,8 +46,6 @@ import org.eclipse.draw2d.geometry.Dimension;
  */
 public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 
-	private RoundedBoxPortAnchor anchor;
-
 	/**
 	 * Creates a new rounded box shape.
 	 */
@@ -57,11 +55,9 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 	}
 
 	@Override
-	public ConnectionAnchor getConnectionAnchor(VertexFigure figure, String portName,
-			boolean isOutput) {
-		anchor = new RoundedBoxPortAnchor(figure);
-		anchor.setParameters(portName, isOutput);
-		return anchor;
+	public ConnectionAnchor getConnectionAnchor(VertexFigure figure,
+			String portName, boolean isOutput) {
+		return new RoundedBoxPortAnchor(figure, portName, isOutput);
 	}
 
 	@Override
@@ -78,6 +74,11 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 	@Override
 	public void setDimension(Dimension dim) {
 		setSize(dim);
+	}
+
+	@Override
+	protected boolean useLocalCoordinates() {
+		return true;
 	}
 
 }

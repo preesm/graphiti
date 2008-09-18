@@ -42,20 +42,15 @@ public class RoundedBoxPortAnchor extends ChopboxAnchor {
 
 	private PortAnchorReferenceManager mgr;
 
-	private VertexFigure figure;
-
-	public RoundedBoxPortAnchor(VertexFigure figure) {
+	public RoundedBoxPortAnchor(VertexFigure figure, String portName,
+			boolean isOutput) {
 		super(figure);
-		this.figure = figure;
-	}
-
-	public void setParameters(String portName, boolean isOutput) {
 		mgr = new PortAnchorReferenceManager(figure, portName, isOutput);
 	}
 
 	@Override
 	public Point getLocation(Point reference) {
-		return reference.getCopy();
+		return getReferencePoint();
 	}
 
 	@Override

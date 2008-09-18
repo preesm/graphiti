@@ -88,10 +88,14 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 			VertexEditPart vertexEP = (VertexEditPart) getSource();
 			vertexEP.propertyChange(new PropertyChangeEvent(this,
 					Vertex.PROPERTY_SRC_VERTEX, null, null));
+			// update anchors
+			refresh();
 		} else if (propertyName.equals(Edge.PARAMETER_TARGET_PORT)) {
 			VertexEditPart vertexEP = (VertexEditPart) getTarget();
 			vertexEP.propertyChange(new PropertyChangeEvent(this,
 					Vertex.PROPERTY_DST_VERTEX, null, null));
+			// update anchors
+			refresh();
 		}
 
 		// any parameter

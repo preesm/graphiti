@@ -178,8 +178,7 @@ public class VertexFigure extends Figure {
 	}
 
 	public ConnectionAnchor getSourceAnchor() {
-		// TODO Auto-generated method stub
-		return null;
+		return shape.getConnectionAnchor(this, null, true);
 	}
 
 	public ConnectionAnchor getSourceAnchor(Edge edge) {
@@ -188,8 +187,7 @@ public class VertexFigure extends Figure {
 	}
 
 	public ConnectionAnchor getTargetAnchor() {
-		// TODO Auto-generated method stub
-		return null;
+		return shape.getConnectionAnchor(this, null, false);
 	}
 
 	public ConnectionAnchor getTargetAnchor(Edge edge) {

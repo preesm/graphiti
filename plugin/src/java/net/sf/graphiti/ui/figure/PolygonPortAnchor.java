@@ -48,12 +48,10 @@ public class PolygonPortAnchor extends AbstractConnectionAnchor {
 	/**
 	 * Constructs a new PolygonPortAnchor.
 	 */
-	public PolygonPortAnchor(VertexFigure figure) {
+	public PolygonPortAnchor(VertexFigure figure, String portName,
+			boolean isOutput) {
 		super(figure);
-	}
-
-	public void setParameters(String portName, boolean isOutput) {
-		mgr = new PortAnchorReferenceManager((VertexFigure) getOwner(), portName, isOutput);
+		mgr = new PortAnchorReferenceManager(figure, portName, isOutput);
 	}
 
 	/**

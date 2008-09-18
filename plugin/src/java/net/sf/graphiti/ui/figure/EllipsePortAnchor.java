@@ -42,13 +42,10 @@ public class EllipsePortAnchor extends EllipseAnchor {
 
 	private PortAnchorReferenceManager mgr;
 
-	public EllipsePortAnchor(VertexFigure figure) {
+	public EllipsePortAnchor(VertexFigure figure, String portName,
+			boolean isOutput) {
 		super(figure);
-	}
-
-	public void setParameters(String portName, boolean isOutput) {
-		mgr = new PortAnchorReferenceManager((VertexFigure) getOwner(),
-				portName, isOutput);
+		mgr = new PortAnchorReferenceManager(figure, portName, isOutput);
 	}
 
 	@Override

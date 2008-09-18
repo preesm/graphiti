@@ -64,24 +64,30 @@ public class PortAnchorReferenceManager {
 			Label label;
 			if (isOutput) {
 				label = figure.getOutputPortLabel(portName);
-
+				if (label == null) {
+					return null;
+				}
+				
 				Rectangle bounds = label.getBounds();
 				int x = bounds.x + bounds.width;
 				int y = bounds.y + bounds.height / 2;
 
 				Point ref = new Point(x, y);
-				shape.translateToAbsolute(ref);
+				label.translateToAbsolute(ref);
 
 				return ref;
 			} else {
 				label = figure.getInputPortLabel(portName);
-
+				if (label == null) {
+					return null;
+				}
+				
 				Rectangle bounds = label.getBounds();
 				int x = bounds.x;
 				int y = bounds.y + bounds.height / 2;
 
 				Point ref = new Point(x, y);
-				shape.translateToAbsolute(ref);
+				label.translateToAbsolute(ref);
 
 				return ref;
 			}
