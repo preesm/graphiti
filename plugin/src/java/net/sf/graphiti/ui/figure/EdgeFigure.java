@@ -79,7 +79,6 @@ public class EdgeFigure extends PolylineConnection {
 
 		setTargetDecoration(new PolygonDecoration());
 		setLineWidth(1);
-		this.setValid(true);
 	}
 
 	@Override

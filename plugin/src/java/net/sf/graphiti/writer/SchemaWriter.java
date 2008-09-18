@@ -368,19 +368,20 @@ public class SchemaWriter {
 		}
 
 		// max occurs
-		if (maxOccurs > -1) {
-			for (; i < maxOccurs; i++) {
-				writeElement(ontElement, context);
-			}
-		} else {
-			try {
+		try {
+			if (maxOccurs > -1) {
+				for (; i < maxOccurs; i++) {
+					checkpoint = contentWriter.getCheckpoint();
+					writeElement(ontElement, context);
+				}
+			} else {
 				while (true) {
 					checkpoint = contentWriter.getCheckpoint();
 					writeElement(ontElement, context);
 				}
-			} catch (EmptyBasketException e) {
-				contentWriter.loadCheckpoint(checkpoint);
 			}
+		} catch (EmptyBasketException e) {
+			contentWriter.loadCheckpoint(checkpoint);
 		}
 	}
 

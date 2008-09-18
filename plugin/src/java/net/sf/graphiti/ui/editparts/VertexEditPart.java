@@ -48,7 +48,6 @@ import net.sf.graphiti.ui.figure.shapes.IShape;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -81,11 +80,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		PropertyChangeListener, NodeEditPart {
 
 	private DirectEditManager directEditManager;
-
-	/**
-	 * This attribute is set by {@link VertexEditPart#updateFigures(int)}.
-	 */
-	private int direction = PositionConstants.EAST;
 
 	/**
 	 * This attribute is set by {@link GraphEditPart#addNodes}.
@@ -303,7 +297,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	 * different figures, by setting their bounds.
 	 */
 	void updateFigures(int direction) {
-		this.direction = direction;
 		Vertex vertex = (Vertex) getModel();
 		Rectangle bounds = new Rectangle(node.x, node.y, node.width,
 				node.height);
