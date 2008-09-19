@@ -123,6 +123,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                 >id</basic:parameter_hasName>
                                 <basic:parameter_appliesTo>
                                   <basic:VertexType rdf:ID="VertexTypePortOutput">
+                                    <basic:type_hasParameters rdf:resource="#VertexParameterPortOutputId"/>
                                     <basic:type_hasParameters>
                                       <basic:VertexParameter rdf:ID="VertexParameterPortOutputType">
                                         <basic:parameter_hasName
@@ -140,7 +141,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                         </basic:parameter_hasParameterValue>
                                       </basic:VertexParameter>
                                     </basic:type_hasParameters>
-                                    <basic:type_hasParameters rdf:resource="#VertexParameterPortOutputId"/>
+                                    <basic:type_hasFigureAttributes>
+                                      <basic:ShapeAttribute rdf:ID="ShapeAttributePort">
+                                        <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Triangle"/>
+                                      </basic:ShapeAttribute>
+                                    </basic:type_hasFigureAttributes>
                                     <basic:type_hasFigureAttributes>
                                       <basic:ColorAttribute rdf:ID="ColorAttributePortOutput">
                                         <basic:colorAttribute_hasBlue
@@ -153,11 +158,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                                          rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                         >125</basic:colorAttribute_hasGreen>
                                       </basic:ColorAttribute>
-                                    </basic:type_hasFigureAttributes>
-                                    <basic:type_hasFigureAttributes>
-                                      <basic:ShapeAttribute rdf:ID="ShapeAttributePort">
-                                        <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Triangle"/>
-                                      </basic:ShapeAttribute>
                                     </basic:type_hasFigureAttributes>
                                     <basic:type_hasFigureAttributes>
                                       <basic:DimensionAttribute rdf:ID="DimensionAttributePort">
@@ -267,7 +267,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <basic:parameter_hasParameterValue>
       <basic:ParameterValue rdf:ID="ParameterValueLocalKindTarget">
         <basic:parameterValue_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Port</basic:parameterValue_hasValue>
+        >Output port</basic:parameterValue_hasValue>
         <basic:parameterValue_hasParameterSource rdf:resource="http://net.sf.graphiti/basics.owl#EdgeTarget"/>
         <basic:parameterValue_ofParameter rdf:resource="#VertexParameterType"/>
       </basic:ParameterValue>
@@ -278,7 +278,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         <basic:parameterValue_hasParameterSource rdf:resource="http://net.sf.graphiti/basics.owl#EdgeSource"/>
         <basic:parameterValue_ofParameter rdf:resource="#VertexParameterType"/>
         <basic:parameterValue_hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Port</basic:parameterValue_hasValue>
+        >Input port</basic:parameterValue_hasValue>
       </basic:ParameterValue>
     </basic:parameter_hasParameterValue>
     <basic:parameter_hasParameterValue>
@@ -688,6 +688,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
             >type</basic:parameter_hasName>
             <basic:parameter_appliesTo>
               <basic:VertexType rdf:ID="VertexTypePortInput">
+                <basic:type_hasParameters rdf:resource="#VertexParameterPortInputType"/>
                 <basic:type_hasParameters>
                   <basic:VertexParameter rdf:ID="VertexParameterPortInputId">
                     <basic:parameter_appliesTo rdf:resource="#VertexTypePortInput"/>
@@ -696,7 +697,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     >id</basic:parameter_hasName>
                   </basic:VertexParameter>
                 </basic:type_hasParameters>
-                <basic:type_hasParameters rdf:resource="#VertexParameterPortInputType"/>
+                <basic:type_hasFigureAttributes rdf:resource="#DimensionAttributePort"/>
                 <basic:type_hasFigureAttributes rdf:resource="#ShapeAttributePort"/>
                 <basic:type_hasFigureAttributes>
                   <basic:ColorAttribute rdf:ID="ColorAttributePortInput">
@@ -708,7 +709,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                     "http://www.w3.org/2001/XMLSchema#int">130</basic:colorAttribute_hasBlue>
                   </basic:ColorAttribute>
                 </basic:type_hasFigureAttributes>
-                <basic:type_hasFigureAttributes rdf:resource="#DimensionAttributePort"/>
                 <basic:type_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                 >Input port</basic:type_hasName>
               </basic:VertexType>
