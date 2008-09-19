@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.ontology.types.GraphType;
+import net.sf.graphiti.ontology.GraphType;
 
 import com.hp.hpl.jena.ontology.Individual;
 

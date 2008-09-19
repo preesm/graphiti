@@ -29,7 +29,7 @@
 package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
+import net.sf.graphiti.ontology.XMLSchemaType;
 
 import com.hp.hpl.jena.ontology.Individual;
 

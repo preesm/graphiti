@@ -29,7 +29,7 @@
 package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.enums.ParameterSource;
+import net.sf.graphiti.ontology.ParameterSource;
 
 import com.hp.hpl.jena.ontology.Individual;
 

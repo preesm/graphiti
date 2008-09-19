@@ -31,8 +31,8 @@ package net.sf.graphiti.ontology.impl;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.graphiti.ontology.DataType;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.dataTypes.DataType;
 
 import com.hp.hpl.jena.ontology.Individual;
 

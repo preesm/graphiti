@@ -50,7 +50,7 @@ public class Parameter {
 	 * @param ontParam
 	 *            The parameter defined in the ontology.
 	 */
-	public Parameter(net.sf.graphiti.ontology.parameters.Parameter ontParam) {
+	public Parameter(net.sf.graphiti.ontology.Parameter ontParam) {
 		name = ontParam.hasName();
 		if (ontParam.hasPosition() == null) {
 			parameterPosition = null;

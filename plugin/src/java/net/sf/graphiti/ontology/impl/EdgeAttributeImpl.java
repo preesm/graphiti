@@ -30,9 +30,9 @@ package net.sf.graphiti.ontology.impl;
 
 import java.util.Set;
 
+import net.sf.graphiti.ontology.EdgeAttribute;
+import net.sf.graphiti.ontology.Element;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.edgeAttributes.EdgeAttribute;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
 
 import com.hp.hpl.jena.ontology.Individual;
 

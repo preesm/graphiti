@@ -28,8 +28,8 @@
  */
 package net.sf.graphiti.ontology.impl;
 
+import net.sf.graphiti.ontology.DimensionAttribute;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.attributes.DimensionAttribute;
 
 import com.hp.hpl.jena.ontology.Individual;
 

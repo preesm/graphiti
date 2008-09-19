@@ -29,9 +29,8 @@
 package net.sf.graphiti.model;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.parameterValues.ParameterValue;
-import net.sf.graphiti.ontology.parameters.Parameter;
-import net.sf.graphiti.ontology.types.VertexType;
+import net.sf.graphiti.ontology.ParameterValue;
+import net.sf.graphiti.ontology.VertexType;
 
 import org.eclipse.gef.requests.CreationFactory;
 
@@ -90,7 +89,8 @@ public class VertexCreationFactory implements CreationFactory {
 	 *            Its type as defined by the ontology.
 	 */
 	private void setParameters(Vertex vertex, VertexType vertexType) {
-		for (Parameter parameter : vertexType.hasParameters()) {
+		for (net.sf.graphiti.ontology.Parameter parameter : vertexType
+				.hasParameters()) {
 			if (!parameter.hasName().equals("type")) {
 				// everything but type, because type is constrained
 				String parameterName = parameter.hasName();

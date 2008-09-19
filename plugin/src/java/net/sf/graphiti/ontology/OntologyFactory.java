@@ -38,10 +38,6 @@ import java.util.Set;
 
 import net.sf.graphiti.ontology.impl.OntologyElementImpl;
 import net.sf.graphiti.ontology.impl.OntologyModelImpl;
-import net.sf.graphiti.ontology.types.EdgeType;
-import net.sf.graphiti.ontology.types.GraphType;
-import net.sf.graphiti.ontology.types.VertexType;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
 
 import com.hp.hpl.jena.ontology.OntDocumentManager;
 import com.hp.hpl.jena.ontology.OntModel;

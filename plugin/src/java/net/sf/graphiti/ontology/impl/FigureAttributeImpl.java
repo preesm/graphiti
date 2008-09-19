@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.ontology.attributes.FigureAttribute;
+import net.sf.graphiti.ontology.FigureAttribute;
 
 import com.hp.hpl.jena.ontology.Individual;
 

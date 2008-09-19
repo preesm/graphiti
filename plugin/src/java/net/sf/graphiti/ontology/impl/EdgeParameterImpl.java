@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.ontology.parameters.EdgeParameter;
+import net.sf.graphiti.ontology.EdgeParameter;
 
 import com.hp.hpl.jena.ontology.Individual;
 

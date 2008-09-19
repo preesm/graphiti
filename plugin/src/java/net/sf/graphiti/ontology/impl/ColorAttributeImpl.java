@@ -28,8 +28,8 @@
  */
 package net.sf.graphiti.ontology.impl;
 
+import net.sf.graphiti.ontology.ColorAttribute;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.attributes.ColorAttribute;
 
 import org.eclipse.swt.graphics.Color;
 

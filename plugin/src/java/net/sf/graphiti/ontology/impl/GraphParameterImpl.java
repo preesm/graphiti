@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.ontology.parameters.GraphParameter;
+import net.sf.graphiti.ontology.GraphParameter;
 
 import com.hp.hpl.jena.ontology.Individual;
 

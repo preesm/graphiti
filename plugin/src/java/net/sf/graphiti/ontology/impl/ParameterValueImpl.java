@@ -29,9 +29,9 @@
 package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.enums.ParameterSource;
-import net.sf.graphiti.ontology.parameterValues.ParameterValue;
-import net.sf.graphiti.ontology.parameters.Parameter;
+import net.sf.graphiti.ontology.Parameter;
+import net.sf.graphiti.ontology.ParameterSource;
+import net.sf.graphiti.ontology.ParameterValue;
 
 import com.hp.hpl.jena.ontology.Individual;
 

@@ -30,10 +30,10 @@ package net.sf.graphiti.ontology.impl;
 
 import java.util.Set;
 
+import net.sf.graphiti.ontology.FigureAttribute;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.attributes.FigureAttribute;
-import net.sf.graphiti.ontology.parameters.Parameter;
-import net.sf.graphiti.ontology.types.Type;
+import net.sf.graphiti.ontology.Parameter;
+import net.sf.graphiti.ontology.Type;
 
 import com.hp.hpl.jena.ontology.Individual;
 

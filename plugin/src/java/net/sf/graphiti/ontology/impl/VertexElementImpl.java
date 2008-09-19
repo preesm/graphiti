@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ontology.impl;
 
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.VertexElement;
+import net.sf.graphiti.ontology.VertexElement;
 
 import com.hp.hpl.jena.ontology.Individual;
 

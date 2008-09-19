@@ -28,9 +28,9 @@
  */
 package net.sf.graphiti.ontology.impl;
 
+import net.sf.graphiti.ontology.AttributeRestriction;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.parameterValues.ParameterValue;
-import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeRestriction;
+import net.sf.graphiti.ontology.ParameterValue;
 
 import com.hp.hpl.jena.ontology.Individual;
 

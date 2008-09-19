@@ -29,7 +29,7 @@
 package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.enums.Shape;
+import net.sf.graphiti.ontology.Shape;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 import net.sf.graphiti.ui.figure.shapes.ShapeCircle;
 import net.sf.graphiti.ui.figure.shapes.ShapeHexagon;

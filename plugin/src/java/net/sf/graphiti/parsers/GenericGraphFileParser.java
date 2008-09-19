@@ -35,7 +35,7 @@ import java.util.List;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
+import net.sf.graphiti.ontology.XMLSchemaType;
 
 import org.eclipse.core.resources.IFile;
 import org.w3c.dom.DOMConfiguration;

@@ -29,7 +29,7 @@
 package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.model.ParameterPosition;
-import net.sf.graphiti.ontology.enums.Position;
+import net.sf.graphiti.ontology.Position;
 
 import com.hp.hpl.jena.ontology.Individual;
 

@@ -33,14 +33,14 @@ import java.util.Set;
 
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.ontology.AttributeRestriction;
+import net.sf.graphiti.ontology.Choice;
+import net.sf.graphiti.ontology.ComplexType;
+import net.sf.graphiti.ontology.Element;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.xmlDescriptions.attributeRestrictions.AttributeRestriction;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlAttributes.XMLAttribute;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Choice;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.ComplexType;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.Sequence;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.elements.Element;
+import net.sf.graphiti.ontology.Sequence;
+import net.sf.graphiti.ontology.XMLAttribute;
+import net.sf.graphiti.ontology.XMLSchemaType;
 import net.sf.graphiti.parsers.ContentParser.Checkpoint;
 
 import org.apache.log4j.Level;

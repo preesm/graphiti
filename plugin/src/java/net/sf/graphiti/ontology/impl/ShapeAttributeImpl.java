@@ -29,8 +29,8 @@
 package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.attributes.ShapeAttribute;
-import net.sf.graphiti.ontology.enums.Shape;
+import net.sf.graphiti.ontology.Shape;
+import net.sf.graphiti.ontology.ShapeAttribute;
 
 import com.hp.hpl.jena.ontology.Individual;
 

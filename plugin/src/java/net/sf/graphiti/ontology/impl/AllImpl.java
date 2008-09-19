@@ -30,9 +30,9 @@ package net.sf.graphiti.ontology.impl;
 
 import java.util.Set;
 
+import net.sf.graphiti.ontology.All;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.complexTypes.All;
+import net.sf.graphiti.ontology.XMLSchemaType;
 
 import com.hp.hpl.jena.ontology.Individual;
 

@@ -34,7 +34,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import net.sf.graphiti.model.Configuration;
-import net.sf.graphiti.ontology.types.GraphType;
+import net.sf.graphiti.ontology.GraphType;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.jface.viewers.IStructuredSelection;

@@ -30,8 +30,6 @@ package net.sf.graphiti.ontology;
 
 import java.util.Set;
 
-import net.sf.graphiti.ontology.xmlDescriptions.xmlSchemaTypes.XMLSchemaType;
-
 /**
  * This class provides access to an ontology element (owl:Ontology) and
  * annotation properties.
