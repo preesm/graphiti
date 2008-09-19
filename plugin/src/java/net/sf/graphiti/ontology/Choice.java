@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.ontology;
 
-
 /**
  * This class provides a representation of a choice of an element among n.
  * 

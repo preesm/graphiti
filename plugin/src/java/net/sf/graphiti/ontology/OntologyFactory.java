@@ -122,6 +122,10 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#DimensionAttribute";
 	}
 
+	public static String getClassDocumentFragment() {
+		return "http://net.sf.graphiti/basics.owl#DocumentFragment";
+	}
+
 	public static String getClassEdgeAttribute() {
 		return "http://net.sf.graphiti/basics.owl#EdgeAttribute";
 	}
@@ -328,6 +332,10 @@ public class OntologyFactory {
 
 	public static String getPropertyDimensionAttributeHasWidth() {
 		return "http://net.sf.graphiti/basics.owl#dimensionAttribute_hasWidth";
+	}
+
+	public static String getPropertyDocumentFragmentHasXMLContents() {
+		return "http://net.sf.graphiti/basics.owl#documentFragment_hasXMLContents";
 	}
 
 	public static String getPropertyDOMAttributeHasName() {

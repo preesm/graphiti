@@ -288,6 +288,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	/**
 	 * Executes the given command.
+	 * 
 	 * @param command
 	 */
 	public void executeCommand(Command command) {

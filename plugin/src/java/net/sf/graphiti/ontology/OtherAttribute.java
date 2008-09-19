@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.ontology;
 
-
 /**
  * This class provides a DOM attribute that is not an {@link EdgeAttribute},
  * that is does not make reference to {@link Element}s in the ontology. However

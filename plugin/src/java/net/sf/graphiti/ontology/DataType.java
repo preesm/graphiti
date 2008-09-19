@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.ontology;
 
-
 /**
  * This class provides different parameters data types.
  * 

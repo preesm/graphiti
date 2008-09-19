@@ -22,14 +22,14 @@
         <basic:element_hasSchemaType>
           <basic:Sequence rdf:ID="SequenceDocumentElement1">
             <basic:sequence_hasHead>
-              <basic:Element rdf:ID="ElementKeyDynamicParameter">
+              <basic:DocumentFragment rdf:ID="DocumentFragmentPreamble">
                 <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                >0</basic:schemaType_hasMinOccurs>
+                >1</basic:schemaType_hasMinOccurs>
+                <basic:documentFragment_hasXMLContents rdf:datatype=
+                "http://www.w3.org/2001/XMLSchema#string">&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;documentFragment&gt;&lt;key attr.name="graph_desc" attr.type="string" for="node" id="graph_desc"&gt;&lt;desc&gt;java.lang.String&lt;/desc&gt;&lt;/key&gt;&lt;key attr.name="port_direction" attr.type="string" for="node" id="port_direction"&gt;&lt;desc&gt;java.lang.String&lt;/desc&gt;&lt;/key&gt;&lt;key attr.name="arguments" for="node" id="arguments"/&gt;&lt;key attr.name="parameters" for="graph" id="parameters"/&gt;&lt;key attr.name="variables" for="graph" id="variables"/&gt;&lt;key attr.name="edge_prod" attr.type="int" for="edge" id="edge_prod"&gt;&lt;desc&gt;org.sdf4j.model.sdf.SDFDefaultEdgePropertyType&lt;/desc&gt;&lt;/key&gt;&lt;key attr.name="edge_delay" attr.type="int" for="edge" id="edge_delay"&gt;&lt;desc&gt;org.sdf4j.model.sdf.SDFDefaultEdgePropertyType&lt;/desc&gt;&lt;/key&gt;&lt;key attr.name="edge_cons" attr.type="int" for="edge" id="edge_cons"&gt;&lt;desc&gt;org.sdf4j.model.sdf.SDFDefaultEdgePropertyType&lt;/desc&gt;&lt;/key&gt;&lt;key attr.name="kind" for="vertex" id="kind"/&gt;&lt;/documentFragment&gt;</basic:documentFragment_hasXMLContents>
                 <basic:schemaType_hasMaxOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-                >0</basic:schemaType_hasMaxOccurs>
-                <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                >key</basic:element_hasName>
-              </basic:Element>
+                >1</basic:schemaType_hasMaxOccurs>
+              </basic:DocumentFragment>
             </basic:sequence_hasHead>
             <basic:schemaType_hasMinOccurs rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
             >1</basic:schemaType_hasMinOccurs>
@@ -319,17 +319,17 @@
                                                             <basic:element_hasSchemaType>
                                                               <basic:Element rdf:ID="ElementVertexDataArgument">
     <basic:element_hasAttributes>
-      <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentValue">
-        <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
-        <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >value</basic:attribute_hasName>
-      </basic:OtherAttribute>
-    </basic:element_hasAttributes>
-    <basic:element_hasAttributes>
       <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentName">
         <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >name</basic:attribute_hasName>
         <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
+      </basic:OtherAttribute>
+    </basic:element_hasAttributes>
+    <basic:element_hasAttributes>
+      <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentValue">
+        <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
+        <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >value</basic:attribute_hasName>
       </basic:OtherAttribute>
     </basic:element_hasAttributes>
     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -439,18 +439,6 @@
                                                 "http://www.w3.org/2001/XMLSchema#int"
                                                 >1</basic:schemaType_hasMaxOccurs>
                                                 <basic:element_hasAttributeRestriction>
-                                                  <basic:AttributeRestriction rdf:ID="AttributeRestrictionPortDirectionInput">
-                                                    <basic:attributeRestriction_hasValue
-                                                     rdf:datatype=
-                                                    "http://www.w3.org/2001/XMLSchema#string"
-                                                    >Input</basic:attributeRestriction_hasValue>
-                                                    <basic:attributeRestriction_hasName
-                                                     rdf:datatype=
-                                                    "http://www.w3.org/2001/XMLSchema#string"
-                                                    >port_direction</basic:attributeRestriction_hasName>
-                                                  </basic:AttributeRestriction>
-                                                </basic:element_hasAttributeRestriction>
-                                                <basic:element_hasAttributeRestriction>
                                                   <basic:AttributeRestriction rdf:ID="AttributeRestrictionNodeKindPort">
                                                     <basic:attributeRestriction_hasName
                                                      rdf:datatype=
@@ -460,6 +448,18 @@
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#string"
                                                     >port</basic:attributeRestriction_hasValue>
+                                                  </basic:AttributeRestriction>
+                                                </basic:element_hasAttributeRestriction>
+                                                <basic:element_hasAttributeRestriction>
+                                                  <basic:AttributeRestriction rdf:ID="AttributeRestrictionPortDirectionInput">
+                                                    <basic:attributeRestriction_hasValue
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#string"
+                                                    >Input</basic:attributeRestriction_hasValue>
+                                                    <basic:attributeRestriction_hasName
+                                                     rdf:datatype=
+                                                    "http://www.w3.org/2001/XMLSchema#string"
+                                                    >port_direction</basic:attributeRestriction_hasName>
                                                   </basic:AttributeRestriction>
                                                 </basic:element_hasAttributeRestriction>
                                                 <basic:schemaType_hasMinOccurs
@@ -485,16 +485,16 @@
                                                             "http://www.w3.org/2001/XMLSchema#string"
                                                             >input port</basic:type_hasName>
                                                             <basic:type_hasFigureAttributes>
+                                                              <basic:ShapeAttribute rdf:ID="ShapeAttributePort">
+    <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Circle"/>
+                                                              </basic:ShapeAttribute>
+                                                            </basic:type_hasFigureAttributes>
+                                                            <basic:type_hasFigureAttributes>
                                                               <basic:DimensionAttribute rdf:ID="DimensionAttributePort">
     <basic:dimensionAttribute_hasWidth rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
     >30</basic:dimensionAttribute_hasWidth>
     <basic:dimensionAttribute_hasHeight rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
     >30</basic:dimensionAttribute_hasHeight>                  </basic:DimensionAttribute>
-                                                            </basic:type_hasFigureAttributes>
-                                                            <basic:type_hasFigureAttributes>
-                                                              <basic:ShapeAttribute rdf:ID="ShapeAttributePort">
-    <basic:shapeAttribute_hasShape rdf:resource="http://net.sf.graphiti/basics.owl#Circle"/>
-                                                              </basic:ShapeAttribute>
                                                             </basic:type_hasFigureAttributes>
                                                             <basic:type_hasFigureAttributes>
                                                               <basic:ColorAttribute rdf:ID="ColorAttributePortInput">
@@ -505,7 +505,6 @@
     <basic:colorAttribute_hasRed rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
     >12</basic:colorAttribute_hasRed>                         </basic:ColorAttribute>
                                                             </basic:type_hasFigureAttributes>
-                                                            <basic:type_hasParameters rdf:resource="#VertexParameterPortInputId"/>
                                                             <basic:type_hasParameters>
                                                               <basic:VertexParameter rdf:ID="VertexParameterPortInputType">
     <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -521,6 +520,7 @@
     <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
                                                               </basic:VertexParameter>
                                                             </basic:type_hasParameters>
+                                                            <basic:type_hasParameters rdf:resource="#VertexParameterPortInputId"/>
                                                           </basic:VertexType>
                                                         </basic:parameter_appliesTo>
                                                         <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#String"/>
@@ -545,8 +545,8 @@
                                             <basic:attribute_hasName
                                              rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
                                             >target</basic:attribute_hasName>
-                                            <basic:attribute_isReferenceTo rdf:resource="#VertexElementPortInput"/>
                                             <basic:attribute_isReferenceTo rdf:resource="#VertexElementVertex"/>
+                                            <basic:attribute_isReferenceTo rdf:resource="#VertexElementPortInput"/>
                                           </basic:EdgeTargetConnection>
                                         </basic:element_hasAttributes>
                                         <basic:element_hasAttributes>
@@ -584,6 +584,8 @@
                                     <basic:schemaType_hasMinOccurs
                                      rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                     >0</basic:schemaType_hasMinOccurs>
+                                    <basic:choice_hasElements rdf:resource="#VertexElementPortInput"/>
+                                    <basic:choice_hasElements rdf:resource="#VertexElementVertex"/>
                                     <basic:choice_hasElements>
                                       <basic:VertexElement rdf:ID="VertexElementPortOutput">
                                         <basic:element_hasAttributes>
@@ -620,8 +622,8 @@
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#string"
                                                     >output port</basic:type_hasName>
-                                                    <basic:type_hasFigureAttributes rdf:resource="#ShapeAttributePort"/>
                                                     <basic:type_hasFigureAttributes rdf:resource="#DimensionAttributePort"/>
+                                                    <basic:type_hasFigureAttributes rdf:resource="#ShapeAttributePort"/>
                                                     <basic:type_hasFigureAttributes>
                                                       <basic:ColorAttribute rdf:ID="ColorAttributePortOutput">
                                                         <basic:colorAttribute_hasRed
@@ -671,8 +673,6 @@
                                         >1</basic:schemaType_hasMaxOccurs>
                                       </basic:VertexElement>
                                     </basic:choice_hasElements>
-                                    <basic:choice_hasElements rdf:resource="#VertexElementVertex"/>
-                                    <basic:choice_hasElements rdf:resource="#VertexElementPortInput"/>
                                     <basic:schemaType_hasMaxOccurs
                                      rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
                                     >-1</basic:schemaType_hasMaxOccurs>

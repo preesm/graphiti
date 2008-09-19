@@ -42,12 +42,12 @@ import org.eclipse.draw2d.geometry.Rectangle;
 public class PortAnchorReferenceManager {
 
 	VertexFigure figure;
-	
-	IShape shape;
 
 	boolean isOutput;
 
 	String portName;
+
+	IShape shape;
 
 	public PortAnchorReferenceManager(VertexFigure figure, String portName,
 			boolean isOutput) {
@@ -67,7 +67,7 @@ public class PortAnchorReferenceManager {
 				if (label == null) {
 					return null;
 				}
-				
+
 				Rectangle bounds = label.getBounds();
 				int x = bounds.x + bounds.width;
 				int y = bounds.y + bounds.height / 2;
@@ -81,7 +81,7 @@ public class PortAnchorReferenceManager {
 				if (label == null) {
 					return null;
 				}
-				
+
 				Rectangle bounds = label.getBounds();
 				int x = bounds.x;
 				int y = bounds.y + bounds.height / 2;

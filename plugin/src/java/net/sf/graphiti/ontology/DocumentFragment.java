@@ -28,23 +28,25 @@
  */
 package net.sf.graphiti.ontology;
 
+import org.w3c.dom.Element;
+
 /**
- * This class provides the ontology-defined representation of a DOM element in
- * the input XML document.
+ * This class provides the ontology-defined representation of a document
+ * fragment. A document fragment refers to some XML contents, which are parsed
+ * at parsing and writing time. When parsing, they are checked against the input
+ * DOM; when writing, they are added to the output DOM.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface Sequence extends ComplexType {
+public interface DocumentFragment extends XMLSchemaType {
 
 	/**
-	 * Returns an {@link Iterable} on {@link OntologyIndividual}s that this
-	 * "sequence" complex type contains.
+	 * Returns the XML contents associated with this document fragment.
 	 * 
-	 * @return An {@link Iterable} on {@link OntologyIndividual}s that this
-	 *         "sequence" complex type contains.
+	 * @return The XML contents as an {@link Element}.
 	 */
-	public Iterable<XMLSchemaType> hasElements();
+	public org.w3c.dom.Element hasXMLContents();
 
 }

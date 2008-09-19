@@ -26,25 +26,60 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology;
+package net.sf.graphiti.ontology.impl;
+
+import java.io.ByteArrayInputStream;
+
+import net.sf.graphiti.ontology.DocumentFragment;
+import net.sf.graphiti.ontology.OntologyFactory;
+
+import org.w3c.dom.DOMConfiguration;
+import org.w3c.dom.Element;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSInput;
+import org.w3c.dom.ls.LSParser;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides the ontology-defined representation of a DOM element in
- * the input XML document.
+ * Implementation of Element.
  * 
- * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface Sequence extends ComplexType {
+public class DocumentFragmentImpl extends XMLSchemaTypeImpl implements
+		DocumentFragment {
 
-	/**
-	 * Returns an {@link Iterable} on {@link OntologyIndividual}s that this
-	 * "sequence" complex type contains.
-	 * 
-	 * @return An {@link Iterable} on {@link OntologyIndividual}s that this
-	 *         "sequence" complex type contains.
-	 */
-	public Iterable<XMLSchemaType> hasElements();
+	public DocumentFragmentImpl(Individual individual) {
+		super(individual);
+	}
+
+	@Override
+	public Element hasXMLContents() {
+		String xml = getStringProperty(OntologyFactory
+				.getPropertyDocumentFragmentHasXMLContents());
+		try {
+			// DOM LS implementation
+			DOMImplementationLS impl = (DOMImplementationLS) DOMImplementationRegistry
+					.newInstance().getDOMImplementation("LS");
+
+			// input
+			LSInput input = impl.createLSInput();
+			input.setByteStream(new ByteArrayInputStream(xml.getBytes()));
+
+			// parse without comments and whitespace
+			LSParser builder = impl.createLSParser(
+					DOMImplementationLS.MODE_SYNCHRONOUS, null);
+			DOMConfiguration config = builder.getDomConfig();
+			config.setParameter("comments", false);
+			config.setParameter("element-content-whitespace", false);
+
+			return builder.parse(input).getDocumentElement();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 }

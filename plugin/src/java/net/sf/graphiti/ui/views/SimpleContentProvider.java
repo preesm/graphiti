@@ -85,7 +85,7 @@ public class SimpleContentProvider extends AbstractContentProvider {
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		super.inputChanged(viewer, oldInput, newInput);
-		
+
 		// remove ourselves as a listener to the previous model
 		if (source instanceof PropertyBean) {
 			((PropertyBean) source).removePropertyChangeListener(this);

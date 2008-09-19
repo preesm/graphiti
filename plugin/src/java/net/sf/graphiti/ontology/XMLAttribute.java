@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.ontology;
 
-
 /**
  * This class provides a representation of a DOM attribute. It is not supposed
  * to be used directly, only {@link EdgeAttribute} and {@link OtherAttribute}

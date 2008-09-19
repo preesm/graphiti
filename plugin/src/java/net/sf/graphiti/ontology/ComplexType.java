@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.ontology;
 
-
 /**
  * This class provides the ontology-defined representation of a DOM element in
  * the input XML document.

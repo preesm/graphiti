@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.ontology;
 
-
 /**
  * This class provides an attribute restriction. An attribute restriction can be
  * used to distinguish elements by some of their attribute values, e.g.

@@ -36,6 +36,7 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.ontology.AttributeRestriction;
 import net.sf.graphiti.ontology.Choice;
 import net.sf.graphiti.ontology.ComplexType;
+import net.sf.graphiti.ontology.DocumentFragment;
 import net.sf.graphiti.ontology.Element;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.Sequence;
@@ -48,6 +49,7 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Comment;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
 /**
@@ -319,6 +321,119 @@ public class SchemaParser {
 	}
 
 	/**
+	 * Parses child with the given {@link DocumentFragment}.
+	 * 
+	 * @param docFragment
+	 * @param firstChild
+	 * @return
+	 * @throws NotCompatibleException
+	 */
+	private org.w3c.dom.Element parseDocumentFragmentOccurs(
+			DocumentFragment docFragment, org.w3c.dom.Element firstChild)
+			throws NotCompatibleException {
+		org.w3c.dom.Element child = firstChild;
+		Checkpoint checkpoint = contentParser.getCheckpoint();
+		int minOccurs = docFragment.minOccurs();
+		int maxOccurs = docFragment.maxOccurs();
+		org.w3c.dom.Element domDocFragment = docFragment.hasXMLContents();
+
+		// min occurs
+		int i = 0;
+		try {
+			for (; i < minOccurs; i++) {
+				child = parseDocumentFragment(domDocFragment, child);
+			}
+		} catch (NotCompatibleException e) {
+		}
+
+		// min occurs check
+		if (i < minOccurs) {
+			contentParser.loadCheckpoint(checkpoint);
+			throw new NotCompatibleException();
+		}
+
+		// max occurs
+		checkpoint = contentParser.getCheckpoint();
+		if (maxOccurs > -1) {
+			try {
+				for (; i < maxOccurs && child != null; i++) {
+					child = parseDocumentFragment(domDocFragment, child);
+				}
+			} catch (NotCompatibleException e) {
+			}
+		} else {
+			// parses all children
+			try {
+				while (child != null) {
+					child = parseDocumentFragment(domDocFragment, child);
+				}
+			} catch (NotCompatibleException e) {
+			}
+		}
+
+		return child;
+	}
+
+	/**
+	 * Checks that child equals the given element, obtained from an ontology
+	 * DocumentFragment.
+	 * 
+	 * @param domDocFragment
+	 *            The reference {@link org.w3c.dom.Element}.
+	 * @param firstChild
+	 *            An {@link org.w3c.dom.Element} from the input DOM.
+	 * @return The sibling of child if successful.
+	 * @throws NotCompatibleException
+	 *             If child is different from domDocFragment.
+	 */
+	private org.w3c.dom.Element parseDocumentFragment(
+			org.w3c.dom.Element domDocFragment, org.w3c.dom.Element firstChild)
+			throws NotCompatibleException {
+		org.w3c.dom.Element child = firstChild;
+		Node node = domDocFragment.getFirstChild();
+		while (node != null && node.isEqualNode(stripWhitespaces(child))) {
+			node = node.getNextSibling();
+			child = getNextSibling(child);
+		}
+
+		if (node == null) {
+			// contents validated against the whole document fragment
+			return child;
+		} else {
+			throw new NotCompatibleException();
+		}
+	}
+
+	/**
+	 * Removes whitespace (including "\n") nodes.
+	 * 
+	 * @param node
+	 * @param child
+	 * @return
+	 */
+	private Node stripWhitespaces(Node node) {
+		if (node.getNodeType() == Node.TEXT_NODE) {
+			String value = node.getNodeValue();
+			if (value.trim().isEmpty()) {
+				return null;
+			}
+		} else {
+			NodeList children = node.getChildNodes();
+			for (int i = 0; i < children.getLength(); i++) {
+				Node child = children.item(i);
+				Node newChild = stripWhitespaces(child);
+				if (newChild == null) {
+					node.removeChild(child);
+				} else {
+					node.replaceChild(newChild, child);
+				}
+			}
+		}
+		
+		return node;
+	}
+
+	/**
 	 * Parses the given <code>domElement</code> with the information given by
 	 * <code>ontElement</code>.
 	 * 
@@ -404,8 +519,11 @@ public class SchemaParser {
 			org.w3c.dom.Element firstChild) throws NotCompatibleException {
 		if (type.hasOntClass(OntologyFactory.getClassComplexType())) {
 			return parseComplexTypeOccurs((ComplexType) type, firstChild);
-		} else {
+		} else if (type.hasOntClass(OntologyFactory.getClassElement())) {
 			return parseElementOccurs((Element) type, firstChild);
+		} else {
+			return parseDocumentFragmentOccurs((DocumentFragment) type,
+					firstChild);
 		}
 	}
 

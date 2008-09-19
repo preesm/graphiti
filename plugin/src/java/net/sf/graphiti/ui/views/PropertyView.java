@@ -189,7 +189,7 @@ public class PropertyView extends AbstractPropertyView {
 		if (object.equals(tableViewer.getInput())) {
 			return;
 		}
-		
+
 		Object selectedObject = getModel(object);
 
 		// active page. Sometimes null, hence the test we do.

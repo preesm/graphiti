@@ -119,7 +119,7 @@ public class GenericGraphFileParser {
 		try {
 			// DOM LS implementation
 			DOMImplementationLS impl = (DOMImplementationLS) DOMImplementationRegistry
-					.newInstance().getDOMImplementation("LS");
+					.newInstance().getDOMImplementation("Core 3.0 XML 3.0 LS");
 
 			// input
 			LSInput input = impl.createLSInput();
