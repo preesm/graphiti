@@ -236,6 +236,11 @@ public class Graph extends PropertyBean {
 		return res;
 	}
 
+	@Override
+	public String toString() {
+		return getType();
+	}
+
 	/**
 	 * @see AbstractBaseGraph#vertexSet()
 	 * @return

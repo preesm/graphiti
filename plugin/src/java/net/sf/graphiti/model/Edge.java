@@ -179,4 +179,9 @@ public class Edge extends PropertyBean {
 	public void setTarget(Vertex target) {
 		this.target = target;
 	}
+	
+	@Override
+	public String toString() {
+		return getType() + ": " + getSource() + " - " + getTarget();
+	}
 }

@@ -190,6 +190,7 @@ public class ContentWriter {
 	private String getParameterValue(Parameter parameter, Object context)
 			throws EmptyBasketException {
 		String parameterName = parameter.hasName();
+		String key = context.toString() + parameterName;
 		Object value = ((PropertyBean) context).getValue(parameterName);
 
 		Class<?> clasz = parameter.hasValueType().getDataType();
@@ -198,10 +199,10 @@ public class ContentWriter {
 				throw new EmptyBasketException();
 			}
 
-			List<?> list = (List<?>) parametersBasket.get(value);
+			List<?> list = (List<?>) parametersBasket.get(key);
 			if (list == null) {
 				list = new ArrayList<Object>((List<?>) value);
-				parametersBasket.put(value, list);
+				parametersBasket.put(key, list);
 			}
 
 			if (list.isEmpty()) {
@@ -214,10 +215,10 @@ public class ContentWriter {
 			}
 
 			Map<Object, Object> map = (Map<Object, Object>) parametersBasket
-					.get(value);
+					.get(key);
 			if (map == null) {
 				map = new HashMap<Object, Object>((Map<?, ?>) value);
-				parametersBasket.put(value, map);
+				parametersBasket.put(key, map);
 			}
 
 			if (map.isEmpty()) {

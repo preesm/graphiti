@@ -193,7 +193,7 @@ public class Vertex extends PropertyBean {
 	}
 
 	public String toString() {
-		return getType() + " : " + getValue(PARAMETER_ID);
+		return getType() + ": " + getValue(PARAMETER_ID);
 	}
 
 }
