@@ -46,8 +46,8 @@ public class VertexDirectEditPolicy extends DirectEditPolicy {
 
 	@Override
 	protected Command getDirectEditCommand(DirectEditRequest request) {
-		RenameVertexCommand cmd = new RenameVertexCommand();
-		cmd.setSource((Vertex) getHost().getModel());
+		Vertex vertex = (Vertex) getHost().getModel();
+		RenameVertexCommand cmd = new RenameVertexCommand(vertex);
 		cmd.setName((String) request.getCellEditor().getValue());
 		return cmd;
 	}

@@ -58,7 +58,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                       <basic:GraphParameter rdf:ID="GraphParameterVariables">
                         <basic:parameter_hasName rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#string"
-                        >variables</basic:parameter_hasName>
+                        >variable</basic:parameter_hasName>
                         <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Map"/>
                         <basic:parameter_appliesTo rdf:resource="#GraphType"/>
                       </basic:GraphParameter>
@@ -67,7 +67,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                       <basic:GraphParameter rdf:ID="GraphParameterArguments">
                         <basic:parameter_hasName rdf:datatype=
                         "http://www.w3.org/2001/XMLSchema#string"
-                        >arguments</basic:parameter_hasName>
+                        >argument</basic:parameter_hasName>
                         <basic:parameter_appliesTo rdf:resource="#GraphType"/>
                         <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#List"/>
                       </basic:GraphParameter>
@@ -318,7 +318,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
     <basic:type_hasParameters>
       <basic:VertexParameter rdf:ID="VertexParameterArguments">
         <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >Actual parameters</basic:parameter_hasName>
+        >actual parameter</basic:parameter_hasName>
         <basic:parameter_appliesTo rdf:resource="#VertexTypeInstance"/>
         <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Map"/>
       </basic:VertexParameter>

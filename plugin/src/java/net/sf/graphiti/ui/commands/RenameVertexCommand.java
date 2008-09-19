@@ -27,6 +27,17 @@ public class RenameVertexCommand extends Command {
 
 	private Vertex vertex;
 
+	/**
+	 * Creates a new RenameVertexCommand for the given vertex.
+	 * 
+	 * @param vertex
+	 *            The {@link Vertex}.
+	 */
+	public RenameVertexCommand(Vertex vertex) {
+		this.vertex = vertex;
+		previousId = (String) vertex.getValue(Vertex.PARAMETER_ID);
+	}
+
 	@Override
 	public void execute() {
 		vertex.setValue(Vertex.PARAMETER_ID, id);
@@ -40,17 +51,6 @@ public class RenameVertexCommand extends Command {
 	 */
 	public void setName(String string) {
 		id = string;
-	}
-
-	/**
-	 * Sets the vertex {@link Vertex}.
-	 * 
-	 * @param vertex
-	 *            The vertex vertex.
-	 */
-	public void setSource(Vertex vertex) {
-		this.vertex = vertex;
-		previousId = (String) vertex.getValue(Vertex.PARAMETER_ID);
 	}
 
 	@Override

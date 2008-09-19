@@ -64,6 +64,8 @@ import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -282,6 +284,15 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Executes the given command.
+	 * @param command
+	 */
+	public void executeCommand(Command command) {
+		CommandStack stack = getEditDomain().getCommandStack();
+		stack.execute(command);
 	}
 
 	@SuppressWarnings("unchecked")

@@ -61,6 +61,7 @@ public class ComplexContentProvider extends AbstractContentProvider {
 
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		super.inputChanged(viewer, oldInput, newInput);
 		ComplexSource source = (ComplexSource) this.source;
 
 		// remove ourselves as a listener to the previous model

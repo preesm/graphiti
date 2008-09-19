@@ -3,7 +3,7 @@
    <description url="http://graphiti-editor.sourceforge.net/eclipse/index.html">
       Graphiti Project Update Site
    </description>
-   <feature url="features/net.sf.graphiti.feature_0.7.0.jar" id="net.sf.graphiti.feature" version="0.7.0">
+   <feature url="features/net.sf.graphiti.feature_0.8.0.jar" id="net.sf.graphiti.feature" version="0.8.0">
       <category name="Graphiti category"/>
    </feature>
    <category-def name="Graphiti category" label="Graphiti">

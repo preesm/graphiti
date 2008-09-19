@@ -186,6 +186,10 @@ public class PropertyView extends AbstractPropertyView {
 
 	@Override
 	public void selectionChanged(Object object) {
+		if (object.equals(tableViewer.getInput())) {
+			return;
+		}
+		
 		Object selectedObject = getModel(object);
 
 		// active page. Sometimes null, hence the test we do.

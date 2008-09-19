@@ -114,8 +114,6 @@ public class ComplexNameEditingSupport extends EditingSupport implements
 			map.remove(key);
 			map.put(newKey, value);
 		}
-
-		getViewer().refresh();
 	}
 
 }

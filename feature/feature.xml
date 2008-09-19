@@ -2,7 +2,7 @@
 <feature
       id="net.sf.graphiti.feature"
       label="Graphiti editor feature"
-      version="0.7.0">
+      version="0.8.0">
 
    <description url="http://www.example.com/description">
       Graphiti editor feature.

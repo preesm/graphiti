@@ -39,10 +39,15 @@ import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Util;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.GraphitiPlugin;
+import net.sf.graphiti.ui.commands.AddParameterCommand;
+import net.sf.graphiti.ui.commands.RemoveParameterCommand;
+import net.sf.graphiti.ui.editors.GraphEditor;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.dialogs.IInputValidator;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -50,9 +55,14 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * This class is a {@link PropertyView} that shows complex properties (ie List
@@ -102,9 +112,19 @@ public class ComplexPropertyView extends AbstractPropertyView {
 	private Action actionDelete;
 
 	/**
+	 * The article before the parameter name.
+	 */
+	private String article;
+
+	/**
 	 * Description of the selected object.
 	 */
 	private String objDesc;
+
+	/**
+	 * The parameter name.
+	 */
+	private String parameterName;
 
 	/**
 	 * The source of this complex property view.
@@ -142,16 +162,41 @@ public class ComplexPropertyView extends AbstractPropertyView {
 	 * List, we add "new value", else we add "new key" = "new value".
 	 */
 	private void addValue() {
-		if (source.parameter.getType() == List.class) {
-			List<Object> list = Util.getList(source.bean, source.parameter);
-			list.add("new value");
-		} else {
-			Map<Object, Object> map = Util
-					.getMap(source.bean, source.parameter);
-			map.put("new key", "new value");
-		}
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		Shell parentShell = window.getShell();
 
-		tableViewer.refresh();
+		String dialogTitle = "New " + parameterName;
+		String dialogMessage = "Please enter " + article + " " + parameterName
+				+ ":";
+		String initialValue = "";
+		InputDialog dialog = new InputDialog(parentShell, dialogTitle,
+				dialogMessage, initialValue, new IInputValidator() {
+
+					@Override
+					public String isValid(String newText) {
+						return newText.isEmpty() ? "" : null;
+					}
+
+				});
+
+		if (dialog.open() == InputDialog.OK) {
+			AddParameterCommand command = new AddParameterCommand(source.bean,
+					dialog.getValue());
+			if (source.parameter.getType() == List.class) {
+				List<Object> list = Util.getList(source.bean, source.parameter);
+				command.setList(list);
+			} else {
+				Map<Object, Object> map = Util.getMap(source.bean,
+						source.parameter);
+				command.setMap(map);
+			}
+
+			IEditorPart part = window.getActivePage().getActiveEditor();
+			if (part instanceof GraphEditor) {
+				((GraphEditor) part).executeCommand(command);
+			}
+		}
 	}
 
 	/**
@@ -245,17 +290,28 @@ public class ComplexPropertyView extends AbstractPropertyView {
 		if (sel instanceof IStructuredSelection) {
 			IStructuredSelection ssel = (IStructuredSelection) sel;
 			Object obj = ssel.getFirstElement();
+
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+
+			RemoveParameterCommand command = new RemoveParameterCommand(
+					source.bean);
 			if (source.parameter.getType() == List.class) {
 				List<Object> list = Util.getList(source.bean, source.parameter);
-				list.remove((String) obj);
+				command.setValue(obj);
+				command.setList(list);
 			} else {
 				Map<Object, Object> map = Util.getMap(source.bean,
 						source.parameter);
-				map.remove(((Entry<Object, Object>) obj).getKey());
+				command.setValue(((Entry<Object, Object>) obj).getKey());
+				command.setMap(map);
+			}
+
+			IEditorPart part = window.getActivePage().getActiveEditor();
+			if (part instanceof GraphEditor) {
+				((GraphEditor) part).executeCommand(command);
 			}
 		}
-
-		tableViewer.refresh();
 	}
 
 	@Override
@@ -281,13 +337,31 @@ public class ComplexPropertyView extends AbstractPropertyView {
 			objDesc = "edge";
 		}
 
-		String parameterName = parameter.getName();
-		String description = parameterName + " of the selected " + objDesc;
-		super.setContentDescription(description);
-		super.setPartName(parameterName);
+		// uppercase first letter
+		parameterName = parameter.getName();
+		char[] chars = (parameterName + "s").toCharArray();
+		char firstLetter = chars[0];
+		chars[0] = Character.toUpperCase(chars[0]);
+		String uppercasedParamName = new String(chars);
 
-		actionAdd.setToolTipText("Adds a parameter to this " + objDesc);
-		actionDelete.setToolTipText("Removes a parameter from this " + objDesc);
+		// part name and description
+		String description = uppercasedParamName + " of the selected "
+				+ objDesc;
+		super.setContentDescription(description);
+		super.setPartName(uppercasedParamName);
+
+		// set the article
+		article = "a";
+		if (firstLetter == 'a' || firstLetter == 'e' || firstLetter == 'i'
+				|| firstLetter == 'o') {
+			article += "n";
+		}
+
+		// action tool-tips.
+		actionAdd.setToolTipText("Adds " + article + " " + parameterName
+				+ " to this " + objDesc);
+		actionDelete.setToolTipText("Removes " + article + " " + parameterName
+				+ " from this " + objDesc);
 	}
 
 	/**

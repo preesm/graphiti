@@ -132,7 +132,7 @@ public class VertexFigure extends Figure {
 		}
 		setSize(shape.getPreferredSize());
 	}
-	
+
 	/**
 	 * Returns the label for the input port whose name is given.
 	 * 
@@ -267,21 +267,22 @@ public class VertexFigure extends Figure {
 				Entry<String, Label> entry = itInput.next();
 				Label label = new Label(entry.getKey());
 				entry.setValue(label);
-				shape.add(label, new GridData(SWT.BEGINNING, SWT.CENTER, true,
-						true));
+				shape.add(label, new GridData(SWT.BEGINNING, SWT.CENTER, false,
+						false));
 
 				entry = itOutput.next();
 				label = new Label(entry.getKey());
 				entry.setValue(label);
-				shape.add(label, new GridData(SWT.END, SWT.CENTER, true, true));
+				shape.add(label,
+						new GridData(SWT.END, SWT.CENTER, false, false));
 			} else {
 				// Otherwise, we add only the input port with an horizontal span
 				// equal to 2
 				Entry<String, Label> entry = itInput.next();
 				Label label = new Label(entry.getKey());
 				entry.setValue(label);
-				GridData data = new GridData(SWT.BEGINNING, SWT.CENTER, true,
-						true);
+				GridData data = new GridData(SWT.BEGINNING, SWT.CENTER, false,
+						false);
 				data.horizontalSpan = 2;
 				shape.add(label, data);
 			}
@@ -293,7 +294,7 @@ public class VertexFigure extends Figure {
 			Entry<String, Label> entry = itOutput.next();
 			Label label = new Label(entry.getKey());
 			entry.setValue(label);
-			GridData data = new GridData(SWT.END, SWT.CENTER, true, true);
+			GridData data = new GridData(SWT.END, SWT.CENTER, false, false);
 			data.horizontalSpan = 2;
 			shape.add(label, data);
 		}

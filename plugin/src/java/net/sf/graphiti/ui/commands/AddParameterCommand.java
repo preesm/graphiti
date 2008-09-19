@@ -26,85 +26,82 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.views;
+package net.sf.graphiti.ui.commands;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.util.List;
+import java.util.Map;
 
-import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.PropertyBean;
 
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ColumnViewer;
-import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.swt.widgets.Table;
+import org.eclipse.gef.commands.Command;
 
 /**
- * This class provides {@link EditingSupport} for the "value" column.
+ * This class provides a command that adds a parameter to the currently selected
+ * object(s).
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class SimpleEditingSupport extends EditingSupport implements
-		PropertyChangeListener {
+public class AddParameterCommand extends Command {
 
-	private TextCellEditor editor;
+	private List<Object> list;
 
-	/**
-	 * The source we provide editing support for.
-	 */
+	private Map<Object, Object> map;
+
 	private PropertyBean source;
 
+	private String value;
+
 	/**
-	 * Creates a new {@link SimpleEditingSupport} on the given column viewer and
-	 * table.
+	 * Creates a new add parameter command.
 	 * 
-	 * @param viewer
-	 * @param table
+	 * @param value
+	 *            The value.
 	 */
-	public SimpleEditingSupport(ColumnViewer viewer, Table table) {
-		super(viewer);
-		editor = new TextCellEditor(table);
+	public AddParameterCommand(PropertyBean source, String value) {
+		this.source = source;
+		this.value = value;
 	}
 
 	@Override
-	protected boolean canEdit(Object element) {
-		return true;
-	}
-
-	@Override
-	protected CellEditor getCellEditor(Object element) {
-		return editor;
-	}
-
-	@Override
-	protected Object getValue(Object element) {
-		if (element instanceof Parameter) {
-			Parameter parameter = (Parameter) element;
-			Object value = (Object) source.getValue(parameter.getName());
-			if (value == null) {
-				value = "";
-			}
-			return value.toString();
+	public void execute() {
+		if (list == null) {
+			map.put(value, "");
+			source.firePropertyChange("", null, map);
 		} else {
-			return "";
+			list.add(value);
+			source.firePropertyChange("", null, list);
 		}
+	}
+
+	/**
+	 * Sets the list to add a parameter to.
+	 * 
+	 * @param list
+	 *            A {@link List}.
+	 */
+	public void setList(List<Object> list) {
+		this.list = list;
+	}
+
+	/**
+	 * Sets the map to add a parameter to.
+	 * 
+	 * @param map
+	 *            A {@link Map}.
+	 */
+	public void setMap(Map<Object, Object> map) {
+		this.map = map;
 	}
 
 	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(SimpleContentProvider.INPUT_CHANGED)) {
-			source = (PropertyBean) evt.getNewValue();
+	public void undo() {
+		if (list == null) {
+			map.remove(value);
+			source.firePropertyChange("", null, map);
+		} else {
+			list.remove(value);
+			source.firePropertyChange("", null, list);
 		}
 	}
-
-	@Override
-	protected void setValue(Object element, Object value) {
-		if (element instanceof Parameter) {
-			Parameter parameter = (Parameter) element;
-			source.setValue(parameter.getName(), value);
-		}
-	}
-
 }

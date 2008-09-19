@@ -286,7 +286,7 @@
                                                             <basic:type_hasParameters>
                                                               <basic:VertexParameter rdf:ID="VertexParameterVertexArguments">
     <basic:parameter_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Actual parameters</basic:parameter_hasName>
+    >actual parameter</basic:parameter_hasName>
     <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Map"/>
     <basic:parameter_appliesTo rdf:resource="#VertexTypeVertex"/>
                                                               </basic:VertexParameter>
@@ -319,17 +319,17 @@
                                                             <basic:element_hasSchemaType>
                                                               <basic:Element rdf:ID="ElementVertexDataArgument">
     <basic:element_hasAttributes>
-      <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentValue">
-        <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
-        <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >value</basic:attribute_hasName>
-      </basic:OtherAttribute>
-    </basic:element_hasAttributes>
-    <basic:element_hasAttributes>
       <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentName">
         <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >name</basic:attribute_hasName>
         <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
+      </basic:OtherAttribute>
+    </basic:element_hasAttributes>
+    <basic:element_hasAttributes>
+      <basic:OtherAttribute rdf:ID="OtherAttributeVertexArgumentValue">
+        <basic:otherAttribute_referencesParameter rdf:resource="#VertexParameterVertexArguments"/>
+        <basic:attribute_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >value</basic:attribute_hasName>
       </basic:OtherAttribute>
     </basic:element_hasAttributes>
     <basic:element_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -609,7 +609,7 @@
                                                     <basic:parameter_hasName
                                                      rdf:datatype=
                                                     "http://www.w3.org/2001/XMLSchema#string"
-                                                    >Formal parameters</basic:parameter_hasName>
+                                                    >formal parameter</basic:parameter_hasName>
                                                     <basic:parameter_appliesTo rdf:resource="#GraphType"/>
                                                     <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#List"/>
                                                   </basic:GraphParameter>
@@ -637,7 +637,7 @@
                                             </basic:parameter_appliesTo>
                                             <basic:parameter_hasName
                                              rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-                                            >Variable declarations</basic:parameter_hasName>
+                                            >variable declaration</basic:parameter_hasName>
                                             <basic:parameter_hasValueType rdf:resource="http://net.sf.graphiti/basics.owl#Map"/>
                                           </basic:GraphParameter>
                                         </basic:otherAttribute_referencesParameter>
@@ -776,9 +776,9 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</rdfs:comment>
     <owl:imports rdf:resource="http://net.sf.graphiti/GraphML.owl"/>
     <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >graphml</basic:refinementHasFileExtension>
-    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >xml</basic:refinementHasFileExtension>
+    <basic:refinementHasFileExtension rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >graphml</basic:refinementHasFileExtension>
   </owl:Ontology>
   <basic:AttributeRestriction rdf:ID="AttributeRestrictionKeyKind">
     <basic:attributeRestriction_hasName rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
