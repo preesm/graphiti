@@ -4,7 +4,7 @@
         <ID name="Top_DCR"/>
     </QID>
     <EntityDecl name="Parser">
-        <EntityExpr kind="Instantiation" name="TCPread_decoder"/>
+        <EntityExpr kind="Instantiation" name="Parser"/>
     </EntityDecl>
     <EntityDecl name="dcr_nl">
         <EntityExpr kind="Instantiation" name="DCR">

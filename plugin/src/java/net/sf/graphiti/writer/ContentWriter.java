@@ -52,6 +52,7 @@ import net.sf.graphiti.ontology.XMLAttribute;
 import net.sf.graphiti.transactions.Operation;
 import net.sf.graphiti.transactions.Result;
 import net.sf.graphiti.transactions.SimpleTransaction;
+import net.sf.graphiti.writer.operations.AddDocumentFragmentOpSpec;
 import net.sf.graphiti.writer.operations.CreateDocumentElementOpSpec;
 import net.sf.graphiti.writer.operations.CreateElementOpSpec;
 import net.sf.graphiti.writer.operations.SetAttributeOpSpec;
@@ -119,6 +120,19 @@ public class ContentWriter {
 		parametersBasket = new HashMap<Object, Object>();
 		resultStack = new Stack<Result>();
 		transaction = new SimpleTransaction();
+	}
+
+	/**
+	 * Adds the given document fragment children to the output tree.
+	 * 
+	 * @param domDocFragment
+	 *            A documentFragment element containing elements to add to the
+	 *            output tree.
+	 */
+	public void addDocumentFragment(org.w3c.dom.Element domDocFragment) {
+		Operation addElement = new Operation(new AddDocumentFragmentOpSpec());
+		addElement.setOperands(resultStack.peek(), domDocFragment);
+		transaction.addOperation(addElement);
 	}
 
 	/**

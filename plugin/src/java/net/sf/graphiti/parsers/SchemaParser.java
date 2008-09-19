@@ -46,6 +46,7 @@ import net.sf.graphiti.parsers.ContentParser.Checkpoint;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Comment;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -168,6 +169,57 @@ public class SchemaParser {
 		}
 
 		return correspond;
+	}
+
+	/**
+	 * Equivalent to node.isEqualNode(child), except it's working.
+	 * 
+	 * @param node
+	 * @param child
+	 * @return
+	 */
+	private boolean isEqualNode(Node node, Node child) {
+		if (node.getNodeType() != child.getNodeType()) {
+			return false;
+		}
+
+		if (node.getNodeType() == Node.ATTRIBUTE_NODE) {
+			Attr nodeAttr = (Attr) node;
+			Attr childAttr = (Attr) child;
+			if (nodeAttr.getName().equals(childAttr.getName())
+					&& nodeAttr.getValue().equals(childAttr.getValue())) {
+				return true;
+			}
+		} else if (node.getNodeType() == Node.TEXT_NODE) {
+			return node.getNodeValue().equals(child.getNodeValue());
+		} else if (node.getNodeType() == Node.ELEMENT_NODE) {
+			// attributes
+			NamedNodeMap nodeAttrs = node.getAttributes();
+			NamedNodeMap childAttrs = child.getAttributes();
+			if (nodeAttrs.getLength() != childAttrs.getLength()) {
+				return false;
+			}
+
+			boolean res = true;
+			for (int i = 0; i < nodeAttrs.getLength() && res; i++) {
+				res = isEqualNode(nodeAttrs.item(i), childAttrs.item(i));
+			}
+
+			// children
+			NodeList nodeChildren = node.getChildNodes();
+			NodeList childChildren = child.getChildNodes();
+			if (nodeChildren.getLength() != childChildren.getLength()) {
+				return false;
+			}
+
+			for (int i = 0; i < nodeChildren.getLength() && res; i++) {
+				res = isEqualNode(nodeChildren.item(i), childChildren.item(i));
+			}
+
+			return res;
+		}
+
+		return false;
 	}
 
 	/**
@@ -321,6 +373,36 @@ public class SchemaParser {
 	}
 
 	/**
+	 * Checks that child equals the given element, obtained from an ontology
+	 * DocumentFragment.
+	 * 
+	 * @param domDocFragment
+	 *            The reference {@link org.w3c.dom.Element}.
+	 * @param firstChild
+	 *            An {@link org.w3c.dom.Element} from the input DOM.
+	 * @return The sibling of child if successful.
+	 * @throws NotCompatibleException
+	 *             If child is different from domDocFragment.
+	 */
+	private org.w3c.dom.Element parseDocumentFragment(
+			org.w3c.dom.Element domDocFragment, org.w3c.dom.Element firstChild)
+			throws NotCompatibleException {
+		org.w3c.dom.Element child = firstChild;
+		Node node = domDocFragment.getFirstChild();
+		while (node != null && isEqualNode(node, stripWhitespace(child))) {
+			node = node.getNextSibling();
+			child = getNextSibling(child);
+		}
+
+		if (node == null) {
+			// contents validated against the whole document fragment
+			return child;
+		} else {
+			throw new NotCompatibleException();
+		}
+	}
+
+	/**
 	 * Parses child with the given {@link DocumentFragment}.
 	 * 
 	 * @param docFragment
@@ -333,9 +415,10 @@ public class SchemaParser {
 			throws NotCompatibleException {
 		org.w3c.dom.Element child = firstChild;
 		Checkpoint checkpoint = contentParser.getCheckpoint();
+		org.w3c.dom.Element domDocFragment = docFragment.hasXMLContents();
 		int minOccurs = docFragment.minOccurs();
 		int maxOccurs = docFragment.maxOccurs();
-		org.w3c.dom.Element domDocFragment = docFragment.hasXMLContents();
+		checkOccurs(minOccurs, maxOccurs);
 
 		// min occurs
 		int i = 0;
@@ -372,65 +455,6 @@ public class SchemaParser {
 		}
 
 		return child;
-	}
-
-	/**
-	 * Checks that child equals the given element, obtained from an ontology
-	 * DocumentFragment.
-	 * 
-	 * @param domDocFragment
-	 *            The reference {@link org.w3c.dom.Element}.
-	 * @param firstChild
-	 *            An {@link org.w3c.dom.Element} from the input DOM.
-	 * @return The sibling of child if successful.
-	 * @throws NotCompatibleException
-	 *             If child is different from domDocFragment.
-	 */
-	private org.w3c.dom.Element parseDocumentFragment(
-			org.w3c.dom.Element domDocFragment, org.w3c.dom.Element firstChild)
-			throws NotCompatibleException {
-		org.w3c.dom.Element child = firstChild;
-		Node node = domDocFragment.getFirstChild();
-		while (node != null && node.isEqualNode(stripWhitespaces(child))) {
-			node = node.getNextSibling();
-			child = getNextSibling(child);
-		}
-
-		if (node == null) {
-			// contents validated against the whole document fragment
-			return child;
-		} else {
-			throw new NotCompatibleException();
-		}
-	}
-
-	/**
-	 * Removes whitespace (including "\n") nodes.
-	 * 
-	 * @param node
-	 * @param child
-	 * @return
-	 */
-	private Node stripWhitespaces(Node node) {
-		if (node.getNodeType() == Node.TEXT_NODE) {
-			String value = node.getNodeValue();
-			if (value.trim().isEmpty()) {
-				return null;
-			}
-		} else {
-			NodeList children = node.getChildNodes();
-			for (int i = 0; i < children.getLength(); i++) {
-				Node child = children.item(i);
-				Node newChild = stripWhitespaces(child);
-				if (newChild == null) {
-					node.removeChild(child);
-				} else {
-					node.replaceChild(newChild, child);
-				}
-			}
-		}
-		
-		return node;
 	}
 
 	/**
@@ -544,6 +568,26 @@ public class SchemaParser {
 			child = parseSchemaType(type, child);
 		}
 		return child;
+	}
+
+	private Node stripWhitespace(Node node) {
+		if (node.getNodeType() == Node.TEXT_NODE) {
+			String value = node.getNodeValue();
+			if (value.trim().isEmpty()) {
+				return null;
+			}
+		} else {
+			NodeList children = node.getChildNodes();
+			for (int i = 0; i < children.getLength(); i++) {
+				Node child = children.item(i);
+				Node newChild = stripWhitespace(child);
+				if (newChild == null) {
+					node.removeChild(child);
+				}
+			}
+		}
+
+		return node;
 	}
 
 }

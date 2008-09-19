@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?><graphml xmlns="http://graphml.graphdrawing.org/xmlns/1.0rc">
+   <key attr.name="graph_desc" attr.type="string" for="node" id="graph_desc">
+      <desc>java.lang.String</desc>
+   </key>
+   <key attr.name="port_direction" attr.type="string" for="node" id="port_direction">
+      <desc>java.lang.String</desc>
+   </key>
+   <key attr.name="arguments" for="node" id="arguments"/>
+   <key attr.name="parameters" for="graph" id="parameters"/>
+   <key attr.name="variables" for="graph" id="variables"/>
+   <key attr.name="edge_prod" attr.type="int" for="edge" id="edge_prod">
+      <desc>org.sdf4j.model.sdf.SDFDefaultEdgePropertyType</desc>
+   </key>
+   <key attr.name="edge_delay" attr.type="int" for="edge" id="edge_delay">
+      <desc>org.sdf4j.model.sdf.SDFDefaultEdgePropertyType</desc>
+   </key>
+   <key attr.name="edge_cons" attr.type="int" for="edge" id="edge_cons">
+      <desc>org.sdf4j.model.sdf.SDFDefaultEdgePropertyType</desc>
+   </key>
+   <key attr.name="kind" for="vertex" id="kind"/>
    <graph edgedefault="directed">
       <data key="parameters"/>
       <data key="variables">
@@ -7,8 +26,8 @@
          <variable name="circbufsize" value="0"/>
          <variable name="RelPreambleThresShift11" value="24757"/>
          <variable name="RootNr" value="64"/>
-         <variable name="NumSigs" value="64"/>
          <variable name="RootSize" value="839"/>
+         <variable name="NumSigs" value="64"/>
          <variable name="CPSize" value="21012"/>
          <variable name="FIRSize" value="128"/>
          <variable name="dec" value="0"/>

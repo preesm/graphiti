@@ -40,6 +40,7 @@ import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.AttributeRestriction;
 import net.sf.graphiti.ontology.Choice;
 import net.sf.graphiti.ontology.ComplexType;
+import net.sf.graphiti.ontology.DocumentFragment;
 import net.sf.graphiti.ontology.EdgeElement;
 import net.sf.graphiti.ontology.EdgeType;
 import net.sf.graphiti.ontology.Element;
@@ -305,6 +306,24 @@ public class SchemaWriter {
 	}
 
 	/**
+	 * Writes the given ontology document fragment a specified number of times
+	 * (between minOccurs and maxOccurs).
+	 * 
+	 * @param ontElement
+	 *            An ontology {@link DocumentFragment} that describes an XML
+	 *            element in the DOM result.
+	 */
+	private void writeDocumentFragmentOccurs(DocumentFragment docFragment) {
+		int minOccurs = docFragment.minOccurs();
+		org.w3c.dom.Element domDocFragment = docFragment.hasXMLContents();
+
+		// min occurs
+		for (int i = 0; i < minOccurs; i++) {
+			contentWriter.addDocumentFragment(domDocFragment);
+		}
+	}
+
+	/**
 	 * Writes the given ontology element with the given context.
 	 * 
 	 * @param ontElement
@@ -397,8 +416,10 @@ public class SchemaWriter {
 			throws EmptyBasketException {
 		if (type.hasOntClass(OntologyFactory.getClassComplexType())) {
 			writeComplexTypeOccurs((ComplexType) type, context);
-		} else {
+		} else if (type.hasOntClass(OntologyFactory.getClassElement())) {
 			writeElementOccurs((Element) type, context);
+		} else {
+			writeDocumentFragmentOccurs((DocumentFragment) type);
 		}
 	}
 
