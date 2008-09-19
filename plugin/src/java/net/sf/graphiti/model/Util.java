@@ -58,7 +58,7 @@ public class Util {
 		List<Object> list = (List<Object>) bean.getValue(parameterName);
 		if (list == null) {
 			list = new ArrayList<Object>();
-			bean.setValue(parameterName, list);
+			bean.setValueWithoutEvent(parameterName, list);
 		}
 
 		return list;
@@ -72,7 +72,7 @@ public class Util {
 				.getValue(parameterName);
 		if (map == null) {
 			map = new HashMap<Object, Object>();
-			bean.setValue(parameterName, map);
+			bean.setValueWithoutEvent(parameterName, map);
 		}
 
 		return map;

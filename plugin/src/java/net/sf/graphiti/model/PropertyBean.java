@@ -185,4 +185,18 @@ public class PropertyBean {
 		properties.put(propertyName, newValue);
 		propertyChange.firePropertyChange(propertyName, oldValue, newValue);
 	}
+
+	/**
+	 * Sets the value of the property whose name is <code>propertyName</code> to
+	 * value <code>newValue</code>, <b>without</b> reporting the property update
+	 * to any registered listeners.
+	 * 
+	 * @param propertyName
+	 *            The name of the property to set.
+	 * @param newValue
+	 *            The new value of the property.
+	 */
+	public void setValueWithoutEvent(String propertyName, Object newValue) {
+		properties.put(propertyName, newValue);
+	}
 }

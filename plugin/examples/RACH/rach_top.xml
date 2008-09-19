@@ -7,8 +7,8 @@
          <variable name="circbufsize" value="0"/>
          <variable name="RelPreambleThresShift11" value="24757"/>
          <variable name="RootNr" value="64"/>
-         <variable name="RootSize" value="839"/>
          <variable name="NumSigs" value="64"/>
+         <variable name="RootSize" value="839"/>
          <variable name="CPSize" value="21012"/>
          <variable name="FIRSize" value="128"/>
          <variable name="dec" value="0"/>
@@ -19,8 +19,10 @@
          <variable name="TSNr" value="24576"/>
       </data>
       <node id="FIRGen" kind="vertex">
-         <data key="graph_desc"/>
-         <data key="arguments"/>
+         <data key="graph_desc">FIRGen</data>
+         <data key="arguments">
+            <argument name="FIRSize" value="FIRSize"/>
+         </data>
       </node>
       <node id="DFTInit" kind="vertex">
          <data key="graph_desc"/>

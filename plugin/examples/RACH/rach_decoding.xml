@@ -2,16 +2,16 @@
    <graph edgedefault="directed">
       <data key="parameters"/>
       <data key="variables"/>
-      <node id="antennaInputs" kind="port"/>
-      <node id="FIRTaps" kind="port"/>
-      <node id="dftState" kind="port"/>
-      <node id="rotationvector" kind="port"/>
-      <node id="RepetitionIndex" kind="port"/>
-      <node id="inputZC1" kind="port"/>
-      <node id="ZCIndex" kind="port"/>
-      <node id="twiddle" kind="port"/>
-      <node id="powerValues" kind="port"/>
-      <node id="SumPower" kind="port"/>
+      <node id="antennaInputs" kind="port" port_direction="Input"/>
+      <node id="FIRTaps" kind="port" port_direction="Input"/>
+      <node id="dftState" kind="port" port_direction="Input"/>
+      <node id="rotationvector" kind="port" port_direction="Input"/>
+      <node id="RepetitionIndex" kind="port" port_direction="Input"/>
+      <node id="inputZC1" kind="port" port_direction="Input"/>
+      <node id="ZCIndex" kind="port" port_direction="Input"/>
+      <node id="twiddle" kind="port" port_direction="Input"/>
+      <node id="powerValues" kind="port" port_direction="Output"/>
+      <node id="SumPower" kind="port" port_direction="Output"/>
       <node id="Preproc" kind="vertex">
          <data key="graph_desc"/>
          <data key="arguments"/>
