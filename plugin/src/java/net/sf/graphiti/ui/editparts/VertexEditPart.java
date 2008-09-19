@@ -298,8 +298,13 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	 */
 	void updateFigures(int direction) {
 		Vertex vertex = (Vertex) getModel();
-		Rectangle bounds = new Rectangle(node.x, node.y, node.width,
-				node.height);
+		Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
+		if (bounds == null) {
+			bounds = getFigure().getBounds();
+		}
+
+		bounds.x = node.x;
+		bounds.y = node.y;
 		vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
 
 		// Updates edges
