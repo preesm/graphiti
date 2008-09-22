@@ -2,9 +2,6 @@
    <key attr.name="graph_desc" attr.type="string" for="node" id="graph_desc">
       <desc>java.lang.String</desc>
    </key>
-   <key attr.name="port_direction" attr.type="string" for="node" id="port_direction">
-      <desc>java.lang.String</desc>
-   </key>
    <key attr.name="arguments" for="node" id="arguments"/>
    <key attr.name="parameters" for="graph" id="parameters"/>
    <key attr.name="variables" for="graph" id="variables"/>
@@ -17,7 +14,6 @@
    <key attr.name="edge_cons" attr.type="int" for="edge" id="edge_cons">
       <desc>org.sdf4j.model.sdf.SDFDefaultEdgePropertyType</desc>
    </key>
-   <key attr.name="kind" for="vertex" id="kind"/>
    <graph edgedefault="directed">
       <data key="parameters"/>
       <data key="variables"/>
@@ -32,7 +28,7 @@
       <node id="powerValues" kind="port" port_direction="Output"/>
       <node id="SumPower" kind="port" port_direction="Output"/>
       <node id="Preproc" kind="vertex">
-         <data key="graph_desc"/>
+         <data key="graph_desc">Pre_process</data>
          <data key="arguments"/>
       </node>
       <node id="CirCorr" kind="vertex">
@@ -40,32 +36,32 @@
          <data key="arguments"/>
       </node>
       <edge source="antennaInputs" sourceport="" target="Preproc" targetport="antennaInputs">
-         <data key="edge_prod">0</data>
+         <data key="edge_prod">1</data>
          <data key="edge_delay">0</data>
-         <data key="edge_cons">0</data>
+         <data key="edge_cons">1</data>
       </edge>
       <edge source="FIRTaps" sourceport="" target="Preproc" targetport="FIRTaps">
-         <data key="edge_prod">0</data>
+         <data key="edge_prod">1</data>
          <data key="edge_delay">0</data>
-         <data key="edge_cons">0</data>
+         <data key="edge_cons">1</data>
       </edge>
       <edge source="dftState" sourceport="" target="Preproc" targetport="dftState">
-         <data key="edge_prod">0</data>
+         <data key="edge_prod">1</data>
          <data key="edge_delay">0</data>
-         <data key="edge_cons">0</data>
+         <data key="edge_cons">1</data>
       </edge>
       <edge source="rotationvector" sourceport="" target="Preproc" targetport="rotationvector">
-         <data key="edge_prod">0</data>
+         <data key="edge_prod">1</data>
          <data key="edge_delay">0</data>
-         <data key="edge_cons">0</data>
+         <data key="edge_cons">1</data>
       </edge>
       <edge source="RepetitionIndex" sourceport="" target="Preproc" targetport="RepetitionIndex">
-         <data key="edge_prod">0</data>
+         <data key="edge_prod">1</data>
          <data key="edge_delay">0</data>
-         <data key="edge_cons">0</data>
+         <data key="edge_cons">1</data>
       </edge>
       <edge source="Preproc" sourceport="preProcessedValues" target="CirCorr" targetport="inputValues">
-         <data key="edge_prod">0</data>
+         <data key="edge_prod">1</data>
          <data key="edge_delay">0</data>
          <data key="edge_cons">0</data>
       </edge>

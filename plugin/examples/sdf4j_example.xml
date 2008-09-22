@@ -2,9 +2,6 @@
    <key attr.name="graph_desc" attr.type="string" for="node" id="graph_desc">
       <desc>java.lang.String</desc>
    </key>
-   <key attr.name="port_direction" attr.type="string" for="node" id="port_direction">
-      <desc>java.lang.String</desc>
-   </key>
    <key attr.name="arguments" for="node" id="arguments"/>
    <key attr.name="parameters" for="graph" id="parameters"/>
    <key attr.name="variables" for="graph" id="variables"/>
@@ -17,7 +14,6 @@
    <key attr.name="edge_cons" attr.type="int" for="edge" id="edge_cons">
       <desc>org.sdf4j.model.sdf.SDFDefaultEdgePropertyType</desc>
    </key>
-   <key attr.name="kind" for="vertex" id="kind"/>
    <graph edgedefault="directed">
       <data key="parameters">
          <parameter name="NB_COPY"/>
