@@ -117,6 +117,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#sequenceType_hasSequence -->
+
+    <owl:ObjectProperty rdf:about="&net;basics.owl#sequenceType_hasSequence"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#sequence_hasHead -->
 
     <owl:ObjectProperty rdf:about="&net;basics.owl#sequence_hasHead"/>
@@ -352,6 +358,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/basics.owl#Sequence -->
 
     <owl:Class rdf:about="&net;basics.owl#Sequence"/>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#SequenceType -->
+
+    <owl:Class rdf:about="&net;basics.owl#SequenceType"/>
     
 
 
@@ -601,7 +613,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">preesm:workflow</basics:element_hasName>
         <basics:element_hasParameterValue rdf:resource="#ParameterValueGraphTypeWorkflow"/>
-        <basics:element_hasSchemaType rdf:resource="#SequenceWorkflow0"/>
+        <basics:element_hasSchemaType rdf:resource="#SequenceTypeWorkflow"/>
     </basics:GraphElement>
     
 
@@ -745,11 +757,19 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/workflow.owl#SequenceTypeWorkflow -->
+
+    <basics:SequenceType rdf:about="#SequenceTypeWorkflow">
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
+        <basics:sequenceType_hasSequence rdf:resource="#SequenceWorkflow0"/>
+    </basics:SequenceType>
+    
+
+
     <!-- http://net.sf.graphiti/workflow.owl#SequenceWorkflow0 -->
 
     <basics:Sequence rdf:about="#SequenceWorkflow0">
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
         <basics:sequence_hasRest rdf:resource="#SequenceWorkflow1"/>
         <basics:sequence_hasHead rdf:resource="#VertexElementAlgorithm"/>
     </basics:Sequence>

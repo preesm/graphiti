@@ -46,10 +46,12 @@ import net.sf.graphiti.ontology.EdgeType;
 import net.sf.graphiti.ontology.Element;
 import net.sf.graphiti.ontology.GraphType;
 import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.OntologyIndividual;
 import net.sf.graphiti.ontology.Parameter;
 import net.sf.graphiti.ontology.ParameterSource;
 import net.sf.graphiti.ontology.ParameterValue;
 import net.sf.graphiti.ontology.Sequence;
+import net.sf.graphiti.ontology.SequenceType;
 import net.sf.graphiti.ontology.Type;
 import net.sf.graphiti.ontology.VertexElement;
 import net.sf.graphiti.ontology.VertexType;
@@ -237,9 +239,9 @@ public class SchemaWriter {
 	private void writeChoice(Choice choice, Object context)
 			throws EmptyBasketException {
 		Checkpoint checkpoint = contentWriter.getCheckpoint();
-		for (XMLSchemaType type : choice.hasElements()) {
+		for (OntologyIndividual type : choice.hasElements()) {
 			try {
-				writeSchemaType(type, context);
+				writeSchemaType((XMLSchemaType) type, context);
 				return;
 			} catch (EmptyBasketException e) {
 				contentWriter.loadCheckpoint(checkpoint);
@@ -260,8 +262,8 @@ public class SchemaWriter {
 	 */
 	private void writeComplexType(ComplexType type, Object context)
 			throws EmptyBasketException {
-		if (type instanceof Sequence) {
-			writeSequence((Sequence) type, context);
+		if (type instanceof SequenceType) {
+			writeSequence((SequenceType) type, context);
 		} else if (type instanceof Choice) {
 			writeChoice((Choice) type, context);
 		} else {
@@ -431,11 +433,10 @@ public class SchemaWriter {
 	 * @param context
 	 *            The context.
 	 */
-	private void writeSequence(Sequence sequence, Object context)
+	private void writeSequence(SequenceType sequence, Object context)
 			throws EmptyBasketException {
-		for (XMLSchemaType type : sequence.hasElements()) {
+		for (XMLSchemaType type : sequence.hasSequence().hasElements()) {
 			writeSchemaType(type, context);
 		}
 	}
-
 }

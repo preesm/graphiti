@@ -215,12 +215,21 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#sequenceType_hasSequence -->
+
+    <owl:ObjectProperty rdf:about="#sequenceType_hasSequence">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="#Sequence"/>
+        <rdfs:domain rdf:resource="#SequenceType"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#sequence_hasHead -->
 
     <owl:ObjectProperty rdf:about="#sequence_hasHead">
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
         <rdfs:domain rdf:resource="#Sequence"/>
-        <rdfs:range rdf:resource="#XMLSchemaType"/>
     </owl:ObjectProperty>
     
 
@@ -683,6 +692,14 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#GrammarDescription -->
+
+    <owl:Class rdf:about="#GrammarDescription">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#GraphElement -->
 
     <owl:Class rdf:about="#GraphElement">
@@ -848,24 +865,48 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#Production -->
+
+    <owl:Class rdf:about="#Production">
+        <rdfs:subClassOf rdf:resource="#GrammarDescription"/>
+    </owl:Class>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#Rule -->
+
+    <owl:Class rdf:about="#Rule">
+        <rdfs:subClassOf rdf:resource="#GrammarDescription"/>
+    </owl:Class>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#Sequence -->
 
     <owl:Class rdf:about="#Sequence">
-        <rdfs:subClassOf rdf:resource="#ComplexType"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="#sequence_hasRest"/>
-                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="#sequence_hasHead"/>
                 <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#sequence_hasRest"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <rdfs:comment rdf:datatype="&xsd;string"
             >A sequence of elements. Note that the schemaType_hasMinOccurs and schemaType_hasMaxOccurs information must be provided for the first sequence element only.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#SequenceType -->
+
+    <owl:Class rdf:about="#SequenceType">
+        <rdfs:subClassOf rdf:resource="#ComplexType"/>
     </owl:Class>
     
 

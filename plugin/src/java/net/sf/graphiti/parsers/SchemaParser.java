@@ -39,7 +39,9 @@ import net.sf.graphiti.ontology.ComplexType;
 import net.sf.graphiti.ontology.DocumentFragment;
 import net.sf.graphiti.ontology.Element;
 import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.OntologyIndividual;
 import net.sf.graphiti.ontology.Sequence;
+import net.sf.graphiti.ontology.SequenceType;
 import net.sf.graphiti.ontology.XMLAttribute;
 import net.sf.graphiti.ontology.XMLSchemaType;
 import net.sf.graphiti.parsers.ContentParser.Checkpoint;
@@ -285,9 +287,10 @@ public class SchemaParser {
 	private org.w3c.dom.Element parseChoice(Choice choice,
 			org.w3c.dom.Element firstChild) throws NotCompatibleException {
 		Checkpoint checkpoint = contentParser.getCheckpoint();
-		for (XMLSchemaType type : choice.hasElements()) {
+		for (OntologyIndividual type : choice.hasElements()) {
 			try {
-				org.w3c.dom.Element child = parseSchemaType(type, firstChild);
+				org.w3c.dom.Element child = parseSchemaType(
+						(XMLSchemaType) type, firstChild);
 				return child;
 			} catch (NotCompatibleException e) {
 				contentParser.loadCheckpoint(checkpoint);
@@ -307,8 +310,8 @@ public class SchemaParser {
 	 */
 	private org.w3c.dom.Element parseComplexType(ComplexType type,
 			org.w3c.dom.Element child) throws NotCompatibleException {
-		if (type instanceof Sequence) {
-			return parseSequence((Sequence) type, child);
+		if (type instanceof SequenceType) {
+			return parseSequence((SequenceType) type, child);
 		} else if (type instanceof Choice) {
 			return parseChoice((Choice) type, child);
 		} else {
@@ -561,10 +564,10 @@ public class SchemaParser {
 	 *         <code>null</code> if there are none left.
 	 * @throws NotCompatibleException
 	 */
-	private org.w3c.dom.Element parseSequence(Sequence sequence,
+	private org.w3c.dom.Element parseSequence(SequenceType sequence,
 			org.w3c.dom.Element firstChild) throws NotCompatibleException {
 		org.w3c.dom.Element child = firstChild;
-		for (XMLSchemaType type : sequence.hasElements()) {
+		for (XMLSchemaType type : sequence.hasSequence().hasElements()) {
 			child = parseSchemaType(type, child);
 		}
 		return child;

@@ -39,10 +39,10 @@ public interface Choice extends ComplexType {
 
 	/**
 	 * Returns an {@link Iterable} on {@link OntologyIndividual} that this
-	 * "choice" complex type contains.
+	 * choice contains.
 	 * 
-	 * @return An {@link Iterable} {@link OntologyIndividual} that this "choice"
-	 *         complex type contains.
+	 * @return An {@link Iterable} {@link OntologyIndividual} that this choice
+	 *         contains.
 	 */
 	public Iterable<XMLSchemaType> hasElements();
 

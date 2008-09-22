@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.OntologyIndividual;
 import net.sf.graphiti.ontology.Sequence;
 import net.sf.graphiti.ontology.XMLSchemaType;
 
@@ -43,7 +44,8 @@ import com.hp.hpl.jena.ontology.Individual;
  * @author Matthieu Wipliez
  * 
  */
-public class SequenceImpl extends ComplexTypeImpl implements Sequence {
+public class SequenceImpl<T> extends OntologyIndividualImpl implements
+		Sequence<T> {
 
 	/**
 	 * An {@link Iterable} on {@link XMLSchemaType} elements of this
@@ -52,9 +54,9 @@ public class SequenceImpl extends ComplexTypeImpl implements Sequence {
 	 * @author Matthieu Wipliez
 	 * 
 	 */
-	private class SequenceIterable implements Iterable<XMLSchemaType> {
+	private class SequenceIterable implements Iterable<T> {
 
-		private SequenceImpl sequence;
+		private SequenceImpl<T> sequence;
 
 		/**
 		 * Creates a new {@link SequenceIterable} on this {@link SequenceImpl}.
@@ -62,27 +64,27 @@ public class SequenceImpl extends ComplexTypeImpl implements Sequence {
 		 * @param sequence
 		 *            The sequence.
 		 */
-		public SequenceIterable(SequenceImpl sequence) {
+		public SequenceIterable(SequenceImpl<T> sequence) {
 			this.sequence = sequence;
 		}
 
 		@Override
-		public Iterator<XMLSchemaType> iterator() {
+		public Iterator<T> iterator() {
 			return new SequenceIterator(sequence);
 		}
 
 	}
 
 	/**
-	 * An {@link Iterator} on {@link XMLSchemaType} elements of this
+	 * An {@link Iterator} on {@link OntologyIndividual} elements of this
 	 * {@link Sequence}.
 	 * 
 	 * @author Matthieu Wipliez
 	 * 
 	 */
-	private class SequenceIterator implements Iterator<XMLSchemaType> {
+	private class SequenceIterator implements Iterator<T> {
 
-		private SequenceImpl rest;
+		private SequenceImpl<T> rest;
 
 		/**
 		 * Creates a new {@link SequenceIterator} on the given
@@ -93,7 +95,7 @@ public class SequenceImpl extends ComplexTypeImpl implements Sequence {
 		 * @param sequence
 		 *            The sequence.
 		 */
-		public SequenceIterator(SequenceImpl sequence) {
+		public SequenceIterator(SequenceImpl<T> sequence) {
 			this.rest = sequence;
 		}
 
@@ -106,15 +108,15 @@ public class SequenceImpl extends ComplexTypeImpl implements Sequence {
 		}
 
 		@Override
-		public XMLSchemaType next() {
+		@SuppressWarnings("unchecked")
+		public T next() {
 			if (!hasNext()) {
 				throw new NoSuchElementException();
 			}
 
 			// Gets the head (see hasNext comment).
-			XMLSchemaType head = (XMLSchemaType) rest
-					.getIndividualProperty(OntologyFactory
-							.getPropertySequenceHasHead());
+			T head = (T) rest.getIndividualProperty(OntologyFactory
+					.getPropertySequenceHasHead());
 
 			// Gets the rest.
 			rest = (SequenceImpl) rest.getIndividualProperty(OntologyFactory
@@ -136,7 +138,7 @@ public class SequenceImpl extends ComplexTypeImpl implements Sequence {
 	}
 
 	@Override
-	public Iterable<XMLSchemaType> hasElements() {
+	public Iterable<T> hasElements() {
 		return new SequenceIterable(this);
 	}
 

@@ -104,6 +104,8 @@ public abstract class OntologyBaseImpl {
 				ParameterValueImpl.class);
 		classes.put(OntologyFactory.getClassPosition(), PositionImpl.class);
 		classes.put(OntologyFactory.getClassSequence(), SequenceImpl.class);
+		classes.put(OntologyFactory.getClassSequenceType(),
+				SequenceTypeImpl.class);
 		classes.put(OntologyFactory.getClassShapeAttribute(),
 				ShapeAttributeImpl.class);
 		classes.put(OntologyFactory.getClassShapes(), ShapeImpl.class);

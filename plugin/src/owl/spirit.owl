@@ -111,6 +111,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#sequenceType_hasSequence -->
+
+    <owl:ObjectProperty rdf:about="&net;basics.owl#sequenceType_hasSequence"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#sequence_hasHead -->
 
     <owl:ObjectProperty rdf:about="&net;basics.owl#sequence_hasHead"/>
@@ -331,6 +337,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#SequenceType -->
+
+    <owl:Class rdf:about="&net;basics.owl#SequenceType"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#ShapeAttribute -->
 
     <owl:Class rdf:about="&net;basics.owl#ShapeAttribute"/>
@@ -457,7 +469,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">spirit:design</basics:element_hasName>
-        <basics:element_hasSchemaType rdf:resource="#SequenceDocumentElementDesign1"/>
+        <basics:element_hasSchemaType rdf:resource="#SequenceTypeDocumentDesign"/>
     </basics:GraphElement>
     
 
@@ -470,7 +482,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:element_hasName rdf:datatype="&xsd;string"
             >spirit:interconnection</basics:element_hasName>
         <basics:element_hasParameterValue rdf:resource="#ParameterValueConnectionType"/>
-        <basics:element_hasSchemaType rdf:resource="#SequenceInterConnection1"/>
+        <basics:element_hasSchemaType rdf:resource="#SequenceTypeInterConnection"/>
     </basics:EdgeElement>
     
 
@@ -559,8 +571,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/spirit.owl#SequenceDocumentElementDesign1 -->
 
     <basics:Sequence rdf:about="#SequenceDocumentElementDesign1">
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
         <basics:sequence_hasRest rdf:resource="#SequenceDocumentElementDesign2"/>
         <basics:sequence_hasHead rdf:resource="#TextContentElementName"/>
     </basics:Sequence>
@@ -614,8 +624,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/spirit.owl#SequenceInterConnection1 -->
 
     <basics:Sequence rdf:about="#SequenceInterConnection1">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:sequence_hasRest rdf:resource="#SequenceInterConnection2"/>
         <basics:sequence_hasHead rdf:resource="#TextContentElementName"/>
     </basics:Sequence>
@@ -636,6 +644,26 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:Sequence rdf:about="#SequenceInterConnection3">
         <basics:sequence_hasHead rdf:resource="#ActiveInterfaceTarget"/>
     </basics:Sequence>
+    
+
+
+    <!-- http://net.sf.graphiti/spirit.owl#SequenceTypeDocumentDesign -->
+
+    <basics:SequenceType rdf:about="#SequenceTypeDocumentDesign">
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
+        <basics:sequenceType_hasSequence rdf:resource="#SequenceDocumentElementDesign1"/>
+    </basics:SequenceType>
+    
+
+
+    <!-- http://net.sf.graphiti/spirit.owl#SequenceTypeInterConnection -->
+
+    <basics:SequenceType rdf:about="#SequenceTypeInterConnection">
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
+        <basics:sequenceType_hasSequence rdf:resource="#SequenceInterConnection1"/>
+    </basics:SequenceType>
     
 
 

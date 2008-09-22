@@ -202,6 +202,10 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#Sequence";
 	}
 
+	public static String getClassSequenceType() {
+		return "http://net.sf.graphiti/basics.owl#SequenceType";
+	}
+
 	public static String getClassShapeAttribute() {
 		return "http://net.sf.graphiti/basics.owl#ShapeAttribute";
 	}
@@ -420,6 +424,10 @@ public class OntologyFactory {
 
 	public static String getPropertySequenceHasRest() {
 		return "http://net.sf.graphiti/basics.owl#sequence_hasRest";
+	}
+
+	public static String getPropertySequenceTypeHasSequence() {
+		return "http://net.sf.graphiti/basics.owl#sequenceType_hasSequence";
 	}
 
 	public static String getPropertyShapeAttributeHasShape() {

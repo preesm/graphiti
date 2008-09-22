@@ -111,6 +111,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#sequenceType_hasSequence -->
+
+    <owl:ObjectProperty rdf:about="&net;basics.owl#sequenceType_hasSequence"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#sequence_hasHead -->
 
     <owl:ObjectProperty rdf:about="&net;basics.owl#sequence_hasHead"/>
@@ -331,6 +337,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#SequenceType -->
+
+    <owl:Class rdf:about="&net;basics.owl#SequenceType"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#ShapeAttribute -->
 
     <owl:Class rdf:about="&net;basics.owl#ShapeAttribute"/>
@@ -409,7 +421,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">graphml</basics:element_hasName>
-        <basics:element_hasSchemaType rdf:resource="#SequenceDocumentElement1"/>
+        <basics:element_hasSchemaType rdf:resource="#SequenceTypeDocumentElement"/>
     </basics:Element>
     
 
@@ -490,7 +502,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">graph</basics:element_hasName>
         <basics:element_hasParameterValue rdf:resource="#ParameterValueGraphType"/>
-        <basics:element_hasSchemaType rdf:resource="#SequenceGraphElement1"/>
+        <basics:element_hasSchemaType rdf:resource="#SequenceTypeGraphElement"/>
     </basics:GraphElement>
     
 
@@ -581,8 +593,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/GraphML.owl#SequenceDocumentElement1 -->
 
     <basics:Sequence rdf:about="#SequenceDocumentElement1">
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
         <basics:sequence_hasHead rdf:resource="#ElementKey"/>
         <basics:sequence_hasRest rdf:resource="#SequenceDocumentElement2"/>
     </basics:Sequence>
@@ -619,8 +629,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/GraphML.owl#SequenceGraphElement1 -->
 
     <basics:Sequence rdf:about="#SequenceGraphElement1">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:sequence_hasRest rdf:resource="#SequenceGraphElement2"/>
         <basics:sequence_hasHead rdf:resource="#VertexElement"/>
     </basics:Sequence>
@@ -632,6 +640,26 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:Sequence rdf:about="#SequenceGraphElement2">
         <basics:sequence_hasHead rdf:resource="#EdgeElement"/>
     </basics:Sequence>
+    
+
+
+    <!-- http://net.sf.graphiti/GraphML.owl#SequenceTypeDocumentElement -->
+
+    <basics:SequenceType rdf:about="#SequenceTypeDocumentElement">
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
+        <basics:sequenceType_hasSequence rdf:resource="#SequenceDocumentElement1"/>
+    </basics:SequenceType>
+    
+
+
+    <!-- http://net.sf.graphiti/GraphML.owl#SequenceTypeGraphElement -->
+
+    <basics:SequenceType rdf:about="#SequenceTypeGraphElement">
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
+        <basics:sequenceType_hasSequence rdf:resource="#SequenceGraphElement1"/>
+    </basics:SequenceType>
     
 
 

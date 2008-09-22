@@ -26,22 +26,32 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology;
+package net.sf.graphiti.ontology.impl;
+
+import net.sf.graphiti.ontology.OntologyFactory;
+import net.sf.graphiti.ontology.Sequence;
+import net.sf.graphiti.ontology.SequenceType;
+import net.sf.graphiti.ontology.XMLSchemaType;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 /**
- * This class provides a sequence.
+ * Implementation of Sequence.
  * 
- * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface Sequence<T> extends OntologyIndividual {
+public class SequenceTypeImpl extends ComplexTypeImpl implements SequenceType {
 
-	/**
-	 * Returns an {@link Iterable} on Ts that this sequence contains.
-	 * 
-	 * @return An {@link Iterable} on Ts that this sequence contains.
-	 */
-	public Iterable<T> hasElements();
+	public SequenceTypeImpl(Individual individual) {
+		super(individual);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Sequence<XMLSchemaType> hasSequence() {
+		return (Sequence<XMLSchemaType>) getIndividualProperty(OntologyFactory
+				.getPropertySequenceTypeHasSequence());
+	}
 
 }

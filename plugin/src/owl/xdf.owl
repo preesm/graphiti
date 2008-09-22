@@ -123,6 +123,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#sequenceType_hasSequence -->
+
+    <owl:ObjectProperty rdf:about="&net;basics.owl#sequenceType_hasSequence"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#sequence_hasHead -->
 
     <owl:ObjectProperty rdf:about="&net;basics.owl#sequence_hasHead"/>
@@ -367,6 +373,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#SequenceType -->
+
+    <owl:Class rdf:about="&net;basics.owl#SequenceType"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#ShapeAttribute -->
 
     <owl:Class rdf:about="&net;basics.owl#ShapeAttribute"/>
@@ -454,7 +466,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:OrderedChoice rdf:about="#ChoiceConnection">
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">-1</basics:schemaType_hasMaxOccurs>
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
-        <basics:orderedChoice_hasElements rdf:resource="#SequenceOrderedChoiceEdge1"/>
+        <basics:orderedChoice_hasElements rdf:resource="#SequenceTypeOrderedChoiceEdge"/>
     </basics:OrderedChoice>
     
 
@@ -503,7 +515,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">XDF</basics:element_hasName>
-        <basics:element_hasSchemaType rdf:resource="#SequenceDocumentElementXDF1"/>
+        <basics:element_hasSchemaType rdf:resource="#SequenceTypeDocumentElementXDF"/>
     </basics:GraphElement>
     
 
@@ -742,8 +754,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/xdf.owl#SequenceDocumentElementXDF1 -->
 
     <basics:Sequence rdf:about="#SequenceDocumentElementXDF1">
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
         <basics:sequence_hasRest rdf:resource="#SequenceDocumentElementXDF2"/>
         <basics:sequence_hasHead rdf:resource="#VertexElementPort"/>
     </basics:Sequence>
@@ -770,8 +780,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/xdf.owl#SequenceOrderedChoiceEdge1 -->
 
     <basics:Sequence rdf:about="#SequenceOrderedChoiceEdge1">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:sequence_hasHead rdf:resource="#EdgeElementConnectionLocalLocal"/>
         <basics:sequence_hasRest rdf:resource="#SequenceOrderedChoiceEdge2"/>
     </basics:Sequence>
@@ -801,6 +809,26 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:Sequence rdf:about="#SequenceOrderedChoiceEdge4">
         <basics:sequence_hasHead rdf:resource="#EdgeElementConnectionEntityEntity"/>
     </basics:Sequence>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#SequenceTypeDocumentElementXDF -->
+
+    <basics:SequenceType rdf:about="#SequenceTypeDocumentElementXDF">
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
+        <basics:sequenceType_hasSequence rdf:resource="#SequenceDocumentElementXDF1"/>
+    </basics:SequenceType>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#SequenceTypeOrderedChoiceEdge -->
+
+    <basics:SequenceType rdf:about="#SequenceTypeOrderedChoiceEdge">
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
+        <basics:sequenceType_hasSequence rdf:resource="#SequenceOrderedChoiceEdge1"/>
+    </basics:SequenceType>
     
 
 

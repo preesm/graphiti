@@ -29,19 +29,21 @@
 package net.sf.graphiti.ontology;
 
 /**
- * This class provides a sequence.
+ * This class provides a sequence complex type.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface Sequence<T> extends OntologyIndividual {
+public interface SequenceType extends ComplexType {
 
 	/**
-	 * Returns an {@link Iterable} on Ts that this sequence contains.
+	 * Returns an {@link Iterable} on {@link OntologyIndividual}s that this
+	 * sequence contains.
 	 * 
-	 * @return An {@link Iterable} on Ts that this sequence contains.
+	 * @return An {@link Iterable} on {@link OntologyIndividual}s that this
+	 *         sequence contains.
 	 */
-	public Iterable<T> hasElements();
+	public Sequence<XMLSchemaType> hasSequence();
 
 }

@@ -135,6 +135,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#sequenceType_hasSequence -->
+
+    <owl:ObjectProperty rdf:about="&net;basics.owl#sequenceType_hasSequence"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#sequence_hasHead -->
 
     <owl:ObjectProperty rdf:about="&net;basics.owl#sequence_hasHead"/>
@@ -382,6 +388,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/basics.owl#Sequence -->
 
     <owl:Class rdf:about="&net;basics.owl#Sequence"/>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#SequenceType -->
+
+    <owl:Class rdf:about="&net;basics.owl#SequenceType"/>
     
 
 
@@ -710,7 +722,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">Network</basics:element_hasName>
         <basics:element_hasParameterValue rdf:resource="#ParameterValueGraphTypeNetwork"/>
-        <basics:element_hasSchemaType rdf:resource="#SequenceDocumentElement1"/>
+        <basics:element_hasSchemaType rdf:resource="#SequenceTypeDocumentElement"/>
     </basics:GraphElement>
     
 
@@ -723,7 +735,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:element_hasName rdf:datatype="&xsd;string">StructureStmt</basics:element_hasName>
         <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionConnectionKind"/>
         <basics:element_hasParameterValue rdf:resource="#ParameterValueEdgeTypeConnection"/>
-        <basics:element_hasSchemaType rdf:resource="#SequenceEdgeElement1"/>
+        <basics:element_hasSchemaType rdf:resource="#SequenceTypeEdgeElement"/>
     </basics:EdgeElement>
     
 
@@ -973,7 +985,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">PortSpec</basics:element_hasName>
         <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionKindEntitySource"/>
-        <basics:element_hasSchemaType rdf:resource="#SequenceElementPortSpecEntitySource1"/>
+        <basics:element_hasSchemaType rdf:resource="#SequenceTypePortSpecEntitySource"/>
     </basics:Element>
     
 
@@ -985,7 +997,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">PortSpec</basics:element_hasName>
         <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionKindEntityTarget"/>
-        <basics:element_hasSchemaType rdf:resource="#SequenceElementPortSpecEntityTarget1"/>
+        <basics:element_hasSchemaType rdf:resource="#SequenceTypePortSpecEntityTarget"/>
     </basics:Element>
     
 
@@ -1292,8 +1304,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/xnl.owl#SequenceDocumentElement1 -->
 
     <basics:Sequence rdf:about="#SequenceDocumentElement1">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:sequence_hasHead rdf:resource="#ElementQID"/>
         <basics:sequence_hasRest rdf:resource="#SequenceDocumentElement2"/>
     </basics:Sequence>
@@ -1357,8 +1367,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/xnl.owl#SequenceEdgeElement1 -->
 
     <basics:Sequence rdf:about="#SequenceEdgeElement1">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:sequence_hasHead rdf:resource="#ChoicePortSpecSource"/>
         <basics:sequence_hasRest rdf:resource="#SequenceEdgeElement2"/>
     </basics:Sequence>
@@ -1376,8 +1384,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/xnl.owl#SequenceElementPortSpecEntitySource1 -->
 
     <basics:Sequence rdf:about="#SequenceElementPortSpecEntitySource1">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:sequence_hasHead rdf:resource="#ElementEntityEntityRefSource"/>
         <basics:sequence_hasRest rdf:resource="#SequenceElementPortSpecEntitySource2"/>
     </basics:Sequence>
@@ -1395,8 +1401,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/xnl.owl#SequenceElementPortSpecEntityTarget1 -->
 
     <basics:Sequence rdf:about="#SequenceElementPortSpecEntityTarget1">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:sequence_hasHead rdf:resource="#ElementEntityEntityRefTarget"/>
         <basics:sequence_hasRest rdf:resource="#SequenceElementPortSpecEntityTarget2"/>
     </basics:Sequence>
@@ -1408,6 +1412,46 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:Sequence rdf:about="#SequenceElementPortSpecEntityTarget2">
         <basics:sequence_hasHead rdf:resource="#ElementEntityPortRefTarget"/>
     </basics:Sequence>
+    
+
+
+    <!-- http://net.sf.graphiti/xnl.owl#SequenceTypeDocumentElement -->
+
+    <basics:SequenceType rdf:about="#SequenceTypeDocumentElement">
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
+        <basics:sequenceType_hasSequence rdf:resource="#SequenceDocumentElement1"/>
+    </basics:SequenceType>
+    
+
+
+    <!-- http://net.sf.graphiti/xnl.owl#SequenceTypeEdgeElement -->
+
+    <basics:SequenceType rdf:about="#SequenceTypeEdgeElement">
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
+        <basics:sequenceType_hasSequence rdf:resource="#SequenceEdgeElement1"/>
+    </basics:SequenceType>
+    
+
+
+    <!-- http://net.sf.graphiti/xnl.owl#SequenceTypePortSpecEntitySource -->
+
+    <basics:SequenceType rdf:about="#SequenceTypePortSpecEntitySource">
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
+        <basics:sequenceType_hasSequence rdf:resource="#SequenceElementPortSpecEntitySource1"/>
+    </basics:SequenceType>
+    
+
+
+    <!-- http://net.sf.graphiti/xnl.owl#SequenceTypePortSpecEntityTarget -->
+
+    <basics:SequenceType rdf:about="#SequenceTypePortSpecEntityTarget">
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
+        <basics:sequenceType_hasSequence rdf:resource="#SequenceElementPortSpecEntityTarget1"/>
+    </basics:SequenceType>
     
 
 
