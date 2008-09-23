@@ -537,8 +537,30 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
             >preesm:dataTransfer</basics:element_hasName>
         <basics:element_hasAttributes rdf:resource="#EdgeSourceConnection"/>
         <basics:element_hasAttributes rdf:resource="#EdgeTargetConnection"/>
+        <basics:element_hasAttributes rdf:resource="#OtherAttributeEdgeSourcePort"/>
+        <basics:element_hasAttributes rdf:resource="#OtherAttributeEdgeTargetPort"/>
         <basics:element_hasParameterValue rdf:resource="#ParameterValueEdgeType"/>
     </basics:EdgeElement>
+    
+
+
+    <!-- http://net.sf.graphiti/workflow.owl#EdgeParameterSourcePort -->
+
+    <basics:EdgeParameter rdf:about="#EdgeParameterSourcePort">
+        <basics:parameter_hasName rdf:datatype="&xsd;string">source port</basics:parameter_hasName>
+        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
+        <basics:parameter_appliesTo rdf:resource="#EdgeType"/>
+    </basics:EdgeParameter>
+    
+
+
+    <!-- http://net.sf.graphiti/workflow.owl#EdgeParameterTargetPort -->
+
+    <basics:EdgeParameter rdf:about="#EdgeParameterTargetPort">
+        <basics:parameter_hasName rdf:datatype="&xsd;string">target port</basics:parameter_hasName>
+        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
+        <basics:parameter_appliesTo rdf:resource="#EdgeType"/>
+    </basics:EdgeParameter>
     
 
 
@@ -577,6 +599,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
 
     <basics:EdgeType rdf:about="#EdgeType">
         <basics:type_hasName rdf:datatype="&xsd;string">Data transfer</basics:type_hasName>
+        <basics:type_hasParameters rdf:resource="#EdgeParameterSourcePort"/>
+        <basics:type_hasParameters rdf:resource="#EdgeParameterTargetPort"/>
         <basics:type_hasParameters rdf:resource="#EdgeParameterType"/>
     </basics:EdgeType>
     
@@ -635,6 +659,24 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:type_hasName rdf:datatype="&xsd;string">Preesm Workflow</basics:type_hasName>
         <basics:type_hasParameters rdf:resource="#GraphParameterType"/>
     </basics:GraphType>
+    
+
+
+    <!-- http://net.sf.graphiti/workflow.owl#OtherAttributeEdgeSourcePort -->
+
+    <basics:OtherAttribute rdf:about="#OtherAttributeEdgeSourcePort">
+        <basics:attribute_hasName rdf:datatype="&xsd;string">sourceport</basics:attribute_hasName>
+        <basics:otherAttribute_referencesParameter rdf:resource="#EdgeParameterSourcePort"/>
+    </basics:OtherAttribute>
+    
+
+
+    <!-- http://net.sf.graphiti/workflow.owl#OtherAttributeEdgeTargetPort -->
+
+    <basics:OtherAttribute rdf:about="#OtherAttributeEdgeTargetPort">
+        <basics:attribute_hasName rdf:datatype="&xsd;string">targetport</basics:attribute_hasName>
+        <basics:otherAttribute_referencesParameter rdf:resource="#EdgeParameterTargetPort"/>
+    </basics:OtherAttribute>
     
 
 
