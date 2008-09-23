@@ -159,6 +159,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#translation_referencesParameter -->
+
+    <owl:ObjectProperty rdf:about="&net;basics.owl#translation_referencesParameter"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#type_hasFigureAttributes -->
 
     <owl:ObjectProperty rdf:about="&net;basics.owl#type_hasFigureAttributes"/>
@@ -275,6 +281,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/basics.owl#schemaType_hasMinOccurs -->
 
     <owl:DatatypeProperty rdf:about="&net;basics.owl#schemaType_hasMinOccurs"/>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#translation_hasXSLT -->
+
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#translation_hasXSLT"/>
     
 
 
@@ -400,6 +412,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/basics.owl#ShapeAttribute -->
 
     <owl:Class rdf:about="&net;basics.owl#ShapeAttribute"/>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#Translation -->
+
+    <owl:Class rdf:about="&net;basics.owl#Translation"/>
     
 
 
@@ -632,19 +650,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/xnl.owl#ChoiceEntityExprArgExpr -->
-
-    <basics:Choice rdf:about="#ChoiceEntityExprArgExpr">
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:choice_hasElements rdf:resource="#ElementEntityExprArgExprBoolean"/>
-        <basics:choice_hasElements rdf:resource="#ElementEntityExprArgExprInteger"/>
-        <basics:choice_hasElements rdf:resource="#ElementEntityExprArgExprString"/>
-        <basics:choice_hasElements rdf:resource="#ElementEntityExprArgExprVar"/>
-    </basics:Choice>
-    
-
-
     <!-- http://net.sf.graphiti/xnl.owl#ChoicePortSpecSource -->
 
     <basics:Choice rdf:about="#ChoicePortSpecSource">
@@ -806,21 +811,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">Decl</basics:element_hasName>
         <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionDeclKindVariable"/>
-        <basics:element_hasSchemaType rdf:resource="#ElementDeclVariableExpr"/>
         <basics:element_hasAttributes rdf:resource="#OtherAttributeDeclVariableName"/>
-    </basics:Element>
-    
-
-
-    <!-- http://net.sf.graphiti/xnl.owl#ElementDeclVariableExpr -->
-
-    <basics:Element rdf:about="#ElementDeclVariableExpr">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
-        <basics:element_hasName rdf:datatype="&xsd;string">Expr</basics:element_hasName>
-        <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprKindLiteral"/>
-        <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprLiteralKindInteger"/>
-        <basics:element_hasAttributes rdf:resource="#OtherAttributeDeclVariableExprValue"/>
+        <basics:element_hasSchemaType rdf:resource="#TranslationExprGraphVariables"/>
     </basics:Element>
     
 
@@ -866,59 +858,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">-1</basics:schemaType_hasMaxOccurs>
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">Arg</basics:element_hasName>
-        <basics:element_hasSchemaType rdf:resource="#ChoiceEntityExprArgExpr"/>
         <basics:element_hasAttributes rdf:resource="#OtherAttributeEntityExprArgName"/>
-    </basics:Element>
-    
-
-
-    <!-- http://net.sf.graphiti/xnl.owl#ElementEntityExprArgExprBoolean -->
-
-    <basics:Element rdf:about="#ElementEntityExprArgExprBoolean">
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:element_hasName rdf:datatype="&xsd;string">Expr</basics:element_hasName>
-        <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprKindLiteral"/>
-        <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprLiteralKindBoolean"/>
-        <basics:element_hasAttributes rdf:resource="#OtherAttributeEntityExprArgExprValue"/>
-    </basics:Element>
-    
-
-
-    <!-- http://net.sf.graphiti/xnl.owl#ElementEntityExprArgExprInteger -->
-
-    <basics:Element rdf:about="#ElementEntityExprArgExprInteger">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
-        <basics:element_hasName rdf:datatype="&xsd;string">Expr</basics:element_hasName>
-        <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprKindLiteral"/>
-        <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprLiteralKindInteger"/>
-        <basics:element_hasAttributes rdf:resource="#OtherAttributeEntityExprArgExprValue"/>
-    </basics:Element>
-    
-
-
-    <!-- http://net.sf.graphiti/xnl.owl#ElementEntityExprArgExprString -->
-
-    <basics:Element rdf:about="#ElementEntityExprArgExprString">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
-        <basics:element_hasName rdf:datatype="&xsd;string">Expr</basics:element_hasName>
-        <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprKindLiteral"/>
-        <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprLiteralKindString"/>
-        <basics:element_hasAttributes rdf:resource="#OtherAttributeEntityExprArgExprValue"/>
-    </basics:Element>
-    
-
-
-    <!-- http://net.sf.graphiti/xnl.owl#ElementEntityExprArgExprVar -->
-
-    <basics:Element rdf:about="#ElementEntityExprArgExprVar">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
-        <basics:element_hasName rdf:datatype="&xsd;string">Expr</basics:element_hasName>
-        <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionExprKindVar"/>
-        <basics:element_hasAttributes rdf:resource="#OtherAttributeEntityExprArgExprVarName"/>
+        <basics:element_hasSchemaType rdf:resource="#TranslationExprVertexArguments"/>
     </basics:Element>
     
 
@@ -1468,6 +1409,30 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:ShapeAttribute rdf:about="#ShapeAttributePort">
         <basics:shapeAttribute_hasShape rdf:resource="&net;basics.owl#Triangle"/>
     </basics:ShapeAttribute>
+    
+
+
+    <!-- http://net.sf.graphiti/xnl.owl#TranslationExprGraphVariables -->
+
+    <basics:Translation rdf:about="#TranslationExprGraphVariables">
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
+        <basics:translation_hasXSLT rdf:datatype="&xsd;string"
+            >xnlExprToString.xslt</basics:translation_hasXSLT>
+        <basics:translation_referencesParameter rdf:resource="#GraphParameterVariables"/>
+    </basics:Translation>
+    
+
+
+    <!-- http://net.sf.graphiti/xnl.owl#TranslationExprVertexArguments -->
+
+    <basics:Translation rdf:about="#TranslationExprVertexArguments">
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
+        <basics:translation_hasXSLT rdf:datatype="&xsd;string"
+            >xnlExprToString.xslt</basics:translation_hasXSLT>
+        <basics:translation_referencesParameter rdf:resource="#VertexParameterArguments"/>
+    </basics:Translation>
     
 
 

@@ -25,6 +25,8 @@ Bundle-ClassPath: .,
  lib/jena/json.jar,
  lib/jena/log4j-1.2.12.jar,
  lib/jena/lucene-core-2.2.0.jar,
- lib/jena/wstx-asl-3.0.0.jar
+ lib/jena/wstx-asl-3.0.0.jar,
+ lib/saxon/saxon9.jar,
+ lib/saxon/saxon9-dom.jar
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

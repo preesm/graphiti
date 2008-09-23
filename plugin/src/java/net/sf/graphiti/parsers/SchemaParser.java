@@ -28,6 +28,11 @@
  */
 package net.sf.graphiti.parsers;
 
+import static net.sf.graphiti.parsers.DomHelper.getFirstChild;
+import static net.sf.graphiti.parsers.DomHelper.getNextSibling;
+import static net.sf.graphiti.parsers.DomHelper.isEqualNode;
+import static net.sf.graphiti.parsers.DomHelper.stripWhitespace;
+
 import java.util.Iterator;
 import java.util.Set;
 
@@ -40,20 +45,18 @@ import net.sf.graphiti.ontology.DocumentFragment;
 import net.sf.graphiti.ontology.Element;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.OntologyIndividual;
+import net.sf.graphiti.ontology.Parameter;
 import net.sf.graphiti.ontology.Sequence;
 import net.sf.graphiti.ontology.SequenceType;
+import net.sf.graphiti.ontology.Translation;
 import net.sf.graphiti.ontology.XMLAttribute;
 import net.sf.graphiti.ontology.XMLSchemaType;
 import net.sf.graphiti.parsers.ContentParser.Checkpoint;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Comment;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 
 /**
  * This class parses the given DOM document according to the schema defined in
@@ -63,6 +66,8 @@ import org.w3c.dom.Text;
  * 
  */
 public class SchemaParser {
+
+	private Configuration configuration;
 
 	private ContentParser contentParser;
 
@@ -76,6 +81,7 @@ public class SchemaParser {
 	public SchemaParser(Configuration configuration) {
 		log = Logger.getLogger(SchemaParser.class);
 		log.setLevel(Level.ALL);
+		this.configuration = configuration;
 		contentParser = new ContentParser(configuration);
 	}
 
@@ -93,42 +99,6 @@ public class SchemaParser {
 			log.debug("parseElementOccurs: wrong occurs constraints");
 			throw new NotCompatibleException();
 		}
-	}
-
-	/**
-	 * Returns the first child of <code>element</code> which is a
-	 * {@link org.w3c.dom.Element} (not {@link Text}, not {@link Comment}, etc.)
-	 * 
-	 * @param element
-	 *            The parent DOM element.
-	 * @return The first {@link org.w3c.dom.Element} child of
-	 *         <code>element</code>.
-	 */
-	private org.w3c.dom.Element getFirstChild(org.w3c.dom.Element element) {
-		Node node = element.getFirstChild();
-		while (node != null && node.getNodeType() != Node.ELEMENT_NODE) {
-			node = node.getNextSibling();
-		}
-
-		return (org.w3c.dom.Element) node;
-	}
-
-	/**
-	 * Returns the next sibling of <code>element</code> which is a
-	 * {@link org.w3c.dom.Element} (not {@link Text}, not {@link Comment}, etc.)
-	 * 
-	 * @param element
-	 *            A DOM element.
-	 * @return The first {@link org.w3c.dom.Element} sibling of
-	 *         <code>element</code>.
-	 */
-	private org.w3c.dom.Element getNextSibling(org.w3c.dom.Element element) {
-		Node node = element.getNextSibling();
-		while (node != null && node.getNodeType() != Node.ELEMENT_NODE) {
-			node = node.getNextSibling();
-		}
-
-		return (org.w3c.dom.Element) node;
 	}
 
 	/**
@@ -171,57 +141,6 @@ public class SchemaParser {
 		}
 
 		return correspond;
-	}
-
-	/**
-	 * Equivalent to node.isEqualNode(child), except it's working.
-	 * 
-	 * @param node
-	 * @param child
-	 * @return
-	 */
-	private boolean isEqualNode(Node node, Node child) {
-		if (node.getNodeType() != child.getNodeType()) {
-			return false;
-		}
-
-		if (node.getNodeType() == Node.ATTRIBUTE_NODE) {
-			Attr nodeAttr = (Attr) node;
-			Attr childAttr = (Attr) child;
-			if (nodeAttr.getName().equals(childAttr.getName())
-					&& nodeAttr.getValue().equals(childAttr.getValue())) {
-				return true;
-			}
-		} else if (node.getNodeType() == Node.TEXT_NODE) {
-			return node.getNodeValue().equals(child.getNodeValue());
-		} else if (node.getNodeType() == Node.ELEMENT_NODE) {
-			// attributes
-			NamedNodeMap nodeAttrs = node.getAttributes();
-			NamedNodeMap childAttrs = child.getAttributes();
-			if (nodeAttrs.getLength() != childAttrs.getLength()) {
-				return false;
-			}
-
-			boolean res = true;
-			for (int i = 0; i < nodeAttrs.getLength() && res; i++) {
-				res = isEqualNode(nodeAttrs.item(i), childAttrs.item(i));
-			}
-
-			// children
-			NodeList nodeChildren = node.getChildNodes();
-			NodeList childChildren = child.getChildNodes();
-			if (nodeChildren.getLength() != childChildren.getLength()) {
-				return false;
-			}
-
-			for (int i = 0; i < nodeChildren.getLength() && res; i++) {
-				res = isEqualNode(nodeChildren.item(i), childChildren.item(i));
-			}
-
-			return res;
-		}
-
-		return false;
 	}
 
 	/**
@@ -544,13 +463,15 @@ public class SchemaParser {
 	 */
 	private org.w3c.dom.Element parseSchemaType(XMLSchemaType type,
 			org.w3c.dom.Element firstChild) throws NotCompatibleException {
-		if (type.hasOntClass(OntologyFactory.getClassComplexType())) {
+		if (type instanceof ComplexType) {
 			return parseComplexTypeOccurs((ComplexType) type, firstChild);
-		} else if (type.hasOntClass(OntologyFactory.getClassElement())) {
+		} else if (type instanceof Element) {
 			return parseElementOccurs((Element) type, firstChild);
-		} else {
+		} else if (type instanceof DocumentFragment) {
 			return parseDocumentFragmentOccurs((DocumentFragment) type,
 					firstChild);
+		} else {
+			return parseTranslation((Translation) type, firstChild);
 		}
 	}
 
@@ -573,24 +494,24 @@ public class SchemaParser {
 		return child;
 	}
 
-	private Node stripWhitespace(Node node) {
-		if (node.getNodeType() == Node.TEXT_NODE) {
-			String value = node.getNodeValue();
-			if (value.trim().isEmpty()) {
-				return null;
-			}
-		} else {
-			NodeList children = node.getChildNodes();
-			for (int i = 0; i < children.getLength(); i++) {
-				Node child = children.item(i);
-				Node newChild = stripWhitespace(child);
-				if (newChild == null) {
-					node.removeChild(child);
-				}
-			}
-		}
-
-		return node;
+	/**
+	 * Parses the children (<code>firstChild</code> is the first of them) using
+	 * the given {@link Translation}.
+	 * 
+	 * @param translation
+	 *            The translation.
+	 * @param firstChild
+	 *            An {@link org.w3c.dom.Element} from the input DOM.
+	 * @return The sibling of child if successful.
+	 * @throws NotCompatibleException
+	 *             If child is different from domDocFragment.
+	 */
+	private org.w3c.dom.Element parseTranslation(Translation translation,
+			org.w3c.dom.Element firstChild) throws NotCompatibleException {
+		String value = translation.getString(configuration, firstChild);
+		Parameter parameter = translation.hasParameter();
+		contentParser.addValue(parameter, value);
+		return getNextSibling(firstChild);
 	}
 
 }

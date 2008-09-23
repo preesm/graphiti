@@ -174,6 +174,24 @@ public class ContentParser {
 	}
 
 	/**
+	 * Adds a {@link SetValueOpSpec} operation to the transaction.
+	 * 
+	 * @param parameter
+	 *            The parameter.
+	 * @param value
+	 *            Its value.
+	 */
+	public void addValue(Parameter parameter, String value) {
+		if (parameter != null) {
+			// will set the parameter value
+			Operation setProperty = new Operation(SetValueOpSpec.getInstance());
+			setProperty.setOperands(getParameterObject(parameter),
+					new net.sf.graphiti.model.Parameter(parameter), value);
+			transaction.addOperation(setProperty);
+		}
+	}
+
+	/**
 	 * Parses the given DOM element when <b>after</b> its children and
 	 * attributes have been parsed.
 	 * 
@@ -210,7 +228,7 @@ public class ContentParser {
 	 */
 	public void elementStart(Element ontElement, org.w3c.dom.Element domElement) {
 		elementStack.push(ontElement);
-		Result result;
+		Result result = null;
 
 		if (ontElement instanceof GraphElement) {
 			result = parseGraphElement((GraphElement) ontElement, domElement);
@@ -222,9 +240,12 @@ public class ContentParser {
 			result = parseEdgeElement((EdgeElement) ontElement, domElement);
 			edgeIndex = resultStack.size();
 		} else if (ontElement instanceof TextContentElement) {
-			result = parseTextContentElement((TextContentElement) ontElement,
-					domElement);
-		} else {
+			Parameter parameter = ((TextContentElement) ontElement)
+					.referencesParameter();
+			addValue(parameter, domElement.getTextContent());
+		}
+
+		if (result == null) {
 			result = new Result();
 		}
 
@@ -310,7 +331,11 @@ public class ContentParser {
 		if (ontAttribute instanceof EdgeAttribute) {
 			parseEdgeAttribute((EdgeAttribute) ontAttribute, domAttrValue);
 		} else {
-			parseOtherAttribute((OtherAttribute) ontAttribute, domAttrValue);
+			Parameter parameter = ((OtherAttribute) ontAttribute)
+					.hasParameter();
+			if (parameter != null) {
+				addValue(parameter, domAttrValue);
+			}
 		}
 	}
 
@@ -366,49 +391,6 @@ public class ContentParser {
 		createGraph.setOperands(this, configuration);
 		transaction.addOperation(createGraph);
 		return createGraph.getResult();
-	}
-
-	/**
-	 * Parses the given {@link OtherAttribute}.
-	 * 
-	 * @param ontAttribute
-	 * @param domAttrValue
-	 */
-	private void parseOtherAttribute(OtherAttribute ontAttribute,
-			String domAttrValue) {
-		Parameter parameter = ontAttribute.hasParameter();
-
-		if (parameter != null) {
-			Result result = getParameterObject(parameter);
-
-			// will set the parameter value
-			Operation setProperty = new Operation(SetValueOpSpec.getInstance());
-			setProperty.setOperands(result,
-					new net.sf.graphiti.model.Parameter(parameter),
-					domAttrValue);
-			transaction.addOperation(setProperty);
-		}
-	}
-
-	/**
-	 * Parses the given text content element.
-	 * 
-	 * @param ontElement
-	 * @param domElement
-	 */
-	private Result parseTextContentElement(TextContentElement ontElement,
-			org.w3c.dom.Element domElement) {
-		Parameter parameter = ontElement.referencesParameter();
-
-		if (parameter != null) {
-			// will set the parameter value
-			Operation setProperty = new Operation(SetValueOpSpec.getInstance());
-			setProperty.setOperands(getParameterObject(parameter),
-					new net.sf.graphiti.model.Parameter(parameter), domElement
-							.getTextContent());
-			transaction.addOperation(setProperty);
-		}
-		return new Result();
 	}
 
 	/**

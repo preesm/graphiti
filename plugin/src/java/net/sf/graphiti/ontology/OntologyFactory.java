@@ -218,6 +218,10 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#TextContentElement";
 	}
 
+	public static String getClassTranslation() {
+		return "http://net.sf.graphiti/basics.owl#Translation";
+	}
+
 	public static String getClassType() {
 		return "http://net.sf.graphiti/basics.owl#Type";
 	}
@@ -438,6 +442,14 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#textContentElement_referencesParameter";
 	}
 
+	public static String getPropertyTranslationHasXslt() {
+		return "http://net.sf.graphiti/basics.owl#translation_hasXSLT";
+	}
+
+	public static String getPropertyTranslationReferencesParameter() {
+		return "http://net.sf.graphiti/basics.owl#translation_referencesParameter";
+	}
+
 	public static String getPropertyTypeHasFigureAttributes() {
 		return "http://net.sf.graphiti/basics.owl#type_hasFigureAttributes";
 	}
@@ -629,6 +641,16 @@ public class OntologyFactory {
 		}
 
 		return namespace;
+	}
+
+	/**
+	 * Returns the path containing the file this ontology factory was created
+	 * from.
+	 * 
+	 * @return A {@link String}.
+	 */
+	public String getPath() {
+		return path;
 	}
 
 	/**

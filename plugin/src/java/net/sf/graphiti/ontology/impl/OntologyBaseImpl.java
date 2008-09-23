@@ -111,6 +111,8 @@ public abstract class OntologyBaseImpl {
 		classes.put(OntologyFactory.getClassShapes(), ShapeImpl.class);
 		classes.put(OntologyFactory.getClassTextContentElement(),
 				TextContentElementImpl.class);
+		classes.put(OntologyFactory.getClassTranslation(),
+				TranslationImpl.class);
 		classes.put(OntologyFactory.getClassType(), TypeImpl.class);
 		classes.put(OntologyFactory.getClassVertexElement(),
 				VertexElementImpl.class);
