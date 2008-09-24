@@ -67,8 +67,6 @@ import org.w3c.dom.Node;
  */
 public class SchemaParser {
 
-	private Configuration configuration;
-
 	private ContentParser contentParser;
 
 	private Logger log;
@@ -81,7 +79,6 @@ public class SchemaParser {
 	public SchemaParser(Configuration configuration) {
 		log = Logger.getLogger(SchemaParser.class);
 		log.setLevel(Level.ALL);
-		this.configuration = configuration;
 		contentParser = new ContentParser(configuration);
 	}
 
@@ -508,7 +505,7 @@ public class SchemaParser {
 	 */
 	private org.w3c.dom.Element parseTranslation(Translation translation,
 			org.w3c.dom.Element firstChild) throws NotCompatibleException {
-		String value = translation.getString(configuration, firstChild);
+		String value = translation.getString(firstChild);
 		Parameter parameter = translation.hasParameter();
 		contentParser.addValue(parameter, value);
 		return getNextSibling(firstChild);

@@ -31,6 +31,7 @@ package net.sf.graphiti.ontology.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
+import java.net.URL;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -38,11 +39,13 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.Parameter;
 import net.sf.graphiti.ontology.Translation;
+import net.sf.graphiti.ui.GraphitiPlugin;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.osgi.framework.Bundle;
 import org.w3c.dom.Element;
 
 import com.hp.hpl.jena.ontology.Individual;
@@ -60,15 +63,16 @@ public class TranslationImpl extends XMLSchemaTypeImpl implements Translation {
 	}
 
 	@Override
-	public String getString(Configuration configuration, Element element) {
-		String path = configuration.getOntologyFactory().getPath();
+	public String getString(Element element) {
+		Bundle bundle = GraphitiPlugin.getDefault().getBundle();
 		String xsltFilename = getStringProperty(OntologyFactory
 				.getPropertyTranslationHasXslt());
 
 		TransformerFactory factory = TransformerFactory.newInstance(
 				"net.sf.saxon.TransformerFactoryImpl", null);
 		try {
-			File file = new File(path, xsltFilename);
+			URL url = bundle.getEntry("src/owl/" + xsltFilename);
+			File file = new File(FileLocator.toFileURL(url).getPath());
 			StreamSource xsltSource = new StreamSource(file);
 			Transformer transformer = factory.newTransformer(xsltSource);
 

@@ -28,8 +28,6 @@
  */
 package net.sf.graphiti.ontology;
 
-import net.sf.graphiti.model.Configuration;
-
 import org.w3c.dom.Element;
 
 /**
@@ -50,7 +48,7 @@ public interface Translation extends XMLSchemaType {
 	 *            The current DOM element.
 	 * @return A {@link String}.
 	 */
-	public String getString(Configuration configuration, Element element);
+	public String getString(Element element);
 
 	/**
 	 * Returns a {@link Parameter} associated with this translation.
