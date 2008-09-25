@@ -26,45 +26,49 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology;
+package net.sf.graphiti.writer.operations;
+
+import net.sf.graphiti.ontology.Translation;
+import net.sf.graphiti.transactions.IOperationSpecification;
+import net.sf.graphiti.transactions.Result;
 
 import org.w3c.dom.Element;
 
 /**
- * This class provides the ontology-defined representation of an XML-to-string
- * translation, using XSLT.
+ * Adds the result of a translation to the output tree. Operands: DOM parent
+ * element, translation, input (String).
  * 
- * @author Jonathan Piat
  * @author Matthieu Wipliez
  * 
  */
-public interface Translation extends XMLSchemaType {
+public class AddTranslationOpSpec implements IOperationSpecification {
 
-	/**
-	 * Returns the string output by this translation from the current DOM
-	 * element.
-	 * 
-	 * @param element
-	 *            The current DOM element.
-	 * @return A {@link String}.
-	 */
-	public String getString(Element element);
+	@Override
+	public void execute(Object[] operands, Result result) {
+		Element parent = (Element) operands[0];
+		Translation translation = (Translation) operands[1];
+		String input = (String) operands[2];
 
-	/**
-	 * Returns a {@link Parameter} associated with this translation.
-	 * 
-	 * @return A {@link Parameter} associated with this translation.
-	 */
-	public Parameter hasParameter();
+		if (input == null) {
+			input = "";
+		}
 
-	/**
-	 * Transforms the given input to XML, appending it to the given parent.
-	 * 
-	 * @param input
-	 *            The input string.
-	 * @param parent
-	 *            The parent element to append the transformation result to.
-	 */
-	public void stringToXml(String input, Element parent);
+		translation.stringToXml(input, parent);
+	}
+
+	@Override
+	public String getName() {
+		return "add translation";
+	}
+
+	@Override
+	public int getNbOperands() {
+		return 3;
+	}
+
+	@Override
+	public boolean hasResult() {
+		return false;
+	}
 
 }

@@ -48,11 +48,13 @@ import net.sf.graphiti.ontology.Element;
 import net.sf.graphiti.ontology.OtherAttribute;
 import net.sf.graphiti.ontology.Parameter;
 import net.sf.graphiti.ontology.TextContentElement;
+import net.sf.graphiti.ontology.Translation;
 import net.sf.graphiti.ontology.XMLAttribute;
 import net.sf.graphiti.transactions.Operation;
 import net.sf.graphiti.transactions.Result;
 import net.sf.graphiti.transactions.SimpleTransaction;
 import net.sf.graphiti.writer.operations.AddDocumentFragmentOpSpec;
+import net.sf.graphiti.writer.operations.AddTranslationOpSpec;
 import net.sf.graphiti.writer.operations.CreateDocumentElementOpSpec;
 import net.sf.graphiti.writer.operations.CreateElementOpSpec;
 import net.sf.graphiti.writer.operations.SetAttributeOpSpec;
@@ -133,6 +135,28 @@ public class ContentWriter {
 		Operation addElement = new Operation(new AddDocumentFragmentOpSpec());
 		addElement.setOperands(resultStack.peek(), domDocFragment);
 		transaction.addOperation(addElement);
+	}
+
+	/**
+	 * Adds elements to the output tree obtained by using the given translation
+	 * on the given context.
+	 * 
+	 * @param translation
+	 *            A translation element.
+	 * @param context
+	 *            The context.
+	 * @throws EmptyBasketException
+	 */
+	public void addTranslation(Translation translation, Object context)
+			throws EmptyBasketException {
+		Parameter parameter = translation.hasParameter();
+		if (parameter != null) {
+			String attrValue = getParameterValue(parameter, context);
+			Operation addTranslation = new Operation(new AddTranslationOpSpec());
+			addTranslation.setOperands(resultStack.peek(), translation,
+					attrValue);
+			transaction.addOperation(addTranslation);
+		}
 	}
 
 	/**

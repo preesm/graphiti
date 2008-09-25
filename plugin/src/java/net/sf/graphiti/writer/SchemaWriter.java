@@ -52,6 +52,7 @@ import net.sf.graphiti.ontology.ParameterSource;
 import net.sf.graphiti.ontology.ParameterValue;
 import net.sf.graphiti.ontology.Sequence;
 import net.sf.graphiti.ontology.SequenceType;
+import net.sf.graphiti.ontology.Translation;
 import net.sf.graphiti.ontology.Type;
 import net.sf.graphiti.ontology.VertexElement;
 import net.sf.graphiti.ontology.VertexType;
@@ -416,12 +417,14 @@ public class SchemaWriter {
 	 */
 	private void writeSchemaType(XMLSchemaType type, Object context)
 			throws EmptyBasketException {
-		if (type.hasOntClass(OntologyFactory.getClassComplexType())) {
+		if (type instanceof ComplexType) {
 			writeComplexTypeOccurs((ComplexType) type, context);
-		} else if (type.hasOntClass(OntologyFactory.getClassElement())) {
+		} else if (type instanceof Element) {
 			writeElementOccurs((Element) type, context);
-		} else {
+		} else if (type instanceof DocumentFragment) {
 			writeDocumentFragmentOccurs((DocumentFragment) type);
+		} else if (type instanceof Translation) {
+			writeTranslation((Translation) type, context);
 		}
 	}
 
@@ -438,5 +441,18 @@ public class SchemaWriter {
 		for (XMLSchemaType type : sequence.hasSequence().hasElements()) {
 			writeSchemaType(type, context);
 		}
+	}
+
+	/**
+	 * Writes the given translation with the given context.
+	 * 
+	 * @param translation
+	 *            A {@link Translation}.
+	 * @param context
+	 *            The context.
+	 */
+	private void writeTranslation(Translation translation, Object context)
+			throws EmptyBasketException {
+		contentWriter.addTranslation(translation, context);
 	}
 }

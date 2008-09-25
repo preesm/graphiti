@@ -18,5 +18,6 @@
 	<classpathentry kind="lib" path="src/owl"/>
 	<classpathentry exported="true" kind="lib" path="lib/saxon/saxon9.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/saxon/saxon9-dom.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/grammatica-1.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

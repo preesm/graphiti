@@ -442,8 +442,16 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#textContentElement_referencesParameter";
 	}
 
-	public static String getPropertyTranslationHasXslt() {
-		return "http://net.sf.graphiti/basics.owl#translation_hasXSLT";
+	public static String getPropertyTranslationHasGrammar() {
+		return "http://net.sf.graphiti/basics.owl#translation_hasGrammar";
+	}
+
+	public static String getPropertyTranslationHasStringToXmlXslt() {
+		return "http://net.sf.graphiti/basics.owl#translation_hasStringToXmlXSLT";
+	}
+
+	public static String getPropertyTranslationHasXmlToStringXslt() {
+		return "http://net.sf.graphiti/basics.owl#translation_hasXmlToStringXSLT";
 	}
 
 	public static String getPropertyTranslationReferencesParameter() {

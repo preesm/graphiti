@@ -437,7 +437,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <rdf:Description rdf:about="">
         <basics:refinementHasFileExtension rdf:datatype="&xsd;string">cal</basics:refinementHasFileExtension>
         <basics:hasNamespace rdf:datatype="&xsd;string"
-            >http://opendf.sf.net/</basics:hasNamespace>
+            ></basics:hasNamespace>
         <basics:hasFileExtension rdf:datatype="&xsd;string">xdf</basics:hasFileExtension>
         <basics:refinementHasFileExtension rdf:datatype="&xsd;string">xdf</basics:refinementHasFileExtension>
         <basics:hasDocumentElement rdf:resource="#DocumentElementXDF"/>

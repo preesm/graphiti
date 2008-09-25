@@ -14,6 +14,7 @@ Require-Bundle: org.eclipse.core.resources,
  org.junit,
  com.ibm.icu
 Bundle-ClassPath: .,
+ lib/grammatica-1.4.jar,
  lib/jgrapht-jdk1.5.jar,
  lib/jena/antlr-2.7.5.jar,
  lib/jena/arq.jar,

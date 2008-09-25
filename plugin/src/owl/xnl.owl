@@ -284,9 +284,21 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#translation_hasXSLT -->
+    <!-- http://net.sf.graphiti/basics.owl#translation_hasGrammar -->
 
-    <owl:DatatypeProperty rdf:about="&net;basics.owl#translation_hasXSLT"/>
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#translation_hasGrammar"/>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#translation_hasStringToXmlXSLT -->
+
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#translation_hasStringToXmlXSLT"/>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#translation_hasXmlToStringXSLT -->
+
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#translation_hasXmlToStringXSLT"/>
     
 
 
@@ -501,9 +513,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/xnl.owl -->
 
     <rdf:Description rdf:about="">
+        <basics:hasNamespace rdf:datatype="&xsd;string"></basics:hasNamespace>
         <basics:refinementHasFileExtension rdf:datatype="&xsd;string">cal</basics:refinementHasFileExtension>
-        <basics:hasNamespace rdf:datatype="&xsd;string"
-            >http://opendf.sf.net/</basics:hasNamespace>
         <basics:hasFileExtension rdf:datatype="&xsd;string">xnl</basics:hasFileExtension>
         <basics:refinementHasFileExtension rdf:datatype="&xsd;string">xnl</basics:refinementHasFileExtension>
         <basics:hasDocumentElement rdf:resource="#DocumentElementXNL"/>
@@ -1417,8 +1428,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:Translation rdf:about="#TranslationExprGraphVariables">
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:translation_hasXSLT rdf:datatype="&xsd;string"
-            >xnlExprToString.xslt</basics:translation_hasXSLT>
+        <basics:translation_hasGrammar rdf:datatype="&xsd;string">xnlExpr.grammar</basics:translation_hasGrammar>
+        <basics:translation_hasXmlToStringXSLT rdf:datatype="&xsd;string"
+            >xnlExprToString.xslt</basics:translation_hasXmlToStringXSLT>
+        <basics:translation_hasStringToXmlXSLT rdf:datatype="&xsd;string"
+            >xnlExprToXml.xslt</basics:translation_hasStringToXmlXSLT>
         <basics:translation_referencesParameter rdf:resource="#GraphParameterVariables"/>
     </basics:Translation>
     
@@ -1429,8 +1443,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:Translation rdf:about="#TranslationExprVertexArguments">
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:translation_hasXSLT rdf:datatype="&xsd;string"
-            >xnlExprToString.xslt</basics:translation_hasXSLT>
+        <basics:translation_hasGrammar rdf:datatype="&xsd;string">xnlExpr.grammar</basics:translation_hasGrammar>
+        <basics:translation_hasXmlToStringXSLT rdf:datatype="&xsd;string"
+            >xnlExprToString.xslt</basics:translation_hasXmlToStringXSLT>
+        <basics:translation_hasStringToXmlXSLT rdf:datatype="&xsd;string"
+            >xnlExprToXml.xslt</basics:translation_hasStringToXmlXSLT>
         <basics:translation_referencesParameter rdf:resource="#VertexParameterArguments"/>
     </basics:Translation>
     
