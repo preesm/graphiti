@@ -1,0 +1,13 @@
+
+actor Clip () int I, bool SIGNED ==> int O :
+
+  action I:[a] repeat 64, SIGNED:[s] ==> O:[b] repeat 64
+  var
+       lim = if s then -255 else 0 end,
+	   b := [ saturate(a[i], lim) : for i in 0 .. 63 ]
+  end
+
+  function saturate( x, lim ) :
+    if (x < lim) then lim else if (x > 255) then 255 else x end end
+  end
+end
