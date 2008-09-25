@@ -90,12 +90,6 @@ public class TranslationImpl extends XMLSchemaTypeImpl implements Translation {
 			domNode.setAttribute("name", token.getName());
 			domNode.setAttribute("value", token.getImage());
 			parent.appendChild(domNode);
-
-			int n = parseNode.getChildCount();
-			for (int i = 0; i < n; i++) {
-				Node child = parseNode.getChildAt(i);
-				convertNodeToDom(domNode, child);
-			}
 		}
 	}
 

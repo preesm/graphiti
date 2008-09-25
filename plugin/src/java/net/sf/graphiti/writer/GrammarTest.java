@@ -65,7 +65,7 @@ public class GrammarTest extends Analyzer {
 	public static void main(String[] args) {
 		String grammarFileName = "D:\\repositories\\graphiti-editor\\plugin\\"
 				+ "src\\owl\\xnlExpr.grammar";
-		String input = "(1 + 2 + 3) * 4";
+		String input = "MAXW_IN_MB*(384*MAXH_IN_MB+SEARCHWIN_IN_MB*192+384)*50";
 		try {
 			new GrammarTest(grammarFileName, input);
 		} catch (Exception e) {
@@ -109,12 +109,6 @@ public class GrammarTest extends Analyzer {
 			domNode.setAttribute("name", token.getName());
 			domNode.setAttribute("value", token.getImage());
 			parent.appendChild(domNode);
-
-			int n = parseNode.getChildCount();
-			for (int i = 0; i < n; i++) {
-				Node child = parseNode.getChildAt(i);
-				convertNodeToDom(domNode, child);
-			}
 		}
 	}
 
