@@ -105,12 +105,5 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 	}
 
 	void updateFigures(int direction) {
-		// TODO
-		// ConnectionAnchor anchor = ((EdgeFigure)
-		// getFigure()).getSourceAnchor();
-		// ((VertexConnectionAnchor) anchor).setDirection(direction);
-
-		// anchor = ((EdgeFigure) getFigure()).getTargetAnchor();
-		// ((VertexConnectionAnchor) anchor).setDirection(direction);
 	}
 }

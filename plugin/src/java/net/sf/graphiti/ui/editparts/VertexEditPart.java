@@ -262,17 +262,11 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 			vertexFigure.setBounds((Rectangle) evt.getNewValue());
 			refresh();
 		} else if (propertyName.equals(Vertex.PROPERTY_SRC_VERTEX)) {
-			Vertex vertex = (Vertex) getModel();
 			updatePorts(getFigure());
-			// if size has not changed, nothing happens
-			vertex.setValue(Vertex.PROPERTY_SIZE, getFigure().getBounds());
 			// refresh will cause target anchor to be rightly put
 			refresh();
 		} else if (propertyName.equals(Vertex.PROPERTY_DST_VERTEX)) {
-			Vertex vertex = (Vertex) getModel();
 			updatePorts(getFigure());
-			// if size has not changed, nothing happens
-			vertex.setValue(Vertex.PROPERTY_SIZE, getFigure().getBounds());
 			// refresh will cause source anchor to be rightly put
 			refresh();
 		} else {
@@ -302,6 +296,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		if (bounds == null) {
 			bounds = getFigure().getBounds();
 		}
+		bounds = bounds.getCopy();
 
 		bounds.x = node.x;
 		bounds.y = node.y;
@@ -352,5 +347,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		}
 
 		figure.adjustSize();
+		vertex.setValue(Vertex.PROPERTY_SIZE, figure.getBounds());
 	}
 }

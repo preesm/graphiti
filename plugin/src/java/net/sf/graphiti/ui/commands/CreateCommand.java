@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.ui.commands;
 
-import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
 
@@ -64,22 +63,19 @@ public class CreateCommand extends Command {
 				Vertex vertex = (Vertex) newObject;
 				graph.addVertex(vertex);
 
-				Configuration config = graph.getConfiguration();
-				int width = (Integer) config.getVertexAttribute(vertex
-						.getType(), Vertex.ATTRIBUTE_WIDTH);
-				int height = (Integer) config.getVertexAttribute(vertex
-						.getType(), Vertex.ATTRIBUTE_HEIGHT);
-
-				Rectangle rect = new Rectangle(bounds);
-				rect.width = width;
-				rect.height = height;
-				vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, rect);
+				// retrieve the vertex bounds (they have been set by the edit
+				// part)
+				// and set the location
+				Rectangle vertexBounds = (Rectangle) vertex
+						.getValue(Vertex.PROPERTY_SIZE);
+				vertexBounds.x = bounds.x;
+				vertexBounds.y = bounds.y;
 			}
 		}
 	}
 
 	/**
-	 * Sets the initial bounds of this graph.
+	 * Sets the initial bounds of this vertex.
 	 * 
 	 * @param bounds
 	 */
