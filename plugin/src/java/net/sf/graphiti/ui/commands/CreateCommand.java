@@ -33,6 +33,12 @@ import net.sf.graphiti.model.Vertex;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.dialogs.IInputValidator;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * This class allows the creation of vertices.
@@ -46,32 +52,58 @@ public class CreateCommand extends Command {
 
 	private Rectangle bounds;
 
-	private Object model;
+	private Graph graph;
 
-	private Object newObject;
+	private Vertex vertex;
 
 	public CreateCommand() {
-
 	}
 
 	@Override
 	public void execute() {
-		if (model instanceof Graph) {
-			Graph graph = (Graph) model;
+		if (graph != null && vertex != null) {
+			String id = getVertexId();
+			vertex.setValue(Vertex.PARAMETER_ID, id);
+			graph.addVertex(vertex);
 
-			if (newObject instanceof Vertex) {
-				Vertex vertex = (Vertex) newObject;
-				graph.addVertex(vertex);
-
-				// retrieve the vertex bounds (they have been set by the edit
-				// part)
-				// and set the location
-				Rectangle vertexBounds = (Rectangle) vertex
-						.getValue(Vertex.PROPERTY_SIZE);
-				vertexBounds.x = bounds.x;
-				vertexBounds.y = bounds.y;
-			}
+			// retrieve the vertex bounds (they have been set by the edit
+			// part)
+			// and set the location
+			Rectangle vertexBounds = (Rectangle) vertex
+					.getValue(Vertex.PROPERTY_SIZE);
+			vertexBounds.x = bounds.x;
+			vertexBounds.y = bounds.y;
 		}
+	}
+
+	private String getVertexId() {
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		Shell shell = window.getShell();
+
+		InputDialog dialog = new InputDialog(shell, "New vertex",
+				"Please enter a vertex identifier", "", new IInputValidator() {
+
+					@Override
+					public String isValid(String vertexId) {
+						if (vertexId.isEmpty()) {
+							return "";
+						}
+
+						if (graph != null) {
+							Vertex vertex = graph.findVertex(vertexId);
+							if (vertex != null) {
+								return "A vertex already exists with the same identifier";
+							}
+						}
+
+						return null;
+					}
+
+				});
+
+		dialog.open();
+		return dialog.getValue();
 	}
 
 	/**
@@ -90,7 +122,9 @@ public class CreateCommand extends Command {
 	 *            The model to use.
 	 */
 	public void setModel(Object model) {
-		this.model = model;
+		if (model instanceof Graph) {
+			this.graph = (Graph) model;
+		}
 	}
 
 	/**
@@ -100,18 +134,15 @@ public class CreateCommand extends Command {
 	 *            the newly created object.
 	 */
 	public void setNewObject(Object newObject) {
-		this.newObject = newObject;
+		if (newObject instanceof Vertex) {
+			this.vertex = (Vertex) newObject;
+		}
 	}
 
 	@Override
 	public void undo() {
-		if (model instanceof Graph) {
-			Graph graph = (Graph) model;
-
-			if (newObject instanceof Vertex) {
-				Vertex vertex = (Vertex) newObject;
-				graph.removeVertex(vertex);
-			}
+		if (graph != null && vertex != null) {
+			graph.removeVertex(vertex);
 		}
 	}
 }
