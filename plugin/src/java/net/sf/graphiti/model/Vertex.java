@@ -192,6 +192,16 @@ public class Vertex extends PropertyBean {
 		return (String) this.getValue(PARAMETER_TYPE);
 	}
 
+	@Override
+	public void setValue(String propertyName, Object newValue) {
+		if (PARAMETER_ID.equals(propertyName)) {
+			if (parent != null) {
+				parent.changeVertexId(this, (String) newValue);
+			}
+		}
+		super.setValue(propertyName, newValue);
+	}
+
 	public String toString() {
 		return getType() + ": " + getValue(PARAMETER_ID);
 	}

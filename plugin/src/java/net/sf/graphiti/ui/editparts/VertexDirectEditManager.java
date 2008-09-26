@@ -34,8 +34,8 @@ import net.sf.graphiti.ui.figure.VertexFigure;
 
 import org.eclipse.draw2d.Label;
 import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.GC;
@@ -76,27 +76,40 @@ public class VertexDirectEditManager extends DirectEditManager {
 	 * @see org.eclipse.gef.tools.DirectEditManager#initCellEditor()
 	 */
 	protected void initCellEditor() {
-		final Text text = (Text) getCellEditor().getControl();
+		CellEditor editor = getCellEditor();
+
+		final Text text = (Text) editor.getControl();
 
 		verifyListener = new VerifyListener() {
 			public void verifyText(VerifyEvent event) {
 				Text text = (Text) getCellEditor().getControl();
 				String oldText = text.getText();
-				String leftText = oldText.substring(0, event.start);
-				String rightText = oldText.substring(event.end, oldText
-						.length());
+				String newText = oldText.substring(0, event.start) + event.text
+						+ oldText.substring(event.end, oldText.length());
+
 				GC gc = new GC(text);
-				Point size = gc.textExtent(leftText + event.text + rightText);
+				Point size = gc.textExtent(newText);
 				gc.dispose();
-				if (size.x != 0)
-					size = text.computeSize(size.x, SWT.DEFAULT);
-				getCellEditor().getControl().setSize(size.x, size.y);
+				if (size.x == 0) {
+					size.x = size.y;
+				} else {
+					size = text.computeSize(size.x, size.y);
+				}
+
+//				String error = getCellEditor().getValidator().isValid(newText);
+//				if (error == null || error.isEmpty()) {
+//					text.setBackground(text.getParent().getBackground());
+//				} else {
+//					text.setBackground(ColorConstants.red);
+//				}
+
+				text.setSize(size.x, size.y);
 			}
 		};
 		text.addVerifyListener(verifyListener);
 
 		String initialLabelText = vertexLabel.getText();
-		getCellEditor().setValue(initialLabelText);
+		editor.setValue(initialLabelText);
 	}
 
 	@Override
@@ -114,5 +127,4 @@ public class VertexDirectEditManager extends DirectEditManager {
 		text.removeVerifyListener(verifyListener);
 		verifyListener = null;
 	}
-
 }

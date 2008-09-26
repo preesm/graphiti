@@ -28,13 +28,17 @@
  */
 package net.sf.graphiti.ui.editpolicies;
 
+import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.commands.RenameVertexCommand;
+import net.sf.graphiti.ui.editparts.VertexEditPart;
 import net.sf.graphiti.ui.figure.VertexFigure;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ICellEditorValidator;
 
 /**
  * This class provides a {@link DirectEditPolicy} for a vertex id.
@@ -46,10 +50,42 @@ public class VertexDirectEditPolicy extends DirectEditPolicy {
 
 	@Override
 	protected Command getDirectEditCommand(DirectEditRequest request) {
+		CellEditor editor = request.getCellEditor();
+		editor.setValidator(new ICellEditorValidator() {
+
+			@Override
+			public String isValid(Object value) {
+				VertexEditPart part = (VertexEditPart) getHost();
+				Vertex vertex = (Vertex) part.getModel();
+				Graph graph = vertex.getParent();
+
+				String vertexId = (String) value;
+				if (vertexId.isEmpty()) {
+					return "";
+				}
+
+				vertex = graph.findVertex(vertexId);
+				if (vertex != null && !vertex.equals(getHost().getModel())) {
+					return "A vertex already exists with the same identifier";
+				}
+
+				return null;
+			}
+
+		});
+		
 		Vertex vertex = (Vertex) getHost().getModel();
-		RenameVertexCommand cmd = new RenameVertexCommand(vertex);
-		cmd.setName((String) request.getCellEditor().getValue());
-		return cmd;
+		if (editor.getValidator().isValid(editor.getValue()) == null) {
+			RenameVertexCommand cmd = new RenameVertexCommand(vertex);
+			cmd.setName((String) editor.getValue());
+			return cmd;
+		} else {
+			String id = (String) vertex.getValue(Vertex.PARAMETER_ID);
+			VertexFigure figure = (VertexFigure) getHostFigure();
+			figure.getLabelId().setText(id);
+			figure.adjustSize();
+			return null;
+		}
 	}
 
 	@Override
@@ -57,6 +93,7 @@ public class VertexDirectEditPolicy extends DirectEditPolicy {
 		String value = (String) request.getCellEditor().getValue();
 		VertexFigure figure = (VertexFigure) getHostFigure();
 		figure.getLabelId().setText(value);
+		figure.adjustSize();
 	}
 
 }

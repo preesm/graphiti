@@ -144,6 +144,22 @@ public class Graph extends PropertyBean {
 	}
 
 	/**
+	 * Changes the identifier of the given vertex.
+	 * 
+	 * @param vertex
+	 *            A vertex.
+	 * @param id
+	 *            Its new id.
+	 */
+	void changeVertexId(Vertex vertex, String id) {
+		String oldId = (String) vertex.getValue(Vertex.PARAMETER_ID);
+		if (oldId != null && id != null && !oldId.equals(id)) {
+			vertices.remove(oldId);
+			vertices.put(id, vertex);
+		}
+	}
+
+	/**
 	 * @see AbstractBaseGraph#edgeSet()
 	 * @return
 	 */

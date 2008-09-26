@@ -63,16 +63,22 @@ public class VertexCellEditorLocator implements CellEditorLocator {
 	 */
 	public void relocate(CellEditor celleditor) {
 		Text text = (Text) celleditor.getControl();
-		Point pref = text.computeSize(-1, -1);
+		Point pref;
+		if (text.getText().isEmpty()) {
+			pref = new Point(13, 13);
+		} else {
+			pref = text.computeSize(-1, -1);
+		}
 
 		Label label = vertexFigure.getLabelId();
-		Rectangle rect = label.getTextBounds().getCopy();
-		label.translateToAbsolute(rect);
+		Rectangle labelBounds = label.getBounds().getCopy();
+		label.translateToAbsolute(labelBounds);
+		
+		Rectangle figureBounds = vertexFigure.getBounds().getCopy();
+		vertexFigure.translateToAbsolute(figureBounds);
+		int start = (figureBounds.width - pref.x) / 2;
 
-		Rectangle bounds = label.getBounds().getCopy();
-		label.translateToAbsolute(bounds);
-
-		text.setBounds(bounds.x - 1, bounds.y - 1, pref.x, pref.y);
+		text.setBounds(figureBounds.x + start, labelBounds.y, pref.x, pref.y);
 	}
 
 }
