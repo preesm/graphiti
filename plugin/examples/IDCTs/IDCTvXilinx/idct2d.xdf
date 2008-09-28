@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XDF name="idct2d">
+    <Port kind="Input" name="in"/>
+    <Port kind="Input" name="signed"/>
+    <Port kind="Output" name="out"/>
+    <Decl kind="Param" name="INP_SZ"/>
+    <Decl kind="Param" name="PIX_SZ"/>
+    <Decl kind="Variable" name="MEM_SZ">
+        <Expr kind="Literal" literal-kind="Integer" value="16"/>
+    </Decl>
+    <Decl kind="Variable" name="OUT_SZ">
+        <Expr kind="Literal" literal-kind="Integer" value="10"/>
+    </Decl>
+    <Instance id="$id_n$0">
+        <Class name="RowSort"/>
+        <Parameter name="sz">
+            <Expr kind="Var" name="INP_SZ"/>
+        </Parameter>
+    </Instance>
+    <Instance id="$id_n$1">
+        <Class name="FairMerge"/>
+        <Parameter name="rsz">
+            <Expr kind="Var" name="INP_SZ"/>
+        </Parameter>
+        <Parameter name="csz">
+            <Expr kind="Var" name="MEM_SZ"/>
+        </Parameter>
+    </Instance>
+    <Instance id="$id_n$2">
+        <Class name="Downsample"/>
+    </Instance>
+    <Instance id="$id_n$3">
+        <Class name="idct1d"/>
+        <Parameter name="MEM_SZ">
+            <Expr kind="Var" name="MEM_SZ"/>
+        </Parameter>
+    </Instance>
+    <Instance id="$id_n$4">
+        <Class name="Separate"/>
+        <Parameter name="isz">
+            <Expr kind="Var" name="MEM_SZ"/>
+        </Parameter>
+        <Parameter name="rsz">
+            <Expr kind="Var" name="MEM_SZ"/>
+        </Parameter>
+        <Parameter name="csz">
+            <Expr kind="Var" name="OUT_SZ"/>
+        </Parameter>
+    </Instance>
+    <Instance id="$id_n$5">
+        <Class name="Transpose"/>
+        <Parameter name="sz">
+            <Expr kind="Var" name="MEM_SZ"/>
+        </Parameter>
+    </Instance>
+    <Instance id="$id_n$6">
+        <Class name="Retranspose"/>
+        <Parameter name="isz">
+            <Expr kind="Var" name="OUT_SZ"/>
+        </Parameter>
+        <Parameter name="osz">
+            <Expr kind="Var" name="OUT_SZ"/>
+        </Parameter>
+    </Instance>
+    <Instance id="$id_n$7">
+        <Class name="Clip"/>
+        <Parameter name="isz">
+            <Expr kind="Var" name="OUT_SZ"/>
+        </Parameter>
+        <Parameter name="osz">
+            <Expr kind="Var" name="PIX_SZ"/>
+        </Parameter>
+    </Instance>
+    <Connection dst="$id_n$0" dst-port="ROW" src="" src-port="in"/>
+    <Connection dst="$id_n$7" dst-port="SIGNED" src="" src-port="signed"/>
+    <Connection dst="$id_n$1" dst-port="R0" src="$id_n$0" src-port="Y0"/>
+    <Connection dst="$id_n$1" dst-port="R1" src="$id_n$0" src-port="Y1"/>
+    <Connection dst="$id_n$3" dst-port="X0" src="$id_n$1" src-port="Y0"/>
+    <Connection dst="$id_n$3" dst-port="X1" src="$id_n$1" src-port="Y1"/>
+    <Connection dst="$id_n$2" dst-port="R" src="$id_n$1" src-port="ROWOUT"/>
+    <Connection dst="$id_n$3" dst-port="ROW" src="$id_n$1" src-port="ROWOUT"/>
+    <Connection dst="$id_n$4" dst-port="ROW" src="$id_n$2" src-port="R2"/>
+    <Connection dst="$id_n$4" dst-port="X0" src="$id_n$3" src-port="Y0"/>
+    <Connection dst="$id_n$4" dst-port="X1" src="$id_n$3" src-port="Y1"/>
+    <Connection dst="$id_n$4" dst-port="X2" src="$id_n$3" src-port="Y2"/>
+    <Connection dst="$id_n$4" dst-port="X3" src="$id_n$3" src-port="Y3"/>
+    <Connection dst="$id_n$5" dst-port="X0" src="$id_n$4" src-port="R0"/>
+    <Connection dst="$id_n$5" dst-port="X1" src="$id_n$4" src-port="R1"/>
+    <Connection dst="$id_n$5" dst-port="X2" src="$id_n$4" src-port="R2"/>
+    <Connection dst="$id_n$5" dst-port="X3" src="$id_n$4" src-port="R3"/>
+    <Connection dst="$id_n$6" dst-port="X0" src="$id_n$4" src-port="C0"/>
+    <Connection dst="$id_n$6" dst-port="X1" src="$id_n$4" src-port="C1"/>
+    <Connection dst="$id_n$6" dst-port="X2" src="$id_n$4" src-port="C2"/>
+    <Connection dst="$id_n$6" dst-port="X3" src="$id_n$4" src-port="C3"/>
+    <Connection dst="$id_n$1" dst-port="C0" src="$id_n$5" src-port="Y0"/>
+    <Connection dst="$id_n$1" dst-port="C1" src="$id_n$5" src-port="Y1"/>
+    <Connection dst="$id_n$7" dst-port="I" src="$id_n$6" src-port="Y"/>
+    <Connection dst="" dst-port="out" src="$id_n$7" src-port="O"/>
+</XDF>
