@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Graphiti documentation Plug-in
+Bundle-SymbolicName: net.sf.graphiti.doc; singleton:=true
+Bundle-Version: 0.9.0

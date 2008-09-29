@@ -176,6 +176,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#attributeRestriction_hasValue -->
+
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#attributeRestriction_hasValue"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#attribute_hasName -->
 
     <owl:DatatypeProperty rdf:about="&net;basics.owl#attribute_hasName"/>
@@ -435,9 +441,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/xdf.owl -->
 
     <rdf:Description rdf:about="">
+        <basics:hasNamespace rdf:datatype="&xsd;string"></basics:hasNamespace>
         <basics:refinementHasFileExtension rdf:datatype="&xsd;string">cal</basics:refinementHasFileExtension>
-        <basics:hasNamespace rdf:datatype="&xsd;string"
-            ></basics:hasNamespace>
         <basics:hasFileExtension rdf:datatype="&xsd;string">xdf</basics:hasFileExtension>
         <basics:refinementHasFileExtension rdf:datatype="&xsd;string">xdf</basics:refinementHasFileExtension>
         <basics:hasDocumentElement rdf:resource="#DocumentElementXDF"/>
@@ -461,6 +466,24 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/xdf.owl#AttributeRestrictionPortKindInput -->
+
+    <basics:AttributeRestriction rdf:about="#AttributeRestrictionPortKindInput">
+        <basics:attributeRestriction_hasValue rdf:datatype="&xsd;string">Input</basics:attributeRestriction_hasValue>
+        <basics:attributeRestriction_hasName rdf:datatype="&xsd;string">kind</basics:attributeRestriction_hasName>
+    </basics:AttributeRestriction>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#AttributeRestrictionPortKindOutput -->
+
+    <basics:AttributeRestriction rdf:about="#AttributeRestrictionPortKindOutput">
+        <basics:attributeRestriction_hasValue rdf:datatype="&xsd;string">Output</basics:attributeRestriction_hasValue>
+        <basics:attributeRestriction_hasName rdf:datatype="&xsd;string">kind</basics:attributeRestriction_hasName>
+    </basics:AttributeRestriction>
+    
+
+
     <!-- http://net.sf.graphiti/xdf.owl#ChoiceConnection -->
 
     <basics:OrderedChoice rdf:about="#ChoiceConnection">
@@ -468,6 +491,16 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
         <basics:orderedChoice_hasElements rdf:resource="#SequenceTypeOrderedChoiceEdge"/>
     </basics:OrderedChoice>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#ColorAttributeInputPort -->
+
+    <basics:ColorAttribute rdf:about="#ColorAttributeInputPort">
+        <basics:colorAttribute_hasRed rdf:datatype="&xsd;int">0</basics:colorAttribute_hasRed>
+        <basics:colorAttribute_hasBlue rdf:datatype="&xsd;int">100</basics:colorAttribute_hasBlue>
+        <basics:colorAttribute_hasGreen rdf:datatype="&xsd;int">60</basics:colorAttribute_hasGreen>
+    </basics:ColorAttribute>
     
 
 
@@ -481,12 +514,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/xdf.owl#ColorAttributePort -->
+    <!-- http://net.sf.graphiti/xdf.owl#ColorAttributeOutputPort -->
 
-    <basics:ColorAttribute rdf:about="#ColorAttributePort">
-        <basics:colorAttribute_hasRed rdf:datatype="&xsd;int">0</basics:colorAttribute_hasRed>
+    <basics:ColorAttribute rdf:about="#ColorAttributeOutputPort">
+        <basics:colorAttribute_hasGreen rdf:datatype="&xsd;int">0</basics:colorAttribute_hasGreen>
         <basics:colorAttribute_hasBlue rdf:datatype="&xsd;int">100</basics:colorAttribute_hasBlue>
-        <basics:colorAttribute_hasGreen rdf:datatype="&xsd;int">60</basics:colorAttribute_hasGreen>
+        <basics:colorAttribute_hasRed rdf:datatype="&xsd;int">60</basics:colorAttribute_hasRed>
     </basics:ColorAttribute>
     
 
@@ -515,6 +548,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">XDF</basics:element_hasName>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueGraphTypeNetwork"/>
         <basics:element_hasSchemaType rdf:resource="#SequenceTypeDocumentElementXDF"/>
     </basics:GraphElement>
     
@@ -528,9 +562,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:element_hasName rdf:datatype="&xsd;string">Connection</basics:element_hasName>
         <basics:element_hasAttributes rdf:resource="#EdgeSourceConnectionEntity"/>
         <basics:element_hasAttributes rdf:resource="#EdgeTargetConnectionEntity"/>
-        <basics:element_hasAttributes rdf:resource="#OItherAttributeDestinationPort"/>
+        <basics:element_hasAttributes rdf:resource="#OtherAttributeDestinationPort"/>
         <basics:element_hasAttributes rdf:resource="#OtherAttributeSourcePort"/>
-        <basics:element_hasParameterValue rdf:resource="#ParameterValueConnection"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueEdgeTypeConnection"/>
     </basics:EdgeElement>
     
 
@@ -545,7 +579,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:element_hasAttributes rdf:resource="#EdgeSourceConnectionEntity"/>
         <basics:element_hasAttributes rdf:resource="#EdgeTargetConnectionLocal"/>
         <basics:element_hasAttributes rdf:resource="#OtherAttributeSourcePort"/>
-        <basics:element_hasParameterValue rdf:resource="#ParameterValueConnection"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueEdgeTypeConnection"/>
     </basics:EdgeElement>
     
 
@@ -559,8 +593,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionEdgeConnectionSrcLocal"/>
         <basics:element_hasAttributes rdf:resource="#EdgeSourceConnectionLocal"/>
         <basics:element_hasAttributes rdf:resource="#EdgeTargetConnectionEntity"/>
-        <basics:element_hasAttributes rdf:resource="#OItherAttributeDestinationPort"/>
-        <basics:element_hasParameterValue rdf:resource="#ParameterValueConnection"/>
+        <basics:element_hasAttributes rdf:resource="#OtherAttributeDestinationPort"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueEdgeTypeConnection"/>
     </basics:EdgeElement>
     
 
@@ -575,8 +609,28 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionEdgeConnectionSrcLocal"/>
         <basics:element_hasAttributes rdf:resource="#EdgeSourceConnectionLocal"/>
         <basics:element_hasAttributes rdf:resource="#EdgeTargetConnectionLocal"/>
-        <basics:element_hasParameterValue rdf:resource="#ParameterValueConnection"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueEdgeTypeConnection"/>
     </basics:EdgeElement>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#EdgeParameterSource -->
+
+    <basics:EdgeParameter rdf:about="#EdgeParameterSource">
+        <basics:parameter_hasName rdf:datatype="&xsd;string">source port</basics:parameter_hasName>
+        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
+        <basics:parameter_appliesTo rdf:resource="#EdgeTypeConnection"/>
+    </basics:EdgeParameter>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#EdgeParameterTarget -->
+
+    <basics:EdgeParameter rdf:about="#EdgeParameterTarget">
+        <basics:parameter_hasName rdf:datatype="&xsd;string">target port</basics:parameter_hasName>
+        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
+        <basics:parameter_appliesTo rdf:resource="#EdgeTypeConnection"/>
+    </basics:EdgeParameter>
     
 
 
@@ -586,7 +640,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:parameter_hasName rdf:datatype="&xsd;string">type</basics:parameter_hasName>
         <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
         <basics:parameter_appliesTo rdf:resource="#EdgeTypeConnection"/>
-        <basics:parameter_hasParameterValue rdf:resource="#ParameterValueConnection"/>
+        <basics:parameter_hasParameterValue rdf:resource="#ParameterValueEdgeTypeConnection"/>
     </basics:EdgeParameter>
     
 
@@ -605,7 +659,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
 
     <basics:EdgeSourceConnection rdf:about="#EdgeSourceConnectionLocal">
         <basics:attribute_hasName rdf:datatype="&xsd;string">src-port</basics:attribute_hasName>
-        <basics:attribute_isReferenceTo rdf:resource="#VertexElementPort"/>
+        <basics:attribute_isReferenceTo rdf:resource="#VertexElementInputPort"/>
     </basics:EdgeSourceConnection>
     
 
@@ -624,7 +678,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
 
     <basics:EdgeTargetConnection rdf:about="#EdgeTargetConnectionLocal">
         <basics:attribute_hasName rdf:datatype="&xsd;string">dst-port</basics:attribute_hasName>
-        <basics:attribute_isReferenceTo rdf:resource="#VertexElementPort"/>
+        <basics:attribute_isReferenceTo rdf:resource="#VertexElementInputPort"/>
     </basics:EdgeTargetConnection>
     
 
@@ -633,9 +687,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
 
     <basics:EdgeType rdf:about="#EdgeTypeConnection">
         <basics:type_hasName rdf:datatype="&xsd;string">Connection</basics:type_hasName>
+        <basics:type_hasParameters rdf:resource="#EdgeParameterSource"/>
+        <basics:type_hasParameters rdf:resource="#EdgeParameterTarget"/>
         <basics:type_hasParameters rdf:resource="#EdgeParameterType"/>
-        <basics:type_hasParameters rdf:resource="#sourceParameter"/>
-        <basics:type_hasParameters rdf:resource="#targetParameter"/>
     </basics:EdgeType>
     
 
@@ -651,6 +705,26 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/xdf.owl#ElementDeclParam -->
+
+    <basics:Element rdf:about="#ElementDeclParam">
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">-1</basics:schemaType_hasMaxOccurs>
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
+        <basics:element_hasName rdf:datatype="&xsd;string">Decl</basics:element_hasName>
+    </basics:Element>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#ElementDeclVariable -->
+
+    <basics:Element rdf:about="#ElementDeclVariable">
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">-1</basics:schemaType_hasMaxOccurs>
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
+        <basics:element_hasName rdf:datatype="&xsd;string">Decl</basics:element_hasName>
+    </basics:Element>
+    
+
+
     <!-- http://net.sf.graphiti/xdf.owl#GraphParameterName -->
 
     <basics:GraphParameter rdf:about="#GraphParameterName">
@@ -661,22 +735,41 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/xdf.owl#GraphParameterType -->
+
+    <basics:GraphParameter rdf:about="#GraphParameterType">
+        <basics:parameter_hasName rdf:datatype="&xsd;string">type</basics:parameter_hasName>
+        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
+        <basics:parameter_appliesTo rdf:resource="#GraphTypeNetwork"/>
+    </basics:GraphParameter>
+    
+
+
     <!-- http://net.sf.graphiti/xdf.owl#GraphTypeNetwork -->
 
     <basics:GraphType rdf:about="#GraphTypeNetwork">
         <basics:type_hasName rdf:datatype="&xsd;string"
-            >XDF Dataflow Network</basics:type_hasName>
+            >XML Dataflow Network (XDF)</basics:type_hasName>
         <basics:type_hasParameters rdf:resource="#GraphParameterName"/>
+        <basics:type_hasParameters rdf:resource="#GraphParameterType"/>
     </basics:GraphType>
     
 
 
-    <!-- http://net.sf.graphiti/xdf.owl#OItherAttributeDestinationPort -->
+    <!-- http://net.sf.graphiti/xdf.owl#OtherAttributeDestinationPort -->
 
-    <basics:OtherAttribute rdf:about="#OItherAttributeDestinationPort">
-        <basics:element_hasName rdf:datatype="&xsd;string">dst-port</basics:element_hasName>
+    <basics:OtherAttribute rdf:about="#OtherAttributeDestinationPort">
         <basics:attribute_hasName rdf:datatype="&xsd;string">dst-port</basics:attribute_hasName>
-        <basics:otherAttribute_referencesParameter rdf:resource="#targetParameter"/>
+        <basics:otherAttribute_referencesParameter rdf:resource="#EdgeParameterTarget"/>
+    </basics:OtherAttribute>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#OtherAttributeInputPortId -->
+
+    <basics:OtherAttribute rdf:about="#OtherAttributeInputPortId">
+        <basics:attribute_hasName rdf:datatype="&xsd;string">name</basics:attribute_hasName>
+        <basics:otherAttribute_referencesParameter rdf:resource="#VertexParameterInputPortId"/>
     </basics:OtherAttribute>
     
 
@@ -684,19 +777,17 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/xdf.owl#OtherAttributeInstanceId -->
 
     <basics:OtherAttribute rdf:about="#OtherAttributeInstanceId">
-        <basics:element_hasName rdf:datatype="&xsd;string">id</basics:element_hasName>
         <basics:attribute_hasName rdf:datatype="&xsd;string">id</basics:attribute_hasName>
-        <basics:otherAttribute_referencesParameter rdf:resource="#vertexIdParameter"/>
+        <basics:otherAttribute_referencesParameter rdf:resource="#VertexParameterInstanceId"/>
     </basics:OtherAttribute>
     
 
 
-    <!-- http://net.sf.graphiti/xdf.owl#OtherAttributePortId -->
+    <!-- http://net.sf.graphiti/xdf.owl#OtherAttributeOutputPortId -->
 
-    <basics:OtherAttribute rdf:about="#OtherAttributePortId">
-        <basics:element_hasName rdf:datatype="&xsd;string">name</basics:element_hasName>
+    <basics:OtherAttribute rdf:about="#OtherAttributeOutputPortId">
         <basics:attribute_hasName rdf:datatype="&xsd;string">name</basics:attribute_hasName>
-        <basics:otherAttribute_referencesParameter rdf:resource="#vertexIdParameter"/>
+        <basics:otherAttribute_referencesParameter rdf:resource="#VertexParameterOutputPortId"/>
     </basics:OtherAttribute>
     
 
@@ -705,8 +796,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
 
     <basics:OtherAttribute rdf:about="#OtherAttributeSourcePort">
         <basics:attribute_hasName rdf:datatype="&xsd;string">src-port</basics:attribute_hasName>
-        <basics:element_hasName rdf:datatype="&xsd;string">src-port</basics:element_hasName>
-        <basics:otherAttribute_referencesParameter rdf:resource="#sourceParameter"/>
+        <basics:otherAttribute_referencesParameter rdf:resource="#EdgeParameterSource"/>
     </basics:OtherAttribute>
     
 
@@ -714,39 +804,63 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/xdf.owl#OtherAttributeVertexParameterName -->
 
     <basics:OtherAttribute rdf:about="#OtherAttributeVertexParameterName">
-        <basics:element_hasName rdf:datatype="&xsd;string">name</basics:element_hasName>
         <basics:attribute_hasName rdf:datatype="&xsd;string">name</basics:attribute_hasName>
-        <basics:otherAttribute_referencesParameter rdf:resource="#vertexNameParameter"/>
+        <basics:otherAttribute_referencesParameter rdf:resource="#VertexParameterInstanceName"/>
     </basics:OtherAttribute>
     
 
 
-    <!-- http://net.sf.graphiti/xdf.owl#ParameterValueConnection -->
+    <!-- http://net.sf.graphiti/xdf.owl#OtherAttributeXDFName -->
 
-    <basics:ParameterValue rdf:about="#ParameterValueConnection">
+    <basics:OtherAttribute rdf:about="#OtherAttributeXDFName">
+        <basics:attribute_hasName rdf:datatype="&xsd;string">name</basics:attribute_hasName>
+        <basics:otherAttribute_referencesParameter rdf:resource="#GraphParameterName"/>
+    </basics:OtherAttribute>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#ParameterValueEdgeTypeConnection -->
+
+    <basics:ParameterValue rdf:about="#ParameterValueEdgeTypeConnection">
         <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Connection</basics:parameterValue_hasValue>
-        <basics:otherAttribute_referencesParameter rdf:resource="#EdgeParameterType"/>
         <basics:parameterValue_ofParameter rdf:resource="#EdgeParameterType"/>
     </basics:ParameterValue>
     
 
 
-    <!-- http://net.sf.graphiti/xdf.owl#ParameterValueInstance -->
+    <!-- http://net.sf.graphiti/xdf.owl#ParameterValueGraphTypeNetwork -->
 
-    <basics:ParameterValue rdf:about="#ParameterValueInstance">
-        <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Instance</basics:parameterValue_hasValue>
-        <basics:parameterValue_ofParameter rdf:resource="#vertexTypeParameter"/>
-        <basics:otherAttribute_referencesParameter rdf:resource="#vertexTypeParameter"/>
+    <basics:ParameterValue rdf:about="#ParameterValueGraphTypeNetwork">
+        <basics:parameterValue_hasValue rdf:datatype="&xsd;string"
+            >XML Dataflow Network (XDF)</basics:parameterValue_hasValue>
+        <basics:parameterValue_ofParameter rdf:resource="#GraphParameterType"/>
     </basics:ParameterValue>
     
 
 
-    <!-- http://net.sf.graphiti/xdf.owl#ParameterValuePort -->
+    <!-- http://net.sf.graphiti/xdf.owl#ParameterValueVertexTypeInputPort -->
 
-    <basics:ParameterValue rdf:about="#ParameterValuePort">
-        <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Port</basics:parameterValue_hasValue>
-        <basics:parameterValue_ofParameter rdf:resource="#portTypeParameter"/>
-        <basics:otherAttribute_referencesParameter rdf:resource="#portTypeParameter"/>
+    <basics:ParameterValue rdf:about="#ParameterValueVertexTypeInputPort">
+        <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Input port</basics:parameterValue_hasValue>
+        <basics:parameterValue_ofParameter rdf:resource="#VertexParameterInputPortType"/>
+    </basics:ParameterValue>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#ParameterValueVertexTypeInstance -->
+
+    <basics:ParameterValue rdf:about="#ParameterValueVertexTypeInstance">
+        <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Instance</basics:parameterValue_hasValue>
+        <basics:parameterValue_ofParameter rdf:resource="#VertexParameterInstanceType"/>
+    </basics:ParameterValue>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#ParameterValueVertexTypeOutputPort -->
+
+    <basics:ParameterValue rdf:about="#ParameterValueVertexTypeOutputPort">
+        <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Output port</basics:parameterValue_hasValue>
+        <basics:parameterValue_ofParameter rdf:resource="#VertexParameterOutputPortType"/>
     </basics:ParameterValue>
     
 
@@ -755,7 +869,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
 
     <basics:Sequence rdf:about="#SequenceDocumentElementXDF1">
         <basics:sequence_hasRest rdf:resource="#SequenceDocumentElementXDF2"/>
-        <basics:sequence_hasHead rdf:resource="#VertexElementPort"/>
+        <basics:sequence_hasHead rdf:resource="#VertexElementInputPort"/>
     </basics:Sequence>
     
 
@@ -764,7 +878,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
 
     <basics:Sequence rdf:about="#SequenceDocumentElementXDF2">
         <basics:sequence_hasRest rdf:resource="#SequenceDocumentElementXDF3"/>
-        <basics:sequence_hasHead rdf:resource="#VertexElementInstance"/>
+        <basics:sequence_hasHead rdf:resource="#VertexElementOutputPort"/>
     </basics:Sequence>
     
 
@@ -772,6 +886,33 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/xdf.owl#SequenceDocumentElementXDF3 -->
 
     <basics:Sequence rdf:about="#SequenceDocumentElementXDF3">
+        <basics:sequence_hasHead rdf:resource="#ElementDeclParam"/>
+        <basics:sequence_hasRest rdf:resource="#SequenceDocumentElementXDF4"/>
+    </basics:Sequence>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#SequenceDocumentElementXDF4 -->
+
+    <basics:Sequence rdf:about="#SequenceDocumentElementXDF4">
+        <basics:sequence_hasHead rdf:resource="#ElementDeclVariable"/>
+        <basics:sequence_hasRest rdf:resource="#SequenceDocumentElementXDF5"/>
+    </basics:Sequence>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#SequenceDocumentElementXDF5 -->
+
+    <basics:Sequence rdf:about="#SequenceDocumentElementXDF5">
+        <basics:sequence_hasRest rdf:resource="#SequenceDocumentElementXDF6"/>
+        <basics:sequence_hasHead rdf:resource="#VertexElementInstance"/>
+    </basics:Sequence>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#SequenceDocumentElementXDF6 -->
+
+    <basics:Sequence rdf:about="#SequenceDocumentElementXDF6">
         <basics:sequence_hasHead rdf:resource="#ChoiceConnection"/>
     </basics:Sequence>
     
@@ -848,6 +989,19 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/xdf.owl#VertexElementInputPort -->
+
+    <basics:VertexElement rdf:about="#VertexElementInputPort">
+        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">-1</basics:schemaType_hasMaxOccurs>
+        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
+        <basics:element_hasName rdf:datatype="&xsd;string">Port</basics:element_hasName>
+        <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionPortKindInput"/>
+        <basics:element_hasAttributes rdf:resource="#OtherAttributeInputPortId"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueVertexTypeInputPort"/>
+    </basics:VertexElement>
+    
+
+
     <!-- http://net.sf.graphiti/xdf.owl#VertexElementInstance -->
 
     <basics:VertexElement rdf:about="#VertexElementInstance">
@@ -855,20 +1009,107 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">Instance</basics:element_hasName>
         <basics:element_hasAttributes rdf:resource="#OtherAttributeInstanceId"/>
-        <basics:element_hasParameterValue rdf:resource="#ParameterValueInstance"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueVertexTypeInstance"/>
     </basics:VertexElement>
     
 
 
-    <!-- http://net.sf.graphiti/xdf.owl#VertexElementPort -->
+    <!-- http://net.sf.graphiti/xdf.owl#VertexElementOutputPort -->
 
-    <basics:VertexElement rdf:about="#VertexElementPort">
+    <basics:VertexElement rdf:about="#VertexElementOutputPort">
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">-1</basics:schemaType_hasMaxOccurs>
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">Port</basics:element_hasName>
-        <basics:element_hasAttributes rdf:resource="#OtherAttributePortId"/>
-        <basics:element_hasParameterValue rdf:resource="#ParameterValuePort"/>
+        <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionPortKindOutput"/>
+        <basics:element_hasAttributes rdf:resource="#OtherAttributeOutputPortId"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueVertexTypeOutputPort"/>
     </basics:VertexElement>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#VertexParameterInputPortId -->
+
+    <basics:VertexParameter rdf:about="#VertexParameterInputPortId">
+        <basics:parameter_hasName rdf:datatype="&xsd;string">id</basics:parameter_hasName>
+        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
+        <basics:parameter_appliesTo rdf:resource="#VertexTypeInputPort"/>
+    </basics:VertexParameter>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#VertexParameterInputPortType -->
+
+    <basics:VertexParameter rdf:about="#VertexParameterInputPortType">
+        <basics:parameter_hasName rdf:datatype="&xsd;string">type</basics:parameter_hasName>
+        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
+        <basics:parameter_hasParameterValue rdf:resource="#ParameterValueVertexTypeInputPort"/>
+        <basics:parameter_appliesTo rdf:resource="#VertexTypeInputPort"/>
+    </basics:VertexParameter>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#VertexParameterInstanceId -->
+
+    <basics:VertexParameter rdf:about="#VertexParameterInstanceId">
+        <basics:parameter_hasName rdf:datatype="&xsd;string">id</basics:parameter_hasName>
+        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
+        <basics:parameter_appliesTo rdf:resource="#VertexTypeInstance"/>
+    </basics:VertexParameter>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#VertexParameterInstanceName -->
+
+    <basics:VertexParameter rdf:about="#VertexParameterInstanceName">
+        <basics:parameter_hasName rdf:datatype="&xsd;string">name</basics:parameter_hasName>
+        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
+        <basics:parameter_appliesTo rdf:resource="#VertexTypeInstance"/>
+    </basics:VertexParameter>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#VertexParameterInstanceType -->
+
+    <basics:VertexParameter rdf:about="#VertexParameterInstanceType">
+        <basics:parameter_hasName rdf:datatype="&xsd;string">type</basics:parameter_hasName>
+        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
+        <basics:parameter_hasParameterValue rdf:resource="#ParameterValueVertexTypeInstance"/>
+        <basics:parameter_appliesTo rdf:resource="#VertexTypeInstance"/>
+    </basics:VertexParameter>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#VertexParameterOutputPortId -->
+
+    <basics:VertexParameter rdf:about="#VertexParameterOutputPortId">
+        <basics:parameter_hasName rdf:datatype="&xsd;string">id</basics:parameter_hasName>
+        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
+        <basics:parameter_appliesTo rdf:resource="#VertexTypeOutputPort"/>
+    </basics:VertexParameter>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#VertexParameterOutputPortType -->
+
+    <basics:VertexParameter rdf:about="#VertexParameterOutputPortType">
+        <basics:parameter_hasName rdf:datatype="&xsd;string">type</basics:parameter_hasName>
+        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
+        <basics:parameter_hasParameterValue rdf:resource="#ParameterValueVertexTypeOutputPort"/>
+        <basics:parameter_appliesTo rdf:resource="#VertexTypeOutputPort"/>
+    </basics:VertexParameter>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#VertexTypeInputPort -->
+
+    <basics:VertexType rdf:about="#VertexTypeInputPort">
+        <basics:type_hasName rdf:datatype="&xsd;string">Input port</basics:type_hasName>
+        <basics:type_hasFigureAttributes rdf:resource="#ColorAttributeInputPort"/>
+        <basics:type_hasFigureAttributes rdf:resource="#DimensionAttributePort"/>
+        <basics:type_hasFigureAttributes rdf:resource="#ShapePort"/>
+        <basics:type_hasParameters rdf:resource="#VertexParameterInputPortId"/>
+        <basics:type_hasParameters rdf:resource="#VertexParameterInputPortType"/>
+    </basics:VertexType>
     
 
 
@@ -879,95 +1120,23 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:type_hasFigureAttributes rdf:resource="#ColorAttributeInstance"/>
         <basics:type_hasFigureAttributes rdf:resource="#DimensionAttributeInstance"/>
         <basics:type_hasFigureAttributes rdf:resource="#ShapeInstance"/>
-        <basics:type_hasParameters rdf:resource="#vertexIdParameter"/>
-        <basics:type_hasParameters rdf:resource="#vertexNameParameter"/>
-        <basics:type_hasParameters rdf:resource="#vertexTypeParameter"/>
+        <basics:type_hasParameters rdf:resource="#VertexParameterInstanceId"/>
+        <basics:type_hasParameters rdf:resource="#VertexParameterInstanceName"/>
+        <basics:type_hasParameters rdf:resource="#VertexParameterInstanceType"/>
     </basics:VertexType>
     
 
 
-    <!-- http://net.sf.graphiti/xdf.owl#VertexTypePort -->
+    <!-- http://net.sf.graphiti/xdf.owl#VertexTypeOutputPort -->
 
-    <basics:VertexType rdf:about="#VertexTypePort">
-        <basics:type_hasName rdf:datatype="&xsd;string">Port</basics:type_hasName>
-        <basics:type_hasFigureAttributes rdf:resource="#ColorAttributePort"/>
+    <basics:VertexType rdf:about="#VertexTypeOutputPort">
+        <basics:type_hasName rdf:datatype="&xsd;string">Output port</basics:type_hasName>
+        <basics:type_hasFigureAttributes rdf:resource="#ColorAttributeOutputPort"/>
         <basics:type_hasFigureAttributes rdf:resource="#DimensionAttributePort"/>
         <basics:type_hasFigureAttributes rdf:resource="#ShapePort"/>
-        <basics:type_hasParameters rdf:resource="#portIdParameter"/>
-        <basics:type_hasParameters rdf:resource="#portTypeParameter"/>
+        <basics:type_hasParameters rdf:resource="#VertexParameterOutputPortId"/>
+        <basics:type_hasParameters rdf:resource="#VertexParameterOutputPortType"/>
     </basics:VertexType>
-    
-
-
-    <!-- http://net.sf.graphiti/xdf.owl#portIdParameter -->
-
-    <basics:VertexParameter rdf:about="#portIdParameter">
-        <basics:parameter_hasName rdf:datatype="&xsd;string">id</basics:parameter_hasName>
-        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
-        <basics:parameter_appliesTo rdf:resource="#VertexTypePort"/>
-    </basics:VertexParameter>
-    
-
-
-    <!-- http://net.sf.graphiti/xdf.owl#portTypeParameter -->
-
-    <basics:VertexParameter rdf:about="#portTypeParameter">
-        <basics:parameter_hasName rdf:datatype="&xsd;string">type</basics:parameter_hasName>
-        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
-        <basics:parameter_hasParameterValue rdf:resource="#ParameterValuePort"/>
-        <basics:parameter_appliesTo rdf:resource="#VertexTypePort"/>
-    </basics:VertexParameter>
-    
-
-
-    <!-- http://net.sf.graphiti/xdf.owl#sourceParameter -->
-
-    <basics:EdgeParameter rdf:about="#sourceParameter">
-        <basics:parameter_hasName rdf:datatype="&xsd;string">source port</basics:parameter_hasName>
-        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
-        <basics:parameter_appliesTo rdf:resource="#EdgeTypeConnection"/>
-    </basics:EdgeParameter>
-    
-
-
-    <!-- http://net.sf.graphiti/xdf.owl#targetParameter -->
-
-    <basics:EdgeParameter rdf:about="#targetParameter">
-        <basics:parameter_hasName rdf:datatype="&xsd;string">target port</basics:parameter_hasName>
-        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
-        <basics:parameter_appliesTo rdf:resource="#EdgeTypeConnection"/>
-    </basics:EdgeParameter>
-    
-
-
-    <!-- http://net.sf.graphiti/xdf.owl#vertexIdParameter -->
-
-    <basics:VertexParameter rdf:about="#vertexIdParameter">
-        <basics:parameter_hasName rdf:datatype="&xsd;string">id</basics:parameter_hasName>
-        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
-        <basics:parameter_appliesTo rdf:resource="#VertexTypeInstance"/>
-    </basics:VertexParameter>
-    
-
-
-    <!-- http://net.sf.graphiti/xdf.owl#vertexNameParameter -->
-
-    <basics:VertexParameter rdf:about="#vertexNameParameter">
-        <basics:parameter_hasName rdf:datatype="&xsd;string">name</basics:parameter_hasName>
-        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
-        <basics:parameter_appliesTo rdf:resource="#VertexTypeInstance"/>
-    </basics:VertexParameter>
-    
-
-
-    <!-- http://net.sf.graphiti/xdf.owl#vertexTypeParameter -->
-
-    <basics:VertexParameter rdf:about="#vertexTypeParameter">
-        <basics:parameter_hasName rdf:datatype="&xsd;string">type</basics:parameter_hasName>
-        <basics:parameter_hasValueType rdf:resource="&net;basics.owl#String"/>
-        <basics:parameter_hasParameterValue rdf:resource="#ParameterValueInstance"/>
-        <basics:parameter_appliesTo rdf:resource="#VertexTypeInstance"/>
-    </basics:VertexParameter>
 </rdf:RDF>
 
 

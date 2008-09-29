@@ -4,15 +4,16 @@ Bundle-Name: Graphiti editor plug-in
 Bundle-SymbolicName: net.sf.graphiti;singleton:=true
 Bundle-Version: 0.8.0
 Bundle-Activator: net.sf.graphiti.ui.GraphitiPlugin
-Require-Bundle: org.eclipse.core.resources,
+Require-Bundle: com.ibm.icu,
+ org.apache.xerces,
+ org.eclipse.core.resources,
  org.eclipse.core.runtime,
  org.eclipse.gef,
+ org.eclipse.help,
  org.eclipse.ui,
  org.eclipse.ui.editors,
  org.eclipse.ui.ide,
- org.apache.xerces,
- org.junit,
- com.ibm.icu
+ org.junit
 Bundle-ClassPath: .,
  lib/grammatica-1.4.jar,
  lib/jgrapht-jdk1.5.jar,
