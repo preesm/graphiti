@@ -30,7 +30,7 @@ package net.sf.graphiti.ontology.impl;
 
 import net.sf.graphiti.ontology.Choice;
 import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.SequenceType;
+import net.sf.graphiti.ontology.Sequence;
 import net.sf.graphiti.ontology.XMLSchemaType;
 
 import com.hp.hpl.jena.ontology.Individual;
@@ -48,10 +48,11 @@ public class OrderedChoiceImpl extends ComplexTypeImpl implements Choice {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Iterable<XMLSchemaType> hasElements() {
-		SequenceType sequence = (SequenceType) getIndividualProperty(OntologyFactory
+		Sequence<XMLSchemaType> sequence = (Sequence<XMLSchemaType>) getIndividualProperty(OntologyFactory
 				.getPropertyOrderedChoiceHasElements());
-		return sequence.hasSequence().hasElements();
+		return sequence.hasElements();
 	}
 
 }

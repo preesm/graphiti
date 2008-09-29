@@ -51,6 +51,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#attributeRestriction_hasParameterValue -->
+
+    <owl:ObjectProperty rdf:about="&net;basics.owl#attributeRestriction_hasParameterValue"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#attribute_isReferenceTo -->
 
     <owl:ObjectProperty rdf:about="&net;basics.owl#attribute_isReferenceTo"/>
@@ -96,6 +102,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/basics.owl#otherAttribute_referencesParameter -->
 
     <owl:ObjectProperty rdf:about="&net;basics.owl#otherAttribute_referencesParameter"/>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#parameterValue_hasParameterSource -->
+
+    <owl:ObjectProperty rdf:about="&net;basics.owl#parameterValue_hasParameterSource"/>
     
 
 
@@ -450,6 +462,18 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#EdgeSource -->
+
+    <rdf:Description rdf:about="&net;basics.owl#EdgeSource"/>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#EdgeTarget -->
+
+    <rdf:Description rdf:about="&net;basics.owl#EdgeTarget"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#List -->
 
     <rdf:Description rdf:about="&net;basics.owl#List"/>
@@ -519,7 +543,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/xdf.owl#AttributeRestrictionEdgeConnectionDstLocal -->
 
     <basics:AttributeRestriction rdf:about="#AttributeRestrictionEdgeConnectionDstLocal">
+        <basics:attributeRestriction_hasValue rdf:datatype="&xsd;string"></basics:attributeRestriction_hasValue>
         <basics:attributeRestriction_hasName rdf:datatype="&xsd;string">dst</basics:attributeRestriction_hasName>
+        <basics:attributeRestriction_hasParameterValue rdf:resource="#ParameterValueDstLocal"/>
     </basics:AttributeRestriction>
     
 
@@ -527,7 +553,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/xdf.owl#AttributeRestrictionEdgeConnectionSrcLocal -->
 
     <basics:AttributeRestriction rdf:about="#AttributeRestrictionEdgeConnectionSrcLocal">
+        <basics:attributeRestriction_hasValue rdf:datatype="&xsd;string"></basics:attributeRestriction_hasValue>
         <basics:attributeRestriction_hasName rdf:datatype="&xsd;string">src</basics:attributeRestriction_hasName>
+        <basics:attributeRestriction_hasParameterValue rdf:resource="#ParameterValueSrcLocal"/>
     </basics:AttributeRestriction>
     
 
@@ -555,7 +583,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:OrderedChoice rdf:about="#ChoiceConnection">
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">-1</basics:schemaType_hasMaxOccurs>
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
-        <basics:orderedChoice_hasElements rdf:resource="#SequenceTypeOrderedChoiceEdge"/>
+        <basics:orderedChoice_hasElements rdf:resource="#SequenceOrderedChoiceEdge1"/>
     </basics:OrderedChoice>
     
 
@@ -954,6 +982,16 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/xdf.owl#ParameterValueDstLocal -->
+
+    <basics:ParameterValue rdf:about="#ParameterValueDstLocal">
+        <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Output port</basics:parameterValue_hasValue>
+        <basics:parameterValue_hasParameterSource rdf:resource="&net;basics.owl#EdgeTarget"/>
+        <basics:parameterValue_ofParameter rdf:resource="#VertexParameterInstanceType"/>
+    </basics:ParameterValue>
+    
+
+
     <!-- http://net.sf.graphiti/xdf.owl#ParameterValueEdgeTypeConnection -->
 
     <basics:ParameterValue rdf:about="#ParameterValueEdgeTypeConnection">
@@ -969,6 +1007,16 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:parameterValue_hasValue rdf:datatype="&xsd;string"
             >XML Dataflow Network (XDF)</basics:parameterValue_hasValue>
         <basics:parameterValue_ofParameter rdf:resource="#GraphParameterType"/>
+    </basics:ParameterValue>
+    
+
+
+    <!-- http://net.sf.graphiti/xdf.owl#ParameterValueSrcLocal -->
+
+    <basics:ParameterValue rdf:about="#ParameterValueSrcLocal">
+        <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Input port</basics:parameterValue_hasValue>
+        <basics:parameterValue_hasParameterSource rdf:resource="&net;basics.owl#EdgeSource"/>
+        <basics:parameterValue_ofParameter rdf:resource="#VertexParameterInputPortType"/>
     </basics:ParameterValue>
     
 
@@ -1094,16 +1142,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
         <basics:sequenceType_hasSequence rdf:resource="#SequenceDocumentElementXDF1"/>
-    </basics:SequenceType>
-    
-
-
-    <!-- http://net.sf.graphiti/xdf.owl#SequenceTypeOrderedChoiceEdge -->
-
-    <basics:SequenceType rdf:about="#SequenceTypeOrderedChoiceEdge">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
-        <basics:sequenceType_hasSequence rdf:resource="#SequenceOrderedChoiceEdge1"/>
     </basics:SequenceType>
     
 

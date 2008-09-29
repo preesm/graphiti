@@ -174,8 +174,13 @@ public class SchemaWriter {
 			}
 
 			if (ok) {
-				list.remove(object);
-				return object;
+				try {
+					// check attribute restrictions that contain parameter value
+					checkAttributeRestrictions(element, object);
+					list.remove(object);
+					return object;
+				} catch (EmptyBasketException e) {
+				}
 			}
 		}
 
