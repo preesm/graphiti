@@ -47,8 +47,6 @@ public interface AttributeRestriction extends OntologyIndividual {
 	 */
 	public String hasName();
 
-	public ParameterValue hasParameterValue();
-
 	/**
 	 * Returns the value of the restricted attribute.
 	 * 

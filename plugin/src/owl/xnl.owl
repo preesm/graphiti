@@ -51,12 +51,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#attributeRestriction_hasParameterValue -->
-
-    <owl:ObjectProperty rdf:about="&net;basics.owl#attributeRestriction_hasParameterValue"/>
-    
-
-
     <!-- http://net.sf.graphiti/basics.owl#attribute_isReferenceTo -->
 
     <owl:ObjectProperty rdf:about="&net;basics.owl#attribute_isReferenceTo"/>
@@ -608,7 +602,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:AttributeRestriction rdf:about="#AttributeRestrictionKindEntitySource">
         <basics:attributeRestriction_hasValue rdf:datatype="&xsd;string">Entity</basics:attributeRestriction_hasValue>
         <basics:attributeRestriction_hasName rdf:datatype="&xsd;string">kind</basics:attributeRestriction_hasName>
-        <basics:attributeRestriction_hasParameterValue rdf:resource="#ParameterValueEntityKindSource"/>
     </basics:AttributeRestriction>
     
 
@@ -618,7 +611,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:AttributeRestriction rdf:about="#AttributeRestrictionKindEntityTarget">
         <basics:attributeRestriction_hasValue rdf:datatype="&xsd;string">Entity</basics:attributeRestriction_hasValue>
         <basics:attributeRestriction_hasName rdf:datatype="&xsd;string">kind</basics:attributeRestriction_hasName>
-        <basics:attributeRestriction_hasParameterValue rdf:resource="#ParameterValueEntityKindTarget"/>
     </basics:AttributeRestriction>
     
 
@@ -628,7 +620,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:AttributeRestriction rdf:about="#AttributeRestrictionKindLocalSource">
         <basics:attributeRestriction_hasValue rdf:datatype="&xsd;string">Local</basics:attributeRestriction_hasValue>
         <basics:attributeRestriction_hasName rdf:datatype="&xsd;string">kind</basics:attributeRestriction_hasName>
-        <basics:attributeRestriction_hasParameterValue rdf:resource="#ParameterValueLocalKindSource"/>
     </basics:AttributeRestriction>
     
 
@@ -638,7 +629,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:AttributeRestriction rdf:about="#AttributeRestrictionKindLocalTarget">
         <basics:attributeRestriction_hasValue rdf:datatype="&xsd;string">Local</basics:attributeRestriction_hasValue>
         <basics:attributeRestriction_hasName rdf:datatype="&xsd;string">kind</basics:attributeRestriction_hasName>
-        <basics:attributeRestriction_hasParameterValue rdf:resource="#ParameterValueLocalKindTarget"/>
     </basics:AttributeRestriction>
     
 
@@ -937,6 +927,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">PortSpec</basics:element_hasName>
         <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionKindEntitySource"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueEntityKindSource"/>
         <basics:element_hasSchemaType rdf:resource="#SequenceTypePortSpecEntitySource"/>
     </basics:Element>
     
@@ -949,6 +940,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">PortSpec</basics:element_hasName>
         <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionKindEntityTarget"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueEntityKindTarget"/>
         <basics:element_hasSchemaType rdf:resource="#SequenceTypePortSpecEntityTarget"/>
     </basics:Element>
     
@@ -962,6 +954,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:element_hasName rdf:datatype="&xsd;string">PortSpec</basics:element_hasName>
         <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionKindLocalSource"/>
         <basics:element_hasSchemaType rdf:resource="#ElementLocalPortRefSource"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueLocalKindSource"/>
     </basics:Element>
     
 
@@ -974,6 +967,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:element_hasName rdf:datatype="&xsd;string">PortSpec</basics:element_hasName>
         <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionKindLocalTarget"/>
         <basics:element_hasSchemaType rdf:resource="#ElementLocalPortRefTarget"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueLocalKindTarget"/>
     </basics:Element>
     
 

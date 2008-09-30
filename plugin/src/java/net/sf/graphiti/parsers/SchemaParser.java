@@ -33,7 +33,6 @@ import static net.sf.graphiti.parsers.DomHelper.getNextSibling;
 import static net.sf.graphiti.parsers.DomHelper.isEqualNode;
 import static net.sf.graphiti.parsers.DomHelper.stripWhitespace;
 
-import java.util.Iterator;
 import java.util.Set;
 
 import net.sf.graphiti.model.Configuration;
@@ -55,7 +54,7 @@ import net.sf.graphiti.parsers.ContentParser.Checkpoint;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 
 /**
@@ -109,35 +108,24 @@ public class SchemaParser {
 	 */
 	private boolean isElementDefined(Element ontElement,
 			org.w3c.dom.Element domElement) {
-		boolean correspond = false;
-
 		// If the DOM element has the same name as this ontology element
 		if (ontElement.hasName().equals(domElement.getNodeName())) {
-			// We apply attribute restrictions (if it has any).
-			Iterator<AttributeRestriction> it = ontElement
-					.hasAttributeRestriction().iterator();
-			NamedNodeMap attributes = domElement.getAttributes();
+			// We check attribute restrictions (if it has any).
+			for (AttributeRestriction attrRestrict : ontElement
+					.hasAttributeRestriction()) {
+				String name = attrRestrict.hasName();
+				String value = attrRestrict.hasValue();
 
-			correspond = true;
-			while (it.hasNext() && correspond) {
-				AttributeRestriction attrRestrict = it.next();
-				String attrRestrictName = attrRestrict.hasName();
-				Node node = attributes.getNamedItem(attrRestrictName);
-
-				if (node == null) {
-					// The DOM has no attribute with the same name as our
-					// attribute restriction.
-					correspond = false;
-				} else {
-					// The DOM node has an attribute that matches our attribute
-					// restriction. It corresponds if the value is the same.
-					String attrRestrictValue = attrRestrict.hasValue();
-					correspond &= node.getNodeValue().equals(attrRestrictValue);
+				Attr attr = domElement.getAttributeNode(name);
+				if (attr == null || !attr.getValue().equals(value)) {
+					return false;
 				}
 			}
-		}
 
-		return correspond;
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -179,13 +167,13 @@ public class SchemaParser {
 		Set<XMLAttribute> attributes = ontElement.hasAttributes();
 		for (XMLAttribute ontAttribute : attributes) {
 			String ontAttrName = ontAttribute.hasName();
-			String domAttrValue = domElement.getAttribute(ontAttrName);
-			if (domAttrValue == null) {
+			Attr domAttr = domElement.getAttributeNode(ontAttrName);
+			if (domAttr == null) {
 				log.debug("parseAttributes: attribute " + ontAttrName
 						+ " not present");
 				throw new NotCompatibleException();
 			} else {
-				contentParser.parseAttribute(ontAttribute, domAttrValue);
+				contentParser.parseAttribute(ontAttribute, domAttr.getValue());
 			}
 		}
 	}

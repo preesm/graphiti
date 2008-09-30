@@ -43,6 +43,7 @@ import net.sf.graphiti.ontology.GraphElement;
 import net.sf.graphiti.ontology.GraphType;
 import net.sf.graphiti.ontology.OtherAttribute;
 import net.sf.graphiti.ontology.Parameter;
+import net.sf.graphiti.ontology.ParameterSource;
 import net.sf.graphiti.ontology.ParameterValue;
 import net.sf.graphiti.ontology.TextContentElement;
 import net.sf.graphiti.ontology.Type;
@@ -430,16 +431,22 @@ public class ContentParser {
 			org.w3c.dom.Element domElement) {
 		Set<ParameterValue> attributesNodes = ontElement.hasParameterValues();
 		for (ParameterValue attNode : attributesNodes) {
-			ParameterValue constant = (ParameterValue) attNode;
-			Parameter parameter = constant.ofParameter();
+			ParameterValue paValue = (ParameterValue) attNode;
+			ParameterSource source = paValue.hasSource();
 
-			// will set the parameter value
-			Operation setProperty = new Operation(SetValueOpSpec.getInstance());
-			net.sf.graphiti.model.Parameter modelParameter = new net.sf.graphiti.model.Parameter(
-					parameter);
-			setProperty.setOperands(resultStack.peek(), modelParameter,
-					constant.hasValue());
-			transaction.addOperation(setProperty);
+			// only set parameter if dealing with current element
+			if (source == null || source.isCurrentElement()) {
+				Parameter parameter = paValue.ofParameter();
+
+				// will set the parameter value
+				Operation setProperty = new Operation(SetValueOpSpec
+						.getInstance());
+				net.sf.graphiti.model.Parameter modelParameter = new net.sf.graphiti.model.Parameter(
+						parameter);
+				setProperty.setOperands(resultStack.peek(), modelParameter,
+						paValue.hasValue());
+				transaction.addOperation(setProperty);
+			}
 		}
 	}
 

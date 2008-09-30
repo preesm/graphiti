@@ -51,12 +51,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#attributeRestriction_hasParameterValue -->
-
-    <owl:ObjectProperty rdf:about="&net;basics.owl#attributeRestriction_hasParameterValue"/>
-    
-
-
     <!-- http://net.sf.graphiti/basics.owl#attribute_isReferenceTo -->
 
     <owl:ObjectProperty rdf:about="&net;basics.owl#attribute_isReferenceTo"/>
@@ -545,7 +539,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:AttributeRestriction rdf:about="#AttributeRestrictionEdgeConnectionDstLocal">
         <basics:attributeRestriction_hasValue rdf:datatype="&xsd;string"></basics:attributeRestriction_hasValue>
         <basics:attributeRestriction_hasName rdf:datatype="&xsd;string">dst</basics:attributeRestriction_hasName>
-        <basics:attributeRestriction_hasParameterValue rdf:resource="#ParameterValueDstLocal"/>
     </basics:AttributeRestriction>
     
 
@@ -555,7 +548,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:AttributeRestriction rdf:about="#AttributeRestrictionEdgeConnectionSrcLocal">
         <basics:attributeRestriction_hasValue rdf:datatype="&xsd;string"></basics:attributeRestriction_hasValue>
         <basics:attributeRestriction_hasName rdf:datatype="&xsd;string">src</basics:attributeRestriction_hasName>
-        <basics:attributeRestriction_hasParameterValue rdf:resource="#ParameterValueSrcLocal"/>
     </basics:AttributeRestriction>
     
 
@@ -661,6 +653,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:element_hasAttributes rdf:resource="#EdgeSourceConnectionEntity"/>
         <basics:element_hasAttributes rdf:resource="#EdgeTargetConnectionLocal"/>
         <basics:element_hasAttributes rdf:resource="#OtherAttributeSourcePort"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueDstLocal"/>
         <basics:element_hasParameterValue rdf:resource="#ParameterValueEdgeTypeConnection"/>
     </basics:EdgeElement>
     
@@ -677,6 +670,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:element_hasAttributes rdf:resource="#EdgeTargetConnectionEntity"/>
         <basics:element_hasAttributes rdf:resource="#OtherAttributeDestinationPort"/>
         <basics:element_hasParameterValue rdf:resource="#ParameterValueEdgeTypeConnection"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueSrcLocal"/>
     </basics:EdgeElement>
     
 
@@ -691,7 +685,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionEdgeConnectionSrcLocal"/>
         <basics:element_hasAttributes rdf:resource="#EdgeSourceConnectionLocal"/>
         <basics:element_hasAttributes rdf:resource="#EdgeTargetConnectionLocal"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueDstLocal"/>
         <basics:element_hasParameterValue rdf:resource="#ParameterValueEdgeTypeConnection"/>
+        <basics:element_hasParameterValue rdf:resource="#ParameterValueSrcLocal"/>
     </basics:EdgeElement>
     
 

@@ -29,13 +29,11 @@
 package net.sf.graphiti.writer;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ontology.AttributeRestriction;
 import net.sf.graphiti.ontology.Choice;
@@ -100,25 +98,32 @@ public class SchemaWriter {
 	}
 
 	/**
-	 * Checks that the given context will satisfy the ontology element attribute
-	 * restrictions.
+	 * Checks that the given context will satisfy the given parameter value.
 	 * 
-	 * @param ontElement
-	 *            The ontology element.
+	 * @param paValue
+	 *            The parameter value.
 	 * @param context
 	 *            The context
 	 */
-	private void checkAttributeRestrictions(Element ontElement, Object context)
+	private void checkParameterValue(ParameterValue paValue, Object context)
 			throws EmptyBasketException {
-		for (AttributeRestriction attr : ontElement.hasAttributeRestriction()) {
-			ParameterValue paValue = attr.hasParameterValue();
-			if (paValue != null) {
-				Parameter parameter = paValue.ofParameter();
-				ParameterSource source = paValue.hasSource();
-				if (parameter != null) {
-					String parameterName = parameter.hasName();
-					Object value = null;
+		if (paValue != null) {
+			Parameter parameter = paValue.ofParameter();
+			if (parameter != null) {
+				String parameterName = parameter.hasName();
+				Object value = null;
 
+				ParameterSource source = paValue.hasSource();
+				if (source == null || source.isCurrentElement()) {
+					Type objectType = parameter.appliesTo();
+					if (objectType instanceof EdgeType) {
+						value = ((Edge) context).getValue(parameterName);
+					} else if (objectType instanceof GraphType) {
+						value = ((Graph) context).getValue(parameterName);
+					} else if (objectType instanceof VertexType) {
+						value = ((Vertex) context).getValue(parameterName);
+					}
+				} else {
 					if (source.isParentElement()) {
 					} else if (source.isEdgeSource()) {
 						Vertex vertex = ((Edge) context).getSource();
@@ -126,21 +131,12 @@ public class SchemaWriter {
 					} else if (source.isEdgeTarget()) {
 						Vertex vertex = ((Edge) context).getTarget();
 						value = vertex.getValue(parameterName);
-					} else {
-						Type objectType = parameter.appliesTo();
-						if (objectType instanceof EdgeType) {
-							value = ((Edge) context).getValue(parameterName);
-						} else if (objectType instanceof GraphType) {
-							value = ((Graph) context).getValue(parameterName);
-						} else if (objectType instanceof VertexType) {
-							value = ((Vertex) context).getValue(parameterName);
-						}
 					}
+				}
 
-					String expectedValue = paValue.hasValue();
-					if (!expectedValue.equals(value)) {
-						throw new EmptyBasketException();
-					}
+				String expectedValue = paValue.hasValue();
+				if (!expectedValue.equals(value)) {
+					throw new EmptyBasketException();
 				}
 			}
 		}
@@ -159,29 +155,13 @@ public class SchemaWriter {
 	private Object pick(List<?> list, Element element)
 			throws EmptyBasketException {
 		Set<ParameterValue> values = element.hasParameterValues();
-		for (Object object : list) {
-			boolean ok = true;
-			Iterator<ParameterValue> itValue = values.iterator();
-			while (ok && itValue.hasNext()) {
-				// check the vertex has the right parameter value.
-				ParameterValue value = itValue.next();
-				Parameter pa = value.ofParameter();
-				String paName = pa.hasName();
-				Object objValue = ((PropertyBean) object).getValue(paName);
-				if (!value.hasValue().equals(objValue)) {
-					ok = false;
-				}
+		for (Object context : list) {
+			for (ParameterValue paValue : values) {
+				checkParameterValue(paValue, context);
 			}
 
-			if (ok) {
-				try {
-					// check attribute restrictions that contain parameter value
-					checkAttributeRestrictions(element, object);
-					list.remove(object);
-					return object;
-				} catch (EmptyBasketException e) {
-				}
-			}
+			list.remove(context);
+			return context;
 		}
 
 		throw new EmptyBasketException();
@@ -350,10 +330,13 @@ public class SchemaWriter {
 			context = pick(vertexBasket, ontElement);
 		} else if (ontElement instanceof EdgeElement) {
 			context = pick(edgeBasket, ontElement);
+		} else {
+			Set<ParameterValue> values = ontElement.hasParameterValues();
+			// check that the element satisfies parameter values
+			for (ParameterValue paValue : values) {
+				checkParameterValue(paValue, context);
+			}
 		}
-
-		// check that the element will satisfy attribute restrictions
-		checkAttributeRestrictions(ontElement, context);
 
 		// start the element
 		contentWriter.elementStart(ontElement, context);
