@@ -158,9 +158,15 @@ public class OpenRefinementNewTabCommand extends AbstractRefinementCommand {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	private IFile getIFileFromSelection() throws FileNotFoundException {
+	protected IFile getIFileFromSelection() throws FileNotFoundException {
+		// prevent null pointer exception when there are no refinement.
+		String refinement = getRefinement();
+		if (refinement == null) {
+			return null;
+		}
+		
 		// get the path from the refinement
-		IPath path = new Path(getRefinement());
+		IPath path = new Path(refinement);
 		if (path.isAbsolute() == false) {
 			path = editedFile.getParent().getFullPath().append(path);
 		}

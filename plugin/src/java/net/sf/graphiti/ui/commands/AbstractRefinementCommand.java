@@ -61,6 +61,14 @@ public abstract class AbstractRefinementCommand extends Command {
 
 	@Override
 	public void execute() {
+		setEditedFile();
+	}
+
+	/**
+	 * Gets the file being currently edited and set the {@link #editedFile}
+	 * field.
+	 */
+	protected void setEditedFile() {
 		// retrieve editor input
 		IWorkbenchPage page = PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getActivePage();

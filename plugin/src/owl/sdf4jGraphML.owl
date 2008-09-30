@@ -1065,7 +1065,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/sdf4jGraphML.owl#ParameterValuePortInputType -->
 
     <basics:ParameterValue rdf:about="#ParameterValuePortInputType">
-        <basics:parameterValue_hasValue rdf:datatype="&xsd;string">input port</basics:parameterValue_hasValue>
+        <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Input port</basics:parameterValue_hasValue>
         <basics:parameterValue_ofParameter rdf:resource="#VertexParameterPortInputType"/>
     </basics:ParameterValue>
     
@@ -1074,7 +1074,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/sdf4jGraphML.owl#ParameterValuePortOutputType -->
 
     <basics:ParameterValue rdf:about="#ParameterValuePortOutputType">
-        <basics:parameterValue_hasValue rdf:datatype="&xsd;string">output port</basics:parameterValue_hasValue>
+        <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Output port</basics:parameterValue_hasValue>
         <basics:parameterValue_ofParameter rdf:resource="#VertexParameterPortOutputType"/>
     </basics:ParameterValue>
     
@@ -1417,7 +1417,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/sdf4jGraphML.owl#VertexTypePortInput -->
 
     <basics:VertexType rdf:about="#VertexTypePortInput">
-        <basics:type_hasName rdf:datatype="&xsd;string">input port</basics:type_hasName>
+        <basics:type_hasName rdf:datatype="&xsd;string">Input port</basics:type_hasName>
         <basics:type_hasFigureAttributes rdf:resource="#ColorAttributePortInput"/>
         <basics:type_hasFigureAttributes rdf:resource="#DimensionAttributePort"/>
         <basics:type_hasFigureAttributes rdf:resource="#ShapeAttributePort"/>
@@ -1430,7 +1430,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/sdf4jGraphML.owl#VertexTypePortOutput -->
 
     <basics:VertexType rdf:about="#VertexTypePortOutput">
-        <basics:type_hasName rdf:datatype="&xsd;string">output port</basics:type_hasName>
+        <basics:type_hasName rdf:datatype="&xsd;string">Output port</basics:type_hasName>
         <basics:type_hasFigureAttributes rdf:resource="#ColorAttributePortOutput"/>
         <basics:type_hasFigureAttributes rdf:resource="#DimensionAttributePort"/>
         <basics:type_hasFigureAttributes rdf:resource="#ShapeAttributePort"/>
