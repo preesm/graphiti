@@ -156,12 +156,15 @@ public class SchemaWriter {
 			throws EmptyBasketException {
 		Set<ParameterValue> values = element.hasParameterValues();
 		for (Object context : list) {
-			for (ParameterValue paValue : values) {
-				checkParameterValue(paValue, context);
-			}
+			try {
+				for (ParameterValue paValue : values) {
+					checkParameterValue(paValue, context);
+				}
 
-			list.remove(context);
-			return context;
+				list.remove(context);
+				return context;
+			} catch (EmptyBasketException e) {
+			}
 		}
 
 		throw new EmptyBasketException();

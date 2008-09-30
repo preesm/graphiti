@@ -1222,7 +1222,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
 
     <basics:ParameterValue rdf:about="#ParameterValueVertexTypeInstance">
         <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Instance</basics:parameterValue_hasValue>
-        <basics:parameterValue_ofParameter rdf:resource="#VertexParameterType"/>
         <basics:otherAttribute_referencesParameter rdf:resource="#VertexParameterType"/>
     </basics:ParameterValue>
     
@@ -1232,7 +1231,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
 
     <basics:ParameterValue rdf:about="#ParameterValueVertexTypePortInput">
         <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Input port</basics:parameterValue_hasValue>
-        <basics:otherAttribute_referencesParameter rdf:resource="#VertexParameterPortInputType"/>
         <basics:parameterValue_ofParameter rdf:resource="#VertexParameterPortInputType"/>
     </basics:ParameterValue>
     
