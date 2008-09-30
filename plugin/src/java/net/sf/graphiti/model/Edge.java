@@ -73,6 +73,16 @@ public class Edge extends PropertyBean {
 	}
 
 	/**
+	 * Creates a new edge which is a copy of the given edge.
+	 * 
+	 * @param edge
+	 *            The source edge.
+	 */
+	public Edge(Edge edge) {
+		super(edge);
+	}
+
+	/**
 	 * Creates a new unconnected edge with the given type.
 	 * 
 	 * @param type

@@ -89,7 +89,7 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 	@Override
 	protected Command getReconnectSourceCommand(ReconnectRequest request) {
 		EdgeReconnectCommand command = new EdgeReconnectCommand();
-		command.setOriginalDependency((Edge) request.getConnectionEditPart()
+		command.setOriginalEdge((Edge) request.getConnectionEditPart()
 				.getModel());
 		VertexEditPart vertexEditPart = (VertexEditPart) getHost();
 		command.setSource((Vertex) vertexEditPart.getModel());
@@ -99,7 +99,7 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 	@Override
 	protected Command getReconnectTargetCommand(ReconnectRequest request) {
 		EdgeReconnectCommand command = new EdgeReconnectCommand();
-		command.setOriginalDependency((Edge) request.getConnectionEditPart()
+		command.setOriginalEdge((Edge) request.getConnectionEditPart()
 				.getModel());
 		VertexEditPart vertexEditPart = (VertexEditPart) getHost();
 		command.setTarget((Vertex) vertexEditPart.getModel());

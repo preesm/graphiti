@@ -28,8 +28,11 @@
  */
 package net.sf.graphiti.ui.commands;
 
+import org.eclipse.gef.commands.Command;
+
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.Vertex;
 
 /**
  * This class provides a Command that reconnects a dependency. Reconnection is a
@@ -39,22 +42,37 @@ import net.sf.graphiti.model.Graph;
  * 
  * @author Matthieu Wipliez
  */
-public class EdgeReconnectCommand extends EdgeCreateCommand {
+public class EdgeReconnectCommand extends Command {
 
-	private Graph previousParentGraph;
+	/**
+	 * The edge is stored as an attribute so it can be used both in the
+	 * <code>execute</code> and <code>undo</code> methods.
+	 */
+	protected Edge edge;
 
-	private Edge previousPath;
+	/**
+	 * The parentGraph is stored as an attribute so it can be used both in the
+	 * <code>execute</code> and <code>undo</code> methods.
+	 */
+	protected Graph parentGraph;
+
+	private Edge previousEdge;
+
+	protected Vertex source;
+
+	protected Vertex target;
 
 	@Override
 	public void execute() {
-		previousParentGraph = previousPath.getSource().getParent();
 		parentGraph = source.getParent();
 
 		// Disconnect
-		previousParentGraph.removeEdge(previousPath);
+		parentGraph.removeEdge(previousEdge);
 
 		// Reconnect
-		edge = new Edge(source, target);
+		edge = new Edge(previousEdge);
+		edge.setSource(source);
+		edge.setTarget(target);
 		parentGraph.addEdge(edge);
 	}
 
@@ -64,19 +82,39 @@ public class EdgeReconnectCommand extends EdgeCreateCommand {
 	 * @param edge
 	 *            The dependency.
 	 */
-	public void setOriginalDependency(Edge path) {
-		this.previousPath = path;
+	public void setOriginalEdge(Edge edge) {
+		this.previousEdge = edge;
 
 		// We also set these because we do not know which one will be set by the
 		// EdgeGraphicalNodeEditPolicy (ie if getReconnectSourceCommand or
 		// getReconnectTargetCommand is called)
-		source = path.getSource();
-		target = path.getTarget();
+		source = edge.getSource();
+		target = edge.getTarget();
+	}
+
+	/**
+	 * Sets the source of the dependency to create/reconnect.
+	 * 
+	 * @param source
+	 *            The dependency source as a Port.
+	 */
+	public void setSource(Vertex source) {
+		this.source = source;
+	}
+
+	/**
+	 * Sets the target of the dependency to create/reconnect.
+	 * 
+	 * @param target
+	 *            The dependency target as a Port.
+	 */
+	public void setTarget(Vertex target) {
+		this.target = target;
 	}
 
 	@Override
 	public void undo() {
 		parentGraph.removeEdge(edge);
-		previousParentGraph.addEdge(previousPath);
+		parentGraph.addEdge(previousEdge);
 	}
 }

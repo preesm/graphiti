@@ -59,11 +59,6 @@ public class CreateCommand extends Command {
 	public CreateCommand() {
 	}
 
-	public boolean canExecute() {
-		System.out.println("canExecute");
-		return true;
-	}
-
 	@Override
 	public void execute() {
 		if (graph != null && vertex != null) {

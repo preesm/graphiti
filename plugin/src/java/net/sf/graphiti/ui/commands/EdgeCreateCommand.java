@@ -48,24 +48,17 @@ public class EdgeCreateCommand extends Command {
 	 * The edge is stored as an attribute so it can be used both in the
 	 * <code>execute</code> and <code>undo</code> methods.
 	 */
-	protected Edge edge;
+	private Edge edge;
 
 	/**
 	 * The parentGraph is stored as an attribute so it can be used both in the
 	 * <code>execute</code> and <code>undo</code> methods.
 	 */
-	protected Graph parentGraph;
+	private Graph parentGraph;
 
-	protected Vertex source;
+	private Vertex source;
 
-	protected Vertex target;
-
-	/**
-	 * Creates a new command with no initial edge.
-	 */
-	protected EdgeCreateCommand() {
-
-	}
+	private Vertex target;
 
 	/**
 	 * Creates a new command using the given newly created edge.
