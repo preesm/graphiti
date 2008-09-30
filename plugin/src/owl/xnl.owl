@@ -1163,7 +1163,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
 
     <basics:ParameterValue rdf:about="#ParameterValueEdgeTypeConnection">
         <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Connection</basics:parameterValue_hasValue>
-        <basics:otherAttribute_referencesParameter rdf:resource="#TypeEdgeParameter"/>
         <basics:parameterValue_ofParameter rdf:resource="#TypeEdgeParameter"/>
     </basics:ParameterValue>
     
@@ -1222,7 +1221,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
 
     <basics:ParameterValue rdf:about="#ParameterValueVertexTypeInstance">
         <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Instance</basics:parameterValue_hasValue>
-        <basics:otherAttribute_referencesParameter rdf:resource="#VertexParameterType"/>
+        <basics:parameterValue_ofParameter rdf:resource="#VertexParameterType"/>
     </basics:ParameterValue>
     
 
