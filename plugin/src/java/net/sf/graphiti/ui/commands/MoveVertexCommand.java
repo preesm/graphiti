@@ -51,7 +51,8 @@ public class MoveVertexCommand extends Command {
 	public MoveVertexCommand(Vertex vertex, Rectangle newBounds) {
 		this.newBounds = newBounds;
 		this.vertex = vertex;
-		this.oldBounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
+		Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
+		this.oldBounds = bounds.getCopy();
 	}
 
 	@Override

@@ -73,7 +73,7 @@ public class VertexDirectEditPolicy extends DirectEditPolicy {
 			}
 
 		});
-		
+
 		Vertex vertex = (Vertex) getHost().getModel();
 		if (editor.getValidator().isValid(editor.getValue()) == null) {
 			RenameVertexCommand cmd = new RenameVertexCommand(vertex);

@@ -96,12 +96,13 @@ public class VertexDirectEditManager extends DirectEditManager {
 					size = text.computeSize(size.x, size.y);
 				}
 
-//				String error = getCellEditor().getValidator().isValid(newText);
-//				if (error == null || error.isEmpty()) {
-//					text.setBackground(text.getParent().getBackground());
-//				} else {
-//					text.setBackground(ColorConstants.red);
-//				}
+				// String error =
+				// getCellEditor().getValidator().isValid(newText);
+				// if (error == null || error.isEmpty()) {
+				// text.setBackground(text.getParent().getBackground());
+				// } else {
+				// text.setBackground(ColorConstants.red);
+				// }
 
 				text.setSize(size.x, size.y);
 			}

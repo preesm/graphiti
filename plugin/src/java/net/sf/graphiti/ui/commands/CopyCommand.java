@@ -63,11 +63,6 @@ public class CopyCommand extends Command {
 	}
 
 	@Override
-	public boolean canUndo() {
-		return false;
-	}
-
-	@Override
 	public void execute() {
 		// copy vertices
 		List<Vertex> vertices = new ArrayList<Vertex>();

@@ -31,9 +31,11 @@ package net.sf.graphiti.ui.commands;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ui.editparts.EdgeEditPart;
+import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -46,34 +48,36 @@ import org.eclipse.gef.commands.Command;
  */
 public class DeleteCommand extends Command {
 
+	private Edge edge;
+
 	private Graph parent;
 
-	private GraphicalEditPart part;
+	private Vertex vertex;
 
 	/**
 	 * Creates a new delete command with the selected object.
 	 * 
-	 * @param model
-	 *            An object to delete.
+	 * @param part
+	 *            An edit part to delete.
 	 */
-	public DeleteCommand(GraphicalEditPart part) {
-		this.part = part;
+	public DeleteCommand(EditPart part) {
+		if (part instanceof VertexEditPart) {
+			vertex = (Vertex) ((VertexEditPart) part).getModel();
+		} else if (part instanceof EdgeEditPart) {
+			edge = (Edge) ((EdgeEditPart) part).getModel();
+		}
 	}
 
 	public boolean canExecute() {
-		Object model = part.getModel();
-		return (model instanceof Edge || model instanceof Vertex);
+		return (vertex != null || edge != null);
 	}
 
 	@Override
 	public void execute() {
-		Object model = part.getModel();
-		if (model instanceof Vertex) {
-			Vertex vertex = (Vertex) model;
+		if (vertex != null) {
 			parent = vertex.getParent();
 			parent.removeVertex(vertex);
-		} else if (model instanceof Edge) {
-			Edge edge = (Edge) model;
+		} else if (edge != null) {
 			parent = edge.getSource().getParent();
 			parent.removeEdge(edge);
 		}
@@ -81,16 +85,12 @@ public class DeleteCommand extends Command {
 
 	@Override
 	public void undo() {
-		Object model = part.getModel();
-		if (model instanceof Vertex) {
-			Vertex vertex = (Vertex) model;
-			parent.addVertex(vertex);
-
+		if (vertex != null) {
 			Rectangle bounds = (Rectangle) vertex
 					.getValue(Vertex.PROPERTY_SIZE);
-			vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, bounds);
-		} else if (model instanceof Edge) {
-			Edge edge = (Edge) model;
+			parent.addVertex(vertex);
+			vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
+		} else if (edge != null) {
 			parent.addEdge(edge);
 		}
 	}

@@ -28,23 +28,56 @@
  */
 package net.sf.graphiti.ui.editpolicies;
 
+import java.util.List;
+
 import net.sf.graphiti.ui.commands.DeleteCommand;
+import net.sf.graphiti.ui.editparts.EdgeEditPart;
+import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 /**
- * Provide a method which launch a command to delete a graph or a port
+ * This class overrides the createDeleteCommand to return a command that can
+ * delete a vertex.
  * 
- * @author Samuel Beaussier & Nicolas Isch
+ * @author Samuel Beaussier
+ * @author Nicolas Isch
+ * @author Matthieu Wipliez
  */
-
 public class DeleteComponentEditPolicy extends ComponentEditPolicy {
 
 	@Override
 	protected Command createDeleteCommand(GroupRequest deleteRequest) {
+		if (getHost() instanceof VertexEditPart) {
+			VertexEditPart part = (VertexEditPart) getHost();
+			List<?> incoming = part.getSourceConnections();
+			List<?> outgoing = part.getTargetConnections();
+			if (!incoming.isEmpty() || !outgoing.isEmpty()) {
+				CompoundCommand compound = new CompoundCommand();
+				for (Object obj : incoming) {
+					DeleteCommand command = new DeleteCommand(
+							(EdgeEditPart) obj);
+					compound.add(command);
+				}
+
+				for (Object obj : outgoing) {
+					DeleteCommand command = new DeleteCommand(
+							(EdgeEditPart) obj);
+					compound.add(command);
+				}
+
+				DeleteCommand command = new DeleteCommand(
+						(GraphicalEditPart) getHost());
+				compound.add(command);
+
+				return compound;
+			}
+		}
+
 		DeleteCommand command = new DeleteCommand((GraphicalEditPart) getHost());
 		return command;
 	}

@@ -135,7 +135,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	@Override
 	public void commandStackChanged(EventObject event) {
-		// The dirty property implies a star near the editor name
 		firePropertyChange(PROP_DIRTY);
 		super.commandStackChanged(event);
 	}

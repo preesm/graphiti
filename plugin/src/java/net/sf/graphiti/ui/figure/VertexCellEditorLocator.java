@@ -73,7 +73,7 @@ public class VertexCellEditorLocator implements CellEditorLocator {
 		Label label = vertexFigure.getLabelId();
 		Rectangle labelBounds = label.getBounds().getCopy();
 		label.translateToAbsolute(labelBounds);
-		
+
 		Rectangle figureBounds = vertexFigure.getBounds().getCopy();
 		vertexFigure.translateToAbsolute(figureBounds);
 		int start = (figureBounds.width - pref.x) / 2;
