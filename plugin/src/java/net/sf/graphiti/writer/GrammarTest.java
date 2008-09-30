@@ -65,7 +65,7 @@ public class GrammarTest extends Analyzer {
 	public static void main(String[] args) {
 		String grammarFileName = "D:\\repositories\\graphiti-editor\\plugin\\"
 				+ "src\\owl\\xnlExpr.grammar";
-		String input = "MAXW_IN_MB*(384*MAXH_IN_MB+SEARCHWIN_IN_MB*192+384)*50";
+		String input = "\"\\\"D:/Projets/MPEG/RVC/cvs_rvc/rvc_repos/RVC/Eclipse_Simulator/Software/MPEG4_SP_Decoder_RVC/data/foreman_qcif_30.yuv\"";
 		try {
 			new GrammarTest(grammarFileName, input);
 		} catch (Exception e) {
@@ -107,7 +107,7 @@ public class GrammarTest extends Analyzer {
 			Token token = (Token) parseNode;
 			Element domNode = document.createElement("token");
 			domNode.setAttribute("name", token.getName());
-			domNode.setAttribute("value", token.getImage());
+			domNode.setTextContent(token.getImage());
 			parent.appendChild(domNode);
 		}
 	}

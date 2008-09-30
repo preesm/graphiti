@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:fn="http://www.w3.org/2005/xpath-functions"
     version="2.0">
     
     <xsl:output method="xml"/>
@@ -9,7 +10,7 @@
         <xsl:element name="Expr">
             <xsl:attribute name="kind">Var</xsl:attribute>
             <xsl:attribute name="name">
-                <xsl:value-of select="@value"/>
+                <xsl:value-of select="text()"/>
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
@@ -19,7 +20,18 @@
             <xsl:attribute name="kind">Literal</xsl:attribute>
             <xsl:attribute name="literal-kind">Integer</xsl:attribute>
             <xsl:attribute name="value">
-                <xsl:value-of select="@value"/>
+                <xsl:value-of select="text()"/>
+            </xsl:attribute>
+        </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="Atom/token[@name = 'STRING']">
+        <xsl:variable name="textValue" select="text()"/>
+        <xsl:element name="Expr">
+            <xsl:attribute name="kind">Literal</xsl:attribute>
+            <xsl:attribute name="literal-kind">String</xsl:attribute>
+            <xsl:attribute name="value">
+                <xsl:value-of select="fn:substring($textValue, 2, fn:string-length($textValue) - 2)"/>
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
@@ -27,7 +39,7 @@
     <xsl:template match="ExpressionRest">
         <xsl:element name="Op">
             <xsl:attribute name="name">
-                <xsl:value-of select="token/@value"></xsl:value-of>
+                <xsl:value-of select="token/text()"/>
             </xsl:attribute>
         </xsl:element>
         <xsl:apply-templates/>

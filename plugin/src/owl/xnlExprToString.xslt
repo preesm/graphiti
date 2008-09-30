@@ -14,7 +14,9 @@
     </xsl:template>
     
     <xsl:template match="Expr[@kind='Literal' and @literal-kind='String']">
+        <xsl:text>"</xsl:text>
         <xsl:value-of select="@value"/>
+        <xsl:text>"</xsl:text>
     </xsl:template>
     
     <xsl:template match="Expr[@kind='Var']">

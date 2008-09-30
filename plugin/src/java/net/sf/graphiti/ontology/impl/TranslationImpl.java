@@ -88,7 +88,7 @@ public class TranslationImpl extends XMLSchemaTypeImpl implements Translation {
 			Token token = (Token) parseNode;
 			Element domNode = document.createElement("token");
 			domNode.setAttribute("name", token.getName());
-			domNode.setAttribute("value", token.getImage());
+			domNode.setTextContent(token.getImage());
 			parent.appendChild(domNode);
 		}
 	}
