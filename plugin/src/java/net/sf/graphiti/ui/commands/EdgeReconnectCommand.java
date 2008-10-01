@@ -48,31 +48,52 @@ public class EdgeReconnectCommand extends Command {
 	 * The edge is stored as an attribute so it can be used both in the
 	 * <code>execute</code> and <code>undo</code> methods.
 	 */
-	protected Edge edge;
+	private Edge edge;
+
+	private RefinementManager manager;
 
 	/**
 	 * The parentGraph is stored as an attribute so it can be used both in the
 	 * <code>execute</code> and <code>undo</code> methods.
 	 */
-	protected Graph parentGraph;
+	private Graph parentGraph;
 
 	private Edge previousEdge;
 
-	protected Vertex source;
+	private Vertex source;
 
-	protected Vertex target;
+	private Vertex target;
+
+	public EdgeReconnectCommand() {
+		manager = new RefinementManager();
+	}
 
 	@Override
 	public void execute() {
-		parentGraph = source.getParent();
+		manager.setEditedFile();
 
 		// Disconnect
+		parentGraph = source.getParent();
 		parentGraph.removeEdge(previousEdge);
 
-		// Reconnect
+		// Clone edge and assign ports
 		edge = new Edge(previousEdge);
-		edge.setSource(source);
-		edge.setTarget(target);
+
+		PortChooser portChooser = new PortChooser(manager);
+		if (edge.getSource() != source) {
+			edge.setSource(source);
+			if (edge.getParameter(Edge.PARAMETER_SOURCE_PORT) != null) {
+				edge.setValue(Edge.PARAMETER_SOURCE_PORT, portChooser
+						.getSourcePort(source));
+			}
+		} else if (edge.getTarget() != target) {
+			edge.setTarget(target);
+			if (edge.getParameter(Edge.PARAMETER_TARGET_PORT) != null) {
+				edge.setValue(Edge.PARAMETER_TARGET_PORT, portChooser
+						.getTargetPort(target));
+			}
+		}
+
 		parentGraph.addEdge(edge);
 	}
 
@@ -80,7 +101,7 @@ public class EdgeReconnectCommand extends Command {
 	 * Sets the original dependency (before it is reconnected).
 	 * 
 	 * @param edge
-	 *            The dependency.
+	 *            The edge.
 	 */
 	public void setOriginalEdge(Edge edge) {
 		this.previousEdge = edge;

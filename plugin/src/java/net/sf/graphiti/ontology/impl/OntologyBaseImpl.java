@@ -88,8 +88,7 @@ public abstract class OntologyBaseImpl {
 		classes.put(OntologyFactory.getClassElement(), ElementImpl.class);
 		classes.put(OntologyFactory.getClassFigureAttribute(),
 				FigureAttributeImpl.class);
-		classes.put(OntologyFactory.getClassFileFormat(),
-				FileFormatImpl.class);
+		classes.put(OntologyFactory.getClassFileFormat(), FileFormatImpl.class);
 		classes.put(OntologyFactory.getClassGraphElement(),
 				GraphElementImpl.class);
 		classes.put(OntologyFactory.getClassGraphParameter(),

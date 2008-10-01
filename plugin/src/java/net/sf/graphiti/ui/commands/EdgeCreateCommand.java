@@ -28,27 +28,11 @@
  */
 package net.sf.graphiti.ui.commands;
 
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.parsers.GenericGraphFileParser;
-import net.sf.graphiti.parsers.IncompatibleConfigurationFile;
-import net.sf.graphiti.ui.GraphitiPlugin;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.ListDialog;
+import org.eclipse.gef.commands.Command;
 
 /**
  * This class provides a Command that creates a dependency. ComplexSource and
@@ -58,29 +42,15 @@ import org.eclipse.ui.dialogs.ListDialog;
  * @author Nicolas Isch
  * @author Matthieu Wipliez
  */
-public class EdgeCreateCommand extends OpenRefinementNewTabCommand {
-
-	private class PortContentProvider implements IStructuredContentProvider {
-
-		@Override
-		public void dispose() {
-		}
-
-		@Override
-		public Object[] getElements(Object inputElement) {
-			return ((List<?>) inputElement).toArray();
-		}
-
-		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
-	}
+public class EdgeCreateCommand extends Command {
 
 	/**
 	 * The edge is stored as an attribute so it can be used both in the
 	 * <code>execute</code> and <code>undo</code> methods.
 	 */
 	private Edge edge;
+
+	private RefinementManager manager;
 
 	/**
 	 * The parentGraph is stored as an attribute so it can be used both in the
@@ -100,6 +70,7 @@ public class EdgeCreateCommand extends OpenRefinementNewTabCommand {
 	 */
 	public EdgeCreateCommand(Edge edge) {
 		this.edge = edge;
+		manager = new RefinementManager();
 	}
 
 	@Override
@@ -107,33 +78,9 @@ public class EdgeCreateCommand extends OpenRefinementNewTabCommand {
 		return (source.equals(target) == false);
 	}
 
-	private String choosePort(List<String> ports, String edgePort) {
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		Shell shell = window.getShell();
-
-		ListDialog dialog = new ListDialog(shell);
-		dialog.setContentProvider(new PortContentProvider());
-		dialog.setLabelProvider(new LabelProvider() {
-
-			@Override
-			public String getText(Object element) {
-				return (String) element;
-			}
-
-		});
-		dialog.setAddCancelButton(false);
-		dialog.setInput(ports);
-		dialog.setMessage("Please choose a " + edgePort + ":");
-		dialog.setTitle("Choose " + edgePort);
-		dialog.open();
-
-		return (String) dialog.getResult()[0];
-	}
-
 	@Override
 	public void execute() {
-		setEditedFile();
+		manager.setEditedFile();
 
 		// parent graph
 		parentGraph = source.getParent();
@@ -142,110 +89,18 @@ public class EdgeCreateCommand extends OpenRefinementNewTabCommand {
 		edge.setSource(source);
 		edge.setTarget(target);
 
+		PortChooser portChooser = new PortChooser(manager);
 		if (edge.getParameter(Edge.PARAMETER_SOURCE_PORT) != null) {
-			edge.setValue(Edge.PARAMETER_SOURCE_PORT, getSourcePort(source));
+			edge.setValue(Edge.PARAMETER_SOURCE_PORT, portChooser
+					.getSourcePort(source));
 		}
 
 		if (edge.getParameter(Edge.PARAMETER_TARGET_PORT) != null) {
-			edge.setValue(Edge.PARAMETER_TARGET_PORT, getTargetPort(target));
+			edge.setValue(Edge.PARAMETER_TARGET_PORT, portChooser
+					.getTargetPort(target));
 		}
 
 		parentGraph.addEdge(edge);
-	}
-
-	/**
-	 * Returns a port name from the current vertex (set by getSourcePort or
-	 * getTargetPort).
-	 * 
-	 * @param edgePort
-	 *            The label to use when prompting the user to choose
-	 *            ("source port" or "target port").
-	 * @param portType
-	 *            The port type to check in the refinement: "Input port" or
-	 *            "Output port".
-	 * @return A port name if found, <code>null</code> otherwise.
-	 */
-	private String getPort(String edgePort, String portType) {
-		IFile sourceFile = null;
-		try {
-			sourceFile = getIFileFromSelection();
-		} catch (FileNotFoundException e) {
-		}
-
-		// open the refinement
-		if (sourceFile != null) {
-			List<String> ports = getPorts(sourceFile, portType);
-			if (!ports.isEmpty()) {
-				return choosePort(ports, edgePort);
-			}
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the list of ports read from the given file that have the given
-	 * port type.
-	 * 
-	 * @param sourceFile
-	 * @param portType
-	 * @return
-	 */
-	private List<String> getPorts(IFile sourceFile, String portType) {
-		// first with the generic parser.
-		GenericGraphFileParser parser = new GenericGraphFileParser(
-				GraphitiPlugin.getDefault().getConfiguration());
-		try {
-			Graph graph = parser.parse(sourceFile);
-			Set<Vertex> vertices = graph.vertexSet();
-			List<String> ports = new ArrayList<String>();
-			for (Vertex vertex : vertices) {
-				if (vertex.getType().equals(portType)) {
-					String id = (String) vertex.getValue(Vertex.PARAMETER_ID);
-					ports.add(id);
-				}
-			}
-
-			return ports;
-		} catch (IncompatibleConfigurationFile e) {
-			// then with the refinement parser.
-		}
-
-		return new ArrayList<String>();
-	}
-
-	/**
-	 * Returns a port from the given vertex.
-	 * 
-	 * @param source
-	 *            The edge's source vertex.
-	 * @return A port name.
-	 */
-	private String getSourcePort(Vertex source) {
-		vertex = source;
-		String port = getPort("source port", "Output port");
-		if (port == null) {
-			return "source port";
-		} else {
-			return port;
-		}
-	}
-
-	/**
-	 * Returns a port from the given vertex.
-	 * 
-	 * @param target
-	 *            The edge's target vertex.
-	 * @return A port name.
-	 */
-	private String getTargetPort(Vertex target) {
-		vertex = target;
-		String port = getPort("target port", "Input port");
-		if (port == null) {
-			return "target port";
-		} else {
-			return port;
-		}
 	}
 
 	/**

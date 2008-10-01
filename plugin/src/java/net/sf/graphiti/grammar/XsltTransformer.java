@@ -66,6 +66,16 @@ public class XsltTransformer {
 		}
 	}
 
+	public void transformDomToDom(Element source, Element target) {
+		Source xmlSource = new DOMSource(source);
+		Result outputTarget = new DOMResult(target);
+		try {
+			transformer.transform(xmlSource, outputTarget);
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public String transformDomToString(Element element) {
 		if (transformer == null) {
 			return "";
@@ -83,16 +93,6 @@ public class XsltTransformer {
 				e.printStackTrace();
 				return "";
 			}
-		}
-	}
-
-	public void transformDomToDom(Element source, Element target) {
-		Source xmlSource = new DOMSource(source);
-		Result outputTarget = new DOMResult(target);
-		try {
-			transformer.transform(xmlSource, outputTarget);
-		} catch (TransformerException e) {
-			e.printStackTrace();
 		}
 	}
 

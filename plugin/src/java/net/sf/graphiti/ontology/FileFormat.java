@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.ontology;
 
-
 /**
  * This class provides a representation of a file format.
  * 
@@ -59,5 +58,5 @@ public interface FileFormat {
 	 * @return An XSLT file name, or <code>""</code> if none is necessary.
 	 */
 	public String hasXslt();
-	
+
 }

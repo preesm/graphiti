@@ -32,19 +32,13 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.graphiti.ontology.FileFormat;
-
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
@@ -55,7 +49,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.EditorSelectionDialog;
-import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
@@ -64,126 +57,35 @@ import org.eclipse.ui.part.FileEditorInput;
  * @author Matthieu Wipliez
  * 
  */
-public class OpenRefinementNewTabCommand extends AbstractRefinementCommand {
+public class OpenRefinementNewTabCommand extends Command {
+
+	private RefinementManager manager;
 
 	/**
 	 * Creates a {@link OpenRefinementNewTabCommand} action.
 	 */
 	public OpenRefinementNewTabCommand() {
+		manager = new RefinementManager();
 	}
 
 	@Override
 	public boolean canExecute() {
-		return (getRefinement() != null);
+		return (manager.getRefinement() != null);
 	}
 
 	@Override
 	public void execute() {
-		super.execute();
+		manager.setEditedFile();
 
 		try {
-			IFile file = getIFileFromSelection();
+			IFile file = manager.getIFileFromSelection();
 			if (file != null) {
 				FileEditorInput input = new FileEditorInput(file);
 				openEditor(file.toString(), input);
 			}
 		} catch (FileNotFoundException e) {
 			MessageDialog.openError(null, "Could not open refinement",
-					"File not found or invalid: " + getRefinement());
-		}
-	}
-
-	/**
-	 * This method looks for file named "path.ext" where <code>ext</code> is one
-	 * of the known extensions for refinement files.
-	 * 
-	 * @param path
-	 *            The refinement path (without extension).
-	 * @return The {@link IFile} found.
-	 * @throws FileNotFoundException
-	 */
-	private IFile findFileWithoutExtension(IPath path)
-			throws FileNotFoundException {
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-
-		// get all possible candidates
-		List<IFile> files = new ArrayList<IFile>();
-		FileFormat[] fileExts = vertex.getConfiguration()
-				.getRefinementFileFormats();
-		for (FileFormat fileExt : fileExts) {
-			IResource resource = workspace.getRoot().findMember(
-					path + "." + fileExt.hasFileExtension());
-			if (resource instanceof IFile) {
-				files.add((IFile) resource);
-			}
-		}
-
-		// check the number of candidates
-		if (files.isEmpty()) {
-			throw new FileNotFoundException();
-		} else if (files.size() == 1) {
-			return files.get(0);
-		} else {
-			// ask the user to select one among n
-			IWorkbench workbench = PlatformUI.getWorkbench();
-			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-			Shell shell = window.getShell();
-
-			ElementListSelectionDialog dialog = new ElementListSelectionDialog(
-					shell, new LabelProvider() {
-						@Override
-						public String getText(Object element) {
-							if (element instanceof IFile) {
-								return ((IFile) element).getName();
-							} else {
-								return element.toString();
-							}
-						}
-					});
-			dialog.setElements(files.toArray());
-			dialog.setMultipleSelection(false);
-			dialog.setMessage("Several candidates are available, "
-					+ "please choose one below:");
-			dialog.setTitle("Choose an existing file");
-			if (dialog.open() == ElementListSelectionDialog.OK) {
-				return (IFile) dialog.getFirstResult();
-			} else {
-				return null;
-			}
-		}
-	}
-
-	/**
-	 * Returns a refinement file name from a valid (i.e. hierarchical) vertex
-	 * selection, <code>null</code> otherwise.
-	 * 
-	 * @return
-	 * @throws FileNotFoundException
-	 */
-	protected IFile getIFileFromSelection() throws FileNotFoundException {
-		// prevent null pointer exception when there are no refinement.
-		String refinement = getRefinement();
-		if (refinement == null) {
-			return null;
-		}
-
-		// get the path from the refinement
-		IPath path = new Path(refinement);
-		if (path.isAbsolute() == false) {
-			path = editedFile.getParent().getFullPath().append(path);
-		}
-
-		// deal with file extension
-		if (path.getFileExtension() == null) {
-			return findFileWithoutExtension(path);
-		} else {
-			IWorkspace workspace = ResourcesPlugin.getWorkspace();
-			IResource resource = workspace.getRoot().findMember(path);
-			if (resource instanceof IFile) {
-				return (IFile) resource;
-			} else {
-				throw new FileNotFoundException();
-			}
+					"File not found or invalid: " + manager.getRefinement());
 		}
 	}
 
@@ -271,5 +173,12 @@ public class OpenRefinementNewTabCommand extends AbstractRefinementCommand {
 		}
 
 		return dialog.getSelectedEditor();
+	}
+
+	/**
+	 * @see RefinementManager#setSelection(ISelection)
+	 */
+	public void setSelection(ISelection selection) {
+		manager.setSelection(selection);
 	}
 }

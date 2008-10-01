@@ -162,6 +162,10 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#FigureAttribute";
 	}
 
+	public static String getClassFileFormat() {
+		return "http://net.sf.graphiti/basics.owl#FileFormat";
+	}
+
 	public static String getClassGraphElement() {
 		return "http://net.sf.graphiti/basics.owl#GraphElement";
 	}
@@ -372,6 +376,18 @@ public class OntologyFactory {
 
 	public static String getPropertyElementHasSchemaType() {
 		return "http://net.sf.graphiti/basics.owl#element_hasSchemaType";
+	}
+
+	public static String getPropertyFileFormatHasFileExtension() {
+		return "http://net.sf.graphiti/basics.owl#fileFormat_hasFileExtension";
+	}
+
+	public static String getPropertyFileFormatHasGrammar() {
+		return "http://net.sf.graphiti/basics.owl#fileFormat_hasGrammar";
+	}
+
+	public static String getPropertyFileFormatHasStringToXmlXslt() {
+		return "http://net.sf.graphiti/basics.owl#fileFormat_hasStringToXmlXSLT";
 	}
 
 	public static String getPropertyOrderedChoiceHasElements() {
@@ -700,22 +716,6 @@ public class OntologyFactory {
 		OntologyModelImpl ontModel = new OntologyModelImpl(model);
 		return (Set<VertexType>) ontModel.listIndividuals(OntologyFactory
 				.getClassVertexType());
-	}
-
-	public static String getClassFileFormat() {
-		return "http://net.sf.graphiti/basics.owl#FileFormat";
-	}
-
-	public static String getPropertyFileFormatHasFileExtension() {
-		return "http://net.sf.graphiti/basics.owl#fileFormat_hasFileExtension";
-	}
-
-	public static String getPropertyFileFormatHasGrammar() {
-		return "http://net.sf.graphiti/basics.owl#fileFormat_hasGrammar";
-	}
-
-	public static String getPropertyFileFormatHasStringToXmlXslt() {
-		return "http://net.sf.graphiti/basics.owl#fileFormat_hasStringToXmlXSLT";
 	}
 
 }

@@ -297,7 +297,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		if (bounds == null) {
 			bounds = getFigure().getBounds();
 		}
-		
+
 		Rectangle newBounds = bounds.getCopy();
 		newBounds.x = node.x;
 		newBounds.y = node.y;

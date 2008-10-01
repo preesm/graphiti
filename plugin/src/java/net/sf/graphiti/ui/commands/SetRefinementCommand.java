@@ -46,7 +46,9 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
@@ -65,7 +67,7 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
  * @author Matthieu Wipliez
  * 
  */
-public class SetRefinementCommand extends AbstractRefinementCommand {
+public class SetRefinementCommand extends Command {
 
 	/**
 	 * This class provides a listener for the
@@ -104,15 +106,18 @@ public class SetRefinementCommand extends AbstractRefinementCommand {
 		}
 	}
 
+	private RefinementManager manager;
+
 	/**
 	 * Creates a {@link SetRefinementCommand} action.
 	 */
 	public SetRefinementCommand() {
+		manager = new RefinementManager();
 	}
 
 	@Override
 	public boolean canExecute() {
-		return isRefinable();
+		return manager.isRefinable();
 	}
 
 	/**
@@ -140,7 +145,7 @@ public class SetRefinementCommand extends AbstractRefinementCommand {
 
 	@Override
 	public void execute() {
-		super.execute();
+		manager.setEditedFile();
 
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
@@ -179,7 +184,7 @@ public class SetRefinementCommand extends AbstractRefinementCommand {
 
 		// get all possible candidates
 		List<IFile> files = new ArrayList<IFile>();
-		FileFormat[] fileExts = vertex.getConfiguration()
+		FileFormat[] fileExts = manager.getVertex().getConfiguration()
 				.getRefinementFileFormats();
 		for (FileFormat fileExt : fileExts) {
 			IResource resource = workspace.getRoot().findMember(
@@ -208,7 +213,8 @@ public class SetRefinementCommand extends AbstractRefinementCommand {
 	 */
 	private String getRefinementValue(IFile file) {
 		IPath refinement = null;
-		IPath editedFilePath = editedFile.getParent().getFullPath();
+		IPath editedFilePath = manager.getEditedFile().getParent()
+				.getFullPath();
 		IPath createdFilePath = file.getParent().getFullPath();
 
 		int n = editedFilePath.matchingFirstSegments(createdFilePath);
@@ -247,7 +253,14 @@ public class SetRefinementCommand extends AbstractRefinementCommand {
 	 */
 	private void setRefinement(IFile file) {
 		String refinement = getRefinementValue(file);
-		vertex.setValue(Vertex.PARAMETER_REFINEMENT, refinement);
+		manager.getVertex().setValue(Vertex.PARAMETER_REFINEMENT, refinement);
+	}
+
+	/**
+	 * @see RefinementManager#setSelection(ISelection)
+	 */
+	public void setSelection(ISelection selection) {
+		manager.setSelection(selection);
 	}
 
 	/**

@@ -80,6 +80,8 @@ public class Edge extends PropertyBean {
 	 */
 	public Edge(Edge edge) {
 		super(edge);
+		source = edge.source;
+		target = edge.target;
 	}
 
 	/**
