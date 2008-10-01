@@ -81,9 +81,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#hasDocumentElement -->
+    <!-- http://net.sf.graphiti/basics.owl#ontology_hasDocumentElement -->
 
-    <owl:ObjectProperty rdf:about="&net;basics.owl#hasDocumentElement"/>
+    <owl:ObjectProperty rdf:about="&net;basics.owl#ontology_hasDocumentElement"/>
     
 
 
@@ -218,15 +218,15 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#hasFileExtension -->
+    <!-- http://net.sf.graphiti/basics.owl#ontology_hasFileExtension -->
 
-    <owl:DatatypeProperty rdf:about="&net;basics.owl#hasFileExtension"/>
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#ontology_hasFileExtension"/>
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#hasNamespace -->
+    <!-- http://net.sf.graphiti/basics.owl#ontology_hasNamespace -->
 
-    <owl:DatatypeProperty rdf:about="&net;basics.owl#hasNamespace"/>
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#ontology_hasNamespace"/>
     
 
 
@@ -435,10 +435,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/workflow.owl -->
 
     <rdf:Description rdf:about="">
-        <basics:hasNamespace rdf:datatype="&xsd;string"
-            >http://ietr-image.insa-rennes.fr/projects/Preesm</basics:hasNamespace>
-        <basics:hasFileExtension rdf:datatype="&xsd;string">workflow</basics:hasFileExtension>
-        <basics:hasDocumentElement rdf:resource="#GraphElementWorkflow"/>
+        <basics:ontology_hasNamespace rdf:datatype="&xsd;string"
+            >http://ietr-image.insa-rennes.fr/projects/Preesm</basics:ontology_hasNamespace>
+        <basics:ontology_hasFileExtension rdf:datatype="&xsd;string">workflow</basics:ontology_hasFileExtension>
+        <basics:ontology_hasDocumentElement rdf:resource="#GraphElementWorkflow"/>
     </rdf:Description>
     
 

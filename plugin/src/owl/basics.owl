@@ -122,9 +122,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#hasDocumentElement -->
+    <!-- http://net.sf.graphiti/basics.owl#ontology_hasDocumentElement -->
 
-    <owl:ObjectProperty rdf:about="#hasDocumentElement">
+    <owl:ObjectProperty rdf:about="#ontology_hasDocumentElement">
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
         <rdfs:comment rdf:datatype="&xsd;string"
             >The document element associated with this ontology.</rdfs:comment>
@@ -413,9 +413,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#hasFileExtension -->
+    <!-- http://net.sf.graphiti/basics.owl#ontology_hasFileExtension -->
 
-    <owl:DatatypeProperty rdf:about="#hasFileExtension">
+    <owl:DatatypeProperty rdf:about="#ontology_hasFileExtension">
         <rdfs:comment rdf:datatype="&xsd;string"
             >This property should be applied to the ontology element to describe a file extension this ontology can be associated with.</rdfs:comment>
         <rdfs:range rdf:resource="&xsd;string"/>
@@ -423,9 +423,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#hasNamespace -->
+    <!-- http://net.sf.graphiti/basics.owl#ontology_hasNamespace -->
 
-    <owl:DatatypeProperty rdf:about="#hasNamespace">
+    <owl:DatatypeProperty rdf:about="#ontology_hasNamespace">
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
         <rdfs:comment rdf:datatype="&xsd;string"
             >This property should be applied to the ontology element to describe the namespace of this format.</rdfs:comment>
@@ -473,9 +473,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#refinementHasFileExtension -->
+    <!-- http://net.sf.graphiti/basics.owl#ontology_refinementHasFileExtension -->
 
-    <owl:DatatypeProperty rdf:about="#refinementHasFileExtension">
+    <owl:DatatypeProperty rdf:about="#ontology_refinementHasFileExtension">
         <rdfs:comment rdf:datatype="&xsd;string"
             >This property should be applied to the ontology element to describe a file extension a vertex refinement can be associated with.</rdfs:comment>
         <rdfs:range rdf:resource="&xsd;string"/>

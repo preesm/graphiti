@@ -79,19 +79,19 @@ public class OntologyFactory {
 	}
 
 	public static String getAnnotationPropertyHasDocumentElement() {
-		return "http://net.sf.graphiti/basics.owl#hasDocumentElement";
+		return "http://net.sf.graphiti/basics.owl#ontology_hasDocumentElement";
 	}
 
 	public static String getAnnotationPropertyHasFileExtension() {
-		return "http://net.sf.graphiti/basics.owl#hasFileExtension";
+		return "http://net.sf.graphiti/basics.owl#ontology_hasFileExtension";
 	}
 
 	public static String getAnnotationPropertyHasNamespace() {
-		return "http://net.sf.graphiti/basics.owl#hasNamespace";
+		return "http://net.sf.graphiti/basics.owl#ontology_hasNamespace";
 	}
 
 	public static String getAnnotationPropertyRefinementHasFileExtension() {
-		return "http://net.sf.graphiti/basics.owl#refinementHasFileExtension";
+		return "http://net.sf.graphiti/basics.owl#ontology_refinementHasFileExtension";
 	}
 
 	public static String getClassAll() {

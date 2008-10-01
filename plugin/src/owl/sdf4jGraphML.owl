@@ -88,9 +88,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#hasDocumentElement -->
+    <!-- http://net.sf.graphiti/basics.owl#ontology_hasDocumentElement -->
 
-    <owl:ObjectProperty rdf:about="&net;basics.owl#hasDocumentElement"/>
+    <owl:ObjectProperty rdf:about="&net;basics.owl#ontology_hasDocumentElement"/>
     
 
 
@@ -255,9 +255,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#refinementHasFileExtension -->
+    <!-- http://net.sf.graphiti/basics.owl#ontology_refinementHasFileExtension -->
 
-    <owl:DatatypeProperty rdf:about="&net;basics.owl#refinementHasFileExtension"/>
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#ontology_refinementHasFileExtension"/>
     
 
 
@@ -502,9 +502,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/sdf4jGraphML.owl -->
 
     <rdf:Description rdf:about="">
-        <basics:refinementHasFileExtension rdf:datatype="&xsd;string">graphml</basics:refinementHasFileExtension>
-        <basics:refinementHasFileExtension rdf:datatype="&xsd;string">xml</basics:refinementHasFileExtension>
-        <basics:hasDocumentElement rdf:resource="#DocumentElement"/>
+        <basics:ontology_refinementHasFileExtension rdf:datatype="&xsd;string">graphml</basics:ontology_refinementHasFileExtension>
+        <basics:ontology_refinementHasFileExtension rdf:datatype="&xsd;string">xml</basics:ontology_refinementHasFileExtension>
+        <basics:ontology_hasDocumentElement rdf:resource="#DocumentElement"/>
     </rdf:Description>
     
 

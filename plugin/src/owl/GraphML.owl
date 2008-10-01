@@ -75,9 +75,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#hasDocumentElement -->
+    <!-- http://net.sf.graphiti/basics.owl#ontology_hasDocumentElement -->
 
-    <owl:ObjectProperty rdf:about="&net;basics.owl#hasDocumentElement"/>
+    <owl:ObjectProperty rdf:about="&net;basics.owl#ontology_hasDocumentElement"/>
     
 
 
@@ -200,15 +200,15 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#hasFileExtension -->
+    <!-- http://net.sf.graphiti/basics.owl#ontology_hasFileExtension -->
 
-    <owl:DatatypeProperty rdf:about="&net;basics.owl#hasFileExtension"/>
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#ontology_hasFileExtension"/>
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#hasNamespace -->
+    <!-- http://net.sf.graphiti/basics.owl#ontology_hasNamespace -->
 
-    <owl:DatatypeProperty rdf:about="&net;basics.owl#hasNamespace"/>
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#ontology_hasNamespace"/>
     
 
 
@@ -387,11 +387,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/GraphML.owl -->
 
     <rdf:Description rdf:about="">
-        <basics:hasFileExtension rdf:datatype="&xsd;string">graphml</basics:hasFileExtension>
-        <basics:hasNamespace rdf:datatype="&xsd;string"
-            >http://graphml.graphdrawing.org/xmlns/1.0rc</basics:hasNamespace>
-        <basics:hasFileExtension rdf:datatype="&xsd;string">xml</basics:hasFileExtension>
-        <basics:hasDocumentElement rdf:resource="#DocumentElementGraphML"/>
+        <basics:ontology_hasFileExtension rdf:datatype="&xsd;string">graphml</basics:ontology_hasFileExtension>
+        <basics:ontology_hasNamespace rdf:datatype="&xsd;string"
+            >http://graphml.graphdrawing.org/xmlns/1.0rc</basics:ontology_hasNamespace>
+        <basics:ontology_hasFileExtension rdf:datatype="&xsd;string">xml</basics:ontology_hasFileExtension>
+        <basics:ontology_hasDocumentElement rdf:resource="#DocumentElementGraphML"/>
     </rdf:Description>
     
 
