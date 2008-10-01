@@ -47,6 +47,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
 /**
@@ -69,7 +70,7 @@ public class XsltTransformer {
 		}
 	}
 
-	public void transformDomToDom(Element source, Element target) {
+	public void transformDomToDom(Element source, Node target) {
 		Source xmlSource = new DOMSource(source);
 		Result outputTarget = new DOMResult(target);
 		try {
@@ -85,11 +86,11 @@ public class XsltTransformer {
 			DOMImplementation impl = DOMImplementationRegistry.newInstance()
 					.getDOMImplementation("Core 3.0 XML 3.0 LS");
 			Document document = impl.createDocument("", rootElementName, null);
-			Element target = document.getDocumentElement();
+			document.removeChild(document.getDocumentElement());
 
-			transformDomToDom(source, target);
+			transformDomToDom(source, document);
 
-			return target;
+			return document.getDocumentElement();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

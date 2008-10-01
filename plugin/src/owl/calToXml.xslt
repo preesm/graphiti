@@ -6,6 +6,7 @@
     
     <xsl:output method="xml"/>
     
+    <!-- XDF -->
     <xsl:template match="Actor">
         <xsl:element name="Actor">
             <xsl:attribute name="name">
@@ -13,12 +14,21 @@
             </xsl:attribute>
             <xsl:apply-templates select="Import"/>
             <xsl:apply-templates select="Parameters"/>
-            <xsl:apply-templates select="PortDecls[fn:position() = 1]">
-                <xsl:with-param name="kind">Input</xsl:with-param>
-            </xsl:apply-templates>
-            <xsl:apply-templates select="PortDecls[fn:position() = 2]">
-                <xsl:with-param name="kind">Output</xsl:with-param>
-            </xsl:apply-templates>
+            <xsl:choose>
+                <xsl:when test="PortDecls[fn:position() = 1] &lt;&lt; token[@name = 'DOUBLE_EQUAL_ARROW']">
+                    <xsl:apply-templates select="PortDecls[fn:position() = 1]">
+                        <xsl:with-param name="kind">Input</xsl:with-param>
+                    </xsl:apply-templates>
+                    <xsl:apply-templates select="PortDecls[fn:position() = 2]">
+                        <xsl:with-param name="kind">Output</xsl:with-param>
+                    </xsl:apply-templates>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates select="PortDecls[fn:position() = 1]">
+                        <xsl:with-param name="kind">Output</xsl:with-param>
+                    </xsl:apply-templates>
+                </xsl:otherwise>
+            </xsl:choose>
         </xsl:element>
     </xsl:template>
     

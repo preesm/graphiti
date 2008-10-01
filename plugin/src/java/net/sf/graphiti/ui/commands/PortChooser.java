@@ -107,7 +107,9 @@ public class PortChooser {
 		dialog.setInput(ports);
 		dialog.setMessage("Please choose a " + edgePort + ":");
 		dialog.setTitle("Choose " + edgePort);
-		dialog.open();
+		do {
+			dialog.open();
+		} while (dialog.getResult().length == 0);
 
 		return (String) dialog.getResult()[0];
 	}
@@ -257,7 +259,7 @@ public class PortChooser {
 						.parse(new InputStreamReader(is));
 				url = bundle.getEntry("src/owl/" + format.hasXslt());
 				Element target = new XsltTransformer(url).transformDomToDom(
-						source, "ports");
+						source, "dummy");
 
 				// parse the result with generic parser.
 				GenericGraphFileParser parser = new GenericGraphFileParser(
@@ -265,7 +267,7 @@ public class PortChooser {
 				try {
 					graph = parser.parse(target);
 				} catch (IncompatibleConfigurationFile e) {
-					// nothing we can do
+					e.printStackTrace();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
