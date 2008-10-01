@@ -273,7 +273,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 			// another parameter
 			Vertex vertex = (Vertex) getModel();
 			((VertexFigure) getFigure()).adjustSize();
-			vertex.setValue(Vertex.PROPERTY_SIZE, getFigure().getBounds());
+			Rectangle bounds = getFigure().getBounds().getCopy();
+			vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
 		}
 	}
 
@@ -296,11 +297,11 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		if (bounds == null) {
 			bounds = getFigure().getBounds();
 		}
-		bounds = bounds.getCopy();
-
-		bounds.x = node.x;
-		bounds.y = node.y;
-		vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
+		
+		Rectangle newBounds = bounds.getCopy();
+		newBounds.x = node.x;
+		newBounds.y = node.y;
+		vertex.setValue(Vertex.PROPERTY_SIZE, newBounds);
 
 		// Updates edges
 		for (Object connection : getSourceConnections()) {
@@ -347,6 +348,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		}
 
 		figure.adjustSize();
-		vertex.setValue(Vertex.PROPERTY_SIZE, figure.getBounds());
+		vertex.setValue(Vertex.PROPERTY_SIZE, figure.getBounds().getCopy());
 	}
 }

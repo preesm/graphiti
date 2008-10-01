@@ -71,8 +71,10 @@ public class CreateCommand extends Command {
 			// and set the location
 			Rectangle vertexBounds = (Rectangle) vertex
 					.getValue(Vertex.PROPERTY_SIZE);
-			vertexBounds.x = bounds.x;
-			vertexBounds.y = bounds.y;
+			Rectangle newBounds = vertexBounds.getCopy();
+			newBounds.x = bounds.x;
+			newBounds.y = bounds.y;
+			vertex.setValue(Vertex.PROPERTY_SIZE, newBounds);
 		}
 	}
 
