@@ -38,6 +38,7 @@ import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.XMLSchemaType;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -104,6 +105,18 @@ public class GenericGraphFileParser {
 		}
 	}
 
+	public Graph parse(Element element) throws IncompatibleConfigurationFile {
+		// Parses the DOM
+		Graph graph = parse(element.getOwnerDocument(), configuration);
+		if (graph == null) {
+			throw new IncompatibleConfigurationFile("The document "
+					+ element.getOwnerDocument().getDocumentURI()
+					+ " could not be parsed.");
+		} else {
+			return graph;
+		}
+	}
+
 	/**
 	 * Parses the given {@link IFile} with the semantics defined in the
 	 * configuration file.
@@ -142,7 +155,15 @@ public class GenericGraphFileParser {
 			} else {
 				return graph;
 			}
-		} catch (Exception e) {
+		} catch (ClassCastException e) {
+			throw new IncompatibleConfigurationFile(e);
+		} catch (ClassNotFoundException e) {
+			throw new IncompatibleConfigurationFile(e);
+		} catch (InstantiationException e) {
+			throw new IncompatibleConfigurationFile(e);
+		} catch (IllegalAccessException e) {
+			throw new IncompatibleConfigurationFile(e);
+		} catch (CoreException e) {
 			throw new IncompatibleConfigurationFile(e);
 		}
 	}

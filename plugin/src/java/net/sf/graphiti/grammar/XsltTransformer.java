@@ -44,7 +44,10 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
 /**
  * @author Matthieu Wipliez
@@ -73,6 +76,23 @@ public class XsltTransformer {
 			transformer.transform(xmlSource, outputTarget);
 		} catch (TransformerException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public Element transformDomToDom(Element source, String rootElementName) {
+		try {
+			// create document
+			DOMImplementation impl = DOMImplementationRegistry.newInstance()
+					.getDOMImplementation("Core 3.0 XML 3.0 LS");
+			Document document = impl.createDocument("", rootElementName, null);
+			Element target = document.getDocumentElement();
+
+			transformDomToDom(source, target);
+
+			return target;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 

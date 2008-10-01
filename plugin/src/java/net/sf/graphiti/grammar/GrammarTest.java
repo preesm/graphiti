@@ -30,9 +30,9 @@ package net.sf.graphiti.grammar;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.Reader;
 
 import net.percederberg.grammatica.parser.Analyzer;
 
@@ -54,10 +54,12 @@ public class GrammarTest extends Analyzer {
 	 */
 	public static void main(String[] args) {
 		String grammarFileName = "D:\\repositories\\graphiti-editor\\plugin\\"
-				+ "src\\owl\\xnlExpr.grammar";
-		String input = "\"\\\"D:/Projets/MPEG/RVC/cvs_rvc/rvc_repos/RVC/Eclipse_Simulator/Software/MPEG4_SP_Decoder_RVC/data/foreman_qcif_30.yuv\"";
+				+ "src\\owl\\cal.grammar";
+
+		String fileName = "D:\\repositories\\graphiti-editor\\plugin"
+				+ "\\examples\\XNL\\RVC MPEG-4 SP decoder\\ParseHeaders.cal";
 		try {
-			new GrammarTest(grammarFileName, input);
+			new GrammarTest(grammarFileName, new FileReader(fileName));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -65,10 +67,9 @@ public class GrammarTest extends Analyzer {
 
 	private Document document;
 
-	public GrammarTest(String grammarFileName, String input)
-			throws MalformedURLException, FileNotFoundException {
-		Element element = new GrammarTransformer(new URL("file:///" + ""))
-				.parse(input);
+	public GrammarTest(String grammarFileName, Reader reader)
+			throws FileNotFoundException {
+		Element element = new GrammarTransformer(grammarFileName).parse(reader);
 		document = element.getOwnerDocument();
 		outputXml();
 	}

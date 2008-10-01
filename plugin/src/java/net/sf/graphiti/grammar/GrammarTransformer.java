@@ -29,7 +29,7 @@
 package net.sf.graphiti.grammar;
 
 import java.io.File;
-import java.io.StringReader;
+import java.io.Reader;
 import java.net.URL;
 
 import net.percederberg.grammatica.Grammar;
@@ -52,6 +52,15 @@ import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 public class GrammarTransformer {
 
 	private Grammar grammar;
+
+	public GrammarTransformer(String fileName) {
+		try {
+			File file = new File(fileName);
+			grammar = new Grammar(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public GrammarTransformer(URL grammarUrl) {
 		try {
@@ -86,9 +95,7 @@ public class GrammarTransformer {
 		// create document
 		DOMImplementation impl = DOMImplementationRegistry.newInstance()
 				.getDOMImplementation("Core 3.0 XML 3.0 LS");
-		String namespace = "";
-		Document document = impl
-				.createDocument(namespace, root.getName(), null);
+		Document document = impl.createDocument("", root.getName(), null);
 
 		// convert children parse nodes
 		Element documentElement = document.getDocumentElement();
@@ -101,9 +108,8 @@ public class GrammarTransformer {
 		return document.getDocumentElement();
 	}
 
-	public Element parse(String input) {
+	public Element parse(Reader reader) {
 		try {
-			StringReader reader = new StringReader(input);
 			Tokenizer tokenizer = grammar.createTokenizer(reader);
 			Parser parser = grammar.createParser(tokenizer);
 			Node tree = parser.parse();

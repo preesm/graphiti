@@ -254,6 +254,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#fileFormat_hasStringToXmlXSLT -->
+
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#fileFormat_hasStringToXmlXSLT"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#ontology_hasFileExtension -->
 
     <owl:DatatypeProperty rdf:about="&net;basics.owl#ontology_hasFileExtension"/>
@@ -1008,7 +1014,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:FileFormat rdf:about="#FileFormatRefinementCal">
         <basics:fileFormat_hasFileExtension rdf:datatype="&xsd;string">cal</basics:fileFormat_hasFileExtension>
         <basics:fileFormat_hasGrammar rdf:datatype="&xsd;string">cal.grammar</basics:fileFormat_hasGrammar>
-        <basics:fileFormat_hasGrammar rdf:datatype="&xsd;string">calToXml.xslt</basics:fileFormat_hasGrammar>
+        <basics:fileFormat_hasStringToXmlXSLT rdf:datatype="&xsd;string">calToXml.xslt</basics:fileFormat_hasStringToXmlXSLT>
     </basics:FileFormat>
     
 

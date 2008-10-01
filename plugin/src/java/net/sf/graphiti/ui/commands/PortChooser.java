@@ -29,17 +29,25 @@
 package net.sf.graphiti.ui.commands;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.graphiti.grammar.GrammarTransformer;
+import net.sf.graphiti.grammar.XsltTransformer;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ontology.FileFormat;
 import net.sf.graphiti.parsers.GenericGraphFileParser;
 import net.sf.graphiti.parsers.IncompatibleConfigurationFile;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -49,6 +57,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ListDialog;
+import org.osgi.framework.Bundle;
+import org.w3c.dom.Element;
 
 /**
  * @author Matthieu Wipliez
@@ -157,11 +167,28 @@ public class PortChooser {
 	 * @return
 	 */
 	private List<String> getPorts(IFile sourceFile, String portType) {
-		// first with the generic parser.
-		GenericGraphFileParser parser = new GenericGraphFileParser(
-				GraphitiPlugin.getDefault().getConfiguration());
+		// refinement graph
+		Graph graph = null;
+
+		// get file format
+		FileFormat format = null;
 		try {
-			Graph graph = parser.parse(sourceFile);
+			format = (FileFormat) sourceFile
+					.getSessionProperty(new QualifiedName("net.sf.graphiti",
+							"format"));
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+
+		// parse according to format
+		if (format != null) {
+			graph = parseRefinement(format, sourceFile);
+		}
+
+		// get ports from graph
+		if (graph == null) {
+			return new ArrayList<String>();
+		} else {
 			Set<Vertex> vertices = graph.vertexSet();
 			List<String> ports = new ArrayList<String>();
 			for (Vertex vertex : vertices) {
@@ -170,13 +197,8 @@ public class PortChooser {
 					ports.add(id);
 				}
 			}
-
 			return ports;
-		} catch (IncompatibleConfigurationFile e) {
-			// then with the refinement parser.
 		}
-
-		return new ArrayList<String>();
 	}
 
 	/**
@@ -211,5 +233,45 @@ public class PortChooser {
 		} else {
 			return port;
 		}
+	}
+
+	private Graph parseRefinement(FileFormat format, IFile sourceFile) {
+		Graph graph = null;
+		String grammar = format.hasGrammar();
+		if (grammar.isEmpty()) {
+			// parse with generic parser.
+			GenericGraphFileParser parser = new GenericGraphFileParser(
+					GraphitiPlugin.getDefault().getConfiguration());
+			try {
+				graph = parser.parse(sourceFile);
+			} catch (IncompatibleConfigurationFile e) {
+				// nothing we can do
+			}
+		} else {
+			Bundle bundle = GraphitiPlugin.getDefault().getBundle();
+			URL url = bundle.getEntry("src/owl/" + grammar);
+			try {
+				// parse and transform
+				InputStream is = sourceFile.getContents();
+				Element source = new GrammarTransformer(url)
+						.parse(new InputStreamReader(is));
+				url = bundle.getEntry("src/owl/" + format.hasXslt());
+				Element target = new XsltTransformer(url).transformDomToDom(
+						source, "ports");
+
+				// parse the result with generic parser.
+				GenericGraphFileParser parser = new GenericGraphFileParser(
+						GraphitiPlugin.getDefault().getConfiguration());
+				try {
+					graph = parser.parse(target);
+				} catch (IncompatibleConfigurationFile e) {
+					// nothing we can do
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return graph;
 	}
 }

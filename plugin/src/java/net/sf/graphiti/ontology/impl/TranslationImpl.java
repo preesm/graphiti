@@ -28,6 +28,7 @@
  */
 package net.sf.graphiti.ontology.impl;
 
+import java.io.StringReader;
 import java.net.URL;
 
 import net.sf.graphiti.grammar.GrammarTransformer;
@@ -79,7 +80,8 @@ public class TranslationImpl extends XMLSchemaTypeImpl implements Translation {
 
 		URL url = bundle.getEntry("src/owl/" + grammarFilename);
 		try {
-			Element element = new GrammarTransformer(url).parse(input);
+			Element element = new GrammarTransformer(url)
+					.parse(new StringReader(input));
 
 			// transform DOM source to DOM result
 			url = bundle.getEntry("src/owl/" + xsltFilename);
