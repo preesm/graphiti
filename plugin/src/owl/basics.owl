@@ -55,16 +55,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#alternative_hasSequence -->
-
-    <owl:ObjectProperty rdf:about="#alternative_hasSequence">
-        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
-        <rdfs:domain rdf:resource="#Alternative"/>
-        <rdfs:range rdf:resource="#Sequence"/>
-    </owl:ObjectProperty>
-    
-
-
     <!-- http://net.sf.graphiti/basics.owl#attribute_isReferenceTo -->
 
     <owl:ObjectProperty rdf:about="#attribute_isReferenceTo">
@@ -211,15 +201,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
         <rdfs:range rdf:resource="#DataType"/>
         <rdfs:domain rdf:resource="#Parameter"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://net.sf.graphiti/basics.owl#rule_hasAlternatives -->
-
-    <owl:ObjectProperty rdf:about="#rule_hasAlternatives">
-        <rdfs:range rdf:resource="#Alternative"/>
-        <rdfs:domain rdf:resource="#Rule"/>
     </owl:ObjectProperty>
     
 
@@ -413,6 +394,26 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#locationAttribute_hasXCoordinate -->
+
+    <owl:DatatypeProperty rdf:about="#locationAttribute_hasXCoordinate">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#LocationAttribute"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#locationAttribute_hasYCoordinate -->
+
+    <owl:DatatypeProperty rdf:about="#locationAttribute_hasYCoordinate">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#LocationAttribute"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#ontology_hasFileExtension -->
 
     <owl:DatatypeProperty rdf:about="#ontology_hasFileExtension">
@@ -433,22 +434,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#locationAttribute_hasXCoordinate -->
+    <!-- http://net.sf.graphiti/basics.owl#ontology_refinementHasFileExtension -->
 
-    <owl:DatatypeProperty rdf:about="#locationAttribute_hasXCoordinate">
-        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
-        <rdfs:domain rdf:resource="#LocationAttribute"/>
-        <rdfs:range rdf:resource="&xsd;int"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://net.sf.graphiti/basics.owl#locationAttribute_hasYCoordinate -->
-
-    <owl:DatatypeProperty rdf:about="#locationAttribute_hasYCoordinate">
-        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
-        <rdfs:domain rdf:resource="#LocationAttribute"/>
-        <rdfs:range rdf:resource="&xsd;int"/>
+    <owl:DatatypeProperty rdf:about="#ontology_refinementHasFileExtension">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >This property should be applied to the ontology element to describe a file extension a vertex refinement can be associated with.</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;string"/>
     </owl:DatatypeProperty>
     
 
@@ -473,16 +464,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#ontology_refinementHasFileExtension -->
-
-    <owl:DatatypeProperty rdf:about="#ontology_refinementHasFileExtension">
-        <rdfs:comment rdf:datatype="&xsd;string"
-            >This property should be applied to the ontology element to describe a file extension a vertex refinement can be associated with.</rdfs:comment>
-        <rdfs:range rdf:resource="&xsd;string"/>
-    </owl:DatatypeProperty>
-    
-
-
     <!-- http://net.sf.graphiti/basics.owl#schemaType_hasMaxOccurs -->
 
     <owl:DatatypeProperty rdf:about="#schemaType_hasMaxOccurs">
@@ -499,16 +480,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
         <rdfs:domain rdf:resource="#XMLSchemaType"/>
         <rdfs:range rdf:resource="&xsd;int"/>
-    </owl:DatatypeProperty>
-    
-
-
-    <!-- http://net.sf.graphiti/basics.owl#token_hasRegexp -->
-
-    <owl:DatatypeProperty rdf:about="#token_hasRegexp">
-        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
-        <rdfs:domain rdf:resource="#Token"/>
-        <rdfs:range rdf:resource="&xsd;string"/>
     </owl:DatatypeProperty>
     
 
@@ -576,14 +547,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         </rdfs:subClassOf>
         <rdfs:comment rdf:datatype="&xsd;string"
             >Not used at the moment.</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://net.sf.graphiti/basics.owl#Alternative -->
-
-    <owl:Class rdf:about="#Alternative">
-        <rdfs:subClassOf rdf:resource="#GrammarDescription"/>
     </owl:Class>
     
 
@@ -759,14 +722,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#GrammarDescription -->
-
-    <owl:Class rdf:about="#GrammarDescription">
-        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
-    </owl:Class>
-    
-
-
     <!-- http://net.sf.graphiti/basics.owl#GraphElement -->
 
     <owl:Class rdf:about="#GraphElement">
@@ -855,14 +810,14 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <rdfs:subClassOf rdf:resource="&owl;Thing"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#parameter_hasPosition"/>
-                <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:minCardinality>
+                <owl:onProperty rdf:resource="#parameter_appliesTo"/>
+                <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#parameter_appliesTo"/>
-                <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+                <owl:onProperty rdf:resource="#parameter_hasPosition"/>
+                <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:minCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment rdf:datatype="&xsd;string"
@@ -895,13 +850,13 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <rdfs:subClassOf rdf:resource="&owl;Thing"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#parameterValue_hasValue"/>
+                <owl:onProperty rdf:resource="#parameterValue_ofParameter"/>
                 <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="#parameterValue_ofParameter"/>
+                <owl:onProperty rdf:resource="#parameterValue_hasValue"/>
                 <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -928,14 +883,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
             </owl:Class>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="#Enums"/>
-    </owl:Class>
-    
-
-
-    <!-- http://net.sf.graphiti/basics.owl#Rule -->
-
-    <owl:Class rdf:about="#Rule">
-        <rdfs:subClassOf rdf:resource="#GrammarDescription"/>
     </owl:Class>
     
 
@@ -1008,14 +955,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <rdfs:subClassOf rdf:resource="#Element"/>
         <rdfs:comment rdf:datatype="&xsd;string"
             >A TextContentElement contains information in its text content.</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://net.sf.graphiti/basics.owl#Token -->
-
-    <owl:Class rdf:about="#Token">
-        <rdfs:subClassOf rdf:resource="#GrammarDescription"/>
     </owl:Class>
     
 
@@ -1241,12 +1180,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <DataType rdf:about="#String">
         <rdfs:comment rdf:datatype="&xsd;string">A string.</rdfs:comment>
     </DataType>
-    
-
-
-    <!-- http://net.sf.graphiti/basics.owl#TokenEpsilon -->
-
-    <Token rdf:about="#TokenEpsilon"/>
     
 
 
