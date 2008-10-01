@@ -32,6 +32,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.graphiti.ontology.FileFormat;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
@@ -106,11 +108,11 @@ public class OpenRefinementNewTabCommand extends AbstractRefinementCommand {
 
 		// get all possible candidates
 		List<IFile> files = new ArrayList<IFile>();
-		String[] fileExts = vertex.getConfiguration()
-				.getRefinementFileExtensions();
-		for (String fileExt : fileExts) {
+		FileFormat[] fileExts = vertex.getConfiguration()
+				.getRefinementFileFormats();
+		for (FileFormat fileExt : fileExts) {
 			IResource resource = workspace.getRoot().findMember(
-					path + "." + fileExt);
+					path + "." + fileExt.hasFileExtension());
 			if (resource instanceof IFile) {
 				files.add((IFile) resource);
 			}
@@ -164,7 +166,7 @@ public class OpenRefinementNewTabCommand extends AbstractRefinementCommand {
 		if (refinement == null) {
 			return null;
 		}
-		
+
 		// get the path from the refinement
 		IPath path = new Path(refinement);
 		if (path.isAbsolute() == false) {

@@ -30,6 +30,7 @@ package net.sf.graphiti.ontology.impl;
 
 import java.util.Set;
 
+import net.sf.graphiti.ontology.FileFormat;
 import net.sf.graphiti.ontology.OntologyElement;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.XMLSchemaType;
@@ -68,9 +69,10 @@ public class OntologyElementImpl extends OntologyBaseImpl implements
 	}
 
 	@Override
-	public Set<String> getRefinementFileExtensions() {
-		return listStrings(OntologyFactory
-				.getAnnotationPropertyRefinementHasFileExtension());
+	@SuppressWarnings("unchecked")
+	public Set<FileFormat> getRefinementFileFormats() {
+		return (Set<FileFormat>) listIndividuals(OntologyFactory
+				.getAnnotationPropertyHasRefinementFileFormat());
 	}
 
 }

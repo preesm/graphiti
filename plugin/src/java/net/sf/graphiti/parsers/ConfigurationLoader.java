@@ -297,7 +297,7 @@ public class ConfigurationLoader {
 
 			// file extensions.
 			config.setFileExtensions(factory.getFileExtensions());
-			config.setRefinementFileExtensions(factory
+			config.setRefinementFileFormats(factory
 					.getRefinementFileExtensions());
 
 			return config;

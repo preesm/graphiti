@@ -93,6 +93,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#ontology_hasRefinementFileFormat -->
+
+    <owl:ObjectProperty rdf:about="&net;basics.owl#ontology_hasRefinementFileFormat"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#otherAttribute_referencesParameter -->
 
     <owl:ObjectProperty rdf:about="&net;basics.owl#otherAttribute_referencesParameter"/>
@@ -236,6 +242,18 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#fileFormat_hasFileExtension -->
+
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#fileFormat_hasFileExtension"/>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#fileFormat_hasGrammar -->
+
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#fileFormat_hasGrammar"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#ontology_hasFileExtension -->
 
     <owl:DatatypeProperty rdf:about="&net;basics.owl#ontology_hasFileExtension"/>
@@ -257,12 +275,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/basics.owl#parameter_hasName -->
 
     <owl:DatatypeProperty rdf:about="&net;basics.owl#parameter_hasName"/>
-    
-
-
-    <!-- http://net.sf.graphiti/basics.owl#ontology_refinementHasFileExtension -->
-
-    <owl:DatatypeProperty rdf:about="&net;basics.owl#ontology_refinementHasFileExtension"/>
     
 
 
@@ -370,6 +382,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/basics.owl#Element -->
 
     <owl:Class rdf:about="&net;basics.owl#Element"/>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#FileFormat -->
+
+    <owl:Class rdf:about="&net;basics.owl#FileFormat"/>
     
 
 
@@ -508,10 +526,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
 
     <rdf:Description rdf:about="">
         <basics:ontology_hasNamespace rdf:datatype="&xsd;string"></basics:ontology_hasNamespace>
-        <basics:ontology_refinementHasFileExtension rdf:datatype="&xsd;string">cal</basics:ontology_refinementHasFileExtension>
         <basics:ontology_hasFileExtension rdf:datatype="&xsd;string">xnl</basics:ontology_hasFileExtension>
-        <basics:ontology_refinementHasFileExtension rdf:datatype="&xsd;string">xnl</basics:ontology_refinementHasFileExtension>
         <basics:ontology_hasDocumentElement rdf:resource="#DocumentElementXNL"/>
+        <basics:ontology_hasRefinementFileFormat rdf:resource="#FileFormatRefinementCal"/>
+        <basics:ontology_hasRefinementFileFormat rdf:resource="#FileFormatRefinementXDF"/>
+        <basics:ontology_hasRefinementFileFormat rdf:resource="#FileFormatRefinementXNL"/>
     </rdf:Description>
     
 
@@ -981,6 +1000,32 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:element_hasSchemaType rdf:resource="#ElementID"/>
         <basics:element_hasAttributes rdf:resource="#OtherAttributeGraphName"/>
     </basics:Element>
+    
+
+
+    <!-- http://net.sf.graphiti/xnl.owl#FileFormatRefinementCal -->
+
+    <basics:FileFormat rdf:about="#FileFormatRefinementCal">
+        <basics:fileFormat_hasFileExtension rdf:datatype="&xsd;string">cal</basics:fileFormat_hasFileExtension>
+        <basics:fileFormat_hasGrammar rdf:datatype="&xsd;string">cal.grammar</basics:fileFormat_hasGrammar>
+        <basics:fileFormat_hasGrammar rdf:datatype="&xsd;string">calToXml.xslt</basics:fileFormat_hasGrammar>
+    </basics:FileFormat>
+    
+
+
+    <!-- http://net.sf.graphiti/xnl.owl#FileFormatRefinementXDF -->
+
+    <basics:FileFormat rdf:about="#FileFormatRefinementXDF">
+        <basics:fileFormat_hasFileExtension rdf:datatype="&xsd;string">xdf</basics:fileFormat_hasFileExtension>
+    </basics:FileFormat>
+    
+
+
+    <!-- http://net.sf.graphiti/xnl.owl#FileFormatRefinementXNL -->
+
+    <basics:FileFormat rdf:about="#FileFormatRefinementXNL">
+        <basics:fileFormat_hasFileExtension rdf:datatype="&xsd;string">xnl</basics:fileFormat_hasFileExtension>
+    </basics:FileFormat>
     
 
 

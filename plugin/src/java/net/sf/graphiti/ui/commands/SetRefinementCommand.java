@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ontology.FileFormat;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.core.resources.IFile;
@@ -178,11 +179,11 @@ public class SetRefinementCommand extends AbstractRefinementCommand {
 
 		// get all possible candidates
 		List<IFile> files = new ArrayList<IFile>();
-		String[] fileExts = vertex.getConfiguration()
-				.getRefinementFileExtensions();
-		for (String fileExt : fileExts) {
+		FileFormat[] fileExts = vertex.getConfiguration()
+				.getRefinementFileFormats();
+		for (FileFormat fileExt : fileExts) {
 			IResource resource = workspace.getRoot().findMember(
-					absolutePath + "." + fileExt);
+					absolutePath + "." + fileExt.hasFileExtension());
 			if (resource instanceof IFile) {
 				files.add((IFile) resource);
 			}

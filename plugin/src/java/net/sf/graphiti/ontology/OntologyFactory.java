@@ -90,8 +90,8 @@ public class OntologyFactory {
 		return "http://net.sf.graphiti/basics.owl#ontology_hasNamespace";
 	}
 
-	public static String getAnnotationPropertyRefinementHasFileExtension() {
-		return "http://net.sf.graphiti/basics.owl#ontology_refinementHasFileExtension";
+	public static String getAnnotationPropertyHasRefinementFileFormat() {
+		return "http://net.sf.graphiti/basics.owl#ontology_hasRefinementFileFormat";
 	}
 
 	public static String getClassAll() {
@@ -668,7 +668,7 @@ public class OntologyFactory {
 	 * @return The file extensions that a vertex refinement may be associated
 	 *         with.
 	 */
-	public Set<String> getRefinementFileExtensions() {
+	public Set<FileFormat> getRefinementFileExtensions() {
 		Ontology ont = model.getOntology(modelURI);
 		return getRefinementFileExtensions(ont);
 	}
@@ -678,9 +678,9 @@ public class OntologyFactory {
 	 * @param ont
 	 * @return
 	 */
-	private Set<String> getRefinementFileExtensions(Ontology ont) {
+	private Set<FileFormat> getRefinementFileExtensions(Ontology ont) {
 		OntologyElement ontElement = new OntologyElementImpl(ont);
-		Set<String> fileExts = ontElement.getRefinementFileExtensions();
+		Set<FileFormat> fileExts = ontElement.getRefinementFileFormats();
 		ExtendedIterator it = ont.listImports();
 		while (it.hasNext()) {
 			Ontology ontParent = ((OntResource) it.next()).asOntology();
@@ -700,6 +700,22 @@ public class OntologyFactory {
 		OntologyModelImpl ontModel = new OntologyModelImpl(model);
 		return (Set<VertexType>) ontModel.listIndividuals(OntologyFactory
 				.getClassVertexType());
+	}
+
+	public static String getClassFileFormat() {
+		return "http://net.sf.graphiti/basics.owl#FileFormat";
+	}
+
+	public static String getPropertyFileFormatHasFileExtension() {
+		return "http://net.sf.graphiti/basics.owl#fileFormat_hasFileExtension";
+	}
+
+	public static String getPropertyFileFormatHasGrammar() {
+		return "http://net.sf.graphiti/basics.owl#fileFormat_hasGrammar";
+	}
+
+	public static String getPropertyFileFormatHasStringToXmlXslt() {
+		return "http://net.sf.graphiti/basics.owl#fileFormat_hasStringToXmlXSLT";
 	}
 
 }

@@ -28,36 +28,17 @@
  */
 package net.sf.graphiti.ontology.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.OutputStream;
-import java.io.StringReader;
 import java.net.URL;
 
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
-import net.percederberg.grammatica.Grammar;
-import net.percederberg.grammatica.parser.Node;
-import net.percederberg.grammatica.parser.Parser;
-import net.percederberg.grammatica.parser.Production;
-import net.percederberg.grammatica.parser.Token;
-import net.percederberg.grammatica.parser.Tokenizer;
+import net.sf.graphiti.grammar.GrammarTransformer;
+import net.sf.graphiti.grammar.XsltTransformer;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.Parameter;
 import net.sf.graphiti.ontology.Translation;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
-import org.eclipse.core.runtime.FileLocator;
 import org.osgi.framework.Bundle;
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
 import com.hp.hpl.jena.ontology.Individual;
 
@@ -73,71 +54,13 @@ public class TranslationImpl extends XMLSchemaTypeImpl implements Translation {
 		super(individual);
 	}
 
-	private void convertNodeToDom(Element parent, Node parseNode) {
-		Document document = parent.getOwnerDocument();
-		if (parseNode instanceof Production) {
-			Element domNode = document.createElement(parseNode.getName());
-			parent.appendChild(domNode);
-
-			int n = parseNode.getChildCount();
-			for (int i = 0; i < n; i++) {
-				Node child = parseNode.getChildAt(i);
-				convertNodeToDom(domNode, child);
-			}
-		} else {
-			Token token = (Token) parseNode;
-			Element domNode = document.createElement("token");
-			domNode.setAttribute("name", token.getName());
-			domNode.setTextContent(token.getImage());
-			parent.appendChild(domNode);
-		}
-	}
-
-	private Element convertTreeToDom(Node root) throws Exception {
-		// create document
-		DOMImplementation impl = DOMImplementationRegistry.newInstance()
-				.getDOMImplementation("Core 3.0 XML 3.0 LS");
-		String namespace = "";
-		Document document = impl
-				.createDocument(namespace, root.getName(), null);
-
-		// convert children parse nodes
-		Element documentElement = document.getDocumentElement();
-		int n = root.getChildCount();
-		for (int i = 0; i < n; i++) {
-			Node child = root.getChildAt(i);
-			convertNodeToDom(documentElement, child);
-		}
-
-		return document.getDocumentElement();
-	}
-
 	@Override
 	public String getString(Element element) {
 		Bundle bundle = GraphitiPlugin.getDefault().getBundle();
 		String xsltFilename = getStringProperty(OntologyFactory
 				.getPropertyTranslationHasXmlToStringXslt());
-
-		TransformerFactory factory = TransformerFactory.newInstance(
-				"net.sf.saxon.TransformerFactoryImpl", null);
-		try {
-			URL url = bundle.getEntry("src/owl/" + xsltFilename);
-			File file = new File(FileLocator.toFileURL(url).getPath());
-			StreamSource xsltSource = new StreamSource(file);
-			Transformer transformer = factory.newTransformer(xsltSource);
-
-			OutputStream os = new ByteArrayOutputStream();
-			StreamResult result = new StreamResult(os);
-			DOMSource source = new DOMSource(element);
-			transformer.transform(source, result);
-			os.close();
-
-			String value = os.toString();
-			return value;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "";
-		}
+		URL url = bundle.getEntry("src/owl/" + xsltFilename);
+		return new XsltTransformer(url).transformDomToString(element);
 	}
 
 	@Override
@@ -154,31 +77,13 @@ public class TranslationImpl extends XMLSchemaTypeImpl implements Translation {
 		String xsltFilename = getStringProperty(OntologyFactory
 				.getPropertyTranslationHasStringToXmlXslt());
 
+		URL url = bundle.getEntry("src/owl/" + grammarFilename);
 		try {
-			URL url = bundle.getEntry("src/owl/" + grammarFilename);
-			File file = new File(FileLocator.toFileURL(url).getPath());
-
-			// parse input
-			Grammar grammar = new Grammar(file);
-			Tokenizer tokenizer = grammar.createTokenizer(new StringReader(
-					input));
-			Parser parser = grammar.createParser(tokenizer);
-			Node tree = parser.parse();
-
-			// convert to DOM tree
-			Element element = convertTreeToDom(tree);
+			Element element = new GrammarTransformer(url).parse(input);
 
 			// transform DOM source to DOM result
-			TransformerFactory factory = TransformerFactory.newInstance(
-					"net.sf.saxon.TransformerFactoryImpl", null);
 			url = bundle.getEntry("src/owl/" + xsltFilename);
-			file = new File(FileLocator.toFileURL(url).getPath());
-			StreamSource xsltSource = new StreamSource(file);
-			Transformer transformer = factory.newTransformer(xsltSource);
-
-			DOMSource source = new DOMSource(element);
-			DOMResult result = new DOMResult(parent);
-			transformer.transform(source, result);
+			new XsltTransformer(url).transformDomToDom(element, parent);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

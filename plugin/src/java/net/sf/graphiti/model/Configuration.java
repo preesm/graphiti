@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.graphiti.ontology.FileFormat;
 import net.sf.graphiti.ontology.OntologyFactory;
 
 /**
@@ -101,10 +102,10 @@ public class Configuration {
 	private List<Configuration> parents;
 
 	/**
-	 * File extensions that may be associated with a vertex refinement in this
+	 * File formats that may be associated with a vertex refinement in this
 	 * document configuration.
 	 */
-	private String[] refinementFileExtensions;
+	private FileFormat[] refinementFileFormats;
 
 	/**
 	 * A vertex type -> attributes map.
@@ -416,10 +417,10 @@ public class Configuration {
 	}
 
 	/**
-	 * @return the refinementFileExtensions
+	 * @return the refinementFileFormats
 	 */
-	public String[] getRefinementFileExtensions() {
-		return refinementFileExtensions;
+	public FileFormat[] getRefinementFileFormats() {
+		return refinementFileFormats;
 	}
 
 	/**
@@ -547,12 +548,12 @@ public class Configuration {
 	}
 
 	/**
-	 * @param refinementFileExtensions
-	 *            the refinementFileExtensions to set
+	 * @param refinementFileFormats
+	 *            the refinementFileFormats to set
 	 */
-	public void setRefinementFileExtensions(Set<String> refinementFileExtensions) {
-		this.refinementFileExtensions = refinementFileExtensions
-				.toArray(new String[] {});
+	public void setRefinementFileFormats(Set<FileFormat> refinementFileFormats) {
+		this.refinementFileFormats = refinementFileFormats
+				.toArray(new FileFormat[] {});
 	}
 
 	/**

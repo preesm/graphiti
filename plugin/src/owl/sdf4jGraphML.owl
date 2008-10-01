@@ -93,6 +93,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
+    <!-- http://net.sf.graphiti/basics.owl#ontology_hasRefinementFileFormat -->
+
+    <owl:ObjectProperty rdf:about="&net;basics.owl#ontology_hasRefinementFileFormat"/>
+    
+
+
     <!-- http://net.sf.graphiti/basics.owl#otherAttribute_referencesParameter -->
 
     <owl:ObjectProperty rdf:about="&net;basics.owl#otherAttribute_referencesParameter"/>
@@ -242,9 +248,21 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#ontology_refinementHasFileExtension -->
+    <!-- http://net.sf.graphiti/basics.owl#fileFormat_hasFileExtension -->
 
-    <owl:DatatypeProperty rdf:about="&net;basics.owl#ontology_refinementHasFileExtension"/>
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#fileFormat_hasFileExtension"/>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#fileFormat_hasGrammar -->
+
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#fileFormat_hasGrammar"/>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#fileFormat_hasStringToXmlXSLT -->
+
+    <owl:DatatypeProperty rdf:about="&net;basics.owl#fileFormat_hasStringToXmlXSLT"/>
     
 
 
@@ -352,6 +370,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/basics.owl#Element -->
 
     <owl:Class rdf:about="&net;basics.owl#Element"/>
+    
+
+
+    <!-- http://net.sf.graphiti/basics.owl#FileFormat -->
+
+    <owl:Class rdf:about="&net;basics.owl#FileFormat"/>
     
 
 
@@ -501,9 +525,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/sdf4jGraphML.owl -->
 
     <rdf:Description rdf:about="">
-        <basics:ontology_refinementHasFileExtension rdf:datatype="&xsd;string">graphml</basics:ontology_refinementHasFileExtension>
-        <basics:ontology_refinementHasFileExtension rdf:datatype="&xsd;string">xml</basics:ontology_refinementHasFileExtension>
         <basics:ontology_hasDocumentElement rdf:resource="#DocumentElement"/>
+        <basics:ontology_hasRefinementFileFormat rdf:resource="#FileFormatRefinementC"/>
+        <basics:ontology_hasRefinementFileFormat rdf:resource="#FileFormatRefinementGraphML"/>
+        <basics:ontology_hasRefinementFileFormat rdf:resource="#FileFormatRefinementXML"/>
     </rdf:Description>
     
 
@@ -891,6 +916,32 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:element_hasAttributeRestriction rdf:resource="#AttributeRestrictionVertexDataKeyArguments"/>
         <basics:element_hasSchemaType rdf:resource="#ElementVertexDataArgument"/>
     </basics:Element>
+    
+
+
+    <!-- http://net.sf.graphiti/sdf4jGraphML.owl#FileFormatRefinementC -->
+
+    <basics:FileFormat rdf:about="#FileFormatRefinementC">
+        <basics:fileFormat_hasFileExtension rdf:datatype="&xsd;string">c</basics:fileFormat_hasFileExtension>
+        <basics:fileFormat_hasGrammar rdf:datatype="&xsd;string">c.grammar</basics:fileFormat_hasGrammar>
+        <basics:fileFormat_hasStringToXmlXSLT rdf:datatype="&xsd;string">cToXml.xslt</basics:fileFormat_hasStringToXmlXSLT>
+    </basics:FileFormat>
+    
+
+
+    <!-- http://net.sf.graphiti/sdf4jGraphML.owl#FileFormatRefinementGraphML -->
+
+    <basics:FileFormat rdf:about="#FileFormatRefinementGraphML">
+        <basics:fileFormat_hasFileExtension rdf:datatype="&xsd;string">graphml</basics:fileFormat_hasFileExtension>
+    </basics:FileFormat>
+    
+
+
+    <!-- http://net.sf.graphiti/sdf4jGraphML.owl#FileFormatRefinementXML -->
+
+    <basics:FileFormat rdf:about="#FileFormatRefinementXML">
+        <basics:fileFormat_hasFileExtension rdf:datatype="&xsd;string">xml</basics:fileFormat_hasFileExtension>
+    </basics:FileFormat>
     
 
 

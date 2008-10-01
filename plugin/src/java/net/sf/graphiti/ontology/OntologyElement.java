@@ -61,12 +61,10 @@ public interface OntologyElement {
 	public String getNamespace();
 
 	/**
-	 * Returns the file extensions that a vertex refinement may be associated
-	 * with.
+	 * Returns the file formats that a vertex refinement may be associated with.
 	 * 
-	 * @return The file extensions that a vertex refinement may be associated
-	 *         with.
+	 * @return The file formats that a vertex refinement may be associated with.
 	 */
-	public Set<String> getRefinementFileExtensions();
+	public Set<FileFormat> getRefinementFileFormats();
 
 }
