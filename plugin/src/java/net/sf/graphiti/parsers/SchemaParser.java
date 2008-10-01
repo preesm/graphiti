@@ -168,12 +168,11 @@ public class SchemaParser {
 		for (XMLAttribute ontAttribute : attributes) {
 			String ontAttrName = ontAttribute.hasName();
 			Attr domAttr = domElement.getAttributeNode(ontAttrName);
-			if (domAttr == null) {
-				log.debug("parseAttributes: attribute " + ontAttrName
-						+ " not present");
-				throw new NotCompatibleException();
-			} else {
-				contentParser.parseAttribute(ontAttribute, domAttr.getValue());
+			if (domAttr != null) {
+				String value = domAttr.getValue();
+				if (!value.isEmpty()) {
+					contentParser.parseAttribute(ontAttribute, value);
+				}
 			}
 		}
 	}

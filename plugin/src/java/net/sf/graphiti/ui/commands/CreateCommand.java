@@ -83,29 +83,27 @@ public class CreateCommand extends Command {
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		Shell shell = window.getShell();
 
-		InputDialog dialog;
-		do {
-			dialog = new InputDialog(shell, "New vertex",
-					"Please enter a vertex identifier", "",
-					new IInputValidator() {
+		InputDialog dialog = new InputDialog(shell, "New vertex",
+				"Please enter a vertex identifier", "", new IInputValidator() {
 
-						@Override
-						public String isValid(String vertexId) {
-							if (vertexId.isEmpty()) {
-								return "";
-							}
-
-							if (graph != null) {
-								Vertex vertex = graph.findVertex(vertexId);
-								if (vertex != null) {
-									return "A vertex already exists with the same identifier";
-								}
-							}
-
-							return null;
+					@Override
+					public String isValid(String vertexId) {
+						if (vertexId.isEmpty()) {
+							return "";
 						}
 
-					});
+						if (graph != null) {
+							Vertex vertex = graph.findVertex(vertexId);
+							if (vertex != null) {
+								return "A vertex already exists with the same identifier";
+							}
+						}
+
+						return null;
+					}
+
+				});
+		do {
 		} while (dialog.open() != InputDialog.OK);
 		return dialog.getValue();
 	}

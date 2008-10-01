@@ -40,7 +40,6 @@ import net.sf.graphiti.parsers.IncompatibleConfigurationFile;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -138,24 +137,15 @@ public class PortChooser {
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		Shell shell = window.getShell();
 
-		InputDialog dialog;
-		do {
-			dialog = new InputDialog(shell, "Enter port name",
-					"Please enter a " + portName + " name:", "",
-					new IInputValidator() {
-
-						@Override
-						public String isValid(String vertexId) {
-							if (vertexId.isEmpty()) {
-								return "";
-							}
-
-							return null;
-						}
-
-					});
-		} while (dialog.open() != InputDialog.OK);
-		return dialog.getValue();
+		InputDialog dialog = new InputDialog(shell, "Enter port name",
+				"Please enter a " + portName + " name:", "", null);
+		dialog.open();
+		String value = dialog.getValue();
+		if (value.isEmpty()) {
+			return null;
+		} else {
+			return value;
+		}
 	}
 
 	/**
