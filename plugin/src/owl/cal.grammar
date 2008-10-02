@@ -102,12 +102,16 @@ SHARP              = "#"
 STRING             = <<"([^\\"]*(\\[tnr\\"])?)*">>
 TIMES              = "*"
 
-COMMENTS           = <<//[^\r\n]*(\r|\n|\r\n)>> %ignore%
+LINE_COMMENT       = <<//[^\r\n]*(\r|\n|\r\n)>> %ignore%
+MULTI_LINE_COMMENT = <</\*([^*]|\*[^/])*\*/>> %ignore%
 WHITESPACE         = <<[ \t\n\r]+>> %ignore%
 
 %productions%
 
-Actor = Import* TOK_ACTOR ID LPAREN Parameters? RPAREN PortDecls? DOUBLE_EQUAL_ARROW PortDecls? COLON Ignore* ;
+Actor = Import* TOK_ACTOR ID
+  (LBRACKET TypePars? RBRACKET)?
+  LPAREN Parameters? RPAREN
+  PortDecls? DOUBLE_EQUAL_ARROW PortDecls? COLON Ignore* ;
 
 Ignore = ALL
 | TOK_ACTOR
@@ -176,13 +180,17 @@ Type = ID TypeRest? ;
 
 TypeAttr = ID TypeAttrRest ;
 
+TypeAttrs = TypeAttr (COMMA TypeAttr)* ;
+
 TypeAttrRest = COLON Type
   | EQUAL Expression ;
 
 TypePar = ID (LT Type)? ;
 
-TypeRest = LBRACKET TypePar (COMMA TypePar)* RBRACKET
-  | LPAREN TypeAttr (COMMA TypeAttr)* RPAREN ;
+TypePars = TypePar (COMMA TypePar)* ;
+
+TypeRest = LBRACKET TypePars? RBRACKET
+  | LPAREN TypeAttrs? RPAREN ;
 
 ///////////////////////////////////////////////////////////////////////////////
 // EXPRESSIONS

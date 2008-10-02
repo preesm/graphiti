@@ -29,12 +29,17 @@
 package net.sf.graphiti.grammar;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Reader;
 import java.net.URL;
 
 import net.percederberg.grammatica.Grammar;
+import net.percederberg.grammatica.GrammarException;
 import net.percederberg.grammatica.parser.Node;
 import net.percederberg.grammatica.parser.Parser;
+import net.percederberg.grammatica.parser.ParserCreationException;
+import net.percederberg.grammatica.parser.ParserLogException;
 import net.percederberg.grammatica.parser.Production;
 import net.percederberg.grammatica.parser.Token;
 import net.percederberg.grammatica.parser.Tokenizer;
@@ -46,6 +51,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
 /**
+ * This class provides methods to create a grammar from a given file, and parse
+ * an input to produce a concrete syntax DOM tree.
+ * 
  * @author Matthieu Wipliez
  * 
  */
@@ -53,24 +61,50 @@ public class GrammarTransformer {
 
 	private Grammar grammar;
 
-	public GrammarTransformer(String fileName) {
-		try {
-			File file = new File(fileName);
-			grammar = new Grammar(file);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	/**
+	 * Creates a new grammar transformer using the grammar with the given file
+	 * name.
+	 * 
+	 * @param fileName
+	 *            The grammar file name.
+	 * @throws FileNotFoundException if the grammar file could not be found
+	 * @throws ParserLogException if the grammar file couldn't be parsed correctly
+	 * @throws GrammarException if the grammar wasn't valid
+	 */
+	public GrammarTransformer(String fileName) throws FileNotFoundException,
+			ParserLogException, GrammarException {
+		File file = new File(fileName);
+		grammar = new Grammar(file);
 	}
 
-	public GrammarTransformer(URL grammarUrl) {
-		try {
-			File file = new File(FileLocator.toFileURL(grammarUrl).getPath());
-			grammar = new Grammar(file);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	/**
+	 * Creates a new grammar transformer using the grammar with the given URL.
+	 * 
+	 * @param grammarUrl
+	 *            The grammar URL. This URL is expected to be a "bundleentry://"
+	 *            and is translated to a "file://" URL by {@link FileLocator}.
+	 * @throws IOException if an error occurs during the conversion
+	 * @throws ParserLogException if the grammar file couldn't be parsed correctly
+	 * @throws GrammarException if the grammar wasn't valid
+	 */
+	public GrammarTransformer(URL grammarUrl) throws IOException,
+			ParserLogException, GrammarException {
+		File file = new File(FileLocator.toFileURL(grammarUrl).getPath());
+		grammar = new Grammar(file);
 	}
 
+	/**
+	 * Converts the given parse node to XML and appends it to the DOM parent
+	 * element. The conversion is as follows: a production is translated to an
+	 * element with the same name, and its children are appended to it. A token
+	 * is translated to a "token" element, with a "name" attribute containing
+	 * the token name, and its text content containing the token image.
+	 * 
+	 * @param parent
+	 *            The parent element.
+	 * @param parseNode
+	 *            The parse node.
+	 */
 	private void convertNodeToDom(Element parent, Node parseNode) {
 		Document document = parent.getOwnerDocument();
 		if (parseNode instanceof Production) {
@@ -91,7 +125,27 @@ public class GrammarTransformer {
 		}
 	}
 
-	private Element convertTreeToDom(Node root) throws Exception {
+	/**
+	 * Creates a DOM document with a document element named after the root parse
+	 * node, and calls {@link #convertNodeToDom(Element, Node)} on its children.
+	 * 
+	 * @param root
+	 *            The root parse node.
+	 * @return The document element of the newly created document.
+	 * @throws ClassCastException
+	 *             If any specified class does not implement
+	 *             DOMImplementationSource
+	 * @throws ClassNotFoundException
+	 *             If any specified class can not be found
+	 * @throws InstantiationException
+	 *             If any specified class is an interface or abstract class
+	 * @throws IllegalAccessException
+	 *             If the default constructor of a specified class is not
+	 *             accessible
+	 */
+	private Element convertTreeToDom(Node root) throws ClassCastException,
+			ClassNotFoundException, InstantiationException,
+			IllegalAccessException {
 		// create document
 		DOMImplementation impl = DOMImplementationRegistry.newInstance()
 				.getDOMImplementation("Core 3.0 XML 3.0 LS");
@@ -108,16 +162,37 @@ public class GrammarTransformer {
 		return document.getDocumentElement();
 	}
 
-	public Element parse(Reader reader) {
-		try {
-			Tokenizer tokenizer = grammar.createTokenizer(reader);
-			Parser parser = grammar.createParser(tokenizer);
-			Node tree = parser.parse();
-			return convertTreeToDom(tree);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+	/**
+	 * Parses an input readable by using the given reader.
+	 * 
+	 * @param reader
+	 *            A {@link Reader}.
+	 * @return The DOM document element of the parsed file XML representation.
+	 * @throws GrammarException
+	 *             if the tokenizer couldn't be created or initialized correctly
+	 * @throws ParserCreationException
+	 *             if the parser couldn't be initialized correctly
+	 * @throws ParserLogException
+	 *             if the input couldn't be parsed correctly
+	 * @throws ClassCastException
+	 *             If any specified class does not implement
+	 *             DOMImplementationSource
+	 * @throws ClassNotFoundException
+	 *             If any specified class can not be found
+	 * @throws InstantiationException
+	 *             If any specified class is an interface or abstract class
+	 * @throws IllegalAccessException
+	 *             If the default constructor of a specified class is not
+	 *             accessible
+	 */
+	public Element parse(Reader reader) throws GrammarException,
+			ParserCreationException, ParserLogException, ClassCastException,
+			ClassNotFoundException, InstantiationException,
+			IllegalAccessException {
+		Tokenizer tokenizer = grammar.createTokenizer(reader);
+		Parser parser = grammar.createParser(tokenizer);
+		Node tree = parser.parse();
+		return convertTreeToDom(tree);
 	}
 
 }

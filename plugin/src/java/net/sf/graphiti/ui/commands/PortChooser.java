@@ -29,6 +29,7 @@
 package net.sf.graphiti.ui.commands;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -36,6 +37,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import net.percederberg.grammatica.GrammarException;
+import net.percederberg.grammatica.parser.ParserCreationException;
+import net.percederberg.grammatica.parser.ParserLogException;
 import net.sf.graphiti.grammar.GrammarTransformer;
 import net.sf.graphiti.grammar.XsltTransformer;
 import net.sf.graphiti.model.Graph;
@@ -47,7 +51,10 @@ import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -61,6 +68,10 @@ import org.osgi.framework.Bundle;
 import org.w3c.dom.Element;
 
 /**
+ * This class provides facilities to prompt the user for a source port or target
+ * port by parsing the refinement (if any), or by asking the user to enter a
+ * port name.
+ * 
  * @author Matthieu Wipliez
  * 
  */
@@ -84,10 +95,28 @@ public class PortChooser {
 
 	private RefinementManager manager;
 
+	/**
+	 * Creates a new port chooser using the given refinement manager.
+	 * 
+	 * @param manager
+	 *            The refinement manager.
+	 */
 	public PortChooser(RefinementManager manager) {
 		this.manager = manager;
 	}
 
+	/**
+	 * Displays a {@link ListDialog} filled with the given port list, asking the
+	 * user to choose one. The <code>edgePort</code> string is used to identify
+	 * the port (ie source or target) to choose.
+	 * 
+	 * @param ports
+	 *            A list of port names.
+	 * @param edgePort
+	 *            A string identifying the port ("source port" or
+	 *            "target port").
+	 * @return The name of the chosen port.
+	 */
 	private String choosePort(List<String> ports, String edgePort) {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
@@ -112,6 +141,26 @@ public class PortChooser {
 		} while (dialog.getResult().length == 0);
 
 		return (String) dialog.getResult()[0];
+	}
+
+	/**
+	 * Displays an error message with the given exception.
+	 * 
+	 * @param message
+	 *            A description of the error.
+	 * @param exception
+	 *            An exception.
+	 */
+	private void errorMessage(String message, Throwable exception) {
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		Shell shell = window.getShell();
+
+		IStatus status = new Status(IStatus.ERROR, GraphitiPlugin.PLUGIN_ID,
+				message, exception);
+		ErrorDialog dialog = new ErrorDialog(shell, "Error", message, status,
+				IStatus.ERROR);
+		dialog.open();
 	}
 
 	/**
@@ -144,6 +193,16 @@ public class PortChooser {
 		return null;
 	}
 
+	/**
+	 * Prompts the user for an arbitrary port name using a simple
+	 * {@link InputDialog}. The <code>portName</code> parameter indicates the
+	 * role of the given port.
+	 * 
+	 * @param portName
+	 *            "source port" or "target port".
+	 * @return The port name, or <code>null</code> if the user entered a blank
+	 *         port name (equivalent to "no port").
+	 */
 	private String getPortName(String portName) {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
@@ -237,40 +296,65 @@ public class PortChooser {
 		}
 	}
 
+	/**
+	 * Parses the given file using the given file format. The file format can
+	 * contain a grammar, in which case the file is parsed with Grammatica,
+	 * transformed using XSLT, and parsed with Graphiti. Otherwise, no
+	 * pre-parsing takes place, and the file is simply parsed with Graphiti.
+	 * 
+	 * @param format
+	 *            The file format.
+	 * @param sourceFile
+	 *            The file to parse
+	 * @return A graph (or <code>null</code> if there was a parsing problem).
+	 */
 	private Graph parseRefinement(FileFormat format, IFile sourceFile) {
 		Graph graph = null;
 		String grammar = format.hasGrammar();
+		GenericGraphFileParser parser = new GenericGraphFileParser(
+				GraphitiPlugin.getDefault().getConfiguration());
+
 		if (grammar.isEmpty()) {
-			// parse with generic parser.
-			GenericGraphFileParser parser = new GenericGraphFileParser(
-					GraphitiPlugin.getDefault().getConfiguration());
 			try {
 				graph = parser.parse(sourceFile);
 			} catch (IncompatibleConfigurationFile e) {
-				// nothing we can do
+				errorMessage("The graph could not be parsed", e);
 			}
 		} else {
 			Bundle bundle = GraphitiPlugin.getDefault().getBundle();
 			URL url = bundle.getEntry("src/owl/" + grammar);
+
+			// parse and transform
 			try {
-				// parse and transform
 				InputStream is = sourceFile.getContents();
 				Element source = new GrammarTransformer(url)
 						.parse(new InputStreamReader(is));
 				url = bundle.getEntry("src/owl/" + format.hasXslt());
 				Element target = new XsltTransformer(url).transformDomToDom(
 						source, "dummy");
-
-				// parse the result with generic parser.
-				GenericGraphFileParser parser = new GenericGraphFileParser(
-						GraphitiPlugin.getDefault().getConfiguration());
-				try {
-					graph = parser.parse(target);
-				} catch (IncompatibleConfigurationFile e) {
-					e.printStackTrace();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+				graph = parser.parse(target);
+			} catch (CoreException e) {
+				errorMessage("Could not obtain the file contents", e);
+			} catch (ClassCastException e) {
+				errorMessage(
+						"There was a problem with the creation of a DOM document",
+						e);
+			} catch (GrammarException e) {
+				errorMessage("The grammar \"" + grammar + "\" was not valid", e);
+			} catch (ParserCreationException e) {
+				errorMessage("The parser could not be created", e);
+			} catch (ParserLogException e) {
+				errorMessage("There was a problem with the parser", e);
+			} catch (ClassNotFoundException e) {
+				errorMessage("A DOM class could not be found", e);
+			} catch (InstantiationException e) {
+				errorMessage("A DOM class could not be instantiated", e);
+			} catch (IllegalAccessException e) {
+				errorMessage("A DOM class could not be accessed", e);
+			} catch (IOException e) {
+				errorMessage("The file could not be read", e);
+			} catch (IncompatibleConfigurationFile e) {
+				errorMessage("The graph could not be parsed", e);
 			}
 		}
 

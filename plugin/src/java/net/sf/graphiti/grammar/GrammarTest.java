@@ -53,13 +53,18 @@ public class GrammarTest extends Analyzer {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String grammarFileName = "D:\\repositories\\graphiti-editor\\plugin\\"
-				+ "src\\owl\\cal.grammar";
+		if (args.length < 3) {
+			System.err.println("Usage: GrammarTest <grammar file name> "
+					+ "<input file name> <output XML file name>");
+			return;
+		}
 
-		String fileName = "D:\\repositories\\graphiti-editor\\plugin"
-				+ "\\examples\\XNL\\RVC MPEG-4 SP decoder\\ParseHeaders.cal";
+		String grammarFileName = args[0];
+		String fileName = args[1];
+		String outputFileName = args[2];
 		try {
-			new GrammarTest(grammarFileName, new FileReader(fileName));
+			new GrammarTest(grammarFileName, new FileReader(fileName),
+					outputFileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -67,21 +72,20 @@ public class GrammarTest extends Analyzer {
 
 	private Document document;
 
-	public GrammarTest(String grammarFileName, Reader reader)
-			throws FileNotFoundException {
+	public GrammarTest(String grammarFileName, Reader reader,
+			String outputFileName) throws Exception {
 		Element element = new GrammarTransformer(grammarFileName).parse(reader);
 		document = element.getOwnerDocument();
-		outputXml();
+		outputXml(outputFileName);
 	}
 
-	private void outputXml() throws FileNotFoundException {
+	private void outputXml(String outputFileName) throws FileNotFoundException {
 		// Gets the DOM implementation of document
 		DOMImplementation impl = document.getImplementation();
 		DOMImplementationLS implLS = (DOMImplementationLS) impl;
 
 		LSOutput output = implLS.createLSOutput();
-		OutputStream out = new FileOutputStream(
-				"D:\\repositories\\graphiti-editor\\plugin\\src\\owl\\test.xml");
+		OutputStream out = new FileOutputStream(outputFileName);
 		output.setByteStream(out);
 
 		LSSerializer serializer = implLS.createLSSerializer();
