@@ -28,10 +28,6 @@
  */
 package net.sf.graphiti.parsers;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,15 +48,10 @@ import net.sf.graphiti.ontology.Shape;
 import net.sf.graphiti.ontology.ShapeAttribute;
 import net.sf.graphiti.ontology.VertexParameter;
 import net.sf.graphiti.ontology.VertexType;
-import net.sf.graphiti.ui.GraphitiPlugin;
+import net.sf.graphiti.util.FileLocator;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.graphics.Color;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
 
 /**
  * This class loads the ontologies present in the src/owl folder and creates a
@@ -73,8 +64,6 @@ public class ConfigurationLoader {
 
 	private Configuration configuration;
 
-	private BundleContext context;
-
 	/**
 	 * Creates a new ontology loader in the given bundle context.
 	 * 
@@ -83,8 +72,7 @@ public class ConfigurationLoader {
 	 * @throws CoreException
 	 *             Whenever something bad happens.
 	 */
-	public ConfigurationLoader(BundleContext context) throws CoreException {
-		this.context = context;
+	public ConfigurationLoader() {
 		configuration = loadOntologies();
 	}
 
@@ -214,22 +202,9 @@ public class ConfigurationLoader {
 	 *         {@link Configuration} returned is the root.
 	 * @throws CoreException
 	 */
-	private Configuration loadOntologies() throws CoreException {
+	private Configuration loadOntologies() {
 		// Get all *.owl files
-		Bundle bundle = context.getBundle();
-		Enumeration<?> entries = bundle.findEntries("src/owl", "*.owl", false);
-		List<String> ontologyFiles = new ArrayList<String>();
-		while (entries.hasMoreElements()) {
-			URL url = (URL) entries.nextElement();
-			try {
-				url = FileLocator.toFileURL(url);
-				ontologyFiles.add(url.getPath());
-			} catch (IOException e) {
-				IStatus status = GraphitiPlugin.getDefault().getErrorStatus(
-						"Ontology not found");
-				throw new CoreException(status);
-			}
-		}
+		List<String> ontologyFiles = FileLocator.listFiles("[^.]*\\.owl");
 
 		// Loads all ontology files in ontologyFiles
 		Map<String, Configuration> configurations = new HashMap<String, Configuration>(
@@ -271,43 +246,34 @@ public class ConfigurationLoader {
 	 * @return The document configuration created and filled in.
 	 * @throws CoreException
 	 */
-	private Configuration loadOntology(String file) throws CoreException {
-		try {
-			System.out.println("Loading ontology: " + file);
-			Configuration config = new Configuration(file);
-			OntologyFactory factory = config.getOntologyFactory();
+	private Configuration loadOntology(String file) {
+		System.out.println("Loading ontology: " + file);
+		Configuration config = new Configuration(file);
+		OntologyFactory factory = config.getOntologyFactory();
 
-			// graph types.
-			Set<GraphType> graphTypes = factory.getGraphTypes();
-			for (GraphType type : graphTypes) {
-				fillGraphType(config, type);
-			}
-
-			// vertex types.
-			Set<VertexType> vertexTypes = factory.getVertexTypes();
-			for (VertexType type : vertexTypes) {
-				fillVertexType(config, type);
-			}
-
-			// edge types.
-			Set<EdgeType> edgeTypes = factory.getEdgeTypes();
-			for (EdgeType type : edgeTypes) {
-				fillEdgeType(config, type);
-			}
-
-			// file extensions.
-			config.setFileExtensions(factory.getFileExtensions());
-			config.setRefinementFileFormats(factory
-					.getRefinementFileExtensions());
-
-			return config;
-		} catch (Exception e) {
-			Bundle bundle = context.getBundle();
-			String pluginId = Long.toString(bundle.getBundleId());
-			String message = "Exception occurred";
-			IStatus status = new Status(Status.ERROR, pluginId, message, e);
-			throw new CoreException(status);
+		// graph types.
+		Set<GraphType> graphTypes = factory.getGraphTypes();
+		for (GraphType type : graphTypes) {
+			fillGraphType(config, type);
 		}
+
+		// vertex types.
+		Set<VertexType> vertexTypes = factory.getVertexTypes();
+		for (VertexType type : vertexTypes) {
+			fillVertexType(config, type);
+		}
+
+		// edge types.
+		Set<EdgeType> edgeTypes = factory.getEdgeTypes();
+		for (EdgeType type : edgeTypes) {
+			fillEdgeType(config, type);
+		}
+
+		// file extensions.
+		config.setFileExtensions(factory.getFileExtensions());
+		config.setRefinementFileFormats(factory.getRefinementFileExtensions());
+
+		return config;
 	}
 
 }

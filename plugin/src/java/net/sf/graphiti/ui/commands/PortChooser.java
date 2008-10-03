@@ -32,7 +32,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -64,7 +63,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ListDialog;
-import org.osgi.framework.Bundle;
 import org.w3c.dom.Element;
 
 /**
@@ -321,17 +319,14 @@ public class PortChooser {
 				errorMessage("The graph could not be parsed", e);
 			}
 		} else {
-			Bundle bundle = GraphitiPlugin.getDefault().getBundle();
-			URL url = bundle.getEntry("src/owl/" + grammar);
 
 			// parse and transform
 			try {
 				InputStream is = sourceFile.getContents();
-				Element source = new GrammarTransformer(url)
+				Element source = new GrammarTransformer(grammar)
 						.parse(new InputStreamReader(is));
-				url = bundle.getEntry("src/owl/" + format.hasXslt());
-				Element target = new XsltTransformer(url).transformDomToDom(
-						source, "dummy");
+				XsltTransformer tr = new XsltTransformer(format.hasXslt());
+				Element target = tr.transformDomToDom(source, "dummy");
 				graph = parser.parse(target);
 			} catch (CoreException e) {
 				errorMessage("Could not obtain the file contents", e);

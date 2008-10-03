@@ -29,10 +29,8 @@
 package net.sf.graphiti.grammar;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
-import java.net.URL;
 
 import net.percederberg.grammatica.Grammar;
 import net.percederberg.grammatica.GrammarException;
@@ -43,8 +41,8 @@ import net.percederberg.grammatica.parser.ParserLogException;
 import net.percederberg.grammatica.parser.Production;
 import net.percederberg.grammatica.parser.Token;
 import net.percederberg.grammatica.parser.Tokenizer;
+import net.sf.graphiti.util.FileLocator;
 
-import org.eclipse.core.runtime.FileLocator;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -67,29 +65,16 @@ public class GrammarTransformer {
 	 * 
 	 * @param fileName
 	 *            The grammar file name.
-	 * @throws FileNotFoundException if the grammar file could not be found
-	 * @throws ParserLogException if the grammar file couldn't be parsed correctly
-	 * @throws GrammarException if the grammar wasn't valid
+	 * @throws IOException
+	 *             if the grammar file couldn't be read
+	 * @throws ParserLogException
+	 *             if the grammar file couldn't be parsed correctly
+	 * @throws GrammarException
+	 *             if the grammar wasn't valid
 	 */
-	public GrammarTransformer(String fileName) throws FileNotFoundException,
+	public GrammarTransformer(String fileName) throws IOException,
 			ParserLogException, GrammarException {
-		File file = new File(fileName);
-		grammar = new Grammar(file);
-	}
-
-	/**
-	 * Creates a new grammar transformer using the grammar with the given URL.
-	 * 
-	 * @param grammarUrl
-	 *            The grammar URL. This URL is expected to be a "bundleentry://"
-	 *            and is translated to a "file://" URL by {@link FileLocator}.
-	 * @throws IOException if an error occurs during the conversion
-	 * @throws ParserLogException if the grammar file couldn't be parsed correctly
-	 * @throws GrammarException if the grammar wasn't valid
-	 */
-	public GrammarTransformer(URL grammarUrl) throws IOException,
-			ParserLogException, GrammarException {
-		File file = new File(FileLocator.toFileURL(grammarUrl).getPath());
+		File file = FileLocator.getFile(fileName);
 		grammar = new Grammar(file);
 	}
 

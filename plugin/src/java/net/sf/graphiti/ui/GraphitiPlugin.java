@@ -33,6 +33,7 @@ import java.util.Set;
 
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.parsers.ConfigurationLoader;
+import net.sf.graphiti.ui.preferences.PreferenceConstants;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILog;
@@ -41,9 +42,14 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -199,29 +205,26 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 		log.log(getStatus(Status.INFO, message));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
-	 * )
-	 */
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		ConfigurationLoader loader = new ConfigurationLoader(context);
-		configuration = loader.getConfiguration();
-		addExtensions(configuration);
 		plugin = this;
+
+		IPreferenceStore store = getPreferenceStore();
+		if (store.isDefault(PreferenceConstants.PATH)) {
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			Shell parent = workbench.getDisplay().getActiveShell();
+			String message = "Please edit the Graphiti preferences to specify "
+					+ "the folder containing the ontologies.";
+			MessageDialog.openInformation(parent, "Graphiti configuration",
+					message);
+		} else {
+			ConfigurationLoader loader = new ConfigurationLoader();
+			configuration = loader.getConfiguration();
+			addExtensions(configuration);
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
-	 * )
-	 */
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;

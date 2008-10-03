@@ -29,16 +29,13 @@
 package net.sf.graphiti.ontology.impl;
 
 import java.io.StringReader;
-import java.net.URL;
 
 import net.sf.graphiti.grammar.GrammarTransformer;
 import net.sf.graphiti.grammar.XsltTransformer;
 import net.sf.graphiti.ontology.OntologyFactory;
 import net.sf.graphiti.ontology.Parameter;
 import net.sf.graphiti.ontology.Translation;
-import net.sf.graphiti.ui.GraphitiPlugin;
 
-import org.osgi.framework.Bundle;
 import org.w3c.dom.Element;
 
 import com.hp.hpl.jena.ontology.Individual;
@@ -57,11 +54,9 @@ public class TranslationImpl extends XMLSchemaTypeImpl implements Translation {
 
 	@Override
 	public String getString(Element element) {
-		Bundle bundle = GraphitiPlugin.getDefault().getBundle();
 		String xsltFilename = getStringProperty(OntologyFactory
 				.getPropertyTranslationHasXmlToStringXslt());
-		URL url = bundle.getEntry("src/owl/" + xsltFilename);
-		return new XsltTransformer(url).transformDomToString(element);
+		return new XsltTransformer(xsltFilename).transformDomToString(element);
 	}
 
 	@Override
@@ -72,20 +67,18 @@ public class TranslationImpl extends XMLSchemaTypeImpl implements Translation {
 
 	@Override
 	public void stringToXml(String input, Element parent) {
-		Bundle bundle = GraphitiPlugin.getDefault().getBundle();
 		String grammarFilename = getStringProperty(OntologyFactory
 				.getPropertyTranslationHasGrammar());
 		String xsltFilename = getStringProperty(OntologyFactory
 				.getPropertyTranslationHasStringToXmlXslt());
 
-		URL url = bundle.getEntry("src/owl/" + grammarFilename);
 		try {
-			Element element = new GrammarTransformer(url)
+			Element element = new GrammarTransformer(grammarFilename)
 					.parse(new StringReader(input));
 
 			// transform DOM source to DOM result
-			url = bundle.getEntry("src/owl/" + xsltFilename);
-			new XsltTransformer(url).transformDomToDom(element, parent);
+			new XsltTransformer(xsltFilename)
+					.transformDomToDom(element, parent);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

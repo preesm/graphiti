@@ -26,27 +26,72 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui;
+package net.sf.graphiti.util;
 
-import org.eclipse.ui.IStartup;
+import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
+import java.util.List;
+
+import net.sf.graphiti.ui.GraphitiPlugin;
+import net.sf.graphiti.ui.preferences.PreferenceConstants;
+
+import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
- * This class is used to load the plug-in at Eclipse startup.
- * 
- * @see {@link GraphitiPlugin#start(org.osgi.framework.BundleContext)}
- * 
  * @author Matthieu Wipliez
  * 
  */
-public class Startup implements IStartup {
+public class FileLocator {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IStartup#earlyStartup()
-	 */
-	@Override
-	public void earlyStartup() {
+	public static synchronized File getFile(String fileName) {
+		File file = new File(fileName);
+		if (file.isAbsolute()) {
+			return file;
+		} else {
+			GraphitiPlugin plugin = GraphitiPlugin.getDefault();
+			if (plugin == null) {
+				return file;
+			} else {
+				IPreferenceStore store = plugin.getPreferenceStore();
+				String path = store.getString(PreferenceConstants.PATH);
+				return new File(path, fileName);
+			}
+		}
+	}
+
+	public static synchronized List<String> listFiles(final String filePattern) {
+		GraphitiPlugin plugin = GraphitiPlugin.getDefault();
+		if (plugin == null) {
+			return new ArrayList<String>();
+		} else {
+			IPreferenceStore store = plugin.getPreferenceStore();
+			String path = store.getString(PreferenceConstants.PATH);
+			return listFiles(path, filePattern);
+		}
+	}
+
+	public static synchronized List<String> listFiles(String folder,
+			final String filePattern) {
+		File file = new File(folder);
+		File[] files = file.listFiles(new FileFilter() {
+
+			@Override
+			public boolean accept(File pathname) {
+				String fileName = pathname.getName();
+				return fileName.matches(filePattern);
+			}
+
+		});
+
+		List<String> fileNames = new ArrayList<String>();
+		if (files != null) {
+			for (File child : files) {
+				fileNames.add(child.getAbsolutePath());
+			}
+		}
+
+		return fileNames;
 	}
 
 }

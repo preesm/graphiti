@@ -31,7 +31,6 @@ package net.sf.graphiti.grammar;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
-import java.net.URL;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -43,7 +42,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.eclipse.core.runtime.FileLocator;
+import net.sf.graphiti.util.FileLocator;
+
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -58,11 +58,11 @@ public class XsltTransformer {
 
 	private Transformer transformer;
 
-	public XsltTransformer(URL xsltUrl) {
+	public XsltTransformer(String fileName) {
+		File file = FileLocator.getFile(fileName);
 		TransformerFactory factory = TransformerFactory.newInstance(
 				"net.sf.saxon.TransformerFactoryImpl", null);
 		try {
-			File file = new File(FileLocator.toFileURL(xsltUrl).getPath());
 			StreamSource xsltSource = new StreamSource(file);
 			transformer = factory.newTransformer(xsltSource);
 		} catch (Exception e) {

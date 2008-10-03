@@ -28,11 +28,11 @@
  */
 package net.sf.graphiti.ui.commands;
 
-import org.eclipse.gef.commands.Command;
-
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
+
+import org.eclipse.gef.commands.Command;
 
 /**
  * This class provides a Command that reconnects a dependency. Reconnection is a

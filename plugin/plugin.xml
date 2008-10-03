@@ -76,10 +76,18 @@
       </editor>
    </extension>
    <extension
-         point="org.eclipse.ui.startup">
-      <startup
-            class="net.sf.graphiti.ui.Startup">
-      </startup>
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="net.sf.graphiti.ui.preferences.GraphitiPreferences"
+            id="net.sf.graphiti.ui.preferences.GraphitiPreferences"
+            name="Graphiti">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="net.sf.graphiti.ui.preferences.PreferenceInitializer">
+      </initializer>
    </extension>
 
 </plugin>
