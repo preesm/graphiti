@@ -89,5 +89,11 @@
             class="net.sf.graphiti.ui.preferences.PreferenceInitializer">
       </initializer>
    </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="net.sf.graphiti.ui.Startup">
+      </startup>
+   </extension>
 
 </plugin>

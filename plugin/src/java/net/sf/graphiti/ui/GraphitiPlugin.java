@@ -44,12 +44,14 @@ import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -213,11 +215,23 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 		IPreferenceStore store = getPreferenceStore();
 		if (store.isDefault(PreferenceConstants.PATH)) {
 			IWorkbench workbench = PlatformUI.getWorkbench();
-			Shell parent = workbench.getDisplay().getActiveShell();
-			String message = "Please edit the Graphiti preferences to specify "
-					+ "the folder containing the ontologies.";
-			MessageDialog.openInformation(parent, "Graphiti configuration",
-					message);
+			workbench.getDisplay().asyncExec(new Runnable() {
+
+				@Override
+				public void run() {
+					IWorkbench workbench = PlatformUI.getWorkbench();
+					String message = "Please edit the Graphiti preferences to specify "
+							+ "the folder containing the ontologies.";
+					Shell shell = workbench.getDisplay().getActiveShell();
+					MessageDialog.openInformation(shell,
+							"Graphiti configuration", message);
+
+					PreferenceDialog dialog = PreferencesUtil
+							.createPreferenceDialogOn(shell, null, null, null);
+					dialog.open();
+				}
+
+			});
 		} else {
 			ConfigurationLoader loader = new ConfigurationLoader();
 			configuration = loader.getConfiguration();
