@@ -47,6 +47,8 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 public class WizardNewGraphPage extends WizardNewFileCreationPage {
 
 	private Configuration configuration;
+	
+	private String graphTypeName;
 
 	/**
 	 * Constructor for WizardNewGraphPage.
@@ -64,6 +66,7 @@ public class WizardNewGraphPage extends WizardNewFileCreationPage {
 	@Override
 	public InputStream getInitialContents() {
 		Graph graph = new Graph(configuration);
+		graph.setValue(Graph.PARAMETER_TYPE, graphTypeName);
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		GenericGraphFileWriter writer = new GenericGraphFileWriter(graph);
@@ -79,6 +82,16 @@ public class WizardNewGraphPage extends WizardNewFileCreationPage {
 	 */
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
+	}
+
+	/**
+	 * Sets the configuration for this page.
+	 * 
+	 * @param configuration
+	 *            The configuration to use.
+	 */
+	public void setGraphTypeName(String graphTypeName) {
+		this.graphTypeName = graphTypeName;
 	}
 
 }

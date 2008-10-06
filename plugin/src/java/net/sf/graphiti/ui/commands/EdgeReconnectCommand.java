@@ -79,15 +79,22 @@ public class EdgeReconnectCommand extends Command {
 		// Clone edge and assign ports
 		edge = new Edge(previousEdge);
 
-		PortChooser portChooser = new PortChooser(manager);
 		if (edge.getSource() != source) {
 			edge.setSource(source);
+
+			String connection = edge.getSource().getValue(Vertex.PARAMETER_ID)
+					+ " - " + edge.getTarget().getValue(Vertex.PARAMETER_ID);
+			PortChooser portChooser = new PortChooser(manager, connection);
 			if (edge.getParameter(Edge.PARAMETER_SOURCE_PORT) != null) {
 				edge.setValue(Edge.PARAMETER_SOURCE_PORT, portChooser
 						.getSourcePort(source));
 			}
 		} else if (edge.getTarget() != target) {
 			edge.setTarget(target);
+
+			String connection = edge.getSource().getValue(Vertex.PARAMETER_ID)
+					+ " - " + edge.getTarget().getValue(Vertex.PARAMETER_ID);
+			PortChooser portChooser = new PortChooser(manager, connection);
 			if (edge.getParameter(Edge.PARAMETER_TARGET_PORT) != null) {
 				edge.setValue(Edge.PARAMETER_TARGET_PORT, portChooser
 						.getTargetPort(target));

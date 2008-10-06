@@ -89,7 +89,10 @@ public class EdgeCreateCommand extends Command {
 		edge.setSource(source);
 		edge.setTarget(target);
 
-		PortChooser portChooser = new PortChooser(manager);
+		String connection = source.getValue(Vertex.PARAMETER_ID) + " - "
+				+ target.getValue(Vertex.PARAMETER_ID);
+
+		PortChooser portChooser = new PortChooser(manager, connection);
 		if (edge.getParameter(Edge.PARAMETER_SOURCE_PORT) != null) {
 			edge.setValue(Edge.PARAMETER_SOURCE_PORT, portChooser
 					.getSourcePort(source));

@@ -90,6 +90,8 @@ public class PortChooser {
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	}
+	
+	private String connection;
 
 	private RefinementManager manager;
 
@@ -98,8 +100,11 @@ public class PortChooser {
 	 * 
 	 * @param manager
 	 *            The refinement manager.
+	 * @param connection
+	 *            The title of the connection, as "source - target".
 	 */
-	public PortChooser(RefinementManager manager) {
+	public PortChooser(RefinementManager manager, String connection) {
+		this.connection = connection;
 		this.manager = manager;
 	}
 
@@ -133,10 +138,10 @@ public class PortChooser {
 		dialog.setAddCancelButton(false);
 		dialog.setInput(ports);
 		dialog.setMessage("Please choose a " + edgePort + ":");
-		dialog.setTitle("Choose " + edgePort);
+		dialog.setTitle("Connection: " + connection);
 		do {
 			dialog.open();
-		} while (dialog.getResult().length == 0);
+		} while (dialog.getResult() == null || dialog.getResult().length == 0);
 
 		return (String) dialog.getResult()[0];
 	}
