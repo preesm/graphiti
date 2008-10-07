@@ -1,4 +1,1 @@
-IMPORTANT: if you wish to add an ontology (say ONT.owl) and want to edit it
-with Protege, you will need a ONT.repository file that contains the absolute
-location of basics.owl on your computer. This file does not need to be
-committed.
+Please refer to the documentation bundled with Graphiti for more information.
