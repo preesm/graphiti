@@ -57,9 +57,9 @@ public class WizardGraphTypePage extends WizardPage {
 	private Configuration configuration;
 
 	private String graphTypeName;
-	
+
 	private Map<GraphType, Configuration> graphTypes;
-	
+
 	private Combo listGraphTypes;
 
 	/**
@@ -148,10 +148,10 @@ public class WizardGraphTypePage extends WizardPage {
 		if (configuration == null) {
 			updateSelection();
 		}
-		
+
 		return configuration;
 	}
-	
+
 	/**
 	 * Returns the chosen graph type name.
 	 * 
@@ -161,7 +161,7 @@ public class WizardGraphTypePage extends WizardPage {
 		if (graphTypeName == null) {
 			updateSelection();
 		}
-		
+
 		return graphTypeName;
 	}
 

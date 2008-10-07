@@ -106,6 +106,16 @@ public class EdgeCreateCommand extends Command {
 		parentGraph.addEdge(edge);
 	}
 
+	@Override
+	public String getLabel() {
+		if (edge != null) {
+			String type = (String) edge.getValue(Edge.PARAMETER_TYPE);
+			return "Create " + type;
+		} else {
+			return "Create edge";
+		}
+	}
+
 	/**
 	 * Sets the source of the dependency to create/reconnect.
 	 * 

@@ -89,6 +89,11 @@ public class OpenRefinementNewTabCommand extends Command {
 		}
 	}
 
+	@Override
+	public String getLabel() {
+		return "Open refinement";
+	}
+
 	/**
 	 * Opens an editor on the given {@link IEditorInput}.
 	 * 

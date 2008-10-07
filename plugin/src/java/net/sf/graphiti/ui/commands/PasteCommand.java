@@ -37,6 +37,12 @@ import net.sf.graphiti.ui.editparts.GraphEditPart;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.dialogs.IInputValidator;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * This class provides a command that pastes vertices from the clipboard.
@@ -53,7 +59,7 @@ public class PasteCommand extends Command {
 	/**
 	 * The target EditPart.
 	 */
-	private GraphEditPart part;
+	private Graph graph;
 
 	private List<Vertex> vertices;
 
@@ -66,31 +72,102 @@ public class PasteCommand extends Command {
 	 *            A list of vertices to cut.
 	 */
 	public PasteCommand(GraphEditPart target, List<Vertex> vertices) {
-		this.part = target;
+		this.graph = (Graph) target.getModel();
 		this.vertices = vertices;
+	}
+
+	private String checkVertexId(Graph graph, Vertex vertex) {
+		String id = (String) vertex.getValue(Vertex.PARAMETER_ID);
+		Vertex existing = graph.findVertex(id);
+		if (existing != vertex) {
+			id = getVertexId("Copy of " + id);
+			if (id != null) {
+				vertex.setValue(Vertex.PARAMETER_ID, id);
+			}
+		}
+
+		return id;
 	}
 
 	@Override
 	public void execute() {
 		added = new ArrayList<Object>();
-		Graph parentGraph = (Graph) part.getModel();
 
 		for (Vertex vertex : vertices) {
-			// Adds the cloned graph to the parent graph and the added list
-			added.add(vertex);
-			parentGraph.addVertex(vertex);
-			Rectangle bounds = (Rectangle) vertex
-					.getValue(Vertex.PROPERTY_SIZE);
-			vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, bounds);
+			// check id
+			if (checkVertexId(graph, vertex) != null) {
+				// Adds the cloned graph to the parent graph and the added list
+				added.add(vertex);
+				Rectangle previousBounds = (Rectangle) vertex
+						.getValue(Vertex.PROPERTY_SIZE);
+				graph.addVertex(vertex);
+				Rectangle bounds = (Rectangle) vertex
+						.getValue(Vertex.PROPERTY_SIZE);
+
+				Rectangle newBounds = new Rectangle(previousBounds.x
+						+ previousBounds.width + 10, previousBounds.y
+						+ previousBounds.height + 10, bounds.width,
+						bounds.height);
+				vertex
+						.firePropertyChange(Vertex.PROPERTY_SIZE, null,
+								newBounds);
+			}
+		}
+	}
+
+	@Override
+	public String getLabel() {
+		return "Paste";
+	}
+
+	/**
+	 * Returns a vertex identifier.
+	 * 
+	 * @param initialValue
+	 *            The initial id.
+	 * @return A unique vertex identifier, or <code>null</code>.
+	 */
+	private String getVertexId(String initialValue) {
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		Shell shell = window.getShell();
+
+		InputDialog dialog = new InputDialog(shell, "New vertex",
+				"Please enter a vertex identifier", initialValue,
+				new IInputValidator() {
+
+					@Override
+					public String isValid(String vertexId) {
+						if (vertexId.isEmpty()) {
+							return "";
+						}
+
+						if (graph != null) {
+							Vertex vertex = graph.findVertex(vertexId);
+							if (vertex != null) {
+								return "A vertex already exists with the same identifier";
+							}
+						}
+
+						return null;
+					}
+
+				});
+		dialog.open();
+
+		String value = dialog.getValue();
+		if (value == null || value.isEmpty()) {
+			return null;
+		} else {
+			return value;
 		}
 	}
 
 	@Override
 	public void undo() {
-		Graph parentGraph = (Graph) this.part.getModel();
 		for (Object model : added) {
 			if (model instanceof Vertex) {
-				parentGraph.removeVertex((Vertex) model);
+				graph.removeVertex((Vertex) model);
 			}
 		}
 	}

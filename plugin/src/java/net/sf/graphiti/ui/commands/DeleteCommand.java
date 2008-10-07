@@ -31,11 +31,8 @@ package net.sf.graphiti.ui.commands;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ui.editparts.EdgeEditPart;
-import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -57,14 +54,14 @@ public class DeleteCommand extends Command {
 	/**
 	 * Creates a new delete command with the selected object.
 	 * 
-	 * @param part
-	 *            An edit part to delete.
+	 * @param obj
+	 *            An object to delete.
 	 */
-	public DeleteCommand(EditPart part) {
-		if (part instanceof VertexEditPart) {
-			vertex = (Vertex) ((VertexEditPart) part).getModel();
-		} else if (part instanceof EdgeEditPart) {
-			edge = (Edge) ((EdgeEditPart) part).getModel();
+	public DeleteCommand(Object obj) {
+		if (obj instanceof Vertex) {
+			vertex = (Vertex) obj;
+		} else if (obj instanceof Edge) {
+			edge = (Edge) obj;
 		}
 	}
 
@@ -81,6 +78,11 @@ public class DeleteCommand extends Command {
 			parent = edge.getSource().getParent();
 			parent.removeEdge(edge);
 		}
+	}
+
+	@Override
+	public String getLabel() {
+		return "Delete";
 	}
 
 	@Override

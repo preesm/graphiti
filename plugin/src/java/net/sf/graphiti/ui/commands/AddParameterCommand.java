@@ -74,6 +74,11 @@ public class AddParameterCommand extends Command {
 		}
 	}
 
+	@Override
+	public String getLabel() {
+		return "Add parameter";
+	}
+
 	/**
 	 * Sets the list to add a parameter to.
 	 * 

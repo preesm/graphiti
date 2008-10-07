@@ -34,7 +34,6 @@ import net.sf.graphiti.ui.commands.DeleteCommand;
 import net.sf.graphiti.ui.editparts.EdgeEditPart;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
@@ -60,25 +59,24 @@ public class DeleteComponentEditPolicy extends ComponentEditPolicy {
 				CompoundCommand compound = new CompoundCommand();
 				for (Object obj : incoming) {
 					DeleteCommand command = new DeleteCommand(
-							(EdgeEditPart) obj);
+							((EdgeEditPart) obj).getModel());
 					compound.add(command);
 				}
 
 				for (Object obj : outgoing) {
 					DeleteCommand command = new DeleteCommand(
-							(EdgeEditPart) obj);
+							((EdgeEditPart) obj).getModel());
 					compound.add(command);
 				}
 
-				DeleteCommand command = new DeleteCommand(
-						(GraphicalEditPart) getHost());
+				DeleteCommand command = new DeleteCommand(getHost().getModel());
 				compound.add(command);
 
 				return compound;
 			}
 		}
 
-		DeleteCommand command = new DeleteCommand((GraphicalEditPart) getHost());
+		DeleteCommand command = new DeleteCommand(getHost().getModel());
 		return command;
 	}
 

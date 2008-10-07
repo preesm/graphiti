@@ -87,4 +87,9 @@ public class CopyCommand extends Command {
 		Transfer[] transfers = new Transfer[] { transfer };
 		GraphitiClipboard.getInstance().setContents(data, transfers);
 	}
+
+	@Override
+	public String getLabel() {
+		return "Copy";
+	}
 }

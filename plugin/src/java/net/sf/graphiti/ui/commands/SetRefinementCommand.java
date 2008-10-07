@@ -202,6 +202,11 @@ public class SetRefinementCommand extends Command {
 		}
 	}
 
+	@Override
+	public String getLabel() {
+		return "Set refinement";
+	}
+
 	/**
 	 * Returns the refinement value corresponding to the given file. This method
 	 * automatically uses relative or absolute form depending on the location of

@@ -47,7 +47,7 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 public class WizardNewGraphPage extends WizardNewFileCreationPage {
 
 	private Configuration configuration;
-	
+
 	private String graphTypeName;
 
 	/**

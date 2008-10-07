@@ -105,6 +105,11 @@ public class CutCommand extends Command {
 	}
 
 	@Override
+	public String getLabel() {
+		return "Cut";
+	}
+
+	@Override
 	public void undo() {
 		Iterator<Graph> it = parents.iterator();
 		for (Object obj : list) {

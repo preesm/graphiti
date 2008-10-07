@@ -78,6 +78,11 @@ public class RemoveParameterCommand extends Command {
 		}
 	}
 
+	@Override
+	public String getLabel() {
+		return "Remove parameter";
+	}
+
 	/**
 	 * Sets the list to add a parameter to.
 	 * 

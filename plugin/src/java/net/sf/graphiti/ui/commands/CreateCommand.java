@@ -63,21 +63,38 @@ public class CreateCommand extends Command {
 	public void execute() {
 		if (graph != null && vertex != null) {
 			String id = getVertexId();
-			vertex.setValue(Vertex.PARAMETER_ID, id);
-			graph.addVertex(vertex);
+			if (id != null) {
+				vertex.setValue(Vertex.PARAMETER_ID, id);
+				graph.addVertex(vertex);
 
-			// retrieve the vertex bounds (they have been set by the edit
-			// part)
-			// and set the location
-			Rectangle vertexBounds = (Rectangle) vertex
-					.getValue(Vertex.PROPERTY_SIZE);
-			Rectangle newBounds = vertexBounds.getCopy();
-			newBounds.x = bounds.x;
-			newBounds.y = bounds.y;
-			vertex.setValue(Vertex.PROPERTY_SIZE, newBounds);
+				// retrieve the vertex bounds (they have been set by the edit
+				// part)
+				// and set the location
+				Rectangle vertexBounds = (Rectangle) vertex
+						.getValue(Vertex.PROPERTY_SIZE);
+				Rectangle newBounds = vertexBounds.getCopy();
+				newBounds.x = bounds.x;
+				newBounds.y = bounds.y;
+				vertex.setValue(Vertex.PROPERTY_SIZE, newBounds);
+			}
 		}
 	}
 
+	@Override
+	public String getLabel() {
+		if (vertex != null) {
+			String type = (String) vertex.getValue(Vertex.PARAMETER_TYPE);
+			return "Create " + type;
+		} else {
+			return "Create vertex";
+		}
+	}
+
+	/**
+	 * Returns a vertex identifier.
+	 * 
+	 * @return A unique vertex identifier, or <code>null</code>.
+	 */
 	private String getVertexId() {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
@@ -103,9 +120,14 @@ public class CreateCommand extends Command {
 					}
 
 				});
-		do {
-		} while (dialog.open() != InputDialog.OK);
-		return dialog.getValue();
+		dialog.open();
+
+		String value = dialog.getValue();
+		if (value == null || value.isEmpty()) {
+			return null;
+		} else {
+			return value;
+		}
 	}
 
 	/**

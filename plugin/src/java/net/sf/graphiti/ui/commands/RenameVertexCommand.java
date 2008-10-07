@@ -43,6 +43,11 @@ public class RenameVertexCommand extends Command {
 		vertex.setValue(Vertex.PARAMETER_ID, id);
 	}
 
+	@Override
+	public String getLabel() {
+		return "Rename";
+	}
+
 	/**
 	 * Sets the new Activity name
 	 * 

@@ -90,7 +90,7 @@ public class PortChooser {
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	}
-	
+
 	private String connection;
 
 	private RefinementManager manager;
@@ -139,11 +139,13 @@ public class PortChooser {
 		dialog.setInput(ports);
 		dialog.setMessage("Please choose a " + edgePort + ":");
 		dialog.setTitle("Connection: " + connection);
-		do {
-			dialog.open();
-		} while (dialog.getResult() == null || dialog.getResult().length == 0);
+		dialog.open();
 
-		return (String) dialog.getResult()[0];
+		if (dialog.getResult() == null || dialog.getResult().length == 0) {
+			return null;
+		} else {
+			return (String) dialog.getResult()[0];
+		}
 	}
 
 	/**
@@ -211,8 +213,9 @@ public class PortChooser {
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		Shell shell = window.getShell();
 
-		InputDialog dialog = new InputDialog(shell, "Enter port name",
-				"Please enter a " + portName + " name:", "", null);
+		InputDialog dialog = new InputDialog(shell,
+				"Connection: " + connection, "Please enter a " + portName
+						+ " name:", "", null);
 		dialog.open();
 		String value = dialog.getValue();
 		if (value.isEmpty()) {
