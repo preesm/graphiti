@@ -13,6 +13,7 @@ Require-Bundle: com.ibm.icu,
  org.eclipse.ui,
  org.eclipse.ui.editors,
  org.eclipse.ui.ide,
+ org.eclipse.ui.views,
  org.junit
 Bundle-ClassPath: .,
  lib/grammatica-1.4.jar,

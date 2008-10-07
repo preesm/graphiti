@@ -79,6 +79,7 @@ import org.eclipse.gef.ui.palette.FlyoutPaletteComposite;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
+import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
@@ -89,6 +90,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		IShowEditorInput {
@@ -106,7 +108,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	private IStatus status;
 
-	// protected ThumbnailOutlinePage outlinePage;
+	private ThumbnailOutlinePage outlinePage;
 
 	/**
 	 * Create an editor
@@ -301,12 +303,10 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		if (type == ZoomManager.class) {
 			return ((ScalableFreeformRootEditPart) getGraphicalViewer()
 					.getRootEditPart()).getZoomManager();
-		}
-		// else if (type == IContentOutlinePage.class) {
-		// outlinePage = new ThumbnailOutlinePage();
-		// return outlinePage;
-		// }
-		else {
+		} else if (type == IContentOutlinePage.class) {
+			outlinePage = new ThumbnailOutlinePage(this);
+			return outlinePage;
+		} else {
 			return super.getAdapter(type);
 		}
 	}
@@ -335,6 +335,16 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	 */
 	public double getZoom() {
 		return manager.getZoom();
+	}
+	
+	@Override
+	public GraphicalViewer getGraphicalViewer() {
+		return super.getGraphicalViewer();
+	}
+	
+	@Override
+	public SelectionSynchronizer getSelectionSynchronizer() {
+		return super.getSelectionSynchronizer();
 	}
 
 	@Override
