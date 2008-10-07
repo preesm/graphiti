@@ -83,13 +83,10 @@ public class DomHelper {
 				return false;
 			}
 
-			Node nodeAttr = nodeAttrs.item(0);
-			Node childAttr = childAttrs.item(0);
 			boolean res = true;
-			while (nodeAttr != null && childAttr != null && res) {
-				res = isEqualNode(nodeAttr, childAttr);
-				nodeAttr = nodeAttr.getNextSibling();
-				childAttr = childAttr.getNextSibling();
+			int length = nodeAttrs.getLength();
+			for (int i = 0; i < length && res; i++) {
+				res = isEqualNode(nodeAttrs.item(i), childAttrs.item(i));
 			}
 
 			if (res) {
@@ -125,12 +122,12 @@ public class DomHelper {
 			Node child = node.getFirstChild();
 			while (child != null) {
 				Node next = child.getNextSibling();
-				
+
 				Node newChild = stripWhitespace(child);
 				if (newChild == null) {
 					node.removeChild(child);
 				}
-				
+
 				child = next;
 			}
 		}
