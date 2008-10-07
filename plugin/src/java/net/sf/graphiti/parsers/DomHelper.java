@@ -83,23 +83,33 @@ public class DomHelper {
 				return false;
 			}
 
+			Node nodeAttr = nodeAttrs.item(0);
+			Node childAttr = childAttrs.item(0);
 			boolean res = true;
-			for (int i = 0; i < nodeAttrs.getLength() && res; i++) {
-				res = isEqualNode(nodeAttrs.item(i), childAttrs.item(i));
+			while (nodeAttr != null && childAttr != null && res) {
+				res = isEqualNode(nodeAttr, childAttr);
+				nodeAttr = nodeAttr.getNextSibling();
+				childAttr = childAttr.getNextSibling();
 			}
 
-			// children
-			NodeList nodeChildren = node.getChildNodes();
-			NodeList childChildren = child.getChildNodes();
-			if (nodeChildren.getLength() != childChildren.getLength()) {
-				return false;
-			}
+			if (res) {
+				// children
+				NodeList nodeChildren = node.getChildNodes();
+				NodeList childChildren = child.getChildNodes();
+				if (nodeChildren.getLength() != childChildren.getLength()) {
+					return false;
+				}
 
-			for (int i = 0; i < nodeChildren.getLength() && res; i++) {
-				res = isEqualNode(nodeChildren.item(i), childChildren.item(i));
-			}
+				Node nodeChild = node.getFirstChild();
+				Node childChild = child.getFirstChild();
+				while (nodeChild != null && childChild != null && res) {
+					res = isEqualNode(nodeChild, childChild);
+					nodeChild = nodeChild.getNextSibling();
+					childChild = childChild.getNextSibling();
+				}
 
-			return res;
+				return res;
+			}
 		}
 
 		return false;
@@ -112,13 +122,16 @@ public class DomHelper {
 				return null;
 			}
 		} else {
-			NodeList children = node.getChildNodes();
-			for (int i = 0; i < children.getLength(); i++) {
-				Node child = children.item(i);
+			Node child = node.getFirstChild();
+			while (child != null) {
+				Node next = child.getNextSibling();
+				
 				Node newChild = stripWhitespace(child);
 				if (newChild == null) {
 					node.removeChild(child);
 				}
+				
+				child = next;
 			}
 		}
 

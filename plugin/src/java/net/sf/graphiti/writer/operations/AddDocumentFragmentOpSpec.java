@@ -59,8 +59,10 @@ public class AddDocumentFragmentOpSpec implements IOperationSpecification {
 
 			// attributes
 			NamedNodeMap attrs = node.getAttributes();
-			for (int i = 0; i < attrs.getLength(); i++) {
-				appendChild(created, attrs.item(i));
+			Node attr = attrs.item(0);
+			while (attr != null) {
+				appendChild(created, attr);
+				attr = attr.getNextSibling();
 			}
 
 			// children
