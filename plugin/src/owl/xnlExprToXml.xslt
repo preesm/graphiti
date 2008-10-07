@@ -63,4 +63,8 @@
     <xsl:template match="Factor">
         <xsl:apply-templates/>
     </xsl:template>
+    
+    <!-- text() -->
+    <xsl:template match="text()"/>
+    
 </xsl:stylesheet>
