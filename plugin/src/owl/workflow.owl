@@ -746,7 +746,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/workflow.owl#ParameterValueGraphTypeWorkflow -->
 
     <basics:ParameterValue rdf:about="#ParameterValueGraphTypeWorkflow">
-        <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Workflow</basics:parameterValue_hasValue>
+        <basics:parameterValue_hasValue rdf:datatype="&xsd;string">Preesm Workflow</basics:parameterValue_hasValue>
         <basics:parameterValue_ofParameter rdf:resource="#GraphParameterType"/>
     </basics:ParameterValue>
     
