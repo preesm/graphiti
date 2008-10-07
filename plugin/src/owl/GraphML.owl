@@ -349,12 +349,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/basics.owl#TextContentElement -->
-
-    <owl:Class rdf:about="&net;basics.owl#TextContentElement"/>
-    
-
-
     <!-- http://net.sf.graphiti/basics.owl#VertexElement -->
 
     <owl:Class rdf:about="&net;basics.owl#VertexElement"/>
@@ -421,21 +415,20 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">graphml</basics:element_hasName>
-        <basics:element_hasSchemaType rdf:resource="#SequenceTypeDocumentElement"/>
+        <basics:element_hasSchemaType rdf:resource="#GraphElementGraph"/>
     </basics:Element>
     
 
 
-    <!-- http://net.sf.graphiti/GraphML.owl#EdgeElement -->
+    <!-- http://net.sf.graphiti/GraphML.owl#EdgeElementEdge -->
 
-    <basics:EdgeElement rdf:about="#EdgeElement">
+    <basics:EdgeElement rdf:about="#EdgeElementEdge">
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">-1</basics:schemaType_hasMaxOccurs>
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">edge</basics:element_hasName>
         <basics:element_hasAttributes rdf:resource="#EdgeSourceConnection"/>
         <basics:element_hasAttributes rdf:resource="#EdgeTargetConnection"/>
         <basics:element_hasParameterValue rdf:resource="#ParameterValueEdgeType"/>
-        <basics:element_hasSchemaType rdf:resource="#TextContentElementData"/>
     </basics:EdgeElement>
     
 
@@ -456,7 +449,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:EdgeSourceConnection rdf:about="#EdgeSourceConnection">
         <basics:attribute_hasName rdf:datatype="&xsd;string">source</basics:attribute_hasName>
         <basics:element_hasName rdf:datatype="&xsd;string">source</basics:element_hasName>
-        <basics:attribute_isReferenceTo rdf:resource="#VertexElement"/>
+        <basics:attribute_isReferenceTo rdf:resource="#VertexElementNode"/>
     </basics:EdgeSourceConnection>
     
 
@@ -466,7 +459,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <basics:EdgeTargetConnection rdf:about="#EdgeTargetConnection">
         <basics:element_hasName rdf:datatype="&xsd;string">target</basics:element_hasName>
         <basics:attribute_hasName rdf:datatype="&xsd;string">target</basics:attribute_hasName>
-        <basics:attribute_isReferenceTo rdf:resource="#VertexElement"/>
+        <basics:attribute_isReferenceTo rdf:resource="#VertexElementNode"/>
     </basics:EdgeTargetConnection>
     
 
@@ -480,24 +473,9 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/GraphML.owl#ElementKey -->
+    <!-- http://net.sf.graphiti/GraphML.owl#GraphElementGraph -->
 
-    <basics:Element rdf:about="#ElementKey">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">-1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
-        <basics:element_hasName rdf:datatype="&xsd;string">key</basics:element_hasName>
-        <basics:element_hasAttributes rdf:resource="#OtherAttributeKeyAttrName"/>
-        <basics:element_hasAttributes rdf:resource="#OtherAttributeKeyAttrType"/>
-        <basics:element_hasAttributes rdf:resource="#OtherAttributeKeyFor"/>
-        <basics:element_hasAttributes rdf:resource="#OtherAttributeKeyId"/>
-        <basics:element_hasSchemaType rdf:resource="#SequenceElementKey1"/>
-    </basics:Element>
-    
-
-
-    <!-- http://net.sf.graphiti/GraphML.owl#GraphElement -->
-
-    <basics:GraphElement rdf:about="#GraphElement">
+    <basics:GraphElement rdf:about="#GraphElementGraph">
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">graph</basics:element_hasName>
@@ -524,30 +502,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
         <basics:type_hasName rdf:datatype="&xsd;string">GraphML graph</basics:type_hasName>
         <basics:type_hasParameters rdf:resource="#GraphParameterType"/>
     </basics:GraphType>
-    
-
-
-    <!-- http://net.sf.graphiti/GraphML.owl#OtherAttributeKeyAttrName -->
-
-    <basics:OtherAttribute rdf:about="#OtherAttributeKeyAttrName"/>
-    
-
-
-    <!-- http://net.sf.graphiti/GraphML.owl#OtherAttributeKeyAttrType -->
-
-    <basics:OtherAttribute rdf:about="#OtherAttributeKeyAttrType"/>
-    
-
-
-    <!-- http://net.sf.graphiti/GraphML.owl#OtherAttributeKeyFor -->
-
-    <basics:OtherAttribute rdf:about="#OtherAttributeKeyFor"/>
-    
-
-
-    <!-- http://net.sf.graphiti/GraphML.owl#OtherAttributeKeyId -->
-
-    <basics:OtherAttribute rdf:about="#OtherAttributeKeyId"/>
     
 
 
@@ -590,47 +544,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/GraphML.owl#SequenceDocumentElement1 -->
-
-    <basics:Sequence rdf:about="#SequenceDocumentElement1">
-        <basics:sequence_hasHead rdf:resource="#ElementKey"/>
-        <basics:sequence_hasRest rdf:resource="#SequenceDocumentElement2"/>
-    </basics:Sequence>
-    
-
-
-    <!-- http://net.sf.graphiti/GraphML.owl#SequenceDocumentElement2 -->
-
-    <basics:Sequence rdf:about="#SequenceDocumentElement2">
-        <basics:sequence_hasHead rdf:resource="#GraphElement"/>
-    </basics:Sequence>
-    
-
-
-    <!-- http://net.sf.graphiti/GraphML.owl#SequenceElementKey1 -->
-
-    <basics:Sequence rdf:about="#SequenceElementKey1">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
-        <basics:sequence_hasRest rdf:resource="#SequenceElementKey2"/>
-        <basics:sequence_hasHead rdf:resource="#TextContentElementDesc"/>
-    </basics:Sequence>
-    
-
-
-    <!-- http://net.sf.graphiti/GraphML.owl#SequenceElementKey2 -->
-
-    <basics:Sequence rdf:about="#SequenceElementKey2">
-        <basics:sequence_hasHead rdf:resource="#TextContentElementDefault"/>
-    </basics:Sequence>
-    
-
-
     <!-- http://net.sf.graphiti/GraphML.owl#SequenceGraphElement1 -->
 
     <basics:Sequence rdf:about="#SequenceGraphElement1">
         <basics:sequence_hasRest rdf:resource="#SequenceGraphElement2"/>
-        <basics:sequence_hasHead rdf:resource="#VertexElement"/>
+        <basics:sequence_hasHead rdf:resource="#VertexElementNode"/>
     </basics:Sequence>
     
 
@@ -638,18 +556,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <!-- http://net.sf.graphiti/GraphML.owl#SequenceGraphElement2 -->
 
     <basics:Sequence rdf:about="#SequenceGraphElement2">
-        <basics:sequence_hasHead rdf:resource="#EdgeElement"/>
+        <basics:sequence_hasHead rdf:resource="#EdgeElementEdge"/>
     </basics:Sequence>
-    
-
-
-    <!-- http://net.sf.graphiti/GraphML.owl#SequenceTypeDocumentElement -->
-
-    <basics:SequenceType rdf:about="#SequenceTypeDocumentElement">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMinOccurs>
-        <basics:sequenceType_hasSequence rdf:resource="#SequenceDocumentElement1"/>
-    </basics:SequenceType>
     
 
 
@@ -671,45 +579,14 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     
 
 
-    <!-- http://net.sf.graphiti/GraphML.owl#TextContentElementData -->
+    <!-- http://net.sf.graphiti/GraphML.owl#VertexElementNode -->
 
-    <basics:TextContentElement rdf:about="#TextContentElementData">
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">-1</basics:schemaType_hasMaxOccurs>
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
-        <basics:element_hasName rdf:datatype="&xsd;string">data</basics:element_hasName>
-    </basics:TextContentElement>
-    
-
-
-    <!-- http://net.sf.graphiti/GraphML.owl#TextContentElementDefault -->
-
-    <basics:TextContentElement rdf:about="#TextContentElementDefault">
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:element_hasName rdf:datatype="&xsd;string">default</basics:element_hasName>
-    </basics:TextContentElement>
-    
-
-
-    <!-- http://net.sf.graphiti/GraphML.owl#TextContentElementDesc -->
-
-    <basics:TextContentElement rdf:about="#TextContentElementDesc">
-        <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
-        <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">1</basics:schemaType_hasMaxOccurs>
-        <basics:element_hasName rdf:datatype="&xsd;string">desc</basics:element_hasName>
-    </basics:TextContentElement>
-    
-
-
-    <!-- http://net.sf.graphiti/GraphML.owl#VertexElement -->
-
-    <basics:VertexElement rdf:about="#VertexElement">
+    <basics:VertexElement rdf:about="#VertexElementNode">
         <basics:schemaType_hasMaxOccurs rdf:datatype="&xsd;int">-1</basics:schemaType_hasMaxOccurs>
         <basics:schemaType_hasMinOccurs rdf:datatype="&xsd;int">0</basics:schemaType_hasMinOccurs>
         <basics:element_hasName rdf:datatype="&xsd;string">node</basics:element_hasName>
         <basics:element_hasAttributes rdf:resource="#OtherAttributeNodeId"/>
         <basics:element_hasParameterValue rdf:resource="#ParameterValueVertexType"/>
-        <basics:element_hasSchemaType rdf:resource="#TextContentElementData"/>
     </basics:VertexElement>
     
 
