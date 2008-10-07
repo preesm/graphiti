@@ -50,7 +50,12 @@ public class RoundedBoxPortAnchor extends ChopboxAnchor {
 
 	@Override
 	public Point getLocation(Point reference) {
-		return getReferencePoint();
+		Point mgrReference = mgr.getReferencePoint(this);
+		if (mgrReference == null) {
+			return super.getLocation(reference);
+		} else {
+			return mgrReference;
+		}
 	}
 
 	@Override
