@@ -41,11 +41,9 @@ import net.percederberg.grammatica.parser.ParserCreationException;
 import net.percederberg.grammatica.parser.ParserLogException;
 import net.sf.graphiti.grammar.GrammarTransformer;
 import net.sf.graphiti.grammar.XsltTransformer;
+import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ontology.FileFormat;
-import net.sf.graphiti.parsers.GenericGraphFileParser;
-import net.sf.graphiti.parsers.IncompatibleConfigurationFile;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.core.resources.IFile;

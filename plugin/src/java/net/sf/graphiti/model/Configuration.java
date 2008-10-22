@@ -33,9 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import net.sf.graphiti.ontology.FileFormat;
-import net.sf.graphiti.ontology.OntologyFactory;
+import java.util.TreeSet;
 
 /**
  * This class provides the configuration for a {@link Graph}. A configuration is
@@ -60,11 +58,6 @@ public class Configuration {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * The document configurations that extend this document configuration.
-	 */
-	private List<Configuration> children;
 
 	/**
 	 * An edge type -> attributes map.
@@ -92,16 +85,6 @@ public class Configuration {
 	private Map<String, Map<String, Parameter>> graphParameters;
 
 	/**
-	 * The ontology factory this document configuration is associated with.
-	 */
-	private OntologyFactory ontologyFactory;
-
-	/**
-	 * The document configurations extended by this document configuration.
-	 */
-	private List<Configuration> parents;
-
-	/**
 	 * File formats that may be associated with a vertex refinement in this
 	 * document configuration.
 	 */
@@ -126,8 +109,6 @@ public class Configuration {
 	 *            associated with.
 	 */
 	public Configuration(String ontologyUrl) {
-		ontologyFactory = new OntologyFactory(ontologyUrl);
-
 		edgeAttributes = new HashMap<String, Map<String, Object>>();
 		graphAttributes = new HashMap<String, Map<String, Object>>();
 		vertexAttributes = new HashMap<String, Map<String, Object>>();
@@ -135,9 +116,14 @@ public class Configuration {
 		vertexParameters = new HashMap<String, Map<String, Parameter>>();
 		graphParameters = new HashMap<String, Map<String, Parameter>>();
 		edgeParameters = new HashMap<String, Map<String, Parameter>>();
-
-		parents = new ArrayList<Configuration>();
-		children = new ArrayList<Configuration>();
+	}
+	
+	public Set<EdgeType> getEdgeTypes() {
+		return new TreeSet<EdgeType>();
+	}
+	
+	public Set<VertexType> getVertexTypes() {
+		return new TreeSet<VertexType>();
 	}
 
 	/**
@@ -191,16 +177,6 @@ public class Configuration {
 	}
 
 	/**
-	 * Adds a parent of this {@link Configuration}.
-	 * 
-	 * @param parent
-	 */
-	public void addParent(Configuration parent) {
-		parents.add(parent);
-		parent.children.add(this);
-	}
-
-	/**
 	 * Adds a parameter to the list associated with the given vertex type.
 	 * 
 	 * @param vertexType
@@ -213,20 +189,6 @@ public class Configuration {
 	 */
 	public void addVertexParameter(String vertexType, Parameter parameter) {
 		addParameter(vertexParameters, vertexType, parameter);
-	}
-
-	/**
-	 * Recursively adds all children document configuration to
-	 * <code>childrenList</code> list, and then add <code>this</code> to the
-	 * list.
-	 * 
-	 * @param childrenList
-	 */
-	private void enumerateChildren(List<Configuration> childrenList) {
-		for (Configuration child : children) {
-			child.enumerateChildren(childrenList);
-		}
-		childrenList.add(this);
 	}
 
 	/**
@@ -270,27 +232,6 @@ public class Configuration {
 		}
 
 		return attributes;
-	}
-
-	/**
-	 * Returns a list of document configuration children of this
-	 * {@link Configuration}. The list returned may be modified.
-	 * 
-	 * @param transitive
-	 *            If true, this method will explore the tree recursively.
-	 *            Otherwise, only the immediate children are returned.
-	 * @return A {@link List} of {@link Configuration}.
-	 */
-	public List<Configuration> getConfigurationList(boolean transitive) {
-		List<Configuration> childrenList = new ArrayList<Configuration>();
-		if (transitive) {
-			// Enumerate all children recursively.
-			enumerateChildren(childrenList);
-		} else {
-			// Only adds immediate children.
-			childrenList.addAll(children);
-		}
-		return childrenList;
 	}
 
 	/**
@@ -360,17 +301,6 @@ public class Configuration {
 	 */
 	public List<Parameter> getGraphParameters(String graphType) {
 		return getParameters(graphParameters, graphType);
-	}
-
-	/**
-	 * Returns the ontology factory this document configuration is associated
-	 * with.
-	 * 
-	 * @return The ontology factory this document configuration is associated
-	 *         with.
-	 */
-	public OntologyFactory getOntologyFactory() {
-		return ontologyFactory;
 	}
 
 	/**
@@ -473,17 +403,6 @@ public class Configuration {
 	}
 
 	/**
-	 * Returns true if this document configuration is the root of the hierarchy,
-	 * meaning if it has no parents.
-	 * 
-	 * @return True if this document configuration is the root of the hierarchy,
-	 *         false otherwise.
-	 */
-	public boolean isRoot() {
-		return parents.isEmpty();
-	}
-
-	/**
 	 * Sets the attribute <code>attributeName</code> to <code>newValue</code>
 	 * for the type <code>type</code>.
 	 * 
@@ -574,7 +493,7 @@ public class Configuration {
 
 	@Override
 	public String toString() {
-		return getOntologyFactory().getModelURI();
+		return "";
 	}
 
 }

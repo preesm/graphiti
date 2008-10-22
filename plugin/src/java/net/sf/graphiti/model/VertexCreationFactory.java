@@ -62,8 +62,7 @@ public class VertexCreationFactory implements CreationFactory {
 	@Override
 	public Object getNewObject() {
 		Vertex vertex = new Vertex(type);
-		OntologyFactory factory = configuration.getOntologyFactory();
-		for (VertexType vertexType : factory.getVertexTypes()) {
+		for (VertexType vertexType : configuration.getVertexTypes()) {
 			if (vertexType.hasName().equals(type)) {
 				// we found the matching type, let's set the parameters and
 				// leave

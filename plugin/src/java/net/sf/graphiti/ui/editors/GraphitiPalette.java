@@ -32,13 +32,11 @@ import java.util.Set;
 
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.EdgeCreationFactory;
+import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexCreationFactory;
-import net.sf.graphiti.ontology.EdgeType;
-import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.Shape;
-import net.sf.graphiti.ontology.VertexType;
+import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.figure.VertexFigure;
 import net.sf.graphiti.ui.figure.shapes.IShape;
@@ -86,8 +84,7 @@ public class GraphitiPalette {
 			PaletteDrawer depDrawer = new PaletteDrawer("Connections");
 
 			Configuration config = graph.getConfiguration();
-			OntologyFactory factory = config.getOntologyFactory();
-			Set<EdgeType> edgeTypes = factory.getEdgeTypes();
+			Set<EdgeType> edgeTypes = config.getEdgeTypes();
 			for (EdgeType type : edgeTypes) {
 				String typeStr = type.hasName();
 
@@ -115,8 +112,7 @@ public class GraphitiPalette {
 	private static void addVertexTypes(Graph graph, PaletteGroup paletteGroup) {
 		if (graph != null) {
 			Configuration config = graph.getConfiguration();
-			OntologyFactory factory = config.getOntologyFactory();
-			Set<VertexType> vertexTypes = factory.getVertexTypes();
+			Set<VertexType> vertexTypes = config.getVertexTypes();
 			for (VertexType type : vertexTypes) {
 				String typeStr = type.hasName();
 

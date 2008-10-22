@@ -40,7 +40,7 @@ public class Parameter {
 
 	private String name;
 
-	private ParameterPosition parameterPosition;
+	private ParameterPosition position;
 
 	private Class<?> type;
 
@@ -50,14 +50,10 @@ public class Parameter {
 	 * @param ontParam
 	 *            The parameter defined in the ontology.
 	 */
-	public Parameter(net.sf.graphiti.ontology.Parameter ontParam) {
-		name = ontParam.hasName();
-		if (ontParam.hasPosition() == null) {
-			parameterPosition = null;
-		} else {
-			parameterPosition = ontParam.hasPosition().getPosition();
-		}
-		type = ontParam.hasValueType().getDataType();
+	public Parameter(String name, ParameterPosition position, Class<?> type) {
+		this.name = name;
+		this.position = position;
+		this.type = type;
 	}
 
 	/**
@@ -75,7 +71,7 @@ public class Parameter {
 	 * @return This parameter's position.
 	 */
 	public ParameterPosition getPosition() {
-		return parameterPosition;
+		return position;
 	}
 
 	/**

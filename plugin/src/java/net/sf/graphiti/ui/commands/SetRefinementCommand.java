@@ -31,8 +31,8 @@ package net.sf.graphiti.ui.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ontology.FileFormat;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.core.resources.IFile;
@@ -188,7 +188,7 @@ public class SetRefinementCommand extends Command {
 				.getRefinementFileFormats();
 		for (FileFormat fileExt : fileExts) {
 			IResource resource = workspace.getRoot().findMember(
-					absolutePath + "." + fileExt.hasFileExtension());
+					absolutePath + "." + fileExt.getFileExtension());
 			if (resource instanceof IFile) {
 				files.add((IFile) resource);
 			}

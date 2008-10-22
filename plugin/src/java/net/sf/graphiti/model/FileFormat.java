@@ -26,23 +26,18 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ontology.impl;
-
-import net.sf.graphiti.ontology.EdgeSourceConnection;
-
-import com.hp.hpl.jena.ontology.Individual;
+package net.sf.graphiti.model;
 
 /**
- * Implementation of EdgeSourceConnection.
+ * 
  * 
  * @author Matthieu Wipliez
- * 
+ *
  */
-public class EdgeSourceConnectionImpl extends EdgeConnectionImpl implements
-		EdgeSourceConnection {
+public class FileFormat {
 
-	public EdgeSourceConnectionImpl(Individual individual) {
-		super(individual);
+	public String getFileExtension() {
+		return "";
 	}
-
+	
 }

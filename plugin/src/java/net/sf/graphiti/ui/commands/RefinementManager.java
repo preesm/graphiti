@@ -32,9 +32,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ontology.FileFormat;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.core.resources.IFile;
@@ -90,7 +90,7 @@ public class RefinementManager {
 				.getRefinementFileFormats();
 		for (FileFormat fileFormat : fileFormats) {
 			IResource resource = workspace.getRoot().findMember(
-					path + "." + fileFormat.hasFileExtension());
+					path + "." + fileFormat.getFileExtension());
 			if (resource instanceof IFile) {
 				try {
 					resource.setSessionProperty(new QualifiedName(
@@ -173,7 +173,7 @@ public class RefinementManager {
 				IFile file = (IFile) resource;
 				for (FileFormat fileFormat : fileFormats) {
 					if (file.getFileExtension().equals(
-							fileFormat.hasFileExtension())) {
+							fileFormat.getFileExtension())) {
 						try {
 							resource.setSessionProperty(new QualifiedName(
 									"net.sf.graphiti", "format"), fileFormat);
