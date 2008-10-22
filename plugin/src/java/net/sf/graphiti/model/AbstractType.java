@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractType {
+public abstract class AbstractType implements Comparable<AbstractType> {
 
 	private Map<String, Object> attributes;
 
@@ -14,6 +14,21 @@ public abstract class AbstractType {
 
 	protected AbstractType(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public int compareTo(AbstractType type) {
+		return name.compareTo(type.name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof AbstractType) {
+			AbstractType type = (AbstractType) obj;
+			return name.equals(type.name);
+		} else {
+			return false;
+		}
 	}
 
 	public Object getAttribute(String name) {

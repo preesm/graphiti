@@ -177,7 +177,7 @@ public class ConfigurationParser {
 				format.addExportTransformation(fileName);
 			}
 
-			node.getNextSibling();
+			node = node.getNextSibling();
 		}
 	}
 
@@ -188,7 +188,7 @@ public class ConfigurationParser {
 				format.addImportTransformation(fileName);
 			}
 
-			node.getNextSibling();
+			node = node.getNextSibling();
 		}
 	}
 
@@ -207,13 +207,13 @@ public class ConfigurationParser {
 				// import
 				Node importExport = child.getFirstChild();
 				while (!importExport.getNodeName().equals("import")) {
-					importExport = child.getNextSibling();
+					importExport = importExport.getNextSibling();
 				}
 				parseFileFormatImport(format, importExport.getFirstChild());
 
 				// export
 				while (!importExport.getNodeName().equals("export")) {
-					importExport = child.getNextSibling();
+					importExport = importExport.getNextSibling();
 				}
 				parseFileFormatExport(format, child.getFirstChild());
 			}
@@ -249,7 +249,7 @@ public class ConfigurationParser {
 
 	private Node parseRefinementFileExtensions(Configuration configuration,
 			Node node) {
-		while (!node.getNodeName().equals("fileFormats")) {
+		while (!node.getNodeName().equals("refinementFileExtensions")) {
 			node = node.getNextSibling();
 		}
 

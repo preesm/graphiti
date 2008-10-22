@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration namespace="http://graphml.graphdrawing.org/xmlns/1.0rc">
+    
+    <fileExtensions>
+        <fileExtension name="graphml"/>
+        <fileExtension name="xml"/>
+    </fileExtensions>
+    
+    <refinementFileExtensions/>
+    
+    <fileFormats>
+        <fileFormat extension="graphml">
+            <import>
+                <transformation name="graphml/input_GraphML.xslt" type="XSLT"/>
+            </import>
+            
+            <export>
+                <transformation name="graphml/output_GraphML.xslt" type="XSLT"/>
+            </export>
+        </fileFormat>
+        <fileFormat extension="xml">
+            <import>
+                <transformation name="graphml/input_GraphML.xslt" type="XSLT"/>
+            </import>
+            
+            <export>
+                <transformation name="graphml/output_GraphML.xslt" type="XSLT"/>
+            </export>
+        </fileFormat>
+    </fileFormats>
+
+    <graphTypes>
+        <graphType name="GraphML graph">
+            <parameters>
+                <parameter name="type">
+                    <type name="String"/>
+                </parameter>
+            </parameters>
+        </graphType>
+    </graphTypes>
+
+    <vertexTypes>
+        <vertexType name="vertex">
+            <attributes>
+                <color red="0" green="100" blue="200"/>
+                <shape name="roundedBox"/>
+                <size width="20" height="20"/>
+            </attributes>
+            <parameters>
+                <parameter name="id">
+                    <type name="String"/>
+                </parameter>
+                <parameter name="type">
+                    <type name="String"/>
+                </parameter>
+            </parameters>
+        </vertexType>
+    </vertexTypes>
+
+    <edgeTypes>
+        <edgeType name="edge">
+            <parameters>
+                <parameter name="type">
+                    <type name="String"/>
+                </parameter>
+            </parameters>
+        </edgeType>
+    </edgeTypes>
+</configuration>

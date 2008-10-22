@@ -40,8 +40,8 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.osgi.framework.BundleContext;
 
 /**
- * This class provides a preference page to store the folder containing the
- * ontologies.
+ * This class provides a preference page to store the folder containing Graphiti
+ * configuration.
  * 
  * @author Matthieu Wipliez
  * 
@@ -58,7 +58,7 @@ public class GraphitiPreferences extends FieldEditorPreferencePage implements
 	@Override
 	public void createFieldEditors() {
 		DirectoryFieldEditor fieldEditor = new DirectoryFieldEditor(
-				PreferenceConstants.PATH, "&Ontologies folder:",
+				PreferenceConstants.PATH, "&Configuration folder:",
 				getFieldEditorParent()) {
 
 			protected boolean doCheckState() {
@@ -66,7 +66,7 @@ public class GraphitiPreferences extends FieldEditorPreferencePage implements
 					String fileName = getTextControl().getText();
 					fileName = fileName.trim();
 					List<String> files = FileLocator.listFiles(fileName,
-							"[^.]*\\.owl");
+							"[^.]*\\.xml");
 					return !files.isEmpty();
 				} else {
 					return false;
@@ -77,7 +77,7 @@ public class GraphitiPreferences extends FieldEditorPreferencePage implements
 
 		fieldEditor.setEmptyStringAllowed(false);
 		fieldEditor
-				.setErrorMessage("Directory must be valid and contain OWL files.");
+				.setErrorMessage("Directory must be valid and contain XML files.");
 
 		addField(fieldEditor);
 	}

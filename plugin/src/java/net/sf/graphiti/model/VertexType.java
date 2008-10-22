@@ -37,6 +37,15 @@ public class VertexType extends AbstractType {
 		super(name);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof VertexType) {
+			return super.equals(obj);
+		} else {
+			return false;
+		}
+	}
+
 	public Set<Parameter> hasParameters() {
 		return new TreeSet<Parameter>();
 	}

@@ -34,4 +34,13 @@ public class GraphType extends AbstractType {
 		super(name);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof GraphType) {
+			return super.equals(obj);
+		} else {
+			return false;
+		}
+	}
+
 }

@@ -60,9 +60,9 @@ public class Graph extends PropertyBean {
 
 	private AbstractBaseGraph<Vertex, Edge> graph;
 
-	private Map<String, Vertex> vertices;
-
 	private GraphType type;
+
+	private Map<String, Vertex> vertices;
 
 	/**
 	 * Creates a new directed graph.

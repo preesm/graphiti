@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration namespace="">
+    
+    <fileExtensions>
+        <fileExtension name="xdf"/>
+    </fileExtensions>
+    
+    <refinementFileExtensions>
+        <fileExtension name="xdf"/>
+        <fileExtension name="xnl"/>
+        <fileExtension name="cal"/>
+    </refinementFileExtensions>
+    
+    <fileFormats>
+        <fileFormat extension="xdf">
+            <import>
+                <transformation name="xdf/input_XDF.xslt"/>
+            </import>
+            
+            <export>
+                <transformation name="xdf/output_XDF.xslt"/>
+            </export>
+        </fileFormat>
+        
+        <fileFormat extension="cal">
+            <import>
+                <transformation name="xdf/cal.grammar"/>
+                <transformation name="xdf/calToXml.xslt"/>
+            </import>
+            <export/>
+        </fileFormat>
+    </fileFormats>
+
+    <graphTypes>
+        <graphType name="XML Dataflow Network (XDF)">
+            <attributes/>
+            <parameters>
+                <parameter name="name">
+                    <type name="String"/>
+                </parameter>
+                <parameter name="network parameter">
+                    <type name="List">
+                        <type name="String"/>
+                    </type>
+                </parameter>
+                <parameter name="network variable declaration">
+                    <type name="Map">
+                        <type name="String"/>
+                        <type name="String"/>
+                    </type>
+                </parameter>
+                <parameter name="type">
+                    <type name="String"/>
+                </parameter>
+            </parameters>
+        </graphType>
+    </graphTypes>
+
+    <vertexTypes>
+        <vertexType name="Input port">
+            <attributes>
+                <color red="0" green="60" blue="100"/>
+                <shape name="triangle"/>
+                <size width="30" height="30"/>
+            </attributes>
+            <parameters>
+                <parameter name="id">
+                    <type name="String"/>
+                </parameter>
+                <parameter name="type">
+                    <type name="String"/>
+                </parameter>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="Output port">
+            <attributes>
+                <color red="60" green="0" blue="100"/>
+                <shape name="triangle"/>
+                <size width="30" height="30"/>
+            </attributes>
+            <parameters>
+                <parameter name="id">
+                    <type name="String"/>
+                </parameter>
+                <parameter name="type">
+                    <type name="String"/>
+                </parameter>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="Instance">
+            <attributes>
+                <color red="163" green="0" blue="85"/>
+                <shape name="roundedBox"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id">
+                    <type name="String"/>
+                </parameter>
+                <parameter name="instance parameter">
+                    <type name="List">
+                        <type name="String"/>
+                    </type>
+                </parameter>
+                <parameter name="refinement">
+                    <type name="String"/>
+                </parameter>
+                <parameter name="type">
+                    <type name="String"/>
+                </parameter>
+            </parameters>
+        </vertexType>
+    </vertexTypes>
+
+    <edgeTypes>
+        <edgeType name="Connection">
+            <attributes/>
+            <parameters>
+                <parameter name="source port">
+                    <type name="String"/>
+                </parameter>
+                <parameter name="target port">
+                    <type name="String"/>
+                </parameter>
+                <parameter name="type">
+                    <type name="String"/>
+                </parameter>
+            </parameters>
+        </edgeType>
+    </edgeTypes>
+</configuration>

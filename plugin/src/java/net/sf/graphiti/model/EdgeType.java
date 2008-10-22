@@ -34,4 +34,13 @@ public class EdgeType extends AbstractType {
 		super(name);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof EdgeType) {
+			return super.equals(obj);
+		} else {
+			return false;
+		}
+	}
+
 }
