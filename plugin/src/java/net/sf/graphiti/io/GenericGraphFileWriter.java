@@ -26,12 +26,20 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.model;
+package net.sf.graphiti.io;
 
-public class EdgeType extends AbstractType {
+import java.io.OutputStream;
 
-	public EdgeType(String name) {
-		super(name);
+import net.sf.graphiti.model.Graph;
+
+public class GenericGraphFileWriter {
+
+	public GenericGraphFileWriter(Graph graph) {
+
+	}
+
+	public void write(OutputStream out) {
+
 	}
 
 }

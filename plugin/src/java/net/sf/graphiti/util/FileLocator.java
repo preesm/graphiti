@@ -39,11 +39,23 @@ import net.sf.graphiti.ui.preferences.PreferenceConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
+ * This class provides a way to get an absolute file name from a file name
+ * relative to the configuration folder. The configuration folder is set in the
+ * plug-in preferences.
+ * 
  * @author Matthieu Wipliez
  * 
  */
 public class FileLocator {
 
+	/**
+	 * Returns the absolute file name from the given file name relative to the
+	 * configuration folder.
+	 * 
+	 * @param fileName
+	 *            A relative file name.
+	 * @return An absolute {@link File}.
+	 */
 	public static synchronized File getFile(String fileName) {
 		File file = new File(fileName);
 		if (file.isAbsolute()) {
@@ -60,7 +72,15 @@ public class FileLocator {
 		}
 	}
 
-	public static synchronized List<String> listFiles(final String filePattern) {
+	/**
+	 * Returns a list of absolute file names in the configuration folder that
+	 * match the given file pattern.
+	 * 
+	 * @param filePattern
+	 *            A regular expression.
+	 * @return A list of absolute file names.
+	 */
+	public static synchronized List<String> listFiles(String filePattern) {
 		GraphitiPlugin plugin = GraphitiPlugin.getDefault();
 		if (plugin == null) {
 			return new ArrayList<String>();
@@ -71,6 +91,16 @@ public class FileLocator {
 		}
 	}
 
+	/**
+	 * Returns a list of absolute file names in the given folder that match the
+	 * given pattern.
+	 * 
+	 * @param folder
+	 *            An absolute folder name.
+	 * @param filePattern
+	 *            A regular expression.
+	 * @return A list of absolute file names.
+	 */
 	public static synchronized List<String> listFiles(String folder,
 			final String filePattern) {
 		File file = new File(folder);

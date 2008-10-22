@@ -28,16 +28,47 @@
  */
 package net.sf.graphiti.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * 
  * @author Matthieu Wipliez
- *
+ * 
  */
 public class FileFormat {
 
-	public String getFileExtension() {
-		return "";
+	private List<String> exports;
+
+	private String extension;
+
+	private List<String> imports;
+
+	public FileFormat(String extension) {
+		this.extension = extension;
+		exports = new ArrayList<String>();
+		imports = new ArrayList<String>();
 	}
-	
+
+	public void addExportTransformation(String fileName) {
+		exports.add(fileName);
+	}
+
+	public void addImportTransformation(String fileName) {
+		imports.add(fileName);
+	}
+
+	public List<String> getExportTransformations() {
+		return exports;
+	}
+
+	public String getFileExtension() {
+		return extension;
+	}
+
+	public List<String> getImportTransformations() {
+		return imports;
+	}
+
 }

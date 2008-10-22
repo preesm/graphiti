@@ -37,7 +37,6 @@ import java.util.Set;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ontology.Shape;
 import net.sf.graphiti.ui.editpolicies.DeleteComponentEditPolicy;
 import net.sf.graphiti.ui.editpolicies.EdgeGraphicalNodeEditPolicy;
 import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
@@ -159,8 +158,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 		Dimension dimension = new Dimension(width, height);
 		Color color = (Color) vertex.getAttribute(Vertex.ATTRIBUTE_COLOR);
-		IShape shape = ((Shape) vertex.getAttribute(Vertex.ATTRIBUTE_SHAPE))
-				.getShape();
+		IShape shape = (IShape) vertex.getAttribute(Vertex.ATTRIBUTE_SHAPE);
 
 		Font font = ((GraphicalEditPart) getParent()).getFigure().getFont();
 		VertexFigure figure = new VertexFigure(font, dimension, color, shape);

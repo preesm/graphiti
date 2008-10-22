@@ -32,9 +32,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
+import net.sf.graphiti.io.GenericGraphFileWriter;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.writer.GenericGraphFileWriter;
+import net.sf.graphiti.model.GraphType;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
@@ -48,7 +49,7 @@ public class WizardNewGraphPage extends WizardNewFileCreationPage {
 
 	private Configuration configuration;
 
-	private String graphTypeName;
+	private GraphType graphType;
 
 	/**
 	 * Constructor for WizardNewGraphPage.
@@ -65,8 +66,7 @@ public class WizardNewGraphPage extends WizardNewFileCreationPage {
 
 	@Override
 	public InputStream getInitialContents() {
-		Graph graph = new Graph(configuration);
-		graph.setValue(Graph.PARAMETER_TYPE, graphTypeName);
+		Graph graph = new Graph(configuration, graphType);
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		GenericGraphFileWriter writer = new GenericGraphFileWriter(graph);
@@ -90,8 +90,8 @@ public class WizardNewGraphPage extends WizardNewFileCreationPage {
 	 * @param configuration
 	 *            The configuration to use.
 	 */
-	public void setGraphTypeName(String graphTypeName) {
-		this.graphTypeName = graphTypeName;
+	public void setGraphType(GraphType graphType) {
+		this.graphType = graphType;
 	}
 
 }

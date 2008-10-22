@@ -26,12 +26,32 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.model;
+package net.sf.graphiti.io;
 
-public class EdgeType extends AbstractType {
+import java.util.List;
 
-	public EdgeType(String name) {
-		super(name);
+import org.eclipse.core.resources.IFile;
+import org.w3c.dom.Element;
+
+import net.sf.graphiti.model.Configuration;
+import net.sf.graphiti.model.Graph;
+
+/**
+ * @author Administrateur
+ * 
+ */
+public class GenericGraphFileParser {
+
+	public GenericGraphFileParser(List<Configuration> configurations) {
+
+	}
+
+	public Graph parse(Element target) throws IncompatibleConfigurationFile {
+		return null;
+	}
+
+	public Graph parse(IFile file) throws IncompatibleConfigurationFile {
+		return null;
 	}
 
 }

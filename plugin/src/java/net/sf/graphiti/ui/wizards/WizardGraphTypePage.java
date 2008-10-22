@@ -29,12 +29,13 @@
 package net.sf.graphiti.ui.wizards;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
 import net.sf.graphiti.model.Configuration;
-import net.sf.graphiti.ontology.GraphType;
+import net.sf.graphiti.model.GraphType;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -56,7 +57,7 @@ public class WizardGraphTypePage extends WizardPage {
 
 	private Configuration configuration;
 
-	private String graphTypeName;
+	private GraphType graphType;
 
 	private Map<GraphType, Configuration> graphTypes;
 
@@ -106,7 +107,7 @@ public class WizardGraphTypePage extends WizardPage {
 				| SWT.SIMPLE);
 		Set<String> typeNames = new TreeSet<String>();
 		for (GraphType type : graphTypes.keySet()) {
-			typeNames.add(type.hasName());
+			typeNames.add(type.getName());
 		}
 
 		String[] items = typeNames.toArray(new String[] {});
@@ -127,12 +128,11 @@ public class WizardGraphTypePage extends WizardPage {
 	 * Fills the {@link #graphTypes} attribute using the default configuration.
 	 */
 	private void fillGraphTypes() {
-		Configuration rootConfig = GraphitiPlugin.getDefault()
-				.getConfiguration();
+		List<Configuration> configurations = GraphitiPlugin.getDefault()
+				.getConfigurations();
 		graphTypes = new HashMap<GraphType, Configuration>();
-		for (Configuration config : rootConfig.getConfigurationList(true)) {
-			Set<GraphType> graphTypes = config.getOntologyFactory()
-					.getGraphTypes();
+		for (Configuration config : configurations) {
+			Set<GraphType> graphTypes = config.getGraphTypes();
 			for (GraphType type : graphTypes) {
 				this.graphTypes.put(type, config);
 			}
@@ -153,26 +153,26 @@ public class WizardGraphTypePage extends WizardPage {
 	}
 
 	/**
-	 * Returns the chosen graph type name.
+	 * Returns the chosen graph type.
 	 * 
-	 * @return The chosen graph type name.
+	 * @return The chosen graph type.
 	 */
-	public String getGraphTypeName() {
-		if (graphTypeName == null) {
+	public GraphType getGraphType() {
+		if (graphType == null) {
 			updateSelection();
 		}
 
-		return graphTypeName;
+		return graphType;
 	}
 
 	private void updateSelection() {
 		int index = listGraphTypes.getSelectionIndex();
 		String graphType = listGraphTypes.getItem(index);
 		for (GraphType type : graphTypes.keySet()) {
-			String typeName = type.hasName();
+			String typeName = type.getName();
 			if (typeName.equals(graphType)) {
 				configuration = graphTypes.get(type);
-				graphTypeName = typeName;
+				this.graphType = type;
 				break;
 			}
 		}

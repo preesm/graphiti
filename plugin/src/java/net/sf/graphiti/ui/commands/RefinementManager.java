@@ -32,7 +32,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
@@ -86,15 +85,15 @@ public class RefinementManager {
 
 		// get all possible candidates
 		List<IFile> files = new ArrayList<IFile>();
-		FileFormat[] fileFormats = vertex.getConfiguration()
-				.getRefinementFileFormats();
-		for (FileFormat fileFormat : fileFormats) {
+		String[] fileExts = vertex.getConfiguration()
+				.getRefinementFileExtensions();
+		for (String fileExt : fileExts) {
 			IResource resource = workspace.getRoot().findMember(
-					path + "." + fileFormat.getFileExtension());
+					path + "." + fileExt);
 			if (resource instanceof IFile) {
 				try {
 					resource.setSessionProperty(new QualifiedName(
-							"net.sf.graphiti", "format"), fileFormat);
+							"net.sf.graphiti", "format"), fileExt);
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
@@ -168,15 +167,14 @@ public class RefinementManager {
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
 			IResource resource = workspace.getRoot().findMember(path);
 			if (resource instanceof IFile) {
-				FileFormat[] fileFormats = vertex.getConfiguration()
-						.getRefinementFileFormats();
+				String[] fileExts = vertex.getConfiguration()
+						.getRefinementFileExtensions();
 				IFile file = (IFile) resource;
-				for (FileFormat fileFormat : fileFormats) {
-					if (file.getFileExtension().equals(
-							fileFormat.getFileExtension())) {
+				for (String fileExt : fileExts) {
+					if (file.getFileExtension().equals(fileExt)) {
 						try {
 							resource.setSessionProperty(new QualifiedName(
-									"net.sf.graphiti", "format"), fileFormat);
+									"net.sf.graphiti", "format"), fileExt);
 						} catch (CoreException e) {
 							e.printStackTrace();
 						}

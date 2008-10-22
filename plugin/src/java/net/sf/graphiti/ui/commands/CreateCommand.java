@@ -83,7 +83,7 @@ public class CreateCommand extends Command {
 	@Override
 	public String getLabel() {
 		if (vertex != null) {
-			String type = (String) vertex.getValue(Vertex.PARAMETER_TYPE);
+			String type = vertex.getType().getName();
 			return "Create " + type;
 		} else {
 			return "Create vertex";

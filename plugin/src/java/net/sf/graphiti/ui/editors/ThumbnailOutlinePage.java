@@ -48,7 +48,7 @@ import org.eclipse.swt.widgets.Control;
  * This class provides a thumbnail outline page.
  * 
  * @author Matthieu Wipliez
- *
+ * 
  */
 public class ThumbnailOutlinePage extends ContentOutlinePage {
 

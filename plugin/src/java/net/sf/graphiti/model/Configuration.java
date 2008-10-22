@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,45 +59,33 @@ public class Configuration {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * An edge type -> attributes map.
+	 * A edge type name -> edge type object map.
 	 */
-	private Map<String, Map<String, Object>> edgeAttributes;
-
-	/**
-	 * An edge type -> (parameter name list) map.
-	 */
-	private Map<String, Map<String, Parameter>> edgeParameters;
+	private Map<String, EdgeType> edgeTypes;
 
 	/**
 	 * File extensions associated with this document configuration.
 	 */
 	private String[] fileExtensions;
 
-	/**
-	 * A graph type -> attributes map.
-	 */
-	private Map<String, Map<String, Object>> graphAttributes;
+	private FileFormat[] fileFormats;
 
 	/**
-	 * An graph type -> (parameter name list) map.
+	 * A graph type name -> graph type object map.
 	 */
-	private Map<String, Map<String, Parameter>> graphParameters;
+	private Map<String, GraphType> graphTypes;
+
+	private String namespace;
 
 	/**
-	 * File formats that may be associated with a vertex refinement in this
-	 * document configuration.
+	 * Refinement file extensions associated with this document configuration.
 	 */
-	private FileFormat[] refinementFileFormats;
+	private String[] refinementFileExtensions;
 
 	/**
-	 * A vertex type -> attributes map.
+	 * A vertex type name -> vertex type object map.
 	 */
-	private Map<String, Map<String, Object>> vertexAttributes;
-
-	/**
-	 * An vertex type -> (parameter name list) map.
-	 */
-	private Map<String, Map<String, Parameter>> vertexParameters;
+	private Map<String, VertexType> vertexTypes;
 
 	/**
 	 * Creates a new document configuration with no initial attributes or
@@ -109,166 +96,17 @@ public class Configuration {
 	 *            associated with.
 	 */
 	public Configuration(String ontologyUrl) {
-		edgeAttributes = new HashMap<String, Map<String, Object>>();
-		graphAttributes = new HashMap<String, Map<String, Object>>();
-		vertexAttributes = new HashMap<String, Map<String, Object>>();
-
-		vertexParameters = new HashMap<String, Map<String, Parameter>>();
-		graphParameters = new HashMap<String, Map<String, Parameter>>();
-		edgeParameters = new HashMap<String, Map<String, Parameter>>();
+		edgeTypes = new HashMap<String, EdgeType>();
+		graphTypes = new HashMap<String, GraphType>();
+		vertexTypes = new HashMap<String, VertexType>();
 	}
-	
+
+	public EdgeType getEdgeType(String name) {
+		return edgeTypes.get(name);
+	}
+
 	public Set<EdgeType> getEdgeTypes() {
-		return new TreeSet<EdgeType>();
-	}
-	
-	public Set<VertexType> getVertexTypes() {
-		return new TreeSet<VertexType>();
-	}
-
-	/**
-	 * Adds a parameter to the list associated with the given edge type.
-	 * 
-	 * @param edgeType
-	 *            The edge type.
-	 * @param parameterName
-	 *            The parameter name.
-	 * @param parameter
-	 *            The parameter.
-	 */
-	public void addEdgeParameter(String edgeType, Parameter parameter) {
-		addParameter(edgeParameters, edgeType, parameter);
-	}
-
-	/**
-	 * Adds a parameter to the list associated with the given graph type.
-	 * 
-	 * @param graphType
-	 *            The graph type.
-	 * @param parameterName
-	 *            The parameter name.
-	 * @param parameter
-	 *            The parameter.
-	 */
-	public void addGraphParameter(String graphType, Parameter parameter) {
-		addParameter(graphParameters, graphType, parameter);
-	}
-
-	/**
-	 * Adds a parameter named <code>parameterName</code> to the list associated
-	 * with the type <code>type</code>, in the given map.
-	 * 
-	 * @param map
-	 *            The map to look in.
-	 * @param type
-	 *            The type represented by a string.
-	 * @param parameterName
-	 *            The parameter name.
-	 */
-	private void addParameter(Map<String, Map<String, Parameter>> map,
-			String type, Parameter parameter) {
-		Map<String, Parameter> parameters = map.get(type);
-		if (parameters == null) {
-			parameters = new HashMap<String, Parameter>();
-			map.put(type, parameters);
-		}
-
-		parameters.put(parameter.getName(), parameter);
-	}
-
-	/**
-	 * Adds a parameter to the list associated with the given vertex type.
-	 * 
-	 * @param vertexType
-	 *            The vertex type.
-	 * @param parameterName
-	 *            The parameter name.
-	 * 
-	 * @param parameter
-	 *            The parameter.
-	 */
-	public void addVertexParameter(String vertexType, Parameter parameter) {
-		addParameter(vertexParameters, vertexType, parameter);
-	}
-
-	/**
-	 * Gets the attribute <code>attributeName</code> for the type
-	 * <code>type</code>.
-	 * 
-	 * @param map
-	 *            The map to look in.
-	 * @param type
-	 *            The type represented by a string.
-	 * @param attributeName
-	 *            The attribute name.
-	 * @return The attribute value (or null if not set).
-	 */
-	private Object getAttribute(Map<String, Map<String, Object>> map,
-			String type, String attributeName) {
-		Map<String, Object> attributes = map.get(type);
-		if (attributes == null) {
-			attributes = new HashMap<String, Object>();
-			map.put(type, attributes);
-		}
-
-		return attributes.get(attributeName);
-	}
-
-	/**
-	 * Gets the attributes for the type <code>type</code>.
-	 * 
-	 * @param map
-	 *            The map to look in.
-	 * @param type
-	 *            The type represented by a string.
-	 * @return The attributes.
-	 */
-	private Map<String, Object> getAttributes(
-			Map<String, Map<String, Object>> map, String type) {
-		Map<String, Object> attributes = map.get(type);
-		if (attributes == null) {
-			attributes = new HashMap<String, Object>();
-			map.put(type, attributes);
-		}
-
-		return attributes;
-	}
-
-	/**
-	 * Returns the attribute value associated with the given edge type and
-	 * attribute name.
-	 * 
-	 * @param edgeType
-	 *            The edge type.
-	 * @param attributeName
-	 *            The attribute name.
-	 * @return The attribute value associated.
-	 */
-	public Object getEdgeAttribute(String edgeType, String attributeName) {
-		return getAttribute(edgeAttributes, edgeType, attributeName);
-	}
-
-	/**
-	 * Returns the parameter associated with the given edge type and parameter
-	 * name.
-	 * 
-	 * @param edgeType
-	 *            The edge type.
-	 * @return The parameter associated with the edge type and parameter name.
-	 */
-	public Parameter getEdgeParameter(String edgeType, String parameterName) {
-		return getParameter(edgeParameters, edgeType, parameterName);
-	}
-
-	/**
-	 * Returns the parameters names associated with the given edge type.
-	 * 
-	 * @param edgeType
-	 *            The edge type.
-	 * @return The list of parameters associated with the edge type.
-	 */
-	public List<Parameter> getEdgeParameters(String edgeType) {
-		return getParameters(edgeParameters, edgeType);
+		return new TreeSet<EdgeType>(edgeTypes.values());
 	}
 
 	/**
@@ -279,167 +117,39 @@ public class Configuration {
 	}
 
 	/**
-	 * Returns the attribute value associated with the given graph type and
-	 * attribute name.
-	 * 
-	 * @param graphType
-	 *            The graph type.
-	 * @param attributeName
-	 *            The attribute name.
-	 * @return The attribute value associated.
+	 * @return the refinement file extensions
 	 */
-	public Object getGraphAttribute(String graphType, String attributeName) {
-		return getAttribute(graphAttributes, graphType, attributeName);
+	public FileFormat[] getFileFormats() {
+		return fileFormats;
+	}
+
+	public GraphType getGraphType(String name) {
+		return graphTypes.get(name);
+	}
+
+	public Set<GraphType> getGraphTypes() {
+		return new TreeSet<GraphType>(graphTypes.values());
 	}
 
 	/**
-	 * Returns the parameters names associated with the given graph type.
-	 * 
-	 * @param graphType
-	 *            The graph type.
-	 * @return The list of parameters associated with the graph type.
+	 * @return the refinement file extensions
 	 */
-	public List<Parameter> getGraphParameters(String graphType) {
-		return getParameters(graphParameters, graphType);
+	public String[] getRefinementFileExtensions() {
+		return refinementFileExtensions;
 	}
 
-	/**
-	 * Gets the parameter for the type <code>type</code> which has the given
-	 * name.
-	 * 
-	 * @param map
-	 *            The map to look in.
-	 * @param type
-	 *            The type represented by a string.
-	 * @param name
-	 *            The parameter name.
-	 * @return The parameter.
-	 */
-	private Parameter getParameter(Map<String, Map<String, Parameter>> map,
-			String type, String parameterName) {
-		Map<String, Parameter> parameters = map.get(type);
-		if (parameters == null) {
-			parameters = new HashMap<String, Parameter>();
-			map.put(type, parameters);
+	public VertexType getVertexType(String name) {
+		return vertexTypes.get(name);
+	}
+
+	public Set<VertexType> getVertexTypes() {
+		return new TreeSet<VertexType>(vertexTypes.values());
+	}
+
+	public void setEdgeTypes(Set<EdgeType> edgeTypes) {
+		for (EdgeType type : edgeTypes) {
+			this.edgeTypes.put(type.getName(), type);
 		}
-
-		return parameters.get(parameterName);
-	}
-
-	/**
-	 * Gets the parameter list for the type <code>type</code>.
-	 * 
-	 * @param map
-	 *            The map to look in.
-	 * @param type
-	 *            The type represented by a string.
-	 * @return The parameter list.
-	 */
-	private List<Parameter> getParameters(
-			Map<String, Map<String, Parameter>> map, String type) {
-		Map<String, Parameter> parameters = map.get(type);
-		if (parameters == null) {
-			parameters = new HashMap<String, Parameter>();
-			map.put(type, parameters);
-		}
-
-		return new ArrayList<Parameter>(parameters.values());
-	}
-
-	/**
-	 * @return the refinementFileFormats
-	 */
-	public FileFormat[] getRefinementFileFormats() {
-		return refinementFileFormats;
-	}
-
-	/**
-	 * Returns the attribute value associated with the given vertex type and
-	 * attribute name.
-	 * 
-	 * @param vertexType
-	 *            The vertex type.
-	 * @param attributeName
-	 *            The attribute name.
-	 * @return The attribute value associated.
-	 */
-	public Object getVertexAttribute(String vertexType, String attributeName) {
-		return getAttribute(vertexAttributes, vertexType, attributeName);
-	}
-
-	/**
-	 * Returns the attributes associated with the given vertex type.
-	 * 
-	 * @param vertexType
-	 *            The vertex type.
-	 * @return The attributes associated.
-	 */
-	public Map<String, Object> getVertexAttributes(String vertexType) {
-		return getAttributes(vertexAttributes, vertexType);
-	}
-
-	/**
-	 * Returns the parameter associated with the given vertex type and parameter
-	 * name.
-	 * 
-	 * @param vertexType
-	 *            The vertex type.
-	 * @return The parameters associated with the vertex type and parameter
-	 *         name.
-	 */
-	public Parameter getVertexParameter(String vertexType, String parameterName) {
-		return getParameter(vertexParameters, vertexType, parameterName);
-	}
-
-	/**
-	 * Returns the parameters names associated with the given vertex type.
-	 * 
-	 * @param vertexType
-	 *            The vertex type.
-	 * @return The list of parameters associated with the vertex type.
-	 */
-	public List<Parameter> getVertexParameters(String vertexType) {
-		return getParameters(vertexParameters, vertexType);
-	}
-
-	/**
-	 * Sets the attribute <code>attributeName</code> to <code>newValue</code>
-	 * for the type <code>type</code>.
-	 * 
-	 * @param map
-	 *            The map to look in.
-	 * @param type
-	 *            The type represented by a string.
-	 * @param attributeName
-	 *            The attribute name.
-	 * @param newValue
-	 *            The new property value.
-	 */
-	private void setAttribute(Map<String, Map<String, Object>> map,
-			String type, String attributeName, Object newValue) {
-		Map<String, Object> attributes = map.get(type);
-		if (attributes == null) {
-			attributes = new HashMap<String, Object>();
-			map.put(type, attributes);
-		}
-
-		attributes.put(attributeName, newValue);
-	}
-
-	/**
-	 * Sets the attribute <code>attributeName</code> to <code>newValue</code>
-	 * for the edge type <code>edgeType</code>.
-	 * 
-	 * @param edgeType
-	 *            The edge type represented by a string.
-	 * @param attributeName
-	 *            The attribute name.
-	 * @param newValue
-	 *            The new property value.
-	 */
-	public void setEdgeAttribute(String edgeType, String attributeName,
-			Object newValue) {
-		setAttribute(edgeAttributes, edgeType, attributeName, newValue);
 	}
 
 	/**
@@ -451,49 +161,47 @@ public class Configuration {
 	}
 
 	/**
-	 * Sets the attribute <code>attributeName</code> to <code>newValue</code>
-	 * for the graph type <code>graphType</code>.
-	 * 
-	 * @param graphType
-	 *            The graph type represented by a string.
-	 * @param attributeName
-	 *            The attribute name.
-	 * @param newValue
-	 *            The new property value.
+	 * @param fileFormats
+	 *            A list of file formats.
 	 */
-	public void setGraphAttribute(String graphType, String attributeName,
-			Object newValue) {
-		setAttribute(graphAttributes, graphType, attributeName, newValue);
+	public void setFileFormats(List<FileFormat> fileFormats) {
+		this.fileFormats = fileFormats.toArray(new FileFormat[] {});
+	}
+
+	public void setGraphTypes(Set<GraphType> graphTypes) {
+		for (GraphType type : graphTypes) {
+			this.graphTypes.put(type.getName(), type);
+		}
+	}
+
+	/**
+	 * Sets this configuration's namespace.
+	 * 
+	 * @param namespace
+	 *            A namespace URI, or <code>""</code>.
+	 */
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
 	}
 
 	/**
 	 * @param refinementFileFormats
 	 *            the refinementFileFormats to set
 	 */
-	public void setRefinementFileFormats(Set<FileFormat> refinementFileFormats) {
-		this.refinementFileFormats = refinementFileFormats
-				.toArray(new FileFormat[] {});
+	public void setRefinementFileExtensions(Set<String> refinementFileExtensions) {
+		this.refinementFileExtensions = refinementFileExtensions
+				.toArray(new String[] {});
 	}
 
-	/**
-	 * Sets the attribute <code>attributeName</code> to <code>newValue</code>
-	 * for the vertex type <code>vertexType</code>.
-	 * 
-	 * @param vertexType
-	 *            The vertex type represented by a string.
-	 * @param attributeName
-	 *            The attribute name.
-	 * @param newValue
-	 *            The new attribute value.
-	 */
-	public void setVertexAttribute(String vertexType, String attributeName,
-			Object newValue) {
-		setAttribute(vertexAttributes, vertexType, attributeName, newValue);
+	public void setVertexTypes(Set<VertexType> vertexTypes) {
+		for (VertexType type : vertexTypes) {
+			this.vertexTypes.put(type.getName(), type);
+		}
 	}
 
 	@Override
 	public String toString() {
-		return "";
+		return namespace;
 	}
 
 }

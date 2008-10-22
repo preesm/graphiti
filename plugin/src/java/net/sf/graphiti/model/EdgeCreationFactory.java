@@ -38,7 +38,7 @@ import org.eclipse.gef.requests.CreationFactory;
  */
 public class EdgeCreationFactory implements CreationFactory {
 
-	private String type;
+	private EdgeType type;
 
 	/**
 	 * Create a new edge creation factory.
@@ -46,7 +46,7 @@ public class EdgeCreationFactory implements CreationFactory {
 	 * @param type
 	 *            The edge type.
 	 */
-	public EdgeCreationFactory(String type) {
+	public EdgeCreationFactory(EdgeType type) {
 		this.type = type;
 	}
 

@@ -69,11 +69,6 @@ public class Vertex extends PropertyBean {
 	public static final String PARAMETER_REFINEMENT = "refinement";
 
 	/**
-	 * String for the "type" parameter. Defines the vertex type.
-	 */
-	public static final String PARAMETER_TYPE = "type";
-
-	/**
 	 * String for the "destination vertex" property. Set when a vertex becomes
 	 * the destination of a dependency.
 	 */
@@ -102,21 +97,15 @@ public class Vertex extends PropertyBean {
 	Graph parent;
 
 	/**
+	 * This vertex's type.
+	 */
+	private VertexType type;
+
+	/**
 	 * Creates a new Vertex with no type.
 	 * 
 	 */
 	public Vertex() {
-		this("");
-	}
-
-	/**
-	 * Creates a vertex with the given type.
-	 * 
-	 * @param type
-	 *            The vertex type.
-	 */
-	public Vertex(String type) {
-		this.setValue(PARAMETER_TYPE, type);
 	}
 
 	/**
@@ -131,6 +120,16 @@ public class Vertex extends PropertyBean {
 	}
 
 	/**
+	 * Creates a vertex with the given type.
+	 * 
+	 * @param type
+	 *            The vertex type.
+	 */
+	public Vertex(VertexType type) {
+		this.type = type;
+	}
+
+	/**
 	 * Returns the value of an attribute associated with this vertex type and
 	 * the given attribute name <code>attributeName</code>.
 	 * 
@@ -139,8 +138,7 @@ public class Vertex extends PropertyBean {
 	 * @return The value of the attribute as an object.
 	 */
 	public Object getAttribute(String attributeName) {
-		Configuration config = parent.getConfiguration();
-		return config.getVertexAttribute(getType(), attributeName);
+		return type.getAttribute(attributeName);
 	}
 
 	/**
@@ -160,8 +158,7 @@ public class Vertex extends PropertyBean {
 	 * @return A {@link Parameter}.
 	 */
 	public Parameter getParameter(String parameterName) {
-		Configuration config = parent.getConfiguration();
-		return config.getVertexParameter(getType(), parameterName);
+		return type.getParameter(parameterName);
 	}
 
 	/**
@@ -170,8 +167,7 @@ public class Vertex extends PropertyBean {
 	 * @return A List of Parameters.
 	 */
 	public List<Parameter> getParameters() {
-		Configuration config = parent.getConfiguration();
-		return config.getVertexParameters(getType());
+		return type.getParameters();
 	}
 
 	/**
@@ -188,8 +184,8 @@ public class Vertex extends PropertyBean {
 	 * 
 	 * @return This vertex's type.
 	 */
-	public String getType() {
-		return (String) this.getValue(PARAMETER_TYPE);
+	public VertexType getType() {
+		return type;
 	}
 
 	@Override

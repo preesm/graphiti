@@ -109,7 +109,7 @@ public class EdgeCreateCommand extends Command {
 	@Override
 	public String getLabel() {
 		if (edge != null) {
-			String type = (String) edge.getValue(Edge.PARAMETER_TYPE);
+			String type = edge.getType().getName();
 			return "Create " + type;
 		} else {
 			return "Create edge";

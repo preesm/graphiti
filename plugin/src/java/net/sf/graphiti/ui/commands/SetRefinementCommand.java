@@ -31,7 +31,6 @@ package net.sf.graphiti.ui.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
@@ -184,11 +183,11 @@ public class SetRefinementCommand extends Command {
 
 		// get all possible candidates
 		List<IFile> files = new ArrayList<IFile>();
-		FileFormat[] fileExts = manager.getVertex().getConfiguration()
-				.getRefinementFileFormats();
-		for (FileFormat fileExt : fileExts) {
+		String[] fileExts = manager.getVertex().getConfiguration()
+				.getRefinementFileExtensions();
+		for (String fileExt : fileExts) {
 			IResource resource = workspace.getRoot().findMember(
-					absolutePath + "." + fileExt.getFileExtension());
+					absolutePath + "." + fileExt);
 			if (resource instanceof IFile) {
 				files.add((IFile) resource);
 			}

@@ -52,11 +52,6 @@ public class Edge extends PropertyBean {
 	public static final String PARAMETER_TARGET_PORT = "target port";
 
 	/**
-	 * String for the "type" parameter. Defines the edge type.
-	 */
-	public static final String PARAMETER_TYPE = "type";
-
-	/**
 	 * Serial ID.
 	 */
 	private static final long serialVersionUID = 863045957077215818L;
@@ -65,11 +60,12 @@ public class Edge extends PropertyBean {
 
 	private Vertex target;
 
+	private EdgeType type;
+
 	/**
 	 * Creates a new unconnected edge.
 	 */
 	public Edge() {
-		this("");
 	}
 
 	/**
@@ -90,8 +86,8 @@ public class Edge extends PropertyBean {
 	 * @param type
 	 *            The edge type.
 	 */
-	public Edge(String type) {
-		setValue(PARAMETER_TYPE, type);
+	public Edge(EdgeType type) {
+		this.type = type;
 	}
 
 	/**
@@ -131,8 +127,7 @@ public class Edge extends PropertyBean {
 	 * @return The parameter.
 	 */
 	public Parameter getParameter(String parameterName) {
-		Configuration configuration = getConfiguration();
-		return configuration.getEdgeParameter(getType(), parameterName);
+		return type.getParameter(parameterName);
 	}
 
 	/**
@@ -141,8 +136,7 @@ public class Edge extends PropertyBean {
 	 * @return A List of Parameters.
 	 */
 	public List<Parameter> getParameters() {
-		Configuration configuration = getConfiguration();
-		return configuration.getEdgeParameters(getType());
+		return type.getParameters();
 	}
 
 	/**
@@ -168,8 +162,8 @@ public class Edge extends PropertyBean {
 	 * 
 	 * @return This edge's type.
 	 */
-	public String getType() {
-		return (String) this.getValue(PARAMETER_TYPE);
+	public EdgeType getType() {
+		return type;
 	}
 
 	/**

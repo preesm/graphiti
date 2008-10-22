@@ -36,8 +36,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EventObject;
 
+import net.sf.graphiti.io.GenericGraphFileParser;
+import net.sf.graphiti.io.GenericGraphFileWriter;
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.parsers.GenericGraphFileParser;
 import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.actions.AutomaticallyLayoutAction;
 import net.sf.graphiti.ui.actions.CopyAction;
@@ -48,7 +49,6 @@ import net.sf.graphiti.ui.actions.PasteAction;
 import net.sf.graphiti.ui.actions.SetRefinementAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
-import net.sf.graphiti.writer.GenericGraphFileWriter;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
@@ -104,11 +104,11 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	private ZoomManager manager;
 
+	private ThumbnailOutlinePage outlinePage;
+
 	private PaletteRoot paletteRoot;
 
 	private IStatus status;
-
-	private ThumbnailOutlinePage outlinePage;
 
 	/**
 	 * Create an editor
@@ -321,11 +321,21 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	}
 
 	@Override
+	public GraphicalViewer getGraphicalViewer() {
+		return super.getGraphicalViewer();
+	}
+
+	@Override
 	protected PaletteRoot getPaletteRoot() {
 		if (paletteRoot == null) {
 			paletteRoot = GraphitiPalette.getPaletteRoot(graph);
 		}
 		return paletteRoot;
+	}
+
+	@Override
+	public SelectionSynchronizer getSelectionSynchronizer() {
+		return super.getSelectionSynchronizer();
 	}
 
 	/**
@@ -335,16 +345,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	 */
 	public double getZoom() {
 		return manager.getZoom();
-	}
-	
-	@Override
-	public GraphicalViewer getGraphicalViewer() {
-		return super.getGraphicalViewer();
-	}
-	
-	@Override
-	public SelectionSynchronizer getSelectionSynchronizer() {
-		return super.getSelectionSynchronizer();
 	}
 
 	@Override
@@ -372,7 +372,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		setPartName(file.getName());
 		try {
 			GenericGraphFileParser parser = new GenericGraphFileParser(
-					GraphitiPlugin.getDefault().getConfiguration());
+					GraphitiPlugin.getDefault().getConfigurations());
 			graph = parser.parse(file);
 
 			// Updates the palette

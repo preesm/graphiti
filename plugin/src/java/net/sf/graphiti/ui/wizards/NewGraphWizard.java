@@ -98,7 +98,7 @@ public class NewGraphWizard extends Wizard implements INewWizard {
 		final WizardGraphTypePage graphTypePage = (WizardGraphTypePage) getPage("graphType");
 		final WizardNewGraphPage page = (WizardNewGraphPage) getPage("newGraph");
 		page.setConfiguration(graphTypePage.getConfiguration());
-		page.setGraphTypeName(graphTypePage.getGraphTypeName());
+		page.setGraphType(graphTypePage.getGraphType());
 
 		IFile file = page.createNewFile();
 		if (file == null) {

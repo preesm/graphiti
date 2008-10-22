@@ -28,8 +28,8 @@
  */
 package net.sf.graphiti.ui.wizards;
 
+import net.sf.graphiti.io.GraphMLFileWriter;
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.writer.GraphMLFileWriter;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;

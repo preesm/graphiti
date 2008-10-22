@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.model;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,30 +49,9 @@ import org.jgrapht.graph.Multigraph;
 public class Graph extends PropertyBean {
 
 	/**
-	 * String for the "type" parameter. Defines the graph type.
-	 */
-	public static final String PARAMETER_TYPE = "type";
-
-	/**
 	 * Serial ID.
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Returns a unique identifier. Actually this is just the current time minus
-	 * the current calendar with minute, second and millisecond field zeroed.
-	 * 
-	 * @return A unique identifier.
-	 */
-	public static String generateUniqueId() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MILLISECOND, 0);
-		long ref = calendar.getTimeInMillis();
-
-		return Long.toString(System.currentTimeMillis() - ref);
-	}
 
 	/**
 	 * The configuration associated with this graph.
@@ -84,14 +62,16 @@ public class Graph extends PropertyBean {
 
 	private Map<String, Vertex> vertices;
 
+	private GraphType type;
+
 	/**
 	 * Creates a new directed graph.
 	 * 
-	 * @param config
+	 * @param configuration
 	 *            The configuration to use with this graph.
 	 */
-	public Graph(Configuration config) {
-		this(config, true);
+	public Graph(Configuration configuration, GraphType type) {
+		this(configuration, type, true);
 	}
 
 	/**
@@ -99,17 +79,18 @@ public class Graph extends PropertyBean {
 	 * 
 	 * @param directed
 	 *            Specifies whether the graph should be directed or not.
-	 * @param config
+	 * @param configuration
 	 *            The configuration to use with this graph.
 	 */
-	public Graph(Configuration config, boolean directed) {
-		configuration = config;
+	public Graph(Configuration configuration, GraphType type, boolean directed) {
+		this.configuration = configuration;
 		if (directed) {
 			graph = new DirectedMultigraph<Vertex, Edge>(Edge.class);
 		} else {
 			graph = new Multigraph<Vertex, Edge>(Edge.class);
 		}
 		vertices = new HashMap<String, Vertex>();
+		this.type = type;
 	}
 
 	/**
@@ -193,7 +174,7 @@ public class Graph extends PropertyBean {
 	 * @return A List of Parameters.
 	 */
 	public List<Parameter> getParameters() {
-		return configuration.getGraphParameters(getType());
+		return type.getParameters();
 	}
 
 	/**
@@ -201,8 +182,8 @@ public class Graph extends PropertyBean {
 	 * 
 	 * @return This graph's type.
 	 */
-	public String getType() {
-		return (String) this.getValue(PARAMETER_TYPE);
+	public GraphType getType() {
+		return type;
 	}
 
 	/**
@@ -254,7 +235,7 @@ public class Graph extends PropertyBean {
 
 	@Override
 	public String toString() {
-		return getType();
+		return type.getName();
 	}
 
 	/**

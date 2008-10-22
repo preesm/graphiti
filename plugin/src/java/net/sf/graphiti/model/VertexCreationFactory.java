@@ -28,10 +28,6 @@
  */
 package net.sf.graphiti.model;
 
-import net.sf.graphiti.ontology.OntologyFactory;
-import net.sf.graphiti.ontology.ParameterValue;
-import net.sf.graphiti.ontology.VertexType;
-
 import org.eclipse.gef.requests.CreationFactory;
 
 /**
@@ -42,9 +38,7 @@ import org.eclipse.gef.requests.CreationFactory;
  */
 public class VertexCreationFactory implements CreationFactory {
 
-	private Configuration configuration;
-
-	private String type;
+	private VertexType type;
 
 	/**
 	 * Create a new vertex creation factory.
@@ -54,22 +48,14 @@ public class VertexCreationFactory implements CreationFactory {
 	 * @param type
 	 *            The vertex type.
 	 */
-	public VertexCreationFactory(Configuration configuration, String type) {
-		this.configuration = configuration;
+	public VertexCreationFactory(VertexType type) {
 		this.type = type;
 	}
 
 	@Override
 	public Object getNewObject() {
 		Vertex vertex = new Vertex(type);
-		for (VertexType vertexType : configuration.getVertexTypes()) {
-			if (vertexType.hasName().equals(type)) {
-				// we found the matching type, let's set the parameters and
-				// leave
-				setParameters(vertex, vertexType);
-				break;
-			}
-		}
+		setParameters(vertex, type);
 
 		return vertex;
 	}
@@ -88,15 +74,15 @@ public class VertexCreationFactory implements CreationFactory {
 	 *            Its type as defined by the ontology.
 	 */
 	private void setParameters(Vertex vertex, VertexType vertexType) {
-		for (net.sf.graphiti.ontology.Parameter parameter : vertexType
-				.hasParameters()) {
-			if (!parameter.hasName().equals("type")) {
-				// everything but type, because type is constrained
-				String parameterName = parameter.hasName();
-				for (ParameterValue paramValue : parameter.hasParameterValue()) {
-					vertex.setValue(parameterName, paramValue.hasValue());
-				}
-			}
-		}
+		// TODO: here
+		// for (Parameter parameter : vertexType.hasParameters()) {
+		// if (!parameter.getName().equals("type")) {
+		// // everything but type, because type is constrained
+		// String parameterName = parameter.getName();
+		// for (ParameterValue paramValue : parameter.hasParameterValue()) {
+		// vertex.setValue(parameterName, paramValue.hasValue());
+		// }
+		// }
+		// }
 	}
 }

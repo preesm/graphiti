@@ -86,11 +86,11 @@ public class GraphitiPalette {
 			Configuration config = graph.getConfiguration();
 			Set<EdgeType> edgeTypes = config.getEdgeTypes();
 			for (EdgeType type : edgeTypes) {
-				String typeStr = type.hasName();
+				String typeStr = type.getName();
 
 				ToolEntry tool = new ConnectionCreationToolEntry(typeStr,
-						"Create a new " + typeStr, new EdgeCreationFactory(
-								typeStr), id, ImageDescriptor
+						"Create a new " + typeStr,
+						new EdgeCreationFactory(type), id, ImageDescriptor
 								.getMissingImageDescriptor());
 
 				depDrawer.add(tool);
@@ -114,13 +114,12 @@ public class GraphitiPalette {
 			Configuration config = graph.getConfiguration();
 			Set<VertexType> vertexTypes = config.getVertexTypes();
 			for (VertexType type : vertexTypes) {
-				String typeStr = type.hasName();
+				String typeStr = type.getName();
 
-				ImageDescriptor id = getImageDescriptorFromType(config, typeStr);
+				ImageDescriptor id = getImageDescriptorFromType(type);
 
 				ToolEntry tool = new CreationToolEntry(typeStr, "Create a new "
-						+ typeStr, new VertexCreationFactory(config, typeStr),
-						id, null);
+						+ typeStr, new VertexCreationFactory(type), id, null);
 
 				paletteGroup.add(tool);
 			}
@@ -128,27 +127,18 @@ public class GraphitiPalette {
 	}
 
 	/**
-	 * Returns a new image descriptor from the given document configuration and
-	 * type.
+	 * Returns a new image descriptor from the given vertex type.
 	 * 
-	 * @param config
-	 *            The document configuration containing the ontology we want to
-	 *            use.
-	 * @param typeStr
+	 * @param type
 	 *            A string representation of the vertex type.
 	 * @return A new {@link ImageDescriptor}.
 	 */
-	private static ImageDescriptor getImageDescriptorFromType(
-			Configuration config, String typeStr) {
+	private static ImageDescriptor getImageDescriptorFromType(VertexType type) {
 		// attributes
-		int width = (Integer) config.getVertexAttribute(typeStr,
-				Vertex.ATTRIBUTE_WIDTH);
-		int height = (Integer) config.getVertexAttribute(typeStr,
-				Vertex.ATTRIBUTE_HEIGHT);
-		Color color = (Color) config.getVertexAttribute(typeStr,
-				Vertex.ATTRIBUTE_COLOR);
-		IShape shape = ((Shape) config.getVertexAttribute(typeStr,
-				Vertex.ATTRIBUTE_SHAPE)).getShape();
+		int width = (Integer) type.getAttribute(Vertex.ATTRIBUTE_WIDTH);
+		int height = (Integer) type.getAttribute(Vertex.ATTRIBUTE_HEIGHT);
+		Color color = (Color) type.getAttribute(Vertex.ATTRIBUTE_COLOR);
+		IShape shape = (IShape) type.getAttribute(Vertex.ATTRIBUTE_SHAPE);
 
 		// adjust width and height
 		double ratio = (double) width / (double) height;

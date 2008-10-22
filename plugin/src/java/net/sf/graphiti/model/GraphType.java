@@ -28,9 +28,9 @@
  */
 package net.sf.graphiti.model;
 
-public class EdgeType extends AbstractType {
+public class GraphType extends AbstractType {
 
-	public EdgeType(String name) {
+	public GraphType(String name) {
 		super(name);
 	}
 

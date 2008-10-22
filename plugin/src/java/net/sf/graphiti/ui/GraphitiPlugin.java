@@ -29,10 +29,11 @@
 package net.sf.graphiti.ui;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import net.sf.graphiti.io.ConfigurationParser;
 import net.sf.graphiti.model.Configuration;
-import net.sf.graphiti.parsers.ConfigurationLoader;
 import net.sf.graphiti.ui.preferences.PreferenceConstants;
 
 import org.eclipse.core.runtime.CoreException;
@@ -115,7 +116,7 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	 * The root of the document configuration tree built when the plug-in was
 	 * activated.
 	 */
-	private Configuration configuration;
+	private List<Configuration> configurations;
 
 	/**
 	 * The constructor
@@ -125,18 +126,18 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	}
 
 	/**
-	 * Associate file extensions defined in the ontologies to the
+	 * Associate file extensions defined in the configurations to the
 	 * org.eclipse.core.runtime.xml content type.
 	 * 
-	 * @param configuration
-	 *            The configuration obtained from the ontologies.
+	 * @param configurations
+	 *            The list of configurations parsed.
 	 */
-	private void addExtensions(Configuration configuration) {
+	private void addExtensions(List<Configuration> configurations) {
 		// add all file extensions to a set (in case one extension is present
 		// several times, such as .xml)
 		Set<String> extensionSet = new HashSet<String>();
-		for (Configuration config : configuration.getConfigurationList(true)) {
-			String[] fileExts = config.getFileExtensions();
+		for (Configuration configuration : configurations) {
+			String[] fileExts = configuration.getFileExtensions();
 			for (String fileExt : fileExts) {
 				extensionSet.add(fileExt);
 			}
@@ -158,13 +159,12 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	}
 
 	/**
-	 * Returns the root of the document configuration tree.
+	 * Returns the list of configurations.
 	 * 
-	 * @return A {@link Configuration} that is the root of the document
-	 *         configuration tree.
+	 * @return A reference to the {@link Configuration} list.
 	 */
-	public Configuration getConfiguration() {
-		return configuration;
+	public List<Configuration> getConfigurations() {
+		return configurations;
 	}
 
 	/**
@@ -233,9 +233,9 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 
 			});
 		} else {
-			ConfigurationLoader loader = new ConfigurationLoader();
-			configuration = loader.getConfiguration();
-			addExtensions(configuration);
+			ConfigurationParser parser = new ConfigurationParser();
+			configurations = parser.getConfigurations();
+			addExtensions(configurations);
 		}
 	}
 

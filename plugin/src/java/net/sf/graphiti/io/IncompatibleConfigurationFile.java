@@ -26,12 +26,29 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.model;
+package net.sf.graphiti.io;
 
-public class EdgeType extends AbstractType {
+/**
+ * This class provides an exception that is launched when no configuration file
+ * is compatible with a given input.
+ * 
+ * @author Jonathan Piat
+ * @author Matthieu Wipliez
+ * 
+ */
+public class IncompatibleConfigurationFile extends Exception {
 
-	public EdgeType(String name) {
-		super(name);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2161343938175674853L;
+
+	public IncompatibleConfigurationFile(String message) {
+		super(message);
+	}
+
+	public IncompatibleConfigurationFile(Throwable cause) {
+		super(cause);
 	}
 
 }

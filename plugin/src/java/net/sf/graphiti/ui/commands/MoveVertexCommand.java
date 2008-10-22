@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.ui.commands;
 
-import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Vertex;
 
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -64,7 +63,7 @@ public class MoveVertexCommand extends Command {
 	@Override
 	public String getLabel() {
 		if (vertex != null) {
-			String type = (String) vertex.getValue(Edge.PARAMETER_TYPE);
+			String type = vertex.getType().getName();
 			return "Move " + type;
 		} else {
 			return "Move vertex";
