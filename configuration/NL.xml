@@ -2,7 +2,7 @@
 <configuration namespace="">
     
     <fileExtensions>
-        <fileExtension name="xdf"/>
+        <fileExtension name="nl"/>
     </fileExtensions>
     
     <refinementFileExtensions>
@@ -14,13 +14,16 @@
     </refinementFileExtensions>
     
     <fileFormats>
-        <fileFormat extension="xdf" type="text/xml">
+        <fileFormat extension="nl" type="text">
             <import>
-                <transformation name="xdf/input_XDF.xslt"/>
+                <transformation name="nl/nl.grammar"/>
+                <transformation name="nl/nl.xslt"/>
+                <transformation name="xnl/input_XNL.xslt"/>
             </import>
             
             <export>
-                <transformation name="xdf/output_XDF.xslt"/>
+                <transformation name="xnl/output_XNL.xslt"/>
+                <transformation name="nl/output_NL.xslt"/>
             </export>
         </fileFormat>
     </fileFormats>

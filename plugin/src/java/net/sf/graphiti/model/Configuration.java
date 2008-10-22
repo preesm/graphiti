@@ -28,6 +28,7 @@
  */
 package net.sf.graphiti.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,7 @@ public class Configuration {
 	 */
 	private String[] fileExtensions;
 
-	private FileFormat[] fileFormats;
+	private Map<String, List<FileFormat>> fileFormats;
 
 	/**
 	 * A graph type name -> graph type object map.
@@ -97,6 +98,7 @@ public class Configuration {
 	 */
 	public Configuration(String ontologyUrl) {
 		edgeTypes = new HashMap<String, EdgeType>();
+		fileFormats = new HashMap<String, List<FileFormat>>();
 		graphTypes = new HashMap<String, GraphType>();
 		vertexTypes = new HashMap<String, VertexType>();
 	}
@@ -114,13 +116,6 @@ public class Configuration {
 	 */
 	public String[] getFileExtensions() {
 		return fileExtensions;
-	}
-
-	/**
-	 * @return the refinement file extensions
-	 */
-	public FileFormat[] getFileFormats() {
-		return fileFormats;
 	}
 
 	public GraphType getGraphType(String name) {
@@ -165,7 +160,16 @@ public class Configuration {
 	 *            A list of file formats.
 	 */
 	public void setFileFormats(List<FileFormat> fileFormats) {
-		this.fileFormats = fileFormats.toArray(new FileFormat[] {});
+		for (FileFormat format : fileFormats) {
+			List<FileFormat> list = this.fileFormats.get(format
+					.getFileExtension());
+			if (list == null) {
+				list = new ArrayList<FileFormat>();
+				this.fileFormats.put(format.getFileExtension(), list);
+			}
+			
+			list.add(format);
+		}
 	}
 
 	public void setGraphTypes(Set<GraphType> graphTypes) {
@@ -202,6 +206,10 @@ public class Configuration {
 	@Override
 	public String toString() {
 		return namespace;
+	}
+
+	public List<FileFormat> getFileFormats(String fileExt) {
+		return fileFormats.get(fileExt);
 	}
 
 }

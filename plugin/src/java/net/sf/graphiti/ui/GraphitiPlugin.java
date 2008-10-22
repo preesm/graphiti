@@ -34,6 +34,7 @@ import java.util.Set;
 
 import net.sf.graphiti.io.ConfigurationParser;
 import net.sf.graphiti.model.Configuration;
+import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.ui.preferences.PreferenceConstants;
 
 import org.eclipse.core.runtime.CoreException;
@@ -131,30 +132,43 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	 * 
 	 * @param configurations
 	 *            The list of configurations parsed.
+	 * @throws CoreException
 	 */
-	private void addExtensions(List<Configuration> configurations) {
-		// add all file extensions to a set (in case one extension is present
+	private void addExtensions(List<Configuration> configurations)
+			throws CoreException {
+		// add all file extensions to sets (in case one extension is present
 		// several times, such as .xml)
-		Set<String> extensionSet = new HashSet<String>();
+		Set<String> textFormats = new HashSet<String>();
+		Set<String> xmlFormats = new HashSet<String>();
 		for (Configuration configuration : configurations) {
 			String[] fileExts = configuration.getFileExtensions();
 			for (String fileExt : fileExts) {
-				extensionSet.add(fileExt);
+				List<FileFormat> formats = configuration
+						.getFileFormats(fileExt);
+				for (FileFormat format : formats) {
+					if (format.getContentType().equals("text/xml")) {
+						xmlFormats.add(fileExt);
+					} else if (format.getContentType().equals("text")) {
+						textFormats.add(fileExt);
+					}
+				}
 			}
 		}
 
 		// add to content type manager
 		IContentTypeManager mgr = Platform.getContentTypeManager();
-		IContentType contentType = mgr
-				.getContentType("org.eclipse.core.runtime.xml");
+		IContentType contentType;
 
-		for (String fileExt : extensionSet) {
-			try {
-				contentType.addFileSpec(fileExt,
-						IContentType.FILE_EXTENSION_SPEC);
-			} catch (CoreException e) {
-				e.printStackTrace();
-			}
+		// text
+		contentType = mgr.getContentType("org.eclipse.core.runtime.text");
+		for (String fileExt : textFormats) {
+			contentType.addFileSpec(fileExt, IContentType.FILE_EXTENSION_SPEC);
+		}
+
+		// text/xml
+		contentType = mgr.getContentType("org.eclipse.core.runtime.xml");
+		for (String fileExt : xmlFormats) {
+			contentType.addFileSpec(fileExt, IContentType.FILE_EXTENSION_SPEC);
 		}
 	}
 

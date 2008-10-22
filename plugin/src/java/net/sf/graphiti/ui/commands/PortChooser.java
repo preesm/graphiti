@@ -141,18 +141,17 @@ public class PortChooser {
 	 * @param exception
 	 *            An exception.
 	 */
-//	private void errorMessage(String message, Throwable exception) {
-//		IWorkbench workbench = PlatformUI.getWorkbench();
-//		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-//		Shell shell = window.getShell();
-//
-//		IStatus status = new Status(IStatus.ERROR, GraphitiPlugin.PLUGIN_ID,
-//				message, exception);
-//		ErrorDialog dialog = new ErrorDialog(shell, "Error", message, status,
-//				IStatus.ERROR);
-//		dialog.open();
-//	}
-
+	// private void errorMessage(String message, Throwable exception) {
+	// IWorkbench workbench = PlatformUI.getWorkbench();
+	// IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+	// Shell shell = window.getShell();
+	//
+	// IStatus status = new Status(IStatus.ERROR, GraphitiPlugin.PLUGIN_ID,
+	// message, exception);
+	// ErrorDialog dialog = new ErrorDialog(shell, "Error", message, status,
+	// IStatus.ERROR);
+	// dialog.open();
+	// }
 	/**
 	 * Returns a port name from the current vertex (set by getSourcePort or
 	 * getTargetPort).
@@ -301,52 +300,52 @@ public class PortChooser {
 	 */
 	private Graph parseRefinement(FileFormat format, IFile sourceFile) {
 		Graph graph = null;
-		
-		//TODO: here!
-//		String grammar = format.getGrammar();
-//		GenericGraphFileParser parser = new GenericGraphFileParser(
-//				GraphitiPlugin.getDefault().getConfigurations());
-//
-//		if (grammar.isEmpty()) {
-//			try {
-//				graph = parser.parse(sourceFile);
-//			} catch (IncompatibleConfigurationFile e) {
-//				errorMessage("The graph could not be parsed", e);
-//			}
-//		} else {
-//
-//			// parse and transform
-//			try {
-//				InputStream is = sourceFile.getContents();
-//				Element source = new GrammarTransformer(grammar)
-//						.parse(new InputStreamReader(is));
-//				XsltTransformer tr = new XsltTransformer(format.getXslt());
-//				Element target = tr.transformDomToDom(source, "dummy");
-//				graph = parser.parse(target);
-//			} catch (CoreException e) {
-//				errorMessage("Could not obtain the file contents", e);
-//			} catch (ClassCastException e) {
-//				errorMessage(
-//						"There was a problem with the creation of a DOM document",
-//						e);
-//			} catch (GrammarException e) {
-//				errorMessage("The grammar \"" + grammar + "\" was not valid", e);
-//			} catch (ParserCreationException e) {
-//				errorMessage("The parser could not be created", e);
-//			} catch (ParserLogException e) {
-//				errorMessage("There was a problem with the parser", e);
-//			} catch (ClassNotFoundException e) {
-//				errorMessage("A DOM class could not be found", e);
-//			} catch (InstantiationException e) {
-//				errorMessage("A DOM class could not be instantiated", e);
-//			} catch (IllegalAccessException e) {
-//				errorMessage("A DOM class could not be accessed", e);
-//			} catch (IOException e) {
-//				errorMessage("The file could not be read", e);
-//			} catch (IncompatibleConfigurationFile e) {
-//				errorMessage("The graph could not be parsed", e);
-//			}
-//		}
+
+		// TODO: here!
+		// String grammar = format.getGrammar();
+		// GenericGraphFileParser parser = new GenericGraphFileParser(
+		// GraphitiPlugin.getDefault().getConfigurations());
+		//
+		// if (grammar.isEmpty()) {
+		// try {
+		// graph = parser.parse(sourceFile);
+		// } catch (IncompatibleConfigurationFile e) {
+		// errorMessage("The graph could not be parsed", e);
+		// }
+		// } else {
+		//
+		// // parse and transform
+		// try {
+		// InputStream is = sourceFile.getContents();
+		// Element source = new GrammarTransformer(grammar)
+		// .parse(new InputStreamReader(is));
+		// XsltTransformer tr = new XsltTransformer(format.getXslt());
+		// Element target = tr.transformDomToDom(source, "dummy");
+		// graph = parser.parse(target);
+		// } catch (CoreException e) {
+		// errorMessage("Could not obtain the file contents", e);
+		// } catch (ClassCastException e) {
+		// errorMessage(
+		// "There was a problem with the creation of a DOM document",
+		// e);
+		// } catch (GrammarException e) {
+		// errorMessage("The grammar \"" + grammar + "\" was not valid", e);
+		// } catch (ParserCreationException e) {
+		// errorMessage("The parser could not be created", e);
+		// } catch (ParserLogException e) {
+		// errorMessage("There was a problem with the parser", e);
+		// } catch (ClassNotFoundException e) {
+		// errorMessage("A DOM class could not be found", e);
+		// } catch (InstantiationException e) {
+		// errorMessage("A DOM class could not be instantiated", e);
+		// } catch (IllegalAccessException e) {
+		// errorMessage("A DOM class could not be accessed", e);
+		// } catch (IOException e) {
+		// errorMessage("The file could not be read", e);
+		// } catch (IncompatibleConfigurationFile e) {
+		// errorMessage("The graph could not be parsed", e);
+		// }
+		// }
 
 		return graph;
 	}

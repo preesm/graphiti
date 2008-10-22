@@ -45,8 +45,11 @@ public class FileFormat {
 
 	private List<String> imports;
 
-	public FileFormat(String extension) {
+	private String type;
+
+	public FileFormat(String extension, String type) {
 		this.extension = extension;
+		this.type = type;
 		exports = new ArrayList<String>();
 		imports = new ArrayList<String>();
 	}
@@ -59,6 +62,10 @@ public class FileFormat {
 		imports.add(fileName);
 	}
 
+	public String getContentType() {
+		return type;
+	}
+
 	public List<String> getExportTransformations() {
 		return exports;
 	}
@@ -69,6 +76,10 @@ public class FileFormat {
 
 	public List<String> getImportTransformations() {
 		return imports;
+	}
+
+	public String toString() {
+		return extension + ": " + type;
 	}
 
 }

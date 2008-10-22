@@ -103,11 +103,11 @@ public class XsltTransformer {
 		} else {
 			try {
 				OutputStream os = new ByteArrayOutputStream();
-				StreamResult result = new StreamResult(os);
 				DOMSource source = new DOMSource(element);
+				StreamResult result = new StreamResult(os);
 				transformer.transform(source, result);
 				os.close();
-
+				
 				String value = os.toString();
 				return value;
 			} catch (Exception e) {

@@ -9,7 +9,7 @@
     <refinementFileExtensions/>
     
     <fileFormats>
-        <fileFormat extension="graphml">
+        <fileFormat extension="graphml" type="text/xml">
             <import>
                 <transformation name="graphml/input_GraphML.xslt" type="XSLT"/>
             </import>
@@ -18,7 +18,7 @@
                 <transformation name="graphml/output_GraphML.xslt" type="XSLT"/>
             </export>
         </fileFormat>
-        <fileFormat extension="xml">
+        <fileFormat extension="xml" type="text/xml">
             <import>
                 <transformation name="graphml/input_GraphML.xslt" type="XSLT"/>
             </import>

@@ -126,6 +126,8 @@ public class ConfigurationParser {
 		node = parseGraphTypes(configuration, node);
 		node = parseVertexTypes(configuration, node);
 		node = parseEdgeTypes(configuration, node);
+
+		configurations.add(configuration);
 	}
 
 	private Node parseEdgeTypes(Configuration configuration, Node node) {
@@ -202,7 +204,9 @@ public class ConfigurationParser {
 		while (child != null) {
 			if (child.getNodeName().equals("fileFormat")) {
 				String extension = ((Element) child).getAttribute("extension");
-				FileFormat format = new FileFormat(extension);
+				String type = ((Element) child).getAttribute("type");
+				FileFormat format = new FileFormat(extension, type);
+				fileFormats.add(format);
 
 				// import
 				Node importExport = child.getFirstChild();
