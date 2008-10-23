@@ -10,8 +10,10 @@
     <xsl:template match="graph">
         <xsl:element name="XDF">
             <xsl:attribute name="name" select="parameters/parameter[@name = 'id']/@value"/>
+            <xsl:apply-templates select="vertices/vertex[@type = 'Input port']"/>
+            <xsl:apply-templates select="vertices/vertex[@type = 'Output port']"/>
             <xsl:apply-templates select="parameters/parameter[@name != 'id']"/>
-            <xsl:apply-templates select="vertices/vertex"/>
+            <xsl:apply-templates select="vertices/vertex[@type = 'Instance']"/>
             <xsl:apply-templates select="edges/edge"/>
         </xsl:element>
     </xsl:template>
@@ -37,14 +39,14 @@
     </xsl:template>
 
     <!-- Input/output ports -->
-    <xsl:template match="vertex[@type='Input Port']">
+    <xsl:template match="vertex[@type='Input port']">
         <xsl:element name="Port">
             <xsl:attribute name="kind">Input</xsl:attribute>
             <xsl:attribute name="name" select="parameters/parameter[@name = 'id']/@value"/>
         </xsl:element>
     </xsl:template>
     
-    <xsl:template match="vertex[@type='Output Port']">
+    <xsl:template match="vertex[@type='Output port']">
         <xsl:element name="Port">
             <xsl:attribute name="kind">Output</xsl:attribute>
             <xsl:attribute name="name" select="parameters/parameter[@name = 'id']/@value"/>
@@ -77,7 +79,7 @@
     <xsl:template match="edge">
         <xsl:element name="Connection">
             <xsl:choose>
-                <xsl:when test="count(parameters/parameter[@name = 'source port']) = 1">
+                <xsl:when test="parameters/parameter[@name = 'source port']/@value != ''">
                     <xsl:attribute name="src" select="@source"></xsl:attribute>
                     <xsl:attribute name="src-port" select="parameters/parameter[@name = 'source port']/@value"/>
                 </xsl:when>
@@ -87,7 +89,7 @@
                 </xsl:otherwise>
             </xsl:choose>
             <xsl:choose>
-                <xsl:when test="count(parameters/parameter[@name = 'target port']) = 1">
+                <xsl:when test="parameters/parameter[@name = 'target port']/@value != ''">
                     <xsl:attribute name="dst" select="@target"></xsl:attribute>
                     <xsl:attribute name="dst-port" select="parameters/parameter[@name = 'target port']/@value"/>
                 </xsl:when>
