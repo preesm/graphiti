@@ -31,6 +31,7 @@ package net.sf.graphiti.io;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 
 import net.percederberg.grammatica.Grammar;
 import net.percederberg.grammatica.GrammarException;
@@ -176,4 +177,33 @@ public class GrammarTransformer {
 		return convertTreeToDom(tree);
 	}
 
+	/**
+	 * Parses an input readable by using the given reader.
+	 * 
+	 * @param text
+	 *            A {@link String}.
+	 * @return The DOM document element of the parsed file XML representation.
+	 * @throws GrammarException
+	 *             if the tokenizer couldn't be created or initialized correctly
+	 * @throws ParserCreationException
+	 *             if the parser couldn't be initialized correctly
+	 * @throws ParserLogException
+	 *             if the input couldn't be parsed correctly
+	 * @throws ClassCastException
+	 *             If any specified class does not implement
+	 *             DOMImplementationSource
+	 * @throws ClassNotFoundException
+	 *             If any specified class can not be found
+	 * @throws InstantiationException
+	 *             If any specified class is an interface or abstract class
+	 * @throws IllegalAccessException
+	 *             If the default constructor of a specified class is not
+	 *             accessible
+	 */
+	public Element parseString(String text) throws ClassCastException,
+			GrammarException, ParserCreationException, ParserLogException,
+			ClassNotFoundException, InstantiationException,
+			IllegalAccessException {
+		return parse(new StringReader(text));
+	}
 }

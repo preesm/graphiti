@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:grammar="java:net.sf.graphiti.io.GrammarTransformer"
+    xmlns:xslt="java:net.sf.graphiti.io.XsltTransformer"
     xmlns:fn="http://www.w3.org/2005/xpath-functions" version="2.0">
 
     <xsl:output indent="yes" method="xml"/>
@@ -31,10 +33,10 @@
         <xsl:element name="Decl">
             <xsl:attribute name="kind">Variable</xsl:attribute>
             <xsl:attribute name="name" select="@key"/>
-            <xsl:element name="Expr">
-                <xsl:attribute name="kind">Var</xsl:attribute>
-                <xsl:value-of select="@value"/>
-            </xsl:element>
+            <xsl:variable name="gt" select="grammar:new('xdf/expr.grammar')"/>
+            <xsl:variable name="concreteTree" select="grammar:parseString($gt, @value)"/>
+            <xsl:variable name="xt" select="xslt:new('xdf/exprToXml.xslt')"/>
+            <xsl:copy-of select="xslt:transformDomToDom($xt, $concreteTree)"/>
         </xsl:element>
     </xsl:template>
 
@@ -45,7 +47,7 @@
             <xsl:attribute name="name" select="parameters/parameter[@name = 'id']/@value"/>
         </xsl:element>
     </xsl:template>
-    
+
     <xsl:template match="vertex[@type='Output port']">
         <xsl:element name="Port">
             <xsl:attribute name="kind">Output</xsl:attribute>
@@ -58,7 +60,8 @@
         <xsl:element name="Instance">
             <xsl:attribute name="id" select="parameters/parameter[@name = 'id']/@value"/>
             <xsl:element name="Class">
-                <xsl:attribute name="name" select="parameters/parameter[@name = 'refinement']/@value"/>
+                <xsl:attribute name="name"
+                    select="parameters/parameter[@name = 'refinement']/@value"/>
             </xsl:element>
             <xsl:apply-templates select="parameters/parameter[@name = 'instance parameter']"/>
         </xsl:element>
@@ -68,10 +71,10 @@
     <xsl:template match="parameter[@name = 'instance parameter']/entry">
         <xsl:element name="Parameter">
             <xsl:attribute name="name" select="@key"/>
-            <xsl:element name="Expr">
-                <xsl:attribute name="kind">Var</xsl:attribute>
-                <xsl:value-of select="@value"/>
-            </xsl:element>
+            <xsl:variable name="gt" select="grammar:new('xdf/expr.grammar')"/>
+            <xsl:variable name="concreteTree" select="grammar:parseString($gt, @value)"/>
+            <xsl:variable name="xt" select="xslt:new('xdf/exprToXml.xslt')"/>
+            <xsl:copy-of select="xslt:transformDomToDom($xt, $concreteTree)"/>
         </xsl:element>
     </xsl:template>
 
@@ -80,8 +83,9 @@
         <xsl:element name="Connection">
             <xsl:choose>
                 <xsl:when test="parameters/parameter[@name = 'source port']/@value != ''">
-                    <xsl:attribute name="src" select="@source"></xsl:attribute>
-                    <xsl:attribute name="src-port" select="parameters/parameter[@name = 'source port']/@value"/>
+                    <xsl:attribute name="src" select="@source"/>
+                    <xsl:attribute name="src-port"
+                        select="parameters/parameter[@name = 'source port']/@value"/>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:attribute name="src"/>
@@ -90,8 +94,9 @@
             </xsl:choose>
             <xsl:choose>
                 <xsl:when test="parameters/parameter[@name = 'target port']/@value != ''">
-                    <xsl:attribute name="dst" select="@target"></xsl:attribute>
-                    <xsl:attribute name="dst-port" select="parameters/parameter[@name = 'target port']/@value"/>
+                    <xsl:attribute name="dst" select="@target"/>
+                    <xsl:attribute name="dst-port"
+                        select="parameters/parameter[@name = 'target port']/@value"/>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:attribute name="dst"/>
