@@ -28,25 +28,26 @@
  */
 package net.sf.graphiti.io;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-
-import net.percederberg.grammatica.GrammarException;
-import net.percederberg.grammatica.parser.ParserCreationException;
-import net.percederberg.grammatica.parser.ParserLogException;
+import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Configuration;
+import net.sf.graphiti.model.Edge;
+import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.GraphType;
+import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.model.VertexType;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * This class provides a generic graph parser. Generic means that it can parse
@@ -111,26 +112,9 @@ public class GenericGraphParser {
 				}
 			}
 
-			return parseElement(configuration, element);
-		} catch (ClassCastException e) {
-			throw new IncompatibleConfigurationFile(e);
-		} catch (ClassNotFoundException e) {
-			throw new IncompatibleConfigurationFile(e);
-		} catch (GrammarException e) {
-			throw new IncompatibleConfigurationFile(e);
-		} catch (IllegalAccessException e) {
-			throw new IncompatibleConfigurationFile(e);
-		} catch (InstantiationException e) {
-			throw new IncompatibleConfigurationFile(e);
-		} catch (IOException e) {
-			throw new IncompatibleConfigurationFile(e);
-		} catch (ParserCreationException e) {
-			throw new IncompatibleConfigurationFile(e);
-		} catch (ParserLogException e) {
-			throw new IncompatibleConfigurationFile(e);
-		} catch (TransformerConfigurationException e) {
-			throw new IncompatibleConfigurationFile(e);
-		} catch (TransformerException e) {
+			return parseGraph(configuration, element);
+		} catch (Exception e) {
+			e.printStackTrace();
 			throw new IncompatibleConfigurationFile(e);
 		}
 	}
@@ -169,9 +153,115 @@ public class GenericGraphParser {
 				"No configuration could parse the file");
 	}
 
-	private Graph parseElement(Configuration configuration, Element element)
+	/**
+	 * Parses the edges.
+	 * 
+	 * @param graph
+	 *            The graph to add edges to.
+	 * @param node
+	 *            A child node of &lt;graph&gt;.
+	 * @return The node following &lt;edges&gt;.
+	 */
+	private Node parseEdges(Graph graph, Node node) {
+		Configuration configuration = graph.getConfiguration();
+		node = DomHelper.getFirstSiblingNamed(node, "edges");
+		Node child = node.getFirstChild();
+		while (child != null) {
+			if (child.getNodeName().equals("edge")) {
+				String typeName = ((Element) child).getAttribute("type");
+				EdgeType type = configuration.getEdgeType(typeName);
+				Edge edge = new Edge(type);
+				parseParameters(edge, type, child.getFirstChild());
+				graph.addEdge(edge);
+			}
+
+			child = child.getNextSibling();
+		}
+
+		return node.getNextSibling();
+	}
+
+	/**
+	 * Parses the graph.
+	 * 
+	 * @param configuration
+	 *            The configuration to create a graph with.
+	 * @param element
+	 *            The &lt;graph&gt; element.
+	 * @return A newly-created graph with the given configuration.
+	 */
+	private Graph parseGraph(Configuration configuration, Element element)
 			throws IncompatibleConfigurationFile {
-		return null;
+		String typeName = element.getAttribute("type");
+		GraphType type = configuration.getGraphType(typeName);
+		Graph graph = new Graph(configuration, type);
+
+		// parse different sections
+		Node node = element.getFirstChild();
+		node = parseParameters(graph, type, node);
+		node = parseVertices(graph, node);
+		node = parseEdges(graph, node);
+
+		return graph;
+	}
+
+	/**
+	 * Parses the parameters and set the properties of the given
+	 * <code>propertyBean</code>, that has the given type.
+	 * 
+	 * @param propertyBean
+	 *            The target property bean.
+	 * @param type
+	 *            The type of <code>propertyBean</code>.
+	 * @param node
+	 *            A previous sibling of &lt;parameters&gt;, or
+	 *            &lt;parameters&gt; itself.
+	 * @return The node following &lt;parameters&gt;.
+	 */
+	private Node parseParameters(PropertyBean propertyBean, AbstractType type,
+			Node node) {
+		node = DomHelper.getFirstSiblingNamed(node, "parameters");
+
+		Node child = node.getFirstChild();
+		while (child != null) {
+			if (child.getNodeName().equals("parameter")) {
+				String parameterName = ((Element) child).getAttribute("name");
+				String value = ((Element) child).getTextContent();
+				propertyBean.setValue(parameterName, value);
+			}
+
+			child = child.getNextSibling();
+		}
+
+		return node.getNextSibling();
+	}
+
+	/**
+	 * Parses the vertices.
+	 * 
+	 * @param graph
+	 *            The graph to add vertices to.
+	 * @param node
+	 *            A child node of &lt;graph&gt;.
+	 * @return The node following &lt;vertices&gt;.
+	 */
+	private Node parseVertices(Graph graph, Node node) {
+		Configuration configuration = graph.getConfiguration();
+		node = DomHelper.getFirstSiblingNamed(node, "vertices");
+		Node child = node.getFirstChild();
+		while (child != null) {
+			if (child.getNodeName().equals("vertex")) {
+				String typeName = ((Element) child).getAttribute("type");
+				VertexType type = configuration.getVertexType(typeName);
+				Vertex vertex = new Vertex(type);
+				parseParameters(vertex, type, child.getFirstChild());
+				graph.addVertex(vertex);
+			}
+
+			child = child.getNextSibling();
+		}
+
+		return node.getNextSibling();
 	}
 
 }

@@ -40,9 +40,18 @@ import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.GraphType;
+import net.sf.graphiti.model.Parameter;
+import net.sf.graphiti.model.ParameterPosition;
 import net.sf.graphiti.model.VertexType;
+import net.sf.graphiti.ui.figure.shapes.IShape;
+import net.sf.graphiti.ui.figure.shapes.ShapeCircle;
+import net.sf.graphiti.ui.figure.shapes.ShapeHexagon;
+import net.sf.graphiti.ui.figure.shapes.ShapeLosange;
+import net.sf.graphiti.ui.figure.shapes.ShapeRoundedBox;
+import net.sf.graphiti.ui.figure.shapes.ShapeTriangle;
 import net.sf.graphiti.util.FileLocator;
 
+import org.eclipse.swt.graphics.Color;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -102,6 +111,51 @@ public class ConfigurationParser {
 	}
 
 	/**
+	 * Parses the attributes for the given type.
+	 * 
+	 * @param type
+	 *            The type whose attributes are being specified.
+	 * @param node
+	 *            A child node of &lt;attributes&gt;.
+	 */
+	private void parseAttributes(AbstractType type, Node node) {
+		while (node != null) {
+			String nodeName = node.getNodeName();
+			if (nodeName.equals("color")) {
+				Element element = (Element) node;
+				int red = Integer.parseInt(element.getAttribute("red"));
+				int green = Integer.parseInt(element.getAttribute("green"));
+				int blue = Integer.parseInt(element.getAttribute("blue"));
+				Color color = new Color(null, red, green, blue);
+				type.addAttribute("color", color);
+			} else if (nodeName.equals("shape")) {
+				String shapeName = ((Element) node).getAttribute("name");
+				IShape shape = null;
+				if (shapeName.equals("circle")) {
+					shape = new ShapeCircle();
+				} else if (shapeName.equals("hexagon")) {
+					shape = new ShapeHexagon();
+				} else if (shapeName.equals("losange")) {
+					shape = new ShapeLosange();
+				} else if (shapeName.equals("roundedBox")) {
+					shape = new ShapeRoundedBox();
+				} else if (shapeName.equals("triangle")) {
+					shape = new ShapeTriangle();
+				}
+				type.addAttribute("shape", shape);
+			} else if (nodeName.equals("size")) {
+				Element element = (Element) node;
+				int width = Integer.parseInt(element.getAttribute("width"));
+				int height = Integer.parseInt(element.getAttribute("height"));
+				type.addAttribute("width", width);
+				type.addAttribute("height", height);
+			}
+
+			node = node.getNextSibling();
+		}
+	}
+
+	/**
 	 * Parses the given document element of a configuration file into a
 	 * {@link Configuration}, which is then added to {@link #configurations}.
 	 * 
@@ -140,7 +194,7 @@ public class ConfigurationParser {
 	private Node parseEdgeTypes(Configuration configuration, Node node) {
 		node = DomHelper.getFirstSiblingNamed(node, "edgeTypes");
 		Set<EdgeType> edgeTypes = new TreeSet<EdgeType>();
-		
+
 		Node child = node.getFirstChild();
 		while (child != null) {
 			if (child.getNodeName().equals("edgeType")) {
@@ -294,6 +348,36 @@ public class ConfigurationParser {
 	}
 
 	/**
+	 * Parses the parameters for the given type.
+	 * 
+	 * @param type
+	 *            The type whose parameters are being specified.
+	 * @param node
+	 *            A child node of &lt;parameters&gt;.
+	 */
+	private void parseParameters(AbstractType type, Node node) {
+		while (node != null) {
+			if (node.getNodeName().equals("parameter")) {
+				String parameterName = ((Element) node).getAttribute("name");
+				String typeName = ((Element) node).getAttribute("type");
+				Class<?> clz = String.class;
+				try {
+					clz = Class.forName(typeName);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+
+				ParameterPosition position = null;
+				Parameter parameter = new Parameter(parameterName, position,
+						clz);
+				type.addParameter(parameter);
+			}
+
+			node = node.getNextSibling();
+		}
+	}
+
+	/**
 	 * Parses the refinement file extensions.
 	 * 
 	 * @param configuration
@@ -321,8 +405,20 @@ public class ConfigurationParser {
 		return node.getNextSibling();
 	}
 
+	/**
+	 * Parses a type.
+	 * 
+	 * @param configuration
+	 *            The configuration to fill.
+	 * @param node
+	 *            A child node of a type element (one of &lt;graphType&gt;,
+	 *            &lt;vertexType&gt; or &lt;edgeType&gt;).
+	 */
 	private void parseType(AbstractType type, Node node) {
-
+		node = DomHelper.getFirstSiblingNamed(node, "attributes");
+		parseAttributes(type, node.getFirstChild());
+		node = DomHelper.getFirstSiblingNamed(node, "parameters");
+		parseParameters(type, node.getFirstChild());
 	}
 
 	/**

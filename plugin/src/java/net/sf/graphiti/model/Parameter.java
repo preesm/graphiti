@@ -45,10 +45,14 @@ public class Parameter {
 	private Class<?> type;
 
 	/**
-	 * Creates a new parameter from an ontology parameter.
+	 * Creates a new parameter.
 	 * 
-	 * @param ontParam
-	 *            The parameter defined in the ontology.
+	 * @param name
+	 *            The parameter name.
+	 * @param position
+	 *            Its position, may be <code>null</code>.
+	 * @param type
+	 *            The parameter type, as a Java {@link Class}&lt;?&gt;.
 	 */
 	public Parameter(String name, ParameterPosition position, Class<?> type) {
 		this.name = name;
@@ -81,10 +85,6 @@ public class Parameter {
 	 */
 	public Class<?> getType() {
 		return type;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	@Override

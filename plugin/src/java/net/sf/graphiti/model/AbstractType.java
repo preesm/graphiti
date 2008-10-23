@@ -29,6 +29,7 @@
 package net.sf.graphiti.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +55,28 @@ public abstract class AbstractType implements Comparable<AbstractType> {
 	 */
 	protected AbstractType(String name) {
 		this.name = name;
+		attributes = new HashMap<String, Object>();
+		parameters = new HashMap<String, Parameter>();
+	}
+
+	/**
+	 * Adds the given attribute to this type.
+	 * 
+	 * @param attributeName
+	 *            The attribute name.
+	 */
+	public void addAttribute(String attributeName, Object value) {
+		attributes.put(attributeName, value);
+	}
+
+	/**
+	 * Adds the given parameter to this type.
+	 * 
+	 * @param parameter
+	 *            A parameter.
+	 */
+	public void addParameter(Parameter parameter) {
+		parameters.put(parameter.getName(), parameter);
 	}
 
 	@Override

@@ -31,10 +31,9 @@
 
     <graphTypes>
         <graphType name="GraphML graph">
+            <attributes/>
             <parameters>
-                <parameter name="type">
-                    <type name="String"/>
-                </parameter>
+                <parameter name="type" type="java.lang.String"/>
             </parameters>
         </graphType>
     </graphTypes>
@@ -47,23 +46,15 @@
                 <size width="20" height="20"/>
             </attributes>
             <parameters>
-                <parameter name="id">
-                    <type name="String"/>
-                </parameter>
-                <parameter name="type">
-                    <type name="String"/>
-                </parameter>
+                <parameter name="id" type="java.lang.String"/>
             </parameters>
         </vertexType>
     </vertexTypes>
 
     <edgeTypes>
         <edgeType name="edge">
-            <parameters>
-                <parameter name="type">
-                    <type name="String"/>
-                </parameter>
-            </parameters>
+            <attributes/>
+            <parameters/>
         </edgeType>
     </edgeTypes>
 </configuration>

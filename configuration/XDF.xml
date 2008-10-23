@@ -29,23 +29,9 @@
         <graphType name="XML Dataflow Network (XDF)">
             <attributes/>
             <parameters>
-                <parameter name="name">
-                    <type name="String"/>
-                </parameter>
-                <parameter name="network parameter">
-                    <type name="List">
-                        <type name="String"/>
-                    </type>
-                </parameter>
-                <parameter name="network variable declaration">
-                    <type name="Map">
-                        <type name="String"/>
-                        <type name="String"/>
-                    </type>
-                </parameter>
-                <parameter name="type">
-                    <type name="String"/>
-                </parameter>
+                <parameter name="id" type="java.lang.String"/>
+                <parameter name="network parameter" type="java.util.List"/>
+                <parameter name="network variable declaration" type="java.util.Map"/>
             </parameters>
         </graphType>
     </graphTypes>
@@ -58,12 +44,7 @@
                 <size width="30" height="30"/>
             </attributes>
             <parameters>
-                <parameter name="id">
-                    <type name="String"/>
-                </parameter>
-                <parameter name="type">
-                    <type name="String"/>
-                </parameter>
+                <parameter name="id" type="java.lang.String"/>
             </parameters>
         </vertexType>
 
@@ -74,12 +55,7 @@
                 <size width="30" height="30"/>
             </attributes>
             <parameters>
-                <parameter name="id">
-                    <type name="String"/>
-                </parameter>
-                <parameter name="type">
-                    <type name="String"/>
-                </parameter>
+                <parameter name="id" type="java.lang.String"/>
             </parameters>
         </vertexType>
 
@@ -90,20 +66,9 @@
                 <size width="40" height="40"/>
             </attributes>
             <parameters>
-                <parameter name="id">
-                    <type name="String"/>
-                </parameter>
-                <parameter name="instance parameter">
-                    <type name="List">
-                        <type name="String"/>
-                    </type>
-                </parameter>
-                <parameter name="refinement">
-                    <type name="String"/>
-                </parameter>
-                <parameter name="type">
-                    <type name="String"/>
-                </parameter>
+                <parameter name="id" type="java.lang.String"/>
+                <parameter name="instance parameter" type="java.util.List"/>
+                <parameter name="refinement" type="java.lang.String"/>
             </parameters>
         </vertexType>
     </vertexTypes>
@@ -112,15 +77,8 @@
         <edgeType name="Connection">
             <attributes/>
             <parameters>
-                <parameter name="source port">
-                    <type name="String"/>
-                </parameter>
-                <parameter name="target port">
-                    <type name="String"/>
-                </parameter>
-                <parameter name="type">
-                    <type name="String"/>
-                </parameter>
+                <parameter name="source port" type="java.lang.String"/>
+                <parameter name="target port" type="java.lang.String"/>
             </parameters>
         </edgeType>
     </edgeTypes>
