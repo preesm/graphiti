@@ -28,8 +28,20 @@
  */
 package net.sf.graphiti.model;
 
+/**
+ * This class provides a representation of a graph type.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
 public class GraphType extends AbstractType {
 
+	/**
+	 * Creates a new graph type with the given name.
+	 * 
+	 * @param name
+	 *            The type name.
+	 */
 	public GraphType(String name) {
 		super(name);
 	}
@@ -41,6 +53,11 @@ public class GraphType extends AbstractType {
 		} else {
 			return false;
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return "graph: " + super.toString();
 	}
 
 }

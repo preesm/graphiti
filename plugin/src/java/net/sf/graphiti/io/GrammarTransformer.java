@@ -26,7 +26,7 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.grammar;
+package net.sf.graphiti.io;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,10 +43,8 @@ import net.percederberg.grammatica.parser.Token;
 import net.percederberg.grammatica.parser.Tokenizer;
 import net.sf.graphiti.util.FileLocator;
 
-import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
 /**
  * This class provides methods to create a grammar from a given file, and parse
@@ -132,9 +130,7 @@ public class GrammarTransformer {
 			ClassNotFoundException, InstantiationException,
 			IllegalAccessException {
 		// create document
-		DOMImplementation impl = DOMImplementationRegistry.newInstance()
-				.getDOMImplementation("Core 3.0 XML 3.0 LS");
-		Document document = impl.createDocument("", root.getName(), null);
+		Document document = DomHelper.createDocument("", root.getName());
 
 		// convert children parse nodes
 		Element documentElement = document.getDocumentElement();

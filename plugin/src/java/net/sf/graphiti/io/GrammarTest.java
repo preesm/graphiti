@@ -26,13 +26,15 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.grammar;
+package net.sf.graphiti.io;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.io.StringReader;
 
 import net.percederberg.grammatica.parser.Analyzer;
 
@@ -44,7 +46,9 @@ import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
 
 /**
- * @author Administrateur
+ * This class provides a way to test a grammar on a given input file.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
 public class GrammarTest extends Analyzer {
@@ -72,6 +76,18 @@ public class GrammarTest extends Analyzer {
 
 	private Document document;
 
+	/**
+	 * Builds a new {@link GrammarTest}.
+	 * 
+	 * @param grammarFileName
+	 *            The grammar absolute file name.
+	 * @param reader
+	 *            A {@link Reader}, like {@link StringReader} or
+	 *            {@link InputStreamReader}.
+	 * @param outputFileName
+	 *            The absolute file name to write the output to.
+	 * @throws Exception
+	 */
 	public GrammarTest(String grammarFileName, Reader reader,
 			String outputFileName) throws Exception {
 		Element element = new GrammarTransformer(grammarFileName).parse(reader);
@@ -79,6 +95,14 @@ public class GrammarTest extends Analyzer {
 		outputXml(outputFileName);
 	}
 
+	/**
+	 * Writes the {@link #document} created by a {@link GrammarTransformer} to a
+	 * file named <code>outputFileName</code>.
+	 * 
+	 * @param outputFileName
+	 *            The absolute file name to write the output to.
+	 * @throws FileNotFoundException
+	 */
 	private void outputXml(String outputFileName) throws FileNotFoundException {
 		// Gets the DOM implementation of document
 		DOMImplementation impl = document.getImplementation();

@@ -71,6 +71,8 @@ public class Configuration {
 
 	private Map<String, List<FileFormat>> fileFormats;
 
+	private String fileName;
+
 	/**
 	 * A graph type name -> graph type object map.
 	 */
@@ -92,11 +94,12 @@ public class Configuration {
 	 * Creates a new document configuration with no initial attributes or
 	 * parameters.
 	 * 
-	 * @param ontologyUrl
-	 *            The URL of the ontology this document configuration is
-	 *            associated with.
+	 * @param fileName
+	 *            The name of the file this document configuration is associated
+	 *            with.
 	 */
-	public Configuration(String ontologyUrl) {
+	public Configuration(String fileName) {
+		this.fileName = fileName;
 		edgeTypes = new HashMap<String, EdgeType>();
 		fileFormats = new HashMap<String, List<FileFormat>>();
 		graphTypes = new HashMap<String, GraphType>();
@@ -116,6 +119,15 @@ public class Configuration {
 	 */
 	public String[] getFileExtensions() {
 		return fileExtensions;
+	}
+
+	public List<FileFormat> getFileFormats(String fileExt) {
+		List<FileFormat> formats = fileFormats.get(fileExt);
+		if (formats == null) {
+			return new ArrayList<FileFormat>(0);
+		} else {
+			return formats;
+		}
 	}
 
 	public GraphType getGraphType(String name) {
@@ -161,13 +173,13 @@ public class Configuration {
 	 */
 	public void setFileFormats(List<FileFormat> fileFormats) {
 		for (FileFormat format : fileFormats) {
-			List<FileFormat> list = this.fileFormats.get(format
-					.getFileExtension());
+			String fileExt = format.getFileExtension();
+			List<FileFormat> list = this.fileFormats.get(fileExt);
 			if (list == null) {
 				list = new ArrayList<FileFormat>();
-				this.fileFormats.put(format.getFileExtension(), list);
+				this.fileFormats.put(fileExt, list);
 			}
-			
+
 			list.add(format);
 		}
 	}
@@ -205,11 +217,7 @@ public class Configuration {
 
 	@Override
 	public String toString() {
-		return namespace;
-	}
-
-	public List<FileFormat> getFileFormats(String fileExt) {
-		return fileFormats.get(fileExt);
+		return "[" + fileName + "] " + namespace;
 	}
 
 }

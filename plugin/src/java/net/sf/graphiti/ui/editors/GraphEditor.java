@@ -36,7 +36,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EventObject;
 
-import net.sf.graphiti.io.GenericGraphFileParser;
+import net.sf.graphiti.io.GenericGraphParser;
 import net.sf.graphiti.io.GenericGraphFileWriter;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.ui.GraphitiPlugin;
@@ -371,7 +371,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		IFile file = ((IFileEditorInput) input).getFile();
 		setPartName(file.getName());
 		try {
-			GenericGraphFileParser parser = new GenericGraphFileParser(
+			GenericGraphParser parser = new GenericGraphParser(
 					GraphitiPlugin.getDefault().getConfigurations());
 			graph = parser.parse(file);
 

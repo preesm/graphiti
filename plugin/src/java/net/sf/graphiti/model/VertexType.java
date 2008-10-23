@@ -28,11 +28,21 @@
  */
 package net.sf.graphiti.model;
 
-import java.util.Set;
-import java.util.TreeSet;
 
+/**
+ * This class provides a representation of a vertex type.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
 public class VertexType extends AbstractType {
 
+	/**
+	 * Creates a new vertex type with the given name.
+	 * 
+	 * @param name
+	 *            The type name.
+	 */
 	public VertexType(String name) {
 		super(name);
 	}
@@ -45,9 +55,10 @@ public class VertexType extends AbstractType {
 			return false;
 		}
 	}
-
-	public Set<Parameter> hasParameters() {
-		return new TreeSet<Parameter>();
+	
+	@Override
+	public String toString() {
+		return "vertex: " + super.toString();
 	}
 
 }

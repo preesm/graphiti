@@ -43,14 +43,9 @@ import net.sf.graphiti.model.GraphType;
 import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.util.FileLocator;
 
-import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.bootstrap.DOMImplementationRegistry;
-import org.w3c.dom.ls.DOMImplementationLS;
-import org.w3c.dom.ls.LSInput;
-import org.w3c.dom.ls.LSParser;
 
 /**
  * This class parses all configuration files located in the configuration folder
@@ -92,33 +87,35 @@ public class ConfigurationParser {
 		return configurations;
 	}
 
+	/**
+	 * Parses a configuration file whose name is given.
+	 * 
+	 * @param fileName
+	 *            The configuration file name.
+	 * @throws Exception
+	 *             If anything wrong occurs.
+	 */
 	private void parse(String fileName) throws Exception {
-		// DOM LS implementation
-		DOMImplementationLS impl = (DOMImplementationLS) DOMImplementationRegistry
-				.newInstance().getDOMImplementation("Core 3.0 XML 3.0 LS");
-
-		// input
-		LSInput input = impl.createLSInput();
 		InputStream byteStream = new FileInputStream(fileName);
-		input.setByteStream(byteStream);
-
-		// parse without comments and whitespace
-		LSParser builder = impl.createLSParser(
-				DOMImplementationLS.MODE_SYNCHRONOUS, null);
-		DOMConfiguration config = builder.getDomConfig();
-		config.setParameter("comments", false);
-		config.setParameter("element-content-whitespace", false);
-		Document document = builder.parse(input);
-
-		Configuration configuration = new Configuration(fileName);
-		parseConfiguration(configuration, document.getDocumentElement());
+		Document document = DomHelper.parse(byteStream);
+		parseConfiguration(fileName, document.getDocumentElement());
 	}
 
-	private void parseConfiguration(Configuration configuration, Element element) {
+	/**
+	 * Parses the given document element of a configuration file into a
+	 * {@link Configuration}, which is then added to {@link #configurations}.
+	 * 
+	 * @param fileName
+	 *            The configuration file name.
+	 * @param element
+	 *            The root element of the configuration file.
+	 */
+	private void parseConfiguration(String fileName, Element element) {
+		Configuration configuration = new Configuration(fileName);
 		String namespace = element.getAttribute("namespace");
 		configuration.setNamespace(namespace);
 
-		// file extensions
+		// parse different sections
 		Node node = element.getFirstChild();
 		node = parseFileExtensions(configuration, node);
 		node = parseRefinementFileExtensions(configuration, node);
@@ -127,15 +124,23 @@ public class ConfigurationParser {
 		node = parseVertexTypes(configuration, node);
 		node = parseEdgeTypes(configuration, node);
 
+		// if nothing has failed
 		configurations.add(configuration);
 	}
 
+	/**
+	 * Parses the edge types.
+	 * 
+	 * @param configuration
+	 *            The configuration to fill.
+	 * @param node
+	 *            A child node of configuration.
+	 * @return The node following &lt;edgeTypes&gt;
+	 */
 	private Node parseEdgeTypes(Configuration configuration, Node node) {
-		while (!node.getNodeName().equals("edgeTypes")) {
-			node = node.getNextSibling();
-		}
-
+		node = DomHelper.getFirstSiblingNamed(node, "edgeTypes");
 		Set<EdgeType> edgeTypes = new TreeSet<EdgeType>();
+		
 		Node child = node.getFirstChild();
 		while (child != null) {
 			if (child.getNodeName().equals("edgeType")) {
@@ -152,13 +157,20 @@ public class ConfigurationParser {
 		return node.getNextSibling();
 	}
 
+	/**
+	 * Parses the file extensions.
+	 * 
+	 * @param configuration
+	 *            The configuration to fill.
+	 * @param node
+	 *            A child node of configuration.
+	 * @return The node following &lt;fileExtensions&gt;
+	 */
 	private Node parseFileExtensions(Configuration configuration, Node node) {
-		while (!node.getNodeName().equals("fileExtensions")) {
-			node = node.getNextSibling();
-		}
+		node = DomHelper.getFirstSiblingNamed(node, "fileExtensions");
+		Set<String> fileExtensions = new TreeSet<String>();
 
 		Node child = node.getFirstChild();
-		Set<String> fileExtensions = new TreeSet<String>();
 		while (child != null) {
 			if (child.getNodeName().equals("fileExtension")) {
 				String fileExtension = ((Element) child).getAttribute("name");
@@ -172,6 +184,14 @@ public class ConfigurationParser {
 		return node.getNextSibling();
 	}
 
+	/**
+	 * Parses the file format exports.
+	 * 
+	 * @param format
+	 *            The file format to fill.
+	 * @param node
+	 *            A child node of &lt;exports&gt;.
+	 */
 	private void parseFileFormatExport(FileFormat format, Node node) {
 		while (node != null) {
 			if (node.getNodeName().equals("transformation")) {
@@ -183,6 +203,14 @@ public class ConfigurationParser {
 		}
 	}
 
+	/**
+	 * Parses the file format imports.
+	 * 
+	 * @param format
+	 *            The file format to fill.
+	 * @param node
+	 *            A child node of &lt;imports&gt;.
+	 */
 	private void parseFileFormatImport(FileFormat format, Node node) {
 		while (node != null) {
 			if (node.getNodeName().equals("transformation")) {
@@ -194,12 +222,19 @@ public class ConfigurationParser {
 		}
 	}
 
+	/**
+	 * Parses the file formats.
+	 * 
+	 * @param configuration
+	 *            The configuration to fill.
+	 * @param node
+	 *            A child node of configuration.
+	 * @return The node following &lt;fileFormats&gt;
+	 */
 	private Node parseFileFormats(Configuration configuration, Node node) {
-		while (!node.getNodeName().equals("fileFormats")) {
-			node = node.getNextSibling();
-		}
-
+		node = DomHelper.getFirstSiblingNamed(node, "fileFormats");
 		List<FileFormat> fileFormats = new ArrayList<FileFormat>();
+
 		Node child = node.getFirstChild();
 		while (child != null) {
 			if (child.getNodeName().equals("fileFormat")) {
@@ -229,12 +264,19 @@ public class ConfigurationParser {
 		return node.getNextSibling();
 	}
 
+	/**
+	 * Parses the graph types.
+	 * 
+	 * @param configuration
+	 *            The configuration to fill.
+	 * @param node
+	 *            A child node of configuration.
+	 * @return The node following &lt;graphTypes&gt;
+	 */
 	private Node parseGraphTypes(Configuration configuration, Node node) {
-		while (!node.getNodeName().equals("graphTypes")) {
-			node = node.getNextSibling();
-		}
-
+		node = DomHelper.getFirstSiblingNamed(node, "graphTypes");
 		Set<GraphType> graphTypes = new TreeSet<GraphType>();
+
 		Node child = node.getFirstChild();
 		while (child != null) {
 			if (child.getNodeName().equals("graphType")) {
@@ -251,13 +293,20 @@ public class ConfigurationParser {
 		return node.getNextSibling();
 	}
 
+	/**
+	 * Parses the refinement file extensions.
+	 * 
+	 * @param configuration
+	 *            The configuration to fill.
+	 * @param node
+	 *            A child node of configuration.
+	 * @return The node following &lt;refinementFileExtensions&gt;
+	 */
 	private Node parseRefinementFileExtensions(Configuration configuration,
 			Node node) {
-		while (!node.getNodeName().equals("refinementFileExtensions")) {
-			node = node.getNextSibling();
-		}
-
+		node = DomHelper.getFirstSiblingNamed(node, "refinementFileExtensions");
 		Set<String> fileExtensions = new TreeSet<String>();
+
 		Node child = node.getFirstChild();
 		while (child != null) {
 			if (child.getNodeName().equals("fileExtension")) {
@@ -276,12 +325,19 @@ public class ConfigurationParser {
 
 	}
 
+	/**
+	 * Parses the vertex types.
+	 * 
+	 * @param configuration
+	 *            The configuration to fill.
+	 * @param node
+	 *            A child node of configuration.
+	 * @return The node following &lt;vertexTypes&gt;
+	 */
 	private Node parseVertexTypes(Configuration configuration, Node node) {
-		while (!node.getNodeName().equals("vertexTypes")) {
-			node = node.getNextSibling();
-		}
-
+		node = DomHelper.getFirstSiblingNamed(node, "vertexTypes");
 		Set<VertexType> vertexTypes = new TreeSet<VertexType>();
+
 		Node child = node.getFirstChild();
 		while (child != null) {
 			if (child.getNodeName().equals("vertexType")) {

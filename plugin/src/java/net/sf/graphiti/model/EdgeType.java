@@ -28,8 +28,20 @@
  */
 package net.sf.graphiti.model;
 
+/**
+ * This class provides a representation of an edge type.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
 public class EdgeType extends AbstractType {
 
+	/**
+	 * Creates a new edge type with the given name.
+	 * 
+	 * @param name
+	 *            The type name.
+	 */
 	public EdgeType(String name) {
 		super(name);
 	}
@@ -41,6 +53,11 @@ public class EdgeType extends AbstractType {
 		} else {
 			return false;
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return "edge: " + super.toString();
 	}
 
 }

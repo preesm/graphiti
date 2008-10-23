@@ -33,37 +33,56 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+
 import net.percederberg.grammatica.GrammarException;
 import net.percederberg.grammatica.parser.ParserCreationException;
 import net.percederberg.grammatica.parser.ParserLogException;
-import net.sf.graphiti.grammar.GrammarTransformer;
-import net.sf.graphiti.grammar.XsltTransformer;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Graph;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.bootstrap.DOMImplementationRegistry;
-import org.w3c.dom.ls.DOMImplementationLS;
-import org.w3c.dom.ls.LSInput;
-import org.w3c.dom.ls.LSParser;
 
 /**
- * @author Administrateur
+ * This class provides a generic graph parser. Generic means that it can parse
+ * any format (text-based or XML-based) that contains a graph.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
-public class GenericGraphFileParser {
+public class GenericGraphParser {
 
 	private List<Configuration> configurations;
 
-	public GenericGraphFileParser(List<Configuration> configurations) {
+	/**
+	 * Creates a new parser using the given configuration list.
+	 * 
+	 * @param configurations
+	 *            A {@link List} of {@link Configuration}s.
+	 */
+	public GenericGraphParser(List<Configuration> configurations) {
 		this.configurations = configurations;
 	}
 
+	/**
+	 * With a given configuration and file format, try to parse the file
+	 * contents given as a byte input stream.
+	 * 
+	 * @param configuration
+	 *            A supposedly valid configuration for the given contents.
+	 * @param format
+	 *            A supposedly valid file format for the given contents.
+	 * @param in
+	 *            The contents.
+	 * @return A {@link Graph} if successful.
+	 * @throws IncompatibleConfigurationFile
+	 *             If the configuration or file format is not compatible.
+	 */
 	private Graph parse(Configuration configuration, FileFormat format,
 			InputStream in) throws IncompatibleConfigurationFile {
 		List<String> transformations = format.getImportTransformations();
@@ -82,57 +101,54 @@ public class GenericGraphFileParser {
 				} else if (transformation.endsWith(".xslt")) {
 					if (element == null) {
 						// fills the element from the input stream
-						// DOM LS implementation
-						DOMImplementationRegistry registry = DOMImplementationRegistry
-								.newInstance();
-						DOMImplementationLS impl = (DOMImplementationLS) registry
-								.getDOMImplementation("Core 3.0 XML 3.0 LS");
-
-						// input
-						LSInput input = impl.createLSInput();
-						input.setByteStream(in);
-
-						// parse without comments and whitespace
-						LSParser builder = impl.createLSParser(
-								DOMImplementationLS.MODE_SYNCHRONOUS, null);
-						DOMConfiguration config = builder.getDomConfig();
-						config.setParameter("comments", false);
-						config
-								.setParameter("element-content-whitespace",
-										false);
-						Document document = builder.parse(input);
+						Document document = DomHelper.parse(in);
 						element = document.getDocumentElement();
 					}
 
 					XsltTransformer transformer = new XsltTransformer(
 							transformation);
-					Element target = element.getOwnerDocument().createElement(
-							"dummy");
-					transformer.transformDomToDom(element, target);
-					element = target;
+					element = transformer.transformDomToDom(element);
 				}
 			}
 
 			return parseElement(configuration, element);
-		} catch (IOException e) {
-			throw new IncompatibleConfigurationFile(e);
-		} catch (ParserLogException e) {
-			throw new IncompatibleConfigurationFile(e);
-		} catch (GrammarException e) {
-			throw new IncompatibleConfigurationFile(e);
 		} catch (ClassCastException e) {
-			throw new IncompatibleConfigurationFile(e);
-		} catch (ParserCreationException e) {
 			throw new IncompatibleConfigurationFile(e);
 		} catch (ClassNotFoundException e) {
 			throw new IncompatibleConfigurationFile(e);
-		} catch (InstantiationException e) {
+		} catch (GrammarException e) {
 			throw new IncompatibleConfigurationFile(e);
 		} catch (IllegalAccessException e) {
+			throw new IncompatibleConfigurationFile(e);
+		} catch (InstantiationException e) {
+			throw new IncompatibleConfigurationFile(e);
+		} catch (IOException e) {
+			throw new IncompatibleConfigurationFile(e);
+		} catch (ParserCreationException e) {
+			throw new IncompatibleConfigurationFile(e);
+		} catch (ParserLogException e) {
+			throw new IncompatibleConfigurationFile(e);
+		} catch (TransformerConfigurationException e) {
+			throw new IncompatibleConfigurationFile(e);
+		} catch (TransformerException e) {
 			throw new IncompatibleConfigurationFile(e);
 		}
 	}
 
+	/**
+	 * Parses the given {@link IFile} and returns a graph. The file is parsed as
+	 * follows:
+	 * <ol>
+	 * <li>Iterate through the configurations.</li>
+	 * <li>In each configuration, for each file format matching the file
+	 * extension, try to parse the file with the given configuration.</li>
+	 * <li>If parsing fails, go to step 2.</li>
+	 * </ol>
+	 * 
+	 * @param file
+	 * @return
+	 * @throws IncompatibleConfigurationFile
+	 */
 	public Graph parse(IFile file) throws IncompatibleConfigurationFile {
 		String fileExt = file.getFileExtension();
 		for (Configuration configuration : configurations) {
