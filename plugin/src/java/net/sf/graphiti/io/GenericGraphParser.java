@@ -30,7 +30,10 @@ package net.sf.graphiti.io;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Configuration;
@@ -39,6 +42,7 @@ import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.GraphType;
+import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexType;
@@ -215,6 +219,60 @@ public class GenericGraphParser {
 	}
 
 	/**
+	 * Parses a parameter.
+	 * 
+	 * @param parameter
+	 *            The parameter we got from the configuration.
+	 * @param child
+	 *            The &lt;parameter&gt; element.
+	 * @return An object, either a {@link List}, a {@link Map}, an
+	 *         {@link Integer}, a {@link Float}, a {@link Boolean}, or a
+	 *         {@link String}.
+	 */
+	private Object parseParameter(Parameter parameter, Element child) {
+		Class<?> parameterType = parameter.getType();
+		if (parameterType == List.class) {
+			List<String> list = new ArrayList<String>();
+			Node element = child.getFirstChild();
+			while (element != null) {
+				if (element.getNodeName().equals("element")) {
+					String eltValue = ((Element) element).getAttribute("value");
+					list.add(eltValue);
+				}
+
+				element = element.getNextSibling();
+			}
+
+			return list;
+		} else if (parameterType == Map.class) {
+			Map<String, String> map = new TreeMap<String, String>();
+			Node element = child.getFirstChild();
+			while (element != null) {
+				if (element.getNodeName().equals("pair")) {
+					String key = ((Element) element).getAttribute("key");
+					String value = ((Element) element).getAttribute("value");
+					map.put(key, value);
+				}
+
+				element = element.getNextSibling();
+			}
+
+			return map;
+		} else {
+			String value = ((Element) child).getAttribute("value");
+			if (parameterType == Integer.class) {
+				return Integer.valueOf(value);
+			} else if (parameterType == Float.class) {
+				return Float.valueOf(value);
+			} else if (parameterType == Boolean.class) {
+				return Boolean.valueOf(value);
+			} else {
+				return value;
+			}
+		}
+	}
+
+	/**
 	 * Parses the parameters and set the properties of the given
 	 * <code>propertyBean</code>, that has the given type.
 	 * 
@@ -234,8 +292,10 @@ public class GenericGraphParser {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			if (child.getNodeName().equals("parameter")) {
-				String parameterName = ((Element) child).getAttribute("name");
-				String value = ((Element) child).getTextContent();
+				Element element = ((Element) child);
+				String parameterName = element.getAttribute("name");
+				Parameter parameter = type.getParameter(parameterName);
+				Object value = parseParameter(parameter, element);
 				propertyBean.setValue(parameterName, value);
 			}
 

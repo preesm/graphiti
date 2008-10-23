@@ -67,7 +67,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String"/>
-                <parameter name="instance parameter" type="java.util.List"/>
+                <parameter name="instance parameter" type="java.util.Map"/>
                 <parameter name="refinement" type="java.lang.String"/>
             </parameters>
         </vertexType>
