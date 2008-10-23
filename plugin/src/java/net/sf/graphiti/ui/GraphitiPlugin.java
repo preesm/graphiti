@@ -141,17 +141,11 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 		Set<String> textFormats = new HashSet<String>();
 		Set<String> xmlFormats = new HashSet<String>();
 		for (Configuration configuration : configurations) {
-			String[] fileExts = configuration.getFileExtensions();
-			for (String fileExt : fileExts) {
-				List<FileFormat> formats = configuration
-						.getFileFormats(fileExt);
-				for (FileFormat format : formats) {
-					if (format.getContentType().equals("text/xml")) {
-						xmlFormats.add(fileExt);
-					} else if (format.getContentType().equals("text")) {
-						textFormats.add(fileExt);
-					}
-				}
+			FileFormat format = configuration.getFileFormat();
+			if (format.getContentType().equals("text/xml")) {
+				xmlFormats.add(format.getFileExtension());
+			} else if (format.getContentType().equals("text")) {
+				textFormats.add(format.getFileExtension());
 			}
 		}
 

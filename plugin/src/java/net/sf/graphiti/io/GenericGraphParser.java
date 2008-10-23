@@ -140,8 +140,8 @@ public class GenericGraphParser {
 	public Graph parse(IFile file) throws IncompatibleConfigurationFile {
 		String fileExt = file.getFileExtension();
 		for (Configuration configuration : configurations) {
-			List<FileFormat> formats = configuration.getFileFormats(fileExt);
-			for (FileFormat format : formats) {
+			FileFormat format = configuration.getFileFormat();
+			if (format.getFileExtension().equals(fileExt)) {
 				try {
 					try {
 						return parse(configuration, format, file.getContents());
@@ -248,7 +248,7 @@ public class GenericGraphParser {
 			Map<String, String> map = new TreeMap<String, String>();
 			Node element = child.getFirstChild();
 			while (element != null) {
-				if (element.getNodeName().equals("pair")) {
+				if (element.getNodeName().equals("entry")) {
 					String key = ((Element) element).getAttribute("key");
 					String value = ((Element) element).getAttribute("value");
 					map.put(key, value);

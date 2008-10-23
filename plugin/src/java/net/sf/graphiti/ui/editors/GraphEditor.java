@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.EventObject;
 
 import net.sf.graphiti.io.GenericGraphParser;
-import net.sf.graphiti.io.GenericGraphFileWriter;
+import net.sf.graphiti.io.GenericGraphWriter;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.actions.AutomaticallyLayoutAction;
@@ -222,7 +222,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	public void doSave(IProgressMonitor monitor) {
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		GenericGraphFileWriter writer = new GenericGraphFileWriter(graph);
+		GenericGraphWriter writer = new GenericGraphWriter(graph);
 		writer.write(out);
 		try {
 			file.setContents(new ByteArrayInputStream(out.toByteArray()), true,
@@ -257,8 +257,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 			public void execute(final IProgressMonitor monitor)
 					throws CoreException {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				GenericGraphFileWriter writer = new GenericGraphFileWriter(
-						graph);
+				GenericGraphWriter writer = new GenericGraphWriter(graph);
 				writer.write(out);
 				try {
 					file.create(new ByteArrayInputStream(out.toByteArray()),

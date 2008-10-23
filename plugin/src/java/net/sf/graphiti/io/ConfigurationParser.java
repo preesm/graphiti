@@ -171,9 +171,8 @@ public class ConfigurationParser {
 
 		// parse different sections
 		Node node = element.getFirstChild();
-		node = parseFileExtensions(configuration, node);
+		node = parseFileFormat(configuration, node);
 		node = parseRefinementFileExtensions(configuration, node);
-		node = parseFileFormats(configuration, node);
 		node = parseGraphTypes(configuration, node);
 		node = parseVertexTypes(configuration, node);
 		node = parseEdgeTypes(configuration, node);
@@ -212,29 +211,31 @@ public class ConfigurationParser {
 	}
 
 	/**
-	 * Parses the file extensions.
+	 * Parses the file format defined by this configuration.
 	 * 
 	 * @param configuration
 	 *            The configuration to fill.
 	 * @param node
 	 *            A child node of configuration.
-	 * @return The node following &lt;fileExtensions&gt;
+	 * @return The node following &lt;fileFormat&gt;
 	 */
-	private Node parseFileExtensions(Configuration configuration, Node node) {
-		node = DomHelper.getFirstSiblingNamed(node, "fileExtensions");
-		Set<String> fileExtensions = new TreeSet<String>();
+	private Node parseFileFormat(Configuration configuration, Node node) {
+		node = DomHelper.getFirstSiblingNamed(node, "fileFormat");
+		Element element = (Element) node;
 
+		// file format
+		String extension = element.getAttribute("extension");
+		String type = element.getAttribute("type");
+		FileFormat format = new FileFormat(extension, type);
+		configuration.setFileFormat(format);
+
+		// import/export
 		Node child = node.getFirstChild();
-		while (child != null) {
-			if (child.getNodeName().equals("fileExtension")) {
-				String fileExtension = ((Element) child).getAttribute("name");
-				fileExtensions.add(fileExtension);
-			}
+		child = DomHelper.getFirstSiblingNamed(child, "import");
+		parseFileFormatImport(format, child.getFirstChild());
+		child = DomHelper.getFirstSiblingNamed(child, "export");
+		parseFileFormatExport(format, child.getFirstChild());
 
-			child = child.getNextSibling();
-		}
-
-		configuration.setFileExtensions(fileExtensions);
 		return node.getNextSibling();
 	}
 
@@ -274,48 +275,6 @@ public class ConfigurationParser {
 
 			node = node.getNextSibling();
 		}
-	}
-
-	/**
-	 * Parses the file formats.
-	 * 
-	 * @param configuration
-	 *            The configuration to fill.
-	 * @param node
-	 *            A child node of configuration.
-	 * @return The node following &lt;fileFormats&gt;
-	 */
-	private Node parseFileFormats(Configuration configuration, Node node) {
-		node = DomHelper.getFirstSiblingNamed(node, "fileFormats");
-		List<FileFormat> fileFormats = new ArrayList<FileFormat>();
-
-		Node child = node.getFirstChild();
-		while (child != null) {
-			if (child.getNodeName().equals("fileFormat")) {
-				String extension = ((Element) child).getAttribute("extension");
-				String type = ((Element) child).getAttribute("type");
-				FileFormat format = new FileFormat(extension, type);
-				fileFormats.add(format);
-
-				// import
-				Node importExport = child.getFirstChild();
-				while (!importExport.getNodeName().equals("import")) {
-					importExport = importExport.getNextSibling();
-				}
-				parseFileFormatImport(format, importExport.getFirstChild());
-
-				// export
-				while (!importExport.getNodeName().equals("export")) {
-					importExport = importExport.getNextSibling();
-				}
-				parseFileFormatExport(format, child.getFirstChild());
-			}
-
-			child = child.getNextSibling();
-		}
-
-		configuration.setFileFormats(fileFormats);
-		return node.getNextSibling();
 	}
 
 	/**

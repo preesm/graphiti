@@ -28,9 +28,7 @@
  */
 package net.sf.graphiti.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -55,7 +53,7 @@ import java.util.TreeSet;
 public class Configuration {
 
 	/**
-	 * 
+	 * Serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -65,12 +63,13 @@ public class Configuration {
 	private Map<String, EdgeType> edgeTypes;
 
 	/**
-	 * File extensions associated with this document configuration.
+	 * The file format associated with this configuration.
 	 */
-	private String[] fileExtensions;
+	private FileFormat fileFormat;
 
-	private Map<String, List<FileFormat>> fileFormats;
-
+	/**
+	 * The configuration absolute file name.
+	 */
 	private String fileName;
 
 	/**
@@ -78,6 +77,9 @@ public class Configuration {
 	 */
 	private Map<String, GraphType> graphTypes;
 
+	/**
+	 * The XML namespace of the file format.
+	 */
 	private String namespace;
 
 	/**
@@ -101,39 +103,55 @@ public class Configuration {
 	public Configuration(String fileName) {
 		this.fileName = fileName;
 		edgeTypes = new HashMap<String, EdgeType>();
-		fileFormats = new HashMap<String, List<FileFormat>>();
 		graphTypes = new HashMap<String, GraphType>();
 		vertexTypes = new HashMap<String, VertexType>();
 	}
 
+	/**
+	 * Returns the edge type whose name matches the given name.
+	 * 
+	 * @param name
+	 *            The name of the edge type we're looking for.
+	 * @return The relevant edge type.
+	 */
 	public EdgeType getEdgeType(String name) {
 		return edgeTypes.get(name);
 	}
 
+	/**
+	 * Returns the edge types.
+	 * 
+	 * @return A set of edge types.
+	 */
 	public Set<EdgeType> getEdgeTypes() {
 		return new TreeSet<EdgeType>(edgeTypes.values());
 	}
 
 	/**
-	 * @return the fileExtensions
+	 * Returns the file format associated with this configuration.
+	 * 
+	 * @return A {@link FileFormat} associated with this configuration.
 	 */
-	public String[] getFileExtensions() {
-		return fileExtensions;
+	public FileFormat getFileFormat() {
+		return fileFormat;
 	}
 
-	public List<FileFormat> getFileFormats(String fileExt) {
-		List<FileFormat> formats = fileFormats.get(fileExt);
-		if (formats == null) {
-			return new ArrayList<FileFormat>(0);
-		} else {
-			return formats;
-		}
-	}
-
+	/**
+	 * Returns the graph type whose name matches the given name.
+	 * 
+	 * @param name
+	 *            The name of the graph type we're looking for.
+	 * @return The relevant graph type.
+	 */
 	public GraphType getGraphType(String name) {
 		return graphTypes.get(name);
 	}
 
+	/**
+	 * Returns the graph types.
+	 * 
+	 * @return A set of graph types.
+	 */
 	public Set<GraphType> getGraphTypes() {
 		return new TreeSet<GraphType>(graphTypes.values());
 	}
@@ -145,14 +163,32 @@ public class Configuration {
 		return refinementFileExtensions;
 	}
 
+	/**
+	 * Returns the vertex type whose name matches the given name.
+	 * 
+	 * @param name
+	 *            The name of the vertex type we're looking for.
+	 * @return The relevant vertex type.
+	 */
 	public VertexType getVertexType(String name) {
 		return vertexTypes.get(name);
 	}
 
+	/**
+	 * Returns the vertex types.
+	 * 
+	 * @return A set of vertex types.
+	 */
 	public Set<VertexType> getVertexTypes() {
 		return new TreeSet<VertexType>(vertexTypes.values());
 	}
 
+	/**
+	 * Sets the edge types for this configuration.
+	 * 
+	 * @param edgeTypes
+	 *            A set of {@link EdgeType}.
+	 */
 	public void setEdgeTypes(Set<EdgeType> edgeTypes) {
 		for (EdgeType type : edgeTypes) {
 			this.edgeTypes.put(type.getName(), type);
@@ -160,30 +196,21 @@ public class Configuration {
 	}
 
 	/**
-	 * @param fileExtensions
-	 *            the fileExtensions to set
+	 * Sets the file format associated with this configuration.
+	 * 
+	 * @param format
+	 *            A {@link FileFormat}.
 	 */
-	public void setFileExtensions(Set<String> fileExtensions) {
-		this.fileExtensions = fileExtensions.toArray(new String[] {});
+	public void setFileFormat(FileFormat format) {
+		fileFormat = format;
 	}
 
 	/**
-	 * @param fileFormats
-	 *            A list of file formats.
+	 * Sets the graph types for this configuration.
+	 * 
+	 * @param graphTypes
+	 *            A set of {@link GraphType}.
 	 */
-	public void setFileFormats(List<FileFormat> fileFormats) {
-		for (FileFormat format : fileFormats) {
-			String fileExt = format.getFileExtension();
-			List<FileFormat> list = this.fileFormats.get(fileExt);
-			if (list == null) {
-				list = new ArrayList<FileFormat>();
-				this.fileFormats.put(fileExt, list);
-			}
-
-			list.add(format);
-		}
-	}
-
 	public void setGraphTypes(Set<GraphType> graphTypes) {
 		for (GraphType type : graphTypes) {
 			this.graphTypes.put(type.getName(), type);
@@ -201,14 +228,22 @@ public class Configuration {
 	}
 
 	/**
-	 * @param refinementFileFormats
-	 *            the refinementFileFormats to set
+	 * Sets the file extensions a refinement may have.
+	 * 
+	 * @param refinementFileExtensions
+	 *            A Set of strings representing file extensions.
 	 */
 	public void setRefinementFileExtensions(Set<String> refinementFileExtensions) {
 		this.refinementFileExtensions = refinementFileExtensions
 				.toArray(new String[] {});
 	}
 
+	/**
+	 * Sets the vertex types for this configuration.
+	 * 
+	 * @param vertexTypes
+	 *            A set of {@link VertexType}.
+	 */
 	public void setVertexTypes(Set<VertexType> vertexTypes) {
 		for (VertexType type : vertexTypes) {
 			this.vertexTypes.put(type.getName(), type);

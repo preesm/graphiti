@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration namespace="">
     
-    <fileExtensions>
-        <fileExtension name="nl"/>
-    </fileExtensions>
-    
+    <fileFormat extension="nl" type="text">
+        <import>
+            <transformation name="nl/nl.grammar"/>
+            <transformation name="nl/nl.xslt"/>
+            <transformation name="xnl/input_XNL.xslt"/>
+        </import>
+        
+        <export>
+            <transformation name="xnl/output_XNL.xslt"/>
+            <transformation name="nl/output_NL.xslt"/>
+        </export>
+    </fileFormat>
+
     <refinementFileExtensions>
         <fileExtension name="xdf"/>
         <fileExtension name="xnl"/>
@@ -12,21 +21,6 @@
         <fileExtension name="cal"/>
         <fileExtension name="calml"/>
     </refinementFileExtensions>
-    
-    <fileFormats>
-        <fileFormat extension="nl" type="text">
-            <import>
-                <transformation name="nl/nl.grammar"/>
-                <transformation name="nl/nl.xslt"/>
-                <transformation name="xnl/input_XNL.xslt"/>
-            </import>
-            
-            <export>
-                <transformation name="xnl/output_XNL.xslt"/>
-                <transformation name="nl/output_NL.xslt"/>
-            </export>
-        </fileFormat>
-    </fileFormats>
 
     <graphTypes>
         <graphType name="XML Dataflow Network (XDF)">

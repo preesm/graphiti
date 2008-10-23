@@ -50,7 +50,7 @@
 
     <!-- Variable declarations -->
     <xsl:template match="Decl[@kind = 'Variable']">
-        <xsl:element name="pair">
+        <xsl:element name="entry">
             <xsl:attribute name="key" select="@name"/>
             <xsl:attribute name="value">
                 <xsl:apply-templates select="Expr"/>
@@ -126,7 +126,7 @@
     
     <!-- Parameter instantiations -->
     <xsl:template match="Parameter">
-        <xsl:element name="pair">
+        <xsl:element name="entry">
             <xsl:attribute name="key" select="@name"/>
             <xsl:attribute name="value">
                 <xsl:apply-templates select="Expr"/>

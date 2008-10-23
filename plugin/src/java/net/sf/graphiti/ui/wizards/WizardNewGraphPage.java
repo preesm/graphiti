@@ -32,7 +32,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
-import net.sf.graphiti.io.GenericGraphFileWriter;
+import net.sf.graphiti.io.GenericGraphWriter;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.GraphType;
@@ -69,7 +69,7 @@ public class WizardNewGraphPage extends WizardNewFileCreationPage {
 		Graph graph = new Graph(configuration, graphType);
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		GenericGraphFileWriter writer = new GenericGraphFileWriter(graph);
+		GenericGraphWriter writer = new GenericGraphWriter(graph);
 		writer.write(out);
 		return new ByteArrayInputStream(out.toByteArray());
 	}

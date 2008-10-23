@@ -95,7 +95,7 @@ public abstract class AbstractType implements Comparable<AbstractType> {
 	}
 
 	/**
-	 * Returns this type's attribute that has the given name.
+	 * Returns the type's attribute that has the given name.
 	 * 
 	 * @param name
 	 *            The name of the attribute we're looking for.

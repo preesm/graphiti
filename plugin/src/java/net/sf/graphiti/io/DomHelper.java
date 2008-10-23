@@ -29,6 +29,7 @@
 package net.sf.graphiti.io;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMImplementation;
@@ -37,7 +38,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSInput;
+import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSParser;
+import org.w3c.dom.ls.LSSerializer;
 
 /**
  * This class provides various methods to reduce the amount of copy/paste when
@@ -158,4 +161,23 @@ public class DomHelper {
 		return builder.parse(input);
 	}
 
+	/**
+	 * Writes the given document to the given output stream.
+	 * 
+	 * @param document
+	 *            A DOM document.
+	 * @param byteStream
+	 *            The {@link OutputStream} to write to.
+	 */
+	public static void write(Document document, OutputStream byteStream) {
+		DOMImplementationLS impl = (DOMImplementationLS) document
+				.getImplementation();
+
+		LSOutput output = impl.createLSOutput();
+		output.setByteStream(byteStream);
+
+		LSSerializer serializer = impl.createLSSerializer();
+		serializer.getDomConfig().setParameter("format-pretty-print", true);
+		serializer.write(document, output);
+	}
 }

@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration namespace="">
     
-    <fileExtensions>
-        <fileExtension name="xdf"/>
-    </fileExtensions>
-    
+    <fileFormat extension="xdf" type="text/xml">
+        <import>
+            <transformation name="xdf/input_XDF.xslt"/>
+        </import>
+        
+        <export>
+            <transformation name="xdf/output_XDF.xslt"/>
+        </export>
+    </fileFormat>
+
     <refinementFileExtensions>
         <fileExtension name="xdf"/>
         <fileExtension name="xnl"/>
@@ -12,18 +18,6 @@
         <fileExtension name="cal"/>
         <fileExtension name="calml"/>
     </refinementFileExtensions>
-    
-    <fileFormats>
-        <fileFormat extension="xdf" type="text/xml">
-            <import>
-                <transformation name="xdf/input_XDF.xslt"/>
-            </import>
-            
-            <export>
-                <transformation name="xdf/output_XDF.xslt"/>
-            </export>
-        </fileFormat>
-    </fileFormats>
 
     <graphTypes>
         <graphType name="XML Dataflow Network (XDF)">

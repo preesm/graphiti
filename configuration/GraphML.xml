@@ -1,33 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration namespace="http://graphml.graphdrawing.org/xmlns/1.0rc">
     
-    <fileExtensions>
-        <fileExtension name="graphml"/>
-        <fileExtension name="xml"/>
-    </fileExtensions>
-    
+    <fileFormat extension="graphml" type="text/xml">
+        <import>
+            <transformation name="graphml/input_GraphML.xslt" type="XSLT"/>
+        </import>
+        
+        <export>
+            <transformation name="graphml/output_GraphML.xslt" type="XSLT"/>
+        </export>
+    </fileFormat>
+
     <refinementFileExtensions/>
-    
-    <fileFormats>
-        <fileFormat extension="graphml" type="text/xml">
-            <import>
-                <transformation name="graphml/input_GraphML.xslt" type="XSLT"/>
-            </import>
-            
-            <export>
-                <transformation name="graphml/output_GraphML.xslt" type="XSLT"/>
-            </export>
-        </fileFormat>
-        <fileFormat extension="xml" type="text/xml">
-            <import>
-                <transformation name="graphml/input_GraphML.xslt" type="XSLT"/>
-            </import>
-            
-            <export>
-                <transformation name="graphml/output_GraphML.xslt" type="XSLT"/>
-            </export>
-        </fileFormat>
-    </fileFormats>
 
     <graphTypes>
         <graphType name="GraphML graph">
