@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.model;
 
-
 /**
  * This class provides a representation of a vertex type.
  * 
@@ -55,7 +54,7 @@ public class VertexType extends AbstractType {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return "vertex: " + super.toString();

@@ -54,6 +54,13 @@ public interface IShape extends IFigure {
 			String portName, boolean isOutput);
 
 	/**
+	 * Returns a new shape of the same class as this shape.
+	 * 
+	 * @return An implementation of {@link IShape}.
+	 */
+	public IShape newShape();
+
+	/**
 	 * Equivalent to <code>super.paintFigure(graphics)</code>.
 	 * 
 	 * @param graphics

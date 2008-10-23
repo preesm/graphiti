@@ -54,7 +54,7 @@ public class GraphType extends AbstractType {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return "graph: " + super.toString();

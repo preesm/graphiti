@@ -63,12 +63,6 @@ public class Edge extends PropertyBean {
 	private EdgeType type;
 
 	/**
-	 * Creates a new unconnected edge.
-	 */
-	public Edge() {
-	}
-
-	/**
 	 * Creates a new edge which is a copy of the given edge.
 	 * 
 	 * @param edge
@@ -91,14 +85,17 @@ public class Edge extends PropertyBean {
 	}
 
 	/**
-	 * Creates an edge with the specified source and target.
+	 * Creates an edge with the given type and the specified source and target.
 	 * 
+	 * @param type
+	 *            The edge type.
 	 * @param source
 	 *            The source vertex.
 	 * @param target
 	 *            The target vertex.
 	 */
-	public Edge(Vertex source, Vertex target) {
+	public Edge(EdgeType type, Vertex source, Vertex target) {
+		this.type = type;
 		this.source = source;
 		this.target = target;
 	}

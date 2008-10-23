@@ -61,6 +61,19 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 	}
 
 	@Override
+	public IShape newShape() {
+		try {
+			return getClass().newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+
+		return this;
+	}
+
+	@Override
 	public void paintFigure(Graphics graphics) {
 		GradientPattern.paintFigure(this, getBackgroundColor(), getBounds(),
 				graphics);

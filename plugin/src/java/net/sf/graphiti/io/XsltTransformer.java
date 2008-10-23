@@ -84,25 +84,6 @@ public class XsltTransformer {
 	}
 
 	/**
-	 * Transforms the given DOM element (and its children) and append the result
-	 * to the <code>target</code> node's children.
-	 * 
-	 * @param source
-	 *            The source element.
-	 * @param target
-	 *            The target node.
-	 * @throws TransformerException
-	 *             If an unrecoverable error occurs during the course of the
-	 *             transformation.
-	 */
-	public void transformDomToDom(Element source, Node target)
-			throws TransformerException {
-		Source xmlSource = new DOMSource(source);
-		Result outputTarget = new DOMResult(target);
-		transformer.transform(xmlSource, outputTarget);
-	}
-
-	/**
 	 * Transforms the given DOM element (and its children) and returns the
 	 * result. The result element is in a different document than the source's
 	 * owner document.
@@ -133,6 +114,25 @@ public class XsltTransformer {
 		document.removeChild(document.getDocumentElement());
 		transformDomToDom(source, document);
 		return document.getDocumentElement();
+	}
+
+	/**
+	 * Transforms the given DOM element (and its children) and append the result
+	 * to the <code>target</code> node's children.
+	 * 
+	 * @param source
+	 *            The source element.
+	 * @param target
+	 *            The target node.
+	 * @throws TransformerException
+	 *             If an unrecoverable error occurs during the course of the
+	 *             transformation.
+	 */
+	public void transformDomToDom(Element source, Node target)
+			throws TransformerException {
+		Source xmlSource = new DOMSource(source);
+		Result outputTarget = new DOMResult(target);
+		transformer.transform(xmlSource, outputTarget);
 	}
 
 	/**

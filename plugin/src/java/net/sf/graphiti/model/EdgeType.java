@@ -54,7 +54,7 @@ public class EdgeType extends AbstractType {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return "edge: " + super.toString();

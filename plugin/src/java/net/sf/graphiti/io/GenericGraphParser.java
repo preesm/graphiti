@@ -168,9 +168,18 @@ public class GenericGraphParser {
 		Node child = node.getFirstChild();
 		while (child != null) {
 			if (child.getNodeName().equals("edge")) {
-				String typeName = ((Element) child).getAttribute("type");
+				Element element = (Element) child;
+
+				String typeName = element.getAttribute("type");
 				EdgeType type = configuration.getEdgeType(typeName);
-				Edge edge = new Edge(type);
+
+				String sourceId = element.getAttribute("source");
+				Vertex source = graph.findVertex(sourceId);
+
+				String targetId = element.getAttribute("target");
+				Vertex target = graph.findVertex(targetId);
+
+				Edge edge = new Edge(type, source, target);
 				parseParameters(edge, type, child.getFirstChild());
 				graph.addEdge(edge);
 			}

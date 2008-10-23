@@ -159,6 +159,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		Dimension dimension = new Dimension(width, height);
 		Color color = (Color) vertex.getAttribute(Vertex.ATTRIBUTE_COLOR);
 		IShape shape = (IShape) vertex.getAttribute(Vertex.ATTRIBUTE_SHAPE);
+		shape = shape.newShape();
 
 		Font font = ((GraphicalEditPart) getParent()).getFigure().getFont();
 		VertexFigure figure = new VertexFigure(font, dimension, color, shape);

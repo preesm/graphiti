@@ -4,6 +4,8 @@
 
     <xsl:output indent="yes" method="xml"/>
 
+    <xsl:template match="text()"/>
+
     <xsl:template match="XDF">
         <xsl:element name="graph">
             <xsl:attribute name="type">XML Dataflow Network (XDF)</xsl:attribute>
@@ -52,6 +54,40 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="text()"/>
+    <xsl:template match="Connection">
+        <xsl:element name="edge">
+            <xsl:attribute name="type">Connection</xsl:attribute>
+            <xsl:choose>
+                <xsl:when test="@src = ''">
+                    <xsl:attribute name="source" select="@src-port"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name="source" select="@src"/>
+                </xsl:otherwise>
+            </xsl:choose>
+            <xsl:choose>
+                <xsl:when test="@dst = ''">
+                    <xsl:attribute name="target" select="@dst-port"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name="target" select="@dst"/>
+                </xsl:otherwise>
+            </xsl:choose>
+            <xsl:element name="parameters">
+                <xsl:if test="@src != ''">
+                    <xsl:element name="parameter">
+                        <xsl:attribute name="name">source port</xsl:attribute>
+                        <xsl:value-of select="@src-port"/>
+                    </xsl:element>
+                </xsl:if>
+                <xsl:if test="@dst != ''">
+                    <xsl:element name="parameter">
+                        <xsl:attribute name="name">target port</xsl:attribute>
+                        <xsl:value-of select="@dst-port"/>
+                    </xsl:element>
+                </xsl:if>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
 
 </xsl:stylesheet>

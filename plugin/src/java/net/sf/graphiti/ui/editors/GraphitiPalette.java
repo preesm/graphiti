@@ -139,6 +139,7 @@ public class GraphitiPalette {
 		int height = (Integer) type.getAttribute(Vertex.ATTRIBUTE_HEIGHT);
 		Color color = (Color) type.getAttribute(Vertex.ATTRIBUTE_COLOR);
 		IShape shape = (IShape) type.getAttribute(Vertex.ATTRIBUTE_SHAPE);
+		shape = shape.newShape();
 
 		// adjust width and height
 		double ratio = (double) width / (double) height;
