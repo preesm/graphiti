@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><graph type="Graphiti native graph">
+   <parameters>
+      <parameter name="id" value=""/>
+      <parameter name="network parameter"/>
+      <parameter name="network variable declaration"/>
+   </parameters>
+   <vertices>
+      <vertex type="Input port">
+         <parameters>
+            <parameter name="id" value="v1"/>
+         </parameters>
+      </vertex>
+      <vertex type="Instance">
+         <parameters>
+            <parameter name="id" value="v2"/>
+            <parameter name="refinement" value=""/>
+            <parameter name="instance parameter"/>
+         </parameters>
+      </vertex>
+      <vertex type="Output port">
+         <parameters>
+            <parameter name="id" value="v3"/>
+         </parameters>
+      </vertex>
+   </vertices>
+   <edges>
+      <edge source="v2" target="v3" type="Connection">
+         <parameters>
+            <parameter name="source port" value="b"/>
+         </parameters>
+      </edge>
+      <edge source="v1" target="v2" type="Connection">
+         <parameters>
+            <parameter name="target port" value="a"/>
+         </parameters>
+      </edge>
+   </edges>
+</graph>
