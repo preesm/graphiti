@@ -40,10 +40,8 @@ import net.sf.graphiti.io.GenericGraphParser;
 import net.sf.graphiti.io.GenericGraphWriter;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.ui.GraphitiPlugin;
-import net.sf.graphiti.ui.actions.AutomaticallyLayoutAction;
 import net.sf.graphiti.ui.actions.CopyAction;
 import net.sf.graphiti.ui.actions.CutAction;
-import net.sf.graphiti.ui.actions.ExportToGraphMLAction;
 import net.sf.graphiti.ui.actions.OpenRefinementNewTabAction;
 import net.sf.graphiti.ui.actions.PasteAction;
 import net.sf.graphiti.ui.actions.SetRefinementAction;
@@ -185,8 +183,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		super.createActions();
 
 		ActionRegistry registry = getActionRegistry();
-		Class<?> actions[] = { AutomaticallyLayoutAction.class,
-				CopyAction.class, CutAction.class, ExportToGraphMLAction.class,
+		Class<?> actions[] = { CopyAction.class, CutAction.class,
 				OpenRefinementNewTabAction.class, PasteAction.class,
 				PrintAction.class, SelectAllAction.class,
 				SetRefinementAction.class };

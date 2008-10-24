@@ -100,6 +100,6 @@ public class GraphLayoutManager extends XYLayout {
 			e.printStackTrace();
 		}
 
-		part.updateFigures(direction);
+		part.updateFigures();
 	}
 }

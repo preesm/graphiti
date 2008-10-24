@@ -79,7 +79,7 @@ public class FileFormat {
 	}
 
 	public String toString() {
-		return extension + ": " + type;
+		return "*." + extension + ": " + type;
 	}
 
 }

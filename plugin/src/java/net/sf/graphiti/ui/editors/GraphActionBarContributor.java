@@ -28,11 +28,6 @@
  */
 package net.sf.graphiti.ui.editors;
 
-import net.sf.graphiti.ui.actions.AutomaticallyLayoutAction;
-import net.sf.graphiti.ui.actions.AutomaticallyLayoutRetargetAction;
-import net.sf.graphiti.ui.actions.ExportToGraphMLAction;
-import net.sf.graphiti.ui.actions.ExportToGraphMLRetargetAction;
-
 import org.eclipse.gef.ui.actions.ActionBarContributor;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
@@ -67,18 +62,12 @@ public class GraphActionBarContributor extends ActionBarContributor {
 		addRetargetAction((RetargetAction) ActionFactory.REDO.create(iww));
 		addRetargetAction((RetargetAction) ActionFactory.UNDO.create(iww));
 
-		addRetargetAction(new AutomaticallyLayoutRetargetAction());
-		addRetargetAction(new ExportToGraphMLRetargetAction());
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
 	}
 
 	@Override
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
-		toolBarManager.add(getAction(ExportToGraphMLAction.getActionId()));
-
-		toolBarManager.add(new Separator());
-
 		toolBarManager.add(getAction(ActionFactory.UNDO.getId()));
 		toolBarManager.add(getAction(ActionFactory.REDO.getId()));
 		toolBarManager.add(getAction(ActionFactory.DELETE.getId()));
@@ -94,10 +83,6 @@ public class GraphActionBarContributor extends ActionBarContributor {
 		toolBarManager.add(getAction(GEFActionConstants.ZOOM_IN));
 		toolBarManager.add(getAction(GEFActionConstants.ZOOM_OUT));
 		toolBarManager.add(new ZoomComboContributionItem(getPage()));
-
-		toolBarManager.add(new Separator());
-
-		toolBarManager.add(getAction(AutomaticallyLayoutAction.getActionId()));
 	}
 
 	@Override

@@ -72,6 +72,7 @@ public class Edge extends PropertyBean {
 		super(edge);
 		source = edge.source;
 		target = edge.target;
+		type = edge.type;
 	}
 
 	/**

@@ -78,11 +78,6 @@ public class Configuration {
 	private Map<String, GraphType> graphTypes;
 
 	/**
-	 * The XML namespace of the file format.
-	 */
-	private String namespace;
-
-	/**
 	 * Refinement file extensions associated with this document configuration.
 	 */
 	private String[] refinementFileExtensions;
@@ -218,16 +213,6 @@ public class Configuration {
 	}
 
 	/**
-	 * Sets this configuration's namespace.
-	 * 
-	 * @param namespace
-	 *            A namespace URI, or <code>""</code>.
-	 */
-	public void setNamespace(String namespace) {
-		this.namespace = namespace;
-	}
-
-	/**
 	 * Sets the file extensions a refinement may have.
 	 * 
 	 * @param refinementFileExtensions
@@ -252,7 +237,7 @@ public class Configuration {
 
 	@Override
 	public String toString() {
-		return "[" + fileName + "] " + namespace;
+		return "[" + fileName + "] " + fileFormat;
 	}
 
 }

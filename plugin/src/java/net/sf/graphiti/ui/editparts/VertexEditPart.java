@@ -290,7 +290,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	 * the changes of the {@link CompoundDirectedGraphLayout} algorithm to the
 	 * different figures, by setting their bounds.
 	 */
-	void updateFigures(int direction) {
+	void updateFigures() {
 		Vertex vertex = (Vertex) getModel();
 		Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
 		if (bounds == null) {
@@ -306,14 +306,14 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		for (Object connection : getSourceConnections()) {
 			if (connection instanceof EdgeEditPart) {
 				EdgeEditPart part = (EdgeEditPart) connection;
-				part.updateFigures(direction);
+				part.updateFigures();
 			}
 		}
 
 		for (Object connection : getTargetConnections()) {
 			if (connection instanceof EdgeEditPart) {
 				EdgeEditPart part = (EdgeEditPart) connection;
-				part.updateFigures(direction);
+				part.updateFigures();
 			}
 		}
 	}

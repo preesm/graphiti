@@ -104,6 +104,6 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 		figure.refresh(evt.getPropertyName(), evt.getNewValue());
 	}
 
-	void updateFigures(int direction) {
+	void updateFigures() {
 	}
 }

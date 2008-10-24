@@ -195,11 +195,11 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	 * the changes of the {@link CompoundDirectedGraphLayout} algorithm to the
 	 * different figures, by setting their bounds.
 	 */
-	void updateFigures(int direction) {
+	void updateFigures() {
 		for (Object child : getChildren()) {
 			if (child instanceof VertexEditPart) {
 				VertexEditPart part = (VertexEditPart) child;
-				part.updateFigures(direction);
+				part.updateFigures();
 			}
 		}
 	}

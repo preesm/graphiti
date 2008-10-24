@@ -166,8 +166,6 @@ public class ConfigurationParser {
 	 */
 	private void parseConfiguration(String fileName, Element element) {
 		Configuration configuration = new Configuration(fileName);
-		String namespace = element.getAttribute("namespace");
-		configuration.setNamespace(namespace);
 
 		// parse different sections
 		Node node = element.getFirstChild();
