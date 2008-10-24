@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet xmlns:fn="http://www.w3.org/2005/xpath-functions"
     xmlns:grammar="java:net.sf.graphiti.io.GrammarTransformer"
-    xmlns:xslt="java:net.sf.graphiti.io.XsltTransformer"
-    xmlns:fn="http://www.w3.org/2005/xpath-functions" version="2.0">
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+    
+    <xsl:import href="exprToXml.xslt"/>
 
     <xsl:output indent="yes" method="xml"/>
 
@@ -35,8 +36,7 @@
             <xsl:attribute name="name" select="@key"/>
             <xsl:variable name="gt" select="grammar:new('xdf/expr.grammar')"/>
             <xsl:variable name="concreteTree" select="grammar:parseString($gt, @value)"/>
-            <xsl:variable name="xt" select="xslt:new('xdf/exprToXml.xslt')"/>
-            <xsl:copy-of select="xslt:transformDomToDom($xt, $concreteTree)"/>
+            <xsl:apply-templates select="$concreteTree"/>
         </xsl:element>
     </xsl:template>
 
@@ -73,8 +73,7 @@
             <xsl:attribute name="name" select="@key"/>
             <xsl:variable name="gt" select="grammar:new('xdf/expr.grammar')"/>
             <xsl:variable name="concreteTree" select="grammar:parseString($gt, @value)"/>
-            <xsl:variable name="xt" select="xslt:new('xdf/exprToXml.xslt')"/>
-            <xsl:copy-of select="xslt:transformDomToDom($xt, $concreteTree)"/>
+            <xsl:apply-templates select="$concreteTree"/>
         </xsl:element>
     </xsl:template>
 

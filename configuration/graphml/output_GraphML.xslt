@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet
-    xmlns="http://graphml.graphdrawing.org/xmlns/1.0rc"
-    xmlns:fn="http://www.w3.org/2005/xpath-functions" version="2.0"
+<xsl:stylesheet xmlns="http://graphml.graphdrawing.org/xmlns/1.0rc"
+    xmlns:fn="http://www.w3.org/2005/xpath-functions"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 
     <xsl:output indent="yes" method="xml"/>
 

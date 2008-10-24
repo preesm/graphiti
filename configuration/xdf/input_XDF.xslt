@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:fn="http://www.w3.org/2005/xpath-functions" version="2.0">
+<xsl:stylesheet xmlns:fn="http://www.w3.org/2005/xpath-functions"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 
     <xsl:output indent="yes" method="xml"/>
 
@@ -123,7 +123,7 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    
+
     <!-- Parameter instantiations -->
     <xsl:template match="Parameter">
         <xsl:element name="entry">
