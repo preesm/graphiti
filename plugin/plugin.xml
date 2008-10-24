@@ -40,13 +40,13 @@
       <view
             allowMultiple="false"
             category="net.sf.graphiti.ui.views"
-            class="net.sf.graphiti.ui.views.PropertyView"
+            class="net.sf.graphiti.ui.views.SimplePropertyView"
             icon="icons/graphiti.gif"
-            id="net.sf.graphiti.ui.views.PropertyView"
-            name="Properties"
+            id="net.sf.graphiti.ui.views.SimplePropertyView"
+            name="Simple properties"
             restorable="true">
          <description>
-            The Properties view displays properties associated with the current selection.
+            The Simple Properties view displays simple properties associated with the current selection. Simple properties are properties whose values are scalars: integers, strings...
          </description>
       </view>
       <view
@@ -55,7 +55,7 @@
             class="net.sf.graphiti.ui.views.ComplexPropertyView"
             icon="icons/graphiti.gif"
             id="net.sf.graphiti.ui.views.ComplexPropertyView"
-            name="Complex Properties"
+            name="Complex properties"
             restorable="false">
          <description>
             The Complex Properties view displays complex properties (of type list, map) associated with the current selection.

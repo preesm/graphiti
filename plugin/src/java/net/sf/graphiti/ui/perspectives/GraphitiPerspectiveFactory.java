@@ -28,7 +28,8 @@
  */
 package net.sf.graphiti.ui.perspectives;
 
-import net.sf.graphiti.ui.views.PropertyView;
+import net.sf.graphiti.ui.views.ComplexPropertyView;
+import net.sf.graphiti.ui.views.SimplePropertyView;
 
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
@@ -73,7 +74,8 @@ public class GraphitiPerspectiveFactory implements IPerspectiveFactory {
 
 		IFolderLayout bottom = layout.createFolder("bottom",
 				IPageLayout.BOTTOM, 0.80f, editorArea);
-		bottom.addView(PropertyView.ID);
+		bottom.addView(SimplePropertyView.ID);
+		bottom.addPlaceholder(ComplexPropertyView.ID);
 
 		// put the outline on the right
 		IFolderLayout right = layout.createFolder("right", IPageLayout.RIGHT,

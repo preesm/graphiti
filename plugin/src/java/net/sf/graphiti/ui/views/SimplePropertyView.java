@@ -28,16 +28,7 @@
  */
 package net.sf.graphiti.ui.views;
 
-import java.util.List;
-import java.util.Map;
-
-import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ui.editparts.EdgeEditPart;
-import net.sf.graphiti.ui.editparts.GraphEditPart;
-import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -46,11 +37,6 @@ import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * This class exposes the Graphiti version of property view. It is a derivative
@@ -60,7 +46,7 @@ import org.eclipse.ui.PlatformUI;
  * 
  * @author Matthieu Wipliez
  */
-public class PropertyView extends AbstractPropertyView {
+public class SimplePropertyView extends AbstractPropertyView {
 
 	/**
 	 * Sorts parameters by name.
@@ -79,7 +65,7 @@ public class PropertyView extends AbstractPropertyView {
 		}
 	}
 
-	public static final String ID = "net.sf.graphiti.ui.views.PropertyView";
+	public static final String ID = "net.sf.graphiti.ui.views.SimplePropertyView";
 
 	/**
 	 * Creates the table viewer using the given table.
@@ -129,91 +115,8 @@ public class PropertyView extends AbstractPropertyView {
 		tvc.setEditingSupport(editing);
 	}
 
-	/**
-	 * Displays a new {@link ComplexPropertyView} for the given parameter on the
-	 * given page.
-	 * 
-	 * @param page
-	 * @param parameter
-	 */
-	private void displayView(IWorkbenchPage page, Object object) {
-		List<Parameter> parameters = null;
-		if (object instanceof Graph) {
-			parameters = ((Graph) object).getParameters();
-		} else if (object instanceof Vertex) {
-			parameters = ((Vertex) object).getParameters();
-		} else if (object instanceof Edge) {
-			parameters = ((Edge) object).getParameters();
-		}
-
-		// parameters will *never* be null here.
-		for (Parameter parameter : parameters) {
-			Class<?> type = parameter.getType();
-			if (type == Map.class || type == List.class) {
-				String parameterName = parameter.getName();
-				try {
-					IViewPart part = page.showView(ComplexPropertyView.ID,
-							parameterName, IWorkbenchPage.VIEW_VISIBLE);
-					ComplexPropertyView view = (ComplexPropertyView) part;
-					view.selectionChanged(object, parameter);
-				} catch (PartInitException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
-	/**
-	 * If the object selected is an instance of {@link GraphEditPart},
-	 * {@link VertexEditPart} or {@link EdgeEditPart}, return the model
-	 * associated. Otherwise, return null.
-	 * 
-	 * @param object
-	 *            The object selected.
-	 * @return The model of the object selected if it is a valid edit part.
-	 */
-	private Object getModel(Object object) {
-		if (object instanceof GraphEditPart) {
-			return ((GraphEditPart) object).getModel();
-		} else if (object instanceof VertexEditPart) {
-			return ((VertexEditPart) object).getModel();
-		} else if (object instanceof EdgeEditPart) {
-			return ((EdgeEditPart) object).getModel();
-		} else {
-			return null;
-		}
-	}
-
 	@Override
 	public void selectionChanged(Object object) {
-		if (object.equals(tableViewer.getInput())) {
-			return;
-		}
-
-		Object selectedObject = getModel(object);
-
-		// active page. Sometimes null, hence the test we do.
-		IWorkbenchPage page = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getActivePage();
-		if (page == null) {
-			return;
-		}
 		tableViewer.setInput(object);
-
-		// hide all contextual property views
-		IViewReference[] views = page.getViewReferences();
-		for (IViewReference view : views) {
-			if (view.getId().equals(ComplexPropertyView.ID)) {
-				page.hideView(view);
-			}
-		}
-
-		// displays new contextual property views if needed
-		if (selectedObject != null) {
-			displayView(page, selectedObject);
-		}
-
-		// bring us back to top
-		page.bringToTop(this);
 	}
 }

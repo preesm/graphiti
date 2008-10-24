@@ -35,10 +35,15 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.List;
+import java.util.Map;
 
 import net.sf.graphiti.io.GenericGraphParser;
 import net.sf.graphiti.io.GenericGraphWriter;
+import net.sf.graphiti.model.AbstractType;
+import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.actions.CopyAction;
 import net.sf.graphiti.ui.actions.CutAction;
@@ -47,6 +52,7 @@ import net.sf.graphiti.ui.actions.PasteAction;
 import net.sf.graphiti.ui.actions.SetRefinementAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
+import net.sf.graphiti.ui.views.ComplexPropertyView;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
@@ -84,7 +90,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IShowEditorInput;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
@@ -213,6 +223,40 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 								viewer));
 			}
 		};
+	}
+
+	/**
+	 * Displays a new {@link ComplexPropertyView} for the given parameter on the
+	 * given page.
+	 * 
+	 * @param object
+	 */
+	public void displayViews() {
+		IWorkbenchPage page = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage();
+
+		Configuration configuration = graph.getConfiguration();
+		List<Object> types = new ArrayList<Object>();
+		types.addAll(configuration.getEdgeTypes());
+		types.addAll(configuration.getGraphTypes());
+		types.addAll(configuration.getVertexTypes());
+		for (Object obj : types) {
+			List<Parameter> parameters = ((AbstractType) obj).getParameters();
+			for (Parameter parameter : parameters) {
+				Class<?> type = parameter.getType();
+				if (type == Map.class || type == List.class) {
+					String parameterName = parameter.getName();
+					try {
+						IViewPart part = page.showView(ComplexPropertyView.ID,
+								parameterName, IWorkbenchPage.VIEW_VISIBLE);
+						((ComplexPropertyView) part).setParameter(parameter,
+								(AbstractType) obj);
+					} catch (PartInitException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -375,6 +419,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 			getEditDomain().setPaletteRoot(getPaletteRoot());
 
 			firePropertyChange(PROP_INPUT);
+			displayViews();
 		} catch (Throwable exception) {
 			status = new Status(Status.ERROR, GraphitiPlugin.PLUGIN_ID,
 					"An error occurred while parsing the file", exception);

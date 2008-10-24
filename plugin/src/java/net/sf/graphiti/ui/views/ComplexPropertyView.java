@@ -32,16 +32,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.AbstractType;
+import net.sf.graphiti.model.EdgeType;
+import net.sf.graphiti.model.GraphType;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Util;
-import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.commands.AddParameterCommand;
 import net.sf.graphiti.ui.commands.RemoveParameterCommand;
 import net.sf.graphiti.ui.editors.GraphEditor;
+import net.sf.graphiti.ui.editparts.EdgeEditPart;
+import net.sf.graphiti.ui.editparts.GraphEditPart;
+import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
@@ -61,12 +65,13 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * This class is a {@link PropertyView} that shows complex properties (ie List
- * or Map).
+ * This class is a concrete extension of {@link AbstractPropertyView} that shows
+ * complex properties (ie List or Map).
  * 
  * @author Matthieu Wipliez
  */
@@ -121,6 +126,8 @@ public class ComplexPropertyView extends AbstractPropertyView {
 	 */
 	private String objDesc;
 
+	private Parameter parameter;
+
 	/**
 	 * The parameter name.
 	 */
@@ -131,6 +138,8 @@ public class ComplexPropertyView extends AbstractPropertyView {
 	 */
 	private ComplexSource source;
 
+	private AbstractType type;
+
 	/**
 	 * Adds one or two columns to the given {@link Table} depending on the
 	 * source's parameter type.
@@ -139,7 +148,7 @@ public class ComplexPropertyView extends AbstractPropertyView {
 	 *            The table.
 	 */
 	private void addColumns(Table table) {
-		if (source.parameter.getType() == List.class) {
+		if (parameter.getType() == List.class) {
 			// 1st column
 			TableColumn column = new TableColumn(table, SWT.CENTER, 0);
 			column.setText("Value");
@@ -183,12 +192,11 @@ public class ComplexPropertyView extends AbstractPropertyView {
 		if (dialog.open() == InputDialog.OK) {
 			AddParameterCommand command = new AddParameterCommand(source.bean,
 					dialog.getValue());
-			if (source.parameter.getType() == List.class) {
-				List<Object> list = Util.getList(source.bean, source.parameter);
+			if (parameter.getType() == List.class) {
+				List<Object> list = Util.getList(source.bean, parameter);
 				command.setList(list);
 			} else {
-				Map<Object, Object> map = Util.getMap(source.bean,
-						source.parameter);
+				Map<Object, Object> map = Util.getMap(source.bean, parameter);
 				command.setMap(map);
 			}
 
@@ -217,13 +225,11 @@ public class ComplexPropertyView extends AbstractPropertyView {
 		addColumns(table);
 
 		// content handlers
-		if (source.parameter.getType() == List.class) {
+		if (parameter.getType() == List.class) {
 			setListContentHandler(table, contentProvider);
-		} else if (source.parameter.getType() == Map.class) {
+		} else if (parameter.getType() == Map.class) {
 			setMapContentHandler(table, contentProvider);
 		}
-
-		tableViewer.setInput(source);
 	}
 
 	/**
@@ -296,13 +302,12 @@ public class ComplexPropertyView extends AbstractPropertyView {
 
 			RemoveParameterCommand command = new RemoveParameterCommand(
 					source.bean);
-			if (source.parameter.getType() == List.class) {
-				List<Object> list = Util.getList(source.bean, source.parameter);
+			if (parameter.getType() == List.class) {
+				List<Object> list = Util.getList(source.bean, parameter);
 				command.setValue(obj);
 				command.setList(list);
 			} else {
-				Map<Object, Object> map = Util.getMap(source.bean,
-						source.parameter);
+				Map<Object, Object> map = Util.getMap(source.bean, parameter);
 				command.setValue(((Entry<Object, Object>) obj).getKey());
 				command.setMap(map);
 			}
@@ -316,52 +321,29 @@ public class ComplexPropertyView extends AbstractPropertyView {
 
 	@Override
 	protected void selectionChanged(Object object) {
-	}
+		Object model = null;
+		if (object instanceof GraphEditPart && type instanceof GraphType) {
+			model = ((GraphEditPart) object).getModel();
 
-	/**
-	 * Sets this part's name, its content description, and the tooltips of the
-	 * two actions from the given object and parameter.
-	 * 
-	 * @param object
-	 * @param parameter
-	 */
-	public void selectionChanged(Object object, Parameter parameter) {
-		source = new ComplexSource((PropertyBean) object, parameter);
-		configureTableViewer();
-
-		if (object instanceof Graph) {
-			objDesc = "graph";
-		} else if (object instanceof Vertex) {
-			objDesc = "vertex";
-		} else if (object instanceof Edge) {
-			objDesc = "edge";
+			if (source != null && source.bean != model) {
+				IWorkbenchPage page = PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow().getActivePage();
+				IEditorPart editor = page.getActiveEditor();
+				((GraphEditor) editor).displayViews();
+			}
+		} else if (object instanceof VertexEditPart
+				&& type instanceof VertexType) {
+			model = ((VertexEditPart) object).getModel();
+		} else if (object instanceof EdgeEditPart && type instanceof EdgeType) {
+			model = ((EdgeEditPart) object).getModel();
 		}
 
-		// uppercase first letter
-		parameterName = parameter.getName();
-		char[] chars = (parameterName + "s").toCharArray();
-		char firstLetter = chars[0];
-		chars[0] = Character.toUpperCase(chars[0]);
-		String uppercasedParamName = new String(chars);
-
-		// part name and description
-		String description = uppercasedParamName + " of the selected "
-				+ objDesc;
-		super.setContentDescription(description);
-		super.setPartName(uppercasedParamName);
-
-		// set the article
-		article = "a";
-		if (firstLetter == 'a' || firstLetter == 'e' || firstLetter == 'i'
-				|| firstLetter == 'o') {
-			article += "n";
+		if (model == null) {
+			tableViewer.setInput(null);
+		} else {
+			source = new ComplexSource((PropertyBean) model, parameter);
+			tableViewer.setInput(source);
 		}
-
-		// action tool-tips.
-		actionAdd.setToolTipText("Adds " + article + " " + parameterName
-				+ " to this " + objDesc);
-		actionDelete.setToolTipText("Removes " + article + " " + parameterName
-				+ " from this " + objDesc);
 	}
 
 	/**
@@ -417,5 +399,88 @@ public class ComplexPropertyView extends AbstractPropertyView {
 				tvc.getViewer(), table);
 		provider.addPropertyChangeListener(valueEditing);
 		tvc.setEditingSupport(valueEditing);
+	}
+
+	/**
+	 * Sets the parameter this property view is associated with.
+	 * 
+	 * @param parameter
+	 *            The parameter.
+	 * @param type
+	 *            The type of the object that <code>parameter</code> applies to.
+	 */
+	public void setParameter(Parameter parameter, AbstractType type) {
+		// do NOT configure this view more than once!
+		if (this.parameter != null && this.type != null) {
+			return;
+		}
+
+		// update attributes
+		this.parameter = parameter;
+		this.parameterName = parameter.getName();
+		this.type = type;
+
+		// uppercase first letter
+		char[] chars = (parameterName + "s").toCharArray();
+		chars[0] = Character.toUpperCase(chars[0]);
+
+		// a few updates
+		updateObjectDesc();
+		updatePartNameAndDescription(new String(chars));
+		updateArticle(chars[0]);
+		updateActionTooltips();
+
+		// configuration of table viewer
+		configureTableViewer();
+	}
+
+	/**
+	 * Updates the action tool tips.
+	 */
+	private void updateActionTooltips() {
+		actionAdd.setToolTipText("Adds " + article + " " + parameterName
+				+ " to this " + objDesc);
+		actionDelete.setToolTipText("Removes " + article + " " + parameterName
+				+ " from this " + objDesc);
+	}
+
+	/**
+	 * Updates the article according to <code>firstLetter</code>.
+	 * 
+	 * @param firstLetter
+	 *            The first letter of {@link #parameterName}.
+	 */
+	private void updateArticle(char firstLetter) {
+		article = "a";
+		if (firstLetter == 'a' || firstLetter == 'e' || firstLetter == 'i'
+				|| firstLetter == 'o') {
+			article += "n";
+		}
+	}
+
+	/**
+	 * Updates {@link #objDesc} according to {@link #type}.
+	 */
+	private void updateObjectDesc() {
+		if (type instanceof GraphType) {
+			objDesc = "graph";
+		} else if (type instanceof VertexType) {
+			objDesc = "vertex";
+		} else if (type instanceof EdgeType) {
+			objDesc = "edge";
+		}
+	}
+
+	/**
+	 * Updates the content description and part name.
+	 * 
+	 * @param uppercasedParamName
+	 *            {@link #parameterName} with the first letter in upper case.
+	 */
+	private void updatePartNameAndDescription(String uppercasedParamName) {
+		String description = uppercasedParamName + " of the selected "
+				+ objDesc;
+		super.setContentDescription(description);
+		super.setPartName(uppercasedParamName);
 	}
 }

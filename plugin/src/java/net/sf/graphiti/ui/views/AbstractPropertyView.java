@@ -153,12 +153,7 @@ public abstract class AbstractPropertyView extends ViewPart implements
 			if (selection instanceof IStructuredSelection) {
 				IStructuredSelection structSel = (IStructuredSelection) selection;
 				Object object = structSel.getFirstElement();
-
-				// updates the table viewer input
-				if (tableViewer != null
-						&& tableViewer.getContentProvider() != null) {
-					selectionChanged(object);
-				}
+				selectionChanged(object);
 			}
 		}
 	}
