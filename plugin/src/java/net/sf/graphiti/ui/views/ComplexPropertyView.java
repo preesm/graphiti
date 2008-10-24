@@ -65,7 +65,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
@@ -324,13 +323,6 @@ public class ComplexPropertyView extends AbstractPropertyView {
 		Object model = null;
 		if (object instanceof GraphEditPart && type instanceof GraphType) {
 			model = ((GraphEditPart) object).getModel();
-
-			if (source != null && source.bean != model) {
-				IWorkbenchPage page = PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getActivePage();
-				IEditorPart editor = page.getActiveEditor();
-				((GraphEditor) editor).displayViews();
-			}
 		} else if (object instanceof VertexEditPart
 				&& type instanceof VertexType) {
 			model = ((VertexEditPart) object).getModel();

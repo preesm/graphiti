@@ -231,7 +231,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	 * 
 	 * @param object
 	 */
-	public void displayViews() {
+	private void displayViews() {
 		IWorkbenchPage page = PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getActivePage();
 
@@ -419,7 +419,12 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 			getEditDomain().setPaletteRoot(getPaletteRoot());
 
 			firePropertyChange(PROP_INPUT);
-			displayViews();
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					displayViews();
+				}
+			});
 		} catch (Throwable exception) {
 			status = new Status(Status.ERROR, GraphitiPlugin.PLUGIN_ID,
 					"An error occurred while parsing the file", exception);
