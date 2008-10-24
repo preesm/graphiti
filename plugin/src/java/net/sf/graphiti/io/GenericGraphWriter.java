@@ -184,48 +184,43 @@ public class GenericGraphWriter {
 			Element parameterElement = document.createElement("parameter");
 			String parameterName = parameter.getName();
 			parameterElement.setAttribute("name", parameterName);
+
 			Class<?> parameterType = parameter.getType();
 			if (parameterType == List.class) {
 				List<?> list = (List<?>) propertyBean.getValue(parameterName);
 				if (list != null) {
 					for (Object obj : list) {
-						Element element = document.createElement("element");
-						if (obj == null) {
-							obj = "";
+						if (obj != null) {
+							Element element = document.createElement("element");
+							element.setAttribute("value", obj.toString());
+							parameterElement.appendChild(element);
 						}
-						element.setAttribute("value", obj.toString());
-						parameterElement.appendChild(element);
 					}
+					parametersElement.appendChild(parameterElement);
 				}
 			} else if (parameterType == Map.class) {
 				Map<?, ?> map = (Map<?, ?>) propertyBean
 						.getValue(parameterName);
 				if (map != null) {
 					for (Entry<?, ?> entry : map.entrySet()) {
-						Element entryElement = document.createElement("entry");
 						Object key = entry.getKey();
-						if (key == null) {
-							key = "";
-						}
 						Object value = entry.getValue();
-						if (value == null) {
-							value = "";
+						if (key != null && value != null) {
+							Element entryElt = document.createElement("entry");
+							entryElt.setAttribute("key", key.toString());
+							entryElt.setAttribute("value", value.toString());
+							parameterElement.appendChild(entryElt);
 						}
-
-						entryElement.setAttribute("key", key.toString());
-						entryElement.setAttribute("value", value.toString());
-						parameterElement.appendChild(entryElement);
 					}
+					parametersElement.appendChild(parameterElement);
 				}
 			} else {
 				Object value = propertyBean.getValue(parameterName);
-				if (value == null) {
-					value = "";
+				if (value != null) {
+					parameterElement.setAttribute("value", value.toString());
+					parametersElement.appendChild(parameterElement);
 				}
-				parameterElement.setAttribute("value", value.toString());
 			}
-
-			parametersElement.appendChild(parameterElement);
 		}
 	}
 

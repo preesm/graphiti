@@ -49,7 +49,6 @@ import net.sf.graphiti.model.VertexType;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -91,28 +90,26 @@ public class GenericGraphParser {
 	private Graph parse(Configuration configuration, FileFormat format,
 			InputStream in) throws IncompatibleConfigurationFile {
 		List<String> transformations = format.getImportTransformations();
-		if (transformations.isEmpty()) {
-			throw new IncompatibleConfigurationFile(
-					"No import transformations defined");
-		}
-
 		try {
 			Element element = null;
-			for (String transformation : transformations) {
-				if (transformation.endsWith(".grammar")) {
-					GrammarTransformer transformer = new GrammarTransformer(
-							transformation);
-					element = transformer.parse(new InputStreamReader(in));
-				} else if (transformation.endsWith(".xslt")) {
-					if (element == null) {
+			if (transformations.isEmpty()) {
+				element = DomHelper.parse(in).getDocumentElement();
+			} else {
+				for (String transformation : transformations) {
+					if (transformation.endsWith(".grammar")) {
+						GrammarTransformer transformer = new GrammarTransformer(
+								transformation);
+						element = transformer.parse(new InputStreamReader(in));
+					} else if (transformation.endsWith(".xslt")) {
 						// fills the element from the input stream
-						Document document = DomHelper.parse(in);
-						element = document.getDocumentElement();
-					}
+						if (element == null) {
+							element = DomHelper.parse(in).getDocumentElement();
+						}
 
-					XsltTransformer transformer = new XsltTransformer(
-							transformation);
-					element = transformer.transformDomToDom(element);
+						XsltTransformer transformer = new XsltTransformer(
+								transformation);
+						element = transformer.transformDomToDom(element);
+					}
 				}
 			}
 

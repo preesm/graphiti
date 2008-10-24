@@ -1,29 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     
-    <fileFormat extension="nl" type="text">
-        <import>
-            <transformation name="nl/nl.grammar"/>
-            <transformation name="nl/nl.xslt"/>
-            <transformation name="xnl/input_XNL.xslt"/>
-        </import>
-        
-        <export>
-            <transformation name="xnl/output_XNL.xslt"/>
-            <transformation name="nl/output_NL.xslt"/>
-        </export>
+    <fileFormat extension="graphiti" type="text/xml">
+        <import/>
+        <export/>
     </fileFormat>
 
     <refinementFileExtensions>
-        <fileExtension name="xdf"/>
-        <fileExtension name="xnl"/>
-        <fileExtension name="nl"/>
-        <fileExtension name="cal"/>
-        <fileExtension name="calml"/>
+        <fileExtension name="graphiti"/>
     </refinementFileExtensions>
 
     <graphTypes>
-        <graphType name="Network (NL - Network Language)">
+        <graphType name="Graphiti native graph">
             <attributes/>
             <parameters>
                 <parameter name="id" type="java.lang.String"/>
@@ -64,7 +52,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String"/>
-                <parameter name="instance parameter" type="java.util.List"/>
+                <parameter name="instance parameter" type="java.util.Map"/>
                 <parameter name="refinement" type="java.lang.String"/>
             </parameters>
         </vertexType>
