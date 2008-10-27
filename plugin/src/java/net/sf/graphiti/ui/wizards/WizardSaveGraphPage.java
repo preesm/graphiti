@@ -45,7 +45,7 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
  * 
  * @author Matthieu Wipliez
  */
-public class WizardNewGraphPage extends WizardNewFileCreationPage implements
+public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 		IGraphTypeSettable {
 
 	private Configuration configuration;
@@ -53,16 +53,15 @@ public class WizardNewGraphPage extends WizardNewFileCreationPage implements
 	private GraphType graphType;
 
 	/**
-	 * Constructor for WizardNewGraphPage.
+	 * Constructor for {@link WizardSaveGraphPage}.
 	 * 
 	 * @param selection
 	 *            The current resource selection.
 	 */
-	public WizardNewGraphPage(IStructuredSelection selection) {
-		super("newGraph", selection);
+	public WizardSaveGraphPage(IStructuredSelection selection) {
+		super("saveGraph", selection);
 
 		setTitle("Choose file name and parent folder");
-		setDescription("Create a new graph.");
 	}
 
 	@Override

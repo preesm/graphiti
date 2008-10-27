@@ -57,9 +57,9 @@ import org.eclipse.swt.widgets.Label;
  */
 public class WizardGraphTypePage extends WizardPage {
 
-	private Map<String, GraphType> graphTypeNames;
-
 	private Map<GraphType, Configuration> graphTypeConfigurations;
+
+	private Map<String, GraphType> graphTypeNames;
 
 	private Combo listGraphTypes;
 

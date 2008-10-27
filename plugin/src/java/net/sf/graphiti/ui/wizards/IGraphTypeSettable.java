@@ -35,7 +35,7 @@ import net.sf.graphiti.model.GraphType;
  * This interface defines how to set a graph type on a page.
  * 
  * @author Matthieu Wipliez
- *
+ * 
  */
 public interface IGraphTypeSettable {
 
@@ -48,5 +48,5 @@ public interface IGraphTypeSettable {
 	 *            The graph type to set.
 	 */
 	public void setGraphType(Configuration configuration, GraphType type);
-	
+
 }

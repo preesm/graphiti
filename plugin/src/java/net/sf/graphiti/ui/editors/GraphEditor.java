@@ -102,7 +102,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * This class provides the graph editor.
  * 
  * @author Matthieu Wipliez
- *
+ * 
  */
 public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		IShowEditorInput {
@@ -296,50 +296,51 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 		WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
 		dialog.open();
-		
-//		SaveAsDialog dialog = new SaveAsDialog(getSite().getWorkbenchWindow()
-//				.getShell());
-//		dialog.setOriginalFile(((IFileEditorInput) getEditorInput()).getFile());
-//		dialog.open();
-//		IPath path = dialog.getResult();
-//
-//		if (path == null)
-//			return;
-//
-//		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-//		final IFile file = workspace.getRoot().getFile(path);
-//
-//		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
-//			public void execute(final IProgressMonitor monitor)
-//					throws CoreException {
-//				ByteArrayOutputStream out = new ByteArrayOutputStream();
-//				GenericGraphWriter writer = new GenericGraphWriter(graph);
-//				writer.write(out);
-//				try {
-//					file.create(new ByteArrayInputStream(out.toByteArray()),
-//							true, monitor);
-//					try {
-//						out.close();
-//					} catch (IOException e) {
-//						// Can never occur on a ByteArrayOutputStream
-//					}
-//				} catch (CoreException e) {
-//					monitor.setCanceled(true);
-//					e.printStackTrace();
-//				}
-//			}
-//		};
-//
-//		try {
-//			new ProgressMonitorDialog(getSite().getWorkbenchWindow().getShell())
-//					.run(false, true, op);
-//			setInput(new FileEditorInput((IFile) file));
-//			getCommandStack().markSaveLocation();
-//		} catch (InvocationTargetException e) {
-//			e.printStackTrace();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+
+		// SaveAsDialog dialog = new SaveAsDialog(getSite().getWorkbenchWindow()
+		// .getShell());
+		// dialog.setOriginalFile(((IFileEditorInput)
+		// getEditorInput()).getFile());
+		// dialog.open();
+		// IPath path = dialog.getResult();
+		//
+		// if (path == null)
+		// return;
+		//
+		// IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		// final IFile file = workspace.getRoot().getFile(path);
+		//
+		// WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
+		// public void execute(final IProgressMonitor monitor)
+		// throws CoreException {
+		// ByteArrayOutputStream out = new ByteArrayOutputStream();
+		// GenericGraphWriter writer = new GenericGraphWriter(graph);
+		// writer.write(out);
+		// try {
+		// file.create(new ByteArrayInputStream(out.toByteArray()),
+		// true, monitor);
+		// try {
+		// out.close();
+		// } catch (IOException e) {
+		// // Can never occur on a ByteArrayOutputStream
+		// }
+		// } catch (CoreException e) {
+		// monitor.setCanceled(true);
+		// e.printStackTrace();
+		// }
+		// }
+		// };
+		//
+		// try {
+		// new ProgressMonitorDialog(getSite().getWorkbenchWindow().getShell())
+		// .run(false, true, op);
+		// setInput(new FileEditorInput((IFile) file));
+		// getCommandStack().markSaveLocation();
+		// } catch (InvocationTargetException e) {
+		// e.printStackTrace();
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	/**

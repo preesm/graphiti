@@ -66,8 +66,9 @@ public class NewGraphWizard extends Wizard implements INewWizard {
 		IWizardPage page = new WizardGraphTypePage(selection);
 		page.setDescription("Create a new graph with the chosen type.");
 		addPage(page);
-		
-		page = new WizardNewGraphPage(selection);
+
+		page = new WizardSaveGraphPage(selection);
+		page.setDescription("Create a new graph.");
 		addPage(page);
 	}
 
@@ -88,7 +89,7 @@ public class NewGraphWizard extends Wizard implements INewWizard {
 
 	@Override
 	public boolean performFinish() {
-		final WizardNewGraphPage page = (WizardNewGraphPage) getPage("newGraph");
+		final WizardSaveGraphPage page = (WizardSaveGraphPage) getPage("saveGraph");
 
 		IFile file = page.createNewFile();
 		if (file == null) {
