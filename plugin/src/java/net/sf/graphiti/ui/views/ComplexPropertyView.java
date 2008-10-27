@@ -414,12 +414,12 @@ public class ComplexPropertyView extends AbstractPropertyView {
 
 		// uppercase first letter
 		char[] chars = (parameterName + "s").toCharArray();
-		chars[0] = Character.toUpperCase(chars[0]);
 
 		// a few updates
 		updateObjectDesc();
-		updatePartNameAndDescription(new String(chars));
 		updateArticle(chars[0]);
+		chars[0] = Character.toUpperCase(chars[0]);
+		updatePartNameAndDescription(new String(chars));
 		updateActionTooltips();
 
 		// configuration of table viewer
