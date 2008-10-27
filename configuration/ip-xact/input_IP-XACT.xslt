@@ -11,7 +11,7 @@
     <!-- Top-level: IP-XACT -> graph -->
     <xsl:template match="IP-XACT">
         <xsl:element name="graph">
-            <xsl:attribute name="type">Spirit IP-XACT architecture (.ipxact)</xsl:attribute>
+            <xsl:attribute name="type">Spirit IP-XACT architecture</xsl:attribute>
 
             <xsl:element name="parameters">
                 <xsl:element name="parameter">

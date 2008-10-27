@@ -16,7 +16,7 @@
     </refinementFileExtensions>
 
     <graphTypes>
-        <graphType name="Spirit IP-XACT architecture (.ipxact)">
+        <graphType name="Spirit IP-XACT architecture">
             <attributes/>
             <parameters>
                 <parameter name="id" type="java.lang.String"/>
