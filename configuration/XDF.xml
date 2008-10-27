@@ -20,7 +20,7 @@
     </refinementFileExtensions>
 
     <graphTypes>
-        <graphType name="XML Dataflow Network (.xdf)">
+        <graphType name="XML Dataflow Network">
             <attributes/>
             <parameters>
                 <parameter name="id" type="java.lang.String"/>

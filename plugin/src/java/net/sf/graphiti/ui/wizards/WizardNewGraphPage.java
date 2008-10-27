@@ -45,7 +45,8 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
  * 
  * @author Matthieu Wipliez
  */
-public class WizardNewGraphPage extends WizardNewFileCreationPage {
+public class WizardNewGraphPage extends WizardNewFileCreationPage implements
+		IGraphTypeSettable {
 
 	private Configuration configuration;
 
@@ -74,24 +75,13 @@ public class WizardNewGraphPage extends WizardNewFileCreationPage {
 		return new ByteArrayInputStream(out.toByteArray());
 	}
 
-	/**
-	 * Sets the configuration for this page.
-	 * 
-	 * @param configuration
-	 *            The configuration to use.
-	 */
-	public void setConfiguration(Configuration configuration) {
+	@Override
+	public void setGraphType(Configuration configuration, GraphType graphType) {
 		this.configuration = configuration;
-	}
-
-	/**
-	 * Sets the configuration for this page.
-	 * 
-	 * @param configuration
-	 *            The configuration to use.
-	 */
-	public void setGraphType(GraphType graphType) {
 		this.graphType = graphType;
+
+		String fileExt = configuration.getFileFormat().getFileExtension();
+		setFileName("New " + graphType.getName() + "." + fileExt);
 	}
 
 }

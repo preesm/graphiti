@@ -32,7 +32,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
@@ -53,12 +52,10 @@ import net.sf.graphiti.ui.actions.SetRefinementAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
 import net.sf.graphiti.ui.views.ComplexPropertyView;
+import net.sf.graphiti.ui.wizards.SaveAsWizard;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -85,21 +82,28 @@ import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IShowEditorInput;
 import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
-import org.eclipse.ui.dialogs.SaveAsDialog;
-import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
+/**
+ * This class provides the graph editor.
+ * 
+ * @author Matthieu Wipliez
+ *
+ */
 public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		IShowEditorInput {
 
@@ -282,49 +286,60 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	@Override
 	public void doSaveAs() {
-		SaveAsDialog dialog = new SaveAsDialog(getSite().getWorkbenchWindow()
-				.getShell());
-		dialog.setOriginalFile(((IFileEditorInput) getEditorInput()).getFile());
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		IWorkbenchPage page = window.getActivePage();
+		IEditorPart editor = page.getActiveEditor();
+
+		SaveAsWizard wizard = new SaveAsWizard();
+		wizard.init(workbench, new StructuredSelection(editor));
+
+		WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
 		dialog.open();
-		IPath path = dialog.getResult();
-
-		if (path == null)
-			return;
-
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		final IFile file = workspace.getRoot().getFile(path);
-
-		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
-			public void execute(final IProgressMonitor monitor)
-					throws CoreException {
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				GenericGraphWriter writer = new GenericGraphWriter(graph);
-				writer.write(out);
-				try {
-					file.create(new ByteArrayInputStream(out.toByteArray()),
-							true, monitor);
-					try {
-						out.close();
-					} catch (IOException e) {
-						// Can never occur on a ByteArrayOutputStream
-					}
-				} catch (CoreException e) {
-					monitor.setCanceled(true);
-					e.printStackTrace();
-				}
-			}
-		};
-
-		try {
-			new ProgressMonitorDialog(getSite().getWorkbenchWindow().getShell())
-					.run(false, true, op);
-			setInput(new FileEditorInput((IFile) file));
-			getCommandStack().markSaveLocation();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		
+//		SaveAsDialog dialog = new SaveAsDialog(getSite().getWorkbenchWindow()
+//				.getShell());
+//		dialog.setOriginalFile(((IFileEditorInput) getEditorInput()).getFile());
+//		dialog.open();
+//		IPath path = dialog.getResult();
+//
+//		if (path == null)
+//			return;
+//
+//		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+//		final IFile file = workspace.getRoot().getFile(path);
+//
+//		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
+//			public void execute(final IProgressMonitor monitor)
+//					throws CoreException {
+//				ByteArrayOutputStream out = new ByteArrayOutputStream();
+//				GenericGraphWriter writer = new GenericGraphWriter(graph);
+//				writer.write(out);
+//				try {
+//					file.create(new ByteArrayInputStream(out.toByteArray()),
+//							true, monitor);
+//					try {
+//						out.close();
+//					} catch (IOException e) {
+//						// Can never occur on a ByteArrayOutputStream
+//					}
+//				} catch (CoreException e) {
+//					monitor.setCanceled(true);
+//					e.printStackTrace();
+//				}
+//			}
+//		};
+//
+//		try {
+//			new ProgressMonitorDialog(getSite().getWorkbenchWindow().getShell())
+//					.run(false, true, op);
+//			setInput(new FileEditorInput((IFile) file));
+//			getCommandStack().markSaveLocation();
+//		} catch (InvocationTargetException e) {
+//			e.printStackTrace();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	/**

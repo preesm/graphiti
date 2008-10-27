@@ -42,31 +42,31 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
 /**
- * This class provides a new graph wizard.
+ * This class provides a save as graph wizard.
  * 
  * @author Matthieu Wipliez
  */
-public class NewGraphWizard extends Wizard implements INewWizard {
+public class SaveAsWizard extends Wizard implements INewWizard {
 
 	private IStructuredSelection selection;
 
 	private IWorkbench workbench;
 
 	/**
-	 * Constructor for NewGraphWizard.
+	 * Constructor for {@link SaveAsWizard}.
 	 */
-	public NewGraphWizard() {
+	public SaveAsWizard() {
 		super();
 		setNeedsProgressMonitor(true);
-		setWindowTitle("New graph");
+		setWindowTitle("Save As...");
 	}
 
 	@Override
 	public void addPages() {
 		IWizardPage page = new WizardGraphTypePage(selection);
-		page.setDescription("Create a new graph with the chosen type.");
+		page.setDescription("Save the graph with the chosen type.");
 		addPage(page);
-		
+
 		page = new WizardNewGraphPage(selection);
 		addPage(page);
 	}

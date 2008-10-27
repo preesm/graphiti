@@ -11,7 +11,7 @@
     <!-- Top-level: XDF -> graph -->
     <xsl:template match="XDF">
         <xsl:element name="graph">
-            <xsl:attribute name="type">XML Dataflow Network (.xdf)</xsl:attribute>
+            <xsl:attribute name="type">XML Dataflow Network</xsl:attribute>
 
             <xsl:element name="parameters">
                 <xsl:element name="parameter">

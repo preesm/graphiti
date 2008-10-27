@@ -11,7 +11,7 @@
     <!-- Top-level: Actor -> graph -->
     <xsl:template match="Actor">
         <xsl:element name="graph">
-            <xsl:attribute name="type">CAL actor (.cal)</xsl:attribute>
+            <xsl:attribute name="type">CAL actor</xsl:attribute>
 
             <xsl:element name="parameters">
                 <xsl:element name="parameter">

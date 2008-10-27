@@ -2,6 +2,28 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="net.sf.graphiti.ui.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            class="net.sf.graphiti.ui.editors.GraphEditor"
+            contributorClass="net.sf.graphiti.ui.editors.GraphActionBarContributor"
+            default="false"
+            icon="icons/graphiti.gif"
+            id="net.sf.graphiti.ui.editors.GraphEditor"
+            name="Graphiti graph editor">
+         <contentTypeBinding
+               contentTypeId="org.eclipse.core.runtime.text">
+         </contentTypeBinding>
+         <contentTypeBinding
+               contentTypeId="org.eclipse.core.runtime.xml">
+         </contentTypeBinding>
+      </editor>
+   </extension>
+   <extension
          point="org.eclipse.ui.newWizards">
       <category
             id="net.sf.graphiti.ui.newWizards.graphiti"
@@ -17,7 +39,7 @@
             name="Graph"
             project="false">
          <description>
-            Create a graph
+            Create an empty graph.
          </description>
       </wizard>
    </extension>
@@ -30,6 +52,20 @@
             id="net.sf.graphiti.ui.perspective"
             name="Graphiti">
       </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="net.sf.graphiti.ui.preferences.GraphitiPreferences"
+            id="net.sf.graphiti.ui.preferences.GraphitiPreferences"
+            name="Graphiti">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="net.sf.graphiti.ui.Startup">
+      </startup>
    </extension>
    <extension
          point="org.eclipse.ui.views">
@@ -61,42 +97,6 @@
             The Complex Properties view displays complex properties (of type list, map) associated with the current selection.
          </description>
       </view>
-   </extension>
-   <extension point="org.eclipse.ui.editors">
-      <editor
-            class="net.sf.graphiti.ui.editors.GraphEditor"
-            contributorClass="net.sf.graphiti.ui.editors.GraphActionBarContributor"
-            default="false"
-            icon="icons/graphiti.gif"
-            id="net.sf.graphiti.ui.editors.GraphEditor"
-            name="Graphiti graph editor">
-         <contentTypeBinding
-               contentTypeId="org.eclipse.core.runtime.text">
-         </contentTypeBinding>
-         <contentTypeBinding
-               contentTypeId="org.eclipse.core.runtime.xml">
-         </contentTypeBinding>
-      </editor>
-   </extension>
-   <extension
-         point="org.eclipse.ui.preferencePages">
-      <page
-            class="net.sf.graphiti.ui.preferences.GraphitiPreferences"
-            id="net.sf.graphiti.ui.preferences.GraphitiPreferences"
-            name="Graphiti">
-      </page>
-   </extension>
-   <extension
-         point="org.eclipse.core.runtime.preferences">
-      <initializer
-            class="net.sf.graphiti.ui.preferences.PreferenceInitializer">
-      </initializer>
-   </extension>
-   <extension
-         point="org.eclipse.ui.startup">
-      <startup
-            class="net.sf.graphiti.ui.Startup">
-      </startup>
    </extension>
 
 </plugin>

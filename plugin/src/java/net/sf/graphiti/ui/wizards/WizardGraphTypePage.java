@@ -39,6 +39,8 @@ import net.sf.graphiti.model.GraphType;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -55,11 +57,9 @@ import org.eclipse.swt.widgets.Label;
  */
 public class WizardGraphTypePage extends WizardPage {
 
-	private Configuration configuration;
+	private Map<String, GraphType> graphTypeNames;
 
-	private GraphType graphType;
-
-	private Map<GraphType, Configuration> graphTypes;
+	private Map<GraphType, Configuration> graphTypeConfigurations;
 
 	private Combo listGraphTypes;
 
@@ -72,8 +72,6 @@ public class WizardGraphTypePage extends WizardPage {
 		super("graphType");
 
 		setTitle("Choose graph type");
-		setDescription("Create a new graph with the chosen type.");
-
 		fillGraphTypes();
 	}
 
@@ -106,9 +104,7 @@ public class WizardGraphTypePage extends WizardPage {
 		listGraphTypes = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY
 				| SWT.SIMPLE);
 		Set<String> typeNames = new TreeSet<String>();
-		for (GraphType type : graphTypes.keySet()) {
-			typeNames.add(type.getName());
-		}
+		typeNames.addAll(graphTypeNames.keySet());
 
 		String[] items = typeNames.toArray(new String[] {});
 		listGraphTypes.setItems(items);
@@ -119,6 +115,10 @@ public class WizardGraphTypePage extends WizardPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setPageComplete(true);
+
+				IWizard wizard = getWizard();
+				IWizardPage page = wizard.getNextPage(WizardGraphTypePage.this);
+				updateSelection((IGraphTypeSettable) page);
 			}
 
 		});
@@ -130,51 +130,36 @@ public class WizardGraphTypePage extends WizardPage {
 	private void fillGraphTypes() {
 		List<Configuration> configurations = GraphitiPlugin.getDefault()
 				.getConfigurations();
-		graphTypes = new HashMap<GraphType, Configuration>();
-		for (Configuration config : configurations) {
-			Set<GraphType> graphTypes = config.getGraphTypes();
+		graphTypeConfigurations = new HashMap<GraphType, Configuration>();
+		graphTypeNames = new HashMap<String, GraphType>();
+
+		for (Configuration configuration : configurations) {
+			Set<GraphType> graphTypes = configuration.getGraphTypes();
 			for (GraphType type : graphTypes) {
-				this.graphTypes.put(type, config);
+				graphTypeConfigurations.put(type, configuration);
+
+				String fileExt = configuration.getFileFormat()
+						.getFileExtension();
+				graphTypeNames.put(type.getName() + " (*." + fileExt + ")",
+						type);
 			}
 		}
 	}
 
 	/**
-	 * Returns the configuration for the chosen graph type.
+	 * Calls {@link IGraphTypeSettable#setGraphType(Configuration, GraphType)}
+	 * on the given page with the selected graph type and associated
+	 * configuration.
 	 * 
-	 * @return The configuration for the chosen graph type.
+	 * @param page
+	 *            An {@link IGraphTypeSettable} page.
 	 */
-	public Configuration getConfiguration() {
-		if (configuration == null) {
-			updateSelection();
-		}
-
-		return configuration;
-	}
-
-	/**
-	 * Returns the chosen graph type.
-	 * 
-	 * @return The chosen graph type.
-	 */
-	public GraphType getGraphType() {
-		if (graphType == null) {
-			updateSelection();
-		}
-
-		return graphType;
-	}
-
-	private void updateSelection() {
+	private void updateSelection(IGraphTypeSettable page) {
 		int index = listGraphTypes.getSelectionIndex();
 		String graphType = listGraphTypes.getItem(index);
-		for (GraphType type : graphTypes.keySet()) {
-			String typeName = type.getName();
-			if (typeName.equals(graphType)) {
-				configuration = graphTypes.get(type);
-				this.graphType = type;
-				break;
-			}
-		}
+
+		GraphType type = graphTypeNames.get(graphType);
+		Configuration configuration = graphTypeConfigurations.get(type);
+		page.setGraphType(configuration, type);
 	}
 }

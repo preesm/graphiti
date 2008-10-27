@@ -14,7 +14,7 @@
     <refinementFileExtensions/>
 
     <graphTypes>
-        <graphType name="CAL actor (.cal)">
+        <graphType name="CAL actor">
             <attributes/>
             <parameters>
                 <parameter name="id" type="java.lang.String"/>
