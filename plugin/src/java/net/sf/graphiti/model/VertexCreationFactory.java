@@ -54,35 +54,11 @@ public class VertexCreationFactory implements CreationFactory {
 
 	@Override
 	public Object getNewObject() {
-		Vertex vertex = new Vertex(type);
-		setParameters(vertex, type);
-
-		return vertex;
+		return new Vertex(type);
 	}
 
 	@Override
 	public Object getObjectType() {
 		return Vertex.class;
-	}
-
-	/**
-	 * Sets parameter values to the given vertex, according to vertex type.
-	 * 
-	 * @param vertex
-	 *            The newly created vertex.
-	 * @param vertexType
-	 *            Its type as defined by the ontology.
-	 */
-	private void setParameters(Vertex vertex, VertexType vertexType) {
-		// TODO: here
-		// for (Parameter parameter : vertexType.hasParameters()) {
-		// if (!parameter.getName().equals("type")) {
-		// // everything but type, because type is constrained
-		// String parameterName = parameter.getName();
-		// for (ParameterValue paramValue : parameter.hasParameterValue()) {
-		// vertex.setValue(parameterName, paramValue.hasValue());
-		// }
-		// }
-		// }
 	}
 }

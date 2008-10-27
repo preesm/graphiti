@@ -28,6 +28,7 @@
  */
 package net.sf.graphiti.io;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -35,6 +36,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.xml.transform.TransformerException;
+
+import net.percederberg.grammatica.GrammarException;
+import net.percederberg.grammatica.parser.ParserCreationException;
+import net.percederberg.grammatica.parser.ParserLogException;
 import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
@@ -84,40 +90,57 @@ public class GenericGraphParser {
 	 * @param in
 	 *            The contents.
 	 * @return A {@link Graph} if successful.
-	 * @throws IncompatibleConfigurationFile
-	 *             If the configuration or file format is not compatible.
+	 * @throws ClassCastException
+	 *             If any specified class does not implement
+	 *             DOMImplementationSource
+	 * @throws ClassNotFoundException
+	 *             If any specified class can not be found
+	 * @throws GrammarException
+	 *             if the grammar wasn't valid
+	 * @throws IllegalAccessException
+	 *             If the default constructor of a specified class is not
+	 *             accessible
+	 * @throws InstantiationException
+	 *             If any specified class is an interface or abstract class
+	 * @throws IOException
+	 *             if the grammar file couldn't be read
+	 * @throws ParserCreationException
+	 *             if the parser couldn't be initialized correctly
+	 * @throws ParserLogException
+	 *             if the grammar file couldn't be parsed correctly
+	 * @throws TransformerException
+	 *             If an unrecoverable error occurs during the course of the
+	 *             transformation.
 	 */
 	private Graph parse(Configuration configuration, FileFormat format,
-			InputStream in) throws IncompatibleConfigurationFile {
+			InputStream in) throws ClassCastException, ClassNotFoundException,
+			GrammarException, IllegalAccessException, InstantiationException,
+			IOException, ParserCreationException, ParserLogException,
+			TransformerException {
 		List<String> transformations = format.getImportTransformations();
-		try {
-			Element element = null;
-			if (transformations.isEmpty()) {
-				element = DomHelper.parse(in).getDocumentElement();
-			} else {
-				for (String transformation : transformations) {
-					if (transformation.endsWith(".grammar")) {
-						GrammarTransformer transformer = new GrammarTransformer(
-								transformation);
-						element = transformer.parse(new InputStreamReader(in));
-					} else if (transformation.endsWith(".xslt")) {
-						// fills the element from the input stream
-						if (element == null) {
-							element = DomHelper.parse(in).getDocumentElement();
-						}
-
-						XsltTransformer transformer = new XsltTransformer(
-								transformation);
-						element = transformer.transformDomToDom(element);
+		Element element = null;
+		if (transformations.isEmpty()) {
+			element = DomHelper.parse(in).getDocumentElement();
+		} else {
+			for (String transformation : transformations) {
+				if (transformation.endsWith(".grammar")) {
+					GrammarTransformer transformer = new GrammarTransformer(
+							transformation);
+					element = transformer.parse(new InputStreamReader(in));
+				} else if (transformation.endsWith(".xslt")) {
+					// fills the element from the input stream
+					if (element == null) {
+						element = DomHelper.parse(in).getDocumentElement();
 					}
+
+					XsltTransformer transformer = new XsltTransformer(
+							transformation);
+					element = transformer.transformDomToDom(element);
 				}
 			}
-
-			return parseGraph(configuration, element);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new IncompatibleConfigurationFile(e);
 		}
+
+		return parseGraph(configuration, element);
 	}
 
 	/**
@@ -140,12 +163,39 @@ public class GenericGraphParser {
 			FileFormat format = configuration.getFileFormat();
 			if (format.getFileExtension().equals(fileExt)) {
 				try {
-					try {
-						return parse(configuration, format, file.getContents());
-					} catch (CoreException e) {
-						throw new IncompatibleConfigurationFile(e);
-					}
-				} catch (IncompatibleConfigurationFile e) {
+					return parse(configuration, format, file.getContents());
+				} catch (ClassCastException e) {
+					throw new IncompatibleConfigurationFile(
+							"There was a problem with the creation of a DOM document",
+							e);
+				} catch (ClassNotFoundException e) {
+					throw new IncompatibleConfigurationFile(
+							"A DOM class could not be found", e);
+				} catch (GrammarException e) {
+					throw new IncompatibleConfigurationFile(
+							"A grammar was not valid", e);
+				} catch (IllegalAccessException e) {
+					throw new IncompatibleConfigurationFile(
+							"A DOM class could not be accessed", e);
+				} catch (InstantiationException e) {
+					throw new IncompatibleConfigurationFile(
+							"A DOM class could not be instantiated", e);
+				} catch (IOException e) {
+					throw new IncompatibleConfigurationFile(
+							"The file could not be read", e);
+				} catch (ParserCreationException e) {
+					throw new IncompatibleConfigurationFile(
+							"The parser could not be created", e);
+				} catch (ParserLogException e) {
+					throw new IncompatibleConfigurationFile(
+							"There was a problem with the parser", e);
+				} catch (TransformerException e) {
+					throw new IncompatibleConfigurationFile(
+							"An unrecoverable error occurred during "
+									+ "the course of the transformation.", e);
+				} catch (CoreException e) {
+					throw new IncompatibleConfigurationFile(
+							"Could not obtain the file contents", e);
 				}
 			}
 		}
@@ -200,8 +250,7 @@ public class GenericGraphParser {
 	 *            The &lt;graph&gt; element.
 	 * @return A newly-created graph with the given configuration.
 	 */
-	private Graph parseGraph(Configuration configuration, Element element)
-			throws IncompatibleConfigurationFile {
+	private Graph parseGraph(Configuration configuration, Element element) {
 		String typeName = element.getAttribute("type");
 		GraphType type = configuration.getGraphType(typeName);
 		Graph graph = new Graph(configuration, type);

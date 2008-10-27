@@ -28,9 +28,6 @@
  */
 package net.sf.graphiti.ui.editors;
 
-import net.sf.graphiti.ui.actions.ConvertAction;
-import net.sf.graphiti.ui.actions.ConvertRetargetAction;
-
 import org.eclipse.gef.ui.actions.ActionBarContributor;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
@@ -65,17 +62,12 @@ public class GraphActionBarContributor extends ActionBarContributor {
 		addRetargetAction((RetargetAction) ActionFactory.REDO.create(iww));
 		addRetargetAction((RetargetAction) ActionFactory.UNDO.create(iww));
 
-		addRetargetAction(new ConvertRetargetAction());
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
 	}
 
 	@Override
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
-		toolBarManager.add(getAction(ConvertAction.getActionId()));
-		
-		toolBarManager.add(new Separator());
-		
 		toolBarManager.add(getAction(ActionFactory.UNDO.getId()));
 		toolBarManager.add(getAction(ActionFactory.REDO.getId()));
 		toolBarManager.add(getAction(ActionFactory.DELETE.getId()));

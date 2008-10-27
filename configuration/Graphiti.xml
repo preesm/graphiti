@@ -11,7 +11,7 @@
     </refinementFileExtensions>
 
     <graphTypes>
-        <graphType name="Graphiti native graph">
+        <graphType name="Graphiti native graph (.graphiti)">
             <attributes/>
             <parameters>
                 <parameter name="id" type="java.lang.String"/>

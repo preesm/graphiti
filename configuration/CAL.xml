@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    
+    <fileFormat extension="cal" type="text">
+        <import>
+            <transformation name="cal/cal.grammar"/>
+            <transformation name="cal/calToCalML.xslt"/>
+            <transformation name="cal/input_CalML.xslt"/>
+        </import>
+        
+        <export/>
+    </fileFormat>
+
+    <refinementFileExtensions/>
+
+    <graphTypes>
+        <graphType name="CAL actor (.cal)">
+            <attributes/>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+                <parameter name="actor parameter" type="java.util.List"/>
+                <parameter name="actor variable declaration" type="java.util.Map"/>
+            </parameters>
+        </graphType>
+    </graphTypes>
+
+    <vertexTypes>
+        <vertexType name="Input port">
+            <attributes>
+                <color red="0" green="60" blue="100"/>
+                <shape name="triangle"/>
+                <size width="30" height="30"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="Output port">
+            <attributes>
+                <color red="60" green="0" blue="100"/>
+                <shape name="triangle"/>
+                <size width="30" height="30"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+            </parameters>
+        </vertexType>
+    </vertexTypes>
+
+    <edgeTypes/>
+</configuration>

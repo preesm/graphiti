@@ -71,6 +71,9 @@
             id="net.sf.graphiti.ui.editors.GraphEditor"
             name="Graphiti graph editor">
          <contentTypeBinding
+               contentTypeId="org.eclipse.core.runtime.text">
+         </contentTypeBinding>
+         <contentTypeBinding
                contentTypeId="org.eclipse.core.runtime.xml">
          </contentTypeBinding>
       </editor>

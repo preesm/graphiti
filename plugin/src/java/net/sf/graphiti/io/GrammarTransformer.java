@@ -64,15 +64,15 @@ public class GrammarTransformer {
 	 * 
 	 * @param fileName
 	 *            The grammar file name.
+	 * @throws GrammarException
+	 *             if the grammar wasn't valid
 	 * @throws IOException
 	 *             if the grammar file couldn't be read
 	 * @throws ParserLogException
 	 *             if the grammar file couldn't be parsed correctly
-	 * @throws GrammarException
-	 *             if the grammar wasn't valid
 	 */
-	public GrammarTransformer(String fileName) throws IOException,
-			ParserLogException, GrammarException {
+	public GrammarTransformer(String fileName) throws GrammarException,
+			IOException, ParserLogException {
 		File file = FileLocator.getFile(fileName);
 		grammar = new Grammar(file);
 	}
@@ -121,15 +121,15 @@ public class GrammarTransformer {
 	 *             DOMImplementationSource
 	 * @throws ClassNotFoundException
 	 *             If any specified class can not be found
-	 * @throws InstantiationException
-	 *             If any specified class is an interface or abstract class
 	 * @throws IllegalAccessException
 	 *             If the default constructor of a specified class is not
 	 *             accessible
+	 * @throws InstantiationException
+	 *             If any specified class is an interface or abstract class
 	 */
 	private Element convertTreeToDom(Node root) throws ClassCastException,
-			ClassNotFoundException, InstantiationException,
-			IllegalAccessException {
+			ClassNotFoundException, IllegalAccessException,
+			InstantiationException {
 		// create document
 		Document document = DomHelper.createDocument("", root.getName());
 
@@ -150,27 +150,26 @@ public class GrammarTransformer {
 	 * @param reader
 	 *            A {@link Reader}.
 	 * @return The DOM document element of the parsed file XML representation.
-	 * @throws GrammarException
-	 *             if the tokenizer couldn't be created or initialized correctly
-	 * @throws ParserCreationException
-	 *             if the parser couldn't be initialized correctly
-	 * @throws ParserLogException
-	 *             if the input couldn't be parsed correctly
 	 * @throws ClassCastException
 	 *             If any specified class does not implement
 	 *             DOMImplementationSource
 	 * @throws ClassNotFoundException
 	 *             If any specified class can not be found
-	 * @throws InstantiationException
-	 *             If any specified class is an interface or abstract class
+	 * @throws GrammarException
+	 *             if the tokenizer couldn't be created or initialized correctly
 	 * @throws IllegalAccessException
 	 *             If the default constructor of a specified class is not
 	 *             accessible
+	 * @throws InstantiationException
+	 *             If any specified class is an interface or abstract class
+	 * @throws ParserCreationException
+	 *             if the parser couldn't be initialized correctly
+	 * @throws ParserLogException
+	 *             if the input couldn't be parsed correctly
 	 */
-	public Element parse(Reader reader) throws GrammarException,
-			ParserCreationException, ParserLogException, ClassCastException,
-			ClassNotFoundException, InstantiationException,
-			IllegalAccessException {
+	public Element parse(Reader reader) throws ClassCastException,
+			ClassNotFoundException, GrammarException, IllegalAccessException,
+			InstantiationException, ParserCreationException, ParserLogException {
 		Tokenizer tokenizer = grammar.createTokenizer(reader);
 		Parser parser = grammar.createParser(tokenizer);
 		Node tree = parser.parse();

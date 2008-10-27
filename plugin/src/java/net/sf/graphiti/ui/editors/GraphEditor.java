@@ -45,7 +45,6 @@ import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.ui.GraphitiPlugin;
-import net.sf.graphiti.ui.actions.ConvertAction;
 import net.sf.graphiti.ui.actions.CopyAction;
 import net.sf.graphiti.ui.actions.CutAction;
 import net.sf.graphiti.ui.actions.OpenRefinementNewTabAction;
@@ -194,9 +193,9 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		super.createActions();
 
 		ActionRegistry registry = getActionRegistry();
-		Class<?> actions[] = { ConvertAction.class, CopyAction.class,
-				CutAction.class, OpenRefinementNewTabAction.class,
-				PasteAction.class, PrintAction.class, SelectAllAction.class,
+		Class<?> actions[] = { CopyAction.class, CutAction.class,
+				OpenRefinementNewTabAction.class, PasteAction.class,
+				PrintAction.class, SelectAllAction.class,
 				SetRefinementAction.class };
 
 		// Constructs all actions

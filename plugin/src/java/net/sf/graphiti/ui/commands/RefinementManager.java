@@ -167,21 +167,6 @@ public class RefinementManager {
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
 			IResource resource = workspace.getRoot().findMember(path);
 			if (resource instanceof IFile) {
-				String[] fileExts = vertex.getConfiguration()
-						.getRefinementFileExtensions();
-				IFile file = (IFile) resource;
-				for (String fileExt : fileExts) {
-					if (file.getFileExtension().equals(fileExt)) {
-						try {
-							resource.setSessionProperty(new QualifiedName(
-									"net.sf.graphiti", "format"), fileExt);
-						} catch (CoreException e) {
-							e.printStackTrace();
-						}
-						break;
-					}
-				}
-
 				return (IFile) resource;
 			} else {
 				return null;

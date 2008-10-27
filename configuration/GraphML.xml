@@ -14,7 +14,7 @@
     <refinementFileExtensions/>
 
     <graphTypes>
-        <graphType name="GraphML graph">
+        <graphType name="GraphML graph (.graphml)">
             <attributes/>
             <parameters>
                 <parameter name="type" type="java.lang.String"/>

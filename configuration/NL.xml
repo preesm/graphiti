@@ -23,7 +23,7 @@
     </refinementFileExtensions>
 
     <graphTypes>
-        <graphType name="Network (NL - Network Language)">
+        <graphType name="Network (.nl)">
             <attributes/>
             <parameters>
                 <parameter name="id" type="java.lang.String"/>

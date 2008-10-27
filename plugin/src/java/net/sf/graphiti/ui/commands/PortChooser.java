@@ -33,13 +33,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.graphiti.model.FileFormat;
+import net.sf.graphiti.io.GenericGraphParser;
+import net.sf.graphiti.io.IncompatibleConfigurationFile;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -141,17 +144,18 @@ public class PortChooser {
 	 * @param exception
 	 *            An exception.
 	 */
-	// private void errorMessage(String message, Throwable exception) {
-	// IWorkbench workbench = PlatformUI.getWorkbench();
-	// IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-	// Shell shell = window.getShell();
-	//
-	// IStatus status = new Status(IStatus.ERROR, GraphitiPlugin.PLUGIN_ID,
-	// message, exception);
-	// ErrorDialog dialog = new ErrorDialog(shell, "Error", message, status,
-	// IStatus.ERROR);
-	// dialog.open();
-	// }
+	private void errorMessage(String message, Throwable exception) {
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		Shell shell = window.getShell();
+
+		IStatus status = new Status(IStatus.ERROR, GraphitiPlugin.PLUGIN_ID,
+				message, exception);
+		ErrorDialog dialog = new ErrorDialog(shell, "Error", message, status,
+				IStatus.ERROR);
+		dialog.open();
+	}
+
 	/**
 	 * Returns a port name from the current vertex (set by getSourcePort or
 	 * getTargetPort).
@@ -219,21 +223,13 @@ public class PortChooser {
 	 */
 	private List<String> getPorts(IFile sourceFile, String portType) {
 		// refinement graph
+		GenericGraphParser parser = new GenericGraphParser(GraphitiPlugin
+				.getDefault().getConfigurations());
 		Graph graph = null;
-
-		// get file format
-		FileFormat format = null;
 		try {
-			format = (FileFormat) sourceFile
-					.getSessionProperty(new QualifiedName("net.sf.graphiti",
-							"format"));
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-
-		// parse according to format
-		if (format != null) {
-			graph = parseRefinement(format, sourceFile);
+			graph = parser.parse(sourceFile);
+		} catch (IncompatibleConfigurationFile e) {
+			errorMessage(e.getMessage(), e.getCause());
 		}
 
 		// get ports from graph
@@ -243,7 +239,7 @@ public class PortChooser {
 			Set<Vertex> vertices = graph.vertexSet();
 			List<String> ports = new ArrayList<String>();
 			for (Vertex vertex : vertices) {
-				if (vertex.getType().equals(portType)) {
+				if (vertex.getType().getName().equals(portType)) {
 					String id = (String) vertex.getValue(Vertex.PARAMETER_ID);
 					ports.add(id);
 				}
@@ -284,69 +280,5 @@ public class PortChooser {
 		} else {
 			return port;
 		}
-	}
-
-	/**
-	 * Parses the given file using the given file format. The file format can
-	 * contain a grammar, in which case the file is parsed with Grammatica,
-	 * transformed using XSLT, and parsed with Graphiti. Otherwise, no
-	 * pre-parsing takes place, and the file is simply parsed with Graphiti.
-	 * 
-	 * @param format
-	 *            The file format.
-	 * @param sourceFile
-	 *            The file to parse
-	 * @return A graph (or <code>null</code> if there was a parsing problem).
-	 */
-	private Graph parseRefinement(FileFormat format, IFile sourceFile) {
-		Graph graph = null;
-
-		// TODO: here!
-		// String grammar = format.getGrammar();
-		// GenericGraphFileParser parser = new GenericGraphFileParser(
-		// GraphitiPlugin.getDefault().getConfigurations());
-		//
-		// if (grammar.isEmpty()) {
-		// try {
-		// graph = parser.parse(sourceFile);
-		// } catch (IncompatibleConfigurationFile e) {
-		// errorMessage("The graph could not be parsed", e);
-		// }
-		// } else {
-		//
-		// // parse and transform
-		// try {
-		// InputStream is = sourceFile.getContents();
-		// Element source = new GrammarTransformer(grammar)
-		// .parse(new InputStreamReader(is));
-		// XsltTransformer tr = new XsltTransformer(format.getXslt());
-		// Element target = tr.transformDomToDom(source, "dummy");
-		// graph = parser.parse(target);
-		// } catch (CoreException e) {
-		// errorMessage("Could not obtain the file contents", e);
-		// } catch (ClassCastException e) {
-		// errorMessage(
-		// "There was a problem with the creation of a DOM document",
-		// e);
-		// } catch (GrammarException e) {
-		// errorMessage("The grammar \"" + grammar + "\" was not valid", e);
-		// } catch (ParserCreationException e) {
-		// errorMessage("The parser could not be created", e);
-		// } catch (ParserLogException e) {
-		// errorMessage("There was a problem with the parser", e);
-		// } catch (ClassNotFoundException e) {
-		// errorMessage("A DOM class could not be found", e);
-		// } catch (InstantiationException e) {
-		// errorMessage("A DOM class could not be instantiated", e);
-		// } catch (IllegalAccessException e) {
-		// errorMessage("A DOM class could not be accessed", e);
-		// } catch (IOException e) {
-		// errorMessage("The file could not be read", e);
-		// } catch (IncompatibleConfigurationFile e) {
-		// errorMessage("The graph could not be parsed", e);
-		// }
-		// }
-
-		return graph;
 	}
 }
