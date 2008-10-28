@@ -25,11 +25,42 @@
             <!-- hierarchical connections and component references -->
             <xsl:element name="vertices">
                 <xsl:apply-templates select="spirit:componentInstances"/>
+                <xsl:apply-templates select="spirit:hierConnections" mode="vertex"/>
             </xsl:element>
             
             <!-- Interconnections -->
             <xsl:element name="edges">
                 <xsl:apply-templates select="spirit:interconnections"/>
+                <xsl:apply-templates select="spirit:hierConnections" mode="edge"/>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
+    <!-- template for the hierarchical connections -->
+    <!-- Adding not only a hierarchical port but also  -->
+    <!-- a connection to the associated component reference -->
+    <xsl:template match="spirit:hierConnection" mode="vertex">
+        <xsl:element name="vertex">
+            <xsl:attribute name="type">hierConnection</xsl:attribute>
+            <xsl:element name="parameters">
+                <xsl:element name="parameter">
+                    <xsl:attribute name="name">id</xsl:attribute>
+                    <xsl:attribute name="value" select="@spirit:interfaceRef"/>
+                </xsl:element>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="spirit:hierConnection" mode="edge">
+        <xsl:element name="edge">
+            <xsl:attribute name="type">hierConnection</xsl:attribute>
+            <xsl:attribute name="source" select="spirit:activeInterface[1]/@spirit:componentRef"/>
+            <xsl:attribute name="target" select="@spirit:interfaceRef"/>
+            <xsl:element name="parameters">
+                <xsl:element name="parameter">
+                    <xsl:attribute name="name">source port</xsl:attribute>
+                    <xsl:attribute name="value"><xsl:value-of select="spirit:activeInterface[1]/@spirit:busRef"/></xsl:attribute>
+                </xsl:element>
             </xsl:element>
         </xsl:element>
     </xsl:template>
@@ -118,6 +149,7 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
+    
     
     <!-- Top-level: ip-xact -> graph -->
     <!--
