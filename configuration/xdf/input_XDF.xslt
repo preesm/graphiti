@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:fn="http://www.w3.org/2005/xpath-functions"
+    xmlns:graphiti="http://graphiti-editor.sourceforge.net/"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+
+    <xsl:import href="../Graphiti-commons.xslt"/>
 
     <xsl:import href="../cal/exprToString.xslt"/>
 
@@ -10,6 +13,8 @@
 
     <!-- Top-level: XDF -> graph -->
     <xsl:template match="XDF">
+        <xsl:variable name="layout" select="graphiti:getLayout(.)"/>
+
         <xsl:element name="graph">
             <xsl:attribute name="type">XML Dataflow Network</xsl:attribute>
 
@@ -31,8 +36,12 @@
             </xsl:element>
 
             <xsl:element name="vertices">
-                <xsl:apply-templates select="Port"/>
-                <xsl:apply-templates select="Instance"/>
+                <xsl:apply-templates select="Port">
+                    <xsl:with-param name="layout" select="$layout"/>
+                </xsl:apply-templates>
+                <xsl:apply-templates select="Instance">
+                    <xsl:with-param name="layout" select="$layout"/>
+                </xsl:apply-templates>
             </xsl:element>
 
             <xsl:element name="edges">
@@ -62,8 +71,10 @@
 
     <!-- Input/output ports -->
     <xsl:template match="Port">
+        <xsl:param name="layout"/>
         <xsl:element name="vertex">
             <xsl:attribute name="type" select="fn:concat(@kind, ' port')"/>
+            <xsl:value-of select="graphiti:getVertexLayoutAttributes($layout, @name)"/>
             <xsl:element name="parameters">
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">id</xsl:attribute>
@@ -75,8 +86,10 @@
 
     <!-- Instances -->
     <xsl:template match="Instance">
+        <xsl:param name="layout"/>
         <xsl:element name="vertex">
             <xsl:attribute name="type">Instance</xsl:attribute>
+            <xsl:value-of select="graphiti:getVertexLayoutAttributes($layout, @id)"/>
             <xsl:element name="parameters">
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">id</xsl:attribute>
