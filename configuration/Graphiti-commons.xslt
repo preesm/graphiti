@@ -3,25 +3,24 @@
     xmlns:graphiti="http://graphiti-editor.sourceforge.net/"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     
-    <xsl:function name="graphiti:getLayout">
-        <xsl:param name="context"/>
-        <xsl:variable name="base" select="fn:base-uri($context)"/>
+    <xsl:function as="item()" name="graphiti:getLayout">
+        <xsl:param name="path"></xsl:param>
         <!-- For some unknown reason (bug?), I cannot use \\. in the regexp below.
             However [.] works nicely. -->
-        <xsl:variable name="file" select="fn:replace($base, '(.+)[.].+', '$1.layout')"/>
-        <xsl:value-of select="document($file)/layout"/>
+        <xsl:variable name="file" select="fn:replace($path, '(.+)[.].+', '$1.layout')"/>
+        <xsl:copy-of select="document($file)"/>
     </xsl:function>
     
-    <xsl:function name="graphiti:getVertexLayoutAttributes">
+    <xsl:template name="graphiti:getVertexLayoutAttributes">
         <xsl:param name="layout"/>
         <xsl:param name="vertexId"/>
         <xsl:if test="not(empty($layout))">
-            <xsl:variable name="vertex" select="$layout/vertices/vertex[@id = $vertexId]"/>
+            <xsl:variable name="vertex" select="$layout/layout/vertices/vertex[@id = $vertexId]"/>
             <xsl:if test="not(empty($vertex))">
-                <xsl:attribute name="x" select="$vertex/@x"></xsl:attribute>
-                <xsl:attribute name="y" select="$vertex/@y"></xsl:attribute>
+                <xsl:attribute name="x" select="$vertex/@x"/>
+                <xsl:attribute name="y" select="$vertex/@y"/>
             </xsl:if>
         </xsl:if>
-    </xsl:function>
+    </xsl:template>
 
 </xsl:stylesheet>

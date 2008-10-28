@@ -34,6 +34,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javax.xml.transform.TransformerException;
@@ -55,6 +56,7 @@ import net.sf.graphiti.model.VertexType;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -80,6 +82,25 @@ public class GenericGraphParser {
 	}
 
 	/**
+	 * Checks that every vertex in <code>graph</code> has layout information. If
+	 * it is the case, the {@link Graph#PROPERTY_HAS_LAYOUT} is set to
+	 * <code>true</code>. Otherwise it is set to false.
+	 * 
+	 * @param graph
+	 */
+	private void checkLayout(Graph graph) {
+		Set<Vertex> vertices = graph.vertexSet();
+		for (Vertex vertex : vertices) {
+			if (vertex.getValue(Vertex.PROPERTY_SIZE) == null) {
+				graph.setValue(Graph.PROPERTY_HAS_LAYOUT, Boolean.FALSE);
+				return;
+			}
+		}
+
+		graph.setValue(Graph.PROPERTY_HAS_LAYOUT, Boolean.TRUE);
+	}
+
+	/**
 	 * With a given configuration and file format, try to parse the file
 	 * contents given as a byte input stream.
 	 * 
@@ -87,6 +108,8 @@ public class GenericGraphParser {
 	 *            A supposedly valid configuration for the given contents.
 	 * @param format
 	 *            A supposedly valid file format for the given contents.
+	 * @param path
+	 *            The file absolute path.
 	 * @param in
 	 *            The contents.
 	 * @return A {@link Graph} if successful.
@@ -113,10 +136,10 @@ public class GenericGraphParser {
 	 *             transformation.
 	 */
 	private Graph parse(Configuration configuration, FileFormat format,
-			InputStream in) throws ClassCastException, ClassNotFoundException,
-			GrammarException, IllegalAccessException, InstantiationException,
-			IOException, ParserCreationException, ParserLogException,
-			TransformerException {
+			String path, InputStream in) throws ClassCastException,
+			ClassNotFoundException, GrammarException, IllegalAccessException,
+			InstantiationException, IOException, ParserCreationException,
+			ParserLogException, TransformerException {
 		List<String> transformations = format.getImportTransformations();
 		Element element = null;
 		if (transformations.isEmpty()) {
@@ -135,6 +158,7 @@ public class GenericGraphParser {
 
 					XsltTransformer transformer = new XsltTransformer(
 							transformation);
+					transformer.setParameter("path", path);
 					element = transformer.transformDomToDom(element);
 				}
 			}
@@ -163,7 +187,8 @@ public class GenericGraphParser {
 			FileFormat format = configuration.getFileFormat();
 			if (format.getFileExtension().equals(fileExt)) {
 				try {
-					return parse(configuration, format, file.getContents());
+					return parse(configuration, format, file.getLocation()
+							.toString(), file.getContents());
 				} catch (ClassCastException e) {
 					throw new IncompatibleConfigurationFile(
 							"There was a problem with the creation of a DOM document",
@@ -260,6 +285,8 @@ public class GenericGraphParser {
 		node = parseParameters(graph, type, node);
 		node = parseVertices(graph, node);
 		node = parseEdges(graph, node);
+
+		checkLayout(graph);
 
 		return graph;
 	}
@@ -369,6 +396,17 @@ public class GenericGraphParser {
 				String typeName = ((Element) child).getAttribute("type");
 				VertexType type = configuration.getVertexType(typeName);
 				Vertex vertex = new Vertex(type);
+
+				// set layout information if present
+				String xAttr = ((Element) child).getAttribute("x");
+				String yAttr = ((Element) child).getAttribute("y");
+				if (!xAttr.isEmpty() && !yAttr.isEmpty()) {
+					int x = Integer.parseInt(xAttr);
+					int y = Integer.parseInt(yAttr);
+					vertex.setValue(Vertex.PROPERTY_SIZE, new Rectangle(x, y,
+							0, 0));
+				}
+
 				parseParameters(vertex, type, child.getFirstChild());
 				graph.addVertex(vertex);
 			}

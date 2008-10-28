@@ -54,6 +54,13 @@ public class Graph extends PropertyBean {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * String for the "hasLayout" property. This is a boolean property
+	 * indicating if the graph has layout information or not. If it has none,
+	 * the graph should be automatically laid out.
+	 */
+	public static final String PROPERTY_HAS_LAYOUT = "has layout";
+
+	/**
 	 * The configuration associated with this graph.
 	 */
 	Configuration configuration;

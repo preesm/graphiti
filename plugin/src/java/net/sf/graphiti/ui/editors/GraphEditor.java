@@ -411,7 +411,9 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 			viewer.setContents(status);
 		} else {
 			viewer.setContents(graph);
-			automaticallyLayout(PositionConstants.EAST);
+			if (!(Boolean) graph.getValue(Graph.PROPERTY_HAS_LAYOUT)) {
+				automaticallyLayout(PositionConstants.EAST);
+			}
 		}
 	}
 

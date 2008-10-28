@@ -10,10 +10,13 @@
     <xsl:output indent="yes" method="xml"/>
 
     <xsl:template match="text()"/>
+    
+    <xsl:param name="path"/>
+    
+    <xsl:variable name="layout" select="graphiti:getLayout($path)"/>
 
     <!-- Top-level: XDF -> graph -->
     <xsl:template match="XDF">
-        <xsl:variable name="layout" select="graphiti:getLayout(.)"/>
 
         <xsl:element name="graph">
             <xsl:attribute name="type">XML Dataflow Network</xsl:attribute>
@@ -36,12 +39,8 @@
             </xsl:element>
 
             <xsl:element name="vertices">
-                <xsl:apply-templates select="Port">
-                    <xsl:with-param name="layout" select="$layout"/>
-                </xsl:apply-templates>
-                <xsl:apply-templates select="Instance">
-                    <xsl:with-param name="layout" select="$layout"/>
-                </xsl:apply-templates>
+                <xsl:apply-templates select="Port"/>
+                <xsl:apply-templates select="Instance"/>
             </xsl:element>
 
             <xsl:element name="edges">
@@ -71,10 +70,14 @@
 
     <!-- Input/output ports -->
     <xsl:template match="Port">
-        <xsl:param name="layout"/>
         <xsl:element name="vertex">
             <xsl:attribute name="type" select="fn:concat(@kind, ' port')"/>
-            <xsl:value-of select="graphiti:getVertexLayoutAttributes($layout, @name)"/>
+            
+            <xsl:call-template name="graphiti:getVertexLayoutAttributes">
+                <xsl:with-param name="layout" select="$layout"/>
+                <xsl:with-param name="vertexId" select="@id"/>
+            </xsl:call-template>
+            
             <xsl:element name="parameters">
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">id</xsl:attribute>
@@ -86,10 +89,14 @@
 
     <!-- Instances -->
     <xsl:template match="Instance">
-        <xsl:param name="layout"/>
         <xsl:element name="vertex">
             <xsl:attribute name="type">Instance</xsl:attribute>
-            <xsl:value-of select="graphiti:getVertexLayoutAttributes($layout, @id)"/>
+            
+            <xsl:call-template name="graphiti:getVertexLayoutAttributes">
+                <xsl:with-param name="layout" select="$layout"/>
+                <xsl:with-param name="vertexId" select="@id"/>
+            </xsl:call-template>
+
             <xsl:element name="parameters">
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">id</xsl:attribute>

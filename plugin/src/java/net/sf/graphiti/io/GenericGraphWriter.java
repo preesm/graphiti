@@ -45,6 +45,7 @@ import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Vertex;
 
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -231,6 +232,13 @@ public class GenericGraphWriter {
 			Element vertexElement = document.createElement("vertex");
 			vertexElement.setAttribute("type", vertex.getType().getName());
 
+			// add layout information
+			Rectangle bounds = (Rectangle) vertex
+					.getValue(Vertex.PROPERTY_SIZE);
+			vertexElement.setAttribute("x", String.valueOf(bounds.x));
+			vertexElement.setAttribute("y", String.valueOf(bounds.y));
+
+			// and parameters
 			Element parameters = document.createElement("parameters");
 			vertexElement.appendChild(parameters);
 			writeParameters(vertex, vertex.getType(), parameters);

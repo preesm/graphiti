@@ -47,7 +47,6 @@ import net.sf.graphiti.util.FileLocator;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * This class provides methods to transform an XML file or a DOM element to:
@@ -84,6 +83,14 @@ public class XsltTransformer {
 	}
 
 	/**
+	 * Calls {@link Transformer#setParameter(String, Object)} on the underlying
+	 * {@link #transformer}.
+	 */
+	public void setParameter(String name, Object value) {
+		transformer.setParameter(name, value);
+	}
+
+	/**
 	 * Transforms the given DOM element (and its children) and returns the
 	 * result. The result element is in a different document than the source's
 	 * owner document.
@@ -112,27 +119,12 @@ public class XsltTransformer {
 		// create document
 		Document document = DomHelper.createDocument("", "dummy");
 		document.removeChild(document.getDocumentElement());
-		transformDomToDom(source, document);
-		return document.getDocumentElement();
-	}
 
-	/**
-	 * Transforms the given DOM element (and its children) and append the result
-	 * to the <code>target</code> node's children.
-	 * 
-	 * @param source
-	 *            The source element.
-	 * @param target
-	 *            The target node.
-	 * @throws TransformerException
-	 *             If an unrecoverable error occurs during the course of the
-	 *             transformation.
-	 */
-	public void transformDomToDom(Element source, Node target)
-			throws TransformerException {
 		Source xmlSource = new DOMSource(source);
-		Result outputTarget = new DOMResult(target);
+		Result outputTarget = new DOMResult(document);
 		transformer.transform(xmlSource, outputTarget);
+
+		return document.getDocumentElement();
 	}
 
 	/**
