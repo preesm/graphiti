@@ -63,7 +63,7 @@
     <!-- Input/output ports -->
     <xsl:template match="Port">
         <xsl:element name="vertex">
-            <xsl:attribute name="type"><xsl:value-of select="@kind"/> port</xsl:attribute>
+            <xsl:attribute name="type" select="fn:concat(@kind, ' port')"/>
             <xsl:element name="parameters">
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">id</xsl:attribute>

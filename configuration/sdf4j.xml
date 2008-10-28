@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    
+    <fileFormat extension="xml" type="text/xml">
+        <import>
+            <transformation name="sdf4j/input_sdf4j.xslt"/>
+        </import>
+        
+        <export>
+            <transformation name="sdf4j/output_sdf4j.xslt"/>
+        </export>
+    </fileFormat>
+
+    <refinementFileExtensions>
+        <fileExtension name="xml"/>
+    </refinementFileExtensions>
+
+    <graphTypes>
+        <graphType name="SDF Graph">
+            <attributes/>
+            <parameters>
+                <parameter name="graph parameter" type="java.util.List"/>
+                <parameter name="graph variable" type="java.util.Map"/>
+            </parameters>
+        </graphType>
+    </graphTypes>
+
+    <vertexTypes>
+        <vertexType name="Input port">
+            <attributes>
+                <color red="0" green="60" blue="100"/>
+                <shape name="triangle"/>
+                <size width="30" height="30"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="Output port">
+            <attributes>
+                <color red="60" green="0" blue="100"/>
+                <shape name="triangle"/>
+                <size width="30" height="30"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="Vertex">
+            <attributes>
+                <color red="163" green="0" blue="85"/>
+                <shape name="roundedBox"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+                <parameter name="actual parameter" type="java.util.Map"/>
+                <parameter name="refinement" type="java.lang.String"/>
+            </parameters>
+        </vertexType>
+    </vertexTypes>
+
+    <edgeTypes>
+        <edgeType name="Dataflow edge">
+            <attributes/>
+            <parameters>
+                <parameter name="source port" type="java.lang.String"/>
+                <parameter name="target port" type="java.lang.String"/>
+                <parameter name="source production" type="java.lang.Integer"/>
+                <parameter name="target consumption" type="java.lang.Integer"/>
+                <parameter name="delay" type="java.lang.Integer"/>
+            </parameters>
+        </edgeType>
+    </edgeTypes>
+</configuration>
