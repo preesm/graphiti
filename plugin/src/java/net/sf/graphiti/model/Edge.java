@@ -184,6 +184,17 @@ public class Edge extends PropertyBean {
 		this.target = target;
 	}
 
+	/**
+	 * Sets this edge's type. This method should be called with caution, as a
+	 * lot of things in the editor depend on this...
+	 * 
+	 * @param type
+	 *            The new type.
+	 */
+	public void setType(EdgeType type) {
+		this.type = type;
+	}
+
 	@Override
 	public String toString() {
 		return getType() + ": " + getSource() + " - " + getTarget() + " "

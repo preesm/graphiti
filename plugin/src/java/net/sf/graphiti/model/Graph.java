@@ -69,6 +69,8 @@ public class Graph extends PropertyBean {
 	 * 
 	 * @param configuration
 	 *            The configuration to use with this graph.
+	 * @param type
+	 *            The graph type.
 	 */
 	public Graph(Configuration configuration, GraphType type) {
 		this(configuration, type, true);
@@ -77,10 +79,12 @@ public class Graph extends PropertyBean {
 	/**
 	 * Creates a new graph, directed or not.
 	 * 
-	 * @param directed
-	 *            Specifies whether the graph should be directed or not.
 	 * @param configuration
 	 *            The configuration to use with this graph.
+	 * @param type
+	 *            The graph type.
+	 * @param directed
+	 *            Specifies whether the graph should be directed or not.
 	 */
 	public Graph(Configuration configuration, GraphType type, boolean directed) {
 		this.configuration = configuration;
@@ -90,6 +94,30 @@ public class Graph extends PropertyBean {
 			graph = new Multigraph<Vertex, Edge>(Edge.class);
 		}
 		vertices = new HashMap<String, Vertex>();
+		this.type = type;
+	}
+
+	/**
+	 * Creates a new empty graph with the same properties as the source graph
+	 * but configuration and type, that are overridden by the supplied
+	 * parameters.
+	 * 
+	 * @param graph
+	 *            The source graph.
+	 * @param configuration
+	 *            The configuration to use with this graph.
+	 * @param type
+	 *            The graph type.
+	 */
+	public Graph(Graph graph, Configuration configuration, GraphType type) {
+		super(graph);
+		this.configuration = configuration;
+		if (graph.isDirected()) {
+			this.graph = new DirectedMultigraph<Vertex, Edge>(Edge.class);
+		} else {
+			this.graph = new Multigraph<Vertex, Edge>(Edge.class);
+		}
+		this.vertices = new HashMap<String, Vertex>();
 		this.type = type;
 	}
 
@@ -193,6 +221,15 @@ public class Graph extends PropertyBean {
 	 */
 	public Set<Edge> incomingEdgesOf(Vertex vertex) {
 		return graph.incomingEdgesOf(vertex);
+	}
+
+	/**
+	 * Returns true if this graph is directed.
+	 * 
+	 * @return True if this graph is directed, false otherwise.
+	 */
+	public boolean isDirected() {
+		return graph instanceof DirectedMultigraph<?, ?>;
 	}
 
 	/**

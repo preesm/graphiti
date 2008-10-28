@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 
 /**
@@ -101,7 +102,7 @@ public class PropertyBean {
 			} else if (value instanceof List<?>) {
 				value = new ArrayList<Object>((List<?>) value);
 			} else if (value instanceof Map<?, ?>) {
-				value = new HashMap<String, Object>((Map<String, Object>) value);
+				value = new TreeMap<String, Object>((Map<String, Object>) value);
 			}
 
 			properties.put(entry.getKey(), value);

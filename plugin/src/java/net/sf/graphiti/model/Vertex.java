@@ -102,13 +102,6 @@ public class Vertex extends PropertyBean {
 	private VertexType type;
 
 	/**
-	 * Creates a new Vertex with no type.
-	 * 
-	 */
-	public Vertex() {
-	}
-
-	/**
 	 * Creates a new vertex which is a copy of the given vertex.
 	 * 
 	 * @param vertex
@@ -117,6 +110,7 @@ public class Vertex extends PropertyBean {
 	public Vertex(Vertex vertex) {
 		super(vertex);
 		parent = vertex.parent;
+		type = vertex.type;
 	}
 
 	/**
@@ -186,6 +180,17 @@ public class Vertex extends PropertyBean {
 	 */
 	public VertexType getType() {
 		return type;
+	}
+
+	/**
+	 * Sets this vertex's type. This method should be called with caution, as a
+	 * lot of things in the editor depend on this...
+	 * 
+	 * @param type
+	 *            The new type.
+	 */
+	public void setType(VertexType type) {
+		this.type = type;
 	}
 
 	@Override

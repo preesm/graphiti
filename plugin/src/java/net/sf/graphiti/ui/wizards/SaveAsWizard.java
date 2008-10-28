@@ -91,7 +91,9 @@ public class SaveAsWizard extends Wizard implements INewWizard {
 
 	@Override
 	public boolean performFinish() {
+		final WizardConvertPage convertPage = (WizardConvertPage) getPage("convertGraph");
 		final WizardSaveGraphPage page = (WizardSaveGraphPage) getPage("saveGraph");
+		page.setGraph(convertPage.getGraph());
 
 		IFile file = page.createNewFile();
 		if (file == null) {

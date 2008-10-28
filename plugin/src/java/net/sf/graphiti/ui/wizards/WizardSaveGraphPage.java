@@ -41,16 +41,14 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 /**
- * This class provides a page for the new graph wizard.
+ * This class provides a page for the save as graph wizard.
  * 
  * @author Matthieu Wipliez
  */
 public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 		IGraphTypeSettable {
 
-	private Configuration configuration;
-
-	private GraphType graphType;
+	private Graph graph;
 
 	/**
 	 * Constructor for {@link WizardSaveGraphPage}.
@@ -66,21 +64,29 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 
 	@Override
 	public InputStream getInitialContents() {
-		Graph graph = new Graph(configuration, graphType);
-
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		GenericGraphWriter writer = new GenericGraphWriter(graph);
 		writer.write(out);
 		return new ByteArrayInputStream(out.toByteArray());
 	}
 
+	/**
+	 * Sets a new graph for this page.
+	 * 
+	 * @param graph
+	 *            A {@link Graph}.
+	 */
+	public void setGraph(Graph graph) {
+		this.graph = graph;
+	}
+
 	@Override
-	public void setGraphType(Configuration configuration, GraphType graphType) {
-		this.configuration = configuration;
-		this.graphType = graphType;
+	public void setGraphType(Configuration configuration, GraphType type) {
+		// create an empty graph, may be overidden
+		graph = new Graph(configuration, type);
 
 		String fileExt = configuration.getFileFormat().getFileExtension();
-		setFileName("New " + graphType.getName() + "." + fileExt);
+		setFileName("New " + type.getName() + "." + fileExt);
 	}
 
 }
