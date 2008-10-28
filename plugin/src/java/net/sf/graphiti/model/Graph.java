@@ -49,16 +49,16 @@ import org.jgrapht.graph.Multigraph;
 public class Graph extends PropertyBean {
 
 	/**
-	 * Serial ID.
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * String for the "hasLayout" property. This is a boolean property
 	 * indicating if the graph has layout information or not. If it has none,
 	 * the graph should be automatically laid out.
 	 */
 	public static final String PROPERTY_HAS_LAYOUT = "has layout";
+
+	/**
+	 * Serial ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The configuration associated with this graph.

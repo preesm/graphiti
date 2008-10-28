@@ -152,19 +152,28 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	protected IFigure createFigure() {
 		Vertex vertex = (Vertex) getModel();
 
-		// Get dimension, color, shape
+		// Get default width and height
 		int width = (Integer) vertex.getAttribute(Vertex.ATTRIBUTE_WIDTH);
 		int height = (Integer) vertex.getAttribute(Vertex.ATTRIBUTE_HEIGHT);
 
+		// Get dimension, color, shape
 		Dimension dimension = new Dimension(width, height);
 		Color color = (Color) vertex.getAttribute(Vertex.ATTRIBUTE_COLOR);
 		IShape shape = (IShape) vertex.getAttribute(Vertex.ATTRIBUTE_SHAPE);
 		shape = shape.newShape();
 
+		// Creates the figure with the specified properties, sets its id
 		Font font = ((GraphicalEditPart) getParent()).getFigure().getFont();
 		VertexFigure figure = new VertexFigure(font, dimension, color, shape);
 		String id = (String) vertex.getValue(Vertex.PARAMETER_ID);
 		figure.setId(id);
+
+		// update the figure position (if the graph has layout information)
+		if ((Boolean) vertex.getParent().getValue(Graph.PROPERTY_HAS_LAYOUT)) {
+			figure.setBounds((Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE));
+		}
+
+		// update its size
 		updatePorts(figure);
 
 		return figure;
