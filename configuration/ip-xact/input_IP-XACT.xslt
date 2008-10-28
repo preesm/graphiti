@@ -9,9 +9,9 @@
     <xsl:template match="text()"/>
 
     <!-- Top-level: IP-XACT -> graph -->
-    <xsl:template match="IP-XACT">
+    <xsl:template match="ip-xact">
         <xsl:element name="graph">
-            <xsl:attribute name="type">Spirit IP-XACT architecture</xsl:attribute>
+            <xsl:attribute name="type">Spirit IP-XACT architecture graph</xsl:attribute>
             
             <xsl:element name="parameters">
             </xsl:element>

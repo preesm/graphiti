@@ -11,7 +11,7 @@
 
     <!-- Top-level: graph -> IP-XACT -->
     <xsl:template match="graph">
-        <xsl:element name="IP-XACT">
+        <xsl:element name="ip-xact">
             <xsl:attribute name="name" select="parameters/parameter[@name = 'id']/@value"/>
             <xsl:apply-templates select="vertices/vertex[@type = 'Input port']"/>
             <xsl:apply-templates select="vertices/vertex[@type = 'Output port']"/>
