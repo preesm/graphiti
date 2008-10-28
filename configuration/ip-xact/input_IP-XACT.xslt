@@ -9,10 +9,12 @@
 
     <xsl:template match="text()"/>
     
+    <!-- Top-level: design -->
     <xsl:template match="spirit:design">
         <xsl:element name="graph">
             <xsl:attribute name="type">Spirit IP-XACT design</xsl:attribute>
             
+            <!-- VLNV of the design -->
             <xsl:element name="parameters">
                 <xsl:apply-templates select="spirit:vendor"/>
                 <xsl:apply-templates select="spirit:library"/>
@@ -20,17 +22,19 @@
                 <xsl:apply-templates select="spirit:version"/>
             </xsl:element>
             
+            <!-- hierarchical connections and component references -->
             <xsl:element name="vertices">
                 <xsl:apply-templates select="spirit:componentInstances"/>
-                <xsl:apply-templates select="spirit:interconnections"/>
             </xsl:element>
             
+            <!-- Interconnections -->
             <xsl:element name="edges">
-                <xsl:apply-templates select="Connection"/>
+                <xsl:apply-templates select="spirit:interconnections"/>
             </xsl:element>
         </xsl:element>
     </xsl:template>
     
+    <!-- templates for the VLNV of the design -->
     <xsl:template match="spirit:vendor">
         <xsl:element name="parameter">
             <xsl:attribute name="name">vendor</xsl:attribute>
@@ -59,6 +63,7 @@
         </xsl:element>
     </xsl:template>
     
+    <!-- template for the component instances -->
     <xsl:template match="spirit:componentInstance">
         <xsl:element name="vertex">
             <xsl:attribute name="type">componentInstance</xsl:attribute>
@@ -86,6 +91,29 @@
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">refinement</xsl:attribute>
                     <xsl:attribute name="value"/>
+                </xsl:element>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
+    <!-- template for the interconnections -->
+    <xsl:template match="spirit:interconnection">
+        <xsl:element name="edge">
+            <xsl:attribute name="type">interconnection</xsl:attribute>
+            <xsl:attribute name="source" select="spirit:activeInterface[1]/@spirit:componentRef"/>
+            <xsl:attribute name="target" select="spirit:activeInterface[2]/@spirit:componentRef"/>
+            <xsl:element name="parameters">
+                <xsl:element name="parameter">
+                    <xsl:attribute name="name">id</xsl:attribute>
+                    <xsl:attribute name="value"><xsl:value-of select="spirit:name"/></xsl:attribute>
+                    <xsl:element name="parameter">
+                        <xsl:attribute name="name">source port</xsl:attribute>
+                        <xsl:attribute name="value">out</xsl:attribute>
+                    </xsl:element>
+                    <xsl:element name="parameter">
+                        <xsl:attribute name="name">target port</xsl:attribute>
+                        <xsl:attribute name="value">in</xsl:attribute>
+                    </xsl:element>
                 </xsl:element>
             </xsl:element>
         </xsl:element>

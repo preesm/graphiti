@@ -68,9 +68,10 @@
     </vertexTypes>
 
     <edgeTypes>
-        <edgeType name="Connection">
+        <edgeType name="interconnection">
             <attributes/>
             <parameters>
+                <parameter name="id" type="java.lang.String"/>
                 <parameter name="source port" type="java.lang.String"/>
                 <parameter name="target port" type="java.lang.String"/>
             </parameters>
