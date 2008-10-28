@@ -12,24 +12,10 @@
     <xsl:template match="IP-XACT">
         <xsl:element name="graph">
             <xsl:attribute name="type">Spirit IP-XACT architecture</xsl:attribute>
-
+            
             <xsl:element name="parameters">
-                <xsl:element name="parameter">
-                    <xsl:attribute name="name">id</xsl:attribute>
-                    <xsl:attribute name="value" select="@name"/>
-                </xsl:element>
-
-                <xsl:element name="parameter">
-                    <xsl:attribute name="name">network parameter</xsl:attribute>
-                    <xsl:apply-templates select="Decl[@kind = 'Param']"/>
-                </xsl:element>
-
-                <xsl:element name="parameter">
-                    <xsl:attribute name="name">network variable declaration</xsl:attribute>
-                    <xsl:apply-templates select="Decl[@kind = 'Variable']"/>
-                </xsl:element>
             </xsl:element>
-
+            
             <xsl:element name="vertices">
                 <xsl:apply-templates select="Port"/>
                 <xsl:apply-templates select="Instance"/>
@@ -38,25 +24,6 @@
             <xsl:element name="edges">
                 <xsl:apply-templates select="Connection"/>
             </xsl:element>
-        </xsl:element>
-    </xsl:template>
-
-    <!-- Parameter declarations -->
-    <xsl:template match="Decl[@kind = 'Param']">
-        <xsl:element name="element">
-            <xsl:attribute name="value">
-                <xsl:value-of select="@name"/>
-            </xsl:attribute>
-        </xsl:element>
-    </xsl:template>
-
-    <!-- Variable declarations -->
-    <xsl:template match="Decl[@kind = 'Variable']">
-        <xsl:element name="entry">
-            <xsl:attribute name="key" select="@name"/>
-            <xsl:attribute name="value">
-                <xsl:apply-templates select="Expr"/>
-            </xsl:attribute>
         </xsl:element>
     </xsl:template>
 
@@ -94,36 +61,12 @@
         </xsl:element>
     </xsl:template>
 
-    <!-- Parameter instantiations -->
-    <xsl:template match="Parameter">
-        <xsl:element name="entry">
-            <xsl:attribute name="key" select="@name"/>
-            <xsl:attribute name="value">
-                <xsl:apply-templates select="Expr"/>
-            </xsl:attribute>
-        </xsl:element>
-    </xsl:template>
-
     <!-- Connections -->
     <xsl:template match="Connection">
         <xsl:element name="edge">
             <xsl:attribute name="type">Connection</xsl:attribute>
-            <xsl:choose>
-                <xsl:when test="@src = ''">
-                    <xsl:attribute name="source" select="@src-port"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:attribute name="source" select="@src"/>
-                </xsl:otherwise>
-            </xsl:choose>
-            <xsl:choose>
-                <xsl:when test="@dst = ''">
-                    <xsl:attribute name="target" select="@dst-port"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:attribute name="target" select="@dst"/>
-                </xsl:otherwise>
-            </xsl:choose>
+            <xsl:attribute name="source" select="@src"/>
+            <xsl:attribute name="target" select="@dst"/>
             <xsl:element name="parameters">
                 <xsl:if test="@src != ''">
                     <xsl:element name="parameter">

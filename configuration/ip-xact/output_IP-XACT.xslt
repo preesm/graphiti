@@ -20,7 +20,7 @@
             <xsl:apply-templates select="edges/edge"/>
         </xsl:element>
     </xsl:template>
-
+    
     <!-- Parameter declarations -->
     <xsl:template match="parameter[@name = 'network parameter']/element">
         <xsl:element name="Decl">
@@ -28,18 +28,7 @@
             <xsl:attribute name="name" select="@value"/>
         </xsl:element>
     </xsl:template>
-
-    <!-- Variable declarations -->
-    <xsl:template match="parameter[@name = 'network variable declaration']/entry">
-        <xsl:element name="Decl">
-            <xsl:attribute name="kind">Variable</xsl:attribute>
-            <xsl:attribute name="name" select="@key"/>
-            <xsl:variable name="gt" select="grammar:new('cal/expr.grammar')"/>
-            <xsl:variable name="concreteTree" select="grammar:parseString($gt, @value)"/>
-            <xsl:apply-templates select="$concreteTree"/>
-        </xsl:element>
-    </xsl:template>
-
+    
     <!-- Input/output ports -->
     <xsl:template match="vertex[@type='Input port']">
         <xsl:element name="Port">
@@ -59,21 +48,7 @@
     <xsl:template match="vertex[@type='Instance']">
         <xsl:element name="Instance">
             <xsl:attribute name="id" select="parameters/parameter[@name = 'id']/@value"/>
-            <xsl:element name="Class">
-                <xsl:attribute name="name"
-                    select="parameters/parameter[@name = 'refinement']/@value"/>
-            </xsl:element>
             <xsl:apply-templates select="parameters/parameter[@name = 'instance parameter']"/>
-        </xsl:element>
-    </xsl:template>
-
-    <!-- Parameter instantiations -->
-    <xsl:template match="parameter[@name = 'instance parameter']/entry">
-        <xsl:element name="Parameter">
-            <xsl:attribute name="name" select="@key"/>
-            <xsl:variable name="gt" select="grammar:new('cal/expr.grammar')"/>
-            <xsl:variable name="concreteTree" select="grammar:parseString($gt, @value)"/>
-            <xsl:apply-templates select="$concreteTree"/>
         </xsl:element>
     </xsl:template>
 

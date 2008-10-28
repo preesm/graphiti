@@ -20,8 +20,6 @@
             <attributes/>
             <parameters>
                 <parameter name="id" type="java.lang.String"/>
-                <parameter name="network parameter" type="java.util.List"/>
-                <parameter name="network variable declaration" type="java.util.Map"/>
             </parameters>
         </graphType>
     </graphTypes>
