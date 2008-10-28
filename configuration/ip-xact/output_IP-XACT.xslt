@@ -9,7 +9,7 @@
 
     <xsl:template match="text()"/>
 
-    <!-- Top-level: graph -> IP-XACT -->
+    <!-- Top-level: graph -> ip-xact -->
     <xsl:template match="graph">
         <xsl:element name="ip-xact">
             <xsl:attribute name="name" select="parameters/parameter[@name = 'id']/@value"/>

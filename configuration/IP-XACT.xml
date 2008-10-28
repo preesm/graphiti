@@ -16,9 +16,14 @@
     </refinementFileExtensions>
 
     <graphTypes>
-        <graphType name="Spirit IP-XACT architecture graph">
+        <graphType name="Spirit IP-XACT design">
             <attributes/>
-            <parameters/>
+            <parameters>
+                <parameter name="vendor" type="java.lang.String"/>
+                <parameter name="library" type="java.lang.String"/>
+                <parameter name="name" type="java.lang.String"/>
+                <parameter name="version" type="java.lang.String"/>
+            </parameters>
         </graphType>
     </graphTypes>
 
