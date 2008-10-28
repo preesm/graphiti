@@ -68,6 +68,10 @@
                     <xsl:attribute name="value"><xsl:value-of select="spirit:instanceName"/></xsl:attribute>
                 </xsl:element>
                 <xsl:element name="parameter">
+                    <xsl:attribute name="name">vendor</xsl:attribute>
+                    <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:vendor"/></xsl:attribute>
+                </xsl:element>
+                <xsl:element name="parameter">
                     <xsl:attribute name="name">library</xsl:attribute>
                     <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:library"/></xsl:attribute>
                 </xsl:element>
@@ -76,16 +80,12 @@
                     <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:name"/></xsl:attribute>
                 </xsl:element>
                 <xsl:element name="parameter">
-                    <xsl:attribute name="name">vendor</xsl:attribute>
-                    <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:vendor"/></xsl:attribute>
-                </xsl:element>
-                <xsl:element name="parameter">
                     <xsl:attribute name="name">version</xsl:attribute>
                     <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:version"/></xsl:attribute>
                 </xsl:element>
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">refinement</xsl:attribute>
-                    <xsl:attribute name="value" select="Class/@name"/>
+                    <xsl:attribute name="value"/>
                 </xsl:element>
             </xsl:element>
         </xsl:element>

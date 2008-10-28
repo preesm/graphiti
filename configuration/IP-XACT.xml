@@ -50,7 +50,7 @@
             </parameters>
         </vertexType>
 
-        <vertexType name="Instance">
+        <vertexType name="componentInstance">
             <attributes>
                 <color red="163" green="0" blue="85"/>
                 <shape name="roundedBox"/>
@@ -58,7 +58,10 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String"/>
-                <parameter name="instance parameter" type="java.util.Map"/>
+                <parameter name="vendor" type="java.lang.String"/>
+                <parameter name="library" type="java.lang.String"/>
+                <parameter name="name" type="java.lang.String"/>
+                <parameter name="version" type="java.lang.String"/>
                 <parameter name="refinement" type="java.lang.String"/>
             </parameters>
         </vertexType>
