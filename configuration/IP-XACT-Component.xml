@@ -28,7 +28,7 @@
     </graphTypes>
 
     <vertexTypes>
-        <vertexType name="hierConnection">
+        <vertexType name="busInterface">
             <attributes>
                 <color red="0" green="60" blue="100"/>
                 <shape name="roundedBox"/>
@@ -39,7 +39,7 @@
             </parameters>
         </vertexType>
 
-        <vertexType name="componentInstance">
+        <vertexType name="subDesign">
             <attributes>
                 <color red="163" green="0" blue="85"/>
                 <shape name="roundedBox"/>
@@ -57,20 +57,5 @@
     </vertexTypes>
 
     <edgeTypes>
-        <edgeType name="interconnection">
-            <attributes/>
-            <parameters>
-                <parameter name="id" type="java.lang.String"/>
-                <parameter name="source port" type="java.lang.String"/>
-                <parameter name="target port" type="java.lang.String"/>
-            </parameters>
-        </edgeType>
-        
-        <edgeType name="hierConnection">
-            <attributes/>
-            <parameters>
-                <parameter name="source port" type="java.lang.String"/>
-            </parameters>
-        </edgeType>
     </edgeTypes>
 </configuration>
