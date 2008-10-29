@@ -1,48 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:fn="http://www.w3.org/2005/xpath-functions"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 
     <xsl:output indent="yes" method="xml"/>
 
     <xsl:template match="text()"/>
 
     <xsl:template match="Atom/token[@name = 'IDENTIFIER']">
-        <xsl:element name="Expr">
-            <xsl:attribute name="kind">Var</xsl:attribute>
-            <xsl:attribute name="name">
-                <xsl:value-of select="text()"/>
-            </xsl:attribute>
-        </xsl:element>
+        <Expr kind="Var">
+            <xsl:attribute name="name" select="text()"/>
+        </Expr>
     </xsl:template>
 
     <xsl:template match="Atom/token[@name = 'NUMBER']">
-        <xsl:element name="Expr">
-            <xsl:attribute name="kind">Literal</xsl:attribute>
-            <xsl:attribute name="literal-kind">Integer</xsl:attribute>
-            <xsl:attribute name="value">
-                <xsl:value-of select="text()"/>
-            </xsl:attribute>
-        </xsl:element>
+        <Expr kind="Literal" literal-kind="Integer">
+            <xsl:attribute name="value" select="text()"/>
+        </Expr>
     </xsl:template>
 
     <xsl:template match="Atom/token[@name = 'STRING']">
         <xsl:variable name="textValue" select="text()"/>
-        <xsl:element name="Expr">
-            <xsl:attribute name="kind">Literal</xsl:attribute>
-            <xsl:attribute name="literal-kind">String</xsl:attribute>
-            <xsl:attribute name="value">
-                <xsl:value-of select="fn:substring($textValue, 2, fn:string-length($textValue) - 2)"
-                />
-            </xsl:attribute>
-        </xsl:element>
+        <Expr kind="Literal" literal-kind="String">
+            <xsl:attribute name="value"
+                select="substring($textValue, 2, string-length($textValue) - 2)"/>
+        </Expr>
     </xsl:template>
 
     <xsl:template match="ExpressionRest">
-        <xsl:element name="Op">
-            <xsl:attribute name="name">
-                <xsl:value-of select="token/text()"/>
-            </xsl:attribute>
-        </xsl:element>
+        <Op>
+            <xsl:attribute name="name" select="token/text()"/>
+        </Op>
         <xsl:apply-templates/>
     </xsl:template>
 

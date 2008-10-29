@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:fn="http://www.w3.org/2005/xpath-functions"
-    xmlns:graphml="http://graphml.graphdrawing.org/xmlns/1.0rc"
+<xsl:stylesheet xmlns:graphml="http://graphml.graphdrawing.org/xmlns/1.0rc"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 
     <xsl:output indent="yes" method="xml"/>
@@ -8,7 +7,7 @@
     <xsl:template match="text()"/>
 
     <!-- Top-level: graph -> graph -->
-    <xsl:template match="graphml:graph[fn:position() = 1 and @edgedefault = 'directed']">
+    <xsl:template match="graphml:graph[position() = 1 and @edgedefault = 'directed']">
         <xsl:element name="graph">
             <xsl:attribute name="type">SDF Graph</xsl:attribute>
 
@@ -89,7 +88,7 @@
     <!-- input/output port -->
     <xsl:template match="graphml:node[@kind = 'port']">
         <xsl:element name="vertex">
-            <xsl:attribute name="type" select="fn:concat(@port_direction, ' port')"/>
+            <xsl:attribute name="type" select="concat(@port_direction, ' port')"/>
             <xsl:element name="parameters">
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">id</xsl:attribute>

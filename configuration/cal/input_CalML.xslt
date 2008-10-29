@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:fn="http://www.w3.org/2005/xpath-functions"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
-    
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+
     <xsl:import href="exprToString.xslt"/>
 
     <xsl:output indent="yes" method="xml"/>
@@ -10,64 +9,56 @@
 
     <!-- Top-level: Actor -> graph -->
     <xsl:template match="Actor">
-        <xsl:element name="graph">
-            <xsl:attribute name="type">CAL actor</xsl:attribute>
-
-            <xsl:element name="parameters">
-                <xsl:element name="parameter">
-                    <xsl:attribute name="name">id</xsl:attribute>
+        <graph type="CAL actor">
+            <parameters>
+                <parameter name="id">
                     <xsl:attribute name="value" select="@name"/>
-                </xsl:element>
+                </parameter>
 
-                <xsl:element name="parameter">
-                    <xsl:attribute name="name">actor parameter</xsl:attribute>
+                <parameter name="actor parameter">
                     <xsl:apply-templates select="Decl[@kind = 'Parameter']"/>
-                </xsl:element>
+                </parameter>
 
-                <xsl:element name="parameter">
-                    <xsl:attribute name="name">actor variable declaration</xsl:attribute>
+                <parameter name="actor variable declaration">
                     <xsl:apply-templates select="Decl[@kind = 'Variable']"/>
-                </xsl:element>
-            </xsl:element>
+                </parameter>
+            </parameters>
 
-            <xsl:element name="vertices">
+            <vertices>
                 <xsl:apply-templates select="Port"/>
-            </xsl:element>
-            
-            <xsl:element name="edges"/>
-        </xsl:element>
+            </vertices>
+
+            <edges/>
+        </graph>
     </xsl:template>
 
     <!-- Parameter declarations -->
     <xsl:template match="Decl[@kind = 'Parameter']">
-        <xsl:element name="element">
-            <xsl:attribute name="value">
-                <xsl:value-of select="@name"/>
-            </xsl:attribute>
-        </xsl:element>
+        <element>
+            <xsl:attribute name="value" select="@name"/>
+        </element>
     </xsl:template>
 
     <!-- Variable declarations -->
     <xsl:template match="Decl[@kind = 'Variable']">
-        <xsl:element name="entry">
+        <entry>
             <xsl:attribute name="key" select="@name"/>
             <xsl:attribute name="value">
                 <xsl:apply-templates select="Expr"/>
             </xsl:attribute>
-        </xsl:element>
+        </entry>
     </xsl:template>
 
     <!-- Input/output ports -->
     <xsl:template match="Port">
-        <xsl:element name="vertex">
-            <xsl:attribute name="type"><xsl:value-of select="@kind"/> port</xsl:attribute>
-            <xsl:element name="parameters">
-                <xsl:element name="parameter">
-                    <xsl:attribute name="name">id</xsl:attribute>
+        <vertex>
+            <xsl:attribute name="type" select="concat(@kind, ' port')"/>
+            <parameters>
+                <parameter name="id">
                     <xsl:attribute name="value" select="@name"/>
-                </xsl:element>
-            </xsl:element>
-        </xsl:element>
+                </parameter>
+            </parameters>
+        </vertex>
     </xsl:template>
 
 </xsl:stylesheet>
