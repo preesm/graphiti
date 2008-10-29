@@ -11,13 +11,13 @@
         </export>
     </fileFormat>
 
+  
     <refinementFileExtensions/>
 
     <graphTypes>
         <graphType name="GraphML graph">
             <attributes/>
             <parameters>
-                <parameter name="type" type="java.lang.String"/>
             </parameters>
         </graphType>
     </graphTypes>
