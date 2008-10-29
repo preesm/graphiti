@@ -443,9 +443,10 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 					displayViews();
 				}
 			});
-		} catch (Throwable exception) {
+		} catch (Throwable e) {
+			e.printStackTrace();
 			status = new Status(Status.ERROR, GraphitiPlugin.PLUGIN_ID,
-					"An error occurred while parsing the file", exception);
+					"An error occurred while parsing the file", e);
 		}
 	}
 

@@ -339,6 +339,12 @@ public class GenericGraphParser {
 				return Float.valueOf(value);
 			} else if (parameterType == Boolean.class) {
 				return Boolean.valueOf(value);
+			} else if (parameterType == String.class) {
+				if (value.isEmpty()) {
+					return null;
+				} else {
+					return value;
+				}
 			} else {
 				return value;
 			}
