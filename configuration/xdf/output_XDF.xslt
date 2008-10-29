@@ -16,10 +16,23 @@
     <!-- Top-level: graph -> XDF -->
     <xsl:template match="graph">
 
-        <xsl:result-document href="$file" method="xml" indent="yes">
-            <xsl:element name="layout"/>
+        <!-- layout information -->
+        <xsl:result-document href="file:/{$file}" method="xml" indent="yes">
+            <xsl:element name="layout">
+                <xsl:element name="vertices">
+                    <xsl:for-each select="vertices/vertex">
+                        <xsl:element name="vertex">
+                            <xsl:attribute name="id"
+                                select="parameters/parameter[@name = 'id']/@value"/>
+                            <xsl:attribute name="x" select="@x"/>
+                            <xsl:attribute name="y" select="@y"/>
+                        </xsl:element>
+                    </xsl:for-each>
+                </xsl:element>
+            </xsl:element>
         </xsl:result-document>
 
+        <!-- graph -->
         <xsl:element name="XDF">
             <xsl:attribute name="name" select="parameters/parameter[@name = 'id']/@value"/>
             <xsl:apply-templates select="vertices/vertex[@type = 'Input port']"/>

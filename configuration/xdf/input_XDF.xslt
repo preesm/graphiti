@@ -77,7 +77,7 @@
             <xsl:attribute name="type" select="concat(@kind, ' port')"/>
 
             <xsl:call-template name="getVertexLayoutAttributes">
-                <xsl:with-param name="vertexId" select="@id"/>
+                <xsl:with-param name="vertexId" select="@name"/>
             </xsl:call-template>
 
             <parameters>
