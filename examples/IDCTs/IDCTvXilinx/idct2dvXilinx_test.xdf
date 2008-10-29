@@ -1,21 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<XDF name="idct2dvXilinx_test">
-    <Instance id="$id_n$0">
-        <Class name="idct2d_data_generate"/>
-    </Instance>
-    <Instance id="$id_n$1">
-        <Class name="idct2d"/>
-        <Parameter name="INP_SZ">
-            <Expr kind="Literal" literal-kind="Integer" value="13"/>
-        </Parameter>
-        <Parameter name="PIX_SZ">
-            <Expr kind="Literal" literal-kind="Integer" value="9"/>
-        </Parameter>
-    </Instance>
-    <Instance id="$id_n$2">
-        <Class name="idct2d_print"/>
-    </Instance>
-    <Connection dst="$id_n$1" dst-port="signed" src="$id_n$0" src-port="S"/>
-    <Connection dst="$id_n$1" dst-port="in" src="$id_n$0" src-port="DATA"/>
-    <Connection dst="$id_n$2" dst-port="input" src="$id_n$1" src-port="out"/>
+<?xml version="1.0" encoding="UTF-8"?><XDF name="idct2dvXilinx_test">
+   <Instance id="$id_n$0">
+      <Class name="idct2d_data_generate"/>
+   </Instance>
+   <Instance id="$id_n$1">
+      <Class name="idct2d"/>
+      <Parameter name="INP_SZ">
+         <Expr kind="Literal" literal-kind="Integer" value="13"/>
+      </Parameter>
+      <Parameter name="PIX_SZ">
+         <Expr kind="Literal" literal-kind="Integer" value="9"/>
+      </Parameter>
+   </Instance>
+   <Instance id="$id_n$2">
+      <Class name="idct2d_print"/>
+   </Instance>
+   <Connection dst="$id_n$1" dst-port="signed" src="$id_n$0" src-port="S"/>
+   <Connection dst="$id_n$1" dst-port="in" src="$id_n$0" src-port="DATA"/>
+   <Connection dst="$id_n$2" dst-port="input" src="$id_n$1" src-port="out"/>
 </XDF>

@@ -1,83 +1,82 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<XDF name="idct1d">
-    <Port kind="Input" name="X0"/>
-    <Port kind="Input" name="X1"/>
-    <Port kind="Input" name="ROW"/>
-    <Port kind="Output" name="Y0"/>
-    <Port kind="Output" name="Y1"/>
-    <Port kind="Output" name="Y2"/>
-    <Port kind="Output" name="Y3"/>
-    <Decl kind="Param" name="MEM_SZ"/>
-	<Decl kind="Variable" name="COEFF_SZ">
-        <Expr kind="Literal" literal-kind="Integer" value="13"/>
-    </Decl>
-    <Decl kind="Variable" name="SCALE_SZ">
-        <Expr kind="Literal" literal-kind="Integer" value="30"/>
-    </Decl>
-    <Decl kind="Variable" name="ACC_SZ">
-        <Expr kind="Literal" literal-kind="Integer" value="24"/>
-    </Decl>
-    <Instance id="$id_n$0">
-        <Class name="Scale"/>
-        <Parameter name="isz">
-            <Expr kind="Var" name="MEM_SZ"/>
-        </Parameter>
-        <Parameter name="osz">
-            <Expr kind="Var" name="SCALE_SZ"/>
-        </Parameter>
-        <Parameter name="csz">
-            <Expr kind="Var" name="COEFF_SZ"/>
-        </Parameter>
-    </Instance>
-    <Instance id="$id_n$1">
-        <Class name="Combine"/>
-        <Parameter name="isz">
-            <Expr kind="Var" name="SCALE_SZ"/>
-        </Parameter>
-        <Parameter name="osz">
-            <Expr kind="Var" name="ACC_SZ"/>
-        </Parameter>
-    </Instance>
-    <Instance id="$id_n$2">
-        <Class name="ShuffleFly"/>
-        <Parameter name="sz">
-            <Expr kind="Var" name="ACC_SZ"/>
-        </Parameter>
-    </Instance>
-    <Instance id="$id_n$3">
-        <Class name="Shuffle"/>
-        <Parameter name="sz">
-            <Expr kind="Var" name="ACC_SZ"/>
-        </Parameter>
-    </Instance>
-    <Instance id="$id_n$4">
-        <Class name="Final"/>
-        <Parameter name="isz">
-            <Expr kind="Var" name="ACC_SZ"/>
-        </Parameter>
-        <Parameter name="osz">
-            <Expr kind="Var" name="MEM_SZ"/>
-        </Parameter>
-    </Instance>
-    <Connection dst="$id_n$0" dst-port="X0" src="" src-port="X0"/>
-    <Connection dst="$id_n$0" dst-port="X1" src="" src-port="X1"/>
-    <Connection dst="$id_n$1" dst-port="ROW" src="" src-port="ROW"/>
-    <Connection dst="$id_n$1" dst-port="X0" src="$id_n$0" src-port="Y0"/>
-    <Connection dst="$id_n$1" dst-port="X1" src="$id_n$0" src-port="Y1"/>
-    <Connection dst="$id_n$1" dst-port="X2" src="$id_n$0" src-port="Y2"/>
-    <Connection dst="$id_n$1" dst-port="X3" src="$id_n$0" src-port="Y3"/>
-    <Connection dst="$id_n$2" dst-port="X0" src="$id_n$1" src-port="Y0"/>
-    <Connection dst="$id_n$2" dst-port="X1" src="$id_n$1" src-port="Y1"/>
-    <Connection dst="$id_n$3" dst-port="X0" src="$id_n$2" src-port="Y0"/>
-    <Connection dst="$id_n$3" dst-port="X1" src="$id_n$2" src-port="Y1"/>
-    <Connection dst="$id_n$3" dst-port="X2" src="$id_n$2" src-port="Y2"/>
-    <Connection dst="$id_n$3" dst-port="X3" src="$id_n$2" src-port="Y3"/>
-    <Connection dst="$id_n$4" dst-port="X0" src="$id_n$3" src-port="Y0"/>
-    <Connection dst="$id_n$4" dst-port="X1" src="$id_n$3" src-port="Y1"/>
-    <Connection dst="$id_n$4" dst-port="X2" src="$id_n$3" src-port="Y2"/>
-    <Connection dst="$id_n$4" dst-port="X3" src="$id_n$3" src-port="Y3"/>
-    <Connection dst="" dst-port="Y0" src="$id_n$4" src-port="Y0"/>
-    <Connection dst="" dst-port="Y1" src="$id_n$4" src-port="Y1"/>
-    <Connection dst="" dst-port="Y2" src="$id_n$4" src-port="Y2"/>
-    <Connection dst="" dst-port="Y3" src="$id_n$4" src-port="Y3"/>
+<?xml version="1.0" encoding="UTF-8"?><XDF name="idct1d">
+   <Port kind="Input" name="X0"/>
+   <Port kind="Input" name="X1"/>
+   <Port kind="Input" name="ROW"/>
+   <Port kind="Output" name="Y0"/>
+   <Port kind="Output" name="Y1"/>
+   <Port kind="Output" name="Y2"/>
+   <Port kind="Output" name="Y3"/>
+   <Decl kind="Param" name="MEM_SZ"/>
+   <Decl kind="Variable" name="ACC_SZ">
+      <Expr kind="Literal" literal-kind="Integer" value="24"/>
+   </Decl>
+   <Decl kind="Variable" name="COEFF_SZ">
+      <Expr kind="Literal" literal-kind="Integer" value="13"/>
+   </Decl>
+   <Decl kind="Variable" name="SCALE_SZ">
+      <Expr kind="Literal" literal-kind="Integer" value="30"/>
+   </Decl>
+   <Instance id="$id_n$0">
+      <Class name="Scale"/>
+      <Parameter name="csz">
+         <Expr kind="Var" name="COEFF_SZ"/>
+      </Parameter>
+      <Parameter name="isz">
+         <Expr kind="Var" name="MEM_SZ"/>
+      </Parameter>
+      <Parameter name="osz">
+         <Expr kind="Var" name="SCALE_SZ"/>
+      </Parameter>
+   </Instance>
+   <Instance id="$id_n$1">
+      <Class name="Combine"/>
+      <Parameter name="isz">
+         <Expr kind="Var" name="SCALE_SZ"/>
+      </Parameter>
+      <Parameter name="osz">
+         <Expr kind="Var" name="ACC_SZ"/>
+      </Parameter>
+   </Instance>
+   <Instance id="$id_n$2">
+      <Class name="ShuffleFly"/>
+      <Parameter name="sz">
+         <Expr kind="Var" name="ACC_SZ"/>
+      </Parameter>
+   </Instance>
+   <Instance id="$id_n$3">
+      <Class name="Shuffle"/>
+      <Parameter name="sz">
+         <Expr kind="Var" name="ACC_SZ"/>
+      </Parameter>
+   </Instance>
+   <Instance id="$id_n$4">
+      <Class name="Final"/>
+      <Parameter name="isz">
+         <Expr kind="Var" name="ACC_SZ"/>
+      </Parameter>
+      <Parameter name="osz">
+         <Expr kind="Var" name="MEM_SZ"/>
+      </Parameter>
+   </Instance>
+   <Connection dst="$id_n$0" dst-port="X0" src="" src-port="X0"/>
+   <Connection dst="$id_n$0" dst-port="X1" src="" src-port="X1"/>
+   <Connection dst="$id_n$1" dst-port="ROW" src="" src-port="ROW"/>
+   <Connection dst="$id_n$1" dst-port="X0" src="$id_n$0" src-port="Y0"/>
+   <Connection dst="$id_n$1" dst-port="X1" src="$id_n$0" src-port="Y1"/>
+   <Connection dst="$id_n$1" dst-port="X2" src="$id_n$0" src-port="Y2"/>
+   <Connection dst="$id_n$1" dst-port="X3" src="$id_n$0" src-port="Y3"/>
+   <Connection dst="$id_n$2" dst-port="X0" src="$id_n$1" src-port="Y0"/>
+   <Connection dst="$id_n$2" dst-port="X1" src="$id_n$1" src-port="Y1"/>
+   <Connection dst="$id_n$3" dst-port="X0" src="$id_n$2" src-port="Y0"/>
+   <Connection dst="$id_n$3" dst-port="X1" src="$id_n$2" src-port="Y1"/>
+   <Connection dst="$id_n$3" dst-port="X2" src="$id_n$2" src-port="Y2"/>
+   <Connection dst="$id_n$3" dst-port="X3" src="$id_n$2" src-port="Y3"/>
+   <Connection dst="$id_n$4" dst-port="X0" src="$id_n$3" src-port="Y0"/>
+   <Connection dst="$id_n$4" dst-port="X1" src="$id_n$3" src-port="Y1"/>
+   <Connection dst="$id_n$4" dst-port="X2" src="$id_n$3" src-port="Y2"/>
+   <Connection dst="$id_n$4" dst-port="X3" src="$id_n$3" src-port="Y3"/>
+   <Connection dst="" dst-port="Y0" src="$id_n$4" src-port="Y0"/>
+   <Connection dst="" dst-port="Y1" src="$id_n$4" src-port="Y1"/>
+   <Connection dst="" dst-port="Y2" src="$id_n$4" src-port="Y2"/>
+   <Connection dst="" dst-port="Y3" src="$id_n$4" src-port="Y3"/>
 </XDF>
