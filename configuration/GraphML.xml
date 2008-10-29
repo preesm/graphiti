@@ -23,7 +23,7 @@
     </graphTypes>
 
     <vertexTypes>
-        <vertexType name="vertex">
+        <vertexType name="Instance">
             <attributes>
                 <color red="0" green="100" blue="200"/>
                 <shape name="roundedBox"/>

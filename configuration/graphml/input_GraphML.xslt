@@ -18,7 +18,9 @@
 				<xsl:apply-templates select="graphml:node"/>
 			</xsl:element>
 		
-			<xsl:element name="edges"/>
+			<xsl:element name="edges">
+				<xsl:apply-templates select="graphml:edge"/>		
+			</xsl:element>
 			
 		</xsl:element>
 	</xsl:template>
@@ -27,7 +29,7 @@
 	
 	<xsl:template match="graphml:node">
 		<xsl:element name="vertex">
-			<xsl:attribute name="type">vertex</xsl:attribute>
+			<xsl:attribute name="type">Instance</xsl:attribute>
 			<xsl:element name="parameters">
 				<xsl:element name="parameter">
 					<xsl:attribute name="name">id</xsl:attribute>
@@ -36,5 +38,19 @@
 			</xsl:element>
 		</xsl:element>
 	</xsl:template>
+	
+	
+	<xsl:template match="graphml:edge">
+		<xsl:element name="edge">
+			<xsl:attribute name="source" select="@source"/>
+			<xsl:attribute name="target" select="@target"/>
+			<xsl:attribute name="type">edge</xsl:attribute>
+			
+			<xsl:element name="parameters"/>
+		</xsl:element>
+	</xsl:template>
+
+
+
 
 </xsl:stylesheet>
