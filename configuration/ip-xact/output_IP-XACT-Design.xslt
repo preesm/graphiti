@@ -18,6 +18,7 @@
             <xsl:apply-templates select="parameters" mode="vlnv"/>
             <xsl:element name="spirit:componentInstances">
                 <xsl:apply-templates select="vertices/vertex[@type = 'componentInstance']"/>
+                <xsl:apply-templates select="vertices/vertex[@type='Operator' or @type='Medium']"/>
             </xsl:element>    
             
             <xsl:element name="spirit:interconnections">
@@ -48,6 +49,35 @@
                 <xsl:attribute name="spirit:name" select="parameters/parameter[@name = 'name']/@value"/>
                 <xsl:attribute name="spirit:vendor" select="parameters/parameter[@name = 'vendor']/@value"/>
                 <xsl:attribute name="spirit:version" select="parameters/parameter[@name = 'version']/@value"/>
+            </xsl:element>
+            <xsl:if test="parameters/parameter[@name = 'componentType']/@value!=''">
+                <xsl:element name="spirit:configurableElementValues">
+                    <xsl:element name="spirit:configurableElementValue">
+                        <xsl:attribute name="spirit:referenceId">componentType</xsl:attribute>
+                        <xsl:value-of select="parameters/parameter[@name = 'componentType']/@value"/>
+                    </xsl:element>
+                </xsl:element>
+            </xsl:if>
+        </xsl:element>
+    </xsl:template>
+    
+    <!-- Component instances -->
+    <xsl:template match="vertex[@type='Operator' or @type='Medium']">
+        <xsl:element name="spirit:componentInstance">
+            <xsl:element name="spirit:instanceName">
+                <xsl:value-of select="parameters/parameter[@name = 'id']/@value"/>
+            </xsl:element>
+            <xsl:element name="spirit:componentRef">
+                <xsl:attribute name="spirit:library" select="parameters/parameter[@name = 'library']/@value"/>
+                <xsl:attribute name="spirit:name" select="parameters/parameter[@name = 'name']/@value"/>
+                <xsl:attribute name="spirit:vendor" select="parameters/parameter[@name = 'vendor']/@value"/>
+                <xsl:attribute name="spirit:version" select="parameters/parameter[@name = 'version']/@value"/>
+            </xsl:element>
+            <xsl:element name="spirit:configurableElementValues">
+                <xsl:element name="spirit:configurableElementValue">
+                    <xsl:attribute name="spirit:referenceId">componentType</xsl:attribute>
+                    <xsl:value-of select="@type"/>
+                </xsl:element>
             </xsl:element>
         </xsl:element>
     </xsl:template>

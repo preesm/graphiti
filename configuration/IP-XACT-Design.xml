@@ -52,6 +52,39 @@
                 <parameter name="name" type="java.lang.String"/>
                 <parameter name="version" type="java.lang.String"/>
                 <parameter name="refinement" type="java.lang.String"/>
+                <parameter name="componentType" type="java.lang.String"/>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="Operator">
+            <attributes>
+                <color red="123" green="220" blue="16"/>
+                <shape name="roundedBox"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+                <parameter name="vendor" type="java.lang.String"/>
+                <parameter name="library" type="java.lang.String"/>
+                <parameter name="name" type="java.lang.String"/>
+                <parameter name="version" type="java.lang.String"/>
+                <parameter name="refinement" type="java.lang.String"/>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="Medium">
+            <attributes>
+                <color red="244" green="96" blue="96"/>
+                <shape name="roundedBox"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+                <parameter name="vendor" type="java.lang.String"/>
+                <parameter name="library" type="java.lang.String"/>
+                <parameter name="name" type="java.lang.String"/>
+                <parameter name="version" type="java.lang.String"/>
+                <parameter name="refinement" type="java.lang.String"/>
             </parameters>
         </vertexType>
     </vertexTypes>
