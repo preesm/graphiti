@@ -110,22 +110,22 @@
                     <xsl:attribute name="name">source port</xsl:attribute>
                     <xsl:attribute name="value" select="@sourceport"/>
                 </xsl:element>
-                
+
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">target port</xsl:attribute>
                     <xsl:attribute name="value" select="@targetport"/>
                 </xsl:element>
-                
+
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">source production</xsl:attribute>
                     <xsl:attribute name="value" select="graphml:data[@key = 'edge_prod']/text()"/>
                 </xsl:element>
-                
+
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">target consumption</xsl:attribute>
                     <xsl:attribute name="value" select="graphml:data[@key = 'edge_cons']/text()"/>
                 </xsl:element>
-                
+
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">delay</xsl:attribute>
                     <xsl:attribute name="value" select="graphml:data[@key = 'edge_delay']/text()"/>

@@ -17,21 +17,21 @@
    <graph edgedefault="directed">
       <data key="parameters"/>
       <data key="variables">
-         <variable name="RepFactor" value="2"/>
+         <variable name="AntennaNr" value="4"/>
+         <variable name="CPSize" value="21012"/>
+         <variable name="CircNrPerRoot" value="1"/>
          <variable name="DFTSize" value="1536"/>
-         <variable name="circbufsize" value="0"/>
+         <variable name="FIRSize" value="128"/>
+         <variable name="IFFTSize" value="1024"/>
+         <variable name="NumSigs" value="64"/>
+         <variable name="RelNFThres" value="5"/>
          <variable name="RelPreambleThresShift11" value="24757"/>
+         <variable name="RepFactor" value="2"/>
          <variable name="RootNr" value="64"/>
          <variable name="RootSize" value="839"/>
-         <variable name="NumSigs" value="64"/>
-         <variable name="CPSize" value="21012"/>
-         <variable name="FIRSize" value="128"/>
-         <variable name="dec" value="0"/>
-         <variable name="AntennaNr" value="4"/>
-         <variable name="IFFTSize" value="1024"/>
-         <variable name="RelNFThres" value="5"/>
-         <variable name="CircNrPerRoot" value="1"/>
          <variable name="TSNr" value="24576"/>
+         <variable name="circbufsize" value="0"/>
+         <variable name="dec" value="0"/>
       </data>
       <node id="FIRGen" kind="vertex">
          <data key="graph_desc">FIRGen</data>

@@ -72,6 +72,8 @@ public class GenericGraphWriter {
 	 * Applies the transformations defined in the file format associated with
 	 * the configuration associated with {@link #graph}.
 	 * 
+	 * @param path
+	 *            The output file absolute path.
 	 * @param element
 	 *            The element resulting from {@link #writeGraph()}.
 	 * @return An element, transformed or not.
@@ -89,7 +91,7 @@ public class GenericGraphWriter {
 	 *             If an unrecoverable error occurs during the course of the
 	 *             transformation.
 	 */
-	private Element applyTransformations(Element element)
+	private Element applyTransformations(String path, Element element)
 			throws ClassCastException, ClassNotFoundException,
 			InstantiationException, IllegalAccessException,
 			TransformerException {
@@ -99,6 +101,7 @@ public class GenericGraphWriter {
 		List<String> transformations = format.getExportTransformations();
 		for (String transformation : transformations) {
 			XsltTransformer transformer = new XsltTransformer(transformation);
+			transformer.setParameter("path", path);
 			element = transformer.transformDomToDom(element);
 		}
 
@@ -107,14 +110,17 @@ public class GenericGraphWriter {
 
 	/**
 	 * Writes the graph associated with this writer to the given output stream.
+	 * The output file absolute path is passed to the underlying stylesheet(s).
 	 * 
+	 * @param path
+	 *            The file absolute path.
 	 * @param byteStream
 	 *            The {@link OutputStream} to write to.
 	 */
-	public void write(OutputStream byteStream) {
+	public void write(String path, OutputStream byteStream) {
 		try {
 			Element element = writeGraph();
-			element = applyTransformations(element);
+			element = applyTransformations(path, element);
 			DomHelper.write(element.getOwnerDocument(), byteStream);
 		} catch (Exception e) {
 			e.printStackTrace();

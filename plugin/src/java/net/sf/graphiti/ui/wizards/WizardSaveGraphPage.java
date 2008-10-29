@@ -37,6 +37,9 @@ import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.GraphType;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
@@ -64,9 +67,15 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 
 	@Override
 	public InputStream getInitialContents() {
+		// retrieve the IFile so we can get its location
+		final IPath containerPath = getContainerFullPath();
+		IPath filePath = containerPath.append(getFileName());
+		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
+
+		// writes graph
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		GenericGraphWriter writer = new GenericGraphWriter(graph);
-		writer.write(out);
+		writer.write(file.getLocation().toString(), out);
 		return new ByteArrayInputStream(out.toByteArray());
 	}
 
@@ -82,7 +91,7 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 
 	@Override
 	public void setGraphType(Configuration configuration, GraphType type) {
-		// create an empty graph, may be overidden
+		// create an empty graph, may be overridden
 		graph = new Graph(configuration, type);
 
 		String fileExt = configuration.getFileFormat().getFileExtension();

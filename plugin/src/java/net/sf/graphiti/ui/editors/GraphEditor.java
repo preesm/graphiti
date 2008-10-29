@@ -268,7 +268,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		GenericGraphWriter writer = new GenericGraphWriter(graph);
-		writer.write(out);
+		writer.write(file.getLocation().toString(), out);
 		try {
 			file.setContents(new ByteArrayInputStream(out.toByteArray()), true,
 					false, monitor);
