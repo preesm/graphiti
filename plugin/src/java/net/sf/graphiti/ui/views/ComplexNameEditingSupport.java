@@ -34,12 +34,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sf.graphiti.model.Util;
+import net.sf.graphiti.ui.commands.ChangeParameterValueCommand;
+import net.sf.graphiti.ui.editors.GraphEditor;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * This class provides {@link EditingSupport} for the complex property view.
@@ -106,13 +112,20 @@ public class ComplexNameEditingSupport extends EditingSupport implements
 	protected void setValue(Object element, Object newKey) {
 		if (element instanceof Entry<?, ?>) {
 			Entry<Object, Object> entry = (Entry<Object, Object>) element;
-			Object key = entry.getKey();
+			Object oldKey = entry.getKey();
 
 			Map<Object, Object> map = Util
 					.getMap(source.bean, source.parameter);
-			Object value = map.get(key);
-			map.remove(key);
-			map.put(newKey, value);
+			ChangeParameterValueCommand command = new ChangeParameterValueCommand(
+					source.bean);
+			command.setMap(map, oldKey, newKey);
+
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+			IEditorPart part = window.getActivePage().getActiveEditor();
+			if (part instanceof GraphEditor) {
+				((GraphEditor) part).executeCommand(command);
+			}
 		}
 	}
 

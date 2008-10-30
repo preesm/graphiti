@@ -180,11 +180,12 @@ public class PropertyBean {
 	 *            The name of the property to set.
 	 * @param newValue
 	 *            The new value of the property.
+	 * @return The previous value of the property.
 	 */
-	public void setValue(String propertyName, Object newValue) {
-		Object oldValue = properties.get(propertyName);
-		properties.put(propertyName, newValue);
+	public Object setValue(String propertyName, Object newValue) {
+		Object oldValue = properties.put(propertyName, newValue);
 		propertyChange.firePropertyChange(propertyName, oldValue, newValue);
+		return oldValue;
 	}
 
 	/**

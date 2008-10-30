@@ -34,12 +34,18 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import net.sf.graphiti.model.Util;
+import net.sf.graphiti.ui.commands.ChangeParameterValueCommand;
+import net.sf.graphiti.ui.editors.GraphEditor;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * This class provides {@link EditingSupport} for the complex property view.
@@ -108,11 +114,29 @@ public class ComplexValueEditingSupport extends EditingSupport implements
 			List<Object> list = Util.getList(source.bean, source.parameter);
 			int index = list.indexOf(element);
 			if (index != -1) {
-				list.set(index, value);
+				ChangeParameterValueCommand command = new ChangeParameterValueCommand(
+						source.bean);
+				command.setList(list, index, value);
+
+				IWorkbench workbench = PlatformUI.getWorkbench();
+				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+				IEditorPart part = window.getActivePage().getActiveEditor();
+				if (part instanceof GraphEditor) {
+					((GraphEditor) part).executeCommand(command);
+				}
 			}
 		} else if (element instanceof Entry<?, ?>) {
 			Entry<Object, Object> entry = (Entry<Object, Object>) element;
-			entry.setValue(value);
+			ChangeParameterValueCommand command = new ChangeParameterValueCommand(
+					source.bean);
+			command.setEntry(entry, value);
+
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+			IEditorPart part = window.getActivePage().getActiveEditor();
+			if (part instanceof GraphEditor) {
+				((GraphEditor) part).executeCommand(command);
+			}
 		}
 
 		getViewer().refresh();

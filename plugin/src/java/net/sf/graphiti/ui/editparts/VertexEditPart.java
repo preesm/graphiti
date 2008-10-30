@@ -278,7 +278,12 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 			// refresh will cause source anchor to be rightly put
 			refresh();
 		} else {
-			// another parameter
+			// other parameters
+			if (propertyName.equals(Vertex.PARAMETER_ID)) {
+				refreshVisuals();
+			}
+
+			// updates the figure size
 			Vertex vertex = (Vertex) getModel();
 			((VertexFigure) getFigure()).adjustSize();
 			Rectangle bounds = getFigure().getBounds().getCopy();

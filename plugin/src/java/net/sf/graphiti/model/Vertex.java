@@ -194,13 +194,13 @@ public class Vertex extends PropertyBean {
 	}
 
 	@Override
-	public void setValue(String propertyName, Object newValue) {
+	public Object setValue(String propertyName, Object newValue) {
 		if (PARAMETER_ID.equals(propertyName)) {
 			if (parent != null) {
 				parent.changeVertexId(this, (String) newValue);
 			}
 		}
-		super.setValue(propertyName, newValue);
+		return super.setValue(propertyName, newValue);
 	}
 
 	public String toString() {

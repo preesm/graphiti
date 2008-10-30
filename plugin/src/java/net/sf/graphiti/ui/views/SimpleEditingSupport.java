@@ -33,12 +33,18 @@ import java.beans.PropertyChangeListener;
 
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.ui.commands.ChangeParameterValueCommand;
+import net.sf.graphiti.ui.editors.GraphEditor;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * This class provides {@link EditingSupport} for the "value" column.
@@ -103,7 +109,16 @@ public class SimpleEditingSupport extends EditingSupport implements
 	protected void setValue(Object element, Object value) {
 		if (element instanceof Parameter) {
 			Parameter parameter = (Parameter) element;
-			source.setValue(parameter.getName(), value);
+			ChangeParameterValueCommand command = new ChangeParameterValueCommand(
+					source);
+			command.setValue(parameter.getName(), value);
+
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+			IEditorPart part = window.getActivePage().getActiveEditor();
+			if (part instanceof GraphEditor) {
+				((GraphEditor) part).executeCommand(command);
+			}
 		}
 	}
 
