@@ -37,6 +37,11 @@
                 <xsl:if test="not(empty(preesm:algorithm))">
                     <xsl:element name="vertex">
                         <xsl:attribute name="type" select="'Algorithm source'"/>
+                      
+                        <xsl:call-template name="getVertexLayoutAttributes">
+                            <xsl:with-param name="vertexId" select="'__algorithm'"/>
+                        </xsl:call-template>
+                        
                         <xsl:element name="parameters">
                             <xsl:element name="parameter">
                                 <xsl:attribute name="name" select="'id'"/>
@@ -49,6 +54,11 @@
                 <xsl:if test="not(empty(preesm:architecture))">
                     <xsl:element name="vertex">
                         <xsl:attribute name="type" select="'Architecture source'"/>
+                        
+                        <xsl:call-template name="getVertexLayoutAttributes">
+                            <xsl:with-param name="vertexId" select="'__architecture'"/>
+                        </xsl:call-template>
+                        
                         <xsl:element name="parameters">
                             <xsl:element name="parameter">
                                 <xsl:attribute name="name" select="'id'"/>
@@ -61,6 +71,11 @@
                 <xsl:if test="not(empty(preesm:scenario))">
                     <xsl:element name="vertex">
                         <xsl:attribute name="type" select="'Scenario source'"/>
+                        
+                        <xsl:call-template name="getVertexLayoutAttributes">
+                            <xsl:with-param name="vertexId" select="'__scenario'"/>
+                        </xsl:call-template>
+                        
                         <xsl:element name="parameters">
                             <xsl:element name="parameter">
                                 <xsl:attribute name="name" select="'id'"/>
@@ -85,7 +100,7 @@
             <xsl:attribute name="type">Task</xsl:attribute>
 
             <xsl:call-template name="getVertexLayoutAttributes">
-                <xsl:with-param name="vertexId" select="@id"/>
+                <xsl:with-param name="vertexId" select="@taskId"/>
             </xsl:call-template>
 
             <xsl:element name="parameters">

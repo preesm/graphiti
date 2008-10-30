@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:preesm="http://ietr-image.insa-rennes.fr/projects/Preesm"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+    
+    <xsl:import href="output_layout.xslt"/>
 
     <xsl:output indent="yes" method="xml"/>
 
@@ -13,9 +15,10 @@
 
     <!-- Top-level: graph -> preesm:workflow -->
     <xsl:template match="graph">
-
-        <xsl:result-document href="$file" method="xml" indent="yes">
-            <layout> </layout>
+        
+        <!-- layout information -->
+        <xsl:result-document href="file:/{$file}" method="xml" indent="yes">
+            <xsl:call-template name="setLayout"/>
         </xsl:result-document>
 
         <preesm:workflow>
