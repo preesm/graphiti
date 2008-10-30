@@ -57,6 +57,14 @@ import net.sf.graphiti.model.VertexType;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.ListDialog;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -68,6 +76,44 @@ import org.w3c.dom.Node;
  * 
  */
 public class GenericGraphParser {
+
+	private class ConfigurationContentProvider implements
+			IStructuredContentProvider {
+
+		@Override
+		public void dispose() {
+		}
+
+		@Override
+		public Object[] getElements(Object inputElement) {
+			return ((List<?>) inputElement).toArray();
+		}
+
+		@Override
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		}
+	}
+
+	public class ConfigurationLabelProvider extends LabelProvider {
+
+		@Override
+		public String getText(Object element) {
+			Configuration configuration = (Configuration) element;
+			Set<GraphType> types = configuration.getGraphTypes();
+			String res = "";
+			int i = 0;
+			int n = types.size();
+			for (GraphType type : types) {
+				res += type.getName();
+				if (i < n - 1) {
+					res += ", ";
+				}
+				i++;
+			}
+
+			return res;
+		}
+	}
 
 	private List<Configuration> configurations;
 
@@ -106,8 +152,6 @@ public class GenericGraphParser {
 	 * 
 	 * @param configuration
 	 *            A supposedly valid configuration for the given contents.
-	 * @param format
-	 *            A supposedly valid file format for the given contents.
 	 * @param path
 	 *            The file absolute path.
 	 * @param in
@@ -135,11 +179,12 @@ public class GenericGraphParser {
 	 *             If an unrecoverable error occurs during the course of the
 	 *             transformation.
 	 */
-	private Graph parse(Configuration configuration, FileFormat format,
-			String path, InputStream in) throws ClassCastException,
-			ClassNotFoundException, GrammarException, IllegalAccessException,
-			InstantiationException, IOException, ParserCreationException,
-			ParserLogException, TransformerException {
+	private Graph parse(Configuration configuration, String path, InputStream in)
+			throws ClassCastException, ClassNotFoundException,
+			GrammarException, IllegalAccessException, InstantiationException,
+			IOException, ParserCreationException, ParserLogException,
+			TransformerException {
+		FileFormat format = configuration.getFileFormat();
 		List<String> transformations = format.getImportTransformations();
 		Element element = null;
 		if (transformations.isEmpty()) {
@@ -182,51 +227,85 @@ public class GenericGraphParser {
 	 * @throws IncompatibleConfigurationFile
 	 */
 	public Graph parse(IFile file) throws IncompatibleConfigurationFile {
+		// finds all suitable configurations
 		String fileExt = file.getFileExtension();
-		for (Configuration configuration : configurations) {
+		List<Configuration> configurations = new ArrayList<Configuration>();
+		for (Configuration configuration : this.configurations) {
 			FileFormat format = configuration.getFileFormat();
 			if (format.getFileExtension().equals(fileExt)) {
-				try {
-					return parse(configuration, format, file.getLocation()
-							.toString(), file.getContents());
-				} catch (ClassCastException e) {
-					throw new IncompatibleConfigurationFile(
-							"There was a problem with the creation of a DOM document",
-							e);
-				} catch (ClassNotFoundException e) {
-					throw new IncompatibleConfigurationFile(
-							"A DOM class could not be found", e);
-				} catch (GrammarException e) {
-					throw new IncompatibleConfigurationFile(
-							"A grammar was not valid", e);
-				} catch (IllegalAccessException e) {
-					throw new IncompatibleConfigurationFile(
-							"A DOM class could not be accessed", e);
-				} catch (InstantiationException e) {
-					throw new IncompatibleConfigurationFile(
-							"A DOM class could not be instantiated", e);
-				} catch (IOException e) {
-					throw new IncompatibleConfigurationFile(
-							"The file could not be read", e);
-				} catch (ParserCreationException e) {
-					throw new IncompatibleConfigurationFile(
-							"The parser could not be created", e);
-				} catch (ParserLogException e) {
-					throw new IncompatibleConfigurationFile(
-							"There was a problem with the parser", e);
-				} catch (TransformerException e) {
-					throw new IncompatibleConfigurationFile(
-							"An unrecoverable error occurred during "
-									+ "the course of the transformation.", e);
-				} catch (CoreException e) {
-					throw new IncompatibleConfigurationFile(
-							"Could not obtain the file contents", e);
-				}
+				configurations.add(configuration);
 			}
 		}
 
-		throw new IncompatibleConfigurationFile(
-				"No configuration could parse the file");
+		Configuration configuration;
+		if (configurations.isEmpty()) {
+			throw new IncompatibleConfigurationFile(
+					"No configuration could parse the file");
+		} else if (configurations.size() == 1) {
+			configuration = configurations.get(0);
+		} else {
+			boolean res = true;
+			do {
+				configuration = pickConfiguration(configurations);
+
+				if (configuration == null) {
+					throw new IncompatibleConfigurationFile(
+							"No configuration was chosen.");
+				}
+
+				try {
+					return parse(configuration, file.getLocation().toString(),
+							file.getContents());
+				} catch (Throwable e) {
+					String fileName = "Could not parse \"" + file.getName()
+							+ "\"";
+					String message = "The file could not be parsed with the chosen configuration. "
+							+ "Would you like to try with another configuration?";
+					res = MessageDialog.openConfirm(null, fileName, message);
+				}
+			} while (res);
+
+			throw new IncompatibleConfigurationFile(
+					"No suitable configuration could be found.");
+		}
+
+		// parse with the configuration
+		try {
+			return parse(configuration, file.getLocation().toString(), file
+					.getContents());
+		} catch (ClassCastException e) {
+			throw new IncompatibleConfigurationFile(
+					"There was a problem with the creation of a DOM document",
+					e);
+		} catch (ClassNotFoundException e) {
+			throw new IncompatibleConfigurationFile(
+					"A DOM class could not be found", e);
+		} catch (GrammarException e) {
+			throw new IncompatibleConfigurationFile("A grammar was not valid",
+					e);
+		} catch (IllegalAccessException e) {
+			throw new IncompatibleConfigurationFile(
+					"A DOM class could not be accessed", e);
+		} catch (InstantiationException e) {
+			throw new IncompatibleConfigurationFile(
+					"A DOM class could not be instantiated", e);
+		} catch (IOException e) {
+			throw new IncompatibleConfigurationFile(
+					"The file could not be read", e);
+		} catch (ParserCreationException e) {
+			throw new IncompatibleConfigurationFile(
+					"The parser could not be created", e);
+		} catch (ParserLogException e) {
+			throw new IncompatibleConfigurationFile(
+					"There was a problem with the parser", e);
+		} catch (TransformerException e) {
+			throw new IncompatibleConfigurationFile(
+					"An unrecoverable error occurred during "
+							+ "the course of the transformation.", e);
+		} catch (CoreException e) {
+			throw new IncompatibleConfigurationFile(
+					"Could not obtain the file contents.", e);
+		}
 	}
 
 	/**
@@ -421,6 +500,35 @@ public class GenericGraphParser {
 		}
 
 		return node.getNextSibling();
+	}
+
+	/**
+	 * Asks the user to pick one configuration among n.
+	 * 
+	 * @param configurations
+	 *            A list of configurations.
+	 * @return A configuration, or <code>null</code>.
+	 */
+	private Configuration pickConfiguration(List<Configuration> configurations) {
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		Shell shell = workbench.getActiveWorkbenchWindow().getShell();
+
+		ListDialog dialog = new ListDialog(shell);
+		dialog.setAddCancelButton(false);
+		dialog.setBlockOnOpen(true);
+		dialog.setContentProvider(new ConfigurationContentProvider());
+		dialog.setLabelProvider(new ConfigurationLabelProvider());
+		dialog.setInput(configurations);
+		dialog.setMessage("Please pick a configuration below:");
+		dialog.setTitle("Choose a configuration");
+		dialog.open();
+
+		Object[] result = dialog.getResult();
+		if (result == null) {
+			return null;
+		} else {
+			return (Configuration) result[0];
+		}
 	}
 
 }
