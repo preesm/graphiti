@@ -151,9 +151,7 @@ public class PortChooser {
 
 		IStatus status = new Status(IStatus.ERROR, GraphitiPlugin.PLUGIN_ID,
 				message, exception);
-		ErrorDialog dialog = new ErrorDialog(shell, "Error", message, status,
-				IStatus.ERROR);
-		dialog.open();
+		ErrorDialog.openError(shell, "Error", message, status, IStatus.ERROR);
 	}
 
 	/**

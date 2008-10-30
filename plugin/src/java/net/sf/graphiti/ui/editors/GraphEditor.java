@@ -332,9 +332,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 		IStatus status = new Status(IStatus.ERROR, GraphitiPlugin.PLUGIN_ID,
 				message, exception);
-		ErrorDialog dialog = new ErrorDialog(shell, "Save error",
+		ErrorDialog.openError(shell, "Save error",
 				"The file could not be saved.", status, IStatus.ERROR);
-		dialog.open();
 	}
 
 	/**
