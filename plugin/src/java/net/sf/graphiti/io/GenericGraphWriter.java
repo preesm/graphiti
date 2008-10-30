@@ -116,15 +116,27 @@ public class GenericGraphWriter {
 	 *            The file absolute path.
 	 * @param byteStream
 	 *            The {@link OutputStream} to write to.
+	 * @throws ClassCastException
+	 *             If any specified class does not implement
+	 *             DOMImplementationSource
+	 * @throws ClassNotFoundException
+	 *             If any specified class can not be found
+	 * @throws IllegalAccessException
+	 *             If the default constructor of a specified class is not
+	 *             accessible
+	 * @throws InstantiationException
+	 *             If any specified class is an interface or abstract class
+	 * @throws TransformerException
+	 *             If an unrecoverable error occurs during the course of the
+	 *             transformation.
 	 */
-	public void write(String path, OutputStream byteStream) {
-		try {
-			Element element = writeGraph();
-			element = applyTransformations(path, element);
-			DomHelper.write(element.getOwnerDocument(), byteStream);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void write(String path, OutputStream byteStream)
+			throws ClassCastException, ClassNotFoundException,
+			IllegalAccessException, InstantiationException,
+			TransformerException {
+		Element element = writeGraph();
+		element = applyTransformations(path, element);
+		DomHelper.write(element.getOwnerDocument(), byteStream);
 	}
 
 	private void writeEdges(Element edgesElement) {

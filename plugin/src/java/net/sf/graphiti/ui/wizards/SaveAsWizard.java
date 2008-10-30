@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.ui.wizards;
 
+import java.io.InputStream;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -94,6 +96,11 @@ public class SaveAsWizard extends Wizard implements INewWizard {
 		final WizardConvertPage convertPage = (WizardConvertPage) getPage("convertGraph");
 		final WizardSaveGraphPage page = (WizardSaveGraphPage) getPage("saveGraph");
 		page.setGraph(convertPage.getGraph());
+
+		InputStream in = page.getInitialContents();
+		if (in == null) {
+			return false;
+		}
 
 		IFile file = page.createNewFile();
 		if (file == null) {

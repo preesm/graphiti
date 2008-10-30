@@ -37,6 +37,8 @@ import java.util.EventObject;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.transform.TransformerException;
+
 import net.sf.graphiti.io.GenericGraphParser;
 import net.sf.graphiti.io.GenericGraphWriter;
 import net.sf.graphiti.model.AbstractType;
@@ -82,9 +84,11 @@ import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
@@ -268,8 +272,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		GenericGraphWriter writer = new GenericGraphWriter(graph);
-		writer.write(file.getLocation().toString(), out);
 		try {
+			writer.write(file.getLocation().toString(), out);
 			file.setContents(new ByteArrayInputStream(out.toByteArray()), true,
 					false, monitor);
 			try {
@@ -278,10 +282,25 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 				// Can never occur on a ByteArrayOutputStream
 			}
 			getCommandStack().markSaveLocation();
+			return;
+		} catch (ClassCastException e) {
+			errorMessage(
+					"There was a problem with the creation of a DOM document.",
+					e);
+		} catch (ClassNotFoundException e) {
+			errorMessage("A DOM class could not be found.", e);
 		} catch (CoreException e) {
-			monitor.setCanceled(true);
-			e.printStackTrace();
+			errorMessage("Could not set the file contents.", e);
+		} catch (IllegalAccessException e) {
+			errorMessage("A DOM class could not be accessed.", e);
+		} catch (InstantiationException e) {
+			errorMessage("A DOM class could not be instantiated.", e);
+		} catch (TransformerException e) {
+			errorMessage("An unrecoverable error occurred during "
+					+ "the course of the transformation.", e);
 		}
+
+		monitor.setCanceled(true);
 	}
 
 	@Override
@@ -296,51 +315,26 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 		WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
 		dialog.open();
+	}
 
-		// SaveAsDialog dialog = new SaveAsDialog(getSite().getWorkbenchWindow()
-		// .getShell());
-		// dialog.setOriginalFile(((IFileEditorInput)
-		// getEditorInput()).getFile());
-		// dialog.open();
-		// IPath path = dialog.getResult();
-		//
-		// if (path == null)
-		// return;
-		//
-		// IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		// final IFile file = workspace.getRoot().getFile(path);
-		//
-		// WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
-		// public void execute(final IProgressMonitor monitor)
-		// throws CoreException {
-		// ByteArrayOutputStream out = new ByteArrayOutputStream();
-		// GenericGraphWriter writer = new GenericGraphWriter(graph);
-		// writer.write(out);
-		// try {
-		// file.create(new ByteArrayInputStream(out.toByteArray()),
-		// true, monitor);
-		// try {
-		// out.close();
-		// } catch (IOException e) {
-		// // Can never occur on a ByteArrayOutputStream
-		// }
-		// } catch (CoreException e) {
-		// monitor.setCanceled(true);
-		// e.printStackTrace();
-		// }
-		// }
-		// };
-		//
-		// try {
-		// new ProgressMonitorDialog(getSite().getWorkbenchWindow().getShell())
-		// .run(false, true, op);
-		// setInput(new FileEditorInput((IFile) file));
-		// getCommandStack().markSaveLocation();
-		// } catch (InvocationTargetException e) {
-		// e.printStackTrace();
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
+	/**
+	 * Displays an error message with the given exception.
+	 * 
+	 * @param message
+	 *            A description of the error.
+	 * @param exception
+	 *            An exception.
+	 */
+	private void errorMessage(String message, Throwable exception) {
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		Shell shell = window.getShell();
+
+		IStatus status = new Status(IStatus.ERROR, GraphitiPlugin.PLUGIN_ID,
+				message, exception);
+		ErrorDialog dialog = new ErrorDialog(shell, "Save error",
+				"The file could not be saved.", status, IStatus.ERROR);
+		dialog.open();
 	}
 
 	/**
