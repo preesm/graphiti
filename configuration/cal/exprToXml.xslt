@@ -6,29 +6,21 @@
     <xsl:template match="text()"/>
 
     <xsl:template match="Atom/token[@name = 'IDENTIFIER']">
-        <Expr kind="Var">
-            <xsl:attribute name="name" select="text()"/>
-        </Expr>
+        <Expr kind="Var" name="{text()}"/>
     </xsl:template>
 
     <xsl:template match="Atom/token[@name = 'NUMBER']">
-        <Expr kind="Literal" literal-kind="Integer">
-            <xsl:attribute name="value" select="text()"/>
-        </Expr>
+        <Expr kind="Literal" literal-kind="Integer" value="{text()}"/>
     </xsl:template>
 
     <xsl:template match="Atom/token[@name = 'STRING']">
         <xsl:variable name="textValue" select="text()"/>
-        <Expr kind="Literal" literal-kind="String">
-            <xsl:attribute name="value"
-                select="substring($textValue, 2, string-length($textValue) - 2)"/>
-        </Expr>
+        <xsl:variable name="string" select="substring($textValue, 2, string-length($textValue) - 2)"/>
+        <Expr kind="Literal" literal-kind="String" value="{$string}"/>
     </xsl:template>
 
     <xsl:template match="ExpressionRest">
-        <Op>
-            <xsl:attribute name="name" select="token/text()"/>
-        </Op>
+        <Op name="{token/text()}"/>
         <xsl:apply-templates/>
     </xsl:template>
 

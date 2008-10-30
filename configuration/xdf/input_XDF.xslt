@@ -30,14 +30,10 @@
     <xsl:template match="XDF">
         <graph type="XML Dataflow Network">
             <parameters>
-                <parameter name="id">
-                    <xsl:attribute name="value" select="@name"/>
-                </parameter>
-
+                <parameter name="id" value="{@name}"/>
                 <parameter name="network parameter">
                     <xsl:apply-templates select="Decl[@kind = 'Param']"/>
                 </parameter>
-
                 <parameter name="network variable declaration">
                     <xsl:apply-templates select="Decl[@kind = 'Variable']"/>
                 </parameter>
@@ -56,15 +52,12 @@
 
     <!-- Parameter declarations -->
     <xsl:template match="Decl[@kind = 'Param']">
-        <element>
-            <xsl:attribute name="value" select="@name"/>
-        </element>
+        <element value="{@name}"/>
     </xsl:template>
 
     <!-- Variable declarations -->
     <xsl:template match="Decl[@kind = 'Variable']">
-        <entry>
-            <xsl:attribute name="key" select="@name"/>
+        <entry key="{@name}">
             <xsl:attribute name="value">
                 <xsl:apply-templates select="Expr"/>
             </xsl:attribute>
@@ -73,17 +66,13 @@
 
     <!-- Input/output ports -->
     <xsl:template match="Port">
-        <vertex>
-            <xsl:attribute name="type" select="concat(@kind, ' port')"/>
-
+        <vertex type="{concat(@kind, ' port')}">
             <xsl:call-template name="getVertexLayoutAttributes">
                 <xsl:with-param name="vertexId" select="@name"/>
             </xsl:call-template>
 
             <parameters>
-                <parameter name="id">
-                    <xsl:attribute name="value" select="@name"/>
-                </parameter>
+                <parameter name="id" value="{@name}"/>
             </parameters>
         </vertex>
     </xsl:template>
@@ -96,12 +85,8 @@
             </xsl:call-template>
 
             <parameters>
-                <parameter name="id">
-                    <xsl:attribute name="value" select="@id"/>
-                </parameter>
-                <parameter name="refinement">
-                    <xsl:attribute name="value" select="Class/@name"/>
-                </parameter>
+                <parameter name="id" value="{@id}"/>
+                <parameter name="refinement" value="{Class/@name}"/>
                 <parameter name="instance parameter">
                     <xsl:apply-templates select="Parameter"/>
                 </parameter>
@@ -111,8 +96,7 @@
 
     <!-- Parameter instantiations -->
     <xsl:template match="Parameter">
-        <entry>
-            <xsl:attribute name="key" select="@name"/>
+        <entry key="{@name}">
             <xsl:attribute name="value">
                 <xsl:apply-templates select="Expr"/>
             </xsl:attribute>
@@ -140,14 +124,10 @@
             </xsl:choose>
             <parameters>
                 <xsl:if test="@src != ''">
-                    <parameter name="source port">
-                        <xsl:attribute name="value" select="@src-port"/>
-                    </parameter>
+                    <parameter name="source port" value="{@src-port}"/>
                 </xsl:if>
                 <xsl:if test="@dst != ''">
-                    <parameter name="target port">
-                        <xsl:attribute name="value" select="@dst-port"/>
-                    </parameter>
+                    <parameter name="target port" value="{@dst-port}"/>
                 </xsl:if>
             </parameters>
         </edge>

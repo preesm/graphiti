@@ -11,9 +11,7 @@
     <xsl:template match="Actor">
         <graph type="CAL actor">
             <parameters>
-                <parameter name="id">
-                    <xsl:attribute name="value" select="@name"/>
-                </parameter>
+                <parameter name="id" value="{@name}"/>
 
                 <parameter name="actor parameter">
                     <xsl:apply-templates select="Decl[@kind = 'Parameter']"/>
@@ -34,15 +32,12 @@
 
     <!-- Parameter declarations -->
     <xsl:template match="Decl[@kind = 'Parameter']">
-        <element>
-            <xsl:attribute name="value" select="@name"/>
-        </element>
+        <element value="{@name}"/>
     </xsl:template>
 
     <!-- Variable declarations -->
     <xsl:template match="Decl[@kind = 'Variable']">
-        <entry>
-            <xsl:attribute name="key" select="@name"/>
+        <entry key="{@name}">
             <xsl:attribute name="value">
                 <xsl:apply-templates select="Expr"/>
             </xsl:attribute>
@@ -51,12 +46,9 @@
 
     <!-- Input/output ports -->
     <xsl:template match="Port">
-        <vertex>
-            <xsl:attribute name="type" select="concat(@kind, ' port')"/>
+        <vertex type="{concat(@kind, ' port')}">
             <parameters>
-                <parameter name="id">
-                    <xsl:attribute name="value" select="@name"/>
-                </parameter>
+                <parameter name="id" value="{@name}"/>
             </parameters>
         </vertex>
     </xsl:template>

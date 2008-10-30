@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://graphml.graphdrawing.org/xmlns/1.0rc"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+    
+    <xsl:import href="output_layout.xslt"/>
 
     <xsl:output indent="yes" method="xml"/>
 
     <xsl:template match="text()"/>
 
+    <!-- writes the layout in a file that has the same name as the target document,
+        except with .layout extension. -->
+    <xsl:param name="path"/>
+    <xsl:variable name="file" select="replace($path, '(.+)[.].+', '$1.layout')"/>
+
     <!-- Top-level: graph -> graph -->
     <xsl:template match="graph">
-        <xsl:element name="graphml">
+        
+        <!-- layout information -->
+        <xsl:result-document href="file:/{$file}" method="xml" indent="yes">
+            <xsl:call-template name="setLayout"/>
+        </xsl:result-document>
+
+        <!-- graph -->
+        <graphml>
             <key attr.name="graph_desc" attr.type="string" for="node" id="graph_desc">
                 <desc>java.lang.String</desc>
             </key>
@@ -37,30 +51,22 @@
                 <xsl:apply-templates select="vertices/vertex"/>
                 <xsl:apply-templates select="edges/edge"/>
             </graph>
-        </xsl:element>
+        </graphml>
     </xsl:template>
 
     <!-- Parameter declarations -->
     <xsl:template match="parameter[@name = 'graph parameter']/element">
-        <xsl:element name="parameter">
-            <xsl:attribute name="name" select="@value"/>
-        </xsl:element>
+        <parameter name="{@value}"/>
     </xsl:template>
 
     <!-- Variable declarations -->
     <xsl:template match="parameter[@name = 'graph variable']/entry">
-        <xsl:element name="variable">
-            <xsl:attribute name="name" select="@key"/>
-            <xsl:attribute name="value" select="@value"/>
-        </xsl:element>
+        <variable name="{@key}" value="{@value}"/>
     </xsl:template>
 
     <!-- node -->
     <xsl:template match="vertex[@type = 'Vertex']">
-        <xsl:element name="node">
-            <xsl:attribute name="kind" select="'vertex'"/>
-            <xsl:attribute name="id" select="parameters/parameter[@name = 'id']/@value"/>
-
+        <node kind="vertex" id="{parameters/parameter[@name = 'id']/@value}">
             <data key="graph_desc">
                 <xsl:value-of select="parameters/parameter[@name = 'refinement']/@value"/>
             </data>
@@ -68,37 +74,25 @@
             <data key="arguments">
                 <xsl:apply-templates select="parameters/parameter[@name = 'actual parameter']"/>
             </data>
-        </xsl:element>
+        </node>
     </xsl:template>
 
     <!-- node parameter -->
     <xsl:template match="parameter[@name = 'actual parameter']/entry">
-        <xsl:element name="argument">
-            <xsl:attribute name="name" select="@key"/>
-            <xsl:attribute name="value" select="@value"/>
-        </xsl:element>
+        <argument name="{@key}" value="{@value}"/>
     </xsl:template>
 
     <!-- input/output port -->
     <xsl:template match="vertex[@type = 'Input port' or @type = 'Output port']">
-        <xsl:element name="node">
-            <xsl:attribute name="id" select="parameters/parameter[@name = 'id']/@value"/>
-            <xsl:attribute name="kind" select="'port'"/>
-            <xsl:attribute name="port_direction"
-                select="replace(@type, '(Input|Output) port', '$1')"/>
-        </xsl:element>
+        <node id="{parameters/parameter[@name = 'id']/@value}" kind="port"
+            port_direction="{replace(@type, '(Input|Output) port', '$1')}"/>
     </xsl:template>
 
     <!-- edge -->
     <xsl:template match="edge">
-        <xsl:element name="edge">
-            <xsl:attribute name="source" select="@source"/>
-            <xsl:attribute name="target" select="@target"/>
-            <xsl:attribute name="sourceport"
-                select="parameters/parameter[@name = 'source port']/@value"/>
-            <xsl:attribute name="targetport"
-                select="parameters/parameter[@name = 'target port']/@value"/>
-
+        <edge source="{@source}" target="{@target}"
+            sourceport="{parameters/parameter[@name = 'source port']/@value}"
+            targetport="{parameters/parameter[@name = 'target port']/@value}">
             <data key="edge_prod">
                 <xsl:value-of select="parameters/parameter[@name = 'source production']/@value"/>
             </data>
@@ -110,7 +104,7 @@
             <data key="edge_cons">
                 <xsl:value-of select="parameters/parameter[@name = 'target consumption']/@value"/>
             </data>
-        </xsl:element>
+        </edge>
     </xsl:template>
 
 </xsl:stylesheet>

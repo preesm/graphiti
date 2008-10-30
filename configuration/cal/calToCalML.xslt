@@ -9,8 +9,7 @@
 
     <!-- XDF -->
     <xsl:template match="Actor">
-        <Actor>
-            <xsl:attribute name="name" select="token[position() = 2 and @name='ID']/text()"/>
+        <Actor name="{token[position() = 2 and @name='ID']/text()}">
             <xsl:apply-templates select="Import"/>
             <xsl:apply-templates select="Parameters"/>
             <xsl:choose>
@@ -49,40 +48,32 @@
 
     <!-- QID -->
     <xsl:template match="ImportRest/QualifiedId">
-        <QID>
-            <xsl:attribute name="name" select="string-join(token/text(), '')"/>
+        <QID name="{string-join(token/text(), '')}">
             <xsl:apply-templates/>
         </QID>
     </xsl:template>
 
     <!-- ID -->
     <xsl:template match="ImportRest/QualifiedId/token[@name='ID']">
-        <ID>
-            <xsl:attribute name="name" select="text()"/>
-        </ID>
+        <ID name="{text()}"/>
     </xsl:template>
 
     <!-- Parameter -->
     <xsl:template match="Parameter">
-        <Decl kind="Parameter">
-            <xsl:attribute name="name" select="token[@name = 'ID']/text()"/>
+        <Decl kind="Parameter" name="{token[@name = 'ID']/text()}">
             <xsl:apply-templates select="Type"/>
         </Decl>
     </xsl:template>
 
     <!-- Type -->
     <xsl:template match="Type">
-        <Type>
-            <xsl:attribute name="name" select="token[@name = 'ID']/text()"/>
-        </Type>
+        <Type name="{token[@name = 'ID']/text()}"/>
     </xsl:template>
 
     <!-- Port -->
     <xsl:template match="PortDecl">
         <xsl:param name="kind"/>
-        <Port>
-            <xsl:attribute name="kind" select="$kind"/>
-            <xsl:attribute name="name" select="token[@name = 'ID']/text()"/>
+        <Port kind="{$kind}" name="{token[@name = 'ID']/text()}">
             <xsl:apply-templates select="Type"/>
         </Port>
     </xsl:template>
