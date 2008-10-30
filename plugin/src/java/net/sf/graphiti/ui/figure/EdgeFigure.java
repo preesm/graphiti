@@ -71,13 +71,16 @@ public class EdgeFigure extends PolylineConnection {
 		parameterFigures = new HashMap<String, Label>();
 
 		// update parameters
-		if (edge != null) {
-			for (Parameter parameter : edge.getParameters()) {
-				refresh(parameter.getName(), edge.getValue(parameter.getName()));
-			}
+		for (Parameter parameter : edge.getParameters()) {
+			refresh(parameter.getName(), edge.getValue(parameter.getName()));
 		}
 
-		setTargetDecoration(new PolygonDecoration());
+		Boolean directed = (Boolean) edge.getType().getAttribute(
+				Edge.ATTRIBUTE_DIRECTED);
+		if (directed == null || directed) {
+			// we consider the edge directed by default.
+			setTargetDecoration(new PolygonDecoration());
+		}
 		setLineWidth(1);
 	}
 

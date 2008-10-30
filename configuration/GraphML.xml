@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    
+
     <fileFormat extension="graphml" type="text/xml">
         <import>
             <transformation name="graphml/input_GraphML.xslt" type="XSLT"/>
         </import>
-        
+
         <export>
             <transformation name="graphml/output_GraphML.xslt" type="XSLT"/>
         </export>
     </fileFormat>
 
-  
+
     <refinementFileExtensions/>
 
     <graphTypes>
         <graphType name="GraphML graph">
             <attributes/>
-            <parameters>
-            </parameters>
+            <parameters> </parameters>
         </graphType>
     </graphTypes>
 
@@ -37,7 +36,9 @@
 
     <edgeTypes>
         <edgeType name="edge">
-            <attributes/>
+            <attributes>
+                <directed value="true"/>
+            </attributes>
             <parameters/>
         </edgeType>
     </edgeTypes>

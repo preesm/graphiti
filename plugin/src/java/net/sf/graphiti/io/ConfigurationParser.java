@@ -37,11 +37,13 @@ import java.util.TreeSet;
 
 import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Configuration;
+import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.GraphType;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.ParameterPosition;
+import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 import net.sf.graphiti.ui.figure.shapes.ShapeCircle;
@@ -111,14 +113,36 @@ public class ConfigurationParser {
 	}
 
 	/**
-	 * Parses the attributes for the given type.
+	 * Parses the attributes for the given edge type.
 	 * 
 	 * @param type
 	 *            The type whose attributes are being specified.
 	 * @param node
 	 *            A child node of &lt;attributes&gt;.
 	 */
-	private void parseAttributes(AbstractType type, Node node) {
+	private void parseAttributes(EdgeType type, Node node) {
+		while (node != null) {
+			String nodeName = node.getNodeName();
+			if (nodeName.equals("directed")) {
+				Element element = (Element) node;
+				boolean directed = Boolean.parseBoolean(element
+						.getAttribute("value"));
+				type.addAttribute(Edge.ATTRIBUTE_DIRECTED, directed);
+			}
+
+			node = node.getNextSibling();
+		}
+	}
+
+	/**
+	 * Parses the attributes for the given vertex type.
+	 * 
+	 * @param type
+	 *            The type whose attributes are being specified.
+	 * @param node
+	 *            A child node of &lt;attributes&gt;.
+	 */
+	private void parseAttributes(VertexType type, Node node) {
 		while (node != null) {
 			String nodeName = node.getNodeName();
 			if (nodeName.equals("color")) {
@@ -127,7 +151,7 @@ public class ConfigurationParser {
 				int green = Integer.parseInt(element.getAttribute("green"));
 				int blue = Integer.parseInt(element.getAttribute("blue"));
 				Color color = new Color(null, red, green, blue);
-				type.addAttribute("color", color);
+				type.addAttribute(Vertex.ATTRIBUTE_COLOR, color);
 			} else if (nodeName.equals("shape")) {
 				String shapeName = ((Element) node).getAttribute("name");
 				IShape shape = null;
@@ -142,13 +166,13 @@ public class ConfigurationParser {
 				} else if (shapeName.equals("triangle")) {
 					shape = new ShapeTriangle();
 				}
-				type.addAttribute("shape", shape);
+				type.addAttribute(Vertex.ATTRIBUTE_SHAPE, shape);
 			} else if (nodeName.equals("size")) {
 				Element element = (Element) node;
 				int width = Integer.parseInt(element.getAttribute("width"));
 				int height = Integer.parseInt(element.getAttribute("height"));
-				type.addAttribute("width", width);
-				type.addAttribute("height", height);
+				type.addAttribute(Vertex.ATTRIBUTE_WIDTH, width);
+				type.addAttribute(Vertex.ATTRIBUTE_HEIGHT, height);
 			}
 
 			node = node.getNextSibling();
@@ -373,7 +397,11 @@ public class ConfigurationParser {
 	 */
 	private void parseType(AbstractType type, Node node) {
 		node = DomHelper.getFirstSiblingNamed(node, "attributes");
-		parseAttributes(type, node.getFirstChild());
+		if (type instanceof EdgeType) {
+			parseAttributes((EdgeType) type, node.getFirstChild());
+		} else if (type instanceof VertexType) {
+			parseAttributes((VertexType) type, node.getFirstChild());
+		}
 		node = DomHelper.getFirstSiblingNamed(node, "parameters");
 		parseParameters(type, node.getFirstChild());
 	}

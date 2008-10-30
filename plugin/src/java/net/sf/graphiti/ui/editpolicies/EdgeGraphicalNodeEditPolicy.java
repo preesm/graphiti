@@ -60,7 +60,8 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
 	@Override
 	protected Connection createDummyConnection(Request req) {
-		EdgeFigure conn = new EdgeFigure(null);
+		Object obj = ((CreateConnectionRequest) req).getNewObject();
+		EdgeFigure conn = new EdgeFigure((Edge) obj);
 		return conn;
 	}
 

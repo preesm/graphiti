@@ -40,6 +40,11 @@ import java.util.List;
 public class Edge extends PropertyBean {
 
 	/**
+	 * String for the "directed" attribute.
+	 */
+	public static final String ATTRIBUTE_DIRECTED = "directed";
+
+	/**
 	 * String for the "source port" parameter. Defines the edge source port (if
 	 * any).
 	 */

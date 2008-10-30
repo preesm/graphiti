@@ -91,7 +91,9 @@
 
     <edgeTypes>
         <edgeType name="interconnection">
-            <attributes/>
+            <attributes>
+                <directed value="true"/>
+            </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String"/>
                 <parameter name="source port" type="java.lang.String"/>
@@ -100,7 +102,9 @@
         </edgeType>
         
         <edgeType name="hierConnection">
-            <attributes/>
+            <attributes>
+                <directed value="true"/>
+            </attributes>
             <parameters>
                 <parameter name="source port" type="java.lang.String"/>
             </parameters>

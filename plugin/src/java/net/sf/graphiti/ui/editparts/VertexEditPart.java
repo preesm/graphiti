@@ -170,7 +170,11 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 		// update the figure position (if the graph has layout information)
 		if ((Boolean) vertex.getParent().getValue(Graph.PROPERTY_HAS_LAYOUT)) {
-			figure.setBounds((Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE));
+			Rectangle bounds = (Rectangle) vertex
+					.getValue(Vertex.PROPERTY_SIZE);
+			if (bounds != null) {
+				figure.setBounds(bounds);
+			}
 		}
 
 		// update its size

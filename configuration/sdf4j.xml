@@ -64,7 +64,9 @@
 
     <edgeTypes>
         <edgeType name="Dataflow edge">
-            <attributes/>
+            <attributes>
+                <directed value="true"/>
+            </attributes>
             <parameters>
                 <parameter name="source port" type="java.lang.String"/>
                 <parameter name="target port" type="java.lang.String"/>

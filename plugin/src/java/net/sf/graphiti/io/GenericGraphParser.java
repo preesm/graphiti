@@ -305,6 +305,10 @@ public class GenericGraphParser {
 		} catch (CoreException e) {
 			throw new IncompatibleConfigurationFile(
 					"Could not obtain the file contents.", e);
+		} catch (Throwable e) {
+			throw new IncompatibleConfigurationFile(
+					"The file could not be parsed with the matching configuration",
+					e);
 		}
 	}
 

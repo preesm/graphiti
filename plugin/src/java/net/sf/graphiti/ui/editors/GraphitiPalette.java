@@ -31,6 +31,7 @@ package net.sf.graphiti.ui.editors;
 import java.util.Set;
 
 import net.sf.graphiti.model.Configuration;
+import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.EdgeCreationFactory;
 import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.Graph;
@@ -79,14 +80,23 @@ public class GraphitiPalette {
 	 */
 	private static void addEdgeTypes(Graph graph, PaletteRoot paletteModel) {
 		if (graph != null) {
-			ImageDescriptor id = ImageDescriptor.createFromImage(GraphitiPlugin
-					.getImage("icons/dependency.gif"));
 			PaletteDrawer depDrawer = new PaletteDrawer("Connections");
 
 			Configuration config = graph.getConfiguration();
 			Set<EdgeType> edgeTypes = config.getEdgeTypes();
 			for (EdgeType type : edgeTypes) {
 				String typeStr = type.getName();
+
+				ImageDescriptor id;
+				Boolean directed = (Boolean) type
+						.getAttribute(Edge.ATTRIBUTE_DIRECTED);
+				if (directed == null || directed) {
+					id = ImageDescriptor.createFromImage(GraphitiPlugin
+							.getImage("icons/directed_edge.gif"));
+				} else {
+					id = ImageDescriptor.createFromImage(GraphitiPlugin
+							.getImage("icons/undirected_edge.gif"));
+				}
 
 				ToolEntry tool = new ConnectionCreationToolEntry(typeStr,
 						"Create a new " + typeStr,
