@@ -7,19 +7,29 @@
 	<xsl:output indent="yes" method="xml"/>
 
 	<xsl:template match="text()"/>
-
-	<xsl:template match="graphml:graph">
+	
+	<xsl:template match="graphml">
+		<xsl:apply-templates select="key"/>
+		<xsl:apply-templates select="graph"/>
+	</xsl:template>
+	
+	<xsl:template match="key">
+	</xsl:template>
+	
+	<xsl:template match="graph">
 		<xsl:element name="graph">
 			<xsl:attribute name="type" select="'GraphML graph'"/>
 
-			<xsl:element name="parameters"/>
+			<xsl:element name="parameters">
+				
+			</xsl:element>
 
 			<xsl:element name="vertices">
-				<xsl:apply-templates select="graphml:node"/>
+				<xsl:apply-templates select="node"/>
 			</xsl:element>
 		
 			<xsl:element name="edges">
-				<xsl:apply-templates select="graphml:edge"/>		
+				<xsl:apply-templates select="edge"/>		
 			</xsl:element>
 			
 		</xsl:element>
@@ -27,7 +37,7 @@
 	
 	<!-- Instances -->
 	
-	<xsl:template match="graphml:node">
+	<xsl:template match="node">
 		<xsl:element name="vertex">
 			<xsl:attribute name="type">Instance</xsl:attribute>
 			<xsl:element name="parameters">
@@ -40,7 +50,7 @@
 	</xsl:template>
 	
 	
-	<xsl:template match="graphml:edge">
+	<xsl:template match="edge">
 		<xsl:element name="edge">
 			<xsl:attribute name="source" select="@source"/>
 			<xsl:attribute name="target" select="@target"/>
