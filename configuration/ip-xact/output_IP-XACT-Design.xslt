@@ -18,11 +18,11 @@
             <xsl:apply-templates select="parameters" mode="vlnv"/>
             <xsl:element name="spirit:componentInstances">
                 <xsl:apply-templates select="vertices/vertex[@type = 'componentInstance']"/>
-                <xsl:apply-templates select="vertices/vertex[@type='operator' or @type='medium']"/>
+                <xsl:apply-templates select="vertices/vertex[@type != 'componentInstance' and @type != 'hierConnection']"/>
             </xsl:element>    
             
             <xsl:element name="spirit:interconnections">
-                <xsl:apply-templates select="edges/edge[@type = 'interconnection']"/>
+                <xsl:apply-templates select="edges/edge[@type = 'interconnection' or @type = 'fifo']"/>
             </xsl:element>
             
             <xsl:element name="spirit:hierConnections">
@@ -62,7 +62,7 @@
     </xsl:template>
     
     <!-- Component instances -->
-    <xsl:template match="vertex[@type='operator' or @type='medium']">
+    <xsl:template match="vertex[@type != 'componentInstance' and @type != 'hierConnection']">
         <xsl:element name="spirit:componentInstance">
             <xsl:element name="spirit:instanceName">
                 <xsl:value-of select="parameters/parameter[@name = 'id']/@value"/>
@@ -78,6 +78,7 @@
                     <xsl:attribute name="spirit:referenceId">componentType</xsl:attribute>
                     <xsl:value-of select="@type"/>
                 </xsl:element>
+                <!-- Specific medium parameters -->
                 <xsl:if test="@type='medium'">
                     <xsl:element name="spirit:configurableElementValue">
                         <xsl:attribute name="spirit:referenceId">medium_invDataRate</xsl:attribute>
@@ -118,6 +119,24 @@
                 <xsl:variable name="hierEdge" select="//edges/edge[@type = 'hierConnection' and @target = $id][1]"/>
                 <xsl:attribute name="spirit:busRef" select="$hierEdge/parameters/parameter[@name = 'source port']/@value"/>
                     <xsl:attribute name="spirit:componentRef" select="$hierEdge/@source"/>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
+    <!-- hierarchical connections -->
+    <xsl:template match="edge[@type = 'fifo']">
+        <xsl:element name="spirit:interconnection">
+            <xsl:element name="spirit:name">
+                <xsl:value-of select="parameters/parameter[@name = 'id']/@value"/>
+            </xsl:element>
+            <xsl:element name="spirit:displayName">fifo</xsl:element>
+            <xsl:element name="spirit:activeInterface">
+                <xsl:attribute name="spirit:busRef" select="parameters/parameter[@name = 'source port']/@value"/>
+                <xsl:attribute name="spirit:componentRef" select="@source"/>
+            </xsl:element>
+            <xsl:element name="spirit:activeInterface">
+                <xsl:attribute name="spirit:busRef" select="parameters/parameter[@name = 'target port']/@value"/>
+                <xsl:attribute name="spirit:componentRef" select="@target"/>
             </xsl:element>
         </xsl:element>
     </xsl:template>

@@ -72,6 +72,70 @@
             </parameters>
         </vertexType>
 
+        <vertexType name="communicationNode">
+            <attributes>
+                <color red="72" green="236" blue="141"/>
+                <shape name="roundedBox"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+                <parameter name="vendor" type="java.lang.String"/>
+                <parameter name="library" type="java.lang.String"/>
+                <parameter name="name" type="java.lang.String"/>
+                <parameter name="version" type="java.lang.String"/>
+                <parameter name="refinement" type="java.lang.String"/>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="communicator">
+            <attributes>
+                <color red="70" green="91" blue="240"/>
+                <shape name="roundedBox"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+                <parameter name="vendor" type="java.lang.String"/>
+                <parameter name="library" type="java.lang.String"/>
+                <parameter name="name" type="java.lang.String"/>
+                <parameter name="version" type="java.lang.String"/>
+                <parameter name="refinement" type="java.lang.String"/>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="bus">
+            <attributes>
+                <color red="74" green="224" blue="236"/>
+                <shape name="circle"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+                <parameter name="vendor" type="java.lang.String"/>
+                <parameter name="library" type="java.lang.String"/>
+                <parameter name="name" type="java.lang.String"/>
+                <parameter name="version" type="java.lang.String"/>
+                <parameter name="refinement" type="java.lang.String"/>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="memory">
+            <attributes>
+                <color red="240" green="236" blue="70"/>
+                <shape name="roundedBox"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+                <parameter name="vendor" type="java.lang.String"/>
+                <parameter name="library" type="java.lang.String"/>
+                <parameter name="name" type="java.lang.String"/>
+                <parameter name="version" type="java.lang.String"/>
+                <parameter name="refinement" type="java.lang.String"/>
+            </parameters>
+        </vertexType>
+
         <vertexType name="medium">
             <attributes>
                 <color red="244" green="96" blue="96"/>
@@ -94,7 +158,7 @@
     <edgeTypes>
         <edgeType name="interconnection">
             <attributes>
-                <directed value="true"/>
+                <directed value="false"/>
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String"/>
@@ -105,10 +169,21 @@
         
         <edgeType name="hierConnection">
             <attributes>
-                <directed value="true"/>
+                <directed value="false"/>
             </attributes>
             <parameters>
                 <parameter name="source port" type="java.lang.String"/>
+            </parameters>
+        </edgeType>
+        
+        <edgeType name="fifo">
+            <attributes>
+                <directed value="true"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+                <parameter name="source port" type="java.lang.String"/>
+                <parameter name="target port" type="java.lang.String"/>
             </parameters>
         </edgeType>
     </edgeTypes>

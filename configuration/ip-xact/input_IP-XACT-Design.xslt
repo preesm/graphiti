@@ -98,7 +98,7 @@
     <xsl:template match="spirit:componentInstance" mode="#default">
             <xsl:variable name="componentType" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='componentType']"/>
             <xsl:choose>
-                <xsl:when test="$componentType='operator' or $componentType='medium'">
+                <xsl:when test="$componentType!=''">
                     <xsl:apply-templates select="." mode="specific"/>
                 </xsl:when>
                 <xsl:otherwise>
@@ -174,6 +174,7 @@
                     <xsl:attribute name="name">version</xsl:attribute>
                     <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:version"/></xsl:attribute>
                 </xsl:element>
+                <!-- Specific medium parameters -->
                 <xsl:if test="$componentType='medium'">
                     <xsl:element name="parameter">
                         <xsl:attribute name="name">medium_invDataRate</xsl:attribute>
@@ -191,7 +192,14 @@
     <!-- template for the interconnections -->
     <xsl:template match="spirit:interconnection">
         <xsl:element name="edge">
-            <xsl:attribute name="type">interconnection</xsl:attribute>
+            <xsl:choose>
+                <xsl:when test="spirit:displayName='fifo'">
+                    <xsl:attribute name="type">fifo</xsl:attribute>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name="type">interconnection</xsl:attribute>
+                </xsl:otherwise>
+            </xsl:choose>
             <xsl:attribute name="source" select="spirit:activeInterface[1]/@spirit:componentRef"/>
             <xsl:attribute name="target" select="spirit:activeInterface[2]/@spirit:componentRef"/>
             <xsl:element name="parameters">
