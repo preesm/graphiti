@@ -18,7 +18,7 @@
             <xsl:apply-templates select="parameters" mode="vlnv"/>
             <xsl:element name="spirit:componentInstances">
                 <xsl:apply-templates select="vertices/vertex[@type = 'componentInstance']"/>
-                <xsl:apply-templates select="vertices/vertex[@type='Operator' or @type='Medium']"/>
+                <xsl:apply-templates select="vertices/vertex[@type='operator' or @type='medium']"/>
             </xsl:element>    
             
             <xsl:element name="spirit:interconnections">
@@ -62,7 +62,7 @@
     </xsl:template>
     
     <!-- Component instances -->
-    <xsl:template match="vertex[@type='Operator' or @type='Medium']">
+    <xsl:template match="vertex[@type='operator' or @type='medium']">
         <xsl:element name="spirit:componentInstance">
             <xsl:element name="spirit:instanceName">
                 <xsl:value-of select="parameters/parameter[@name = 'id']/@value"/>

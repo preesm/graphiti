@@ -56,7 +56,7 @@
             </parameters>
         </vertexType>
 
-        <vertexType name="Operator">
+        <vertexType name="operator">
             <attributes>
                 <color red="123" green="220" blue="16"/>
                 <shape name="roundedBox"/>
@@ -72,7 +72,7 @@
             </parameters>
         </vertexType>
 
-        <vertexType name="Medium">
+        <vertexType name="medium">
             <attributes>
                 <color red="244" green="96" blue="96"/>
                 <shape name="roundedBox"/>

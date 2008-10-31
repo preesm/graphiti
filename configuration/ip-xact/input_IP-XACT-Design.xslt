@@ -98,7 +98,7 @@
     <xsl:template match="spirit:componentInstance" mode="#default">
             <xsl:variable name="componentType" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='componentType']"/>
             <xsl:choose>
-                <xsl:when test="$componentType='Operator' or $componentType='Medium'">
+                <xsl:when test="$componentType='operator' or $componentType='medium'">
                     <xsl:apply-templates select="." mode="specific"/>
                 </xsl:when>
                 <xsl:otherwise>
