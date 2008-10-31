@@ -85,6 +85,8 @@
                 <parameter name="name" type="java.lang.String"/>
                 <parameter name="version" type="java.lang.String"/>
                 <parameter name="refinement" type="java.lang.String"/>
+                <parameter name="medium_invDataRate" type="java.lang.String"/>
+                <parameter name="medium_overhead" type="java.lang.String"/>
             </parameters>
         </vertexType>
     </vertexTypes>

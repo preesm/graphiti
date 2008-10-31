@@ -78,6 +78,16 @@
                     <xsl:attribute name="spirit:referenceId">componentType</xsl:attribute>
                     <xsl:value-of select="@type"/>
                 </xsl:element>
+                <xsl:if test="@type='medium'">
+                    <xsl:element name="spirit:configurableElementValue">
+                        <xsl:attribute name="spirit:referenceId">medium_invDataRate</xsl:attribute>
+                        <xsl:value-of select="parameters/parameter[@name = 'medium_invDataRate']/@value"/>
+                    </xsl:element>
+                    <xsl:element name="spirit:configurableElementValue">
+                        <xsl:attribute name="spirit:referenceId">medium_overhead</xsl:attribute>
+                        <xsl:value-of select="parameters/parameter[@name = 'medium_overhead']/@value"/>
+                    </xsl:element>
+                </xsl:if>
             </xsl:element>
         </xsl:element>
     </xsl:template>
@@ -111,55 +121,5 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-   
-    <!-- 
-        <xsl:template match="vertex[@type='Input port']">
-        <xsl:element name="Port">
-        <xsl:attribute name="kind">Input</xsl:attribute>
-        <xsl:attribute name="name" select="parameters/parameter[@name = 'id']/@value"/>
-        </xsl:element>
-        </xsl:template>
-        
-        <xsl:template match="vertex[@type='Output port']">
-        <xsl:element name="Port">
-        <xsl:attribute name="kind">Output</xsl:attribute>
-        <xsl:attribute name="name" select="parameters/parameter[@name = 'id']/@value"/>
-        </xsl:element>
-        </xsl:template>
-        
-        <xsl:template match="vertex[@type='Instance']">
-        <xsl:element name="Instance">
-        <xsl:attribute name="id" select="parameters/parameter[@name = 'id']/@value"/>
-        <xsl:apply-templates select="parameters/parameter[@name = 'instance parameter']"/>
-        </xsl:element>
-        </xsl:template>
-        
-        
-        <xsl:template match="edge">
-        <xsl:element name="Connection">
-        <xsl:choose>
-        <xsl:when test="parameters/parameter[@name = 'source port']/@value != ''">
-        <xsl:attribute name="src" select="@source"/>
-        <xsl:attribute name="src-port"
-        select="parameters/parameter[@name = 'source port']/@value"/>
-        </xsl:when>
-        <xsl:otherwise>
-        <xsl:attribute name="src"/>
-        <xsl:attribute name="src-port" select="@source"/>
-        </xsl:otherwise>
-        </xsl:choose>
-        <xsl:choose>
-        <xsl:when test="parameters/parameter[@name = 'target port']/@value != ''">
-        <xsl:attribute name="dst" select="@target"/>
-        <xsl:attribute name="dst-port"
-        select="parameters/parameter[@name = 'target port']/@value"/>
-        </xsl:when>
-        <xsl:otherwise>
-        <xsl:attribute name="dst"/>
-        <xsl:attribute name="dst-port" select="@target"/>
-        </xsl:otherwise>
-        </xsl:choose>
-        </xsl:element>
-        </xsl:template>
-    -->
+
 </xsl:stylesheet>

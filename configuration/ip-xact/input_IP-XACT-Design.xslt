@@ -174,6 +174,16 @@
                     <xsl:attribute name="name">version</xsl:attribute>
                     <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:version"/></xsl:attribute>
                 </xsl:element>
+                <xsl:if test="$componentType='medium'">
+                    <xsl:element name="parameter">
+                        <xsl:attribute name="name">medium_invDataRate</xsl:attribute>
+                        <xsl:attribute name="value"><xsl:value-of select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='medium_invDataRate']"/></xsl:attribute>
+                    </xsl:element>
+                    <xsl:element name="parameter">
+                        <xsl:attribute name="name">medium_overhead</xsl:attribute>
+                        <xsl:attribute name="value"><xsl:value-of select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='medium_overhead']"/></xsl:attribute>
+                    </xsl:element>
+                </xsl:if>
             </xsl:element>
         </xsl:element>
     </xsl:template>
