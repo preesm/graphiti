@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    
+    <fileFormat extension="xnl" type="text/xml">
+        <import>
+            <transformation name="xnl/input_XNL.xslt"/>
+        </import>
+        
+        <export>
+            <transformation name="xnl/output_XNL.xslt"/>
+        </export>
+    </fileFormat>
+
+    <refinementFileExtensions>
+        <fileExtension name="xdf"/>
+        <fileExtension name="xnl"/>
+        <fileExtension name="nl"/>
+        <fileExtension name="cal"/>
+        <fileExtension name="calml"/>
+    </refinementFileExtensions>
+
+    <graphTypes>
+        <graphType name="XML Network Language">
+            <attributes/>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+                <parameter name="network parameter" type="java.util.List"/>
+                <parameter name="network variable declaration" type="java.util.Map"/>
+            </parameters>
+        </graphType>
+    </graphTypes>
+
+    <vertexTypes>
+        <vertexType name="Input port">
+            <attributes>
+                <color red="0" green="60" blue="100"/>
+                <shape name="triangle"/>
+                <size width="30" height="30"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="Output port">
+            <attributes>
+                <color red="60" green="0" blue="100"/>
+                <shape name="triangle"/>
+                <size width="30" height="30"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="Instance">
+            <attributes>
+                <color red="255" green="255" blue="255"/>
+                <shape name="roundedBox"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String"/>
+                <parameter name="instance parameter" type="java.util.Map"/>
+                <parameter name="refinement" type="java.lang.String"/>
+            </parameters>
+        </vertexType>
+    </vertexTypes>
+
+    <edgeTypes>
+        <edgeType name="Connection">
+            <attributes>
+                <directed value="true"/>
+            </attributes>
+            <parameters>
+                <parameter name="source port" type="java.lang.String"/>
+                <parameter name="target port" type="java.lang.String"/>
+            </parameters>
+        </edgeType>
+    </edgeTypes>
+</configuration>
