@@ -29,8 +29,8 @@
                 <size width="20" height="20"/>
             </attributes>
             <parameters>
+                <parameter name="refId" type="java.lang.String"/>
                 <parameter name="id" type="java.lang.String"/>
-                <parameter name="name" type="java.lang.String"/>
             </parameters>
         </vertexType>
     </vertexTypes>

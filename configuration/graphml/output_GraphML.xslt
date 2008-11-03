@@ -51,11 +51,11 @@
     <!-- One vertex -->
     <xsl:template match="vertex[@type='Instance']">
         <xsl:element name="node">
-            <xsl:attribute name="id" select="parameters/parameter[@name='id']/@value"/>
+            <xsl:attribute name="id" select="parameters/parameter[@name='refId']/@value"/>
             
             <xsl:element name="data" >
                 <xsl:attribute name="key">k3</xsl:attribute>
-                <xsl:value-of select="parameters/parameter[@name='name']/@value"/>
+                <xsl:value-of select="parameters/parameter[@name='id']/@value"/>
             </xsl:element>
             
         </xsl:element>
