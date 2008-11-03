@@ -34,7 +34,7 @@
             </xsl:element>
             <xsl:element name="key">
                 <xsl:attribute name="attr.name">name</xsl:attribute>
-                <xsl:attribute name="attr.type">int</xsl:attribute>
+                <xsl:attribute name="attr.type">string</xsl:attribute>
                 <xsl:attribute name="for">edge</xsl:attribute>
                 <xsl:attribute name="id">k3</xsl:attribute>
                     <xsl:element name="desc" >vertex name</xsl:element>
