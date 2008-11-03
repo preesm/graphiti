@@ -30,7 +30,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String"/>
-                <parameter name="refId" type="java.lang.String"/>
+                <parameter name="name" type="java.lang.String"/>
             </parameters>
         </vertexType>
     </vertexTypes>

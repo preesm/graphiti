@@ -42,11 +42,11 @@
 			<xsl:attribute name="type">Instance</xsl:attribute>
 			<xsl:element name="parameters">
 				<xsl:element name="parameter">
-					<xsl:attribute name="name">refId</xsl:attribute>
+					<xsl:attribute name="name">id</xsl:attribute>
 					<xsl:attribute name="value" select="@id"/>
 				</xsl:element>
 				<xsl:element name="parameter">
-				<xsl:attribute name="name">id</xsl:attribute>
+				<xsl:attribute name="name">name</xsl:attribute>
 				<xsl:attribute name="value" select="data[@key='k3']"/>
 				</xsl:element>
 			</xsl:element>
