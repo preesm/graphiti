@@ -17,7 +17,7 @@
     <xsl:template match="graph">
 
         <!-- layout information -->
-        <xsl:result-document href="file:/{$file}" method="xml" indent="yes">
+        <xsl:result-document href="file:///{$file}" method="xml" indent="yes">
             <xsl:element name="layout">
                 <xsl:element name="vertices">
                     <xsl:for-each select="vertices/vertex">

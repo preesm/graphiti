@@ -10,7 +10,7 @@
         except with .layout extension. -->
     <xsl:param name="path"/>
     <xsl:variable name="file" select="replace($path, '(.+)[.].+', '$1.layout')"/>
-    <xsl:variable name="layout" select="document(concat('file:/', $file))"/>
+    <xsl:variable name="layout" select="document(concat('file:///', $file))"/>
 
     <!-- returns two attributes x and y that contains the position of the vertex,
         if specified in $layout -->
