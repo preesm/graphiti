@@ -42,8 +42,12 @@
 			<xsl:attribute name="type">Instance</xsl:attribute>
 			<xsl:element name="parameters">
 				<xsl:element name="parameter">
-					<xsl:attribute name="name">id</xsl:attribute>
+					<xsl:attribute name="name">refId</xsl:attribute>
 					<xsl:attribute name="value" select="@id"/>
+				</xsl:element>
+				<xsl:element name="parameter">
+				<xsl:attribute name="name">id</xsl:attribute>
+				<xsl:attribute name="value" select="data[@key='k3']"/>
 				</xsl:element>
 			</xsl:element>
 		</xsl:element>
@@ -55,8 +59,20 @@
 			<xsl:attribute name="source" select="@source"/>
 			<xsl:attribute name="target" select="@target"/>
 			<xsl:attribute name="type">edge</xsl:attribute>
-			
-			<xsl:element name="parameters"/>
+			<xsl:element name="parameters">
+			<xsl:element name="parameter">
+				<xsl:attribute name="name">edge_prod</xsl:attribute>
+				<xsl:attribute name="value" select="data[@key='k0']"/>
+			</xsl:element>
+			<xsl:element name="parameter">
+				<xsl:attribute name="name">edge_delay</xsl:attribute>
+				<xsl:attribute name="value" select="data[@key='k1']"/>
+			</xsl:element>
+			<xsl:element name="parameter">
+				<xsl:attribute name="name">edge_cons</xsl:attribute>
+				<xsl:attribute name="value" select="data[@key='k2']"/>
+			</xsl:element>
+			</xsl:element>
 		</xsl:element>
 	</xsl:template>
 

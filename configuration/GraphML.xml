@@ -30,6 +30,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String"/>
+                <parameter name="refId" type="java.lang.String"/>
             </parameters>
         </vertexType>
     </vertexTypes>
@@ -39,7 +40,11 @@
             <attributes>
                 <directed value="true"/>
             </attributes>
-            <parameters/>
+            <parameters>
+                <parameter name="edge_prod" type="java.lang.String"/>
+                <parameter name="edge_delay" type="java.lang.String"/>
+                <parameter name="edge_cons" type="java.lang.String"/>
+            </parameters>
         </edgeType>
     </edgeTypes>
 </configuration>
