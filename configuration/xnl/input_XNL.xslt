@@ -45,7 +45,7 @@
             </vertices>
 
             <edges>
-                <xsl:apply-templates select="Connection"/>
+                <xsl:apply-templates select="StructureStmt"/>
             </edges>
         </graph>
     </xsl:template>
@@ -108,30 +108,31 @@
     </xsl:template>
 
     <!-- Connections -->
-    <xsl:template match="Connection">
+    <xsl:template match="StructureStmt[@kind = 'Connection']">
         <edge type="Connection">
             <xsl:choose>
-                <xsl:when test="@src = ''">
-                    <xsl:attribute name="source" select="@src-port"/>
+                <xsl:when test="PortSpec[1]/@kind = 'Local'">
+                    <xsl:attribute name="source" select="PortSpec[1]/PortRef/@name"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:attribute name="source" select="@src"/>
+                    <xsl:attribute name="source" select="PortSpec[1]/EntityRef/@name"/>
                 </xsl:otherwise>
             </xsl:choose>
             <xsl:choose>
-                <xsl:when test="@dst = ''">
-                    <xsl:attribute name="target" select="@dst-port"/>
+                <xsl:when test="PortSpec[2]/@kind = 'Local'">
+                    <xsl:attribute name="target" select="PortSpec[2]/PortRef/@name"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:attribute name="target" select="@dst"/>
+                    <xsl:attribute name="target" select="PortSpec[2]/EntityRef/@name"/>
                 </xsl:otherwise>
             </xsl:choose>
+            
             <parameters>
-                <xsl:if test="@src != ''">
-                    <parameter name="source port" value="{@src-port}"/>
+                <xsl:if test="PortSpec[1]/@kind = 'Entity'">
+                    <parameter name="source port" value="{PortSpec[1]/PortRef/@name}"/>
                 </xsl:if>
-                <xsl:if test="@dst != ''">
-                    <parameter name="target port" value="{@dst-port}"/>
+                <xsl:if test="PortSpec[2]/@kind = 'Entity'">
+                    <parameter name="target port" value="{PortSpec[2]/PortRef/@name}"/>
                 </xsl:if>
             </parameters>
         </edge>

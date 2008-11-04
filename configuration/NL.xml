@@ -69,7 +69,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
-                <parameter name="instance parameter" type="java.util.List">
+                <parameter name="instance parameter" type="java.util.Map">
                     <!-- default content: none -->
                 </parameter>
                 <parameter name="refinement" type="java.lang.String" default=""/>
