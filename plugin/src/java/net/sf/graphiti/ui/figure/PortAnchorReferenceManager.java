@@ -58,7 +58,7 @@ public class PortAnchorReferenceManager {
 	}
 
 	public Point getReferencePoint(AbstractConnectionAnchor anchor) {
-		if (portName == null) {
+		if (portName == null || portName.isEmpty()) {
 			return null;
 		} else {
 			Label label;

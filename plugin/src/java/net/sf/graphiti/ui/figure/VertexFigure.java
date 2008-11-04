@@ -98,7 +98,9 @@ public class VertexFigure extends Figure {
 	 *            The port name.
 	 */
 	public void addInputPort(String portName) {
-		inputPorts.put(portName, null);
+		if (portName != null && !portName.isEmpty()) {
+			inputPorts.put(portName, null);
+		}
 	}
 
 	/**
@@ -108,7 +110,9 @@ public class VertexFigure extends Figure {
 	 *            The port name.
 	 */
 	public void addOutputPort(String portName) {
-		outputPorts.put(portName, null);
+		if (portName != null && !portName.isEmpty()) {
+			outputPorts.put(portName, null);
+		}
 	}
 
 	/**
