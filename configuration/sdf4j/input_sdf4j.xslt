@@ -85,6 +85,12 @@
                 </xsl:element>
 
                 <xsl:element name="parameter">
+                    <xsl:attribute name="name">name</xsl:attribute>
+                    <xsl:attribute name="value" select="graphml:data[@key = 'name']/text()"/>
+                </xsl:element>
+                
+
+                <xsl:element name="parameter">
                     <xsl:attribute name="name">refinement</xsl:attribute>
                     <xsl:attribute name="value" select="graphml:data[@key = 'graph_desc']/text()"/>
                 </xsl:element>

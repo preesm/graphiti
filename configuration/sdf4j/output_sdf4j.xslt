@@ -26,6 +26,9 @@
             <key attr.name="graph_desc" attr.type="string" for="node" id="graph_desc">
                 <desc>java.lang.String</desc>
             </key>
+            <key attr.name="name" attr.type="string" for="node" id="name">
+                <desc>java.lang.String</desc>
+            </key>
             <key attr.name="arguments" for="node" id="arguments"/>
             <key attr.name="parameters" for="graph" id="parameters"/>
             <key attr.name="variables" for="graph" id="variables"/>
@@ -69,6 +72,10 @@
         <node kind="vertex" id="{parameters/parameter[@name = 'id']/@value}">
             <data key="graph_desc">
                 <xsl:value-of select="parameters/parameter[@name = 'refinement']/@value"/>
+            </data>
+            
+            <data key="name">
+                <xsl:value-of select="parameters/parameter[@name = 'name']/@value"/>
             </data>
 
             <data key="arguments">
