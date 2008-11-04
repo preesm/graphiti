@@ -47,16 +47,16 @@
         <xsl:element name="QID">
             <xsl:attribute name="name" select="@value"/>
             <xsl:element name="ID">
-				<xsl:attribute name="name" select="@value"/>
+                <xsl:attribute name="name" select="@value"/>
             </xsl:element>
         </xsl:element>
     </xsl:template>
 
-	
+
     <!-- Parameter declarations -->
     <xsl:template match="parameter[@name = 'network parameter']/element">
         <xsl:element name="Decl">
-            <xsl:attribute name="kind">Paramater</xsl:attribute>
+            <xsl:attribute name="kind">Parameter</xsl:attribute>
             <xsl:attribute name="name" select="@value"/>
         </xsl:element>
     </xsl:template>
@@ -92,10 +92,10 @@
         <xsl:element name="EntityDecl">
             <xsl:attribute name="name" select="parameters/parameter[@name = 'id']/@value"/>
             <xsl:element name="EntityExpr">
-				<xsl:attribute name="kind">Instantiation</xsl:attribute>
+                <xsl:attribute name="kind">Instantiation</xsl:attribute>
                 <xsl:attribute name="name"
                     select="parameters/parameter[@name = 'refinement']/@value"/>
-				<xsl:apply-templates select="parameters/parameter[@name = 'instance parameter']"/>
+                <xsl:apply-templates select="parameters/parameter[@name = 'instance parameter']"/>
             </xsl:element>
         </xsl:element>
     </xsl:template>
@@ -112,30 +112,49 @@
 
     <!-- Connections -->
     <xsl:template match="edge">
-        <xsl:element name="Connection">
-            <xsl:choose>
-                <xsl:when test="parameters/parameter[@name = 'source port']/@value != ''">
-                    <xsl:attribute name="src" select="@source"/>
-                    <xsl:attribute name="src-port"
-                        select="parameters/parameter[@name = 'source port']/@value"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:attribute name="src"/>
-                    <xsl:attribute name="src-port" select="@source"/>
-                </xsl:otherwise>
-            </xsl:choose>
-            <xsl:choose>
-                <xsl:when test="parameters/parameter[@name = 'target port']/@value != ''">
-                    <xsl:attribute name="dst" select="@target"/>
-                    <xsl:attribute name="dst-port"
-                        select="parameters/parameter[@name = 'target port']/@value"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:attribute name="dst"/>
-                    <xsl:attribute name="dst-port" select="@target"/>
-                </xsl:otherwise>
-            </xsl:choose>
+        <xsl:element name="StructureStmt">
+            <xsl:attribute name="kind" select="'Connection'"/>
+
+            <xsl:call-template name="PortSpec">
+                <xsl:with-param name="vertex" select="@source"/>
+                <xsl:with-param name="port"
+                    select="parameters/parameter[@name = 'source port']/@value"/>
+            </xsl:call-template>
+
+            <xsl:call-template name="PortSpec">
+                <xsl:with-param name="vertex" select="@target"/>
+                <xsl:with-param name="port"
+                    select="parameters/parameter[@name = 'target port']/@value"/>
+            </xsl:call-template>
         </xsl:element>
+    </xsl:template>
+
+    <!-- Create a PortSpec element -->
+    <xsl:template name="PortSpec">
+        <xsl:param name="vertex"/>
+        <xsl:param name="port"/>
+
+        <xsl:choose>
+            <xsl:when test="$port != ''">
+                <xsl:element name="PortSpec">
+                    <xsl:attribute name="kind" select="'Entity'"/>
+                    <xsl:element name="EntityRef">
+                        <xsl:attribute name="name" select="$vertex"/>
+                    </xsl:element>
+                    <xsl:element name="PortRef">
+                        <xsl:attribute name="name" select="$port"/>
+                    </xsl:element>
+                </xsl:element>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:element name="PortSpec">
+                    <xsl:attribute name="kind" select="'Local'"/>
+                    <xsl:element name="PortRef">
+                        <xsl:attribute name="name" select="$vertex"/>
+                    </xsl:element>
+                </xsl:element>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
 </xsl:stylesheet>
