@@ -59,16 +59,20 @@ public class GrammarTest extends Analyzer {
 	public static void main(String[] args) {
 		if (args.length < 3) {
 			System.err.println("Usage: GrammarTest <grammar file name> "
-					+ "<input file name> <output XML file name>");
+					+ "<output XML file name> "
+					+ "<input file name or input file pattern> ");
 			return;
 		}
 
 		String grammarFileName = args[0];
-		String fileName = args[1];
-		String outputFileName = args[2];
+		String outputFileName = args[1];
 		try {
-			new GrammarTest(grammarFileName, new FileReader(fileName),
-					outputFileName);
+			for (int i = 2; i < args.length; i++) {
+				String fileName = args[i];
+				System.out.println("parsing " + fileName);
+				new GrammarTest(grammarFileName, new FileReader(fileName),
+						outputFileName);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

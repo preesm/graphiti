@@ -102,8 +102,7 @@ public class GrammarTransformer {
 			}
 		} else {
 			Token token = (Token) parseNode;
-			Element domNode = document.createElement("token");
-			domNode.setAttribute("name", token.getName());
+			Element domNode = document.createElement(token.getName());
 			domNode.setTextContent(token.getImage());
 			parent.appendChild(domNode);
 		}

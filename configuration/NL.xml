@@ -4,8 +4,9 @@
     <fileFormat extension="nl" type="text">
         <import>
             <transformation name="nl/nl.grammar"/>
-            <transformation name="nl/nl.xslt"/>
+            <transformation name="nl/nlToXNL.xslt"/>
             <transformation name="xnl/input_XNL.xslt"/>
+            <transformation name="nl/changeXNLGraphType.xslt"/>
         </import>
         
         <export>

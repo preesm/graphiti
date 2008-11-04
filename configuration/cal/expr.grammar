@@ -72,24 +72,20 @@ MUL         = "*"
 DIV         = "/"
 LEFT_PAREN  = "("
 RIGHT_PAREN = ")"
+
+ID          = <<[a-zA-Z_]+>>
 NUMBER      = <<[0-9]+>>
-IDENTIFIER  = <<[a-zA-Z_]+>>
 STRING      = <<"([^\\"]*(\\[tnr\\"])?)*">>
 WHITESPACE  = <<[ \t\n\r]+>> %ignore%
 
 
 %productions%
 
-Expression = Factor (ExpressionRest)* ;
+Expression = Factor (Operator Factor)* ;
 
-ExpressionRest = "+" Factor
-  | "-" Factor
-  | "*" Factor
-  | "/" Factor ;
+Operator = PLUS | MINUS | TIMES | DIV ;
 
 Factor = Atom
   | "(" Expression ")" ;
 
-Atom = NUMBER
-  | STRING
-  | IDENTIFIER ;
+Atom = ID | NUMBER | STRING ;

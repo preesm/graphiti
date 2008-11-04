@@ -5,28 +5,27 @@
 
     <xsl:template match="text()"/>
 
-    <xsl:template match="Atom/token[@name = 'IDENTIFIER']">
+    <xsl:template match="Atom/ID">
         <Expr kind="Var" name="{text()}"/>
     </xsl:template>
 
-    <xsl:template match="Atom/token[@name = 'NUMBER']">
+    <xsl:template match="Atom/NUMBER">
         <Expr kind="Literal" literal-kind="Integer" value="{text()}"/>
     </xsl:template>
 
-    <xsl:template match="Atom/token[@name = 'STRING']">
+    <xsl:template match="Atom/STRING">
         <xsl:variable name="textValue" select="text()"/>
         <xsl:variable name="string" select="substring($textValue, 2, string-length($textValue) - 2)"/>
         <Expr kind="Literal" literal-kind="String" value="{$string}"/>
     </xsl:template>
 
-    <xsl:template match="ExpressionRest">
-        <Op name="{token/text()}"/>
-        <xsl:apply-templates/>
+    <xsl:template match="Operator">
+        <Op name="{(PLUS | MINUS | TIMES | DIV)/text()}"/>
     </xsl:template>
 
     <xsl:template match="Expression">
         <xsl:choose>
-            <xsl:when test="count(ExpressionRest) = 0">
+            <xsl:when test="count(Operator) = 0">
                 <!-- this expression is a single factor -->
                 <xsl:apply-templates/>
             </xsl:when>
@@ -37,10 +36,6 @@
                 </Expr>
             </xsl:otherwise>
         </xsl:choose>
-    </xsl:template>
-
-    <xsl:template match="Factor">
-        <xsl:apply-templates/>
     </xsl:template>
 
 </xsl:stylesheet>
