@@ -64,7 +64,6 @@
                     <!-- default content: none -->
                 </parameter>
                 <parameter name="refinement" type="java.lang.String" default=""/>
-                <parameter name="name" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
     </vertexTypes>

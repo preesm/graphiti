@@ -79,7 +79,7 @@
             </data>
             
             <data key="name">
-                <xsl:value-of select="parameters/parameter[@name = 'name']/@value"/>
+                <xsl:value-of select="parameters/parameter[@name = 'id']/@value"/>
             </data>
 
             <xsl:apply-templates select="parameters/parameter[@name = 'actual parameter']"/>
