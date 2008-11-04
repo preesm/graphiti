@@ -28,6 +28,7 @@
  */
 package net.sf.graphiti.io;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +77,8 @@ public class GenericGraphWriter {
 	 *            The output file absolute path.
 	 * @param element
 	 *            The element resulting from {@link #writeGraph()}.
-	 * @return An element, transformed or not.
+	 * @param byteStream
+	 *            The {@link OutputStream} to write to.
 	 * @throws ClassCastException
 	 *             If any specified class does not implement
 	 *             DOMImplementationSource
@@ -91,10 +93,10 @@ public class GenericGraphWriter {
 	 *             If an unrecoverable error occurs during the course of the
 	 *             transformation.
 	 */
-	private Element applyTransformations(String path, Element element)
-			throws ClassCastException, ClassNotFoundException,
-			InstantiationException, IllegalAccessException,
-			TransformerException {
+	private void applyTransformations(String path, Element element,
+			OutputStream byteStream) throws ClassCastException,
+			ClassNotFoundException, InstantiationException,
+			IllegalAccessException, TransformerException {
 		Configuration configuration = graph.getConfiguration();
 		FileFormat format = configuration.getFileFormat();
 
@@ -105,7 +107,16 @@ public class GenericGraphWriter {
 			element = transformer.transformDomToDom(element);
 		}
 
-		return element;
+		if (format.getContentType().equals("text")) {
+			String content = element.getTextContent();
+			try {
+				byteStream.write(content.getBytes());
+			} catch (IOException e) {
+				// byte stream is a byte array output stream
+			}
+		} else {
+			DomHelper.write(element.getOwnerDocument(), byteStream);
+		}
 	}
 
 	/**
@@ -135,8 +146,7 @@ public class GenericGraphWriter {
 			IllegalAccessException, InstantiationException,
 			TransformerException {
 		Element element = writeGraph();
-		element = applyTransformations(path, element);
-		DomHelper.write(element.getOwnerDocument(), byteStream);
+		applyTransformations(path, element, byteStream);
 	}
 
 	private void writeEdges(Element edgesElement) {
