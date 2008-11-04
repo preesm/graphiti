@@ -462,12 +462,6 @@ public class GenericGraphParser {
 			Node node) {
 		node = DomHelper.getFirstSiblingNamed(node, "parameters");
 
-		// set default values.
-		List<Parameter> parameters = type.getParameters();
-		for (Parameter parameter : parameters) {
-			propertyBean.setValue(parameter.getName(), parameter.getDefault());
-		}
-
 		Node child = node.getFirstChild();
 		while (child != null) {
 			if (child.getNodeName().equals("parameter")) {

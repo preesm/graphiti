@@ -121,6 +121,12 @@ public class Vertex extends PropertyBean {
 	 */
 	public Vertex(VertexType type) {
 		this.type = type;
+		
+		// set default values
+		List<Parameter> parameters = type.getParameters();
+		for (Parameter parameter : parameters) {
+			setValue(parameter.getName(), parameter.getDefault());
+		}
 	}
 
 	/**
