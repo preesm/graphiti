@@ -383,13 +383,19 @@ public class GenericGraphParser {
 	 *            The &lt;parameter&gt; element.
 	 * @return An object, either a {@link List}, a {@link Map}, an
 	 *         {@link Integer}, a {@link Float}, a {@link Boolean}, or a
-	 *         {@link String}.
+	 *         {@link String}. May be <code>null</code> if there are no
+	 *         elements/entries and the parameter is a list/map, or if the value
+	 *         field is absent or empty, and the parameter is a scalar.
 	 */
 	private Object parseParameter(Parameter parameter, Element child) {
 		Class<?> parameterType = parameter.getType();
 		if (parameterType == List.class) {
 			List<String> list = new ArrayList<String>();
 			Node element = child.getFirstChild();
+			if (element == null) {
+				return null;
+			}
+
 			while (element != null) {
 				if (element.getNodeName().equals("element")) {
 					String eltValue = ((Element) element).getAttribute("value");
@@ -403,6 +409,10 @@ public class GenericGraphParser {
 		} else if (parameterType == Map.class) {
 			Map<String, String> map = new TreeMap<String, String>();
 			Node element = child.getFirstChild();
+			if (element == null) {
+				return null;
+			}
+
 			while (element != null) {
 				if (element.getNodeName().equals("entry")) {
 					String key = ((Element) element).getAttribute("key");
@@ -415,21 +425,22 @@ public class GenericGraphParser {
 
 			return map;
 		} else {
-			String value = ((Element) child).getAttribute("value");
-			if (parameterType == Integer.class) {
-				return Integer.valueOf(value);
-			} else if (parameterType == Float.class) {
-				return Float.valueOf(value);
-			} else if (parameterType == Boolean.class) {
-				return Boolean.valueOf(value);
-			} else if (parameterType == String.class) {
-				if (value.isEmpty()) {
-					return null;
+			Element element = (Element) child;
+			String value = element.getAttribute("value");
+			if (!element.hasAttribute("value") || value.isEmpty()) {
+				return null;
+			} else {
+				if (parameterType == Integer.class) {
+					return Integer.valueOf(value);
+				} else if (parameterType == Float.class) {
+					return Float.valueOf(value);
+				} else if (parameterType == Boolean.class) {
+					return Boolean.valueOf(value);
+				} else if (parameterType == String.class) {
+					return value;
 				} else {
 					return value;
 				}
-			} else {
-				return value;
 			}
 		}
 	}
@@ -451,6 +462,12 @@ public class GenericGraphParser {
 			Node node) {
 		node = DomHelper.getFirstSiblingNamed(node, "parameters");
 
+		// set default values.
+		List<Parameter> parameters = type.getParameters();
+		for (Parameter parameter : parameters) {
+			propertyBean.setValue(parameter.getName(), parameter.getDefault());
+		}
+
 		Node child = node.getFirstChild();
 		while (child != null) {
 			if (child.getNodeName().equals("parameter")) {
@@ -458,7 +475,9 @@ public class GenericGraphParser {
 				String parameterName = element.getAttribute("name");
 				Parameter parameter = type.getParameter(parameterName);
 				Object value = parseParameter(parameter, element);
-				propertyBean.setValue(parameterName, value);
+				if (value != null) {
+					propertyBean.setValue(parameterName, value);
+				}
 			}
 
 			child = child.getNextSibling();

@@ -38,6 +38,8 @@ package net.sf.graphiti.model;
  */
 public class Parameter {
 
+	private Object defaultValue;
+
 	private String name;
 
 	private ParameterPosition position;
@@ -49,15 +51,28 @@ public class Parameter {
 	 * 
 	 * @param name
 	 *            The parameter name.
+	 * @param value
+	 *            The parameter default value.
 	 * @param position
 	 *            Its position, may be <code>null</code>.
 	 * @param type
 	 *            The parameter type, as a Java {@link Class}&lt;?&gt;.
 	 */
-	public Parameter(String name, ParameterPosition position, Class<?> type) {
+	public Parameter(String name, Object value, ParameterPosition position,
+			Class<?> type) {
+		this.defaultValue = value;
 		this.name = name;
 		this.position = position;
 		this.type = type;
+	}
+
+	/**
+	 * Returns this parameter's default value.
+	 * 
+	 * @return This parameter's default value.
+	 */
+	public Object getDefault() {
+		return defaultValue;
 	}
 
 	/**

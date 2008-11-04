@@ -19,8 +19,12 @@
         <graphType name="SDF Graph">
             <attributes/>
             <parameters>
-                <parameter name="graph parameter" type="java.util.List"/>
-                <parameter name="graph variable" type="java.util.Map"/>
+                <parameter name="graph parameter" type="java.util.List">
+                    <!-- default content: none -->
+                </parameter>
+                <parameter name="graph variable" type="java.util.Map">
+                    <!-- default content: none -->
+                </parameter>
             </parameters>
         </graphType>
     </graphTypes>
@@ -33,7 +37,7 @@
                 <size width="30" height="30"/>
             </attributes>
             <parameters>
-                <parameter name="id" type="java.lang.String"/>
+                <parameter name="id" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
 
@@ -44,7 +48,7 @@
                 <size width="30" height="30"/>
             </attributes>
             <parameters>
-                <parameter name="id" type="java.lang.String"/>
+                <parameter name="id" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
 
@@ -55,9 +59,11 @@
                 <size width="40" height="40"/>
             </attributes>
             <parameters>
-                <parameter name="id" type="java.lang.String"/>
-                <parameter name="actual parameter" type="java.util.Map"/>
-                <parameter name="refinement" type="java.lang.String"/>
+                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="actual parameter" type="java.util.Map">
+                    <!-- default content: none -->
+                </parameter>
+                <parameter name="refinement" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
     </vertexTypes>
@@ -68,11 +74,11 @@
                 <directed value="true"/>
             </attributes>
             <parameters>
-                <parameter name="source port" type="java.lang.String"/>
-                <parameter name="target port" type="java.lang.String"/>
-                <parameter name="source production" type="java.lang.Integer"/>
-                <parameter name="target consumption" type="java.lang.Integer"/>
-                <parameter name="delay" type="java.lang.Integer"/>
+                <parameter name="source port" type="java.lang.String" default=""/>
+                <parameter name="target port" type="java.lang.String" default=""/>
+                <parameter name="source production" type="java.lang.Integer" default="1"/>
+                <parameter name="target consumption" type="java.lang.Integer" default="1"/>
+                <parameter name="delay" type="java.lang.Integer" default="0"/>
             </parameters>
         </edgeType>
     </edgeTypes>

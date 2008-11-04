@@ -17,9 +17,13 @@
         <graphType name="CAL actor">
             <attributes/>
             <parameters>
-                <parameter name="id" type="java.lang.String"/>
-                <parameter name="actor parameter" type="java.util.List"/>
-                <parameter name="actor variable declaration" type="java.util.Map"/>
+                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="actor parameter" type="java.util.List">
+                    <!-- default content: none -->
+                </parameter>
+                <parameter name="actor variable declaration" type="java.util.Map">
+                    <!-- default content: none -->
+                </parameter>
             </parameters>
         </graphType>
     </graphTypes>
@@ -32,7 +36,7 @@
                 <size width="30" height="30"/>
             </attributes>
             <parameters>
-                <parameter name="id" type="java.lang.String"/>
+                <parameter name="id" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
 
@@ -43,7 +47,7 @@
                 <size width="30" height="30"/>
             </attributes>
             <parameters>
-                <parameter name="id" type="java.lang.String"/>
+                <parameter name="id" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
     </vertexTypes>

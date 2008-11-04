@@ -19,10 +19,10 @@
         <graphType name="Spirit IP-XACT component">
             <attributes/>
             <parameters>
-                <parameter name="vendor" type="java.lang.String"/>
-                <parameter name="library" type="java.lang.String"/>
-                <parameter name="name" type="java.lang.String"/>
-                <parameter name="version" type="java.lang.String"/>
+                <parameter name="vendor" type="java.lang.String" default=""/>
+                <parameter name="library" type="java.lang.String" default=""/>
+                <parameter name="name" type="java.lang.String" default=""/>
+                <parameter name="version" type="java.lang.String" default=""/>
             </parameters>
         </graphType>
     </graphTypes>
@@ -35,7 +35,7 @@
                 <size width="30" height="30"/>
             </attributes>
             <parameters>
-                <parameter name="id" type="java.lang.String"/>
+                <parameter name="id" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
 
@@ -46,12 +46,12 @@
                 <size width="40" height="40"/>
             </attributes>
             <parameters>
-                <parameter name="id" type="java.lang.String"/>
-                <parameter name="vendor" type="java.lang.String"/>
-                <parameter name="library" type="java.lang.String"/>
-                <parameter name="name" type="java.lang.String"/>
-                <parameter name="version" type="java.lang.String"/>
-                <parameter name="refinement" type="java.lang.String"/>
+                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="vendor" type="java.lang.String" default=""/>
+                <parameter name="library" type="java.lang.String" default=""/>
+                <parameter name="name" type="java.lang.String" default=""/>
+                <parameter name="version" type="java.lang.String" default=""/>
+                <parameter name="refinement" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
     </vertexTypes>

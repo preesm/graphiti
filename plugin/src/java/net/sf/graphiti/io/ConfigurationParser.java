@@ -32,7 +32,9 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import net.sf.graphiti.model.AbstractType;
@@ -329,6 +331,62 @@ public class ConfigurationParser {
 	}
 
 	/**
+	 * Parses a parameter default value.
+	 * 
+	 * @param parameterType
+	 *            The class of the parameter.
+	 * @param child
+	 *            The &lt;parameter&gt; element.
+	 * @return An object, either a {@link List}, a {@link Map}, an
+	 *         {@link Integer}, a {@link Float}, a {@link Boolean}, or a
+	 *         {@link String}.
+	 */
+	private Object parseParameter(Class<?> parameterType, Element child) {
+		if (parameterType == List.class) {
+			List<String> list = new ArrayList<String>();
+			Node element = child.getFirstChild();
+			while (element != null) {
+				if (element.getNodeName().equals("element")) {
+					String eltValue = ((Element) element).getAttribute("value");
+					list.add(eltValue);
+				}
+
+				element = element.getNextSibling();
+			}
+
+			return list;
+		} else if (parameterType == Map.class) {
+			Map<String, String> map = new TreeMap<String, String>();
+			Node element = child.getFirstChild();
+			while (element != null) {
+				if (element.getNodeName().equals("entry")) {
+					String key = ((Element) element).getAttribute("key");
+					String value = ((Element) element).getAttribute("value");
+					map.put(key, value);
+				}
+
+				element = element.getNextSibling();
+			}
+
+			return map;
+		} else {
+			Element element = (Element) child;
+			String value = element.getAttribute("default");
+			if (parameterType == Integer.class) {
+				return Integer.valueOf(value);
+			} else if (parameterType == Float.class) {
+				return Float.valueOf(value);
+			} else if (parameterType == Boolean.class) {
+				return Boolean.valueOf(value);
+			} else if (parameterType == String.class) {
+				return value;
+			} else {
+				return value;
+			}
+		}
+	}
+
+	/**
 	 * Parses the parameters for the given type.
 	 * 
 	 * @param type
@@ -339,8 +397,9 @@ public class ConfigurationParser {
 	private void parseParameters(AbstractType type, Node node) {
 		while (node != null) {
 			if (node.getNodeName().equals("parameter")) {
-				String parameterName = ((Element) node).getAttribute("name");
-				String typeName = ((Element) node).getAttribute("type");
+				Element element = (Element) node;
+				String parameterName = element.getAttribute("name");
+				String typeName = element.getAttribute("type");
 				Class<?> clz = String.class;
 				try {
 					clz = Class.forName(typeName);
@@ -348,9 +407,13 @@ public class ConfigurationParser {
 					e.printStackTrace();
 				}
 
+				// creates the parameter
 				ParameterPosition position = null;
-				Parameter parameter = new Parameter(parameterName, position,
-						clz);
+				Object value = parseParameter(clz, element);
+				Parameter parameter = new Parameter(parameterName, value,
+						position, clz);
+
+				// adds the parameter to the type
 				type.addParameter(parameter);
 			}
 

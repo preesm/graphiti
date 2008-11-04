@@ -26,9 +26,13 @@
         <graphType name="Network">
             <attributes/>
             <parameters>
-                <parameter name="id" type="java.lang.String"/>
-                <parameter name="network parameter" type="java.util.List"/>
-                <parameter name="network variable declaration" type="java.util.Map"/>
+                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="network parameter" type="java.util.List">
+                    <!-- default content: none -->
+                </parameter>
+                <parameter name="network variable declaration" type="java.util.Map">
+                    <!-- default content: none -->
+                </parameter>
             </parameters>
         </graphType>
     </graphTypes>
@@ -41,7 +45,7 @@
                 <size width="30" height="30"/>
             </attributes>
             <parameters>
-                <parameter name="id" type="java.lang.String"/>
+                <parameter name="id" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
 
@@ -52,7 +56,7 @@
                 <size width="30" height="30"/>
             </attributes>
             <parameters>
-                <parameter name="id" type="java.lang.String"/>
+                <parameter name="id" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
 
@@ -63,9 +67,11 @@
                 <size width="40" height="40"/>
             </attributes>
             <parameters>
-                <parameter name="id" type="java.lang.String"/>
-                <parameter name="instance parameter" type="java.util.List"/>
-                <parameter name="refinement" type="java.lang.String"/>
+                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="instance parameter" type="java.util.List">
+                    <!-- default content: none -->
+                </parameter>
+                <parameter name="refinement" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
     </vertexTypes>
@@ -76,8 +82,8 @@
                 <directed value="true"/>
             </attributes>
             <parameters>
-                <parameter name="source port" type="java.lang.String"/>
-                <parameter name="target port" type="java.lang.String"/>
+                <parameter name="source port" type="java.lang.String" default=""/>
+                <parameter name="target port" type="java.lang.String" default=""/>
             </parameters>
         </edgeType>
     </edgeTypes>

@@ -17,7 +17,7 @@
     <graphTypes>
         <graphType name="GraphML graph">
             <attributes/>
-            <parameters> </parameters>
+            <parameters/> 
         </graphType>
     </graphTypes>
 
@@ -29,8 +29,8 @@
                 <size width="20" height="20"/>
             </attributes>
             <parameters>
-                <parameter name="refId" type="java.lang.String"/>
-                <parameter name="id" type="java.lang.String"/>
+                <parameter name="refId" type="java.lang.String" default=""/>
+                <parameter name="id" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
     </vertexTypes>
@@ -41,9 +41,9 @@
                 <directed value="true"/>
             </attributes>
             <parameters>
-                <parameter name="edge_prod" type="java.lang.String"/>
-                <parameter name="edge_delay" type="java.lang.String"/>
-                <parameter name="edge_cons" type="java.lang.String"/>
+                <parameter name="edge_prod" type="java.lang.Integer" default="1"/>
+                <parameter name="edge_delay" type="java.lang.Integer" default="0"/>
+                <parameter name="edge_cons" type="java.lang.Integer" default="1"/>
             </parameters>
         </edgeType>
     </edgeTypes>
