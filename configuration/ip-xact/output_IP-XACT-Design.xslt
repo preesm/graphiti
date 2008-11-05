@@ -22,7 +22,7 @@
             </xsl:element>    
             
             <xsl:element name="spirit:interconnections">
-                <xsl:apply-templates select="edges/edge[@type = 'interconnection' or @type = 'fifo']"/>
+                <xsl:apply-templates select="edges/edge[@type = 'interconnection' or @type = 'directedConnection']"/>
             </xsl:element>
             
             <xsl:element name="spirit:hierConnections">
@@ -123,13 +123,13 @@
         </xsl:element>
     </xsl:template>
     
-    <!-- hierarchical connections -->
-    <xsl:template match="edge[@type = 'fifo']">
+    <!-- directed connections -->
+    <xsl:template match="edge[@type = 'directedConnection']">
         <xsl:element name="spirit:interconnection">
             <xsl:element name="spirit:name">
                 <xsl:value-of select="parameters/parameter[@name = 'id']/@value"/>
             </xsl:element>
-            <xsl:element name="spirit:displayName">fifo</xsl:element>
+            <xsl:element name="spirit:displayName">directed</xsl:element>
             <xsl:element name="spirit:activeInterface">
                 <xsl:attribute name="spirit:busRef" select="parameters/parameter[@name = 'source port']/@value"/>
                 <xsl:attribute name="spirit:componentRef" select="@source"/>

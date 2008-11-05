@@ -193,8 +193,8 @@
     <xsl:template match="spirit:interconnection">
         <xsl:element name="edge">
             <xsl:choose>
-                <xsl:when test="spirit:displayName='fifo'">
-                    <xsl:attribute name="type">fifo</xsl:attribute>
+                <xsl:when test="spirit:displayName='directed'">
+                    <xsl:attribute name="type">directedConnection</xsl:attribute>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:attribute name="type">interconnection</xsl:attribute>

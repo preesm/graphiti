@@ -71,6 +71,38 @@
                 <parameter name="refinement" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
+        
+        <vertexType name="processor">
+            <attributes>
+                <color red="220" green="123" blue="16"/>
+                <shape name="roundedBox"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="vendor" type="java.lang.String" default=""/>
+                <parameter name="library" type="java.lang.String" default=""/>
+                <parameter name="name" type="java.lang.String" default=""/>
+                <parameter name="version" type="java.lang.String" default=""/>
+                <parameter name="refinement" type="java.lang.String" default=""/>
+            </parameters>
+        </vertexType>
+        
+        <vertexType name="ipCoprocessor">
+            <attributes>
+                <color red="123" green="16" blue="220"/>
+                <shape name="roundedBox"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="vendor" type="java.lang.String" default=""/>
+                <parameter name="library" type="java.lang.String" default=""/>
+                <parameter name="name" type="java.lang.String" default=""/>
+                <parameter name="version" type="java.lang.String" default=""/>
+                <parameter name="refinement" type="java.lang.String" default=""/>
+            </parameters>
+        </vertexType>
 
         <vertexType name="communicationNode">
             <attributes>
@@ -107,6 +139,22 @@
         <vertexType name="bus">
             <attributes>
                 <color red="74" green="224" blue="236"/>
+                <shape name="circle"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="vendor" type="java.lang.String" default=""/>
+                <parameter name="library" type="java.lang.String" default=""/>
+                <parameter name="name" type="java.lang.String" default=""/>
+                <parameter name="version" type="java.lang.String" default=""/>
+                <parameter name="refinement" type="java.lang.String" default=""/>
+            </parameters>
+        </vertexType>
+        
+        <vertexType name="fifo">
+            <attributes>
+                <color red="224" green="74" blue="236"/>
                 <shape name="circle"/>
                 <size width="40" height="40"/>
             </attributes>
@@ -176,7 +224,7 @@
             </parameters>
         </edgeType>
         
-        <edgeType name="fifo">
+        <edgeType name="directedConnection">
             <attributes>
                 <directed value="true"/>
             </attributes>
