@@ -55,20 +55,24 @@
 
     <!-- Parameter declarations -->
     <xsl:template match="parameter[@name = 'graph parameter']">
-        <data key="parameters">
-            <xsl:call-template name="merge_text_value">
-                <xsl:with-param name="some-text" select="element"/>
-            </xsl:call-template>
-        </data>
+        <xsl:if test="element">
+            <data key="parameters">
+                <xsl:call-template name="merge_text_value">
+                    <xsl:with-param name="some-text" select="element"/>
+                </xsl:call-template>
+            </data>
+        </xsl:if>
     </xsl:template>
 
     <!-- Variable declarations -->
     <xsl:template match="parameter[@name = 'graph variable']">
+        <xsl:if test="entry">
         <data key="variables">
             <xsl:call-template name="merge_text_key_and_value">
                 <xsl:with-param name="some-text" select="entry"/>
             </xsl:call-template>
         </data>
+        </xsl:if>
     </xsl:template>
 
     <!-- node -->
@@ -138,11 +142,13 @@
     
     <!-- node parameter -->
     <xsl:template match="parameter[@name = 'actual parameter']">
+        <xsl:if test="entry">
         <data key="arguments">
             <xsl:call-template name="merge_text_key_and_value">
                 <xsl:with-param name="some-text" select="entry"/>
             </xsl:call-template>
         </data>
+        </xsl:if>
     </xsl:template>
 
     <!-- input/output port -->
