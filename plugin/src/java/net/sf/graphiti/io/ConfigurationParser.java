@@ -50,7 +50,7 @@ import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 import net.sf.graphiti.ui.figure.shapes.ShapeCircle;
 import net.sf.graphiti.ui.figure.shapes.ShapeHexagon;
-import net.sf.graphiti.ui.figure.shapes.ShapeLosange;
+import net.sf.graphiti.ui.figure.shapes.ShapeLozenge;
 import net.sf.graphiti.ui.figure.shapes.ShapeRoundedBox;
 import net.sf.graphiti.ui.figure.shapes.ShapeTriangle;
 import net.sf.graphiti.util.FileLocator;
@@ -161,8 +161,8 @@ public class ConfigurationParser {
 					shape = new ShapeCircle();
 				} else if (shapeName.equals("hexagon")) {
 					shape = new ShapeHexagon();
-				} else if (shapeName.equals("losange")) {
-					shape = new ShapeLosange();
+				} else if (shapeName.equals("lozenge")) {
+					shape = new ShapeLozenge();
 				} else if (shapeName.equals("roundedBox")) {
 					shape = new ShapeRoundedBox();
 				} else if (shapeName.equals("triangle")) {

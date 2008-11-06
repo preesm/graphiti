@@ -38,12 +38,12 @@ import org.eclipse.draw2d.geometry.Point;
  * @author Matthieu Wipliez
  * 
  */
-public class ShapeLosange extends AbstractPolygonShape implements IShape {
+public class ShapeLozenge extends AbstractPolygonShape implements IShape {
 
 	/**
 	 * Creates a new losange shape.
 	 */
-	public ShapeLosange() {
+	public ShapeLozenge() {
 	}
 
 	@Override
