@@ -151,6 +151,7 @@
     <xsl:template match="spirit:componentInstance" mode="specific">
         <xsl:element name="vertex">
             <xsl:variable name="componentType" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='componentType']"/>
+            <xsl:variable name="refinement" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='refinement']"/>
             <xsl:attribute name="type" select="$componentType"/>
             <xsl:element name="parameters">
                 <!-- Generic components have no component type -->
@@ -173,6 +174,10 @@
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">version</xsl:attribute>
                     <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:version"/></xsl:attribute>
+                </xsl:element>
+                <xsl:element name="parameter">
+                    <xsl:attribute name="name">refinement</xsl:attribute>
+                    <xsl:attribute name="value"><xsl:value-of select="$refinement"/></xsl:attribute>
                 </xsl:element>
                 <!-- Specific medium parameters -->
                 <xsl:if test="$componentType='medium'">

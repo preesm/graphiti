@@ -12,7 +12,7 @@
     </fileFormat>
 
     <refinementFileExtensions>
-        <fileExtension name="ipxactds"/>
+        <fileExtension name="ipxactcmp"/>
     </refinementFileExtensions>
 
     <graphTypes>

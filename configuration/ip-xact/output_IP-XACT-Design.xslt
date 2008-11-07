@@ -78,6 +78,10 @@
                     <xsl:attribute name="spirit:referenceId">componentType</xsl:attribute>
                     <xsl:value-of select="@type"/>
                 </xsl:element>
+                <xsl:element name="spirit:configurableElementValue">
+                    <xsl:attribute name="spirit:referenceId">refinement</xsl:attribute>
+                    <xsl:value-of select="parameters/parameter[@name = 'refinement']/@value"/>
+                </xsl:element>
                 <!-- Specific medium parameters -->
                 <xsl:if test="@type='medium'">
                     <xsl:element name="spirit:configurableElementValue">

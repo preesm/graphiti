@@ -16,11 +16,13 @@
             
             <!-- VLNV of the design -->
             <xsl:element name="parameters">
-                <xsl:apply-templates select="spirit:vendor"/>
-                <xsl:apply-templates select="spirit:library"/>
-                <xsl:apply-templates select="spirit:name"/>
-                <xsl:apply-templates select="spirit:version"/>
+                <xsl:call-template name="spirit:vendor"/>
+                <xsl:call-template name="spirit:library"/>
+                <xsl:call-template name="spirit:name"/>
+                <xsl:call-template name="spirit:version"/>
+                <xsl:apply-templates select="spirit:memoryMaps"/>
             </xsl:element>
+            
             
             <!-- bus interfaces and possible sub-design -->
             <xsl:element name="vertices">
@@ -37,13 +39,45 @@
     <!-- template for the bus interfaces -->
     <xsl:template match="spirit:busInterface">
         <xsl:element name="vertex">
-            <xsl:attribute name="type">busInterface</xsl:attribute>
+            <xsl:attribute name="type">Input port</xsl:attribute>
             <xsl:element name="parameters">
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">id</xsl:attribute>
                     <xsl:attribute name="value" select="spirit:name"/>
                 </xsl:element>
+                <xsl:element name="parameter">
+                    <xsl:attribute name="name">busVendor</xsl:attribute>
+                    <xsl:attribute name="value" select="spirit:busType/@spirit:vendor"/>
+                </xsl:element>
+                <xsl:element name="parameter">
+                    <xsl:attribute name="name">busLibrary</xsl:attribute>
+                    <xsl:attribute name="value" select="spirit:busType/@spirit:library"/>
+                </xsl:element>
+                <xsl:element name="parameter">
+                    <xsl:attribute name="name">busName</xsl:attribute>
+                    <xsl:attribute name="value" select="spirit:busType/@spirit:name"/>
+                </xsl:element>
+                <xsl:element name="parameter">
+                    <xsl:attribute name="name">busVersion</xsl:attribute>
+                    <xsl:attribute name="value" select="spirit:busType/@spirit:version"/>
+                </xsl:element>
             </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
+    <!-- template for the addressSpace -->
+    <xsl:template match="spirit:memoryMap">
+        <xsl:element name="parameter">
+            <xsl:attribute name="name">memoryAddress</xsl:attribute>
+            <xsl:attribute name="value" select="spirit:addressBlock/spirit:baseAddress"/>
+        </xsl:element>
+        <xsl:element name="parameter">
+            <xsl:attribute name="name">memoryRange</xsl:attribute>
+            <xsl:attribute name="value" select="spirit:addressBlock/spirit:range"/>
+        </xsl:element>
+        <xsl:element name="parameter">
+            <xsl:attribute name="name">memoryWidth</xsl:attribute>
+            <xsl:attribute name="value" select="spirit:addressBlock/spirit:width"/>
         </xsl:element>
     </xsl:template>
     
@@ -90,164 +124,32 @@
     </xsl:template>
     
     <!-- templates for the VLNV of the component -->
-    <xsl:template match="spirit:vendor">
+    <xsl:template name="spirit:vendor">
         <xsl:element name="parameter">
-            <xsl:attribute name="name">vendor</xsl:attribute>
-            <xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+            <xsl:attribute name="name">cmpVendor</xsl:attribute>
+            <xsl:attribute name="value"><xsl:value-of select="spirit:vendor"/></xsl:attribute>
         </xsl:element>
     </xsl:template>
     
-    <xsl:template match="spirit:library">
+    <xsl:template name="spirit:library">
         <xsl:element name="parameter">
-            <xsl:attribute name="name">library</xsl:attribute>
-            <xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+            <xsl:attribute name="name">cmpLibrary</xsl:attribute>
+            <xsl:attribute name="value"><xsl:value-of select="spirit:library"/></xsl:attribute>
         </xsl:element>
     </xsl:template>
     
-    <xsl:template match="spirit:name">
+    <xsl:template name="spirit:name">
         <xsl:element name="parameter">
-            <xsl:attribute name="name">name</xsl:attribute>
-            <xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+            <xsl:attribute name="name">cmpName</xsl:attribute>
+            <xsl:attribute name="value"><xsl:value-of select="spirit:name"/></xsl:attribute>
         </xsl:element>
     </xsl:template>
     
-    <xsl:template match="spirit:version">
+    <xsl:template name="spirit:version">
         <xsl:element name="parameter">
-            <xsl:attribute name="name">version</xsl:attribute>
-            <xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+            <xsl:attribute name="name">cmpVersion</xsl:attribute>
+            <xsl:attribute name="value"><xsl:value-of select="spirit:version"/></xsl:attribute>
         </xsl:element>
     </xsl:template>
-    
-    
-    
-    <!-- template for the component instances -->
-    <!--
-        <xsl:template match="spirit:componentInstance">
-        <xsl:element name="vertex">
-        <xsl:attribute name="type">componentInstance</xsl:attribute>
-        <xsl:element name="parameters">
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">id</xsl:attribute>
-        <xsl:attribute name="value"><xsl:value-of select="spirit:instanceName"/></xsl:attribute>
-        </xsl:element>
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">vendor</xsl:attribute>
-        <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:vendor"/></xsl:attribute>
-        </xsl:element>
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">library</xsl:attribute>
-        <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:library"/></xsl:attribute>
-        </xsl:element>
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">name</xsl:attribute>
-        <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:name"/></xsl:attribute>
-        </xsl:element>
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">version</xsl:attribute>
-        <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:version"/></xsl:attribute>
-        </xsl:element>
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">refinement</xsl:attribute>
-        <xsl:attribute name="value"/>
-        </xsl:element>
-        </xsl:element>
-        </xsl:element>
-        </xsl:template>
-        
-        <xsl:template match="spirit:interconnection">
-        <xsl:element name="edge">
-        <xsl:attribute name="type">interconnection</xsl:attribute>
-        <xsl:attribute name="source" select="spirit:activeInterface[1]/@spirit:componentRef"/>
-        <xsl:attribute name="target" select="spirit:activeInterface[2]/@spirit:componentRef"/>
-        <xsl:element name="parameters">
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">id</xsl:attribute>
-        <xsl:attribute name="value"><xsl:value-of select="spirit:name"/></xsl:attribute>
-        </xsl:element>
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">source port</xsl:attribute>
-        <xsl:attribute name="value"><xsl:value-of select="spirit:activeInterface[1]/@spirit:busRef"/></xsl:attribute>
-        </xsl:element>
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">target port</xsl:attribute>
-        <xsl:attribute name="value"><xsl:value-of select="spirit:activeInterface[2]/@spirit:busRef"/></xsl:attribute>
-        </xsl:element>
-        </xsl:element>
-        </xsl:element>
-        </xsl:template>
-        
-        
-        
-        <xsl:template match="ip-xact">
-        <xsl:element name="graph">
-        <xsl:attribute name="type">Spirit IP-XACT architecture graph</xsl:attribute>
-        
-        <xsl:element name="parameters">
-        </xsl:element>
-        
-        <xsl:element name="vertices">
-        <xsl:apply-templates select="Port"/>
-        <xsl:apply-templates select="Instance"/>
-        </xsl:element>
-        
-        <xsl:element name="edges">
-        <xsl:apply-templates select="Connection"/>
-        </xsl:element>
-        </xsl:element>
-        </xsl:template>
-        
-        <xsl:template match="Port">
-        <xsl:element name="vertex">
-        <xsl:attribute name="type"><xsl:value-of select="@kind"/> port</xsl:attribute>
-        <xsl:element name="parameters">
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">id</xsl:attribute>
-        <xsl:attribute name="value" select="@name"/>
-        </xsl:element>
-        </xsl:element>
-        </xsl:element>
-        </xsl:template>
-        
-        <xsl:template match="Instance">
-        <xsl:element name="vertex">
-        <xsl:attribute name="type">Instance</xsl:attribute>
-        <xsl:element name="parameters">
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">id</xsl:attribute>
-        <xsl:attribute name="value" select="@id"/>
-        </xsl:element>
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">refinement</xsl:attribute>
-        <xsl:attribute name="value" select="Class/@name"/>
-        </xsl:element>
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">instance parameter</xsl:attribute>
-        <xsl:apply-templates select="Parameter"/>
-        </xsl:element>
-        </xsl:element>
-        </xsl:element>
-        </xsl:template>
-        
-        <xsl:template match="Connection">
-        <xsl:element name="edge">
-        <xsl:attribute name="type">Connection</xsl:attribute>
-        <xsl:attribute name="source" select="@src"/>
-        <xsl:attribute name="target" select="@dst"/>
-        <xsl:element name="parameters">
-        <xsl:if test="@src != ''">
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">source port</xsl:attribute>
-        <xsl:attribute name="value" select="@src-port"/>
-        </xsl:element>
-        </xsl:if>
-        <xsl:if test="@dst != ''">
-        <xsl:element name="parameter">
-        <xsl:attribute name="name">target port</xsl:attribute>
-        <xsl:attribute name="value" select="@dst-port"/>
-        </xsl:element>
-        </xsl:if>
-        </xsl:element>
-        </xsl:element>
-        </xsl:template>
-    -->
+   
 </xsl:stylesheet>

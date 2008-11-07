@@ -19,16 +19,19 @@
         <graphType name="Spirit IP-XACT component">
             <attributes/>
             <parameters>
-                <parameter name="vendor" type="java.lang.String" default=""/>
-                <parameter name="library" type="java.lang.String" default=""/>
-                <parameter name="name" type="java.lang.String" default=""/>
-                <parameter name="version" type="java.lang.String" default=""/>
+                <parameter name="cmpVendor" type="java.lang.String" default=""/>
+                <parameter name="cmpLibrary" type="java.lang.String" default=""/>
+                <parameter name="cmpName" type="java.lang.String" default=""/>
+                <parameter name="cmpVersion" type="java.lang.String" default=""/>
+                <parameter name="memoryAddress" type="java.lang.String" default="0x00000000"/>
+                <parameter name="memoryRange" type="java.lang.String" default="0xFFFFFFFF"/>
+                <parameter name="memoryWidth" type="java.lang.String" default="128"/>
             </parameters>
         </graphType>
     </graphTypes>
 
     <vertexTypes>
-        <vertexType name="busInterface">
+        <vertexType name="Input port">
             <attributes>
                 <color red="0" green="60" blue="100"/>
                 <shape name="roundedBox"/>
@@ -36,6 +39,10 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="busVendor" type="java.lang.String" default=""/>
+                <parameter name="busLibrary" type="java.lang.String" default=""/>
+                <parameter name="busName" type="java.lang.String" default=""/>
+                <parameter name="busVersion" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
 
