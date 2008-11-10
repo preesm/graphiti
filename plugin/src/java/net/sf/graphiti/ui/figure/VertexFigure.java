@@ -286,52 +286,94 @@ public class VertexFigure extends Figure {
 	}
 
 	/**
+	 * Adds a label for the given entry. The entry key is a port name used in
+	 * the label, and the entry value is updated to the newly-created label.
+	 * 
+	 * @param entry
+	 *            An entry of {@link #inputPorts} or {@link #outputPorts}.
+	 * @param horizontalAlignment
+	 *            The horizontal alignment: {@link SWT#BEGINNING},
+	 *            {@link SWT#CENTER} or {@link SWT#END}.
+	 * @param horizontalSpan
+	 *            The horizontal span, <code>1</code> or <code>2</code>.
+	 */
+	private void updatePortLabel(Entry<String, Label> entry,
+			int horizontalAlignment, int horizontalSpan) {
+		Label label = new Label(entry.getKey());
+		entry.setValue(label);
+		GridData data = new GridData(horizontalAlignment, SWT.CENTER, false,
+				false);
+		data.horizontalSpan = horizontalSpan;
+		shape.add(label, data);
+	}
+
+	/**
 	 * Adds label for all ports of this figure in the grid layout.
 	 */
 	private void updatePorts() {
-		Iterator<Entry<String, Label>> itInput = inputPorts.entrySet()
-				.iterator();
-		Iterator<Entry<String, Label>> itOutput = outputPorts.entrySet()
-				.iterator();
+		// prepare port lists
+		List<Entry<String, Label>> inputPortList = new ArrayList<Entry<String, Label>>(
+				inputPorts.entrySet());
+		List<Entry<String, Label>> outputPortList = new ArrayList<Entry<String, Label>>(
+				outputPorts.entrySet());
+		List<Entry<String, Label>> portList = new ArrayList<Entry<String, Label>>();
+
+		// ports having the same name are taken from input/outputPortList and
+		// put in portList
+		for (Entry<String, Label> inputPort : inputPorts.entrySet()) {
+			if (outputPorts.containsKey(inputPort.getKey())) {
+				portList.add(inputPort);
+				outputPortList.remove(inputPort);
+				inputPortList.remove(inputPort);
+			}
+		}
+
+		// now we can go on with the process
+		updatePortsFromLists(inputPortList, outputPortList, portList);
+	}
+
+	/**
+	 * Adds labels from the ports of the given lists.
+	 * 
+	 * @param inputPortList
+	 *            The list of input ports.
+	 * @param outputPortList
+	 *            The list of output ports.
+	 * @param portList
+	 *            The list of undirected ports/ports having the same name.
+	 */
+	private void updatePortsFromLists(List<Entry<String, Label>> inputPortList,
+			List<Entry<String, Label>> outputPortList,
+			List<Entry<String, Label>> portList) {
+		Iterator<Entry<String, Label>> itInput = inputPortList.iterator();
+		Iterator<Entry<String, Label>> itOutput = outputPortList.iterator();
 
 		// we iterate on input ports first
 		while (itInput.hasNext()) {
 			if (itOutput.hasNext()) {
 				// If the output port iterator has at least one output port, we
 				// add both.
-				Entry<String, Label> entry = itInput.next();
-				Label label = new Label(entry.getKey());
-				entry.setValue(label);
-				shape.add(label, new GridData(SWT.BEGINNING, SWT.CENTER, false,
-						false));
-
-				entry = itOutput.next();
-				label = new Label(entry.getKey());
-				entry.setValue(label);
-				shape.add(label,
-						new GridData(SWT.END, SWT.CENTER, false, false));
+				updatePortLabel(itInput.next(), SWT.BEGINNING, 1);
+				updatePortLabel(itOutput.next(), SWT.END, 1);
 			} else {
 				// Otherwise, we add only the input port with an horizontal span
 				// equal to 2
-				Entry<String, Label> entry = itInput.next();
-				Label label = new Label(entry.getKey());
-				entry.setValue(label);
-				GridData data = new GridData(SWT.BEGINNING, SWT.CENTER, false,
-						false);
-				data.horizontalSpan = 2;
-				shape.add(label, data);
+				updatePortLabel(itInput.next(), SWT.BEGINNING, 2);
 			}
 		}
 
-		// Finally, we proceed to add any remaining output port with an
-		// horizontal span of 2.
+		// Adds any remaining output port with an horizontal span of 2.
 		while (itOutput.hasNext()) {
-			Entry<String, Label> entry = itOutput.next();
-			Label label = new Label(entry.getKey());
-			entry.setValue(label);
-			GridData data = new GridData(SWT.END, SWT.CENTER, false, false);
-			data.horizontalSpan = 2;
-			shape.add(label, data);
+			updatePortLabel(itOutput.next(), SWT.END, 2);
+		}
+
+		// Adds undirected ports with an horizontal span of 2.
+		for (Entry<String, Label> entry : portList) {
+			updatePortLabel(entry, SWT.CENTER, 2);
+			String portName = entry.getKey();
+			Label label = entry.getValue();
+			inputPorts.put(portName, label);
+			outputPorts.put(portName, label);
 		}
 	}
 
