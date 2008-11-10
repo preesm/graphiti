@@ -92,6 +92,21 @@ public class Vertex extends PropertyBean {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * String for the "Input port" type.
+	 */
+	public static final String TYPE_INPUT_PORT = "Input port";
+
+	/**
+	 * String for the "Output port" type.
+	 */
+	public static final String TYPE_OUTPUT_PORT = "Output port";
+
+	/**
+	 * String for the "Port" type.
+	 */
+	public static final String TYPE_PORT = "Port";
+
+	/**
 	 * The parent graph of this vertex.
 	 */
 	Graph parent;
@@ -121,7 +136,7 @@ public class Vertex extends PropertyBean {
 	 */
 	public Vertex(VertexType type) {
 		this.type = type;
-		
+
 		// set default values
 		List<Parameter> parameters = type.getParameters();
 		for (Parameter parameter : parameters) {

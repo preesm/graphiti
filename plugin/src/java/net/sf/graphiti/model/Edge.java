@@ -88,7 +88,7 @@ public class Edge extends PropertyBean {
 	 */
 	public Edge(EdgeType type) {
 		this.type = type;
-		
+
 		// set default values
 		List<Parameter> parameters = type.getParameters();
 		for (Parameter parameter : parameters) {

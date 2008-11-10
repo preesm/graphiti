@@ -177,23 +177,54 @@ public class VertexFigure extends Figure {
 		return getBounds().getSize();
 	}
 
+	/**
+	 * Returns the shape of this figure.
+	 * 
+	 * @return The shape of this figure.
+	 */
 	public IShape getShape() {
 		return shape;
 	}
 
+	/**
+	 * Returns the connection source anchor, i.e. where connections start.
+	 * 
+	 * @return The {@link ConnectionAnchor} of the underlying shape.
+	 */
 	public ConnectionAnchor getSourceAnchor() {
 		return shape.getConnectionAnchor(this, null, true);
 	}
 
+	/**
+	 * Returns the connection source anchor, i.e. where connections start.
+	 * 
+	 * @param edge
+	 *            The edge model of the connection. Allows the figure to
+	 *            retrieve the source port.
+	 * @return The {@link ConnectionAnchor} of the underlying shape.
+	 */
 	public ConnectionAnchor getSourceAnchor(Edge edge) {
 		String portName = (String) edge.getValue(Edge.PARAMETER_SOURCE_PORT);
 		return shape.getConnectionAnchor(this, portName, true);
 	}
 
+	/**
+	 * Returns the connection target anchor, i.e. where connections end.
+	 * 
+	 * @return The {@link ConnectionAnchor} of the underlying shape.
+	 */
 	public ConnectionAnchor getTargetAnchor() {
 		return shape.getConnectionAnchor(this, null, false);
 	}
 
+	/**
+	 * Returns the connection target anchor, i.e. where connections end.
+	 * 
+	 * @param edge
+	 *            The edge model of the connection. Allows the figure to
+	 *            retrieve the target port.
+	 * @return The {@link ConnectionAnchor} of the underlying shape.
+	 */
 	public ConnectionAnchor getTargetAnchor(Edge edge) {
 		String portName = (String) edge.getValue(Edge.PARAMETER_TARGET_PORT);
 		return shape.getConnectionAnchor(this, portName, false);

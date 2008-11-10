@@ -161,12 +161,13 @@ public class PortChooser {
 	 * @param edgePort
 	 *            The label to use when prompting the user to choose
 	 *            ("source port" or "target port").
-	 * @param portType
-	 *            The port type to check in the refinement: "Input port" or
-	 *            "Output port".
+	 * @param portTypes
+	 *            An array where each entry is a valid port type in this
+	 *            context, either {@link Vertex#TYPE_INPUT_PORT},
+	 *            {@link Vertex#TYPE_OUTPUT_PORT} or {@link Vertex#TYPE_PORT}.
 	 * @return A port name if found, <code>null</code> otherwise.
 	 */
-	private String getPort(String edgePort, String portType) {
+	private String getPort(String edgePort, String[] portTypes) {
 		IFile sourceFile = null;
 		try {
 			sourceFile = manager.getIFileFromSelection();
@@ -175,7 +176,7 @@ public class PortChooser {
 
 		// open the refinement
 		if (sourceFile != null) {
-			List<String> ports = getPorts(sourceFile, portType);
+			List<String> ports = getPorts(sourceFile, portTypes);
 			if (!ports.isEmpty()) {
 				return choosePort(ports, edgePort);
 			}
@@ -216,10 +217,14 @@ public class PortChooser {
 	 * port type.
 	 * 
 	 * @param sourceFile
-	 * @param portType
-	 * @return
+	 *            The source file as an {@link IFile}.
+	 * @param portTypes
+	 *            An array where each entry is a valid port type in this
+	 *            context, either {@link Vertex#TYPE_INPUT_PORT},
+	 *            {@link Vertex#TYPE_OUTPUT_PORT} or {@link Vertex#TYPE_PORT}.
+	 * @return A list of port names.
 	 */
-	private List<String> getPorts(IFile sourceFile, String portType) {
+	private List<String> getPorts(IFile sourceFile, String[] portTypes) {
 		// refinement graph
 		GenericGraphParser parser = new GenericGraphParser(GraphitiPlugin
 				.getDefault().getConfigurations());
@@ -237,9 +242,16 @@ public class PortChooser {
 			Set<Vertex> vertices = graph.vertexSet();
 			List<String> ports = new ArrayList<String>();
 			for (Vertex vertex : vertices) {
-				if (vertex.getType().getName().equals(portType)) {
-					String id = (String) vertex.getValue(Vertex.PARAMETER_ID);
-					ports.add(id);
+				// check the vertex type against all accepted port types.
+				for (String portType : portTypes) {
+					if (vertex.getType().getName().equals(portType)) {
+						String id = (String) vertex
+								.getValue(Vertex.PARAMETER_ID);
+						ports.add(id);
+
+						// we break because a vertex has only one type.
+						break;
+					}
 				}
 			}
 			return ports;
@@ -255,7 +267,8 @@ public class PortChooser {
 	 */
 	public String getSourcePort(Vertex source) {
 		manager.setVertex(source);
-		String port = getPort("source port", "Output port");
+		String port = getPort("source port", new String[] {
+				Vertex.TYPE_OUTPUT_PORT, Vertex.TYPE_PORT });
 		if (port == null) {
 			return getPortName("source port");
 		} else {
@@ -272,7 +285,8 @@ public class PortChooser {
 	 */
 	public String getTargetPort(Vertex target) {
 		manager.setVertex(target);
-		String port = getPort("target port", "Input port");
+		String port = getPort("target port", new String[] {
+				Vertex.TYPE_INPUT_PORT, Vertex.TYPE_PORT });
 		if (port == null) {
 			return getPortName("target port");
 		} else {

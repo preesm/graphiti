@@ -48,6 +48,37 @@ import org.w3c.dom.Element;
  */
 public class ASN1Parser {
 
+	public static void main(String[] args) {
+		if (args.length != 4) {
+			if (args.length == 3) {
+				GrammarTest.main(args);
+				return;
+			} else {
+				String message = "Usage: ASN1Parser <asn1.grammar file name> "
+						+ "<asn1.xslt file name> "
+						+ "<ASN.1 syntax description file name> "
+						+ "<binary input file name>\n"
+						+ "Usage: ASN1Parser <asn1.grammar file name> "
+						+ "<output XML file name>";
+				System.err.println(message);
+				return;
+			}
+		}
+
+		String grammarFileName = args[0];
+		String xsltFileName = args[1];
+		String syntaxFileName = args[2];
+		String binaryFileName = args[3];
+		try {
+			System.out.println("parsing " + syntaxFileName);
+			ASN1Parser parser = new ASN1Parser(grammarFileName, xsltFileName,
+					syntaxFileName);
+			parser.parse(binaryFileName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Creates a new ASN.1 parser. It needs the file name of the ASN.1 grammar
 	 * (path to "asn1.grammar"), the file name of the ASN.1 concrete syntax to
@@ -113,37 +144,6 @@ public class ASN1Parser {
 	 */
 	public void parse(String fileName) {
 
-	}
-
-	public static void main(String[] args) {
-		if (args.length != 4) {
-			if (args.length == 3) {
-				GrammarTest.main(args);
-				return;
-			} else {
-				String message = "Usage: ASN1Parser <asn1.grammar file name> "
-						+ "<asn1.xslt file name> "
-						+ "<ASN.1 syntax description file name> "
-						+ "<binary input file name>\n"
-						+ "Usage: ASN1Parser <asn1.grammar file name> "
-						+ "<output XML file name>";
-				System.err.println(message);
-				return;
-			}
-		}
-
-		String grammarFileName = args[0];
-		String xsltFileName = args[1];
-		String syntaxFileName = args[2];
-		String binaryFileName = args[3];
-		try {
-			System.out.println("parsing " + syntaxFileName);
-			ASN1Parser parser = new ASN1Parser(grammarFileName, xsltFileName,
-					syntaxFileName);
-			parser.parse(binaryFileName);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }

@@ -102,7 +102,7 @@ public class Graph extends PropertyBean {
 		}
 		vertices = new HashMap<String, Vertex>();
 		this.type = type;
-		
+
 		// set default values
 		List<Parameter> parameters = type.getParameters();
 		for (Parameter parameter : parameters) {

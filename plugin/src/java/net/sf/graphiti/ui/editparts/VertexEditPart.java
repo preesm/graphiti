@@ -352,16 +352,12 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 		for (Edge edge : parent.incomingEdgesOf(vertex)) {
 			String port = (String) edge.getValue(Edge.PARAMETER_TARGET_PORT);
-			if (port != null) {
-				figure.addInputPort(port);
-			}
+			figure.addInputPort(port);
 		}
 
 		for (Edge edge : parent.outgoingEdgesOf(vertex)) {
 			String port = (String) edge.getValue(Edge.PARAMETER_SOURCE_PORT);
-			if (port != null) {
-				figure.addOutputPort(port);
-			}
+			figure.addOutputPort(port);
 		}
 
 		figure.adjustSize();
