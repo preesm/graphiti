@@ -81,7 +81,7 @@ public class PasteCommand extends Command {
 		String id = (String) vertex.getValue(VertexType.PARAMETER_ID);
 		Vertex existing = graph.findVertex(id);
 		if (existing != vertex) {
-			id = getVertexId("Copy of " + id);
+			id = getVertexId(id);
 			if (id != null) {
 				vertex.setValue(VertexType.PARAMETER_ID, id);
 			}
