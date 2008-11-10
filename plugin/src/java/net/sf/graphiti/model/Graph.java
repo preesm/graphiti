@@ -159,7 +159,7 @@ public class Graph extends PropertyBean {
 		boolean res = graph.addVertex(child);
 		child.parent = this;
 
-		vertices.put((String) child.getValue(Vertex.PARAMETER_ID), child);
+		vertices.put((String) child.getValue(VertexType.PARAMETER_ID), child);
 
 		firePropertyChange(PropertyBean.PROPERTY_ADD, null, child);
 		return res;
@@ -174,7 +174,7 @@ public class Graph extends PropertyBean {
 	 *            Its new id.
 	 */
 	void changeVertexId(Vertex vertex, String id) {
-		String oldId = (String) vertex.getValue(Vertex.PARAMETER_ID);
+		String oldId = (String) vertex.getValue(VertexType.PARAMETER_ID);
 		if (oldId != null && id != null && !oldId.equals(id)) {
 			vertices.remove(oldId);
 			vertices.put(id, vertex);
@@ -277,7 +277,7 @@ public class Graph extends PropertyBean {
 		boolean res = graph.removeVertex(child);
 		child.parent = null;
 
-		vertices.remove((String) child.getValue(Vertex.PARAMETER_ID));
+		vertices.remove((String) child.getValue(VertexType.PARAMETER_ID));
 
 		firePropertyChange(PropertyBean.PROPERTY_REMOVE, null, child);
 		return res;

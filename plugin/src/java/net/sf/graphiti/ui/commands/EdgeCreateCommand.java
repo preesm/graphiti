@@ -29,8 +29,10 @@
 package net.sf.graphiti.ui.commands;
 
 import net.sf.graphiti.model.Edge;
+import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.model.VertexType;
 
 import org.eclipse.gef.commands.Command;
 
@@ -89,17 +91,17 @@ public class EdgeCreateCommand extends Command {
 		edge.setSource(source);
 		edge.setTarget(target);
 
-		String connection = source.getValue(Vertex.PARAMETER_ID) + " - "
-				+ target.getValue(Vertex.PARAMETER_ID);
+		String connection = source.getValue(VertexType.PARAMETER_ID) + " - "
+				+ target.getValue(VertexType.PARAMETER_ID);
 
 		PortChooser portChooser = new PortChooser(manager, connection);
-		if (edge.getParameter(Edge.PARAMETER_SOURCE_PORT) != null) {
-			edge.setValue(Edge.PARAMETER_SOURCE_PORT, portChooser
+		if (edge.getParameter(EdgeType.PARAMETER_SOURCE_PORT) != null) {
+			edge.setValue(EdgeType.PARAMETER_SOURCE_PORT, portChooser
 					.getSourcePort(source));
 		}
 
-		if (edge.getParameter(Edge.PARAMETER_TARGET_PORT) != null) {
-			edge.setValue(Edge.PARAMETER_TARGET_PORT, portChooser
+		if (edge.getParameter(EdgeType.PARAMETER_TARGET_PORT) != null) {
+			edge.setValue(EdgeType.PARAMETER_TARGET_PORT, portChooser
 					.getTargetPort(target));
 		}
 

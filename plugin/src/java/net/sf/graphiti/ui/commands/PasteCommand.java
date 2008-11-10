@@ -33,6 +33,7 @@ import java.util.List;
 
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
 
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -77,12 +78,12 @@ public class PasteCommand extends Command {
 	}
 
 	private String checkVertexId(Graph graph, Vertex vertex) {
-		String id = (String) vertex.getValue(Vertex.PARAMETER_ID);
+		String id = (String) vertex.getValue(VertexType.PARAMETER_ID);
 		Vertex existing = graph.findVertex(id);
 		if (existing != vertex) {
 			id = getVertexId("Copy of " + id);
 			if (id != null) {
-				vertex.setValue(Vertex.PARAMETER_ID, id);
+				vertex.setValue(VertexType.PARAMETER_ID, id);
 			}
 		}
 

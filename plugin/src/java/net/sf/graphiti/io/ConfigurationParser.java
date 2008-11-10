@@ -39,13 +39,11 @@ import java.util.TreeSet;
 
 import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Configuration;
-import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.GraphType;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.ParameterPosition;
-import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 import net.sf.graphiti.ui.figure.shapes.ShapeCircle;
@@ -115,6 +113,22 @@ public class ConfigurationParser {
 	}
 
 	/**
+	 * Parse the "color" attribute for the given type.
+	 * 
+	 * @param type
+	 *            A type.
+	 * @param element
+	 *            An element.
+	 */
+	private void parseAttributeColor(AbstractType type, Element element) {
+		int red = Integer.parseInt(element.getAttribute("red"));
+		int green = Integer.parseInt(element.getAttribute("green"));
+		int blue = Integer.parseInt(element.getAttribute("blue"));
+		Color color = new Color(null, red, green, blue);
+		type.addAttribute(AbstractType.ATTRIBUTE_COLOR, color);
+	}
+
+	/**
 	 * Parses the attributes for the given edge type.
 	 * 
 	 * @param type
@@ -125,11 +139,13 @@ public class ConfigurationParser {
 	private void parseAttributes(EdgeType type, Node node) {
 		while (node != null) {
 			String nodeName = node.getNodeName();
-			if (nodeName.equals("directed")) {
+			if (nodeName.equals("color")) {
+				parseAttributeColor(type, (Element) node);
+			} else if (nodeName.equals("directed")) {
 				Element element = (Element) node;
 				boolean directed = Boolean.parseBoolean(element
 						.getAttribute("value"));
-				type.addAttribute(Edge.ATTRIBUTE_DIRECTED, directed);
+				type.addAttribute(EdgeType.ATTRIBUTE_DIRECTED, directed);
 			}
 
 			node = node.getNextSibling();
@@ -148,12 +164,7 @@ public class ConfigurationParser {
 		while (node != null) {
 			String nodeName = node.getNodeName();
 			if (nodeName.equals("color")) {
-				Element element = (Element) node;
-				int red = Integer.parseInt(element.getAttribute("red"));
-				int green = Integer.parseInt(element.getAttribute("green"));
-				int blue = Integer.parseInt(element.getAttribute("blue"));
-				Color color = new Color(null, red, green, blue);
-				type.addAttribute(Vertex.ATTRIBUTE_COLOR, color);
+				parseAttributeColor(type, (Element) node);
 			} else if (nodeName.equals("shape")) {
 				String shapeName = ((Element) node).getAttribute("name");
 				IShape shape = null;
@@ -168,13 +179,13 @@ public class ConfigurationParser {
 				} else if (shapeName.equals("triangle")) {
 					shape = new ShapeTriangle();
 				}
-				type.addAttribute(Vertex.ATTRIBUTE_SHAPE, shape);
+				type.addAttribute(VertexType.ATTRIBUTE_SHAPE, shape);
 			} else if (nodeName.equals("size")) {
 				Element element = (Element) node;
 				int width = Integer.parseInt(element.getAttribute("width"));
 				int height = Integer.parseInt(element.getAttribute("height"));
-				type.addAttribute(Vertex.ATTRIBUTE_WIDTH, width);
-				type.addAttribute(Vertex.ATTRIBUTE_HEIGHT, height);
+				type.addAttribute(VertexType.ATTRIBUTE_WIDTH, width);
+				type.addAttribute(VertexType.ATTRIBUTE_HEIGHT, height);
 			}
 
 			node = node.getNextSibling();

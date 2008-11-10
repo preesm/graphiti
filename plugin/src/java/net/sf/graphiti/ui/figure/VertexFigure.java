@@ -36,6 +36,7 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import net.sf.graphiti.model.Edge;
+import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 
 import org.eclipse.draw2d.ColorConstants;
@@ -204,7 +205,8 @@ public class VertexFigure extends Figure {
 	 * @return The {@link ConnectionAnchor} of the underlying shape.
 	 */
 	public ConnectionAnchor getSourceAnchor(Edge edge) {
-		String portName = (String) edge.getValue(Edge.PARAMETER_SOURCE_PORT);
+		String portName = (String) edge
+				.getValue(EdgeType.PARAMETER_SOURCE_PORT);
 		return shape.getConnectionAnchor(this, portName, true);
 	}
 
@@ -226,7 +228,8 @@ public class VertexFigure extends Figure {
 	 * @return The {@link ConnectionAnchor} of the underlying shape.
 	 */
 	public ConnectionAnchor getTargetAnchor(Edge edge) {
-		String portName = (String) edge.getValue(Edge.PARAMETER_TARGET_PORT);
+		String portName = (String) edge
+				.getValue(EdgeType.PARAMETER_TARGET_PORT);
 		return shape.getConnectionAnchor(this, portName, false);
 	}
 

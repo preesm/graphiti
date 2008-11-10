@@ -45,6 +45,7 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.model.VertexType;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.w3c.dom.Document;
@@ -155,9 +156,9 @@ public class GenericGraphWriter {
 		for (Edge edge : edges) {
 			Element edgeElement = document.createElement("edge");
 			edgeElement.setAttribute("source", (String) edge.getSource()
-					.getValue(Vertex.PARAMETER_ID));
+					.getValue(VertexType.PARAMETER_ID));
 			edgeElement.setAttribute("target", (String) edge.getTarget()
-					.getValue(Vertex.PARAMETER_ID));
+					.getValue(VertexType.PARAMETER_ID));
 			edgeElement.setAttribute("type", edge.getType().getName());
 
 			Element parameters = document.createElement("parameters");

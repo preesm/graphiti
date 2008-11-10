@@ -103,9 +103,9 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 			if (newType != null) {
 				edge = new Edge(edge);
 				String sourceId = (String) edge.getSource().getValue(
-						Vertex.PARAMETER_ID);
+						VertexType.PARAMETER_ID);
 				String targetId = (String) edge.getTarget().getValue(
-						Vertex.PARAMETER_ID);
+						VertexType.PARAMETER_ID);
 				Vertex source = graph.findVertex(sourceId);
 				Vertex target = graph.findVertex(targetId);
 

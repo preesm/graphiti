@@ -28,10 +28,11 @@
  */
 package net.sf.graphiti.ui.editpolicies;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
 
 /**
  * This class provides facilities to change dependencies appearance when they
@@ -42,11 +43,18 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
  */
 public class DependencyEndPointEditPolicy extends ConnectionEndpointEditPolicy {
 
+	private Color color;
+
 	@Override
 	protected void addSelectionHandles() {
 		super.addSelectionHandles();
-		getConnectionFigure().setLineWidth(1);
-		getConnectionFigure().setForegroundColor(ColorConstants.red);
+		PolylineConnection connection = getConnectionFigure();
+		color = connection.getForegroundColor();
+		Device device = color.getDevice();
+		int red = (255 - color.getRed()) / 2;
+		int green = (255 - color.getGreen()) / 2;
+		int blue = (255 - color.getBlue()) / 2;
+		connection.setForegroundColor(new Color(device, red, green, blue));
 	}
 
 	/**
@@ -61,8 +69,10 @@ public class DependencyEndPointEditPolicy extends ConnectionEndpointEditPolicy {
 	@Override
 	protected void removeSelectionHandles() {
 		super.removeSelectionHandles();
-		getConnectionFigure().setLineWidth(1);
-		getConnectionFigure().setForegroundColor(ColorConstants.black);
+		PolylineConnection connection = getConnectionFigure();
+		if (color != null) {
+			connection.setForegroundColor(color);
+		}
 	}
 
 }

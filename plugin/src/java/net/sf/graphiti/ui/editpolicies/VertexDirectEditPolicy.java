@@ -30,6 +30,7 @@ package net.sf.graphiti.ui.editpolicies;
 
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.commands.RenameVertexCommand;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 import net.sf.graphiti.ui.figure.VertexFigure;
@@ -80,7 +81,7 @@ public class VertexDirectEditPolicy extends DirectEditPolicy {
 			cmd.setName((String) editor.getValue());
 			return cmd;
 		} else {
-			String id = (String) vertex.getValue(Vertex.PARAMETER_ID);
+			String id = (String) vertex.getValue(VertexType.PARAMETER_ID);
 			VertexFigure figure = (VertexFigure) getHostFigure();
 			figure.getLabelId().setText(id);
 			figure.adjustSize();

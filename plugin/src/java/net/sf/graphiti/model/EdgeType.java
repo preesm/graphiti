@@ -37,6 +37,23 @@ package net.sf.graphiti.model;
 public class EdgeType extends AbstractType {
 
 	/**
+	 * String for the "directed" attribute.
+	 */
+	public static final String ATTRIBUTE_DIRECTED = "directed";
+
+	/**
+	 * String for the "source port" parameter. Defines the edge source port (if
+	 * any).
+	 */
+	public static final String PARAMETER_SOURCE_PORT = "source port";
+
+	/**
+	 * String for the "target port" parameter. Defines the edge target port (if
+	 * any).
+	 */
+	public static final String PARAMETER_TARGET_PORT = "target port";
+
+	/**
 	 * Creates a new edge type with the given name.
 	 * 
 	 * @param name

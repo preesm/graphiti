@@ -40,31 +40,23 @@ import java.util.List;
 public class Edge extends PropertyBean {
 
 	/**
-	 * String for the "directed" attribute.
-	 */
-	public static final String ATTRIBUTE_DIRECTED = "directed";
-
-	/**
-	 * String for the "source port" parameter. Defines the edge source port (if
-	 * any).
-	 */
-	public static final String PARAMETER_SOURCE_PORT = "source port";
-
-	/**
-	 * String for the "target port" parameter. Defines the edge target port (if
-	 * any).
-	 */
-	public static final String PARAMETER_TARGET_PORT = "target port";
-
-	/**
 	 * Serial ID.
 	 */
 	private static final long serialVersionUID = 863045957077215818L;
 
+	/**
+	 * This edge's source.
+	 */
 	private Vertex source;
 
+	/**
+	 * This edge's target.
+	 */
 	private Vertex target;
 
+	/**
+	 * This edge's type.
+	 */
 	private EdgeType type;
 
 	/**

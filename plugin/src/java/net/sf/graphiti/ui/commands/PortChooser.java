@@ -37,6 +37,7 @@ import net.sf.graphiti.io.GenericGraphParser;
 import net.sf.graphiti.io.IncompatibleConfigurationFile;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.core.resources.IFile;
@@ -246,7 +247,7 @@ public class PortChooser {
 				for (String portType : portTypes) {
 					if (vertex.getType().getName().equals(portType)) {
 						String id = (String) vertex
-								.getValue(Vertex.PARAMETER_ID);
+								.getValue(VertexType.PARAMETER_ID);
 						ports.add(id);
 
 						// we break because a vertex has only one type.

@@ -41,6 +41,12 @@ import java.util.Map;
  */
 public abstract class AbstractType implements Comparable<AbstractType> {
 
+	/**
+	 * String for the "color" attribute. Defines the color of a graph, a vertex,
+	 * an edge.
+	 */
+	public static final String ATTRIBUTE_COLOR = "color";
+
 	private Map<String, Object> attributes;
 
 	private String name;

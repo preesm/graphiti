@@ -31,10 +31,13 @@ package net.sf.graphiti.ui.figure;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Edge;
+import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.ParameterPosition;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.Label;
@@ -76,11 +79,19 @@ public class EdgeFigure extends PolylineConnection {
 		}
 
 		Boolean directed = (Boolean) edge.getType().getAttribute(
-				Edge.ATTRIBUTE_DIRECTED);
+				EdgeType.ATTRIBUTE_DIRECTED);
 		if (directed == null || directed) {
 			// we consider the edge directed by default.
 			setTargetDecoration(new PolygonDecoration());
 		}
+
+		Color color = (Color) edge.getType().getAttribute(
+				AbstractType.ATTRIBUTE_COLOR);
+		if (color == null) {
+			color = ColorConstants.black;
+		}
+
+		setForegroundColor(color);
 		setLineWidth(1);
 	}
 

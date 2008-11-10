@@ -39,36 +39,6 @@ import java.util.List;
 public class Vertex extends PropertyBean {
 
 	/**
-	 * String for the "color" attribute. Defines the vertex color.
-	 */
-	public static final String ATTRIBUTE_COLOR = "color";
-
-	/**
-	 * String for the "height" attribute. Defines the vertex height.
-	 */
-	public static final String ATTRIBUTE_HEIGHT = "height";
-
-	/**
-	 * String for the "shape" attribute. Defines the vertex shape.
-	 */
-	public static final String ATTRIBUTE_SHAPE = "shape";
-
-	/**
-	 * String for the "width" attribute. Defines the vertex width.
-	 */
-	public static final String ATTRIBUTE_WIDTH = "width";
-
-	/**
-	 * String for the "id" parameter. Defines the vertex id.
-	 */
-	public static final String PARAMETER_ID = "id";
-
-	/**
-	 * String for the "refinement" parameter. Defines the vertex refinement.
-	 */
-	public static final String PARAMETER_REFINEMENT = "refinement";
-
-	/**
 	 * String for the "destination vertex" property. Set when a vertex becomes
 	 * the destination of a dependency.
 	 */
@@ -85,11 +55,6 @@ public class Vertex extends PropertyBean {
 	 * source of a dependency.
 	 */
 	public static final String PROPERTY_SRC_VERTEX = "source vertex";
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * String for the "Input port" type.
@@ -216,7 +181,7 @@ public class Vertex extends PropertyBean {
 
 	@Override
 	public Object setValue(String propertyName, Object newValue) {
-		if (PARAMETER_ID.equals(propertyName)) {
+		if (VertexType.PARAMETER_ID.equals(propertyName)) {
 			if (parent != null) {
 				parent.changeVertexId(this, (String) newValue);
 			}
@@ -225,7 +190,7 @@ public class Vertex extends PropertyBean {
 	}
 
 	public String toString() {
-		return getType() + ": " + getValue(PARAMETER_ID);
+		return getType() + ": " + getValue(VertexType.PARAMETER_ID);
 	}
 
 }

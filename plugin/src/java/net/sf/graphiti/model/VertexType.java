@@ -37,6 +37,31 @@ package net.sf.graphiti.model;
 public class VertexType extends AbstractType {
 
 	/**
+	 * String for the "height" attribute. Defines the vertex height.
+	 */
+	public static final String ATTRIBUTE_HEIGHT = "height";
+
+	/**
+	 * String for the "shape" attribute. Defines the vertex shape.
+	 */
+	public static final String ATTRIBUTE_SHAPE = "shape";
+
+	/**
+	 * String for the "width" attribute. Defines the vertex width.
+	 */
+	public static final String ATTRIBUTE_WIDTH = "width";
+
+	/**
+	 * String for the "id" parameter. Defines the vertex id.
+	 */
+	public static final String PARAMETER_ID = "id";
+
+	/**
+	 * String for the "refinement" parameter. Defines the vertex refinement.
+	 */
+	public static final String PARAMETER_REFINEMENT = "refinement";
+
+	/**
 	 * Creates a new vertex type with the given name.
 	 * 
 	 * @param name
