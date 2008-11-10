@@ -5,6 +5,13 @@
 
     <xsl:template match="text()"/>
 
+    <!-- pattern for hexadecimal -->
+    <xsl:variable name="hexPattern">'([0-9a-fA-F]+)'H</xsl:variable>
+
+    <!-- pattern for quoted string -->
+    <xsl:variable name="strPattern">"(.+)"</xsl:variable>
+
+    <!-- Top-level production -->
     <xsl:template match="TypeAssignment">
         <production name="{IDENTIFIER_STRING[1]/text()}">
             <xsl:apply-templates select="Type"/>
@@ -13,9 +20,9 @@
 
     <!-- BIT STRING -->
     <xsl:template match="BitStringType">
-        <integer>
-            <xsl:apply-templates select="ValueOrConstraintList/ConstraintList/Constraint"/>
-        </integer>
+        <bitString>
+            <xsl:apply-templates select="ValueOrConstraintList/ConstraintList"/>
+        </bitString>
     </xsl:template>
 
     <!-- CHOICE -->
@@ -36,13 +43,15 @@
 
     <!-- DEFINED -->
     <xsl:template match="DefinedType">
-        <defined name="{IDENTIFIER_STRING/text()}"/>
+        <type name="{IDENTIFIER_STRING/text()}">
+            <xsl:apply-templates select="ValueOrConstraintList/ConstraintList"/>
+        </type>
     </xsl:template>
 
     <!-- INTEGER -->
     <xsl:template match="IntegerType">
         <integer>
-            <xsl:apply-templates select="ValueOrConstraintList/ConstraintList/Constraint"/>
+            <xsl:apply-templates select="ValueOrConstraintList/ConstraintList"/>
         </integer>
     </xsl:template>
 
@@ -72,24 +81,49 @@
 
     <!-- ******************************************************** -->
     <!-- Constraints -->
-    <xsl:template match="SizeConstraint">
-        <size>
-            <xsl:apply-templates select="ValueConstraintList/ValueConstraint"/>
-        </size>
+
+    <xsl:template match="ConstraintList">
+        <constraints>
+            <xsl:apply-templates/>
+        </constraints>
     </xsl:template>
 
+    <xsl:template match="Constraint/SizeConstraint">
+        <constraint type="size">
+            <xsl:apply-templates select="ValueConstraintList"/>
+        </constraint>
+    </xsl:template>
+
+    <xsl:template match="Constraint/ValueConstraint">
+        <constraint type="value">
+            <xsl:apply-templates select="LowerEndPoint/Value"/>
+            <xsl:apply-templates select="ValueRange/UpperEndPoint/Value"/>
+        </constraint>
+    </xsl:template>
+
+    <!-- ******************************************************** -->
+    <!-- identifier and hexadecimal values -->
+
+    <!-- identifier -->
     <xsl:template match="DefinedValue">
         <identifier value="{IDENTIFIER_STRING/text()}"/>
     </xsl:template>
 
+    <!-- decimal number -->
     <xsl:template match="BuiltinValue/NumberValue">
-        <number value="{NUMBER_STRING/text()}"/>
+        <number type="decimal" value="{NUMBER_STRING/text()}"/>
     </xsl:template>
-    
-    <xsl:variable name="pattern">'([0-9a-fA-F]+)'H</xsl:variable>
 
+    <!-- hexadecimal number -->
     <xsl:template match="BuiltinValue/HexadecimalValue">
-        <hexadecimal value="{replace(HEXADECIMAL_STRING/text(), $pattern, '$1')}"/>
+        <xsl:variable name="value" select="replace(HEXADECIMAL_STRING/text(), $hexPattern, '$1')"/>
+        <number type="hexadecimal" length="{string-length($value) * 4}" value="{$value}"/>
+    </xsl:template>
+
+    <!-- string value -->
+    <xsl:template match="BuiltinValue/StringValue">
+        <xsl:variable name="value" select="replace(QUOTED_STRING/text(), $strPattern, '$1')"/>
+        <string length="{string-length($value) * 8}" value="{$value}"/>
     </xsl:template>
 
 </xsl:stylesheet>
