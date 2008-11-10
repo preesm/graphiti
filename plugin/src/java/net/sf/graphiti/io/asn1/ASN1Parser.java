@@ -30,6 +30,7 @@ package net.sf.graphiti.io.asn1;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 import javax.xml.transform.TransformerException;
 
@@ -73,11 +74,14 @@ public class ASN1Parser {
 			System.out.println("parsing " + syntaxFileName);
 			ASN1Parser parser = new ASN1Parser(grammarFileName, xsltFileName,
 					syntaxFileName);
+			System.out.println("done");
 			parser.parse(binaryFileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
+	private List<Production> productions;
 
 	/**
 	 * Creates a new ASN.1 parser. It needs the file name of the ASN.1 grammar
@@ -129,11 +133,12 @@ public class ASN1Parser {
 	 * Configure this parser according to the rules defined by the given
 	 * description.
 	 * 
-	 * @param description
+	 * @param definition
 	 *            A DOM element.
 	 */
-	private void configure(Element description) {
-
+	private void configure(Element definition) {
+		ASN1GrammarParser parser = new ASN1GrammarParser();
+		productions = parser.parseProductions(definition);
 	}
 
 	/**

@@ -11,7 +11,14 @@
     <!-- pattern for quoted string -->
     <xsl:variable name="strPattern">"(.+)"</xsl:variable>
 
-    <!-- Top-level production -->
+    <!-- Top-level module definition -->
+    <xsl:template match="ModuleDefinition">
+        <definition>
+            <xsl:apply-templates/>
+        </definition>
+    </xsl:template>
+    
+    <!-- production -->
     <xsl:template match="TypeAssignment">
         <production name="{IDENTIFIER_STRING[1]/text()}">
             <xsl:apply-templates select="Type"/>

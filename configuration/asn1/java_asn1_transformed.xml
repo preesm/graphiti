@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition>
+   <production name="Stream">
+      <sequence>
+         <element name="magic">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="16" value="aced"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </element>
+         <element name="version">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="16" value="0005"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </element>
+         <element>
+            <type name="Contents"/>
+         </element>
+      </sequence>
+   </production>
+   <production name="Contents">
+      <sequenceOf>
+         <type name="Content"/>
+      </sequenceOf>
+   </production>
+   <production name="Content">
+      <choice>
+         <alternative>
+            <type name="Object"/>
+         </alternative>
+         <alternative>
+            <type name="BlockData"/>
+         </alternative>
+      </choice>
+   </production>
+   <production name="Object">
+      <choice>
+         <alternative>
+            <type name="NewObject"/>
+         </alternative>
+         <alternative>
+            <type name="NewClass"/>
+         </alternative>
+         <alternative>
+            <type name="NewArray"/>
+         </alternative>
+         <alternative>
+            <type name="NewString"/>
+         </alternative>
+         <alternative>
+            <type name="NewEnum"/>
+         </alternative>
+         <alternative>
+            <type name="NewClassDesc"/>
+         </alternative>
+         <alternative>
+            <type name="PrevObject"/>
+         </alternative>
+         <alternative name="nullReference">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="8" value="70"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </alternative>
+         <alternative>
+            <type name="Exception"/>
+         </alternative>
+         <alternative name="tcReset">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="8" value="79"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </alternative>
+      </choice>
+   </production>
+   <production name="NewClass">
+      <sequence>
+         <element name="tcClass">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="8" value="76"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </element>
+         <element>
+            <type name="ClassDesc"/>
+         </element>
+      </sequence>
+   </production>
+   <production name="ClassDesc">
+      <choice>
+         <alternative>
+            <type name="NewClassDesc"/>
+         </alternative>
+         <alternative name="nullReference">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="8" value="70"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </alternative>
+         <alternative>
+            <type name="PrevObject"/>
+         </alternative>
+      </choice>
+   </production>
+   <production name="NewClassDesc">
+      <choice>
+         <alternative>
+            <sequence>
+               <element name="tcClassDesc">
+                  <bitString>
+                     <constraints>
+                        <constraint type="value">
+                           <number type="hexadecimal" length="8" value="72"/>
+                        </constraint>
+                     </constraints>
+                  </bitString>
+               </element>
+               <element name="className">
+                  <type name="UTF8String"/>
+               </element>
+               <element name="serialVersionUID">
+                  <integer>
+                     <constraints>
+                        <constraint type="size">
+                           <number type="decimal" value="64"/>
+                        </constraint>
+                     </constraints>
+                  </integer>
+               </element>
+               <element>
+                  <type name="ClassDescInfo"/>
+               </element>
+            </sequence>
+         </alternative>
+         <alternative>
+            <sequence>
+               <element name="tcProxyClassDesc">
+                  <bitString>
+                     <constraints>
+                        <constraint type="value">
+                           <number type="hexadecimal" length="8" value="7D"/>
+                        </constraint>
+                     </constraints>
+                  </bitString>
+               </element>
+               <element>
+                  <type name="ProxyClassDescInfo"/>
+               </element>
+            </sequence>
+         </alternative>
+      </choice>
+   </production>
+   <production name="ClassDescInfo">
+      <sequence>
+         <element name="classDescFlags">
+            <integer>
+               <constraints>
+                  <constraint type="size">
+                     <number type="decimal" value="8"/>
+                  </constraint>
+               </constraints>
+            </integer>
+         </element>
+         <element>
+            <type name="Fields"/>
+         </element>
+         <element>
+            <type name="ClassAnnotation"/>
+         </element>
+         <element name="superClassDesc">
+            <type name="ClassDesc"/>
+         </element>
+      </sequence>
+   </production>
+   <production name="ProxyClassDescInfo">
+      <sequence>
+         <element name="count">
+            <integer>
+               <constraints>
+                  <constraint type="size">
+                     <number type="decimal" value="32"/>
+                  </constraint>
+               </constraints>
+            </integer>
+         </element>
+         <element name="proxyInterfaceNames">
+            <sequenceOf>
+               <constraint type="size">
+                  <identifier value="count"/>
+               </constraint>
+               <type name="UTF8String"/>
+            </sequenceOf>
+         </element>
+         <element>
+            <type name="ClassAnnotation"/>
+         </element>
+         <element name="superClassDesc">
+            <type name="ClassDesc"/>
+         </element>
+      </sequence>
+   </production>
+   <production name="Fields">
+      <sequence>
+         <element name="count">
+            <integer>
+               <constraints>
+                  <constraint type="size">
+                     <number type="decimal" value="16"/>
+                  </constraint>
+               </constraints>
+            </integer>
+         </element>
+         <element>
+            <sequenceOf>
+               <constraint type="size">
+                  <identifier value="count"/>
+               </constraint>
+               <type name="FieldDesc"/>
+            </sequenceOf>
+         </element>
+      </sequence>
+   </production>
+   <production name="FieldDesc">
+      <choice>
+         <alternative>
+            <type name="PrimitiveDesc"/>
+         </alternative>
+         <alternative>
+            <type name="ObjectDesc"/>
+         </alternative>
+      </choice>
+   </production>
+   <production name="PrimitiveDesc">
+      <sequence>
+         <element>
+            <type name="PrimitiveTypeCode"/>
+         </element>
+         <element name="fieldName">
+            <type name="UTF8String"/>
+         </element>
+      </sequence>
+   </production>
+   <production name="ObjectDesc">
+      <sequence>
+         <element>
+            <type name="ObjectTypeCode"/>
+         </element>
+         <element name="fieldName">
+            <type name="UTF8String"/>
+         </element>
+         <element name="className">
+            <type name="UTF8String"/>
+         </element>
+      </sequence>
+   </production>
+   <production name="PrimitiveTypeCode">
+      <type name="PrintableString">
+         <constraints>
+            <constraint type="value">
+               <string length="8" value="B"/>
+            </constraint>
+            <constraint type="value">
+               <string length="8" value="C"/>
+            </constraint>
+            <constraint type="value">
+               <string length="8" value="D"/>
+            </constraint>
+            <constraint type="value">
+               <string length="8" value="F"/>
+            </constraint>
+            <constraint type="value">
+               <string length="8" value="I"/>
+            </constraint>
+            <constraint type="value">
+               <string length="8" value="J"/>
+            </constraint>
+            <constraint type="value">
+               <string length="8" value="S"/>
+            </constraint>
+            <constraint type="value">
+               <string length="8" value="Z"/>
+            </constraint>
+         </constraints>
+      </type>
+   </production>
+   <production name="ObjectTypeCode">
+      <type name="PrintableString">
+         <constraints>
+            <constraint type="value">
+               <string length="8" value="["/>
+            </constraint>
+            <constraint type="value">
+               <string length="8" value="L"/>
+            </constraint>
+         </constraints>
+      </type>
+   </production>
+   <production name="ClassAnnotation">
+      <choice>
+         <alternative name="endBlockData">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="8" value="78"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </alternative>
+         <alternative>
+            <sequence>
+               <element>
+                  <type name="Contents"/>
+               </element>
+               <element name="endBlockData">
+                  <bitString>
+                     <constraints>
+                        <constraint type="value">
+                           <number type="hexadecimal" length="8" value="78"/>
+                        </constraint>
+                     </constraints>
+                  </bitString>
+               </element>
+            </sequence>
+         </alternative>
+      </choice>
+   </production>
+   <production name="NewArray">
+      <sequence>
+         <element name="tcArray">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="8" value="75"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </element>
+         <element>
+            <type name="ClassDesc"/>
+         </element>
+         <element name="size">
+            <integer>
+               <constraints>
+                  <constraint type="size">
+                     <number type="decimal" value="32"/>
+                  </constraint>
+               </constraints>
+            </integer>
+         </element>
+         <element>
+            <sequenceOf>
+               <constraint type="size">
+                  <identifier value="size"/>
+               </constraint>
+               <type name="Value"/>
+            </sequenceOf>
+         </element>
+      </sequence>
+   </production>
+   <production name="NewObject">
+      <sequence>
+         <element name="tcObject">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="8" value="73"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </element>
+         <element>
+            <type name="ClassDesc"/>
+         </element>
+      </sequence>
+   </production>
+   <production name="BlockData">
+      <choice>
+         <alternative>
+            <type name="BlockDataShort"/>
+         </alternative>
+         <alternative>
+            <type name="BlockDataLong"/>
+         </alternative>
+      </choice>
+   </production>
+   <production name="BlockDataShort">
+      <sequence>
+         <element name="tcBlockData">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="8" value="77"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </element>
+         <element name="size">
+            <integer>
+               <constraints>
+                  <constraint type="value">
+                     <number type="decimal" value="0"/>
+                     <number type="decimal" value="255"/>
+                  </constraint>
+               </constraints>
+            </integer>
+         </element>
+         <element>
+            <sequenceOf>
+               <constraint type="size">
+                  <identifier value="size"/>
+               </constraint>
+               <integer>
+                  <constraints>
+                     <constraint type="value">
+                        <number type="decimal" value="0"/>
+                        <number type="decimal" value="255"/>
+                     </constraint>
+                  </constraints>
+               </integer>
+            </sequenceOf>
+         </element>
+      </sequence>
+   </production>
+   <production name="BlockDataLong">
+      <sequence>
+         <element name="tcBlockDataLong">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="8" value="7A"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </element>
+         <element name="size">
+            <integer>
+               <constraints>
+                  <constraint type="size">
+                     <number type="decimal" value="32"/>
+                  </constraint>
+               </constraints>
+            </integer>
+         </element>
+         <element>
+            <sequenceOf>
+               <constraint type="size">
+                  <identifier value="size"/>
+               </constraint>
+               <integer>
+                  <constraints>
+                     <constraint type="value">
+                        <number type="decimal" value="0"/>
+                        <number type="decimal" value="255"/>
+                     </constraint>
+                  </constraints>
+               </integer>
+            </sequenceOf>
+         </element>
+      </sequence>
+   </production>
+   <production name="NewString">
+      <sequence>
+         <element name="tcString">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="8" value="74"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </element>
+         <element>
+            <type name="UTF8String"/>
+         </element>
+      </sequence>
+   </production>
+   <production name="NewEnum">
+      <sequence>
+         <element name="tcEnum">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="8" value="7E"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </element>
+         <element>
+            <type name="ClassDesc"/>
+         </element>
+         <element name="object">
+            <type name="UTF8String"/>
+         </element>
+      </sequence>
+   </production>
+   <production name="PrevObject">
+      <sequence>
+         <element name="tcReference">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="8" value="71"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </element>
+         <element name="handle">
+            <integer>
+               <constraints>
+                  <constraint type="size">
+                     <number type="decimal" value="32"/>
+                  </constraint>
+               </constraints>
+            </integer>
+         </element>
+      </sequence>
+   </production>
+   <production name="Exception">
+      <sequence>
+         <element name="tcException">
+            <bitString>
+               <constraints>
+                  <constraint type="value">
+                     <number type="hexadecimal" length="8" value="7B"/>
+                  </constraint>
+               </constraints>
+            </bitString>
+         </element>
+         <element name="object">
+            <type name="UTF8String"/>
+         </element>
+      </sequence>
+   </production>
+</definition>
