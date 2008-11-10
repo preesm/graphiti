@@ -46,7 +46,14 @@ public class PolygonPortAnchor extends AbstractConnectionAnchor {
 	private PortAnchorReferenceManager mgr;
 
 	/**
-	 * Constructs a new PolygonPortAnchor.
+	 * Creates a new polygon port anchor.
+	 * 
+	 * @param figure
+	 *            The owning vertex figure.
+	 * @param portName
+	 *            The port name associated with this connection anchor.
+	 * @param isOutput
+	 *            Whether the connection is input (false) or output (true).
 	 */
 	public PolygonPortAnchor(VertexFigure figure, String portName,
 			boolean isOutput) {

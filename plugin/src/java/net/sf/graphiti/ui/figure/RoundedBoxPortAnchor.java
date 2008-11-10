@@ -42,6 +42,16 @@ public class RoundedBoxPortAnchor extends ChopboxAnchor {
 
 	private PortAnchorReferenceManager mgr;
 
+	/**
+	 * Creates a new rounded box port anchor.
+	 * 
+	 * @param figure
+	 *            The owning vertex figure.
+	 * @param portName
+	 *            The port name associated with this connection anchor.
+	 * @param isOutput
+	 *            Whether the connection is input (false) or output (true).
+	 */
 	public RoundedBoxPortAnchor(VertexFigure figure, String portName,
 			boolean isOutput) {
 		super(figure);

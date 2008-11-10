@@ -42,10 +42,30 @@ public class EllipsePortAnchor extends EllipseAnchor {
 
 	private PortAnchorReferenceManager mgr;
 
+	/**
+	 * Creates a new ellipse port anchor.
+	 * 
+	 * @param figure
+	 *            The owning vertex figure.
+	 * @param portName
+	 *            The port name associated with this connection anchor.
+	 * @param isOutput
+	 *            Whether the connection is input (false) or output (true).
+	 */
 	public EllipsePortAnchor(VertexFigure figure, String portName,
 			boolean isOutput) {
 		super(figure);
 		mgr = new PortAnchorReferenceManager(figure, portName, isOutput);
+	}
+
+	@Override
+	public Point getLocation(Point reference) {
+		Point mgrReference = mgr.getReferencePoint(this);
+		if (mgrReference == null) {
+			return super.getLocation(reference);
+		} else {
+			return mgrReference;
+		}
 	}
 
 	@Override

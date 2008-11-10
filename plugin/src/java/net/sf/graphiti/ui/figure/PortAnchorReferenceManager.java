@@ -31,12 +31,18 @@ package net.sf.graphiti.ui.figure;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 
 import org.eclipse.draw2d.AbstractConnectionAnchor;
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
- * @author mwipliez
+ * This class provides a reference manager for port anchors. It contains a main
+ * method, getReferencePoint, which clients call to get a reference point for
+ * their connection anchor. There is one reference manager for each connection
+ * anchor.
+ * 
+ * @author Matthieu Wipliez
  * 
  */
 public class PortAnchorReferenceManager {
@@ -49,6 +55,16 @@ public class PortAnchorReferenceManager {
 
 	IShape shape;
 
+	/**
+	 * Creates a new port anchor reference manager.
+	 * 
+	 * @param figure
+	 *            The owning vertex figure.
+	 * @param portName
+	 *            The port name associated with this connection anchor.
+	 * @param isOutput
+	 *            Whether the connection is input (false) or output (true).
+	 */
 	public PortAnchorReferenceManager(VertexFigure figure, String portName,
 			boolean isOutput) {
 		this.figure = figure;
@@ -57,6 +73,15 @@ public class PortAnchorReferenceManager {
 		this.isOutput = isOutput;
 	}
 
+	/**
+	 * Returns a reference point for the given connection anchor. It uses the
+	 * underlying vertex figure to retrieve the label associated with the port
+	 * name given at creation time.
+	 * 
+	 * @param anchor
+	 *            An abstract {@link ConnectionAnchor}.
+	 * @return A reference {@link Point}.
+	 */
 	public Point getReferencePoint(AbstractConnectionAnchor anchor) {
 		if (portName == null || portName.isEmpty()) {
 			return null;
