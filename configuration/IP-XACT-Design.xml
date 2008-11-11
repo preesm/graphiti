@@ -30,7 +30,7 @@
     <vertexTypes>
         <vertexType name="hierConnection">
             <attributes>
-                <color red="0" green="60" blue="100"/>
+                <color red="255" green="0" blue="0"/>
                 <shape name="roundedBox"/>
                 <size width="30" height="30"/>
             </attributes>
@@ -217,6 +217,7 @@
         
         <edgeType name="hierConnection">
             <attributes>
+                <color red="255" green="0" blue="0"/>
                 <directed value="false"/>
             </attributes>
             <parameters>

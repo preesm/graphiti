@@ -17,9 +17,12 @@
         <xsl:element name="spirit:component">
             <xsl:apply-templates select="parameters" mode="vlnv"/>
             <xsl:element name="spirit:busInterfaces">
-                <xsl:apply-templates select="vertices"/>
+                <xsl:apply-templates select="vertices/vertex[@type='Port']"/>
             </xsl:element>
-            <xsl:call-template name="memoryMap" />
+            <xsl:element name="spirit:model">
+                <xsl:apply-templates select="vertices/vertex[@type='subDesign']"/>
+            </xsl:element>
+            <xsl:call-template name="memoryMap"/>
         </xsl:element>
     </xsl:template>
     
@@ -83,6 +86,24 @@
                 <xsl:attribute name="spirit:name" select="parameters/parameter[@name = 'busName']/@value"/>
                 <xsl:attribute name="spirit:vendor" select="parameters/parameter[@name = 'busVendor']/@value"/>
                 <xsl:attribute name="spirit:version" select="parameters/parameter[@name = 'busVersion']/@value"/>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
+    <!-- Component instances -->
+    <xsl:template match="vertex[@type='subDesign']">
+        <xsl:element name="spirit:views">
+            <xsl:element name="spirit:view">
+                <xsl:element name="spirit:name">
+                    <xsl:value-of select="parameters/parameter[@name = 'id']/@value"/>
+                </xsl:element>
+                <xsl:element name="spirit:envIdentifier">::Hierarchy</xsl:element>
+                <xsl:element name="spirit:hierarchyRef">
+                    <xsl:attribute name="spirit:library" select="parameters/parameter[@name = 'library']/@value"/>
+                    <xsl:attribute name="spirit:name" select="parameters/parameter[@name = 'refinement']/@value"/>
+                    <xsl:attribute name="spirit:vendor" select="parameters/parameter[@name = 'vendor']/@value"/>
+                    <xsl:attribute name="spirit:version" select="parameters/parameter[@name = 'version']/@value"/>
+                </xsl:element>
             </xsl:element>
         </xsl:element>
     </xsl:template>

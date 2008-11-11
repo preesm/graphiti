@@ -111,6 +111,7 @@
     <xsl:template match="spirit:componentInstance" mode="generic">
         <xsl:element name="vertex">
             <xsl:variable name="componentType" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='componentType']"/>
+            <xsl:variable name="refinement" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='refinement']"/>
            
             <xsl:attribute name="type">componentInstance</xsl:attribute>
             <xsl:element name="parameters">
@@ -137,7 +138,7 @@
                 </xsl:element>
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">refinement</xsl:attribute>
-                    <xsl:attribute name="value"/>
+                    <xsl:attribute name="value"><xsl:value-of select="$refinement"/></xsl:attribute>
                 </xsl:element>
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">componentType</xsl:attribute>

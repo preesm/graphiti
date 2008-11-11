@@ -110,16 +110,12 @@
             <xsl:attribute name="value" select="@spirit:library"/>
         </xsl:element>
         <xsl:element name="parameter">
-            <xsl:attribute name="name">name</xsl:attribute>
+            <xsl:attribute name="name">refinement</xsl:attribute>
             <xsl:attribute name="value" select="@spirit:name"/>
         </xsl:element>
         <xsl:element name="parameter">
             <xsl:attribute name="name">version</xsl:attribute>
             <xsl:attribute name="value" select="@spirit:version"/>
-        </xsl:element>
-        <xsl:element name="parameter">
-            <xsl:attribute name="name">refinement</xsl:attribute>
-            <xsl:attribute name="value"/>
         </xsl:element>
     </xsl:template>
     

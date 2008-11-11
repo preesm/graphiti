@@ -50,14 +50,18 @@
                 <xsl:attribute name="spirit:vendor" select="parameters/parameter[@name = 'vendor']/@value"/>
                 <xsl:attribute name="spirit:version" select="parameters/parameter[@name = 'version']/@value"/>
             </xsl:element>
-            <xsl:if test="parameters/parameter[@name = 'componentType']/@value!=''">
-                <xsl:element name="spirit:configurableElementValues">
+            <xsl:element name="spirit:configurableElementValues">
+                <xsl:if test="parameters/parameter[@name = 'componentType']/@value!=''">
                     <xsl:element name="spirit:configurableElementValue">
                         <xsl:attribute name="spirit:referenceId">componentType</xsl:attribute>
                         <xsl:value-of select="parameters/parameter[@name = 'componentType']/@value"/>
                     </xsl:element>
+                </xsl:if>
+                <xsl:element name="spirit:configurableElementValue">
+                    <xsl:attribute name="spirit:referenceId">refinement</xsl:attribute>
+                    <xsl:value-of select="parameters/parameter[@name = 'refinement']/@value"/>
                 </xsl:element>
-            </xsl:if>
+            </xsl:element>
         </xsl:element>
     </xsl:template>
     
@@ -122,7 +126,7 @@
             <xsl:element name="spirit:activeInterface">
                 <xsl:variable name="hierEdge" select="//edges/edge[@type = 'hierConnection' and @target = $id][1]"/>
                 <xsl:attribute name="spirit:busRef" select="$hierEdge/parameters/parameter[@name = 'source port']/@value"/>
-                    <xsl:attribute name="spirit:componentRef" select="$hierEdge/@source"/>
+                <xsl:attribute name="spirit:componentRef" select="$hierEdge/@source"/>
             </xsl:element>
         </xsl:element>
     </xsl:template>
@@ -144,5 +148,5 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-
+    
 </xsl:stylesheet>
