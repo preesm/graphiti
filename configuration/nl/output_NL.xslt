@@ -18,12 +18,30 @@
 
             <xsl:call-template name="parameters"/>
             <xsl:call-template name="ports"/>
+            <xsl:call-template name="variables"/>
             <xsl:call-template name="entities"/>
             <xsl:call-template name="structure"/>
             <xsl:text>
 end
 </xsl:text>
         </xsl:element>
+    </xsl:template>
+
+    <!-- variables -->
+    <xsl:template name="variables">
+        <xsl:text>var</xsl:text>
+            <xsl:text>
+    </xsl:text>
+		<xsl:for-each select="Decl[@kind = 'Variable']">
+        <xsl:value-of select="@name"/>
+            <xsl:text> = </xsl:text>
+            <xsl:apply-templates select="Expr"/>
+                <xsl:text>;</xsl:text>
+            <xsl:text>
+    </xsl:text>
+        </xsl:for-each> 
+        <xsl:text>
+</xsl:text>
     </xsl:template>
 
     <!-- parameters -->

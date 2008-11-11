@@ -28,6 +28,7 @@
                 </xsl:otherwise>
             </xsl:choose>
             
+            <xsl:apply-templates select="VarDeclSection"/>
             <xsl:apply-templates select="Parameters"/>
             <xsl:apply-templates select="EntitySection"/>
             <xsl:apply-templates select="StructureSection"/>
@@ -44,6 +45,14 @@
     <!-- ID -->
     <xsl:template match="QualifiedId/ID">
         <ID name="{text()}"/>
+    </xsl:template>
+
+    <!-- Variable -->
+    <xsl:template match="VarDecl">
+        <Decl kind="Variable" name="{ID[1]/text()}">
+            <xsl:apply-templates select="Type"/>
+            <xsl:apply-templates select="Expression"/>
+        </Decl>
     </xsl:template>
 
     <!-- Parameter -->
