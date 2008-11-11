@@ -39,7 +39,7 @@
     <!-- template for the bus interfaces -->
     <xsl:template match="spirit:busInterface">
         <xsl:element name="vertex">
-            <xsl:attribute name="type">Input port</xsl:attribute>
+            <xsl:attribute name="type">Port</xsl:attribute>
             <xsl:element name="parameters">
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">id</xsl:attribute>

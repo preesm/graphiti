@@ -73,7 +73,7 @@
     </xsl:template>
     
     <!-- Component instances -->
-    <xsl:template match="vertex[@type='Input port']">
+    <xsl:template match="vertex[@type='Port']">
         <xsl:element name="spirit:busInterface">
             <xsl:element name="spirit:name">
                 <xsl:value-of select="parameters/parameter[@name = 'id']/@value"/>
