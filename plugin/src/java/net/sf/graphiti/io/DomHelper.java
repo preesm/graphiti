@@ -108,17 +108,32 @@ public class DomHelper {
 	}
 
 	/**
-	 * Returns the first sibling of <code>node</code>, or <code>node</code>
-	 * itself, which has the given name.
+	 * Returns the first child of <code>node</code> that has the given name, or
+	 * <code>null</code>.
 	 * 
 	 * @param node
 	 *            A node.
 	 * @param name
 	 *            The name of the node we are looking for.
-	 * @return The first node whose name matches.
+	 * @return The first node whose name matches, or <code>null</code>.
+	 */
+	public static Node getFirstChildNamed(Node node, String name) {
+		return getFirstSiblingNamed(node.getFirstChild(), name);
+	}
+
+	/**
+	 * Returns the first sibling of <code>node</code>, or <code>node</code>
+	 * itself, which has the given name. If none is found, the function returns
+	 * <code>null</code>.
+	 * 
+	 * @param node
+	 *            A node.
+	 * @param name
+	 *            The name of the node we are looking for.
+	 * @return The first node whose name matches, or <code>null</code>.
 	 */
 	public static Node getFirstSiblingNamed(Node node, String name) {
-		while (!node.getNodeName().equals(name)) {
+		while (node != null && !node.getNodeName().equals(name)) {
 			node = node.getNextSibling();
 		}
 
