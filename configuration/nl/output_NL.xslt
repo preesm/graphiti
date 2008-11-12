@@ -29,10 +29,12 @@ end
 
     <!-- variables -->
     <xsl:template name="variables">
+		<xsl:for-each select="Decl[@kind = 'Variable']">
+		<xsl:if test="position() = 1">
         <xsl:text>var</xsl:text>
             <xsl:text>
     </xsl:text>
-		<xsl:for-each select="Decl[@kind = 'Variable']">
+		</xsl:if>
         <xsl:value-of select="@name"/>
             <xsl:text> = </xsl:text>
             <xsl:apply-templates select="Expr"/>
