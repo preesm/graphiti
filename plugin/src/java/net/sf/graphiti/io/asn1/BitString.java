@@ -37,7 +37,7 @@ package net.sf.graphiti.io.asn1;
  */
 public class BitString extends Item {
 
-	private BinaryNumber value;
+	private Constraint value;
 
 	/**
 	 * Creates a new bit string with the given name and value.
@@ -47,7 +47,7 @@ public class BitString extends Item {
 	 * @param value
 	 *            The bit string value as a {@link BinaryNumber}.
 	 */
-	public BitString(String name, BinaryNumber value) {
+	public BitString(String name, Constraint value) {
 		super(name);
 		this.value = value;
 	}

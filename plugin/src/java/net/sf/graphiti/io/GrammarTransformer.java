@@ -110,7 +110,7 @@ public class GrammarTransformer {
 
 	/**
 	 * Creates a DOM document with a document element named after the root parse
-	 * node, and calls {@link #convertNodeToDom(Item, Node)} on its children.
+	 * node, and calls {@link #convertNodeToDom(Element, Node)} on its children.
 	 * 
 	 * @param root
 	 *            The root parse node.

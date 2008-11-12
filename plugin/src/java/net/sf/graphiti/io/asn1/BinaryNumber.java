@@ -40,14 +40,14 @@ import java.util.BitSet;
  */
 public class BinaryNumber {
 
-	private BitSet bits;
-
-	private int nbits;
-
 	/**
 	 * Serial ID.
 	 */
 	private static final long serialVersionUID = 1L;
+
+	private BitSet bits;
+
+	private int nbits;
 
 	/**
 	 * Creates an empty number.

@@ -38,15 +38,40 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * This class provides a parser for ASN.1 descriptions that are in a particular
+ * XML format.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
 public class ASN1GrammarParser {
 
-	private Item parseBitString(String name, Node node) {
+	/**
+	 * Returns a bit string (with the given name) from the given node.
+	 * 
+	 * @param name
+	 *            The bit string name.
+	 * @param node
+	 *            The first child of a &lt;bitString&gt; node.
+	 * @return A {@link BitString}.
+	 */
+	private BitString parseBitString(String name, Node node) {
 		Node constraintsElt = DomHelper.getFirstSiblingNamed(node,
 				"constraints");
 		ConstraintList ct = parseConstraints(constraintsElt.getFirstChild());
-		return new BitString(name, ct.getFirstValueConstraint().getValue());
+		return new BitString(name, ct.getFirstValueConstraint());
 	}
 
+	/**
+	 * Returns a choice (with the given name) from the given node.
+	 * 
+	 * @param name
+	 *            The choice name.
+	 * @param node
+	 *            The first child of a &lt;choice&gt; node.
+	 * @return A {@link Choice}.
+	 */
 	private Choice parseChoice(String name, Node node) {
 		Choice choice = new Choice(name);
 		while (node != null) {
@@ -60,6 +85,13 @@ public class ASN1GrammarParser {
 		return choice;
 	}
 
+	/**
+	 * Returns a constraint list from the given node.
+	 * 
+	 * @param node
+	 *            The first sibling of a &lt;constraint&gt; node.
+	 * @return A {@link ConstraintList}, possibly empty.
+	 */
 	private ConstraintList parseConstraints(Node node) {
 		ConstraintList constraints = new ConstraintList();
 		while (node != null) {
@@ -78,16 +110,33 @@ public class ASN1GrammarParser {
 		return constraints;
 	}
 
+	/**
+	 * Adds a size constraint parsed from the given element to the given
+	 * constraint list.
+	 * 
+	 * @param constraints
+	 *            A {@link ConstraintList}.
+	 * @param element
+	 *            A &lt;constraint type="size"&gt; element.
+	 */
 	private void parseConstraintSize(ConstraintList constraints, Element element) {
 		Constraint constraint = new Constraint(ConstraintType.Size);
 		Node size = DomHelper.getFirstChildNamed(element, "number");
 		if (size != null) {
-			BinaryNumber number = parseNumber((Element) size);
-			constraint.setSize(number.intValue());
+			constraint.setSize(parseNumber((Element) size));
 			constraints.add(constraint);
 		}
 	}
 
+	/**
+	 * Adds a value constraint parsed from the given element to the given
+	 * constraint list.
+	 * 
+	 * @param constraints
+	 *            A {@link ConstraintList}.
+	 * @param element
+	 *            A &lt;constraint type="value"&gt; element.
+	 */
 	private void parseConstraintValue(ConstraintList constraints,
 			Element element) {
 		Constraint constraint = new Constraint(ConstraintType.Value);
@@ -95,7 +144,7 @@ public class ASN1GrammarParser {
 		if (numbers.getLength() == 0) {
 			NodeList strings = element.getElementsByTagName("string");
 			Element value = (Element) strings.item(0);
-			constraint.setString(parseString(value));
+			constraint.setValue(parseString(value));
 		} else if (numbers.getLength() == 1) {
 			// one value
 			Element numberElt = (Element) numbers.item(0);
@@ -104,8 +153,9 @@ public class ASN1GrammarParser {
 			// a range from to
 			Element lower = (Element) numbers.item(0);
 			Element upper = (Element) numbers.item(1);
-			constraint.setLowerBound(parseNumber(lower));
-			constraint.setUpperBound(parseNumber(upper));
+			BinaryNumber[] bounds = new BinaryNumber[] { parseNumber(lower),
+					parseNumber(upper) };
+			constraint.setValue(bounds);
 		}
 
 		constraints.add(constraint);
@@ -114,9 +164,9 @@ public class ASN1GrammarParser {
 	/**
 	 * Parses the given DOM element and returns one of:
 	 * <ul>
-	 * <li>BitString</li>
-	 * <li>Integer</li>
-	 * <li>...</li>
+	 * <li>{@link BitString}</li>
+	 * <li>{@link IntegerElement}</li>
+	 * <li>{@link TypeReference}</li>
 	 * </ul>
 	 * 
 	 * @param domElement
@@ -141,7 +191,16 @@ public class ASN1GrammarParser {
 		return null;
 	}
 
-	private Item parseInteger(String name, Node node) {
+	/**
+	 * Returns an integer (with the given name) from the given node.
+	 * 
+	 * @param name
+	 *            The choice name.
+	 * @param node
+	 *            The first child of a &lt;integer&gt; node.
+	 * @return An {@link IntegerElement}.
+	 */
+	private IntegerElement parseInteger(String name, Node node) {
 		Node constraints = DomHelper.getFirstSiblingNamed(node, "constraints");
 		IntegerElement integer = new IntegerElement(name);
 		ConstraintList ct = parseConstraints(constraints.getFirstChild());
@@ -149,6 +208,13 @@ public class ASN1GrammarParser {
 		return integer;
 	}
 
+	/**
+	 * Returns a number from the given element.
+	 * 
+	 * @param numberElt
+	 *            A &lt;number&gt; element.
+	 * @return A {@link BinaryNumber}.
+	 */
 	private BinaryNumber parseNumber(Element numberElt) {
 		String length = numberElt.getAttribute("length");
 		BinaryNumber number = null;
@@ -167,6 +233,13 @@ public class ASN1GrammarParser {
 		return number;
 	}
 
+	/**
+	 * Returns a production from the given element.
+	 * 
+	 * @param production
+	 *            A &lt;production&gt; element.
+	 * @return A {@link Production}.
+	 */
 	private Production parseProduction(Element production) {
 		String name = production.getAttribute("name");
 		Node node = production.getFirstChild();
@@ -185,6 +258,13 @@ public class ASN1GrammarParser {
 		return null;
 	}
 
+	/**
+	 * Returns a list of productions from the given node.
+	 * 
+	 * @param definition
+	 *            A &lt;definition&gt; node.
+	 * @return A {@link List}&lt;{@link Production}&gt;.
+	 */
 	public List<Production> parseProductions(Node definition) {
 		List<Production> productions = new ArrayList<Production>();
 
@@ -200,6 +280,15 @@ public class ASN1GrammarParser {
 		return productions;
 	}
 
+	/**
+	 * Returns a sequence (with the given name) from the given node.
+	 * 
+	 * @param name
+	 *            The sequence name.
+	 * @param node
+	 *            The first child of a &lt;sequence&gt; node.
+	 * @return A {@link Sequence}.
+	 */
 	private Sequence parseSequence(String name, Node node) {
 		Sequence sequence = new Sequence(name);
 		while (node != null) {
@@ -213,6 +302,15 @@ public class ASN1GrammarParser {
 		return sequence;
 	}
 
+	/**
+	 * Returns a "sequence of" (with the given name) from the given node.
+	 * 
+	 * @param name
+	 *            The "sequence of" name.
+	 * @param node
+	 *            The first child of a &lt;sequenceOf&gt; node.
+	 * @return A {@link SequenceOf}.
+	 */
 	private SequenceOf parseSequenceOf(String name, Node node) {
 		SequenceOf sequence = new SequenceOf(name);
 
@@ -220,7 +318,7 @@ public class ASN1GrammarParser {
 		ConstraintList ct = parseConstraints(node);
 		Constraint size = ct.getFirstSizeConstraint();
 		if (size != null) {
-			sequence.setSize(size.getValue().intValue());
+			sequence.setSize(size);
 		}
 
 		// set sequence type
@@ -232,10 +330,26 @@ public class ASN1GrammarParser {
 		return sequence;
 	}
 
+	/**
+	 * Returns a string from the given element.
+	 * 
+	 * @param stringElt
+	 *            A &lt;string&gt; element.
+	 * @return A {@link String}.
+	 */
 	private String parseString(Element stringElt) {
 		return new String(stringElt.getAttribute("value"));
 	}
 
+	/**
+	 * Returns a type reference (with the given name) from the given node.
+	 * 
+	 * @param name
+	 *            The type reference name.
+	 * @param node
+	 *            The first child of a &lt;type&gt; node.
+	 * @return A {@link TypeReference}.
+	 */
 	private TypeReference parseType(String name, Node node) {
 		TypeReference type = new TypeReference(name);
 		Node constraints = DomHelper.getFirstSiblingNamed(node, "constraints");

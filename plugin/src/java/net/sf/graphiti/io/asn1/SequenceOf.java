@@ -38,7 +38,7 @@ package net.sf.graphiti.io.asn1;
  */
 public class SequenceOf extends Production {
 
-	private int size;
+	private Constraint size;
 
 	private Item type;
 
@@ -53,6 +53,16 @@ public class SequenceOf extends Production {
 	}
 
 	/**
+	 * Sets the size of this sequence.
+	 * 
+	 * @param size
+	 *            The number of elements.
+	 */
+	public void setSize(Constraint size) {
+		this.size = size;
+	}
+
+	/**
 	 * Sets this {@link SequenceOf}'s type.
 	 * 
 	 * @param type
@@ -62,20 +72,10 @@ public class SequenceOf extends Production {
 		this.type = type;
 	}
 
-	/**
-	 * Sets the size of this sequence.
-	 * 
-	 * @param size
-	 *            The number of elements.
-	 */
-	public void setSize(int size) {
-		this.size = size;
-	}
-
 	@Override
 	public String toString() {
-		return super.toString() + " ::= " + (size == 0 ? "<?>" : size) + " * "
-				+ type;
+		return super.toString() + " ::= " + (size == null ? "<?>" : size)
+				+ " * " + type;
 	}
 
 }

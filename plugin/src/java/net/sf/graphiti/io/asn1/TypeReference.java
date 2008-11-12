@@ -52,16 +52,6 @@ public class TypeReference extends Item {
 	}
 
 	/**
-	 * Sets the type referenced by this {@link TypeReference}.
-	 * 
-	 * @param reference
-	 *            The type name.
-	 */
-	public void setReference(String reference) {
-		this.reference = reference;
-	}
-
-	/**
 	 * Sets this {@link TypeReference}'s constraints.
 	 * 
 	 * @param constraints
@@ -69,6 +59,16 @@ public class TypeReference extends Item {
 	 */
 	public void setConstraints(ConstraintList constraints) {
 		this.constraints = constraints;
+	}
+
+	/**
+	 * Sets the type referenced by this {@link TypeReference}.
+	 * 
+	 * @param reference
+	 *            The type name.
+	 */
+	public void setReference(String reference) {
+		this.reference = reference;
 	}
 
 	@Override
