@@ -36,7 +36,7 @@ package net.sf.graphiti.io.asn1;
  * @author Matthieu Wipliez
  * 
  */
-public abstract class Production {
+public abstract class Production implements ASN1Visitable {
 
 	private String name;
 
@@ -49,6 +49,9 @@ public abstract class Production {
 	public Production(String name) {
 		this.name = name;
 	}
+	
+	@Override
+	public abstract void accept(ASN1Visitor visitor);
 
 	/**
 	 * Returns this production's name.

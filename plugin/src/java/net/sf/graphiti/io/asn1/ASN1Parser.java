@@ -30,7 +30,9 @@ package net.sf.graphiti.io.asn1;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.transform.TransformerException;
 
@@ -139,6 +141,7 @@ public class ASN1Parser {
 	private void configure(Element definition) {
 		ASN1GrammarParser parser = new ASN1GrammarParser();
 		productions = parser.parseProductions(definition);
+		prepare();
 	}
 
 	/**
@@ -149,6 +152,16 @@ public class ASN1Parser {
 	 */
 	public void parse(String fileName) {
 
+	}
+
+	/**
+	 * Prepare this parser by resolving references.
+	 */
+	private void prepare() {
+		Map<String, Production> productionMap = new HashMap<String, Production>();
+		for (Production production : productions) {
+			productionMap.put(production.getName(), production);
+		}
 	}
 
 }

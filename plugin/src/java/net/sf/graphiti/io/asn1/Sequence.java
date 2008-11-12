@@ -54,6 +54,13 @@ public class Sequence extends Production {
 		super(name);
 		elements = new ArrayList<Item>();
 	}
+	
+	@Override
+	public void accept(ASN1Visitor visitor) {
+		for (Item item : elements) {
+			visitor.visit(item);
+		}
+	}
 
 	/**
 	 * Adds an element to this sequence.

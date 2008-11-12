@@ -28,50 +28,16 @@
  */
 package net.sf.graphiti.io.asn1;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * This class represents a choice between several alternatives.
+ * This interface defines methods to visit several parts of the ASN.1 AST.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class Choice extends Production {
-
-	private List<Item> alternatives;
-
-	/**
-	 * Creates a new choice with the given name.
-	 * 
-	 * @param name
-	 *            The production name.
-	 */
-	public Choice(String name) {
-		super(name);
-		alternatives = new ArrayList<Item>();
-	}
+public interface ASN1Visitor {
 	
-	@Override
-	public void accept(ASN1Visitor visitor) {
-		for (Item item : alternatives) {
-			visitor.visit(item);
-		}
-	}
-
-	/**
-	 * Adds an alternative to this choice.
-	 * 
-	 * @param alternative
-	 *            An alternative as an {@link Item}.
-	 */
-	public void addAlternative(Item alternative) {
-		alternatives.add(alternative);
-	}
-
-	@Override
-	public String toString() {
-		return super.toString() + " ::= " + alternatives;
-	}
+	public void visit(Item item);
+	
+	public void visit(Production production);
 
 }

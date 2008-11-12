@@ -122,6 +122,17 @@ public class Constraint {
 	}
 
 	/**
+	 * Sets the value information for this constraint as an item reference.
+	 * Valid only if this constraint has type {@link ConstraintType#Value}.
+	 * 
+	 * @param value
+	 *            A binary number.
+	 */
+	public void setValue(ItemReference reference) {
+		this.value = reference;
+	}
+
+	/**
 	 * Sets the value information for this constraint as a string. Valid only if
 	 * this constraint has type {@link ConstraintType#Value}.
 	 * 

@@ -28,50 +28,28 @@
  */
 package net.sf.graphiti.io.asn1;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * This class represents a choice between several alternatives.
+ * This class makes reference to an existing named item.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class Choice extends Production {
+public class ItemReference {
 
-	private List<Item> alternatives;
-
-	/**
-	 * Creates a new choice with the given name.
-	 * 
-	 * @param name
-	 *            The production name.
-	 */
-	public Choice(String name) {
-		super(name);
-		alternatives = new ArrayList<Item>();
-	}
-	
-	@Override
-	public void accept(ASN1Visitor visitor) {
-		for (Item item : alternatives) {
-			visitor.visit(item);
-		}
-	}
+	private String reference;
 
 	/**
-	 * Adds an alternative to this choice.
+	 * Creates a new item reference.
 	 * 
-	 * @param alternative
-	 *            An alternative as an {@link Item}.
+	 * @param reference
+	 *            The referenced item's name.
 	 */
-	public void addAlternative(Item alternative) {
-		alternatives.add(alternative);
+	public ItemReference(String reference) {
+		this.reference = reference;
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + " ::= " + alternatives;
+		return reference;
 	}
-
 }

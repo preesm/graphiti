@@ -28,50 +28,39 @@
  */
 package net.sf.graphiti.io.asn1;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * This class represents a choice between several alternatives.
+ * This class represents an INTEGER.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class Choice extends Production {
+public class IntegerItem extends Item {
 
-	private List<Item> alternatives;
+	private ConstraintList constraints;
 
 	/**
-	 * Creates a new choice with the given name.
+	 * Creates a new integer item with the given name.
 	 * 
 	 * @param name
-	 *            The production name.
+	 *            The item name.
 	 */
-	public Choice(String name) {
+	public IntegerItem(String name) {
 		super(name);
-		alternatives = new ArrayList<Item>();
-	}
-	
-	@Override
-	public void accept(ASN1Visitor visitor) {
-		for (Item item : alternatives) {
-			visitor.visit(item);
-		}
 	}
 
 	/**
-	 * Adds an alternative to this choice.
+	 * Sets this integer item's constraints.
 	 * 
-	 * @param alternative
-	 *            An alternative as an {@link Item}.
+	 * @param constraints
+	 *            A {@link ConstraintList}.
 	 */
-	public void addAlternative(Item alternative) {
-		alternatives.add(alternative);
+	public void setConstraints(ConstraintList constraints) {
+		this.constraints = constraints;
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + " ::= " + alternatives;
+		return super.toString() + ": " + constraints;
 	}
 
 }

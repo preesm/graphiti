@@ -29,38 +29,19 @@
 package net.sf.graphiti.io.asn1;
 
 /**
- * This class represents an INTEGER.
+ * This interface defines methods to visit several parts of the ASN.1 AST.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class IntegerElement extends Item {
+public class TypeReferenceVisitor implements ASN1Visitor {
 
-	private ConstraintList constraints;
-
-	/**
-	 * Creates a new integer item with the given name.
-	 * 
-	 * @param name
-	 *            The item name.
-	 */
-	public IntegerElement(String name) {
-		super(name);
+	public void visit(Item item) {
+		
 	}
-
-	/**
-	 * Sets this integer item's constraints.
-	 * 
-	 * @param constraints
-	 *            A {@link ConstraintList}.
-	 */
-	public void setConstraints(ConstraintList constraints) {
-		this.constraints = constraints;
-	}
-
-	@Override
-	public String toString() {
-		return super.toString() + ": " + constraints;
+	
+	public void visit(Production production) {
+		
 	}
 
 }

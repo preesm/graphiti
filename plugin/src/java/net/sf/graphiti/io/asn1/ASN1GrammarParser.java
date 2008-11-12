@@ -76,7 +76,7 @@ public class ASN1GrammarParser {
 		Choice choice = new Choice(name);
 		while (node != null) {
 			if (node.getNodeName().equals("alternative")) {
-				choice.addAlternative(parseElement((Element) node));
+				choice.addAlternative(parseItem((Element) node));
 			}
 
 			node = node.getNextSibling();
@@ -142,9 +142,16 @@ public class ASN1GrammarParser {
 		Constraint constraint = new Constraint(ConstraintType.Value);
 		NodeList numbers = element.getElementsByTagName("number");
 		if (numbers.getLength() == 0) {
-			NodeList strings = element.getElementsByTagName("string");
-			Element value = (Element) strings.item(0);
-			constraint.setValue(parseString(value));
+			Node node = element.getFirstChild();
+			while (node != null) {
+				if (node.getNodeName().equals("identifier")) {
+					constraint.setValue(parseIdentifier((Element) node));
+					break;
+				} else if (node.getNodeName().equals("string")) {
+					constraint.setValue(parseString((Element) node));
+					break;
+				}
+			}
 		} else if (numbers.getLength() == 1) {
 			// one value
 			Element numberElt = (Element) numbers.item(0);
@@ -165,7 +172,7 @@ public class ASN1GrammarParser {
 	 * Parses the given DOM element and returns one of:
 	 * <ul>
 	 * <li>{@link BitString}</li>
-	 * <li>{@link IntegerElement}</li>
+	 * <li>{@link IntegerItem}</li>
 	 * <li>{@link TypeReference}</li>
 	 * </ul>
 	 * 
@@ -173,7 +180,7 @@ public class ASN1GrammarParser {
 	 *            A DOM element, either &lt;alternative&gt; or &lt;element&gt;
 	 * @return An {@link Item}.
 	 */
-	private Item parseElement(Element domElement) {
+	private Item parseItem(Element domElement) {
 		String name = domElement.getAttribute("name");
 		Node node = domElement.getFirstChild();
 		while (node != null) {
@@ -192,17 +199,28 @@ public class ASN1GrammarParser {
 	}
 
 	/**
+	 * Returns an item reference from the given element.
+	 * 
+	 * @param stringElt
+	 *            An &lt;identifier&gt; element.
+	 * @return A {@link String}.
+	 */
+	private ItemReference parseIdentifier(Element identifier) {
+		return new ItemReference(identifier.getAttribute("value"));
+	}
+
+	/**
 	 * Returns an integer (with the given name) from the given node.
 	 * 
 	 * @param name
 	 *            The choice name.
 	 * @param node
 	 *            The first child of a &lt;integer&gt; node.
-	 * @return An {@link IntegerElement}.
+	 * @return An {@link IntegerItem}.
 	 */
-	private IntegerElement parseInteger(String name, Node node) {
+	private IntegerItem parseInteger(String name, Node node) {
 		Node constraints = DomHelper.getFirstSiblingNamed(node, "constraints");
-		IntegerElement integer = new IntegerElement(name);
+		IntegerItem integer = new IntegerItem(name);
 		ConstraintList ct = parseConstraints(constraints.getFirstChild());
 		integer.setConstraints(ct);
 		return integer;
@@ -293,7 +311,7 @@ public class ASN1GrammarParser {
 		Sequence sequence = new Sequence(name);
 		while (node != null) {
 			if (node.getNodeName().equals("element")) {
-				sequence.addElement(parseElement((Element) node));
+				sequence.addElement(parseItem((Element) node));
 			}
 
 			node = node.getNextSibling();
