@@ -26,10 +26,12 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1;
+package net.sf.graphiti.io.asn1.ast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import net.sf.graphiti.io.asn1.ASN1Visitor;
 
 /**
  * This class is a sequence of items.

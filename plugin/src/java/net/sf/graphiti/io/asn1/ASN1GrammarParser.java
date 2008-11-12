@@ -32,7 +32,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.graphiti.io.DomHelper;
-import net.sf.graphiti.io.asn1.Constraint.ConstraintType;
+import net.sf.graphiti.io.asn1.ast.BinaryNumber;
+import net.sf.graphiti.io.asn1.ast.BitString;
+import net.sf.graphiti.io.asn1.ast.Choice;
+import net.sf.graphiti.io.asn1.ast.Constraint;
+import net.sf.graphiti.io.asn1.ast.ConstraintList;
+import net.sf.graphiti.io.asn1.ast.IntegerItem;
+import net.sf.graphiti.io.asn1.ast.Item;
+import net.sf.graphiti.io.asn1.ast.ItemReference;
+import net.sf.graphiti.io.asn1.ast.Production;
+import net.sf.graphiti.io.asn1.ast.Sequence;
+import net.sf.graphiti.io.asn1.ast.SequenceOf;
+import net.sf.graphiti.io.asn1.ast.TypeReference;
+import net.sf.graphiti.io.asn1.ast.Constraint.ConstraintType;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

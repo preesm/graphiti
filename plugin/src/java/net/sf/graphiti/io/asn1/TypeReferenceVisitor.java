@@ -28,6 +28,9 @@
  */
 package net.sf.graphiti.io.asn1;
 
+import net.sf.graphiti.io.asn1.ast.Item;
+import net.sf.graphiti.io.asn1.ast.Production;
+
 /**
  * This interface defines methods to visit several parts of the ASN.1 AST.
  * 

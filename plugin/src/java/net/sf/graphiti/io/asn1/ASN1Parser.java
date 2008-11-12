@@ -42,6 +42,7 @@ import net.percederberg.grammatica.parser.ParserLogException;
 import net.sf.graphiti.io.GrammarTest;
 import net.sf.graphiti.io.GrammarTransformer;
 import net.sf.graphiti.io.XsltTransformer;
+import net.sf.graphiti.io.asn1.ast.Production;
 
 import org.w3c.dom.Element;
 

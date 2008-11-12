@@ -26,7 +26,7 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1;
+package net.sf.graphiti.io.asn1.ast;
 
 /**
  * This class represents an INTEGER.

@@ -26,7 +26,10 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1;
+package net.sf.graphiti.io.asn1.ast;
+
+import net.sf.graphiti.io.asn1.ASN1Visitable;
+import net.sf.graphiti.io.asn1.ASN1Visitor;
 
 /**
  * This class represents a grammar production. A production must be named, and

@@ -26,11 +26,11 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1;
+package net.sf.graphiti.io.asn1.ast;
 
 import java.util.ArrayList;
 
-import net.sf.graphiti.io.asn1.Constraint.ConstraintType;
+import net.sf.graphiti.io.asn1.ast.Constraint.ConstraintType;
 
 /**
  * This class extends {@link ArrayList} with constraint-specific features.
