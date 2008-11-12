@@ -58,7 +58,7 @@ public class TypeReferenceVisitor implements ASN1Visitor {
 	@Override
 	public void visit(Constraint constraint) {
 	}
-	
+
 	public void visit(ItemReference itemRef) {
 	}
 
@@ -67,7 +67,7 @@ public class TypeReferenceVisitor implements ASN1Visitor {
 		for (Production production : productions) {
 			this.productions.put(production.getName(), production);
 		}
-		
+
 		for (Production production : productions) {
 			visit(production);
 		}

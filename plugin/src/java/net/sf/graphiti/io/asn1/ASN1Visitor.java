@@ -43,17 +43,17 @@ import net.sf.graphiti.io.asn1.ast.TypeReference;
  * 
  */
 public interface ASN1Visitor {
-	
+
 	public void visit(Constraint constraint);
-	
+
 	public void visit(ItemReference itemRef);
-	
+
 	public void visit(List<Production> productions);
-	
+
 	public void visit(Production production);
-	
+
 	public void visit(Type type);
-	
+
 	public void visit(TypeReference typeRef);
 
 }

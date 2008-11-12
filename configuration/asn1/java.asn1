@@ -107,8 +107,8 @@ Java DEFINITIONS ::= BEGIN
   NewArray ::= SEQUENCE {
     tcArray BIT STRING ('75'H),
     ClassDesc,
-    size INTEGER(SIZE(32)),
-    SEQUENCE (SIZE(size)) OF Value -- TODO: value[size]
+    size INTEGER(SIZE(32))
+    -- TODO: SEQUENCE (SIZE(size)) OF Value
   }
   
   NewObject ::= SEQUENCE {

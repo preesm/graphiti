@@ -49,7 +49,7 @@ public class Choice extends Type {
 	public Choice() {
 		alternatives = new ArrayList<Type>();
 	}
-	
+
 	@Override
 	public void accept(ASN1Visitor visitor) {
 		for (Type type : alternatives) {

@@ -39,14 +39,14 @@ import net.sf.graphiti.io.asn1.ast.Type;
  * 
  */
 public class PrintableString extends Type {
-	
+
 	/**
 	 * Creates a new printable string.
 	 */
 	public PrintableString() {
 		super("");
 	}
-	
+
 	@Override
 	public void accept(ASN1Visitor visitor) {
 

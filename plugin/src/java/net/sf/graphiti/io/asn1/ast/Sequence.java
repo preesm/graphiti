@@ -52,7 +52,7 @@ public class Sequence extends Type {
 	public Sequence() {
 		elements = new ArrayList<Type>();
 	}
-	
+
 	@Override
 	public void accept(ASN1Visitor visitor) {
 		for (Type type : elements) {

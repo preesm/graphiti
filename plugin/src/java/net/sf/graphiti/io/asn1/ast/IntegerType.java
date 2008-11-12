@@ -49,7 +49,7 @@ public class IntegerType extends Type {
 	public IntegerType(String name) {
 		super(name);
 	}
-	
+
 	@Override
 	public void accept(ASN1Visitor visitor) {
 		for (Constraint constraint : constraints) {

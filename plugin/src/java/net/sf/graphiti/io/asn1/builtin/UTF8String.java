@@ -39,14 +39,14 @@ import net.sf.graphiti.io.asn1.ast.Type;
  * 
  */
 public class UTF8String extends Type {
-	
+
 	/**
 	 * Creates a new utf-8 string.
 	 */
 	public UTF8String() {
 		super("");
 	}
-	
+
 	@Override
 	public void accept(ASN1Visitor visitor) {
 

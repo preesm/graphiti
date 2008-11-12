@@ -53,7 +53,7 @@ public class BitString extends Type {
 		super(name);
 		this.value = value;
 	}
-	
+
 	@Override
 	public void accept(ASN1Visitor visitor) {
 		visitor.visit(value);

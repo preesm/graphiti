@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.io.asn1;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
@@ -150,7 +152,13 @@ public class ASN1Parser {
 	 *            File name of the binary input file.
 	 */
 	public void parse(String fileName) {
-
+		try {
+			FileInputStream in = new FileInputStream(fileName);
+			BufferedInputStream is = new BufferedInputStream(in);
+			System.out.println(is.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
