@@ -91,7 +91,7 @@ public class BinaryNumber {
 		BigInteger number = new BigInteger(value, radix);
 		if (nbits == 0) {
 			// initialize nbits if not previously set.
-			nbits = number.bitCount();
+			nbits = number.bitLength();
 		}
 
 		// set the bit set's bits.

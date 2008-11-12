@@ -86,7 +86,8 @@ public class ASN1GrammarParser {
 		Choice choice = new Choice();
 		while (node != null) {
 			if (node.getNodeName().equals("alternative")) {
-				choice.addAlternative(parseType(node.getFirstChild()));
+				String name = ((Element) node).getAttribute("name");
+				choice.addAlternative(parseType(name, node.getFirstChild()));
 			}
 
 			node = node.getNextSibling();
@@ -244,7 +245,7 @@ public class ASN1GrammarParser {
 	private Production parseProduction(Element element) {
 		String name = element.getAttribute("name");
 		Production production = new Production(name);
-		production.setType(parseType(element.getFirstChild()));
+		production.setType(parseType("", element.getFirstChild()));
 		return production;
 	}
 
@@ -281,7 +282,8 @@ public class ASN1GrammarParser {
 		Sequence sequence = new Sequence();
 		while (node != null) {
 			if (node.getNodeName().equals("element")) {
-				sequence.addElement(parseType(node.getFirstChild()));
+				String name = ((Element) node).getAttribute("name");
+				sequence.addElement(parseType(name, node.getFirstChild()));
 			}
 
 			node = node.getNextSibling();
@@ -308,7 +310,7 @@ public class ASN1GrammarParser {
 		}
 
 		// set sequence type
-		sequence.setType(parseType(node));
+		sequence.setType(parseType("", node));
 		return sequence;
 	}
 
@@ -332,22 +334,19 @@ public class ASN1GrammarParser {
 	 *            &lt;type&gt;.
 	 * @return A {@link Type}.
 	 */
-	private Type parseType(Node node) {
+	private Type parseType(String name, Node node) {
 		while (node != null) {
 			if (node.getNodeName().equals("bitString")) {
-				String name = ((Element) node).getAttribute("name");
 				return parseBitString(name, node.getFirstChild());
 			} else if (node.getNodeName().equals("choice")) {
 				return parseChoice(node.getFirstChild());
 			} else if (node.getNodeName().equals("integer")) {
-				String name = ((Element) node).getAttribute("name");
 				return parseInteger(name, node.getFirstChild());
 			} else if (node.getNodeName().equals("sequence")) {
 				return parseSequence(node.getFirstChild());
 			} else if (node.getNodeName().equals("sequenceOf")) {
 				return parseSequenceOf(node.getFirstChild());
 			} else if (node.getNodeName().equals("type")) {
-				String name = ((Element) node).getAttribute("name");
 				return parseTypeReference(name, (Element) node);
 			}
 
