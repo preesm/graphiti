@@ -38,11 +38,11 @@ import net.sf.graphiti.io.asn1.ast.Choice;
 import net.sf.graphiti.io.asn1.ast.Constraint;
 import net.sf.graphiti.io.asn1.ast.ConstraintList;
 import net.sf.graphiti.io.asn1.ast.IntegerItem;
-import net.sf.graphiti.io.asn1.ast.Item;
 import net.sf.graphiti.io.asn1.ast.ItemReference;
 import net.sf.graphiti.io.asn1.ast.Production;
 import net.sf.graphiti.io.asn1.ast.Sequence;
 import net.sf.graphiti.io.asn1.ast.SequenceOf;
+import net.sf.graphiti.io.asn1.ast.Type;
 import net.sf.graphiti.io.asn1.ast.TypeReference;
 import net.sf.graphiti.io.asn1.ast.Constraint.ConstraintType;
 
@@ -76,19 +76,17 @@ public class ASN1GrammarParser {
 	}
 
 	/**
-	 * Returns a choice (with the given name) from the given node.
+	 * Returns a choice from the given node.
 	 * 
-	 * @param name
-	 *            The choice name.
 	 * @param node
 	 *            The first child of a &lt;choice&gt; node.
 	 * @return A {@link Choice}.
 	 */
-	private Choice parseChoice(String name, Node node) {
-		Choice choice = new Choice(name);
+	private Choice parseChoice(Node node) {
+		Choice choice = new Choice();
 		while (node != null) {
 			if (node.getNodeName().equals("alternative")) {
-				choice.addAlternative(parseItem((Element) node));
+				choice.addAlternative(parseType(node.getFirstChild()));
 			}
 
 			node = node.getNextSibling();
@@ -181,36 +179,6 @@ public class ASN1GrammarParser {
 	}
 
 	/**
-	 * Parses the given DOM element and returns one of:
-	 * <ul>
-	 * <li>{@link BitString}</li>
-	 * <li>{@link IntegerItem}</li>
-	 * <li>{@link TypeReference}</li>
-	 * </ul>
-	 * 
-	 * @param domElement
-	 *            A DOM element, either &lt;alternative&gt; or &lt;element&gt;
-	 * @return An {@link Item}.
-	 */
-	private Item parseItem(Element domElement) {
-		String name = domElement.getAttribute("name");
-		Node node = domElement.getFirstChild();
-		while (node != null) {
-			if (node.getNodeName().equals("bitString")) {
-				return parseBitString(name, node.getFirstChild());
-			} else if (node.getNodeName().equals("integer")) {
-				return parseInteger(name, node.getFirstChild());
-			} else if (node.getNodeName().equals("type")) {
-				return parseType(name, node.getFirstChild());
-			}
-
-			node = node.getNextSibling();
-		}
-
-		return null;
-	}
-
-	/**
 	 * Returns an item reference from the given element.
 	 * 
 	 * @param stringElt
@@ -270,22 +238,11 @@ public class ASN1GrammarParser {
 	 *            A &lt;production&gt; element.
 	 * @return A {@link Production}.
 	 */
-	private Production parseProduction(Element production) {
-		String name = production.getAttribute("name");
-		Node node = production.getFirstChild();
-		while (node != null) {
-			if (node.getNodeName().equals("choice")) {
-				return parseChoice(name, node.getFirstChild());
-			} else if (node.getNodeName().equals("sequence")) {
-				return parseSequence(name, node.getFirstChild());
-			} else if (node.getNodeName().equals("sequenceOf")) {
-				return parseSequenceOf(name, node.getFirstChild());
-			} else {
-				node = node.getNextSibling();
-			}
-		}
-
-		return null;
+	private Production parseProduction(Element element) {
+		String name = element.getAttribute("name");
+		Production production = new Production(name);
+		production.setType(parseType(element.getFirstChild()));
+		return production;
 	}
 
 	/**
@@ -311,19 +268,17 @@ public class ASN1GrammarParser {
 	}
 
 	/**
-	 * Returns a sequence (with the given name) from the given node.
+	 * Returns a sequence from the given node.
 	 * 
-	 * @param name
-	 *            The sequence name.
 	 * @param node
 	 *            The first child of a &lt;sequence&gt; node.
 	 * @return A {@link Sequence}.
 	 */
-	private Sequence parseSequence(String name, Node node) {
-		Sequence sequence = new Sequence(name);
+	private Sequence parseSequence(Node node) {
+		Sequence sequence = new Sequence();
 		while (node != null) {
 			if (node.getNodeName().equals("element")) {
-				sequence.addElement(parseItem((Element) node));
+				sequence.addElement(parseType(node.getFirstChild()));
 			}
 
 			node = node.getNextSibling();
@@ -333,16 +288,14 @@ public class ASN1GrammarParser {
 	}
 
 	/**
-	 * Returns a "sequence of" (with the given name) from the given node.
+	 * Returns a "sequence of" from the given node.
 	 * 
-	 * @param name
-	 *            The "sequence of" name.
 	 * @param node
 	 *            The first child of a &lt;sequenceOf&gt; node.
 	 * @return A {@link SequenceOf}.
 	 */
-	private SequenceOf parseSequenceOf(String name, Node node) {
-		SequenceOf sequence = new SequenceOf(name);
+	private SequenceOf parseSequenceOf(Node node) {
+		SequenceOf sequence = new SequenceOf();
 
 		// set size if available
 		ConstraintList ct = parseConstraints(node);
@@ -352,11 +305,7 @@ public class ASN1GrammarParser {
 		}
 
 		// set sequence type
-		node = DomHelper.getFirstSiblingNamed(node, "type");
-		Element element = (Element) node;
-		name = element.getAttribute("name");
-		sequence.setType(parseType(name, node));
-
+		sequence.setType(parseType(node));
 		return sequence;
 	}
 
@@ -372,21 +321,57 @@ public class ASN1GrammarParser {
 	}
 
 	/**
-	 * Returns a type reference (with the given name) from the given node.
+	 * Parses the given DOM node and returns a type.
+	 * 
+	 * @param node
+	 *            A DOM element, either &lt;bitString&gt;, &lt;choice&gt;,
+	 *            &lt;integer&gt;, &lt;sequence&gt;, &lt;sequenceOf&gt;,
+	 *            &lt;type&gt;.
+	 * @return A {@link Type}.
+	 */
+	private Type parseType(Node node) {
+		while (node != null) {
+			if (node.getNodeName().equals("bitString")) {
+				String name = ((Element) node).getAttribute("name");
+				return parseBitString(name, node.getFirstChild());
+			} else if (node.getNodeName().equals("choice")) {
+				return parseChoice(node.getFirstChild());
+			} else if (node.getNodeName().equals("integer")) {
+				String name = ((Element) node).getAttribute("name");
+				return parseInteger(name, node.getFirstChild());
+			} else if (node.getNodeName().equals("sequence")) {
+				return parseSequence(node.getFirstChild());
+			} else if (node.getNodeName().equals("sequenceOf")) {
+				return parseSequenceOf(node.getFirstChild());
+			} else if (node.getNodeName().equals("type")) {
+				String name = ((Element) node).getAttribute("name");
+				return parseTypeReference(name, (Element) node);
+			}
+
+			node = node.getNextSibling();
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns a type reference to a type with the given name from the given
+	 * node.
 	 * 
 	 * @param name
-	 *            The type reference name.
+	 *            The type referenced name.
 	 * @param node
-	 *            The first child of a &lt;type&gt; node.
+	 *            A &lt;type&gt; element.
 	 * @return A {@link TypeReference}.
 	 */
-	private TypeReference parseType(String name, Node node) {
-		TypeReference type = new TypeReference(name);
-		Node constraints = DomHelper.getFirstSiblingNamed(node, "constraints");
+	private TypeReference parseTypeReference(String name, Element type) {
+		TypeReference typeRef = new TypeReference("");
+		typeRef.setReferenceName(type.getAttribute("name"));
+		Node constraints = DomHelper.getFirstSiblingNamed(type, "constraints");
 		if (constraints != null) {
 			ConstraintList ct = parseConstraints(constraints.getFirstChild());
-			type.setConstraints(ct);
+			typeRef.setConstraints(ct);
 		}
-		return type;
+		return typeRef;
 	}
 }

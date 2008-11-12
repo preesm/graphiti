@@ -32,16 +32,17 @@ import net.sf.graphiti.io.asn1.ASN1Visitable;
 import net.sf.graphiti.io.asn1.ASN1Visitor;
 
 /**
- * This class represents a grammar production. A production must be named, and
- * this is only what this class implements. Subclasses provide additional
- * functionality to manipulate the different kinds of productions.
+ * This class represents a grammar production. A production has a name and a
+ * type.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public abstract class Production implements ASN1Visitable {
+public class Production implements ASN1Visitable {
 
 	private String name;
+
+	private Type type;
 
 	/**
 	 * Creates a new production.
@@ -52,9 +53,11 @@ public abstract class Production implements ASN1Visitable {
 	public Production(String name) {
 		this.name = name;
 	}
-	
+
 	@Override
-	public abstract void accept(ASN1Visitor visitor);
+	public void accept(ASN1Visitor visitor) {
+		visitor.visit(type);
+	}
 
 	/**
 	 * Returns this production's name.
@@ -65,8 +68,27 @@ public abstract class Production implements ASN1Visitable {
 		return name;
 	}
 
+	/**
+	 * Returns this production's type.
+	 * 
+	 * @return This production's type.
+	 */
+	public Type getType() {
+		return type;
+	}
+
+	/**
+	 * Sets this production's type.
+	 * 
+	 * @param type
+	 *            A {@link Type}.
+	 */
+	public void setType(Type type) {
+		this.type = type;
+	}
+
 	@Override
 	public String toString() {
-		return name;
+		return name + " ::= " + type;
 	}
 }

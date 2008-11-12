@@ -26,50 +26,30 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.ast;
-
-import java.util.ArrayList;
-import java.util.List;
+package net.sf.graphiti.io.asn1.builtin;
 
 import net.sf.graphiti.io.asn1.ASN1Visitor;
+import net.sf.graphiti.io.asn1.ast.Type;
 
 /**
- * This class represents a choice between several alternatives.
+ * This class is the implementation of the built-in ASN.1 construct
+ * "UTF8String".
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class Choice extends Type {
-
-	private List<Type> alternatives;
-
+public class UTF8String extends Type {
+	
 	/**
-	 * Creates a new empty choice.
+	 * Creates a new utf-8 string.
 	 */
-	public Choice() {
-		alternatives = new ArrayList<Type>();
+	public UTF8String() {
+		super("");
 	}
 	
 	@Override
 	public void accept(ASN1Visitor visitor) {
-		for (Type type : alternatives) {
-			visitor.visit(type);
-		}
-	}
 
-	/**
-	 * Adds an alternative to this choice.
-	 * 
-	 * @param alternative
-	 *            An alternative as a {@link Type}.
-	 */
-	public void addAlternative(Type alternative) {
-		alternatives.add(alternative);
-	}
-
-	@Override
-	public String toString() {
-		return alternatives.toString();
 	}
 
 }

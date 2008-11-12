@@ -28,7 +28,16 @@
  */
 package net.sf.graphiti.io.asn1.ast;
 
-public class Constraint {
+import net.sf.graphiti.io.asn1.ASN1Visitable;
+import net.sf.graphiti.io.asn1.ASN1Visitor;
+
+/**
+ * This class represents a constraint.
+ * 
+ * @author Matthieu Wipliez
+ *
+ */
+public class Constraint implements ASN1Visitable {
 
 	public enum ConstraintType {
 		/**
@@ -56,6 +65,11 @@ public class Constraint {
 	 */
 	public Constraint(ConstraintType type) {
 		this.type = type;
+	}
+
+	@Override
+	public void accept(ASN1Visitor visitor) {
+		visitor.visit(this);
 	}
 
 	/**

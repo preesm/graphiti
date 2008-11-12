@@ -28,27 +28,49 @@
  */
 package net.sf.graphiti.io.asn1.ast;
 
+import net.sf.graphiti.io.asn1.ASN1Visitor;
+
 /**
- * This class provides methods to manipulate a reference to a type. The type
+ * This class provides methods to manipulate a referenceName to a type. The type
  * referenced may be builtin or specified by the user.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class TypeReference extends Item {
+public class TypeReference extends Type {
 
 	private ConstraintList constraints;
 
-	private String reference;
+	private Type reference;
+
+	private String referenceName;
 
 	/**
-	 * Creates a new type reference with the given name.
+	 * Creates a new type referenceName with the given name.
 	 * 
 	 * @param name
 	 *            The item name.
 	 */
 	public TypeReference(String name) {
 		super(name);
+		constraints = new ConstraintList();
+	}
+
+	@Override
+	public void accept(ASN1Visitor visitor) {
+		visitor.visit(this);
+		for (Constraint constraint : constraints) {
+			visitor.visit(constraint);
+		}
+	}
+
+	/**
+	 * Returns the type name referenced.
+	 * 
+	 * @return The type name referenced.
+	 */
+	public String getReferenceName() {
+		return referenceName;
 	}
 
 	/**
@@ -65,15 +87,30 @@ public class TypeReference extends Item {
 	 * Sets the type referenced by this {@link TypeReference}.
 	 * 
 	 * @param reference
+	 *            The type as a {@link Production}.
+	 */
+	public void setReference(Type reference) {
+		this.reference = reference;
+	}
+
+	/**
+	 * Sets the name of the type referenced by this {@link TypeReference}.
+	 * 
+	 * @param referenceName
 	 *            The type name.
 	 */
-	public void setReference(String reference) {
-		this.reference = reference;
+	public void setReferenceName(String referenceName) {
+		this.referenceName = referenceName;
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + ": " + constraints + " -> " + reference;
+		return super.toString()
+				+ ": "
+				+ constraints
+				+ " -> "
+				+ (reference != null ? reference.getClass().getSimpleName()
+						: referenceName);
 	}
 
 }

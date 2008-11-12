@@ -28,23 +28,63 @@
  */
 package net.sf.graphiti.io.asn1;
 
-import net.sf.graphiti.io.asn1.ast.Item;
+import java.util.Map;
+
+import net.sf.graphiti.io.asn1.ast.Constraint;
 import net.sf.graphiti.io.asn1.ast.Production;
+import net.sf.graphiti.io.asn1.ast.Type;
+import net.sf.graphiti.io.asn1.ast.TypeReference;
+import net.sf.graphiti.io.asn1.builtin.PrintableString;
+import net.sf.graphiti.io.asn1.builtin.UTF8String;
 
 /**
- * This interface defines methods to visit several parts of the ASN.1 AST.
+ * This class implements the {@link ASN1Visitor} interface to solve type
+ * references.
  * 
  * @author Matthieu Wipliez
  * 
  */
 public class TypeReferenceVisitor implements ASN1Visitor {
 
-	public void visit(Item item) {
-		
+	private Map<String, Production> productions;
+
+	public TypeReferenceVisitor(Map<String, Production> productions) {
+		this.productions = productions;
 	}
-	
+
+	@Override
+	public void visit(Constraint constraint) {
+	}
+
 	public void visit(Production production) {
-		
+		production.accept(this);
+	}
+
+	@Override
+	public void visit(Type type) {
+		type.accept(this);
+	}
+
+	@Override
+	public void visit(TypeReference typeRef) {
+		String ref = typeRef.getReferenceName();
+		Type reference;
+		if (ref.equals("UTF8String")) {
+			reference = new UTF8String();
+		} else if (ref.equals("PrintableString")) {
+			reference = new PrintableString();
+		} else {
+			Production production = productions.get(ref);
+			if (production == null) {
+				throw new RuntimeException("The production \"" + ref
+						+ "\" does not exist!");
+			} else {
+				reference = production.getType();
+			}
+		}
+
+		typeRef.setReference(reference);
+		typeRef.setReferenceName(null);
 	}
 
 }

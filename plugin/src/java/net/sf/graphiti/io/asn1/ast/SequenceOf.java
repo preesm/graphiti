@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.io.asn1.ast;
 
-import net.sf.graphiti.io.asn1.ASN1Visitable;
 import net.sf.graphiti.io.asn1.ASN1Visitor;
 
 /**
@@ -39,24 +38,21 @@ import net.sf.graphiti.io.asn1.ASN1Visitor;
  * @author Matthieu Wipliez
  * 
  */
-public class SequenceOf extends Production implements ASN1Visitable {
+public class SequenceOf extends Type {
 
 	private Constraint size;
 
-	private Item type;
+	private Type type;
 
 	/**
-	 * Creates a new {@link SequenceOf} with the given name.
-	 * 
-	 * @param name
-	 *            The production name.
+	 * Creates a new empty {@link SequenceOf}.
 	 */
-	public SequenceOf(String name) {
-		super(name);
+	public SequenceOf() {
 	}
-	
+
 	@Override
 	public void accept(ASN1Visitor visitor) {
+		visitor.visit(size);
 		visitor.visit(type);
 	}
 
@@ -74,16 +70,15 @@ public class SequenceOf extends Production implements ASN1Visitable {
 	 * Sets this {@link SequenceOf}'s type.
 	 * 
 	 * @param type
-	 *            The type represented as an {@link Item}.
+	 *            The type represented as a {@link Type}.
 	 */
-	public void setType(Item type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + " ::= " + (size == null ? "<?>" : size)
-				+ " * " + type;
+		return (size == null ? "<?>" : size) + " * " + type;
 	}
 
 }

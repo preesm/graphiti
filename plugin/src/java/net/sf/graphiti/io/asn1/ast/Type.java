@@ -28,48 +28,44 @@
  */
 package net.sf.graphiti.io.asn1.ast;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.sf.graphiti.io.asn1.ASN1Visitor;
+import net.sf.graphiti.io.asn1.ASN1Visitable;
 
 /**
- * This class represents a choice between several alternatives.
+ * This class represents a type definition.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class Choice extends Type {
+public abstract class Type implements ASN1Visitable {
 
-	private List<Type> alternatives;
+	private String name;
 
 	/**
-	 * Creates a new empty choice.
+	 * Creates a new anonymous type.
 	 */
-	public Choice() {
-		alternatives = new ArrayList<Type>();
+	public Type() {
+		this("");
+	}
+
+	/**
+	 * Creates a new type. If <code>name.isEmpty()</code>, the type is
+	 * considered anonymous.
+	 * 
+	 * @param name
+	 *            A string representing the type name.
+	 * @throws NullPointerException
+	 *             if <code>name == null</code>.
+	 */
+	public Type(String name) {
+		if (name.isEmpty()) {
+			this.name = "<anonymous>";
+		} else {
+			this.name = name;
+		}
 	}
 	
 	@Override
-	public void accept(ASN1Visitor visitor) {
-		for (Type type : alternatives) {
-			visitor.visit(type);
-		}
-	}
-
-	/**
-	 * Adds an alternative to this choice.
-	 * 
-	 * @param alternative
-	 *            An alternative as a {@link Type}.
-	 */
-	public void addAlternative(Type alternative) {
-		alternatives.add(alternative);
-	}
-
-	@Override
 	public String toString() {
-		return alternatives.toString();
+		return name;
 	}
-
 }

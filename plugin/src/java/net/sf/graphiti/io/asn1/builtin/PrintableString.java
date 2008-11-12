@@ -26,40 +26,30 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.ast;
+package net.sf.graphiti.io.asn1.builtin;
+
+import net.sf.graphiti.io.asn1.ASN1Visitor;
+import net.sf.graphiti.io.asn1.ast.Type;
 
 /**
- * This class represents an item of a complex structure. An item may be named or
- * not, and this is only what this class implements. Subclasses provide
- * additional functionality to manipulate the different kinds of items.
+ * This class is the implementation of the built-in ASN.1 construct
+ * "PrintableString".
  * 
  * @author Matthieu Wipliez
  * 
  */
-public abstract class Item {
-
-	private String name;
-
+public class PrintableString extends Type {
+	
 	/**
-	 * Creates a new item. If <code>name.isEmpty()</code>, the item is
-	 * considered anonymous.
-	 * 
-	 * @param name
-	 *            A string representing the item name.
-	 * @throws NullPointerException
-	 *             if <code>name == null</code>.
+	 * Creates a new printable string.
 	 */
-	public Item(String name) {
-		if (name.isEmpty()) {
-			this.name = "<anonymous>";
-		} else {
-			this.name = name;
-		}
+	public PrintableString() {
+		super("");
 	}
-
+	
 	@Override
-	public String toString() {
-		return name;
+	public void accept(ASN1Visitor visitor) {
+
 	}
 
 }

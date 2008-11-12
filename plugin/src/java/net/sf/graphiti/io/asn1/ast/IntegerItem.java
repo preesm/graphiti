@@ -28,13 +28,15 @@
  */
 package net.sf.graphiti.io.asn1.ast;
 
+import net.sf.graphiti.io.asn1.ASN1Visitor;
+
 /**
  * This class represents an INTEGER.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class IntegerItem extends Item {
+public class IntegerItem extends Type {
 
 	private ConstraintList constraints;
 
@@ -46,6 +48,13 @@ public class IntegerItem extends Item {
 	 */
 	public IntegerItem(String name) {
 		super(name);
+	}
+	
+	@Override
+	public void accept(ASN1Visitor visitor) {
+		for (Constraint constraint : constraints) {
+			visitor.visit(constraint);
+		}
 	}
 
 	/**

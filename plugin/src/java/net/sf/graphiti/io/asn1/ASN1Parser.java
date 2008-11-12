@@ -163,6 +163,11 @@ public class ASN1Parser {
 		for (Production production : productions) {
 			productionMap.put(production.getName(), production);
 		}
+		
+		TypeReferenceVisitor visitor = new TypeReferenceVisitor(productionMap);
+		for (Production production : productions) {
+			visitor.visit(production);
+		}
 	}
 
 }

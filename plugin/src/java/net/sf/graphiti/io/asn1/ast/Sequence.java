@@ -39,28 +39,24 @@ import net.sf.graphiti.io.asn1.ASN1Visitor;
  * @author Matthieu Wipliez
  * 
  */
-public class Sequence extends Production {
+public class Sequence extends Type {
 
 	/**
 	 * The sequence elements.
 	 */
-	private List<Item> elements;
+	private List<Type> elements;
 
 	/**
-	 * Creates a new sequence with the given name.
-	 * 
-	 * @param name
-	 *            The production name.
+	 * Creates a new empty sequence.
 	 */
-	public Sequence(String name) {
-		super(name);
-		elements = new ArrayList<Item>();
+	public Sequence() {
+		elements = new ArrayList<Type>();
 	}
 	
 	@Override
 	public void accept(ASN1Visitor visitor) {
-		for (Item item : elements) {
-			visitor.visit(item);
+		for (Type type : elements) {
+			visitor.visit(type);
 		}
 	}
 
@@ -68,15 +64,15 @@ public class Sequence extends Production {
 	 * Adds an element to this sequence.
 	 * 
 	 * @param element
-	 *            An element as an {@link Item}.
+	 *            An element as a {@link Type}.
 	 */
-	public void addElement(Item element) {
+	public void addElement(Type element) {
 		elements.add(element);
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + " ::= " + elements;
+		return elements.toString();
 	}
 
 }

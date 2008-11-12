@@ -28,8 +28,10 @@
  */
 package net.sf.graphiti.io.asn1;
 
-import net.sf.graphiti.io.asn1.ast.Item;
+import net.sf.graphiti.io.asn1.ast.Constraint;
 import net.sf.graphiti.io.asn1.ast.Production;
+import net.sf.graphiti.io.asn1.ast.Type;
+import net.sf.graphiti.io.asn1.ast.TypeReference;
 
 /**
  * This interface defines methods to visit several parts of the ASN.1 AST.
@@ -39,8 +41,12 @@ import net.sf.graphiti.io.asn1.ast.Production;
  */
 public interface ASN1Visitor {
 	
-	public void visit(Item item);
+	public void visit(Constraint constraint);
 	
 	public void visit(Production production);
+	
+	public void visit(Type type);
+	
+	public void visit(TypeReference typeRef);
 
 }

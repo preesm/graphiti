@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.io.asn1.ast;
 
+import net.sf.graphiti.io.asn1.ASN1Visitor;
+
 /**
  * This class is a bit string item. A bit string has a value represented as a
  * {@link BinaryNumber}.
@@ -35,7 +37,7 @@ package net.sf.graphiti.io.asn1.ast;
  * @author Matthieu Wipliez
  * 
  */
-public class BitString extends Item {
+public class BitString extends Type {
 
 	private Constraint value;
 
@@ -50,6 +52,11 @@ public class BitString extends Item {
 	public BitString(String name, Constraint value) {
 		super(name);
 		this.value = value;
+	}
+	
+	@Override
+	public void accept(ASN1Visitor visitor) {
+		visitor.visit(value);
 	}
 
 	@Override
