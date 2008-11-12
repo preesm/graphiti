@@ -28,43 +28,91 @@
  */
 package net.sf.graphiti.io.asn1;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigInteger;
+import java.util.BitSet;
 
 /**
- * This class represents a choice between several alternatives.
+ * This class provides methods to store a number in a non-specific base (binary,
+ * octal, decimal, hexadecimal, whatnot...) using a {@link BitSet}.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class Choice extends Production {
+public class BinaryNumber {
 
-	private List<Item> alternatives;
+	private BitSet bits;
+
+	private int nbits;
 
 	/**
-	 * Creates a new choice with the given name.
-	 * 
-	 * @param name
-	 *            The production name.
+	 * Serial ID.
 	 */
-	public Choice(String name) {
-		super(name);
-		alternatives = new ArrayList<Item>();
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Creates an empty number.
+	 */
+	public BinaryNumber() {
+		bits = new BitSet();
 	}
 
 	/**
-	 * Adds an alternative to this choice.
+	 * Creates a number that is represented with the specified number of bits.
 	 * 
-	 * @param alternative
-	 *            An alternative as an {@link Item}.
+	 * @param nbits
+	 *            The number of bits of this number.
 	 */
-	public void addAlternative(Item alternative) {
-		alternatives.add(alternative);
+	public BinaryNumber(int nbits) {
+		this.nbits = nbits;
+		bits = new BitSet(nbits);
+	}
+
+	/**
+	 * Returns the value of this number as an integer. If this number value does
+	 * not fit in an integer, only the lowest 32-bits are returned (as per
+	 * {@link BigInteger#intValue()}).
+	 * 
+	 * @return The value of this number as an integer.
+	 */
+	public int intValue() {
+		BigInteger number = new BigInteger(toString(), 2);
+		return number.intValue();
+	}
+
+	/**
+	 * Sets the value of this number.
+	 * 
+	 * @param value
+	 *            The value as a string.
+	 * @param radix
+	 *            The radix.
+	 */
+	public void setValue(String value, int radix) {
+		BigInteger number = new BigInteger(value, radix);
+		if (nbits == 0) {
+			// initialize nbits if not previously set.
+			nbits = number.bitCount();
+		}
+
+		// set the bit set's bits.
+		for (int i = 0; i < nbits; i++) {
+			boolean n = number.testBit(i);
+			bits.set(i, n);
+		}
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + " ::= " + alternatives;
+		String res = "";
+		for (int i = nbits - 1; i >= 0; i--) {
+			if (bits.get(i)) {
+				res += "1";
+			} else {
+				res += "0";
+			}
+		}
+
+		return res;
 	}
 
 }

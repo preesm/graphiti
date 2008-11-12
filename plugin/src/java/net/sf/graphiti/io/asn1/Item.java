@@ -28,43 +28,38 @@
  */
 package net.sf.graphiti.io.asn1;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * This class represents a choice between several alternatives.
+ * This class represents an item of a complex structure. An item may be named or
+ * not, and this is only what this class implements. Subclasses provide
+ * additional functionality to manipulate the different kinds of items.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class Choice extends Production {
+public abstract class Item {
 
-	private List<Item> alternatives;
+	private String name;
 
 	/**
-	 * Creates a new choice with the given name.
+	 * Creates a new item. If <code>name.isEmpty()</code>, the item is
+	 * considered anonymous.
 	 * 
 	 * @param name
-	 *            The production name.
+	 *            A string representing the item name.
+	 * @throws NullPointerException
+	 *             if <code>name == null</code>.
 	 */
-	public Choice(String name) {
-		super(name);
-		alternatives = new ArrayList<Item>();
-	}
-
-	/**
-	 * Adds an alternative to this choice.
-	 * 
-	 * @param alternative
-	 *            An alternative as an {@link Item}.
-	 */
-	public void addAlternative(Item alternative) {
-		alternatives.add(alternative);
+	public Item(String name) {
+		if (name.isEmpty()) {
+			this.name = "<anonymous>";
+		} else {
+			this.name = name;
+		}
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + " ::= " + alternatives;
+		return name;
 	}
 
 }

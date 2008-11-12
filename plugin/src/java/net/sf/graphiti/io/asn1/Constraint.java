@@ -6,7 +6,7 @@ public class Constraint {
 		Size, Value;
 	}
 
-	private Number lower;
+	private BinaryNumber lower;
 	
 	private int size;
 
@@ -14,9 +14,9 @@ public class Constraint {
 	
 	private ConstraintType type;
 
-	private Number upper;
+	private BinaryNumber upper;
 
-	private Number value;
+	private BinaryNumber value;
 
 	public Constraint(ConstraintType type) {
 		this.type = type;
@@ -26,11 +26,11 @@ public class Constraint {
 		return type;
 	}
 	
-	public Number getValue() {
+	public BinaryNumber getValue() {
 		return value;
 	}
 	
-	public void setLowerBound(Number lower) {
+	public void setLowerBound(BinaryNumber lower) {
 		this.lower = lower;
 	}
 	
@@ -42,11 +42,11 @@ public class Constraint {
 		this.string = string;
 	}
 
-	public void setUpperBound(Number upper) {
+	public void setUpperBound(BinaryNumber upper) {
 		this.upper = upper;
 	}
 
-	public void setValue(Number value) {
+	public void setValue(BinaryNumber value) {
 		this.value = value;
 	}
 
