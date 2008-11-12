@@ -53,19 +53,22 @@ public abstract class Type implements ASN1Visitable {
 	 * 
 	 * @param name
 	 *            A string representing the type name.
-	 * @throws NullPointerException
-	 *             if <code>name == null</code>.
 	 */
 	public Type(String name) {
-		if (name.isEmpty()) {
-			this.name = "<anonymous>";
-		} else {
-			this.name = name;
-		}
+		this.name = name;
 	}
-	
+
+	/**
+	 * Returns this type's name.
+	 * 
+	 * @return This type's name.
+	 */
+	public String getName() {
+		return name;
+	}
+
 	@Override
 	public String toString() {
-		return name;
+		return (name.isEmpty() ? "<anonymous>" : name);
 	}
 }

@@ -35,7 +35,7 @@ import net.sf.graphiti.io.asn1.ASN1Visitor;
  * This class represents a constraint.
  * 
  * @author Matthieu Wipliez
- *
+ * 
  */
 public class Constraint implements ASN1Visitable {
 
@@ -110,6 +110,17 @@ public class Constraint implements ASN1Visitable {
 	 */
 	public void setSize(BinaryNumber size) {
 		this.size = size;
+	}
+
+	/**
+	 * Sets the size information for this constraint as an item reference. Valid
+	 * only if this constraint has type {@link ConstraintType#Size}.
+	 * 
+	 * @param value
+	 *            The size as an item reference.
+	 */
+	public void setSize(ItemReference reference) {
+		this.size = reference;
 	}
 
 	/**

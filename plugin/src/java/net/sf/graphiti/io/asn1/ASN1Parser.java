@@ -30,9 +30,7 @@ package net.sf.graphiti.io.asn1;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.transform.TransformerException;
 
@@ -159,15 +157,11 @@ public class ASN1Parser {
 	 * Prepare this parser by resolving references.
 	 */
 	private void prepare() {
-		Map<String, Production> productionMap = new HashMap<String, Production>();
-		for (Production production : productions) {
-			productionMap.put(production.getName(), production);
-		}
-		
-		TypeReferenceVisitor visitor = new TypeReferenceVisitor(productionMap);
-		for (Production production : productions) {
-			visitor.visit(production);
-		}
+		TypeReferenceVisitor typeRefVisitor = new TypeReferenceVisitor();
+		typeRefVisitor.visit(productions);
+
+		ItemReferenceVisitor itemRefVisitor = new ItemReferenceVisitor();
+		itemRefVisitor.visit(productions);
 	}
 
 }

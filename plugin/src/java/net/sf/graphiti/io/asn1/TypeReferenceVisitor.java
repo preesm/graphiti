@@ -28,9 +28,12 @@
  */
 package net.sf.graphiti.io.asn1;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.graphiti.io.asn1.ast.Constraint;
+import net.sf.graphiti.io.asn1.ast.ItemReference;
 import net.sf.graphiti.io.asn1.ast.Production;
 import net.sf.graphiti.io.asn1.ast.Type;
 import net.sf.graphiti.io.asn1.ast.TypeReference;
@@ -48,12 +51,26 @@ public class TypeReferenceVisitor implements ASN1Visitor {
 
 	private Map<String, Production> productions;
 
-	public TypeReferenceVisitor(Map<String, Production> productions) {
-		this.productions = productions;
+	public TypeReferenceVisitor() {
+		this.productions = new HashMap<String, Production>();
 	}
 
 	@Override
 	public void visit(Constraint constraint) {
+	}
+	
+	public void visit(ItemReference itemRef) {
+	}
+
+	@Override
+	public void visit(List<Production> productions) {
+		for (Production production : productions) {
+			this.productions.put(production.getName(), production);
+		}
+		
+		for (Production production : productions) {
+			visit(production);
+		}
 	}
 
 	public void visit(Production production) {

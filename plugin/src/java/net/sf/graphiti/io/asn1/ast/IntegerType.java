@@ -36,7 +36,7 @@ import net.sf.graphiti.io.asn1.ASN1Visitor;
  * @author Matthieu Wipliez
  * 
  */
-public class IntegerItem extends Type {
+public class IntegerType extends Type {
 
 	private ConstraintList constraints;
 
@@ -46,7 +46,7 @@ public class IntegerItem extends Type {
 	 * @param name
 	 *            The item name.
 	 */
-	public IntegerItem(String name) {
+	public IntegerType(String name) {
 		super(name);
 	}
 	

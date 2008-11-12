@@ -37,7 +37,7 @@ import net.sf.graphiti.io.asn1.ast.BitString;
 import net.sf.graphiti.io.asn1.ast.Choice;
 import net.sf.graphiti.io.asn1.ast.Constraint;
 import net.sf.graphiti.io.asn1.ast.ConstraintList;
-import net.sf.graphiti.io.asn1.ast.IntegerItem;
+import net.sf.graphiti.io.asn1.ast.IntegerType;
 import net.sf.graphiti.io.asn1.ast.ItemReference;
 import net.sf.graphiti.io.asn1.ast.Production;
 import net.sf.graphiti.io.asn1.ast.Sequence;
@@ -108,9 +108,11 @@ public class ASN1GrammarParser {
 			if (node.getNodeName().equals("constraint")) {
 				Element element = (Element) node;
 				if (element.getAttribute("type").equals("size")) {
-					parseConstraintSize(constraints, element);
+					Constraint constraint = parseConstraintSize(element);
+					constraints.add(constraint);
 				} else if (element.getAttribute("type").equals("value")) {
-					parseConstraintValue(constraints, element);
+					Constraint constraint = parseConstraintValue(element);
+					constraints.add(constraint);
 				}
 			}
 
@@ -121,34 +123,35 @@ public class ASN1GrammarParser {
 	}
 
 	/**
-	 * Adds a size constraint parsed from the given element to the given
-	 * constraint list.
+	 * Returns a size constraint parsed from the given element.
 	 * 
-	 * @param constraints
-	 *            A {@link ConstraintList}.
 	 * @param element
 	 *            A &lt;constraint type="size"&gt; element.
+	 * @return A {@link Constraint}.
 	 */
-	private void parseConstraintSize(ConstraintList constraints, Element element) {
+	private Constraint parseConstraintSize(Element element) {
 		Constraint constraint = new Constraint(ConstraintType.Size);
 		Node size = DomHelper.getFirstChildNamed(element, "number");
-		if (size != null) {
+		if (size == null) {
+			Node node = DomHelper.getFirstChildNamed(element, "identifier");
+			if (node != null) {
+				constraint.setSize(parseIdentifier((Element) node));
+			}
+		} else {
 			constraint.setSize(parseNumber((Element) size));
-			constraints.add(constraint);
 		}
+
+		return constraint;
 	}
 
 	/**
-	 * Adds a value constraint parsed from the given element to the given
-	 * constraint list.
+	 * Returns a value constraint parsed from the given element.
 	 * 
-	 * @param constraints
-	 *            A {@link ConstraintList}.
 	 * @param element
 	 *            A &lt;constraint type="value"&gt; element.
+	 * @return A {@link Constraint}.
 	 */
-	private void parseConstraintValue(ConstraintList constraints,
-			Element element) {
+	private Constraint parseConstraintValue(Element element) {
 		Constraint constraint = new Constraint(ConstraintType.Value);
 		NodeList numbers = element.getElementsByTagName("number");
 		if (numbers.getLength() == 0) {
@@ -175,7 +178,7 @@ public class ASN1GrammarParser {
 			constraint.setValue(bounds);
 		}
 
-		constraints.add(constraint);
+		return constraint;
 	}
 
 	/**
@@ -196,11 +199,11 @@ public class ASN1GrammarParser {
 	 *            The choice name.
 	 * @param node
 	 *            The first child of a &lt;integer&gt; node.
-	 * @return An {@link IntegerItem}.
+	 * @return An {@link IntegerType}.
 	 */
-	private IntegerItem parseInteger(String name, Node node) {
+	private IntegerType parseInteger(String name, Node node) {
 		Node constraints = DomHelper.getFirstSiblingNamed(node, "constraints");
-		IntegerItem integer = new IntegerItem(name);
+		IntegerType integer = new IntegerType(name);
 		ConstraintList ct = parseConstraints(constraints.getFirstChild());
 		integer.setConstraints(ct);
 		return integer;

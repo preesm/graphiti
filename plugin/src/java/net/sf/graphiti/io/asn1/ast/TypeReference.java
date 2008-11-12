@@ -105,12 +105,8 @@ public class TypeReference extends Type {
 
 	@Override
 	public String toString() {
-		return super.toString()
-				+ ": "
-				+ constraints
-				+ " -> "
-				+ (reference != null ? reference.getClass().getSimpleName()
-						: referenceName);
+		return super.toString() + ": " + constraints + " -> "
+				+ (reference != null ? reference.getName() : referenceName);
 	}
 
 }

@@ -29,27 +29,58 @@
 package net.sf.graphiti.io.asn1.ast;
 
 /**
- * This class makes reference to an existing named item.
+ * This class makes referenceName to an existing named item.
  * 
  * @author Matthieu Wipliez
  * 
  */
 public class ItemReference {
 
-	private String reference;
+	private Type reference;
+
+	private String referenceName;
 
 	/**
-	 * Creates a new item reference.
+	 * Creates a new item referenceName.
 	 * 
-	 * @param reference
+	 * @param referenceName
 	 *            The referenced item's name.
 	 */
-	public ItemReference(String reference) {
+	public ItemReference(String referenceName) {
+		this.referenceName = referenceName;
+	}
+
+	/**
+	 * Returns this item reference's name.
+	 * 
+	 * @return This item reference's name.
+	 */
+	public String getReferenceName() {
+		return referenceName;
+	}
+
+	/**
+	 * Sets this item's reference.
+	 * 
+	 * @param reference
+	 *            A {@link Type}.
+	 */
+	public void setReference(Type reference) {
 		this.reference = reference;
+	}
+
+	/**
+	 * Sets this item's reference name.
+	 * 
+	 * @param referenceName
+	 *            A {@link String}.
+	 */
+	public void setReferenceName(String referenceName) {
+		this.referenceName = referenceName;
 	}
 
 	@Override
 	public String toString() {
-		return reference;
+		return (reference != null ? reference.getName() : referenceName);
 	}
 }

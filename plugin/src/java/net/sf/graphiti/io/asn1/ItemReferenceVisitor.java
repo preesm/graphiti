@@ -28,32 +28,88 @@
  */
 package net.sf.graphiti.io.asn1;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.graphiti.io.asn1.ast.Constraint;
 import net.sf.graphiti.io.asn1.ast.ItemReference;
 import net.sf.graphiti.io.asn1.ast.Production;
 import net.sf.graphiti.io.asn1.ast.Type;
 import net.sf.graphiti.io.asn1.ast.TypeReference;
+import net.sf.graphiti.io.asn1.builtin.PrintableString;
+import net.sf.graphiti.io.asn1.builtin.UTF8String;
 
 /**
- * This interface defines methods to visit several parts of the ASN.1 AST.
+ * This class implements the {@link ASN1Visitor} interface to solve type
+ * references.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public interface ASN1Visitor {
-	
-	public void visit(Constraint constraint);
-	
-	public void visit(ItemReference itemRef);
-	
-	public void visit(List<Production> productions);
-	
-	public void visit(Production production);
-	
-	public void visit(Type type);
-	
-	public void visit(TypeReference typeRef);
+public class ItemReferenceVisitor implements ASN1Visitor {
+
+	private Map<String, Type> namedTypes;
+
+	public ItemReferenceVisitor() {
+		namedTypes = new HashMap<String, Type>();
+	}
+
+	@Override
+	public void visit(Constraint constraint) {
+		switch (constraint.getConstraintType()) {
+		case Size:
+			Object size = constraint.getSize();
+			if (size instanceof ItemReference) {
+				visit((ItemReference) size);
+			}
+			break;
+		case Value:
+			break;
+		}
+	}
+
+	public void visit(ItemReference itemRef) {
+		String ref = itemRef.getReferenceName();
+		Type reference;
+		if (ref.equals("UTF8String")) {
+			reference = new UTF8String();
+		} else if (ref.equals("PrintableString")) {
+			reference = new PrintableString();
+		} else {
+			reference = namedTypes.get(ref);
+			if (reference == null) {
+				throw new RuntimeException("The type \"" + ref
+						+ "\" does not exist!");
+			}
+		}
+
+		itemRef.setReference(reference);
+		itemRef.setReferenceName(null);
+	}
+
+	@Override
+	public void visit(List<Production> productions) {
+		for (Production production : productions) {
+			visit(production);
+		}
+	}
+
+	public void visit(Production production) {
+		production.accept(this);
+	}
+
+	@Override
+	public void visit(Type type) {
+		String name = type.getName();
+		if (!name.isEmpty()) {
+			namedTypes.put(name, type);
+		}
+		type.accept(this);
+	}
+
+	@Override
+	public void visit(TypeReference typeRef) {
+	}
 
 }

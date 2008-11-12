@@ -52,7 +52,9 @@ public class SequenceOf extends Type {
 
 	@Override
 	public void accept(ASN1Visitor visitor) {
-		visitor.visit(size);
+		if (size != null) {
+			visitor.visit(size);
+		}
 		visitor.visit(type);
 	}
 
