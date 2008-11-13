@@ -28,6 +28,9 @@
  */
 package net.sf.graphiti.io.asn1.ast;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import net.sf.graphiti.io.asn1.ASN1Visitable;
 
 /**
@@ -38,6 +41,8 @@ import net.sf.graphiti.io.asn1.ASN1Visitable;
  */
 public abstract class Type implements ASN1Visitable {
 
+	private Set<BinaryNumber> first;
+
 	private String name;
 
 	/**
@@ -45,6 +50,7 @@ public abstract class Type implements ASN1Visitable {
 	 */
 	public Type() {
 		this("");
+		first = new TreeSet<BinaryNumber>();
 	}
 
 	/**
@@ -56,6 +62,15 @@ public abstract class Type implements ASN1Visitable {
 	 */
 	public Type(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * Returns this type's FIRST set.
+	 * 
+	 * @return This type's FIRST set.
+	 */
+	public Set<BinaryNumber> getFirst() {
+		return first;
 	}
 
 	/**

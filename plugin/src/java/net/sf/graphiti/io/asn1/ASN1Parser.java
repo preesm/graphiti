@@ -165,11 +165,9 @@ public class ASN1Parser {
 	 * Prepare this parser by resolving references.
 	 */
 	private void prepare() {
-		TypeReferenceVisitor typeRefVisitor = new TypeReferenceVisitor();
-		typeRefVisitor.visit(productions);
-
-		ItemReferenceVisitor itemRefVisitor = new ItemReferenceVisitor();
-		itemRefVisitor.visit(productions);
+		new TypeReferenceVisitor(productions);
+		new ItemReferenceVisitor(productions);
+		new FirstSetVisitor(productions);
 	}
 
 }

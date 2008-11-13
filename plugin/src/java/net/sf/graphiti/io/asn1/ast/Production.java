@@ -28,9 +28,6 @@
  */
 package net.sf.graphiti.io.asn1.ast;
 
-import net.sf.graphiti.io.asn1.ASN1Visitable;
-import net.sf.graphiti.io.asn1.ASN1Visitor;
-
 /**
  * This class represents a grammar production. A production has a name and a
  * type.
@@ -38,7 +35,7 @@ import net.sf.graphiti.io.asn1.ASN1Visitor;
  * @author Matthieu Wipliez
  * 
  */
-public class Production implements ASN1Visitable {
+public class Production {
 
 	private String name;
 
@@ -52,11 +49,6 @@ public class Production implements ASN1Visitable {
 	 */
 	public Production(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public void accept(ASN1Visitor visitor) {
-		visitor.visit(type);
 	}
 
 	/**

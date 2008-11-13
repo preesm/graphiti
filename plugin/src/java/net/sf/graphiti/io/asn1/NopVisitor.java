@@ -28,17 +28,9 @@
  */
 package net.sf.graphiti.io.asn1;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.sf.graphiti.io.asn1.ast.BitString;
 import net.sf.graphiti.io.asn1.ast.Choice;
-import net.sf.graphiti.io.asn1.ast.Constraint;
-import net.sf.graphiti.io.asn1.ast.ConstraintList;
 import net.sf.graphiti.io.asn1.ast.IntegerType;
-import net.sf.graphiti.io.asn1.ast.ItemReference;
-import net.sf.graphiti.io.asn1.ast.Production;
 import net.sf.graphiti.io.asn1.ast.Sequence;
 import net.sf.graphiti.io.asn1.ast.SequenceOf;
 import net.sf.graphiti.io.asn1.ast.Type;
@@ -47,112 +39,50 @@ import net.sf.graphiti.io.asn1.builtin.PrintableString;
 import net.sf.graphiti.io.asn1.builtin.UTF8String;
 
 /**
- * This class implements the {@link ASN1Visitor} interface to solve type
- * references.
+ * This class provides an empty implementation of {@link ASN1Visitor}.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class ItemReferenceVisitor extends NopVisitor {
-
-	private Map<String, Type> namedTypes;
-
-	/**
-	 * Creates a new item reference visitor on the given production list.
-	 * 
-	 * @param productions
-	 *            A {@link List}&lt;{@link Production}&gt;
-	 */
-	public ItemReferenceVisitor(List<Production> productions) {
-		namedTypes = new HashMap<String, Type>();
-		for (Production production : productions) {
-			production.getType().accept(this);
-		}
-	}
+public class NopVisitor implements ASN1Visitor {
 
 	@Override
 	public void visit(BitString bitString) {
-		visitType(bitString);
-		visitConstraint(bitString.getValue());
 	}
 
 	@Override
 	public void visit(Choice choice) {
-		visitType(choice);
-		super.visit(choice);
+		for (Type alternative : choice.getAlternatives()) {
+			alternative.accept(this);
+		}
 	}
 
 	@Override
 	public void visit(IntegerType type) {
-		visitType(type);
-		visitConstraintList(type.getConstraintList());
+	}
+
+	@Override
+	public void visit(PrintableString string) {
 	}
 
 	@Override
 	public void visit(Sequence sequence) {
-		visitType(sequence);
-		super.visit(sequence);
+		for (Type element : sequence.getElements()) {
+			element.accept(this);
+		}
 	}
 
 	@Override
 	public void visit(SequenceOf sequenceOf) {
-		visitType(sequenceOf);
-		visitConstraint(sequenceOf.getSize());
-		super.visit(sequenceOf);
+		sequenceOf.getType().accept(this);
 	}
 
 	@Override
 	public void visit(TypeReference typeRef) {
-		visitType(typeRef);
-		visitConstraintList(typeRef.getConstraintList());
-		super.visit(typeRef);
 	}
 
-	private void visitConstraint(Constraint constraint) {
-		if (constraint != null) {
-			switch (constraint.getConstraintType()) {
-			case Size:
-				Object size = constraint.getSize();
-				if (size instanceof ItemReference) {
-					visitItemReference((ItemReference) size);
-				}
-				break;
-			case Value:
-				break;
-			}
-		}
-	}
-
-	private void visitConstraintList(ConstraintList constraintList) {
-		for (Constraint constraint : constraintList) {
-			visitConstraint(constraint);
-		}
-	}
-
-	private void visitItemReference(ItemReference itemRef) {
-		String ref = itemRef.getReferenceName();
-		Type reference;
-		if (ref.equals("UTF8String")) {
-			reference = new UTF8String();
-		} else if (ref.equals("PrintableString")) {
-			reference = new PrintableString();
-		} else {
-			reference = namedTypes.get(ref);
-			if (reference == null) {
-				throw new RuntimeException("The type \"" + ref
-						+ "\" does not exist!");
-			}
-		}
-
-		itemRef.setReference(reference);
-		itemRef.setReferenceName(null);
-	}
-
-	private void visitType(Type type) {
-		String name = type.getName();
-		if (!name.isEmpty()) {
-			namedTypes.put(name, type);
-		}
+	@Override
+	public void visit(UTF8String string) {
 	}
 
 }

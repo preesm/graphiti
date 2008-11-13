@@ -49,7 +49,7 @@ public class PrintableString extends Type {
 
 	@Override
 	public void accept(ASN1Visitor visitor) {
-
+		visitor.visit(this);
 	}
 
 }

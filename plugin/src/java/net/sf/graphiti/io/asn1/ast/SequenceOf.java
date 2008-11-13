@@ -52,10 +52,25 @@ public class SequenceOf extends Type {
 
 	@Override
 	public void accept(ASN1Visitor visitor) {
-		if (size != null) {
-			visitor.visit(size);
-		}
-		visitor.visit(type);
+		visitor.visit(this);
+	}
+
+	/**
+	 * Returns the size of this "sequence of" as a {@link Constraint}.
+	 * 
+	 * @return The size of this "sequence of" as a {@link Constraint}.
+	 */
+	public Constraint getSize() {
+		return size;
+	}
+
+	/**
+	 * Returns the type of this "sequence of".
+	 * 
+	 * @return The type of this "sequence of".
+	 */
+	public Type getType() {
+		return type;
 	}
 
 	/**

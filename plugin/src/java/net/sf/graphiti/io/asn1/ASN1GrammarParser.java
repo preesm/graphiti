@@ -206,7 +206,7 @@ public class ASN1GrammarParser {
 		Node constraints = DomHelper.getFirstSiblingNamed(node, "constraints");
 		IntegerType integer = new IntegerType(name);
 		ConstraintList ct = parseConstraints(constraints.getFirstChild());
-		integer.setConstraints(ct);
+		integer.setConstraintList(ct);
 		return integer;
 	}
 
@@ -372,7 +372,7 @@ public class ASN1GrammarParser {
 		Node constraints = DomHelper.getFirstSiblingNamed(type, "constraints");
 		if (constraints != null) {
 			ConstraintList ct = parseConstraints(constraints.getFirstChild());
-			typeRef.setConstraints(ct);
+			typeRef.setConstraintList(ct);
 		}
 		return typeRef;
 	}

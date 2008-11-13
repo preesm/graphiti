@@ -52,9 +52,7 @@ public class Choice extends Type {
 
 	@Override
 	public void accept(ASN1Visitor visitor) {
-		for (Type type : alternatives) {
-			visitor.visit(type);
-		}
+		visitor.visit(this);
 	}
 
 	/**
@@ -65,6 +63,15 @@ public class Choice extends Type {
 	 */
 	public void addAlternative(Type alternative) {
 		alternatives.add(alternative);
+	}
+
+	/**
+	 * Returns this choice's alternatives.
+	 * 
+	 * @return This choice's alternatives.
+	 */
+	public List<Type> getAlternatives() {
+		return alternatives;
 	}
 
 	@Override

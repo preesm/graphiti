@@ -32,8 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.graphiti.io.asn1.ast.Constraint;
-import net.sf.graphiti.io.asn1.ast.ItemReference;
 import net.sf.graphiti.io.asn1.ast.Production;
 import net.sf.graphiti.io.asn1.ast.Type;
 import net.sf.graphiti.io.asn1.ast.TypeReference;
@@ -47,39 +45,25 @@ import net.sf.graphiti.io.asn1.builtin.UTF8String;
  * @author Matthieu Wipliez
  * 
  */
-public class TypeReferenceVisitor implements ASN1Visitor {
+public class TypeReferenceVisitor extends NopVisitor {
 
 	private Map<String, Production> productions;
 
-	public TypeReferenceVisitor() {
+	/**
+	 * Creates a new type reference visitor on the given production list.
+	 * 
+	 * @param productions
+	 *            A {@link List}&lt;{@link Production}&gt;
+	 */
+	public TypeReferenceVisitor(List<Production> productions) {
 		this.productions = new HashMap<String, Production>();
-	}
-
-	@Override
-	public void visit(Constraint constraint) {
-	}
-
-	public void visit(ItemReference itemRef) {
-	}
-
-	@Override
-	public void visit(List<Production> productions) {
 		for (Production production : productions) {
 			this.productions.put(production.getName(), production);
 		}
 
 		for (Production production : productions) {
-			visit(production);
+			production.getType().accept(this);
 		}
-	}
-
-	public void visit(Production production) {
-		production.accept(this);
-	}
-
-	@Override
-	public void visit(Type type) {
-		type.accept(this);
 	}
 
 	@Override

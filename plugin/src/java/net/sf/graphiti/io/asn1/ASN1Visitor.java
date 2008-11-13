@@ -28,13 +28,14 @@
  */
 package net.sf.graphiti.io.asn1;
 
-import java.util.List;
-
-import net.sf.graphiti.io.asn1.ast.Constraint;
-import net.sf.graphiti.io.asn1.ast.ItemReference;
-import net.sf.graphiti.io.asn1.ast.Production;
-import net.sf.graphiti.io.asn1.ast.Type;
+import net.sf.graphiti.io.asn1.ast.BitString;
+import net.sf.graphiti.io.asn1.ast.Choice;
+import net.sf.graphiti.io.asn1.ast.IntegerType;
+import net.sf.graphiti.io.asn1.ast.Sequence;
+import net.sf.graphiti.io.asn1.ast.SequenceOf;
 import net.sf.graphiti.io.asn1.ast.TypeReference;
+import net.sf.graphiti.io.asn1.builtin.PrintableString;
+import net.sf.graphiti.io.asn1.builtin.UTF8String;
 
 /**
  * This interface defines methods to visit several parts of the ASN.1 AST.
@@ -44,16 +45,20 @@ import net.sf.graphiti.io.asn1.ast.TypeReference;
  */
 public interface ASN1Visitor {
 
-	public void visit(Constraint constraint);
+	public void visit(BitString bitString);
 
-	public void visit(ItemReference itemRef);
+	public void visit(Choice choice);
 
-	public void visit(List<Production> productions);
+	public void visit(IntegerType type);
 
-	public void visit(Production production);
+	public void visit(PrintableString string);
 
-	public void visit(Type type);
+	public void visit(Sequence sequence);
+
+	public void visit(SequenceOf sequenceOf);
 
 	public void visit(TypeReference typeRef);
+
+	public void visit(UTF8String string);
 
 }

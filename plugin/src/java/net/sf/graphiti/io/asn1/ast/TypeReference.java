@@ -59,9 +59,24 @@ public class TypeReference extends Type {
 	@Override
 	public void accept(ASN1Visitor visitor) {
 		visitor.visit(this);
-		for (Constraint constraint : constraints) {
-			visitor.visit(constraint);
-		}
+	}
+
+	/**
+	 * Returns this type reference's constraint list.
+	 * 
+	 * @return This type reference's constraint list.
+	 */
+	public ConstraintList getConstraintList() {
+		return constraints;
+	}
+
+	/**
+	 * Returns the type referenced.
+	 * 
+	 * @return The type referenced.
+	 */
+	public Type getReference() {
+		return reference;
 	}
 
 	/**
@@ -79,7 +94,7 @@ public class TypeReference extends Type {
 	 * @param constraints
 	 *            A {@link ConstraintList}.
 	 */
-	public void setConstraints(ConstraintList constraints) {
+	public void setConstraintList(ConstraintList constraints) {
 		this.constraints = constraints;
 	}
 

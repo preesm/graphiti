@@ -55,9 +55,7 @@ public class Sequence extends Type {
 
 	@Override
 	public void accept(ASN1Visitor visitor) {
-		for (Type type : elements) {
-			visitor.visit(type);
-		}
+		visitor.visit(this);
 	}
 
 	/**
@@ -68,6 +66,15 @@ public class Sequence extends Type {
 	 */
 	public void addElement(Type element) {
 		elements.add(element);
+	}
+
+	/**
+	 * Returns this sequence's elements.
+	 * 
+	 * @return This sequence's elements.
+	 */
+	public List<Type> getElements() {
+		return elements;
 	}
 
 	@Override

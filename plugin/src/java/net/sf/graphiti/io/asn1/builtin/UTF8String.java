@@ -49,7 +49,7 @@ public class UTF8String extends Type {
 
 	@Override
 	public void accept(ASN1Visitor visitor) {
-
+		visitor.visit(this);
 	}
 
 }

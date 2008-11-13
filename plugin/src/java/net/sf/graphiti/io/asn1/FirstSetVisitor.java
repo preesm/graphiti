@@ -26,50 +26,31 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.ast;
+package net.sf.graphiti.io.asn1;
 
-import net.sf.graphiti.io.asn1.ASN1Visitor;
+import java.util.List;
+
+import net.sf.graphiti.io.asn1.ast.Production;
 
 /**
- * This class is a bit string item. A bit string has a value represented as a
- * {@link BinaryNumber}.
+ * This class implements the {@link ASN1Visitor} interface to compute the FIRST
+ * set for all grammar symbols.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class BitString extends Type {
-
-	private Constraint value;
+public class FirstSetVisitor extends NopVisitor {
 
 	/**
-	 * Creates a new bit string with the given name and value.
+	 * Creates a new FIRST set computer visitor on the given production list.
 	 * 
-	 * @param name
-	 *            The item name or <code>""</code>.
-	 * @param value
-	 *            The bit string value as a {@link Constraint}.
+	 * @param productions
+	 *            A {@link List}&lt;{@link Production}&gt;
 	 */
-	public BitString(String name, Constraint value) {
-		super(name);
-		this.value = value;
+	public FirstSetVisitor(List<Production> productions) {
+		for (Production production : productions) {
+			production.getType().accept(this);
+		}
 	}
 
-	@Override
-	public void accept(ASN1Visitor visitor) {
-		visitor.visit(this);
-	}
-
-	/**
-	 * Returns this bit string's value as a {@link Constraint}.
-	 * 
-	 * @return This bit string's value as a {@link Constraint}.
-	 */
-	public Constraint getValue() {
-		return value;
-	}
-
-	@Override
-	public String toString() {
-		return super.toString() + " ::= " + value;
-	}
 }

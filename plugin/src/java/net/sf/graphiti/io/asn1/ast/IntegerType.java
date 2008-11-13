@@ -52,9 +52,16 @@ public class IntegerType extends Type {
 
 	@Override
 	public void accept(ASN1Visitor visitor) {
-		for (Constraint constraint : constraints) {
-			visitor.visit(constraint);
-		}
+		visitor.visit(this);
+	}
+
+	/**
+	 * Returns this integer type's constraint list.
+	 * 
+	 * @return This integer type's constraint list.
+	 */
+	public ConstraintList getConstraintList() {
+		return constraints;
 	}
 
 	/**
@@ -63,7 +70,7 @@ public class IntegerType extends Type {
 	 * @param constraints
 	 *            A {@link ConstraintList}.
 	 */
-	public void setConstraints(ConstraintList constraints) {
+	public void setConstraintList(ConstraintList constraints) {
 		this.constraints = constraints;
 	}
 
