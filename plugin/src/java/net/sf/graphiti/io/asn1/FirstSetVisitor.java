@@ -30,7 +30,15 @@ package net.sf.graphiti.io.asn1;
 
 import java.util.List;
 
+import net.sf.graphiti.io.asn1.ast.BitString;
+import net.sf.graphiti.io.asn1.ast.Choice;
+import net.sf.graphiti.io.asn1.ast.IntegerType;
 import net.sf.graphiti.io.asn1.ast.Production;
+import net.sf.graphiti.io.asn1.ast.Sequence;
+import net.sf.graphiti.io.asn1.ast.SequenceOf;
+import net.sf.graphiti.io.asn1.ast.TypeReference;
+import net.sf.graphiti.io.asn1.builtin.PrintableString;
+import net.sf.graphiti.io.asn1.builtin.UTF8String;
 
 /**
  * This class implements the {@link ASN1Visitor} interface to compute the FIRST
@@ -51,6 +59,41 @@ public class FirstSetVisitor extends NopVisitor {
 		for (Production production : productions) {
 			production.getType().accept(this);
 		}
+	}
+
+	@Override
+	public void visit(BitString bitString) {
+	}
+
+	@Override
+	public void visit(Choice choice) {
+		super.visit(choice);
+	}
+
+	@Override
+	public void visit(IntegerType type) {
+	}
+
+	@Override
+	public void visit(PrintableString string) {
+	}
+
+	@Override
+	public void visit(Sequence sequence) {
+		super.visit(sequence);
+	}
+
+	@Override
+	public void visit(SequenceOf sequenceOf) {
+		super.visit(sequenceOf);
+	}
+
+	@Override
+	public void visit(TypeReference typeRef) {
+	}
+
+	@Override
+	public void visit(UTF8String string) {
 	}
 
 }

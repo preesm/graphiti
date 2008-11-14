@@ -47,7 +47,7 @@ import net.sf.graphiti.io.asn1.builtin.PrintableString;
 import net.sf.graphiti.io.asn1.builtin.UTF8String;
 
 /**
- * This class implements the {@link ASN1Visitor} interface to solve type
+ * This class implements the {@link ASN1Visitor} interface to solve item
  * references.
  * 
  * @author Matthieu Wipliez

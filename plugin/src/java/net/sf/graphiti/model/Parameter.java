@@ -28,6 +28,11 @@
  */
 package net.sf.graphiti.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 /**
  * This class provides a parameter associated with an object (vertex, graph,
  * edge). It has a name, a type, and a position.
@@ -72,7 +77,21 @@ public class Parameter {
 	 * @return This parameter's default value.
 	 */
 	public Object getDefault() {
-		return defaultValue;
+		if (defaultValue instanceof Boolean) {
+			return new Boolean((Boolean) defaultValue);
+		} else if (defaultValue instanceof Float) {
+			return new Float((Float) defaultValue);
+		} else if (defaultValue instanceof Integer) {
+			return new Integer((Integer) defaultValue);
+		} else if (defaultValue instanceof List<?>) {
+			return new ArrayList<Object>((List<?>) defaultValue);
+		} else if (defaultValue instanceof Map<?, ?>) {
+			return new TreeMap<Object, Object>((Map<?, ?>) defaultValue);
+		} else if (defaultValue instanceof String) {
+			return new String((String) defaultValue);
+		} else {
+			return defaultValue;
+		}
 	}
 
 	/**
