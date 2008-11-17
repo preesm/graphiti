@@ -31,6 +31,8 @@ package net.sf.graphiti.io.asn1;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 
 import net.sf.graphiti.io.asn1.ast.BinaryNumber;
@@ -78,6 +80,17 @@ public class LL1ParserVisitor extends NopVisitor {
 	 *            The {@link Production} to start parsing with.
 	 */
 	public LL1ParserVisitor(InputStream in, Production production) {
+		in.mark(10000);
+		try {
+			ObjectInputStream objis = new ObjectInputStream(in);
+			Object obj = objis.readObject();
+			in.reset();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
 		this.in = in;
 		lastNode = new ArrayDeque<ParseNode>();
 		tree = new ParseNode(production.getName());
@@ -163,7 +176,7 @@ public class LL1ParserVisitor extends NopVisitor {
 					throw new RuntimeException("Parse error");
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 		}
 
@@ -178,6 +191,7 @@ public class LL1ParserVisitor extends NopVisitor {
 			if (isValid(type)) {
 				type.accept(this);
 				end();
+				return;
 			}
 		}
 
@@ -200,7 +214,7 @@ public class LL1ParserVisitor extends NopVisitor {
 			try {
 				in.read(integer);
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 
 			String str = new BinaryNumber(integer).toString();
@@ -236,7 +250,30 @@ public class LL1ParserVisitor extends NopVisitor {
 
 	@Override
 	public void visit(PrintableString string) {
-		throw new RuntimeException("TODO");
+		ConstraintList constraints = string.getConstraintList();
+		for (Constraint constraint : constraints) {
+			Object value = constraint.getValue();
+			if (value instanceof String) {
+				String expected = (String) value;
+				in.mark(expected.length());
+				byte[] chars = new byte[expected.length()];
+				try {
+					in.read(chars);
+					String actual = new String(chars, Charset
+							.forName("US-ASCII"));
+					if (actual.equals(expected)) {
+						lastNode.peek().setValue(expected);
+						return;
+					} else {
+						in.reset();
+					}
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+
+		throw new RuntimeException("Unexpected string");
 	}
 
 	@Override
@@ -333,9 +370,10 @@ public class LL1ParserVisitor extends NopVisitor {
 		DataInputStream dis = new DataInputStream(in);
 		try {
 			String str = dis.readUTF();
+			System.out.println("UTF8String: " + str);
 			lastNode.peek().setValue(str);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 

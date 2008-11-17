@@ -141,9 +141,16 @@ Java DEFINITIONS ::= BEGIN
     SEQUENCE (SIZE(size)) OF INTEGER (0..255)
   }
   
-  NewString ::= SEQUENCE { -- TC_LONGSTRING NOT SUPPORTED
-    tcString BIT STRING ('74'H),
-    UTF8String
+  NewString ::= CHOICE {
+    SEQUENCE {
+      tcString BIT STRING ('74'H),
+      UTF8String
+    },
+    
+    SEQUENCE {
+      tcLongString BIT STRING ('7C'H),
+      LongUTF8String
+    }
   }
 
   NewEnum ::= SEQUENCE {
