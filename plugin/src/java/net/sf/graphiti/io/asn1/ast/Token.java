@@ -26,53 +26,65 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.builtin;
-
-import net.sf.graphiti.io.asn1.ASN1Visitor;
-import net.sf.graphiti.io.asn1.ast.ConstraintList;
-import net.sf.graphiti.io.asn1.ast.Type;
-import net.sf.graphiti.io.asn1.ast.TypeReference;
+package net.sf.graphiti.io.asn1.ast;
 
 /**
- * This class is the implementation of the built-in ASN.1 construct
- * "PrintableString".
+ * This class represents a token.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class PrintableString extends Type {
-
-	private ConstraintList constraints;
+public class Token {
 
 	/**
-	 * Creates a new printable string.
-	 */
-	public PrintableString() {
-		super("");
-	}
-
-	@Override
-	public void accept(ASN1Visitor visitor) {
-		visitor.visit(this);
-	}
-
-	/**
-	 * Returns this type reference's constraint list.
+	 * This class enumerates the different token types.
 	 * 
-	 * @return This type reference's constraint list.
+	 * @author Matthieu Wipliez
+	 * 
 	 */
-	public ConstraintList getConstraintList() {
-		return constraints;
+	public enum TokenType {
+		/**
+		 * A token whose value is represented by a {@link BinaryNumber}.
+		 */
+		Binary,
+
+		/**
+		 * The empty token.
+		 */
+		Epsilon,
+
+		/**
+		 * A token whose value is represented by an {@link IntegerType}.
+		 */
+		Integer
 	}
 
+	public static Token epsilon = new Token(TokenType.Epsilon);
+
+	private TokenType type;
+
+	private Object value;
+
 	/**
-	 * Sets this {@link TypeReference}'s constraints.
+	 * Creates a new token with the given token type.
 	 * 
-	 * @param constraints
-	 *            A {@link ConstraintList}.
+	 * @param type
+	 *            A {@link TokenType}.
 	 */
-	public void setConstraintList(ConstraintList constraints) {
-		this.constraints = constraints;
+	public Token(TokenType type) {
+		this.type = type;
+	}
+
+	public TokenType getType() {
+		return type;
+	}
+
+	public Object getValue() {
+		return value;
+	}
+
+	public void setValue(Object value) {
+		this.value = value;
 	}
 
 }

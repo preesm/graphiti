@@ -45,7 +45,7 @@ public class BinaryNumber {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private BitSet bits;
+	private byte[] bits;
 
 	private int nbits;
 
@@ -53,7 +53,17 @@ public class BinaryNumber {
 	 * Creates an empty number.
 	 */
 	public BinaryNumber() {
-		bits = new BitSet();
+		bits = new byte[0];
+	}
+
+	/**
+	 * Creates a number from the given byte array.
+	 * 
+	 * @param bytes
+	 *            A byte array.
+	 */
+	public BinaryNumber(byte[] bytes) {
+		bits = bytes;
 	}
 
 	/**
@@ -64,7 +74,7 @@ public class BinaryNumber {
 	 */
 	public BinaryNumber(int nbits) {
 		this.nbits = nbits;
-		bits = new BitSet(nbits);
+		bits = new byte[nbits / 8];
 	}
 
 	/**
@@ -75,7 +85,7 @@ public class BinaryNumber {
 	 * @return The value of this number as an integer.
 	 */
 	public int intValue() {
-		BigInteger number = new BigInteger(toString(), 2);
+		BigInteger number = new BigInteger(bits);
 		return number.intValue();
 	}
 
@@ -94,25 +104,18 @@ public class BinaryNumber {
 			nbits = number.bitLength();
 		}
 
-		// set the bit set's bits.
-		for (int i = 0; i < nbits; i++) {
-			boolean n = number.testBit(i);
-			bits.set(i, n);
-		}
+		bits = number.toByteArray();
 	}
 
 	@Override
 	public String toString() {
-		String res = "";
-		for (int i = nbits - 1; i >= 0; i--) {
-			if (bits.get(i)) {
-				res += "1";
-			} else {
-				res += "0";
-			}
+		String bin = new BigInteger(bits).toString(16);
+
+		for (int i = bin.length(); i < nbits / 4; i++) {
+			bin = "0" + bin;
 		}
 
-		return res;
+		return "0x" + bin;
 	}
 
 }

@@ -369,7 +369,7 @@ public class ASN1GrammarParser {
 	private TypeReference parseTypeReference(String name, Element type) {
 		TypeReference typeRef = new TypeReference("");
 		typeRef.setReferenceName(type.getAttribute("name"));
-		Node constraints = DomHelper.getFirstSiblingNamed(type, "constraints");
+		Node constraints = DomHelper.getFirstChildNamed(type, "constraints");
 		if (constraints != null) {
 			ConstraintList ct = parseConstraints(constraints.getFirstChild());
 			typeRef.setConstraintList(ct);

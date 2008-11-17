@@ -71,9 +71,13 @@ public class TypeReferenceVisitor extends NopVisitor {
 		String ref = typeRef.getReferenceName();
 		Type reference;
 		if (ref.equals("UTF8String")) {
-			reference = new UTF8String();
+			UTF8String utf8 = new UTF8String();
+			utf8.setConstraintList(typeRef.getConstraintList());
+			reference = utf8;
 		} else if (ref.equals("PrintableString")) {
-			reference = new PrintableString();
+			PrintableString str = new PrintableString();
+			str.setConstraintList(typeRef.getConstraintList());
+			reference = str;
 		} else {
 			Production production = productions.get(ref);
 			if (production == null) {
@@ -85,7 +89,6 @@ public class TypeReferenceVisitor extends NopVisitor {
 		}
 
 		typeRef.setReference(reference);
-		typeRef.setReferenceName(null);
 	}
 
 }

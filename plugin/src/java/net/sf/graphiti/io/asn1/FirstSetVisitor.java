@@ -28,20 +28,29 @@
  */
 package net.sf.graphiti.io.asn1;
 
+import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Set;
 
+import net.sf.graphiti.io.asn1.ast.BinaryNumber;
 import net.sf.graphiti.io.asn1.ast.BitString;
 import net.sf.graphiti.io.asn1.ast.Choice;
+import net.sf.graphiti.io.asn1.ast.Constraint;
+import net.sf.graphiti.io.asn1.ast.ConstraintList;
 import net.sf.graphiti.io.asn1.ast.IntegerType;
 import net.sf.graphiti.io.asn1.ast.Production;
 import net.sf.graphiti.io.asn1.ast.Sequence;
 import net.sf.graphiti.io.asn1.ast.SequenceOf;
+import net.sf.graphiti.io.asn1.ast.Token;
+import net.sf.graphiti.io.asn1.ast.Type;
 import net.sf.graphiti.io.asn1.ast.TypeReference;
+import net.sf.graphiti.io.asn1.ast.Constraint.ConstraintType;
+import net.sf.graphiti.io.asn1.ast.Token.TokenType;
 import net.sf.graphiti.io.asn1.builtin.PrintableString;
 import net.sf.graphiti.io.asn1.builtin.UTF8String;
 
 /**
- * This class implements the {@link ASN1Visitor} interface to compute the FIRST
+ * This class implements the {@link LL1Visitor} interface to compute the FIRST
  * set for all grammar symbols.
  * 
  * @author Matthieu Wipliez
@@ -63,33 +72,95 @@ public class FirstSetVisitor extends NopVisitor {
 
 	@Override
 	public void visit(BitString bitString) {
+		Constraint value = bitString.getValue();
+		Object obj = value.getValue();
+		if (obj instanceof BinaryNumber) {
+			BinaryNumber nb = (BinaryNumber) obj;
+			Token token = new Token(TokenType.Binary);
+			token.setValue(nb);
+			bitString.getFirst().add(token);
+		}
 	}
 
 	@Override
 	public void visit(Choice choice) {
+		// X -> Y11 Y12 ... Y1k | Y21 Y22 ... Y2k | ... | Yn1 Yn2 ... Ynk
 		super.visit(choice);
+
+		Set<Token> firstX = choice.getFirst();
+		for (Type type : choice.getAlternatives()) {
+			firstX.addAll(type.getFirst());
+		}
 	}
 
 	@Override
 	public void visit(IntegerType type) {
+		Token token = new Token(TokenType.Integer);
+		token.setValue(type);
+		type.getFirst().add(token);
 	}
 
 	@Override
 	public void visit(PrintableString string) {
+		Set<Token> first = string.getFirst();
+
+		ConstraintList constraints = string.getConstraintList();
+		for (Constraint constraint : constraints) {
+			if (constraint.getConstraintType() == ConstraintType.Value) {
+				Object value = constraint.getValue();
+				if (value instanceof String) {
+					Token token = new Token(TokenType.Binary);
+					String str = (String) value;
+					byte[] bytes = str.getBytes(Charset.forName("US-ASCII"));
+					BinaryNumber nb = new BinaryNumber(bytes);
+					token.setValue(nb);
+					first.add(token);
+				}
+			}
+		}
 	}
 
 	@Override
 	public void visit(Sequence sequence) {
-		super.visit(sequence);
+		// X -> Y1 Y2 ... Yk
+		Set<Token> firstX = sequence.getFirst();
+		for (Type yi : sequence.getElements()) {
+			yi.accept(this);
+
+			Set<Token> firstYi = yi.getFirst();
+			if (firstYi.contains(Token.epsilon)) {
+				for (Token nb : firstYi) {
+					if (nb != Token.epsilon) {
+						firstX.add(nb);
+					}
+				}
+			} else {
+				// epsilon was in Y1..Yi-1
+				firstX.addAll(firstYi);
+				return;
+			}
+		}
+
+		// if we got here, epsilon was in every Yi
+		firstX.add(Token.epsilon);
 	}
 
 	@Override
 	public void visit(SequenceOf sequenceOf) {
 		super.visit(sequenceOf);
+
+		sequenceOf.getFirst().addAll(sequenceOf.getType().getFirst());
 	}
 
 	@Override
 	public void visit(TypeReference typeRef) {
+		Type type = typeRef.getReference();
+		Set<Token> first = type.getFirst();
+		if (first.isEmpty()) {
+			type.accept(this);
+		}
+
+		typeRef.getFirst().addAll(first);
 	}
 
 	@Override

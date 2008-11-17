@@ -29,7 +29,9 @@
 package net.sf.graphiti.io.asn1.builtin;
 
 import net.sf.graphiti.io.asn1.ASN1Visitor;
+import net.sf.graphiti.io.asn1.ast.ConstraintList;
 import net.sf.graphiti.io.asn1.ast.Type;
+import net.sf.graphiti.io.asn1.ast.TypeReference;
 
 /**
  * This class is the implementation of the built-in ASN.1 construct
@@ -39,6 +41,8 @@ import net.sf.graphiti.io.asn1.ast.Type;
  * 
  */
 public class UTF8String extends Type {
+
+	private ConstraintList constraints;
 
 	/**
 	 * Creates a new utf-8 string.
@@ -50,6 +54,25 @@ public class UTF8String extends Type {
 	@Override
 	public void accept(ASN1Visitor visitor) {
 		visitor.visit(this);
+	}
+
+	/**
+	 * Returns this type reference's constraint list.
+	 * 
+	 * @return This type reference's constraint list.
+	 */
+	public ConstraintList getConstraintList() {
+		return constraints;
+	}
+
+	/**
+	 * Sets this {@link TypeReference}'s constraints.
+	 * 
+	 * @param constraints
+	 *            A {@link ConstraintList}.
+	 */
+	public void setConstraintList(ConstraintList constraints) {
+		this.constraints = constraints;
 	}
 
 }
