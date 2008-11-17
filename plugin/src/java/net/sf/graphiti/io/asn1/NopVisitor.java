@@ -35,6 +35,7 @@ import net.sf.graphiti.io.asn1.ast.Sequence;
 import net.sf.graphiti.io.asn1.ast.SequenceOf;
 import net.sf.graphiti.io.asn1.ast.Type;
 import net.sf.graphiti.io.asn1.ast.TypeReference;
+import net.sf.graphiti.io.asn1.builtin.LongUTF8String;
 import net.sf.graphiti.io.asn1.builtin.PrintableString;
 import net.sf.graphiti.io.asn1.builtin.UTF8String;
 
@@ -59,6 +60,10 @@ public class NopVisitor implements ASN1Visitor {
 
 	@Override
 	public void visit(IntegerType type) {
+	}
+
+	@Override
+	public void visit(LongUTF8String string) {
 	}
 
 	@Override

@@ -51,6 +51,15 @@ public class ItemReference {
 	}
 
 	/**
+	 * Returns this item reference.
+	 * 
+	 * @return This item reference.
+	 */
+	public Type getReference() {
+		return reference;
+	}
+
+	/**
 	 * Returns this item reference's name.
 	 * 
 	 * @return This item reference's name.

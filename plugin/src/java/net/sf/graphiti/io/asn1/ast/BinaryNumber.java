@@ -107,7 +107,7 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
 				bytes[i] = 0;
 				i++;
 			}
-			
+
 			for (int j = 0; i < nbytes; i++, j++) {
 				bytes[i] = bits[j];
 			}
@@ -149,13 +149,7 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
 
 	@Override
 	public String toString() {
-		String bin = new BigInteger(bits).toString(16);
-
-		for (int i = bin.length(); i < nbits / 4; i++) {
-			bin = "0" + bin;
-		}
-
-		return "0x" + bin;
+		return new BigInteger(bits).toString(10);
 	}
 
 }

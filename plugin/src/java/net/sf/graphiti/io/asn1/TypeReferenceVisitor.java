@@ -35,6 +35,7 @@ import java.util.Map;
 import net.sf.graphiti.io.asn1.ast.Production;
 import net.sf.graphiti.io.asn1.ast.Type;
 import net.sf.graphiti.io.asn1.ast.TypeReference;
+import net.sf.graphiti.io.asn1.builtin.LongUTF8String;
 import net.sf.graphiti.io.asn1.builtin.PrintableString;
 import net.sf.graphiti.io.asn1.builtin.UTF8String;
 
@@ -70,14 +71,18 @@ public class TypeReferenceVisitor extends NopVisitor {
 	public void visit(TypeReference typeRef) {
 		String ref = typeRef.getReferenceName();
 		Type reference;
-		if (ref.equals("UTF8String")) {
-			UTF8String utf8 = new UTF8String();
+		if (ref.equals("LongUTF8String")) {
+			LongUTF8String utf8 = new LongUTF8String();
 			utf8.setConstraintList(typeRef.getConstraintList());
 			reference = utf8;
 		} else if (ref.equals("PrintableString")) {
 			PrintableString str = new PrintableString();
 			str.setConstraintList(typeRef.getConstraintList());
 			reference = str;
+		} else if (ref.equals("UTF8String")) {
+			UTF8String utf8 = new UTF8String();
+			utf8.setConstraintList(typeRef.getConstraintList());
+			reference = utf8;
 		} else {
 			Production production = productions.get(ref);
 			if (production == null) {

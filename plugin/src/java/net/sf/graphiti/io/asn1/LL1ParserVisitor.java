@@ -28,6 +28,7 @@
  */
 package net.sf.graphiti.io.asn1;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayDeque;
@@ -36,12 +37,17 @@ import net.sf.graphiti.io.asn1.ast.BinaryNumber;
 import net.sf.graphiti.io.asn1.ast.BitString;
 import net.sf.graphiti.io.asn1.ast.Choice;
 import net.sf.graphiti.io.asn1.ast.Constraint;
+import net.sf.graphiti.io.asn1.ast.ConstraintList;
 import net.sf.graphiti.io.asn1.ast.IntegerType;
+import net.sf.graphiti.io.asn1.ast.ItemReference;
 import net.sf.graphiti.io.asn1.ast.Production;
 import net.sf.graphiti.io.asn1.ast.Sequence;
 import net.sf.graphiti.io.asn1.ast.SequenceOf;
+import net.sf.graphiti.io.asn1.ast.Token;
 import net.sf.graphiti.io.asn1.ast.Type;
 import net.sf.graphiti.io.asn1.ast.TypeReference;
+import net.sf.graphiti.io.asn1.ast.Token.TokenType;
+import net.sf.graphiti.io.asn1.builtin.LongUTF8String;
 import net.sf.graphiti.io.asn1.builtin.PrintableString;
 import net.sf.graphiti.io.asn1.builtin.UTF8String;
 
@@ -61,8 +67,6 @@ public class LL1ParserVisitor extends NopVisitor {
 
 	private ArrayDeque<ParseNode> lastNode;
 
-	private String productionName;
-
 	private ParseNode tree;
 
 	/**
@@ -76,23 +80,23 @@ public class LL1ParserVisitor extends NopVisitor {
 	public LL1ParserVisitor(InputStream in, Production production) {
 		this.in = in;
 		lastNode = new ArrayDeque<ParseNode>();
-		productionName = production.getName();
-		tree = new ParseNode("root");
+		tree = new ParseNode(production.getName());
 		lastNode.push(tree);
-		debug("Parsing " + productionName);
+
+		debug("Parsing " + production.getName());
 		production.getType().accept(this);
 	}
 
-	private void beginSequence(Type type) {
-		ParseNode node = new ParseNode(productionName);
-		productionName = type.getName();
+	private void begin(Type type) {
+		ParseNode node = new ParseNode(type);
+		debug("Parsing " + node.getName());
 		lastNode.peek().addChild(node);
 		lastNode.push(node);
 	}
 
 	private void beginTypeReference(TypeReference typeRef) {
 		ParseNode node = new ParseNode(typeRef.getReferenceName());
-		productionName = typeRef.getName();
+		debug("Parsing " + node.getName());
 		lastNode.peek().addChild(node);
 		lastNode.push(node);
 	}
@@ -111,8 +115,40 @@ public class LL1ParserVisitor extends NopVisitor {
 		lastNode.pop();
 	}
 
+	private boolean isValid(Type type) {
+		// 16 bytes = sizeof(GUID). Should be large enough.
+		in.mark(16);
+
+		for (Token token : type.getFirst()) {
+			if (token == Token.epsilon) {
+				return true;
+			} else {
+				if (token.getType() == TokenType.Binary) {
+					BinaryNumber nb = (BinaryNumber) token.getValue();
+					byte[] expected = nb.getBytes();
+					try {
+						byte[] actual = new byte[expected.length];
+						in.read(actual);
+						in.reset();
+						if (byteEquals(actual, expected)) {
+							return true;
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} else {
+					throw new RuntimeException("TODO");
+				}
+			}
+		}
+
+		return false;
+	}
+
 	@Override
 	public void visit(BitString bitString) {
+		begin(bitString);
+
 		Constraint value = bitString.getValue();
 		Object obj = value.getValue();
 		if (obj instanceof BinaryNumber) {
@@ -122,9 +158,7 @@ public class LL1ParserVisitor extends NopVisitor {
 				byte[] actual = new byte[expected.length];
 				in.read(actual);
 				if (byteEquals(actual, expected)) {
-					ParseNode node = new ParseNode(bitString);
-					node.setValue(nb);
-					lastNode.peek().addChild(node);
+					lastNode.peek().setValue(nb);
 				} else {
 					throw new RuntimeException("Parse error");
 				}
@@ -132,15 +166,71 @@ public class LL1ParserVisitor extends NopVisitor {
 				e.printStackTrace();
 			}
 		}
+
+		end();
 	}
 
 	@Override
 	public void visit(Choice choice) {
-		throw new RuntimeException("TODO");
+		begin(choice);
+
+		for (Type type : choice.getAlternatives()) {
+			if (isValid(type)) {
+				type.accept(this);
+				end();
+			}
+		}
+
+		throw new RuntimeException("Parse error: no alternatives left");
 	}
 
 	@Override
 	public void visit(IntegerType type) {
+		begin(type);
+
+		ConstraintList constraints = type.getConstraintList();
+		Constraint size = constraints.getFirstSizeConstraint();
+		if (size == null) {
+			throw new RuntimeException("TODO");
+		} else {
+			// integer whose size is given
+			BinaryNumber nb = (BinaryNumber) size.getSize();
+			int nbytes = nb.intValue() / 8;
+			byte[] integer = new byte[nbytes];
+			try {
+				in.read(integer);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			String str = new BinaryNumber(integer).toString();
+			Object value;
+			switch (nbytes) {
+			case 1:
+				value = new Byte(str);
+				break;
+			case 2:
+				value = new Short(str);
+				break;
+			case 4:
+				value = new Integer(str);
+				break;
+			case 8:
+				value = new Long(str);
+				break;
+			default:
+				throw new RuntimeException(
+						"Integer size must be 1, 2, 4 or 8 bytes.");
+			}
+
+			lastNode.peek().setValue(value);
+		}
+
+		end();
+	}
+
+	@Override
+	public void visit(LongUTF8String string) {
 		throw new RuntimeException("TODO");
 	}
 
@@ -151,7 +241,7 @@ public class LL1ParserVisitor extends NopVisitor {
 
 	@Override
 	public void visit(Sequence sequence) {
-		beginSequence(sequence);
+		begin(sequence);
 
 		for (Type type : sequence.getElements()) {
 			type.accept(this);
@@ -162,7 +252,7 @@ public class LL1ParserVisitor extends NopVisitor {
 
 	@Override
 	public void visit(SequenceOf sequenceOf) {
-		beginSequence(sequenceOf);
+		begin(sequenceOf);
 
 		Constraint size = sequenceOf.getSize();
 		if (size == null) {
@@ -176,7 +266,11 @@ public class LL1ParserVisitor extends NopVisitor {
 				t.printStackTrace();
 			}
 		} else {
-			throw new RuntimeException("TODO");
+			Object seqSize = size.getSize();
+			if (seqSize instanceof ItemReference) {
+				ItemReference ref = (ItemReference) seqSize;
+				ref.getReference();
+			}
 		}
 
 		end();
@@ -194,7 +288,13 @@ public class LL1ParserVisitor extends NopVisitor {
 
 	@Override
 	public void visit(UTF8String string) {
-		throw new RuntimeException("TODO");
+		DataInputStream dis = new DataInputStream(in);
+		try {
+			String str = dis.readUTF();
+			lastNode.peek().setValue(str);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

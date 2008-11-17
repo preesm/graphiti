@@ -26,50 +26,53 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1;
+package net.sf.graphiti.io.asn1.builtin;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import net.sf.graphiti.io.asn1.ASN1Visitor;
+import net.sf.graphiti.io.asn1.ast.ConstraintList;
 import net.sf.graphiti.io.asn1.ast.Type;
+import net.sf.graphiti.io.asn1.ast.TypeReference;
 
-public class ParseNode {
+/**
+ * This class is the implementation of the built-in ASN.1 construct
+ * "UTF8String".
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
+public class LongUTF8String extends Type {
 
-	private List<ParseNode> children;
+	private ConstraintList constraints;
 
-	private String productionName;
-
-	private Object value;
-
-	public ParseNode(String productionName) {
-		this.productionName = productionName;
-		children = new ArrayList<ParseNode>();
-	}
-
-	public ParseNode(Type type) {
-		if (type.getName().isEmpty()) {
-			productionName = type.getClass().getSimpleName();
-		} else {
-			productionName = type.getName();
-		}
-		children = new ArrayList<ParseNode>();
-	}
-
-	public void addChild(ParseNode node) {
-		children.add(node);
-	}
-
-	public String getName() {
-		return productionName;
-	}
-
-	public void setValue(Object value) {
-		this.value = value;
+	/**
+	 * Creates a new utf-8 string.
+	 */
+	public LongUTF8String() {
+		super("");
 	}
 
 	@Override
-	public String toString() {
-		return productionName + (value != null ? ": " + value : "");
+	public void accept(ASN1Visitor visitor) {
+		visitor.visit(this);
+	}
+
+	/**
+	 * Returns this type reference's constraint list.
+	 * 
+	 * @return This type reference's constraint list.
+	 */
+	public ConstraintList getConstraintList() {
+		return constraints;
+	}
+
+	/**
+	 * Sets this {@link TypeReference}'s constraints.
+	 * 
+	 * @param constraints
+	 *            A {@link ConstraintList}.
+	 */
+	public void setConstraintList(ConstraintList constraints) {
+		this.constraints = constraints;
 	}
 
 }

@@ -34,6 +34,7 @@ import net.sf.graphiti.io.asn1.ast.IntegerType;
 import net.sf.graphiti.io.asn1.ast.Sequence;
 import net.sf.graphiti.io.asn1.ast.SequenceOf;
 import net.sf.graphiti.io.asn1.ast.TypeReference;
+import net.sf.graphiti.io.asn1.builtin.LongUTF8String;
 import net.sf.graphiti.io.asn1.builtin.PrintableString;
 import net.sf.graphiti.io.asn1.builtin.UTF8String;
 
@@ -50,6 +51,8 @@ public interface ASN1Visitor {
 	public void visit(Choice choice);
 
 	public void visit(IntegerType type);
+
+	public void visit(LongUTF8String string);
 
 	public void visit(PrintableString string);
 
