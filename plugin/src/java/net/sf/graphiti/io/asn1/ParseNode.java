@@ -26,88 +26,46 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.ast;
+package net.sf.graphiti.io.asn1;
 
-/**
- * This class represents a token.
- * 
- * @author Matthieu Wipliez
- * 
- */
-public class Token implements Comparable<Token> {
+import java.util.ArrayList;
+import java.util.List;
 
-	/**
-	 * This class enumerates the different token types.
-	 * 
-	 * @author Matthieu Wipliez
-	 * 
-	 */
-	public enum TokenType {
-		/**
-		 * A token whose value is represented by a {@link BinaryNumber}.
-		 */
-		Binary,
+import net.sf.graphiti.io.asn1.ast.Type;
 
-		/**
-		 * The empty token. Should not be used directly, use
-		 * {@link Token#epsilon} instead.
-		 */
-		Epsilon,
-
-		/**
-		 * A token whose value is represented by an {@link IntegerType}.
-		 */
-		Integer
-	}
-
-	public static Token epsilon = new Token(TokenType.Epsilon);
-
-	private TokenType type;
+public class ParseNode {
+	
+	private String productionName;
+	
+	private List<ParseNode> children;
 
 	private Object value;
 
-	/**
-	 * Creates a new token with the given token type.
-	 * 
-	 * @param type
-	 *            A {@link TokenType}.
-	 */
-	public Token(TokenType type) {
-		this.type = type;
+	public ParseNode(String productionName) {
+		this.productionName = productionName;
+		children = new ArrayList<ParseNode>();
 	}
-
-	@Override
-	public int compareTo(Token o) {
-		if (type == o.type) {
-			if (type == TokenType.Binary) {
-				return ((BinaryNumber) value).compareTo((BinaryNumber) o.value);
-			} else {
-				return 0;
-			}
+	
+	public ParseNode(Type type) {
+		if (type.getName().isEmpty()) {
+			productionName = type.getClass().getSimpleName();
 		} else {
-			return type.compareTo(o.type);
+			productionName = type.getName();
 		}
+		children = new ArrayList<ParseNode>();
 	}
 
-	public TokenType getType() {
-		return type;
+	public void addChild(ParseNode node) {
+		children.add(node);
 	}
-
-	public Object getValue() {
-		return value;
+	
+	@Override
+	public String toString() {
+		return productionName;
 	}
 
 	public void setValue(Object value) {
-		this.value = value;
+		this.value = value;	
 	}
-
-	@Override
-	public String toString() {
-		if (this == epsilon) {
-			return "epsilon";
-		} else {
-			return type.toString() + ": " + value;
-		}
-	}
-
+	
 }

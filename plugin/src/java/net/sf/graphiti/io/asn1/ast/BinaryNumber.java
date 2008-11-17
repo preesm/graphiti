@@ -38,7 +38,7 @@ import java.util.BitSet;
  * @author Matthieu Wipliez
  * 
  */
-public class BinaryNumber {
+public class BinaryNumber implements Comparable<BinaryNumber> {
 
 	/**
 	 * Serial ID.
@@ -64,6 +64,7 @@ public class BinaryNumber {
 	 */
 	public BinaryNumber(byte[] bytes) {
 		bits = bytes;
+		nbits = bytes.length * 8;
 	}
 
 	/**
@@ -74,7 +75,46 @@ public class BinaryNumber {
 	 */
 	public BinaryNumber(int nbits) {
 		this.nbits = nbits;
-		bits = new byte[nbits / 8];
+	}
+
+	@Override
+	public int compareTo(BinaryNumber o) {
+		return toString().compareTo(o.toString());
+	}
+
+	/**
+	 * Returns the bytes of this binary number.
+	 * 
+	 * @return A byte array, whose length is determined from the number of bits
+	 *         this binary number was created with.
+	 */
+	public byte[] getBytes() {
+		int nbytes = nbits / 8;
+
+		if (nbytes < bits.length) {
+			// strip leading zeros
+			byte[] bytes = new byte[nbytes];
+			for (int i = bits.length - nbytes, j = 0; i < bits.length
+					&& j < nbytes; i++, j++) {
+				bytes[j] = bits[i];
+			}
+			return bytes;
+		} else if (nbytes > bits.length) {
+			// add leading zeros
+			byte[] bytes = new byte[nbytes];
+			int i = 0;
+			while (i < nbytes - bits.length) {
+				bytes[i] = 0;
+				i++;
+			}
+			
+			for (int j = 0; i < nbytes; i++, j++) {
+				bytes[i] = bits[j];
+			}
+			return bytes;
+		} else {
+			return bits;
+		}
 	}
 
 	/**

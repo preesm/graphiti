@@ -32,6 +32,7 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.xml.transform.TransformerException;
@@ -153,9 +154,9 @@ public class ASN1Parser {
 	 */
 	public void parse(String fileName) {
 		try {
-			FileInputStream in = new FileInputStream(fileName);
-			BufferedInputStream is = new BufferedInputStream(in);
-			System.out.println(is.toString());
+			FileInputStream fis = new FileInputStream(fileName);
+			InputStream in = new BufferedInputStream(fis);
+			new LL1ParserVisitor(in, productions.get(0));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

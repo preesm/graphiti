@@ -28,8 +28,8 @@
  */
 package net.sf.graphiti.io.asn1.ast;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import net.sf.graphiti.io.asn1.ASN1Visitable;
 
@@ -61,7 +61,7 @@ public abstract class Type implements ASN1Visitable {
 	 */
 	public Type(String name) {
 		this.name = name;
-		first = new HashSet<Token>();
+		first = new TreeSet<Token>();
 	}
 
 	/**
