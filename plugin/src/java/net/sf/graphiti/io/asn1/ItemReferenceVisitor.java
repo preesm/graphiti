@@ -145,7 +145,6 @@ public class ItemReferenceVisitor extends NopVisitor {
 		}
 
 		itemRef.setReference(reference);
-		itemRef.setReferenceName(null);
 	}
 
 	private void visitType(Type type) {

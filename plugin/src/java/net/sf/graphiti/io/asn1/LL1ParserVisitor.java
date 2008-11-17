@@ -254,10 +254,10 @@ public class LL1ParserVisitor extends NopVisitor {
 	public void visit(SequenceOf sequenceOf) {
 		begin(sequenceOf);
 
+		Type type = sequenceOf.getType();
 		Constraint size = sequenceOf.getSize();
 		if (size == null) {
 			// unlimited sequence
-			Type type = sequenceOf.getType();
 			try {
 				while (true) {
 					type.accept(this);
@@ -266,14 +266,56 @@ public class LL1ParserVisitor extends NopVisitor {
 				t.printStackTrace();
 			}
 		} else {
+			// limited sequence
 			Object seqSize = size.getSize();
 			if (seqSize instanceof ItemReference) {
 				ItemReference ref = (ItemReference) seqSize;
-				ref.getReference();
+				ParseNode node = lastNode.peek();
+				Object value = findValue(ref.getReferenceName(), node);
+				for (int i = 0; i < Integer.parseInt(value.toString()); i++) {
+					type.accept(this);
+				}
+			} else {
+				throw new RuntimeException("TODO");
 			}
 		}
 
 		end();
+	}
+
+	/**
+	 * Returns the value of the first parse node whose name equals
+	 * <code>nodeName</code>.
+	 * 
+	 * @param nodeName
+	 *            The name of the node we're looking for.
+	 * @param node
+	 *            The root node.
+	 * @return The node's value or <code>null</code>.
+	 */
+	private Object findValue(String nodeName, ParseNode node) {
+		if (node.getName().equals(nodeName)) {
+			return node.getValue();
+		} else {
+			for (ParseNode child : node.getChildren()) {
+				Object value = findValue(nodeName, child);
+				if (value != null) {
+					return value;
+				}
+			}
+
+			ParseNode parent = node.getParent();
+			for (ParseNode child : parent.getChildren()) {
+				if (parent != node) {
+					Object value = findValue(nodeName, child);
+					if (value != null) {
+						return value;
+					}
+				}
+			}
+		}
+
+		return null;
 	}
 
 	@Override

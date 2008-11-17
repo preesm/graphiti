@@ -41,6 +41,8 @@ public class ParseNode {
 
 	private Object value;
 
+	private ParseNode parent;
+
 	public ParseNode(String productionName) {
 		this.productionName = productionName;
 		children = new ArrayList<ParseNode>();
@@ -56,11 +58,16 @@ public class ParseNode {
 	}
 
 	public void addChild(ParseNode node) {
+		node.parent = this;
 		children.add(node);
 	}
 
 	public String getName() {
 		return productionName;
+	}
+
+	public Object getValue() {
+		return value;
 	}
 
 	public void setValue(Object value) {
@@ -70,6 +77,14 @@ public class ParseNode {
 	@Override
 	public String toString() {
 		return productionName + (value != null ? ": " + value : "");
+	}
+
+	public List<ParseNode> getChildren() {
+		return children;
+	}
+
+	public ParseNode getParent() {
+		return parent;
 	}
 
 }
