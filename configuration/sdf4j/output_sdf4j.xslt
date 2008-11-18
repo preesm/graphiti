@@ -41,6 +41,9 @@
             <key attr.name="edge_cons" attr.type="int" for="edge" id="edge_cons">
                 <desc>org.sdf4j.model.sdf.SDFDefaultEdgePropertyType</desc>
             </key>
+            <key attr.name="data_type" attr.type="string" for="edge" id="data_type">
+                <desc>org.sdf4j.model.sdf.SDFDefaultEdgePropertyType</desc>
+            </key>
 
             <graph edgedefault="directed">
                 
@@ -172,6 +175,11 @@
 
             <data key="edge_cons">
                 <xsl:value-of select="parameters/parameter[@name = 'target consumption']/@value"/>
+            </data>
+            
+            <data key="data_type">
+                <xsl:variable name="dataType" select="parameters/parameter[@name = 'data type']/@value"/>
+                <xsl:value-of select="$dataType"/>
             </data>
         </edge>
     </xsl:template>

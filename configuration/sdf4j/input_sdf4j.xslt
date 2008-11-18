@@ -208,6 +208,11 @@
                     <xsl:attribute name="name">delay</xsl:attribute>
                     <xsl:attribute name="value" select="graphml:data[@key = 'edge_delay']/text()"/>
                 </xsl:element>
+                
+                <xsl:element name="parameter">
+                    <xsl:attribute name="name">data type</xsl:attribute>
+                    <xsl:attribute name="value" select="graphml:data[@key = 'data_type']/text()"/>
+                </xsl:element>
             </xsl:element>
         </xsl:element>
     </xsl:template>
