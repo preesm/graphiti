@@ -33,11 +33,11 @@ import java.util.List;
 import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.util.FileLocator;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.osgi.framework.BundleContext;
 
 /**
  * This class provides a preference page to store the folder containing Graphiti
@@ -90,17 +90,11 @@ public class GraphitiPreferences extends FieldEditorPreferencePage implements
 	public boolean performOk() {
 		if (super.performOk()) {
 			GraphitiPlugin plugin = GraphitiPlugin.getDefault();
-			BundleContext context = plugin.getBundle().getBundleContext();
 			try {
-				plugin.stop(context);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			try {
-				plugin.start(context);
-			} catch (Exception e) {
-				e.printStackTrace();
+				plugin.loadConfigurations();
+			} catch (CoreException e) {
+				super.setErrorMessage(e.getLocalizedMessage());
+				return false;
 			}
 
 			return true;

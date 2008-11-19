@@ -205,6 +205,19 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	}
 
 	/**
+	 * Parses the configurations available and (re)loads them.
+	 * 
+	 * @throws CoreException
+	 *             If the file formats cannot be added to Eclipse content type
+	 *             system.
+	 */
+	public void loadConfigurations() throws CoreException {
+		ConfigurationParser parser = new ConfigurationParser();
+		configurations = parser.getConfigurations();
+		addExtensions(configurations);
+	}
+
+	/**
 	 * Logs the given <code>message</code> with the INFO status.
 	 * 
 	 * @param message
@@ -241,9 +254,7 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 
 			});
 		} else {
-			ConfigurationParser parser = new ConfigurationParser();
-			configurations = parser.getConfigurations();
-			addExtensions(configurations);
+			loadConfigurations();
 		}
 	}
 
