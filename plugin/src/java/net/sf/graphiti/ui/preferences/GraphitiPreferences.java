@@ -52,7 +52,9 @@ public class GraphitiPreferences extends FieldEditorPreferencePage implements
 	public GraphitiPreferences() {
 		super(GRID);
 		setPreferenceStore(GraphitiPlugin.getDefault().getPreferenceStore());
-		setDescription("Set general Graphiti settings");
+		setDescription("Set Graphiti configuration folder.\n"
+				+ "Warning: please close any open editor before changing "
+				+ "the configuration folder.");
 	}
 
 	@Override
@@ -76,8 +78,8 @@ public class GraphitiPreferences extends FieldEditorPreferencePage implements
 		};
 
 		fieldEditor.setEmptyStringAllowed(false);
-		fieldEditor
-				.setErrorMessage("Directory must be valid and contain XML files.");
+		fieldEditor.setErrorMessage("Directory must be valid and "
+				+ "contain XML files.");
 
 		addField(fieldEditor);
 	}

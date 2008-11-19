@@ -128,6 +128,41 @@ public class LL1ParserVisitor extends NopVisitor {
 		lastNode.pop();
 	}
 
+	/**
+	 * Returns the value of the first parse node whose name equals
+	 * <code>nodeName</code>.
+	 * 
+	 * @param nodeName
+	 *            The name of the node we're looking for.
+	 * @param node
+	 *            The root node.
+	 * @return The node's value or <code>null</code>.
+	 */
+	private Object findValue(String nodeName, ParseNode node) {
+		if (node.getName().equals(nodeName)) {
+			return node.getValue();
+		} else {
+			for (ParseNode child : node.getChildren()) {
+				Object value = findValue(nodeName, child);
+				if (value != null) {
+					return value;
+				}
+			}
+
+			ParseNode parent = node.getParent();
+			for (ParseNode child : parent.getChildren()) {
+				if (parent != node) {
+					Object value = findValue(nodeName, child);
+					if (value != null) {
+						return value;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
 	private boolean isValid(Type type) {
 		// 16 bytes = sizeof(GUID). Should be large enough.
 		in.mark(16);
@@ -318,41 +353,6 @@ public class LL1ParserVisitor extends NopVisitor {
 		}
 
 		end();
-	}
-
-	/**
-	 * Returns the value of the first parse node whose name equals
-	 * <code>nodeName</code>.
-	 * 
-	 * @param nodeName
-	 *            The name of the node we're looking for.
-	 * @param node
-	 *            The root node.
-	 * @return The node's value or <code>null</code>.
-	 */
-	private Object findValue(String nodeName, ParseNode node) {
-		if (node.getName().equals(nodeName)) {
-			return node.getValue();
-		} else {
-			for (ParseNode child : node.getChildren()) {
-				Object value = findValue(nodeName, child);
-				if (value != null) {
-					return value;
-				}
-			}
-
-			ParseNode parent = node.getParent();
-			for (ParseNode child : parent.getChildren()) {
-				if (parent != node) {
-					Object value = findValue(nodeName, child);
-					if (value != null) {
-						return value;
-					}
-				}
-			}
-		}
-
-		return null;
 	}
 
 	@Override

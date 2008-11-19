@@ -241,14 +241,15 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 				@Override
 				public void run() {
 					IWorkbench workbench = PlatformUI.getWorkbench();
-					String message = "Please edit the Graphiti preferences to specify "
-							+ "the folder containing the ontologies.";
+					String message = "Please edit Graphiti preferences to specify "
+							+ "the configuration folder.";
 					Shell shell = workbench.getDisplay().getActiveShell();
 					MessageDialog.openInformation(shell,
 							"Graphiti configuration", message);
 
+					String pageId = "net.sf.graphiti.ui.preferences.GraphitiPreferences";
 					PreferenceDialog dialog = PreferencesUtil
-							.createPreferenceDialogOn(shell, null, null, null);
+							.createPreferenceDialogOn(shell, pageId, null, null);
 					dialog.open();
 				}
 
