@@ -9,6 +9,25 @@
     
     <xsl:template match="text()"/>
     
+    <!-- reads the layout in a file that has the same name as the source document,
+        except with .layout extension. -->
+    <xsl:param name="path"/>
+    <xsl:variable name="file" select="replace($path, '(.+)[.].+', '$1.layout')"/>
+    <xsl:variable name="layout" select="document(concat('file:///', $file))"/>
+    
+    <!-- returns two attributes x and y that contains the position of the vertex,
+        if specified in $layout -->
+    <xsl:template name="getVertexLayoutAttributes">
+        <xsl:param name="vertexId"/>
+        <xsl:if test="not(empty($layout))">
+            <xsl:variable name="vertex" select="$layout/layout/vertices/vertex[@id = $vertexId]"/>
+            <xsl:if test="not(empty($vertex))">
+                <xsl:attribute name="x" select="$vertex/@x"/>
+                <xsl:attribute name="y" select="$vertex/@y"/>
+            </xsl:if>
+        </xsl:if>
+    </xsl:template>
+    
     <!-- Top-level: design -->
     <xsl:template match="spirit:component">
         <xsl:element name="graph">
@@ -39,6 +58,9 @@
     <!-- template for the bus interfaces -->
     <xsl:template match="spirit:busInterface">
         <xsl:element name="vertex">
+            <xsl:call-template name="getVertexLayoutAttributes">
+                <xsl:with-param name="vertexId" select="spirit:name"/>
+            </xsl:call-template>
             <xsl:attribute name="type">Port</xsl:attribute>
             <xsl:element name="parameters">
                 <xsl:element name="parameter">
@@ -86,6 +108,9 @@
         <!-- only for hierarchy views -->
         <xsl:if test="spirit:envIdentifier='::Hierarchy'">
             <xsl:element name="vertex">
+                <xsl:call-template name="getVertexLayoutAttributes">
+                    <xsl:with-param name="vertexId" select="spirit:name"/>
+                </xsl:call-template>
                 <xsl:attribute name="type">subDesign</xsl:attribute>
                 <xsl:element name="parameters">
                     <xsl:element name="parameter">

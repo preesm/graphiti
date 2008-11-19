@@ -12,8 +12,30 @@
     
     <xsl:template match="text()"/>
     
+    <!-- writes the layout in a file that has the same name as the target document,
+        except with .layout extension. -->
+    <xsl:param name="path"/>
+    <xsl:variable name="file" select="replace($path, '(.+)[.].+', '$1.layout')"/>
+    
     <!-- Top-level: graph -> ip-xact -->
     <xsl:template match="graph">
+        
+        <!-- layout information -->
+        <xsl:result-document href="file:///{$file}" method="xml" indent="yes">
+            <xsl:element name="layout">
+                <xsl:element name="vertices">
+                    <xsl:for-each select="vertices/vertex">
+                        <xsl:element name="vertex">
+                            <xsl:attribute name="id"
+                                select="parameters/parameter[@name = 'id']/@value"/>
+                            <xsl:attribute name="x" select="@x"/>
+                            <xsl:attribute name="y" select="@y"/>
+                        </xsl:element>
+                    </xsl:for-each>
+                </xsl:element>
+            </xsl:element>
+        </xsl:result-document>
+        
         <xsl:element name="spirit:design">
             <xsl:apply-templates select="parameters" mode="vlnv"/>
             <xsl:element name="spirit:componentInstances">

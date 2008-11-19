@@ -9,6 +9,25 @@
     
     <xsl:template match="text()"/>
     
+    <!-- reads the layout in a file that has the same name as the source document,
+        except with .layout extension. -->
+    <xsl:param name="path"/>
+    <xsl:variable name="file" select="replace($path, '(.+)[.].+', '$1.layout')"/>
+    <xsl:variable name="layout" select="document(concat('file:///', $file))"/>
+    
+    <!-- returns two attributes x and y that contains the position of the vertex,
+        if specified in $layout -->
+    <xsl:template name="getVertexLayoutAttributes">
+        <xsl:param name="vertexId"/>
+        <xsl:if test="not(empty($layout))">
+            <xsl:variable name="vertex" select="$layout/layout/vertices/vertex[@id = $vertexId]"/>
+            <xsl:if test="not(empty($vertex))">
+                <xsl:attribute name="x" select="$vertex/@x"/>
+                <xsl:attribute name="y" select="$vertex/@y"/>
+            </xsl:if>
+        </xsl:if>
+    </xsl:template>
+    
     <!-- Top-level: design -->
     <xsl:template match="spirit:design">
         <xsl:element name="graph">
@@ -41,6 +60,9 @@
     <!-- a connection to the associated component reference -->
     <xsl:template match="spirit:hierConnection" mode="vertex">
         <xsl:element name="vertex">
+            <xsl:call-template name="getVertexLayoutAttributes">
+                <xsl:with-param name="vertexId" select="@spirit:interfaceRef"/>
+            </xsl:call-template>
             <xsl:attribute name="type">hierConnection</xsl:attribute>
             <xsl:element name="parameters">
                 <xsl:element name="parameter">
@@ -110,6 +132,9 @@
     <!-- template for the generic component instances -->
     <xsl:template match="spirit:componentInstance" mode="generic">
         <xsl:element name="vertex">
+            <xsl:call-template name="getVertexLayoutAttributes">
+                <xsl:with-param name="vertexId" select="spirit:instanceName"/>
+            </xsl:call-template>
             <xsl:variable name="componentType" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='componentType']"/>
             <xsl:variable name="refinement" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='refinement']"/>
            
@@ -151,6 +176,9 @@
     <!-- template for the specific preesm component instances -->
     <xsl:template match="spirit:componentInstance" mode="specific">
         <xsl:element name="vertex">
+            <xsl:call-template name="getVertexLayoutAttributes">
+                <xsl:with-param name="vertexId" select="spirit:instanceName"/>
+            </xsl:call-template>
             <xsl:variable name="componentType" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='componentType']"/>
             <xsl:variable name="refinement" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='refinement']"/>
             <xsl:attribute name="type" select="$componentType"/>
