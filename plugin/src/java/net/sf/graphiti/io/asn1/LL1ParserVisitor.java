@@ -31,7 +31,6 @@ package net.sf.graphiti.io.asn1;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayDeque;
 
@@ -61,11 +60,9 @@ import net.sf.graphiti.io.asn1.builtin.UTF8String;
  */
 public class LL1ParserVisitor extends NopVisitor {
 
-	private static void debug(String message) {
-		System.out.println(message);
-	}
-
 	private InputStream in;
+
+	private String indent;
 
 	private ArrayDeque<ParseNode> lastNode;
 
@@ -80,40 +77,63 @@ public class LL1ParserVisitor extends NopVisitor {
 	 *            The {@link Production} to start parsing with.
 	 */
 	public LL1ParserVisitor(InputStream in, Production production) {
-		in.mark(10000);
-		try {
-			ObjectInputStream objis = new ObjectInputStream(in);
-			Object obj = objis.readObject();
-			in.reset();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
 		this.in = in;
 		lastNode = new ArrayDeque<ParseNode>();
 		tree = new ParseNode(production.getName());
 		lastNode.push(tree);
 
+		indent = "";
 		debug("Parsing " + production.getName());
 		production.getType().accept(this);
 	}
 
+	/**
+	 * Should be called at the beginning of any visit function other than
+	 * {@link #visit(TypeReference)}. Creates a new {@link ParseNode} with the
+	 * given type.
+	 * 
+	 * @param type
+	 *            A {@link Type} other than {@link TypeReference}.
+	 */
 	private void begin(Type type) {
-		ParseNode node = new ParseNode(type);
+		beginNode(new ParseNode(type));
+	}
+
+	/**
+	 * Adds the given parse node to {@link #lastNode}'s children, pushes it to
+	 * {@link #lastNode}, and prints debugging information.
+	 * 
+	 * @param node
+	 *            A {@link ParseNode}.
+	 */
+	private void beginNode(ParseNode node) {
 		debug("Parsing " + node.getName());
+		indent += "  ";
 		lastNode.peek().addChild(node);
 		lastNode.push(node);
 	}
 
+	/**
+	 * Should be called at the beginning of {@link #visit(TypeReference)}.
+	 * Creates a new {@link ParseNode} whose name is the name of the type
+	 * referenced by <code>typeRef</code>.
+	 * 
+	 * @param typeRef
+	 *            A {@link TypeReference}.
+	 */
 	private void beginTypeReference(TypeReference typeRef) {
-		ParseNode node = new ParseNode(typeRef.getReferenceName());
-		debug("Parsing " + node.getName());
-		lastNode.peek().addChild(node);
-		lastNode.push(node);
+		beginNode(new ParseNode(typeRef.getReferenceName()));
 	}
 
+	/**
+	 * Returns true if the given arrays are equal.
+	 * 
+	 * @param actual
+	 *            A byte array read from {@link #in}.
+	 * @param expected
+	 *            A byte array expected.
+	 * @return True if the given arrays are equal, false otherwise.
+	 */
 	private boolean byteEquals(byte[] actual, byte[] expected) {
 		for (int i = 0; i < actual.length; i++) {
 			if (actual[i] != expected[i]) {
@@ -124,8 +144,24 @@ public class LL1ParserVisitor extends NopVisitor {
 		return true;
 	}
 
+	/**
+	 * Prints the given message.
+	 * 
+	 * @param message
+	 *            A {@link String}.
+	 */
+	private void debug(String message) {
+		System.out.println(indent + message);
+	}
+
+	/**
+	 * Pops the last parsed node pushed onto {@link #lastNode}, and prints
+	 * debugging information.
+	 */
 	private void end() {
-		lastNode.pop();
+		ParseNode node = lastNode.pop();
+		indent = indent.substring(2);
+		debug("Finished parsing " + node.getName());
 	}
 
 	/**
@@ -163,6 +199,14 @@ public class LL1ParserVisitor extends NopVisitor {
 		return null;
 	}
 
+	/**
+	 * Returns true if the given type is a valid alternative. This method is a
+	 * helper for {@link #visit(Choice)}.
+	 * 
+	 * @param type
+	 *            A {@link Type}.
+	 * @return True if the given type is a valid alternative, false otherwise.
+	 */
 	private boolean isValid(Type type) {
 		// 16 bytes = sizeof(GUID). Should be large enough.
 		in.mark(16);
@@ -173,16 +217,14 @@ public class LL1ParserVisitor extends NopVisitor {
 			} else {
 				if (token.getType() == TokenType.Binary) {
 					BinaryNumber nb = (BinaryNumber) token.getValue();
-					byte[] expected = nb.getBytes();
 					try {
-						byte[] actual = new byte[expected.length];
-						in.read(actual);
+						boolean res = readBytesMatch(nb);
 						in.reset();
-						if (byteEquals(actual, expected)) {
+						if (res) {
 							return true;
 						}
 					} catch (IOException e) {
-						e.printStackTrace();
+						throw new RuntimeException(e);
 					}
 				} else {
 					throw new RuntimeException("TODO");
@@ -193,6 +235,24 @@ public class LL1ParserVisitor extends NopVisitor {
 		return false;
 	}
 
+	/**
+	 * Reads bytes and check if they match the given binary number's bytes.
+	 * Beware that it is the caller's responsibility to call
+	 * {@link InputStream#mark(int)}, not this function's.
+	 * 
+	 * @param nb
+	 *            A binary number.
+	 * @return True if the bytes read match, false otherwise.
+	 * @throws IOException
+	 *             If {@link InputStream#read()} fails.
+	 */
+	private boolean readBytesMatch(BinaryNumber nb) throws IOException {
+		byte[] expected = nb.getBytes();
+		byte[] actual = new byte[expected.length];
+		in.read(actual);
+		return byteEquals(actual, expected);
+	}
+
 	@Override
 	public void visit(BitString bitString) {
 		begin(bitString);
@@ -201,12 +261,10 @@ public class LL1ParserVisitor extends NopVisitor {
 		Object obj = value.getValue();
 		if (obj instanceof BinaryNumber) {
 			BinaryNumber nb = (BinaryNumber) obj;
-			byte[] expected = nb.getBytes();
 			try {
-				byte[] actual = new byte[expected.length];
-				in.read(actual);
-				if (byteEquals(actual, expected)) {
+				if (readBytesMatch(nb)) {
 					lastNode.peek().setValue(nb);
+					debug(nb.toHexString());
 				} else {
 					throw new RuntimeException("Parse error");
 				}
@@ -370,7 +428,7 @@ public class LL1ParserVisitor extends NopVisitor {
 		DataInputStream dis = new DataInputStream(in);
 		try {
 			String str = dis.readUTF();
-			System.out.println("UTF8String: " + str);
+			debug("UTF8String: " + str);
 			lastNode.peek().setValue(str);
 		} catch (IOException e) {
 			throw new RuntimeException(e);

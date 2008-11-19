@@ -147,6 +147,24 @@ public class BinaryNumber implements Comparable<BinaryNumber> {
 		bits = number.toByteArray();
 	}
 
+	/**
+	 * Returns an hexadecimal representation of this binary number.
+	 * 
+	 * @return A String.
+	 */
+	public String toHexString() {
+		String res = new BigInteger(bits).toString(16);
+		int nchars = nbits / 4;
+		if (res.length() < nchars) {
+			int n = nchars - res.length();
+			for (int i = 0; i < n; i++) {
+				res = "0" + res;
+			}
+		}
+		
+		return "0x" + res;
+	}
+
 	@Override
 	public String toString() {
 		return new BigInteger(bits).toString(10);
