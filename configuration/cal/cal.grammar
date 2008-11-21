@@ -72,6 +72,7 @@ TOK_IMPORT = "import"
 MULTI      = "multi"
 
 ARROW              = "->"
+CARET              = "^"
 COLON              = ":"
 COLON_EQUAL        = ":="
 COMMA              = ","
@@ -119,6 +120,7 @@ Ignore = ALL
 | MULTI
 
 | ARROW
+| CARET
 | COLON
 | COLON_EQUAL
 | COMMA
