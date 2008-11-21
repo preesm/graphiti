@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csd xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+   
+   <!-- as per http://java.sun.com/javase/6/docs/platform/serialization/spec/protocol.html -->
+
+   <sequence name="Stream">
+      <short name="magic" value="0xACED"/>
+      <short name="version" value="0x0005"/>
+      <reference to="Contents"/>
+   </sequence>
+
+   <choice name="BlockData">
+      <reference to="BlockDataShort"/>
+      <reference to="BlockDataLong"/>
+   </choice>
+
+   <sequence name="BlockDataShort">
+      <byte name="tcBlockData" value="0x77"/>
+      <byte name="size"/>
+      <sequenceOf size="$size">
+         <byte/>
+      </sequenceOf>
+   </sequence>
+
+   <sequence name="BlockDataLong">
+      <byte name="tcBlockDataLong" value="0x7A"/>
+      <int name="size"/>
+      <sequenceOf size="$size">
+         <byte/>
+      </sequenceOf>
+   </sequence>
+
+   <choice name="ClassAnnotation">
+      <byte name="endBlockData" value="0x78"/>
+      <sequence>
+         <reference to="Contents"/>
+         <byte name="endBlockData" value="0x78"/>
+      </sequence>
+   </choice>
+
+   <choice name="ClassData">
+      <xsl:variable name="flags" select="../ClassDesc/"/>
+      <reference to="NoWRClass" xsl:if="$flags"/>
+      <sequence>
+         <reference to="WRClass"/>
+         <reference to="ObjectAnnotation"/>
+      </sequence>
+      <error/>
+   </choice>
+
+   <choice name="ClassDesc">
+      <reference to="NewClassDesc"/>
+      <byte name="nullReference" value="0x70"/>
+      <reference to="PrevObject"/>
+   </choice>
+
+   <sequence name="ClassDescInfo">
+      <byte name="classDescFlags"/>
+      <reference to="Fields"/>
+      <reference to="ClassAnnotation"/>
+      <reference to="ClassDesc"/>
+   </sequence>
+
+   <choice name="Content">
+      <reference to="Object"/>
+      <reference to="BlockData"/>
+   </choice>
+
+   <sequenceOf name="Contents">
+      <reference to="Content"/>
+   </sequenceOf>
+
+   <sequence name="Exception">
+      <byte name="tcException" value="0x7B"/>
+      <reference to="UTF8String"/>
+   </sequence>
+
+   <sequence name="Fields">
+      <short name="count"/>
+      <sequenceOf size="$count">
+         <reference to="FieldDesc"/>
+      </sequenceOf>
+   </sequence>
+
+   <choice name="FieldDesc">
+      <reference to="PrimitiveDesc"/>
+      <reference to="ObjectDesc"/>
+   </choice>
+
+   <sequence name="NewArray">
+      <byte name="tcArray" value="0x75"/>
+      <reference to="ClassDesc"/>
+      <int name="size"/>
+   </sequence>
+
+   <sequence name="NewClass">
+      <byte name="tcClass" value="0x76"/>
+      <reference to="ClassDesc"/>
+   </sequence>
+
+   <choice name="NewClassDesc">
+      <sequence>
+         <byte name="tcClassDesc" value="0x72"/>
+         <reference to="UTF8String"/>
+         <long name="serialVersionUID"/>
+         <reference to="ClassDescInfo"/>
+      </sequence>
+
+      <sequence>
+         <byte name="tcProxyClassDesc" value="0x7D"/>
+         <reference to="ProxyClassDescInfo"/>
+      </sequence>
+   </choice>
+
+   <sequence name="NewEnum">
+      <byte name="tcEnum" value="0x7E"/>
+      <reference to="ClassDesc"/>
+      <reference to="UTF8String"/>
+   </sequence>
+
+   <sequence name="NewObject">
+      <byte name="tcObject" value="0x73"/>
+      <reference to="ClassDesc"/>
+      <reference to="ClassData"/>
+   </sequence>
+
+   <choice name="NewString">
+      <sequence>
+         <byte name="tcString" value="0x74"/>
+         <reference to="UTF8String"/>
+      </sequence>
+
+      <sequence>
+         <byte name="tcLongString" value="0x7C"/>
+         <reference to="LongUTF8String"/>
+      </sequence>
+   </choice>
+
+   <choice name="Object">
+      <reference to="NewObject"/>
+      <reference to="NewClass"/>
+      <reference to="NewArray"/>
+      <reference to="NewString"/>
+      <reference to="NewEnum"/>
+      <reference to="NewClassDesc"/>
+      <reference to="PrevObject"/>
+      <byte name="nullReference" value="0x70"/>
+      <reference to="Exception"/>
+      <byte name="tcReset" value="0x79"/>
+   </choice>
+
+   <sequence name="ObjectDesc">
+      <reference to="ObjectTypeCode"/>
+      <reference to="UTF8String"/>
+      <reference to="UTF8String"/>
+   </sequence>
+
+   <choice name="ObjectTypeCode">
+      <char value="["/>
+      <char value="L"/>
+   </choice>
+
+   <sequence name="PrevObject">
+      <byte name="tcReference" value="0x71"/>
+      <int name="handle"/>
+   </sequence>
+
+   <sequence name="PrimitiveDesc">
+      <reference to="PrimitiveTypeCode"/>
+      <reference to="UTF8String"/>
+   </sequence>
+
+   <choice name="PrimitiveTypeCode">
+      <char value="B"/>
+      <char value="C"/>
+      <char value="D"/>
+      <char value="F"/>
+      <char value="I"/>
+      <char value="J"/>
+      <char value="S"/>
+      <char value="Z"/>
+   </choice>
+
+   <sequence name="ProxyClassDescInfo">
+      <int name="count"/>
+      <sequenceOf size="$count">
+         <reference to="UTF8String"/>
+      </sequenceOf>
+      <reference to="ClassAnnotation"/>
+      <reference to="ClassDesc"/>
+   </sequence>
+
+</csd>

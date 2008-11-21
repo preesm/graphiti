@@ -26,53 +26,59 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.builtin;
+package net.sf.graphiti.io.csd.ast;
 
-import net.sf.graphiti.io.asn1.ASN1Visitor;
-import net.sf.graphiti.io.asn1.ast.ConstraintList;
-import net.sf.graphiti.io.asn1.ast.Type;
-import net.sf.graphiti.io.asn1.ast.TypeReference;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class is the implementation of the built-in ASN.1 construct
- * "UTF8String".
+ * This class is a sequence of items.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class LongUTF8String extends Type {
-
-	private ConstraintList constraints;
+public class Sequence extends Type {
 
 	/**
-	 * Creates a new utf-8 string.
+	 * The sequence elements.
 	 */
-	public LongUTF8String() {
-		super("");
+	private List<Type> elements;
+
+	/**
+	 * Creates a new empty sequence.
+	 */
+	public Sequence(String name) {
+		super(name);
+		elements = new ArrayList<Type>();
 	}
 
 	@Override
-	public void accept(ASN1Visitor visitor) {
+	public void accept(CSDVisitor visitor) {
 		visitor.visit(this);
 	}
 
 	/**
-	 * Returns this type reference's constraint list.
+	 * Adds an element to this sequence.
 	 * 
-	 * @return This type reference's constraint list.
+	 * @param element
+	 *            An element as a {@link Type}.
 	 */
-	public ConstraintList getConstraintList() {
-		return constraints;
+	public void addElement(Type element) {
+		elements.add(element);
 	}
 
 	/**
-	 * Sets this {@link TypeReference}'s constraints.
+	 * Returns this sequence's elements.
 	 * 
-	 * @param constraints
-	 *            A {@link ConstraintList}.
+	 * @return This sequence's elements.
 	 */
-	public void setConstraintList(ConstraintList constraints) {
-		this.constraints = constraints;
+	public List<Type> getElements() {
+		return elements;
+	}
+
+	@Override
+	public String toString() {
+		return super.toString() + elements.toString();
 	}
 
 }

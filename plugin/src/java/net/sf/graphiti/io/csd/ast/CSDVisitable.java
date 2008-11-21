@@ -26,57 +26,23 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.ast;
-
-import net.sf.graphiti.io.asn1.ASN1Visitor;
+package net.sf.graphiti.io.csd.ast;
 
 /**
- * This class represents an INTEGER.
+ * This interface defines methods that classes wishing to be visited must
+ * implement.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class IntegerType extends Type {
-
-	private ConstraintList constraints;
+public interface CSDVisitable {
 
 	/**
-	 * Creates a new integer item with the given name.
+	 * Accepts the given visitor.
 	 * 
-	 * @param name
-	 *            The item name.
+	 * @param visitor
+	 *            A {@link CSDVisitor}.
 	 */
-	public IntegerType(String name) {
-		super(name);
-	}
-
-	@Override
-	public void accept(ASN1Visitor visitor) {
-		visitor.visit(this);
-	}
-
-	/**
-	 * Returns this integer type's constraint list.
-	 * 
-	 * @return This integer type's constraint list.
-	 */
-	public ConstraintList getConstraintList() {
-		return constraints;
-	}
-
-	/**
-	 * Sets this integer item's constraints.
-	 * 
-	 * @param constraints
-	 *            A {@link ConstraintList}.
-	 */
-	public void setConstraintList(ConstraintList constraints) {
-		this.constraints = constraints;
-	}
-
-	@Override
-	public String toString() {
-		return super.toString() + ": " + constraints;
-	}
+	public void accept(CSDVisitor visitor);
 
 }

@@ -26,88 +26,27 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.ast;
+package net.sf.graphiti.io.csd.ast;
 
 /**
- * This class represents a token.
+ * This class represents a way to throw an exception if the input cannot be
+ * parsed.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class Token implements Comparable<Token> {
+public class Error extends Type {
 
 	/**
-	 * This class enumerates the different token types.
-	 * 
-	 * @author Matthieu Wipliez
-	 * 
+	 * Creates a new error.
 	 */
-	public enum TokenType {
-		/**
-		 * A token whose value is represented by a {@link BinaryNumber}.
-		 */
-		Binary,
-
-		/**
-		 * The empty token. Should not be used directly, use
-		 * {@link Token#epsilon} instead.
-		 */
-		Epsilon,
-
-		/**
-		 * A token whose value is represented by an {@link IntegerType}.
-		 */
-		Integer
-	}
-
-	public static Token epsilon = new Token(TokenType.Epsilon);
-
-	private TokenType type;
-
-	private Object value;
-
-	/**
-	 * Creates a new token with the given token type.
-	 * 
-	 * @param type
-	 *            A {@link TokenType}.
-	 */
-	public Token(TokenType type) {
-		this.type = type;
+	public Error(String name) {
+		super(name);
 	}
 
 	@Override
-	public int compareTo(Token o) {
-		if (type == o.type) {
-			if (type == TokenType.Binary) {
-				return ((BinaryNumber) value).compareTo((BinaryNumber) o.value);
-			} else {
-				return 0;
-			}
-		} else {
-			return type.compareTo(o.type);
-		}
-	}
-
-	public TokenType getType() {
-		return type;
-	}
-
-	public Object getValue() {
-		return value;
-	}
-
-	public void setValue(Object value) {
-		this.value = value;
-	}
-
-	@Override
-	public String toString() {
-		if (this == epsilon) {
-			return "epsilon";
-		} else {
-			return type.toString() + ": " + value;
-		}
+	public void accept(CSDVisitor visitor) {
+		visitor.visit(this);
 	}
 
 }

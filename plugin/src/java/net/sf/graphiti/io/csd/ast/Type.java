@@ -26,76 +26,54 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.ast;
-
-import net.sf.graphiti.io.asn1.ASN1Visitor;
+package net.sf.graphiti.io.csd.ast;
 
 /**
- * This class represents the ASN.1 SEQUENCE OF production. In opposition to
- * SEQUENCE, it specifies a repetition of elements of a certain type. The number
- * of repetitions may be specified.
+ * This class represents a type definition.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class SequenceOf extends Type {
+public abstract class Type implements CSDVisitable {
 
-	private Constraint size;
+	private String condition;
 
-	private Type type;
+	private String name;
 
 	/**
-	 * Creates a new empty {@link SequenceOf}.
+	 * Creates a new anonymous type.
 	 */
-	public SequenceOf() {
-	}
-
-	@Override
-	public void accept(ASN1Visitor visitor) {
-		visitor.visit(this);
+	public Type() {
+		this("");
 	}
 
 	/**
-	 * Returns the size of this "sequence of" as a {@link Constraint}.
+	 * Creates a new type. If <code>name.isEmpty()</code>, the type is
+	 * considered anonymous.
 	 * 
-	 * @return The size of this "sequence of" as a {@link Constraint}.
+	 * @param name
+	 *            A string representing the type name.
 	 */
-	public Constraint getSize() {
-		return size;
+	public Type(String name) {
+		this.name = name;
 	}
 
 	/**
-	 * Returns the type of this "sequence of".
+	 * Returns this type's name.
 	 * 
-	 * @return The type of this "sequence of".
+	 * @return This type's name.
 	 */
-	public Type getType() {
-		return type;
+	public String getName() {
+		return name;
 	}
 
-	/**
-	 * Sets the size of this sequence.
-	 * 
-	 * @param size
-	 *            The number of elements.
-	 */
-	public void setSize(Constraint size) {
-		this.size = size;
-	}
-
-	/**
-	 * Sets this {@link SequenceOf}'s type.
-	 * 
-	 * @param type
-	 *            The type represented as a {@link Type}.
-	 */
-	public void setType(Type type) {
-		this.type = type;
+	public void setCondition(String condition) {
+		this.condition = condition;
 	}
 
 	@Override
 	public String toString() {
-		return (size == null ? "<?>" : size) + " * " + type;
+		return (name.isEmpty() ? "<anonymous>" : name)
+				+ (condition == null ? "" : " if(" + condition + ")");
 	}
-
 }

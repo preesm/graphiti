@@ -26,57 +26,51 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.ast;
+package net.sf.graphiti.io.csd.ast;
 
-import java.util.ArrayList;
-import java.util.List;
+public class CSDNumber extends Type {
 
-import net.sf.graphiti.io.asn1.ASN1Visitor;
+	private int length;
 
-/**
- * This class represents a choice between several alternatives.
- * 
- * @author Matthieu Wipliez
- * 
- */
-public class Choice extends Type {
+	private long value;
 
-	private List<Type> alternatives;
-
-	/**
-	 * Creates a new empty choice.
-	 */
-	public Choice() {
-		alternatives = new ArrayList<Type>();
+	public CSDNumber(String name, int length, String value) {
+		super(name);
+		this.length = length;
+		if (!value.isEmpty()) {
+			setValue(value);
+		}
 	}
 
 	@Override
-	public void accept(ASN1Visitor visitor) {
+	public void accept(CSDVisitor visitor) {
 		visitor.visit(this);
 	}
-
-	/**
-	 * Adds an alternative to this choice.
-	 * 
-	 * @param alternative
-	 *            An alternative as a {@link Type}.
-	 */
-	public void addAlternative(Type alternative) {
-		alternatives.add(alternative);
+	
+	public long getValue() {
+		return value;
 	}
 
-	/**
-	 * Returns this choice's alternatives.
-	 * 
-	 * @return This choice's alternatives.
-	 */
-	public List<Type> getAlternatives() {
-		return alternatives;
+	private void setValue(String strValue) {
+		if (strValue.equals("0")) {
+			// decimal 0
+			value = 0;
+		} else {
+			if (strValue.startsWith("0x") || strValue.startsWith("0X")) {
+				// hexadecimal
+				value = Long.parseLong(strValue.substring(2), 16);
+			} else if (strValue.startsWith("0")) {
+				// octal
+				value = Long.parseLong(strValue.substring(1), 8);
+			} else {
+				// decimal
+				value = Long.parseLong(strValue, 10);
+			}
+		}
 	}
-
-	@Override
+	
 	public String toString() {
-		return alternatives.toString();
+		return super.toString() + ": " + length + " = " + value;
 	}
 
 }

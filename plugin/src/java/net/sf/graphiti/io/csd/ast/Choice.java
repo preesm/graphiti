@@ -26,50 +26,56 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.ast;
+package net.sf.graphiti.io.csd.ast;
 
-import net.sf.graphiti.io.asn1.ASN1Visitor;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class is a bit string item. A bit string has a value represented as a
- * {@link BinaryNumber}.
+ * This class represents a choice between several alternatives.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class BitString extends Type {
+public class Choice extends Type {
 
-	private Constraint value;
+	private List<Type> alternatives;
 
 	/**
-	 * Creates a new bit string with the given name and value.
-	 * 
-	 * @param name
-	 *            The item name or <code>""</code>.
-	 * @param value
-	 *            The bit string value as a {@link Constraint}.
+	 * Creates a new empty choice.
 	 */
-	public BitString(String name, Constraint value) {
+	public Choice(String name) {
 		super(name);
-		this.value = value;
+		alternatives = new ArrayList<Type>();
 	}
 
 	@Override
-	public void accept(ASN1Visitor visitor) {
+	public void accept(CSDVisitor visitor) {
 		visitor.visit(this);
 	}
 
 	/**
-	 * Returns this bit string's value as a {@link Constraint}.
+	 * Adds an alternative to this choice.
 	 * 
-	 * @return This bit string's value as a {@link Constraint}.
+	 * @param alternative
+	 *            An alternative as a {@link Type}.
 	 */
-	public Constraint getValue() {
-		return value;
+	public void addAlternative(Type alternative) {
+		alternatives.add(alternative);
+	}
+
+	/**
+	 * Returns this choice's alternatives.
+	 * 
+	 * @return This choice's alternatives.
+	 */
+	public List<Type> getAlternatives() {
+		return alternatives;
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + " ::= " + value;
+		return super.toString() + alternatives.toString();
 	}
+
 }

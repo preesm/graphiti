@@ -26,70 +26,35 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.ast;
+package net.sf.graphiti.io.csd.ast;
 
 /**
- * This class makes referenceName to an existing named item.
+ * This class is a variable.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class ItemReference {
+public class Variable extends Type {
 
-	private Type reference;
-
-	private String referenceName;
+	private String select;
 
 	/**
-	 * Creates a new item referenceName.
+	 * Creates a new variable.
 	 * 
-	 * @param referenceName
-	 *            The referenced item's name.
+	 * @param select
 	 */
-	public ItemReference(String referenceName) {
-		this.referenceName = referenceName;
-	}
-
-	/**
-	 * Returns this item reference.
-	 * 
-	 * @return This item reference.
-	 */
-	public Type getReference() {
-		return reference;
-	}
-
-	/**
-	 * Returns this item reference's name.
-	 * 
-	 * @return This item reference's name.
-	 */
-	public String getReferenceName() {
-		return referenceName;
-	}
-
-	/**
-	 * Sets this item's reference.
-	 * 
-	 * @param reference
-	 *            A {@link Type}.
-	 */
-	public void setReference(Type reference) {
-		this.reference = reference;
-	}
-
-	/**
-	 * Sets this item's reference name.
-	 * 
-	 * @param referenceName
-	 *            A {@link String}.
-	 */
-	public void setReferenceName(String referenceName) {
-		this.referenceName = referenceName;
+	public Variable(String name, String select) {
+		super(name);
+		this.select = select;
 	}
 
 	@Override
-	public String toString() {
-		return (reference != null ? reference.getName() : referenceName);
+	public void accept(CSDVisitor visitor) {
+		visitor.visit(this);
 	}
+
+	public String toString() {
+		return super.toString() + ": " + select;
+	}
+	
 }

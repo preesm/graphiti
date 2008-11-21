@@ -26,68 +26,26 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1;
-
-import net.sf.graphiti.io.asn1.ast.BitString;
-import net.sf.graphiti.io.asn1.ast.Choice;
-import net.sf.graphiti.io.asn1.ast.IntegerType;
-import net.sf.graphiti.io.asn1.ast.Sequence;
-import net.sf.graphiti.io.asn1.ast.SequenceOf;
-import net.sf.graphiti.io.asn1.ast.Type;
-import net.sf.graphiti.io.asn1.ast.TypeReference;
-import net.sf.graphiti.io.asn1.builtin.LongUTF8String;
-import net.sf.graphiti.io.asn1.builtin.PrintableString;
-import net.sf.graphiti.io.asn1.builtin.UTF8String;
+package net.sf.graphiti.io.csd.ast;
 
 /**
- * This class provides an empty implementation of {@link ASN1Visitor}.
+ * This class is the implementation of the built-in CSD construct "UTF8String".
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class NopVisitor implements ASN1Visitor {
+public class UTF8String extends Type {
 
-	@Override
-	public void visit(BitString bitString) {
+	/**
+	 * Creates a new utf-8 string.
+	 */
+	public UTF8String() {
+		super("");
 	}
 
 	@Override
-	public void visit(Choice choice) {
-		for (Type alternative : choice.getAlternatives()) {
-			alternative.accept(this);
-		}
-	}
-
-	@Override
-	public void visit(IntegerType type) {
-	}
-
-	@Override
-	public void visit(LongUTF8String string) {
-	}
-
-	@Override
-	public void visit(PrintableString string) {
-	}
-
-	@Override
-	public void visit(Sequence sequence) {
-		for (Type element : sequence.getElements()) {
-			element.accept(this);
-		}
-	}
-
-	@Override
-	public void visit(SequenceOf sequenceOf) {
-		sequenceOf.getType().accept(this);
-	}
-
-	@Override
-	public void visit(TypeReference typeRef) {
-	}
-
-	@Override
-	public void visit(UTF8String string) {
+	public void accept(CSDVisitor visitor) {
+		visitor.visit(this);
 	}
 
 }

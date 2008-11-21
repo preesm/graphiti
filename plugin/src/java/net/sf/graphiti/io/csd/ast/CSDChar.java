@@ -26,53 +26,22 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.builtin;
+package net.sf.graphiti.io.csd.ast;
 
-import net.sf.graphiti.io.asn1.ASN1Visitor;
-import net.sf.graphiti.io.asn1.ast.ConstraintList;
-import net.sf.graphiti.io.asn1.ast.Type;
-import net.sf.graphiti.io.asn1.ast.TypeReference;
+public class CSDChar extends CSDNumber {
 
-/**
- * This class is the implementation of the built-in ASN.1 construct
- * "UTF8String".
- * 
- * @author Matthieu Wipliez
- * 
- */
-public class UTF8String extends Type {
-
-	private ConstraintList constraints;
-
-	/**
-	 * Creates a new utf-8 string.
-	 */
-	public UTF8String() {
-		super("");
+	public CSDChar(String name, String value) {
+		super(name, 1, Integer.toString((int) value.charAt(0)));
 	}
 
 	@Override
-	public void accept(ASN1Visitor visitor) {
+	public void accept(CSDVisitor visitor) {
 		visitor.visit(this);
 	}
 
-	/**
-	 * Returns this type reference's constraint list.
-	 * 
-	 * @return This type reference's constraint list.
-	 */
-	public ConstraintList getConstraintList() {
-		return constraints;
-	}
-
-	/**
-	 * Sets this {@link TypeReference}'s constraints.
-	 * 
-	 * @param constraints
-	 *            A {@link ConstraintList}.
-	 */
-	public void setConstraintList(ConstraintList constraints) {
-		this.constraints = constraints;
+	public String toString() {
+		char c = (char) super.getValue();
+		return super.toString() + "('" + c + "')";
 	}
 
 }

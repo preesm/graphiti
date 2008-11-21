@@ -26,23 +26,13 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1;
+package net.sf.graphiti.io.csd;
 
-/**
- * This interface defines methods that classes wishing to be visited must
- * implement.
- * 
- * @author Matthieu Wipliez
- * 
- */
-public interface ASN1Visitable {
+public class CSDParseException extends Exception {
 
 	/**
-	 * Accepts the given visitor.
 	 * 
-	 * @param visitor
-	 *            An {@link ASN1Visitor}.
 	 */
-	public void accept(ASN1Visitor visitor);
+	private static final long serialVersionUID = 1L;
 
 }

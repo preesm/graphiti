@@ -26,29 +26,35 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1;
+package net.sf.graphiti.io.csd;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.graphiti.io.asn1.ast.Production;
-import net.sf.graphiti.io.asn1.ast.Type;
-import net.sf.graphiti.io.asn1.ast.TypeReference;
-import net.sf.graphiti.io.asn1.builtin.LongUTF8String;
-import net.sf.graphiti.io.asn1.builtin.PrintableString;
-import net.sf.graphiti.io.asn1.builtin.UTF8String;
+import net.sf.graphiti.io.csd.ast.CSDChar;
+import net.sf.graphiti.io.csd.ast.CSDNumber;
+import net.sf.graphiti.io.csd.ast.CSDVisitor;
+import net.sf.graphiti.io.csd.ast.Choice;
+import net.sf.graphiti.io.csd.ast.Error;
+import net.sf.graphiti.io.csd.ast.LongUTF8String;
+import net.sf.graphiti.io.csd.ast.Reference;
+import net.sf.graphiti.io.csd.ast.Sequence;
+import net.sf.graphiti.io.csd.ast.SequenceOf;
+import net.sf.graphiti.io.csd.ast.Type;
+import net.sf.graphiti.io.csd.ast.UTF8String;
+import net.sf.graphiti.io.csd.ast.Variable;
 
 /**
- * This class implements the {@link ASN1Visitor} interface to solve type
+ * This class implements the {@link CSDVisitor} interface to solve type
  * references.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class TypeReferenceVisitor extends NopVisitor {
+public class TypeReferenceVisitor implements CSDVisitor {
 
-	private Map<String, Production> productions;
+	private Map<String, Type> types;
 
 	/**
 	 * Creates a new type reference visitor on the given production list.
@@ -56,44 +62,72 @@ public class TypeReferenceVisitor extends NopVisitor {
 	 * @param productions
 	 *            A {@link List}&lt;{@link Production}&gt;
 	 */
-	public TypeReferenceVisitor(List<Production> productions) {
-		this.productions = new HashMap<String, Production>();
-		for (Production production : productions) {
-			this.productions.put(production.getName(), production);
+	public TypeReferenceVisitor(List<Type> types) {
+		this.types = new HashMap<String, Type>();
+		for (Type type : types) {
+			this.types.put(type.getName(), type);
 		}
 
-		for (Production production : productions) {
-			production.getType().accept(this);
+		for (Type type : types) {
+			type.accept(this);
 		}
 	}
 
 	@Override
-	public void visit(TypeReference typeRef) {
+	public void visit(Choice choice) {
+	}
+
+	@Override
+	public void visit(CSDChar csdChar) {
+	}
+
+	@Override
+	public void visit(CSDNumber csdNumber) {
+	}
+
+	@Override
+	public void visit(Error error) {
+	}
+
+	@Override
+	public void visit(LongUTF8String utf8String) {
+	}
+
+	@Override
+	public void visit(Reference typeRef) {
 		String ref = typeRef.getReferenceName();
 		Type reference;
 		if (ref.equals("LongUTF8String")) {
-			LongUTF8String utf8 = new LongUTF8String();
-			utf8.setConstraintList(typeRef.getConstraintList());
-			reference = utf8;
-		} else if (ref.equals("PrintableString")) {
-			PrintableString str = new PrintableString();
-			str.setConstraintList(typeRef.getConstraintList());
-			reference = str;
+			reference = new LongUTF8String();
 		} else if (ref.equals("UTF8String")) {
-			UTF8String utf8 = new UTF8String();
-			utf8.setConstraintList(typeRef.getConstraintList());
-			reference = utf8;
+			reference = new UTF8String();
 		} else {
-			Production production = productions.get(ref);
-			if (production == null) {
-				throw new RuntimeException("The production \"" + ref
+			Type type = types.get(ref);
+			if (type == null) {
+				throw new RuntimeException("The type \"" + ref
 						+ "\" does not exist!");
 			} else {
-				reference = production.getType();
+				reference = type;
 			}
 		}
 
 		typeRef.setReference(reference);
+	}
+
+	@Override
+	public void visit(Sequence sequence) {
+	}
+
+	@Override
+	public void visit(SequenceOf sequenceOf) {
+	}
+
+	@Override
+	public void visit(UTF8String utf8String) {
+	}
+
+	@Override
+	public void visit(Variable variable) {
 	}
 
 }

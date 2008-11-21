@@ -26,61 +26,33 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.ast;
+package net.sf.graphiti.io.csd.ast;
 
-/**
- * This class represents a grammar production. A production has a name and a
- * type.
- * 
- * @author Matthieu Wipliez
- * 
- */
-public class Production {
-
-	private String name;
-
-	private Type type;
-
-	/**
-	 * Creates a new production.
-	 * 
-	 * @param name
-	 *            A string representing the production name.
-	 */
-	public Production(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * Returns this production's name.
-	 * 
-	 * @return This production's name.
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * Returns this production's type.
-	 * 
-	 * @return This production's type.
-	 */
-	public Type getType() {
-		return type;
-	}
-
-	/**
-	 * Sets this production's type.
-	 * 
-	 * @param type
-	 *            A {@link Type}.
-	 */
-	public void setType(Type type) {
-		this.type = type;
+public class Reference extends Type {
+	
+	private Type reference;
+	
+	private String referenceName;
+	
+	public Reference(String name, String refName) {
+		super(name);
+		this.referenceName = refName;
 	}
 
 	@Override
-	public String toString() {
-		return name + " ::= " + type;
+	public void accept(CSDVisitor visitor) {
 	}
+	
+	public String toString() {
+		return super.toString() + ": " + referenceName;
+	}
+
+	public String getReferenceName() {
+		return referenceName;
+	}
+
+	public void setReference(Type reference) {
+		this.reference = reference;
+	}
+
 }

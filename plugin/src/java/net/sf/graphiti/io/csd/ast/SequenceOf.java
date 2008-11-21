@@ -26,60 +26,58 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.ast;
+package net.sf.graphiti.io.csd.ast;
 
-import java.util.ArrayList;
-
-import net.sf.graphiti.io.asn1.ast.Constraint.ConstraintType;
 
 /**
- * This class extends {@link ArrayList} with constraint-specific features.
+ * This class represents the ASN.1 SEQUENCE OF production. In opposition to
+ * SEQUENCE, it specifies a repetition of elements of a certain type. The number
+ * of repetitions may be specified.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class ConstraintList extends ArrayList<Constraint> {
+public class SequenceOf extends Type {
+
+	private Type type;
+	
+	private String size;
 
 	/**
-	 * Serial ID.
+	 * Creates a new empty {@link SequenceOf}.
 	 */
-	private static final long serialVersionUID = 1L;
+	public SequenceOf(String name, String size) {
+		super(name);
+		this.size = size;
+	}
 
-	/**
-	 * Creates a new empty list of constraints.
-	 */
-	public ConstraintList() {
-		super();
+	@Override
+	public void accept(CSDVisitor visitor) {
+		visitor.visit(this);
 	}
 
 	/**
-	 * Returns the first constraint of type {@link ConstraintType#Size}.
+	 * Returns the type of this "sequence of".
 	 * 
-	 * @return The first constraint of type {@link ConstraintType#Size}.
+	 * @return The type of this "sequence of".
 	 */
-	public Constraint getFirstSizeConstraint() {
-		for (Constraint constraint : this) {
-			if (constraint.getConstraintType() == ConstraintType.Size) {
-				return constraint;
-			}
-		}
-
-		return null;
+	public Type getType() {
+		return type;
 	}
 
 	/**
-	 * Returns the first constraint of type {@link ConstraintType#Value}.
+	 * Sets this {@link SequenceOf}'s type.
 	 * 
-	 * @return The first constraint of type {@link ConstraintType#Value}.
+	 * @param type
+	 *            The type represented as a {@link Type}.
 	 */
-	public Constraint getFirstValueConstraint() {
-		for (Constraint constraint : this) {
-			if (constraint.getConstraintType() == ConstraintType.Value) {
-				return constraint;
-			}
-		}
+	public void setType(Type type) {
+		this.type = type;
+	}
 
-		return null;
+	@Override
+	public String toString() {
+		return super.toString() + ": " + size + " * " + type;
 	}
 
 }

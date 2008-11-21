@@ -26,42 +26,27 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1;
-
-import net.sf.graphiti.io.asn1.ast.BitString;
-import net.sf.graphiti.io.asn1.ast.Choice;
-import net.sf.graphiti.io.asn1.ast.IntegerType;
-import net.sf.graphiti.io.asn1.ast.Sequence;
-import net.sf.graphiti.io.asn1.ast.SequenceOf;
-import net.sf.graphiti.io.asn1.ast.TypeReference;
-import net.sf.graphiti.io.asn1.builtin.LongUTF8String;
-import net.sf.graphiti.io.asn1.builtin.PrintableString;
-import net.sf.graphiti.io.asn1.builtin.UTF8String;
+package net.sf.graphiti.io.csd.ast;
 
 /**
- * This interface defines methods to visit several parts of the ASN.1 AST.
+ * This class is the implementation of the built-in ASN.1 construct
+ * "UTF8String".
  * 
  * @author Matthieu Wipliez
  * 
  */
-public interface ASN1Visitor {
+public class LongUTF8String extends Type {
 
-	public void visit(BitString bitString);
+	/**
+	 * Creates a new utf-8 string.
+	 */
+	public LongUTF8String() {
+		super("");
+	}
 
-	public void visit(Choice choice);
-
-	public void visit(IntegerType type);
-
-	public void visit(LongUTF8String string);
-
-	public void visit(PrintableString string);
-
-	public void visit(Sequence sequence);
-
-	public void visit(SequenceOf sequenceOf);
-
-	public void visit(TypeReference typeRef);
-
-	public void visit(UTF8String string);
+	@Override
+	public void accept(CSDVisitor visitor) {
+		visitor.visit(this);
+	}
 
 }

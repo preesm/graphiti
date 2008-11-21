@@ -26,53 +26,34 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.asn1.builtin;
-
-import net.sf.graphiti.io.asn1.ASN1Visitor;
-import net.sf.graphiti.io.asn1.ast.ConstraintList;
-import net.sf.graphiti.io.asn1.ast.Type;
-import net.sf.graphiti.io.asn1.ast.TypeReference;
+package net.sf.graphiti.io.csd.ast;
 
 /**
- * This class is the implementation of the built-in ASN.1 construct
- * "PrintableString".
+ * This interface defines methods to visit several parts of the ASN.1 AST.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class PrintableString extends Type {
+public interface CSDVisitor {
 
-	private ConstraintList constraints;
+	public void visit(Choice choice);
 
-	/**
-	 * Creates a new printable string.
-	 */
-	public PrintableString() {
-		super("");
-	}
+	public void visit(CSDChar csdChar);
 
-	@Override
-	public void accept(ASN1Visitor visitor) {
-		visitor.visit(this);
-	}
+	public void visit(CSDNumber csdNumber);
+	
+	public void visit(Error error);
 
-	/**
-	 * Returns this type reference's constraint list.
-	 * 
-	 * @return This type reference's constraint list.
-	 */
-	public ConstraintList getConstraintList() {
-		return constraints;
-	}
+	public void visit(LongUTF8String utf8String);
+	
+	public void visit(Reference reference);
 
-	/**
-	 * Sets this {@link TypeReference}'s constraints.
-	 * 
-	 * @param constraints
-	 *            A {@link ConstraintList}.
-	 */
-	public void setConstraintList(ConstraintList constraints) {
-		this.constraints = constraints;
-	}
+	public void visit(Sequence sequence);
+
+	public void visit(SequenceOf sequenceOf);
+	
+	public void visit(UTF8String utf8String);
+
+	public void visit(Variable variable);
 
 }

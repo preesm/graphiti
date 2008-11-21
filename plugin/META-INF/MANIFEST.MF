@@ -19,6 +19,7 @@ Bundle-ClassPath: .,
  lib/grammatica-1.4.jar,
  lib/saxon/saxon9.jar,
  lib/saxon/saxon9-dom.jar,
+ lib/saxon/saxon9-xpath.jar,
  lib/jgrapht-jdk1.6.jar
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
