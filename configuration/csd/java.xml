@@ -17,16 +17,16 @@
    <sequence name="BlockDataShort">
       <byte name="tcBlockData" value="0x77"/>
       <byte name="size"/>
-      <sequenceOf name="Data" size="$size">
-         <byte/>
+      <sequenceOf name="Data" size="ancestor::BlockDataShort/size/@value">
+         <byte name="byte"/>
       </sequenceOf>
    </sequence>
 
    <sequence name="BlockDataLong">
       <byte name="tcBlockDataLong" value="0x7A"/>
       <int name="size"/>
-      <sequenceOf name="Data" size="$size">
-         <byte/>
+      <sequenceOf name="Data" size="ancestor::BlockDataLong/size/@value">
+         <byte name="byte"/>
       </sequenceOf>
    </sequence>
 
@@ -163,8 +163,8 @@
    </sequence>
 
    <choice name="ObjectTypeCode">
-      <char value="["/>
-      <char value="L"/>
+      <char name="array" value="["/>
+      <char name="object" value="L"/>
    </choice>
 
    <sequence name="PrevObject">
@@ -190,7 +190,7 @@
 
    <sequence name="ProxyClassDescInfo">
       <int name="count"/>
-      <sequenceOf name="ProxyFields" size="$count">
+      <sequenceOf name="ProxyFields" size="ancestor::ProxyClassDescInfo/count/@value">
          <reference name="fieldName" to="UTF8String"/>
       </sequenceOf>
       <reference to="ClassAnnotation"/>
