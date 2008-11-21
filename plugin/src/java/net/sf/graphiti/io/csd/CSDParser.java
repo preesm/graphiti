@@ -107,7 +107,9 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		in = new RandomAccessFile(binFile, "r");
 		try {
 			types.get(0).accept(this);
-		} catch (CSDParseException e) {
+		} catch (Throwable e) {
+			long fp = in.getFilePointer();
+			System.out.println(fp);
 			printParseTree();
 			e.printStackTrace();
 		}
@@ -245,13 +247,12 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 
 	@Override
 	public void visit(Error error) {
+		
 		throw new RuntimeException("TODO");
 	}
 
 	@Override
 	public void visit(ForEach forEach) throws CSDParseException {
-		printParseTree();
-
 		begin(forEach);
 		String select = forEach.getSelect();
 		Type type = forEach.getType();
@@ -316,8 +317,6 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 	public void visit(UTF8String utf8String) throws CSDParseException {
 		begin(utf8String);
 		try {
-			long fp = in.getFilePointer();
-			System.out.println(fp);
 			String strValue = in.readUTF();
 			System.out.println("Parsing UTF-8: \"" + strValue + "\"");
 			nodeStack.peek().setAttribute("value", strValue);

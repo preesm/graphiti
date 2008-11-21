@@ -159,7 +159,7 @@
    <sequence name="ObjectDesc">
       <reference to="ObjectTypeCode"/>
       <reference name="fieldName" to="UTF8String"/>
-      <reference name="className" to="UTF8String"/>
+      <reference to="NewString"/>
    </sequence>
 
    <choice name="ObjectTypeCode">
