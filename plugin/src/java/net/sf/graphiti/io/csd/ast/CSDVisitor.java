@@ -44,6 +44,8 @@ public interface CSDVisitor {
 
 	public void visit(Error error) throws CSDParseException;
 
+	public void visit(ForEach forEach) throws CSDParseException;
+
 	public void visit(LongUTF8String utf8String) throws CSDParseException;
 
 	public void visit(Reference reference) throws CSDParseException;

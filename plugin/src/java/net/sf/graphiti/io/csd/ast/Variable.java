@@ -55,6 +55,10 @@ public class Variable extends Type {
 		visitor.visit(this);
 	}
 
+	public String getSelect() {
+		return select;
+	}
+
 	public String toString() {
 		return super.toString() + ": " + select;
 	}

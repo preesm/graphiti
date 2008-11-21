@@ -37,6 +37,7 @@ import net.sf.graphiti.io.csd.ast.CSDNumber;
 import net.sf.graphiti.io.csd.ast.CSDVisitor;
 import net.sf.graphiti.io.csd.ast.Choice;
 import net.sf.graphiti.io.csd.ast.Error;
+import net.sf.graphiti.io.csd.ast.ForEach;
 import net.sf.graphiti.io.csd.ast.LongUTF8String;
 import net.sf.graphiti.io.csd.ast.Reference;
 import net.sf.graphiti.io.csd.ast.Sequence;
@@ -90,6 +91,11 @@ public class TypeReferenceVisitor implements CSDVisitor {
 
 	@Override
 	public void visit(Error error) {
+	}
+
+	@Override
+	public void visit(ForEach forEach) throws CSDParseException {
+		forEach.getType().accept(this);
 	}
 
 	@Override

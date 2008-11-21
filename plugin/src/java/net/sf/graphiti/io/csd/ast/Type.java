@@ -56,6 +56,11 @@ public abstract class Type implements CSDVisitable {
 	 */
 	public Type(String name) {
 		this.name = name;
+		condition = "";
+	}
+	
+	public String getCondition() {
+		return condition;
 	}
 
 	/**

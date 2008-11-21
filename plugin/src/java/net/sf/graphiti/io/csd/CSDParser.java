@@ -39,6 +39,7 @@ import java.util.TreeMap;
 
 import javax.xml.namespace.QName;
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathFactoryConfigurationException;
@@ -49,6 +50,7 @@ import net.sf.graphiti.io.csd.ast.CSDNumber;
 import net.sf.graphiti.io.csd.ast.CSDVisitor;
 import net.sf.graphiti.io.csd.ast.Choice;
 import net.sf.graphiti.io.csd.ast.Error;
+import net.sf.graphiti.io.csd.ast.ForEach;
 import net.sf.graphiti.io.csd.ast.LongUTF8String;
 import net.sf.graphiti.io.csd.ast.Reference;
 import net.sf.graphiti.io.csd.ast.Sequence;
@@ -60,6 +62,7 @@ import net.sf.graphiti.io.csd.ast.Variable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class CSDParser implements CSDVisitor, XPathVariableResolver {
 
@@ -75,13 +78,13 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 
 	private ArrayDeque<Element> nodeStack;
 
-	private Map<String, String> variables;
+	private Map<String, Object> variables;
 
 	public CSDParser(String csdFile, String binFile) throws ClassCastException,
 			ClassNotFoundException, CSDFileParseException,
 			IllegalAccessException, InstantiationException, IOException,
 			XPathFactoryConfigurationException, XPathExpressionException {
-		variables = new TreeMap<String, String>();
+		variables = new TreeMap<String, Object>();
 
 		// parse the Concrete Syntax Description
 		List<Type> types = new CSDFileParser(csdFile).getTypes();
@@ -105,11 +108,19 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		try {
 			types.get(0).accept(this);
 		} catch (CSDParseException e) {
+			printParseTree();
 			e.printStackTrace();
 		}
 	}
 
-	private Element begin(Type type) {
+	private Element begin(Type type) throws CSDParseException {
+		String condition = type.getCondition();
+		if (!condition.isEmpty()) {
+			if (!evaluateXPathBoolean(condition)) {
+				throw new CSDParseException(condition + " evaluated to false");
+			}
+		}
+		
 		Element typeElt = document.createElement(type.getName());
 		nodeStack.peek().appendChild(typeElt);
 		nodeStack.push(typeElt);
@@ -120,21 +131,45 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		nodeStack.pop();
 	}
 
-	private String evaluateXPath(String expression) {
+	private Object evaluateXPath(String expression, QName returnType) {
 		XPath path = factory.newXPath();
 		try {
 			Element context = nodeStack.peek();
-			String result = path.evaluate(expression, context);
+			Object result = path.evaluate(expression, context, returnType);
 			return result;
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
-			return "";
+			return null;
 		}
+	}
+
+	private boolean evaluateXPathBoolean(String expression) {
+		return (Boolean) evaluateXPath(expression, XPathConstants.BOOLEAN);
+	}
+
+	private int evaluateXPathInt(String expression) {
+		return ((Double) evaluateXPath(expression, XPathConstants.NUMBER))
+				.intValue();
+	}
+
+	private NodeList evaluateXPathNodeList(String expression) {
+		return (NodeList) evaluateXPath(expression, XPathConstants.NODESET);
+	}
+
+	private String evaluateXPathString(String expression) {
+		return (String) evaluateXPath(expression, XPathConstants.STRING);
+	}
+
+	private void printParseTree() {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		DomHelper.write(document, bos);
+		System.out.println(bos.toString());
 	}
 
 	@Override
 	public Object resolveVariable(QName variableName) {
-		return variables.get(variableName.getLocalPart());
+		Object value = variables.get(variableName.getLocalPart());
+		return value;
 	}
 
 	private void revert(Element elt) {
@@ -164,6 +199,9 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 			for (Type type : choice.getAlternatives()) {
 				try {
 					type.accept(this);
+					if (type instanceof Variable) {
+						continue;
+					}
 					end();
 					return;
 				} catch (CSDParseException e) {
@@ -211,6 +249,24 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 	}
 
 	@Override
+	public void visit(ForEach forEach) throws CSDParseException {
+		printParseTree();
+
+		begin(forEach);
+		String select = forEach.getSelect();
+		Type type = forEach.getType();
+		NodeList list = evaluateXPathNodeList(select);
+		int n = list.getLength();
+		for (int i = 0; i < n; i++) {
+			Element context = (Element) list.item(i);
+			variables.put("context", context);
+			type.accept(this);
+		}
+
+		end();
+	}
+
+	@Override
 	public void visit(LongUTF8String utf8String) {
 		throw new RuntimeException("TODO");
 	}
@@ -247,8 +303,7 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 			} catch (CSDParseException e) {
 			}
 		} else {
-			String res = evaluateXPath(size);
-			int n = Integer.parseInt(res);
+			int n = evaluateXPathInt(size);
 			for (int i = 0; i < n; i++) {
 				type.accept(this);
 			}
@@ -258,7 +313,7 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 	}
 
 	@Override
-	public void visit(UTF8String utf8String) {
+	public void visit(UTF8String utf8String) throws CSDParseException {
 		begin(utf8String);
 		try {
 			String strValue = in.readUTF();
@@ -272,9 +327,10 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 
 	@Override
 	public void visit(Variable variable) {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		DomHelper.write(document, bos);
-		System.out.println(bos.toString());
+		String varName = variable.getName();
+		String select = variable.getSelect();
+		String value = evaluateXPathString(select);
+		variables.put(varName, value);
 	}
 
 }

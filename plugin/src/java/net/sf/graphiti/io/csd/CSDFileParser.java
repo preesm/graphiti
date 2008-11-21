@@ -38,6 +38,7 @@ import net.sf.graphiti.io.csd.ast.CSDChar;
 import net.sf.graphiti.io.csd.ast.CSDNumber;
 import net.sf.graphiti.io.csd.ast.Choice;
 import net.sf.graphiti.io.csd.ast.Error;
+import net.sf.graphiti.io.csd.ast.ForEach;
 import net.sf.graphiti.io.csd.ast.Reference;
 import net.sf.graphiti.io.csd.ast.Sequence;
 import net.sf.graphiti.io.csd.ast.SequenceOf;
@@ -79,11 +80,11 @@ public class CSDFileParser {
 		return types;
 	}
 
-	private Type parseByte(Element byteElt) {
+	private CSDNumber parseByte(Element byteElt) {
 		return parseNumber(byteElt, 1);
 	}
 
-	private Type parseChar(Element charElt) {
+	private CSDNumber parseChar(Element charElt) {
 		String name = charElt.getAttribute("name");
 		String value = charElt.getAttribute("value");
 		return new CSDChar(name, value);
@@ -111,26 +112,39 @@ public class CSDFileParser {
 		}
 	}
 
-	private Type parseError(Element errorElt) {
+	private Error parseError(Element errorElt) {
 		String name = errorElt.getAttribute("name");
 		return new Error(name);
 	}
 
-	private Type parseInt(Element intElt) {
+	private ForEach parseForEach(Element forEachElt)
+			throws CSDFileParseException {
+		String name = forEachElt.getAttribute("name");
+		String select = forEachElt.getAttribute("select");
+		ForEach forEach = new ForEach(name, select);
+
+		Node node = forEachElt.getFirstChild();
+		Type type = parseType(node);
+		forEach.setType(type);
+
+		return forEach;
+	}
+
+	private CSDNumber parseInt(Element intElt) {
 		return parseNumber(intElt, 4);
 	}
 
-	private Type parseLong(Element longElt) {
+	private CSDNumber parseLong(Element longElt) {
 		return parseNumber(longElt, 8);
 	}
 
-	private Type parseNumber(Element numberElt, int length) {
+	private CSDNumber parseNumber(Element numberElt, int length) {
 		String name = numberElt.getAttribute("name");
 		String value = numberElt.getAttribute("value");
 		return new CSDNumber(name, length, value);
 	}
 
-	private Type parseReference(Element referenceElt) {
+	private Reference parseReference(Element referenceElt) {
 		String name = referenceElt.getAttribute("name");
 		String refName = referenceElt.getAttribute("to");
 		return new Reference(name, refName);
@@ -163,7 +177,7 @@ public class CSDFileParser {
 		return sequenceOf;
 	}
 
-	private Type parseShort(Element shortElt) {
+	private CSDNumber parseShort(Element shortElt) {
 		return parseNumber(shortElt, 2);
 	}
 
@@ -178,6 +192,8 @@ public class CSDFileParser {
 			type = parseChar((Element) node);
 		} else if (nodeName.equals("error")) {
 			type = parseError((Element) node);
+		} else if (nodeName.equals("forEach")) {
+			type = parseForEach((Element) node);
 		} else if (nodeName.equals("int")) {
 			type = parseInt((Element) node);
 		} else if (nodeName.equals("long")) {
@@ -196,8 +212,8 @@ public class CSDFileParser {
 			throw new CSDFileParseException();
 		}
 
-		// set xsl:if if not empty
-		String condition = ((Element) node).getAttribute("xsl:if");
+		// set condition if not empty
+		String condition = ((Element) node).getAttribute("if");
 		if (!condition.isEmpty()) {
 			type.setCondition(condition);
 		}
@@ -205,7 +221,7 @@ public class CSDFileParser {
 		return type;
 	}
 
-	private Type parseVariable(Element variableElt) {
+	private Variable parseVariable(Element variableElt) {
 		String name = variableElt.getAttribute("name");
 		String select = variableElt.getAttribute("select");
 		return new Variable(name, select);

@@ -39,7 +39,9 @@
    </choice>
 
    <choice name="ClassData">
-      <variable name="flags" select="ancestor::ClassDesc/"/>
+      <variable name="flags" select="$context/ClassDescInfo/classDescFlags/@value"/>
+      <reference to="Values" if="$flags eq '2'"/>
+      <reference to="WRClass" if="$flags eq '3'"/>
       <error/>
    </choice>
 
@@ -94,14 +96,14 @@
    </sequence>
 
    <choice name="NewClassDesc">
-      <sequence name="NormalClass">
+      <sequence name="NormalClassDesc">
          <byte name="tcClassDesc" value="0x72"/>
          <reference name="className" to="UTF8String"/>
          <long name="serialVersionUID"/>
          <reference to="ClassDescInfo"/>
       </sequence>
 
-      <sequence name="ProxyClass">
+      <sequence name="ProxyClassDesc">
          <byte name="tcProxyClassDesc" value="0x7D"/>
          <reference to="ProxyClassDescInfo"/>
       </sequence>
@@ -116,7 +118,9 @@
    <sequence name="NewObject">
       <byte name="tcObject" value="0x73"/>
       <reference to="ClassDesc"/>
-      <reference to="ClassData"/>
+      <forEach name="ClassDataArray" select="(parent::node())/descendant::NormalClassDesc">
+         <reference to="ClassData"/>
+      </forEach>
    </sequence>
 
    <choice name="NewString">
@@ -142,6 +146,14 @@
       <byte name="nullReference" value="0x70"/>
       <reference to="Exception"/>
       <byte name="tcReset" value="0x79"/>
+   </choice>
+   
+   <choice name="ObjectAnnotation">
+      <byte name="endBlockData" value="0x78"/>
+      <sequence name="NonEmptyContents">
+         <reference to="Contents"/>
+         <byte name="endBlockData" value="0x78"/>
+      </sequence>
    </choice>
 
    <sequence name="ObjectDesc">
@@ -183,6 +195,20 @@
       </sequenceOf>
       <reference to="ClassAnnotation"/>
       <reference to="ClassDesc"/>
+   </sequence>
+   
+   <sequence name="Values">
+      <forEach name="FieldArray" select="$context/ClassDescInfo/Fields/FieldSequence/FieldDesc">
+         <choice name="FieldValue">
+            <int name="float" if="$context/PrimitiveDesc/PrimitiveTypeCode/float"/>
+            <int name="int" if="$context/PrimitiveDesc/PrimitiveTypeCode/integer"/>
+         </choice>
+      </forEach>
+   </sequence>
+   
+   <sequence name="WRClass">
+      <reference to="Values"/>
+      <reference to="ObjectAnnotation"/>
    </sequence>
 
 </csd>
