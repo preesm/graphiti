@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<csd xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<csd>
    
    <!-- as per http://java.sun.com/javase/6/docs/platform/serialization/spec/protocol.html -->
 
@@ -17,7 +17,7 @@
    <sequence name="BlockDataShort">
       <byte name="tcBlockData" value="0x77"/>
       <byte name="size"/>
-      <sequenceOf size="$size">
+      <sequenceOf name="Data" size="$size">
          <byte/>
       </sequenceOf>
    </sequence>
@@ -25,26 +25,21 @@
    <sequence name="BlockDataLong">
       <byte name="tcBlockDataLong" value="0x7A"/>
       <int name="size"/>
-      <sequenceOf size="$size">
+      <sequenceOf name="Data" size="$size">
          <byte/>
       </sequenceOf>
    </sequence>
 
    <choice name="ClassAnnotation">
       <byte name="endBlockData" value="0x78"/>
-      <sequence>
+      <sequence name="NonEmptyContents">
          <reference to="Contents"/>
          <byte name="endBlockData" value="0x78"/>
       </sequence>
    </choice>
 
    <choice name="ClassData">
-      <xsl:variable name="flags" select="../ClassDesc/"/>
-      <reference to="NoWRClass" xsl:if="$flags"/>
-      <sequence>
-         <reference to="WRClass"/>
-         <reference to="ObjectAnnotation"/>
-      </sequence>
+      <variable name="flags" select="ancestor::ClassDesc/"/>
       <error/>
    </choice>
 
@@ -72,12 +67,12 @@
 
    <sequence name="Exception">
       <byte name="tcException" value="0x7B"/>
-      <reference to="UTF8String"/>
+      <reference name="object" to="UTF8String"/>
    </sequence>
 
    <sequence name="Fields">
       <short name="count"/>
-      <sequenceOf size="$count">
+      <sequenceOf name="FieldSequence" size="ancestor::Fields/count/@value">
          <reference to="FieldDesc"/>
       </sequenceOf>
    </sequence>
@@ -99,14 +94,14 @@
    </sequence>
 
    <choice name="NewClassDesc">
-      <sequence>
+      <sequence name="NormalClass">
          <byte name="tcClassDesc" value="0x72"/>
-         <reference to="UTF8String"/>
+         <reference name="className" to="UTF8String"/>
          <long name="serialVersionUID"/>
          <reference to="ClassDescInfo"/>
       </sequence>
 
-      <sequence>
+      <sequence name="ProxyClass">
          <byte name="tcProxyClassDesc" value="0x7D"/>
          <reference to="ProxyClassDescInfo"/>
       </sequence>
@@ -115,7 +110,7 @@
    <sequence name="NewEnum">
       <byte name="tcEnum" value="0x7E"/>
       <reference to="ClassDesc"/>
-      <reference to="UTF8String"/>
+      <reference name="enumConstantName" to="UTF8String"/>
    </sequence>
 
    <sequence name="NewObject">
@@ -125,24 +120,24 @@
    </sequence>
 
    <choice name="NewString">
-      <sequence>
+      <sequence name="NormalString">
          <byte name="tcString" value="0x74"/>
-         <reference to="UTF8String"/>
+         <reference name="value" to="UTF8String"/>
       </sequence>
 
-      <sequence>
+      <sequence name="LongString">
          <byte name="tcLongString" value="0x7C"/>
-         <reference to="LongUTF8String"/>
+         <reference name="value" to="LongUTF8String"/>
       </sequence>
    </choice>
 
    <choice name="Object">
-      <reference to="NewObject"/>
-      <reference to="NewClass"/>
       <reference to="NewArray"/>
-      <reference to="NewString"/>
-      <reference to="NewEnum"/>
+      <reference to="NewClass"/>
       <reference to="NewClassDesc"/>
+      <reference to="NewEnum"/>
+      <reference to="NewObject"/>
+      <reference to="NewString"/>
       <reference to="PrevObject"/>
       <byte name="nullReference" value="0x70"/>
       <reference to="Exception"/>
@@ -151,8 +146,8 @@
 
    <sequence name="ObjectDesc">
       <reference to="ObjectTypeCode"/>
-      <reference to="UTF8String"/>
-      <reference to="UTF8String"/>
+      <reference name="fieldName" to="UTF8String"/>
+      <reference name="className" to="UTF8String"/>
    </sequence>
 
    <choice name="ObjectTypeCode">
@@ -167,24 +162,24 @@
 
    <sequence name="PrimitiveDesc">
       <reference to="PrimitiveTypeCode"/>
-      <reference to="UTF8String"/>
+      <reference name="fieldName" to="UTF8String"/>
    </sequence>
 
    <choice name="PrimitiveTypeCode">
-      <char value="B"/>
-      <char value="C"/>
-      <char value="D"/>
-      <char value="F"/>
-      <char value="I"/>
-      <char value="J"/>
-      <char value="S"/>
-      <char value="Z"/>
+      <char name="byte" value="B"/>
+      <char name="char" value="C"/>
+      <char name="double" value="D"/>
+      <char name="float" value="F"/>
+      <char name="integer" value="I"/>
+      <char name="long" value="J"/>
+      <char name="short" value="S"/>
+      <char name="boolean" value="Z"/>
    </choice>
 
    <sequence name="ProxyClassDescInfo">
       <int name="count"/>
-      <sequenceOf size="$count">
-         <reference to="UTF8String"/>
+      <sequenceOf name="ProxyFields" size="$count">
+         <reference name="fieldName" to="UTF8String"/>
       </sequenceOf>
       <reference to="ClassAnnotation"/>
       <reference to="ClassDesc"/>

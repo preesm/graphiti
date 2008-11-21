@@ -31,11 +31,11 @@ package net.sf.graphiti.io.csd.ast;
 import net.sf.graphiti.io.csd.CSDParseException;
 
 public class Reference extends Type {
-	
+
 	private Type reference;
-	
+
 	private String referenceName;
-	
+
 	public Reference(String name, String refName) {
 		super(name);
 		this.referenceName = refName;
@@ -45,11 +45,7 @@ public class Reference extends Type {
 	public void accept(CSDVisitor visitor) throws CSDParseException {
 		visitor.visit(this);
 	}
-	
-	public String toString() {
-		return super.toString() + ": " + referenceName;
-	}
-	
+
 	public Type getReference() {
 		return reference;
 	}
@@ -60,6 +56,10 @@ public class Reference extends Type {
 
 	public void setReference(Type reference) {
 		this.reference = reference;
+	}
+
+	public String toString() {
+		return super.toString() + ": " + referenceName;
 	}
 
 }

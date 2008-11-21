@@ -58,5 +58,5 @@ public class Variable extends Type {
 	public String toString() {
 		return super.toString() + ": " + select;
 	}
-	
+
 }

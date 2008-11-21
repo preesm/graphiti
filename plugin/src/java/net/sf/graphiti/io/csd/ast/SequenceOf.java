@@ -30,7 +30,6 @@ package net.sf.graphiti.io.csd.ast;
 
 import net.sf.graphiti.io.csd.CSDParseException;
 
-
 /**
  * This class represents the ASN.1 SEQUENCE OF production. In opposition to
  * SEQUENCE, it specifies a repetition of elements of a certain type. The number
@@ -41,9 +40,9 @@ import net.sf.graphiti.io.csd.CSDParseException;
  */
 public class SequenceOf extends Type {
 
-	private Type type;
-	
 	private String size;
+
+	private Type type;
 
 	/**
 	 * Creates a new empty {@link SequenceOf}.
@@ -56,6 +55,10 @@ public class SequenceOf extends Type {
 	@Override
 	public void accept(CSDVisitor visitor) throws CSDParseException {
 		visitor.visit(this);
+	}
+
+	public String getSize() {
+		return size;
 	}
 
 	/**
@@ -80,10 +83,6 @@ public class SequenceOf extends Type {
 	@Override
 	public String toString() {
 		return super.toString() + ": " + size + " * " + type;
-	}
-
-	public String getSize() {
-		return size;
 	}
 
 }

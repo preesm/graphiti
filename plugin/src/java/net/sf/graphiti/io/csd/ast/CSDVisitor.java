@@ -41,17 +41,17 @@ public interface CSDVisitor {
 	public void visit(Choice choice) throws CSDParseException;
 
 	public void visit(CSDNumber csdNumber) throws CSDParseException;
-	
+
 	public void visit(Error error) throws CSDParseException;
 
 	public void visit(LongUTF8String utf8String) throws CSDParseException;
-	
+
 	public void visit(Reference reference) throws CSDParseException;
 
 	public void visit(Sequence sequence) throws CSDParseException;
 
 	public void visit(SequenceOf sequenceOf) throws CSDParseException;
-	
+
 	public void visit(UTF8String utf8String) throws CSDParseException;
 
 	public void visit(Variable variable) throws CSDParseException;

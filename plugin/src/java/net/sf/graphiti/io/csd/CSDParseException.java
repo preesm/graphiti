@@ -35,11 +35,11 @@ public class CSDParseException extends Exception {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public CSDParseException(Throwable cause) {
-		super(cause);
-	}
-	
 	public CSDParseException(String message) {
 		super(message);
+	}
+
+	public CSDParseException(Throwable cause) {
+		super(cause);
 	}
 }

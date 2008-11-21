@@ -54,12 +54,20 @@ public class CSDNumber extends Type {
 		visitor.visit(this);
 	}
 
+	public int getLength() {
+		return length;
+	}
+
 	public BigInteger getValue() {
 		return value;
 	}
 
 	public boolean hasValue() {
 		return hasValue;
+	}
+
+	public boolean match(byte[] bytes) {
+		return new BigInteger(1, bytes).equals(value);
 	}
 
 	private void setValue(String strValue) {
@@ -83,14 +91,6 @@ public class CSDNumber extends Type {
 	public String toString() {
 		return super.toString() + ": byte[" + length + "]"
 				+ (hasValue ? " = " + value : "");
-	}
-
-	public int getLength() {
-		return length;
-	}
-
-	public boolean match(byte[] bytes) {
-		return new BigInteger(1, bytes).equals(value);
 	}
 
 }
