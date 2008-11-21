@@ -120,7 +120,7 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 				throw new CSDParseException(condition + " evaluated to false");
 			}
 		}
-		
+
 		Element typeElt = document.createElement(type.getName());
 		nodeStack.peek().appendChild(typeElt);
 		nodeStack.push(typeElt);
@@ -316,6 +316,8 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 	public void visit(UTF8String utf8String) throws CSDParseException {
 		begin(utf8String);
 		try {
+			long fp = in.getFilePointer();
+			System.out.println(fp);
 			String strValue = in.readUTF();
 			System.out.println("Parsing UTF-8: \"" + strValue + "\"");
 			nodeStack.peek().setAttribute("value", strValue);
