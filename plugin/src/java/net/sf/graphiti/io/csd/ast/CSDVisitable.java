@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.io.csd.ast;
 
+import net.sf.graphiti.io.csd.CSDParseException;
+
 /**
  * This interface defines methods that classes wishing to be visited must
  * implement.
@@ -43,6 +45,6 @@ public interface CSDVisitable {
 	 * @param visitor
 	 *            A {@link CSDVisitor}.
 	 */
-	public void accept(CSDVisitor visitor);
+	public void accept(CSDVisitor visitor) throws CSDParseException;
 
 }

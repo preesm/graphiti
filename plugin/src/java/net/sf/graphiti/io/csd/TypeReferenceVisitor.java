@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.graphiti.io.csd.ast.CSDChar;
+import net.percederberg.grammatica.parser.Production;
 import net.sf.graphiti.io.csd.ast.CSDNumber;
 import net.sf.graphiti.io.csd.ast.CSDVisitor;
 import net.sf.graphiti.io.csd.ast.Choice;
@@ -68,17 +68,20 @@ public class TypeReferenceVisitor implements CSDVisitor {
 			this.types.put(type.getName(), type);
 		}
 
-		for (Type type : types) {
-			type.accept(this);
+		try {
+			for (Type type : types) {
+				type.accept(this);
+			}
+		} catch (CSDParseException e) {
+			// never happens in this visitor
 		}
 	}
 
 	@Override
-	public void visit(Choice choice) {
-	}
-
-	@Override
-	public void visit(CSDChar csdChar) {
+	public void visit(Choice choice) throws CSDParseException {
+		for (Type type : choice.getAlternatives()) {
+			type.accept(this);
+		}
 	}
 
 	@Override
@@ -98,9 +101,9 @@ public class TypeReferenceVisitor implements CSDVisitor {
 		String ref = typeRef.getReferenceName();
 		Type reference;
 		if (ref.equals("LongUTF8String")) {
-			reference = new LongUTF8String();
+			reference = new LongUTF8String(typeRef.getName());
 		} else if (ref.equals("UTF8String")) {
-			reference = new UTF8String();
+			reference = new UTF8String(typeRef.getName());
 		} else {
 			Type type = types.get(ref);
 			if (type == null) {
@@ -115,11 +118,15 @@ public class TypeReferenceVisitor implements CSDVisitor {
 	}
 
 	@Override
-	public void visit(Sequence sequence) {
+	public void visit(Sequence sequence) throws CSDParseException {
+		for (Type type : sequence.getElements()) {
+			type.accept(this);
+		}
 	}
 
 	@Override
-	public void visit(SequenceOf sequenceOf) {
+	public void visit(SequenceOf sequenceOf) throws CSDParseException {
+		sequenceOf.getType().accept(this);
 	}
 
 	@Override

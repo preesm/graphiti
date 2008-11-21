@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.io.csd.ast;
 
+import net.sf.graphiti.io.csd.CSDParseException;
+
 public class Reference extends Type {
 	
 	private Type reference;
@@ -40,11 +42,16 @@ public class Reference extends Type {
 	}
 
 	@Override
-	public void accept(CSDVisitor visitor) {
+	public void accept(CSDVisitor visitor) throws CSDParseException {
+		visitor.visit(this);
 	}
 	
 	public String toString() {
 		return super.toString() + ": " + referenceName;
+	}
+	
+	public Type getReference() {
+		return reference;
 	}
 
 	public String getReferenceName() {

@@ -64,8 +64,9 @@ public class CSDFileParser {
 	private List<Type> types;
 
 	public CSDFileParser(String csdFile) throws ClassCastException,
-			ClassNotFoundException, CSDParseException, FileNotFoundException,
-			IllegalAccessException, InstantiationException {
+			ClassNotFoundException, CSDFileParseException,
+			FileNotFoundException, IllegalAccessException,
+			InstantiationException {
 		types = new ArrayList<Type>();
 
 		Document doc = DomHelper.parse(new FileInputStream(csdFile));
@@ -88,7 +89,7 @@ public class CSDFileParser {
 		return new CSDChar(name, value);
 	}
 
-	private Choice parseChoice(Element choiceElt) throws CSDParseException {
+	private Choice parseChoice(Element choiceElt) throws CSDFileParseException {
 		Choice choice = new Choice(choiceElt.getAttribute("name"));
 
 		Node node = choiceElt.getFirstChild();
@@ -101,7 +102,7 @@ public class CSDFileParser {
 		return choice;
 	}
 
-	private void parseCSD(Node node) throws CSDParseException {
+	private void parseCSD(Node node) throws CSDFileParseException {
 		while (node != null) {
 			Type type = parseType(node);
 			types.add(type);
@@ -136,7 +137,7 @@ public class CSDFileParser {
 	}
 
 	private Sequence parseSequence(Element sequenceElt)
-			throws CSDParseException {
+			throws CSDFileParseException {
 		Sequence sequence = new Sequence(sequenceElt.getAttribute("name"));
 
 		Node node = sequenceElt.getFirstChild();
@@ -150,7 +151,7 @@ public class CSDFileParser {
 	}
 
 	private SequenceOf parseSequenceOf(Element sequenceOfElt)
-			throws CSDParseException {
+			throws CSDFileParseException {
 		String name = sequenceOfElt.getAttribute("name");
 		String size = sequenceOfElt.getAttribute("size");
 		SequenceOf sequenceOf = new SequenceOf(name, size);
@@ -166,7 +167,7 @@ public class CSDFileParser {
 		return parseNumber(shortElt, 2);
 	}
 
-	private Type parseType(Node node) throws CSDParseException {
+	private Type parseType(Node node) throws CSDFileParseException {
 		String nodeName = node.getNodeName();
 		Type type;
 		if (nodeName.equals("byte")) {
@@ -189,10 +190,10 @@ public class CSDFileParser {
 			type = parseSequenceOf((Element) node);
 		} else if (nodeName.equals("short")) {
 			type = parseShort((Element) node);
-		} else if (nodeName.equals("xsl:variable")) {
+		} else if (nodeName.equals("variable")) {
 			type = parseVariable((Element) node);
 		} else {
-			throw new CSDParseException();
+			throw new CSDFileParseException();
 		}
 
 		// set xsl:if if not empty

@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.io.csd.ast;
 
+import net.sf.graphiti.io.csd.CSDParseException;
+
 /**
  * This class is the implementation of the built-in ASN.1 construct
  * "UTF8String".
@@ -40,12 +42,12 @@ public class LongUTF8String extends Type {
 	/**
 	 * Creates a new utf-8 string.
 	 */
-	public LongUTF8String() {
-		super("");
+	public LongUTF8String(String name) {
+		super(name);
 	}
 
 	@Override
-	public void accept(CSDVisitor visitor) {
+	public void accept(CSDVisitor visitor) throws CSDParseException {
 		visitor.visit(this);
 	}
 

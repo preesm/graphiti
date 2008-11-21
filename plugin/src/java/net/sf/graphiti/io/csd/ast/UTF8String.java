@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.io.csd.ast;
 
+import net.sf.graphiti.io.csd.CSDParseException;
+
 /**
  * This class is the implementation of the built-in CSD construct "UTF8String".
  * 
@@ -39,12 +41,12 @@ public class UTF8String extends Type {
 	/**
 	 * Creates a new utf-8 string.
 	 */
-	public UTF8String() {
-		super("");
+	public UTF8String(String name) {
+		super(name);
 	}
 
 	@Override
-	public void accept(CSDVisitor visitor) {
+	public void accept(CSDVisitor visitor) throws CSDParseException {
 		visitor.visit(this);
 	}
 

@@ -31,6 +31,8 @@ package net.sf.graphiti.io.csd.ast;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.graphiti.io.csd.CSDParseException;
+
 /**
  * This class represents a choice between several alternatives.
  * 
@@ -50,7 +52,7 @@ public class Choice extends Type {
 	}
 
 	@Override
-	public void accept(CSDVisitor visitor) {
+	public void accept(CSDVisitor visitor) throws CSDParseException {
 		visitor.visit(this);
 	}
 

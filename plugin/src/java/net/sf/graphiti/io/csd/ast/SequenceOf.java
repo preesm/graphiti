@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.io.csd.ast;
 
+import net.sf.graphiti.io.csd.CSDParseException;
+
 
 /**
  * This class represents the ASN.1 SEQUENCE OF production. In opposition to
@@ -52,7 +54,7 @@ public class SequenceOf extends Type {
 	}
 
 	@Override
-	public void accept(CSDVisitor visitor) {
+	public void accept(CSDVisitor visitor) throws CSDParseException {
 		visitor.visit(this);
 	}
 
@@ -78,6 +80,10 @@ public class SequenceOf extends Type {
 	@Override
 	public String toString() {
 		return super.toString() + ": " + size + " * " + type;
+	}
+
+	public String getSize() {
+		return size;
 	}
 
 }

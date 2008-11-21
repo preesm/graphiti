@@ -28,21 +28,23 @@
  */
 package net.sf.graphiti.io.csd;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.RandomAccessFile;
+import java.math.BigInteger;
+import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javax.xml.namespace.QName;
+import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathFactoryConfigurationException;
 import javax.xml.xpath.XPathVariableResolver;
 
-import net.sf.graphiti.io.csd.ast.CSDChar;
+import net.sf.graphiti.io.DomHelper;
 import net.sf.graphiti.io.csd.ast.CSDNumber;
 import net.sf.graphiti.io.csd.ast.CSDVisitor;
 import net.sf.graphiti.io.csd.ast.Choice;
@@ -55,72 +57,79 @@ import net.sf.graphiti.io.csd.ast.Type;
 import net.sf.graphiti.io.csd.ast.UTF8String;
 import net.sf.graphiti.io.csd.ast.Variable;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
 public class CSDParser implements CSDVisitor, XPathVariableResolver {
 
 	public static void main(String[] args) throws Exception {
 		new CSDParser(args[0], args[1]);
 	}
 
+	private Document document;
+
 	private XPathFactory factory;
 
-	private BufferedInputStream in;
+	private RandomAccessFile in;
+
+	private ArrayDeque<Element> nodeStack;
 
 	private Map<String, String> variables;
 
 	public CSDParser(String csdFile, String binFile) throws ClassCastException,
-			ClassNotFoundException, CSDParseException, IllegalAccessException,
-			InstantiationException, IOException,
+			ClassNotFoundException, CSDFileParseException,
+			IllegalAccessException, InstantiationException, IOException,
 			XPathFactoryConfigurationException, XPathExpressionException {
 		variables = new TreeMap<String, String>();
-		
+
+		// parse the Concrete Syntax Description
 		List<Type> types = new CSDFileParser(csdFile).getTypes();
 		new TypeReferenceVisitor(types);
 
+		// initialize XPath factory
 		factory = XPathFactory.newInstance(
 				XPathFactory.DEFAULT_OBJECT_MODEL_URI,
 				"net.sf.saxon.xpath.XPathFactoryImpl", null);
 		factory.setXPathVariableResolver(this);
 
-		FileInputStream fis = new FileInputStream(binFile);
-		in = new BufferedInputStream(fis);
-		types.get(0).accept(this);
-	}
+		// create result document
+		document = DomHelper.createDocument("", "ConcreteSyntaxTree");
 
-	/**
-	 * Returns true if the given arrays are equal.
-	 * 
-	 * @param actual
-	 *            A byte array read from {@link #in}.
-	 * @param expected
-	 *            A byte array expected.
-	 * @return True if the given arrays are equal, false otherwise.
-	 */
-	private boolean byteEquals(byte[] actual, byte[] expected) {
-		for (int i = 0; i < actual.length; i++) {
-			if (actual[i] != expected[i]) {
-				return false;
-			}
+		// initialize node stack
+		nodeStack = new ArrayDeque<Element>();
+		nodeStack.push(document.getDocumentElement());
+
+		// let's go!
+		in = new RandomAccessFile(binFile, "r");
+		try {
+			types.get(0).accept(this);
+		} catch (CSDParseException e) {
+			e.printStackTrace();
 		}
-
-		return true;
 	}
-	
-	/**
-	 * Reads bytes and check if they match the given binary number's bytes.
-	 * Beware that it is the caller's responsibility to call
-	 * {@link InputStream#mark(int)}, not this function's.
-	 * 
-	 * @param nb
-	 *            A binary number.
-	 * @return True if the bytes read match, false otherwise.
-	 * @throws IOException
-	 *             If {@link InputStream#read()} fails.
-	 */
-	private boolean readBytesMatch() throws IOException {
-		byte[] expected = new byte[] {};
-		byte[] actual = new byte[expected.length];
-		in.read(actual);
-		return byteEquals(actual, expected);
+
+	private Element begin(Type type) {
+		Element typeElt = document.createElement(type.getName());
+		nodeStack.peek().appendChild(typeElt);
+		nodeStack.push(typeElt);
+		return typeElt;
+	}
+
+	private void end() {
+		nodeStack.pop();
+	}
+
+	private String evaluateXPath(String expression) {
+		XPath path = factory.newXPath();
+		try {
+			Element context = nodeStack.peek();
+			String result = path.evaluate(expression, context);
+			return result;
+		} catch (XPathExpressionException e) {
+			e.printStackTrace();
+			return "";
+		}
 	}
 
 	@Override
@@ -128,62 +137,144 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		return variables.get(variableName.getLocalPart());
 	}
 
-	@Override
-	public void visit(Choice choice) {
-		// TODO Auto-generated method stub
+	private void revert(Element elt) {
+		// pop elements
+		Element stackElt;
+		do {
+			stackElt = nodeStack.pop();
+		} while (stackElt != elt);
 
+		// remove children
+		Node node = elt.getFirstChild();
+		while (node != null) {
+			elt.removeChild(node);
+			node = node.getNextSibling();
+		}
+
+		// remove itself
+		elt.getParentNode().removeChild(elt);
 	}
 
 	@Override
-	public void visit(CSDChar csdChar) {
-		// TODO Auto-generated method stub
+	public void visit(Choice choice) throws CSDParseException {
+		Element choiceElt = begin(choice);
 
+		try {
+			long fp = in.getFilePointer();
+			for (Type type : choice.getAlternatives()) {
+				try {
+					type.accept(this);
+					end();
+					return;
+				} catch (CSDParseException e) {
+					// something wrong when parsing this type: wrong rule
+					in.seek(fp);
+				}
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		revert(choiceElt);
+		throw new CSDParseException("Parse error");
 	}
 
 	@Override
-	public void visit(CSDNumber csdNumber) {
-		// TODO Auto-generated method stub
+	public void visit(CSDNumber csdNumber) throws CSDParseException {
+		Element csdElt = begin(csdNumber);
 
+		int length = csdNumber.getLength();
+		byte[] bytes = new byte[length];
+		try {
+			in.read(bytes);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		if (csdNumber.hasValue() && !csdNumber.match(bytes)) {
+			revert(csdElt);
+			throw new CSDParseException(new MatchException());
+		}
+
+		// register the variable and set the value
+		String strValue = new BigInteger(1, bytes).toString();
+		System.out.println("Setting number value of: " + csdNumber + " to: "
+				+ strValue);
+		nodeStack.peek().setAttribute("value", strValue);
+
+		end();
 	}
 
 	@Override
 	public void visit(Error error) {
-		// TODO Auto-generated method stub
-
+		throw new RuntimeException("TODO");
 	}
 
 	@Override
 	public void visit(LongUTF8String utf8String) {
-		// TODO Auto-generated method stub
-
+		throw new RuntimeException("TODO");
 	}
 
 	@Override
-	public void visit(Reference reference) {
-		// TODO Auto-generated method stub
-
+	public void visit(Reference reference) throws CSDParseException {
+		reference.getReference().accept(this);
 	}
 
 	@Override
-	public void visit(Sequence sequence) {
+	public void visit(Sequence sequence) throws CSDParseException {
+		Element element = begin(sequence);
+		try {
+			for (Type type : sequence.getElements()) {
+				type.accept(this);
+			}
+		} catch (CSDParseException e) {
+			revert(element);
+			throw e;
+		}
+		end();
 	}
 
 	@Override
-	public void visit(SequenceOf sequenceOf) {
-		// TODO Auto-generated method stub
+	public void visit(SequenceOf sequenceOf) throws CSDParseException {
+		begin(sequenceOf);
+		String size = sequenceOf.getSize();
+		Type type = sequenceOf.getType();
+		if (size.isEmpty()) {
+			try {
+				while (true) {
+					type.accept(this);
+				}
+			} catch (CSDParseException e) {
+			}
+		} else {
+			String res = evaluateXPath(size);
+			int n = Integer.parseInt(res);
+			for (int i = 0; i < n; i++) {
+				type.accept(this);
+			}
+		}
 
+		end();
 	}
 
 	@Override
 	public void visit(UTF8String utf8String) {
-		// TODO Auto-generated method stub
-
+		begin(utf8String);
+		try {
+			String strValue = in.readUTF();
+			System.out.println("Parsing UTF-8: \"" + strValue + "\"");
+			nodeStack.peek().setAttribute("value", strValue);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		end();
 	}
 
 	@Override
 	public void visit(Variable variable) {
-		// TODO Auto-generated method stub
-
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		DomHelper.write(document, bos);
+		System.out.println(bos.toString());
 	}
 
 }

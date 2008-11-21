@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.io.csd.ast;
 
+import net.sf.graphiti.io.csd.CSDParseException;
+
 /**
  * This interface defines methods to visit several parts of the ASN.1 AST.
  * 
@@ -36,24 +38,22 @@ package net.sf.graphiti.io.csd.ast;
  */
 public interface CSDVisitor {
 
-	public void visit(Choice choice);
+	public void visit(Choice choice) throws CSDParseException;
 
-	public void visit(CSDChar csdChar);
-
-	public void visit(CSDNumber csdNumber);
+	public void visit(CSDNumber csdNumber) throws CSDParseException;
 	
-	public void visit(Error error);
+	public void visit(Error error) throws CSDParseException;
 
-	public void visit(LongUTF8String utf8String);
+	public void visit(LongUTF8String utf8String) throws CSDParseException;
 	
-	public void visit(Reference reference);
+	public void visit(Reference reference) throws CSDParseException;
 
-	public void visit(Sequence sequence);
+	public void visit(Sequence sequence) throws CSDParseException;
 
-	public void visit(SequenceOf sequenceOf);
+	public void visit(SequenceOf sequenceOf) throws CSDParseException;
 	
-	public void visit(UTF8String utf8String);
+	public void visit(UTF8String utf8String) throws CSDParseException;
 
-	public void visit(Variable variable);
+	public void visit(Variable variable) throws CSDParseException;
 
 }

@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.io.csd.ast;
 
+import net.sf.graphiti.io.csd.CSDParseException;
+
 public class CSDChar extends CSDNumber {
 
 	public CSDChar(String name, String value) {
@@ -35,12 +37,12 @@ public class CSDChar extends CSDNumber {
 	}
 
 	@Override
-	public void accept(CSDVisitor visitor) {
+	public void accept(CSDVisitor visitor) throws CSDParseException {
 		visitor.visit(this);
 	}
 
 	public String toString() {
-		char c = (char) super.getValue();
+		char c = (char) super.getValue().intValue();
 		return super.toString() + "('" + c + "')";
 	}
 

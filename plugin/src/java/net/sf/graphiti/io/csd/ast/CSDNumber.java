@@ -28,49 +28,69 @@
  */
 package net.sf.graphiti.io.csd.ast;
 
+import java.math.BigInteger;
+
+import net.sf.graphiti.io.csd.CSDParseException;
+
 public class CSDNumber extends Type {
+
+	private boolean hasValue;
 
 	private int length;
 
-	private long value;
+	private BigInteger value;
 
 	public CSDNumber(String name, int length, String value) {
 		super(name);
 		this.length = length;
-		if (!value.isEmpty()) {
+		hasValue = !value.isEmpty();
+		if (hasValue) {
 			setValue(value);
 		}
 	}
 
 	@Override
-	public void accept(CSDVisitor visitor) {
+	public void accept(CSDVisitor visitor) throws CSDParseException {
 		visitor.visit(this);
 	}
-	
-	public long getValue() {
+
+	public BigInteger getValue() {
 		return value;
+	}
+
+	public boolean hasValue() {
+		return hasValue;
 	}
 
 	private void setValue(String strValue) {
 		if (strValue.equals("0")) {
 			// decimal 0
-			value = 0;
+			value = new BigInteger("0");
 		} else {
 			if (strValue.startsWith("0x") || strValue.startsWith("0X")) {
 				// hexadecimal
-				value = Long.parseLong(strValue.substring(2), 16);
+				value = new BigInteger(strValue.substring(2), 16);
 			} else if (strValue.startsWith("0")) {
 				// octal
-				value = Long.parseLong(strValue.substring(1), 8);
+				value = new BigInteger(strValue.substring(1), 8);
 			} else {
 				// decimal
-				value = Long.parseLong(strValue, 10);
+				value = new BigInteger(strValue, 10);
 			}
 		}
 	}
-	
+
 	public String toString() {
-		return super.toString() + ": " + length + " = " + value;
+		return super.toString() + ": byte[" + length + "]"
+				+ (hasValue ? " = " + value : "");
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public boolean match(byte[] bytes) {
+		return new BigInteger(1, bytes).equals(value);
 	}
 
 }

@@ -26,29 +26,13 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.csd.ast;
+package net.sf.graphiti.io.csd;
 
-import net.sf.graphiti.io.csd.CSDParseException;
-
-/**
- * This class represents a way to throw an exception if the input cannot be
- * parsed.
- * 
- * @author Matthieu Wipliez
- * 
- */
-public class Error extends Type {
+public class CSDFileParseException extends Exception {
 
 	/**
-	 * Creates a new error.
+	 * 
 	 */
-	public Error(String name) {
-		super(name);
-	}
-
-	@Override
-	public void accept(CSDVisitor visitor) throws CSDParseException {
-		visitor.visit(this);
-	}
+	private static final long serialVersionUID = 1L;
 
 }

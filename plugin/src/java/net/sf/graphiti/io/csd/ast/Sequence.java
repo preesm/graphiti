@@ -31,6 +31,8 @@ package net.sf.graphiti.io.csd.ast;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.graphiti.io.csd.CSDParseException;
+
 /**
  * This class is a sequence of items.
  * 
@@ -53,7 +55,7 @@ public class Sequence extends Type {
 	}
 
 	@Override
-	public void accept(CSDVisitor visitor) {
+	public void accept(CSDVisitor visitor) throws CSDParseException {
 		visitor.visit(this);
 	}
 
