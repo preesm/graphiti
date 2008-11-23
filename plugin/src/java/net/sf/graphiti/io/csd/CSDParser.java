@@ -29,9 +29,7 @@
 package net.sf.graphiti.io.csd;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.RandomAccessFile;
 import java.math.BigInteger;
 import java.util.ArrayDeque;
@@ -70,10 +68,11 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 
 	public static void main(String[] args) throws Exception {
 		new CSDParser(args[0], args[1]);
-		
-		ObjectInputStream oin = new ObjectInputStream(new FileInputStream(args[1]));
-		Object obj = oin.readObject();
-		System.out.println(obj);
+
+		// ObjectInputStream oin = new ObjectInputStream(new FileInputStream(
+		// args[1]));
+		// Object obj = oin.readObject();
+		// System.out.println(obj);
 	}
 
 	private Document document;
@@ -82,11 +81,11 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 
 	private RandomAccessFile in;
 
+	private String indent;
+
 	private ArrayDeque<Element> nodeStack;
 
 	private Map<String, Object> variables;
-
-	private String indent;
 
 	public CSDParser(String csdFile, String binFile) throws ClassCastException,
 			ClassNotFoundException, CSDFileParseException,
@@ -104,6 +103,7 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		factory = XPathFactory.newInstance(
 				XPathFactory.DEFAULT_OBJECT_MODEL_URI,
 				"net.sf.saxon.xpath.XPathFactoryImpl", null);
+		// factory.setXPathFunctionResolver(this);
 		factory.setXPathVariableResolver(this);
 
 		// create result document
@@ -118,11 +118,12 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		try {
 			types.get(0).accept(this);
 		} catch (Throwable e) {
-			long fp = in.getFilePointer();
-			System.out.println(fp);
-			printParseTree();
 			e.printStackTrace();
 		}
+
+		printParseTree();
+		long fp = in.getFilePointer();
+		System.out.println(fp);
 	}
 
 	private void begin(Type type) throws CSDParseException {
@@ -185,6 +186,20 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 	 * @return True if the given type is a valid alternative, false otherwise.
 	 */
 	private boolean isValid(Type type) {
+		// test condition
+		String condition = type.getCondition();
+		if (!condition.isEmpty()) {
+			if (!evaluateXPathBoolean(condition)) {
+				return false;
+			}
+		}
+
+		// if no token specified, assume it's ok
+		if (type.getFirst().isEmpty()) {
+			return true;
+		}
+
+		// test FIRST
 		try {
 			long fp = in.getFilePointer();
 
@@ -256,7 +271,7 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		}
 
 		// register the variable and set the value
-		String strValue = new BigInteger(1, bytes).toString();
+		String strValue = csdNumber.stringOfValue(new BigInteger(1, bytes));
 		System.out.println(indent + csdNumber + " to: " + strValue);
 		nodeStack.peek().setAttribute("value", strValue);
 

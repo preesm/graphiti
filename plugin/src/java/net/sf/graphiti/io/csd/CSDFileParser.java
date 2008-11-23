@@ -34,7 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.graphiti.io.DomHelper;
+import net.sf.graphiti.io.csd.ast.CSDBoolean;
 import net.sf.graphiti.io.csd.ast.CSDChar;
+import net.sf.graphiti.io.csd.ast.CSDDouble;
+import net.sf.graphiti.io.csd.ast.CSDFloat;
 import net.sf.graphiti.io.csd.ast.CSDNumber;
 import net.sf.graphiti.io.csd.ast.Choice;
 import net.sf.graphiti.io.csd.ast.Error;
@@ -84,7 +87,7 @@ public class CSDFileParser {
 		return parseNumber(byteElt, 1);
 	}
 
-	private CSDNumber parseChar(Element charElt) {
+	private CSDChar parseChar(Element charElt) {
 		String name = charElt.getAttribute("name");
 		String value = charElt.getAttribute("value");
 		return new CSDChar(name, value);
@@ -184,14 +187,20 @@ public class CSDFileParser {
 	private Type parseType(Node node) throws CSDFileParseException {
 		String nodeName = node.getNodeName();
 		Type type;
-		if (nodeName.equals("byte")) {
+		if (nodeName.equals("boolean")) {
+			type = parseBoolean((Element) node);
+		} else if (nodeName.equals("byte")) {
 			type = parseByte((Element) node);
 		} else if (nodeName.equals("choice")) {
 			type = parseChoice((Element) node);
 		} else if (nodeName.equals("char")) {
 			type = parseChar((Element) node);
+		} else if (nodeName.equals("double")) {
+			type = parseDouble((Element) node);
 		} else if (nodeName.equals("error")) {
 			type = parseError((Element) node);
+		} else if (nodeName.equals("float")) {
+			type = parseFloat((Element) node);
 		} else if (nodeName.equals("forEach")) {
 			type = parseForEach((Element) node);
 		} else if (nodeName.equals("int")) {
@@ -219,6 +228,24 @@ public class CSDFileParser {
 		}
 
 		return type;
+	}
+
+	private CSDBoolean parseBoolean(Element booleanElt) {
+		String name = booleanElt.getAttribute("name");
+		String value = booleanElt.getAttribute("value");
+		return new CSDBoolean(name, value);
+	}
+
+	private CSDFloat parseFloat(Element floatElt) {
+		String name = floatElt.getAttribute("name");
+		String value = floatElt.getAttribute("value");
+		return new CSDFloat(name, value);
+	}
+
+	private CSDDouble parseDouble(Element doubleElt) {
+		String name = doubleElt.getAttribute("name");
+		String value = doubleElt.getAttribute("value");
+		return new CSDDouble(name, value);
 	}
 
 	private Variable parseVariable(Element variableElt) {

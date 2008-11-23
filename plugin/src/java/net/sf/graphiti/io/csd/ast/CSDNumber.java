@@ -71,26 +71,32 @@ public class CSDNumber extends Type {
 	}
 
 	private void setValue(String strValue) {
-		if (strValue.equals("0")) {
+		if (strValue.charAt(0) == '\'' && strValue.charAt(2) == '\'') {
+			// char
+			String intValue = Integer.toString((int) strValue.charAt(1));
+			value = new BigInteger(intValue, 10);
+		} else if (strValue.equals("0")) {
 			// decimal 0
 			value = new BigInteger("0");
+		} else if (strValue.startsWith("0x") || strValue.startsWith("0X")) {
+			// hexadecimal
+			value = new BigInteger(strValue.substring(2), 16);
+		} else if (strValue.startsWith("0")) {
+			// octal
+			value = new BigInteger(strValue.substring(1), 8);
 		} else {
-			if (strValue.startsWith("0x") || strValue.startsWith("0X")) {
-				// hexadecimal
-				value = new BigInteger(strValue.substring(2), 16);
-			} else if (strValue.startsWith("0")) {
-				// octal
-				value = new BigInteger(strValue.substring(1), 8);
-			} else {
-				// decimal
-				value = new BigInteger(strValue, 10);
-			}
+			// decimal
+			value = new BigInteger(strValue, 10);
 		}
+	}
+
+	public String stringOfValue(BigInteger value) {
+		return value.toString();
 	}
 
 	public String toString() {
 		return super.toString() + ": byte[" + length + "]"
-				+ (hasValue ? " = " + value : "");
+				+ (hasValue ? " = " + stringOfValue(value) : "");
 	}
 
 }

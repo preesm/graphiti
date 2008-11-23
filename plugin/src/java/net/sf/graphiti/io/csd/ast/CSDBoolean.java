@@ -30,16 +30,17 @@ package net.sf.graphiti.io.csd.ast;
 
 import java.math.BigInteger;
 
-public class CSDChar extends CSDNumber {
+public class CSDBoolean extends CSDNumber {
 
-	public CSDChar(String name, String value) {
-		super(name, 2, value);
+	public CSDBoolean(String name, String value) {
+		super(name, 1, value.isEmpty() ? ""
+				: (Boolean.parseBoolean(value) ? "1" : "0"));
 	}
 
 	@Override
 	public String stringOfValue(BigInteger value) {
-		char charValue = (char) value.intValue();
-		return "'" + charValue + "'";
+		boolean booleanValue = (value.intValue() != 0);
+		return Boolean.toString(booleanValue);
 	}
 
 }

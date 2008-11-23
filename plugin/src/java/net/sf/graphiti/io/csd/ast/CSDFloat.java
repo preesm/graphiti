@@ -30,16 +30,17 @@ package net.sf.graphiti.io.csd.ast;
 
 import java.math.BigInteger;
 
-public class CSDChar extends CSDNumber {
+public class CSDFloat extends CSDNumber {
 
-	public CSDChar(String name, String value) {
-		super(name, 2, value);
+	public CSDFloat(String name, String value) {
+		super(name, 4, value.isEmpty() ? "" : Integer.toString(Float
+				.floatToIntBits(Float.parseFloat(value))));
 	}
 
 	@Override
 	public String stringOfValue(BigInteger value) {
-		char charValue = (char) value.intValue();
-		return "'" + charValue + "'";
+		float floatValue = Float.intBitsToFloat(value.intValue());
+		return Float.toString(floatValue);
 	}
 
 }

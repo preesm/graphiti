@@ -145,11 +145,6 @@ public class FirstSetVisitor implements CSDVisitor {
 		Type type = sequenceOf.getType();
 		type.accept(this);
 		sequenceOf.getFirst().addAll(type.getFirst());
-		
-		// if no size information is set: FIRST contains epsilon
-		if (sequenceOf.getSize().isEmpty()) {
-			sequenceOf.getFirst().add(Token.epsilon);
-		}
 	}
 
 	@Override

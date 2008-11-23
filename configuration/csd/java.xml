@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <csd>
-   
-   <!-- as per http://java.sun.com/javase/6/docs/platform/serialization/spec/protocol.html -->
+
+   <!-- as per http://java.sun.com/javase/6/docs/platform/serialization/spec/protocol.html
+-->
 
    <sequence name="Stream">
       <short name="magic" value="0xACED"/>
@@ -38,10 +39,12 @@
       </sequence>
    </choice>
 
+   <!-- data about the NormalClassDesc in $context -->
    <choice name="ClassData">
       <variable name="flags" select="$context/ClassDescInfo/classDescFlags/@value"/>
+      <variable name="name" select="$context/className/@value"/>
       <reference to="Values" if="$flags eq '2'"/>
-      <reference to="WRClass" if="$flags eq '3'"/>
+      <reference to="HashMap" if="$flags eq '3' and $name eq 'java.util.HashMap'"/>
       <error/>
    </choice>
 
@@ -83,6 +86,32 @@
       <reference to="PrimitiveDesc"/>
       <reference to="ObjectDesc"/>
    </choice>
+   
+   <!-- java.util.HashMap has a readObject function. -->
+   <sequence name="HashMap">
+      <!-- first we read its field values. -->
+      <reference to="Values"/>
+      
+      <!-- a short block of 8 bytes -->
+      <byte name="ShortBlock" value="0x77"/>
+      <byte name="BlockSize" value="8"/>
+      
+      <!-- then the number of buckets -->
+      <int name="numBuckets"/>
+      
+      <!-- the number of mappings a.k.a size -->
+      <int name="size"/>
+      
+      <sequenceOf name="Entries" size="ancestor::HashMap/size/@value">
+         <sequence name="Entry">
+            <!-- key -->
+            <reference to="Object"/>
+            
+            <!-- value -->
+            <reference to="Object"/>
+         </sequence>
+      </sequenceOf>
+   </sequence>
 
    <sequence name="NewArray">
       <byte name="tcArray" value="0x75"/>
@@ -118,7 +147,9 @@
    <sequence name="NewObject">
       <byte name="tcObject" value="0x73"/>
       <reference to="ClassDesc"/>
-      <forEach name="ClassDataArray" select="(parent::node())/descendant::NormalClassDesc">
+      
+      <!-- for each class read, from superclass to subclass (hence "reverse") -->
+      <forEach name="ClassDataArray" select="reverse((parent::node())/descendant::NormalClassDesc)">
          <reference to="ClassData"/>
       </forEach>
    </sequence>
@@ -147,7 +178,7 @@
       <reference to="Exception"/>
       <byte name="tcReset" value="0x79"/>
    </choice>
-   
+
    <choice name="ObjectAnnotation">
       <byte name="endBlockData" value="0x78"/>
       <sequence name="NonEmptyContents">
@@ -163,8 +194,8 @@
    </sequence>
 
    <choice name="ObjectTypeCode">
-      <char name="array" value="["/>
-      <char name="object" value="L"/>
+      <byte name="array" value="'['"/>
+      <byte name="object" value="'L'"/>
    </choice>
 
    <sequence name="PrevObject">
@@ -178,14 +209,14 @@
    </sequence>
 
    <choice name="PrimitiveTypeCode">
-      <char name="byte" value="B"/>
-      <char name="char" value="C"/>
-      <char name="double" value="D"/>
-      <char name="float" value="F"/>
-      <char name="integer" value="I"/>
-      <char name="long" value="J"/>
-      <char name="short" value="S"/>
-      <char name="boolean" value="Z"/>
+      <byte name="byte" value="'B'"/>
+      <byte name="char" value="'C'"/>
+      <byte name="double" value="'D'"/>
+      <byte name="float" value="'F'"/>
+      <byte name="integer" value="'I'"/>
+      <byte name="long" value="'J'"/>
+      <byte name="short" value="'S'"/>
+      <byte name="boolean" value="'Z'"/>
    </choice>
 
    <sequence name="ProxyClassDescInfo">
@@ -196,16 +227,24 @@
       <reference to="ClassAnnotation"/>
       <reference to="ClassDesc"/>
    </sequence>
-   
-   <sequence name="Values">
-      <forEach name="FieldArray" select="$context/ClassDescInfo/Fields/FieldSequence/FieldDesc">
-         <choice name="FieldValue">
-            <int name="float" if="$context/PrimitiveDesc/PrimitiveTypeCode/float"/>
-            <int name="int" if="$context/PrimitiveDesc/PrimitiveTypeCode/integer"/>
-         </choice>
-      </forEach>
-   </sequence>
-   
+
+   <!-- field values of NormalClassDesc in $context -->
+   <forEach name="Values" select="$context/ClassDescInfo/Fields/FieldSequence/FieldDesc">
+      <!-- $context = FieldDesc -->
+      <choice name="FieldValue">
+         <byte name="byte" if="$context/PrimitiveDesc/PrimitiveTypeCode/byte"/>
+         <char name="char" if="$context/PrimitiveDesc/PrimitiveTypeCode/char"/>
+         <double name="double" if="$context/PrimitiveDesc/PrimitiveTypeCode/double"/>
+         <float name="float" if="$context/PrimitiveDesc/PrimitiveTypeCode/float"/>
+         <int name="int" if="$context/PrimitiveDesc/PrimitiveTypeCode/integer"/>
+         <long name="long" if="$context/PrimitiveDesc/PrimitiveTypeCode/long"/>
+         <short name="short" if="$context/PrimitiveDesc/PrimitiveTypeCode/short"/>
+         <boolean name="boolean" if="$context/PrimitiveDesc/PrimitiveTypeCode/boolean"/>
+         
+         <reference to="Object" if="$context/ObjectDesc/ObjectTypeCode/object"/>
+      </choice>
+   </forEach>
+
    <sequence name="WRClass">
       <reference to="Values"/>
       <reference to="ObjectAnnotation"/>
