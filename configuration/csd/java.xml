@@ -117,6 +117,48 @@
       <byte name="tcArray" value="0x75"/>
       <reference to="ClassDesc"/>
       <int name="size"/>
+      <variable name="size" select="size/@value" as="NUMBER"/>
+      <variable name="classType" select="ClassDesc/NewClassDesc/NormalClassDesc/className" as="NODE"/>
+      <choice name="ArrayValues">
+         <sequence-of name="ByteValues" size="$size" if="$classType/@value = '[B'">
+            <byte name="ByteValue"/>
+         </sequence-of>
+         <sequence-of name="CharValues" size="$size" if="$classType/@value = '[C'">
+            <char name="CharValue"/>
+         </sequence-of>
+         <sequence-of name="DoubleValues" size="$size" if="$classType/@value = '[D'">
+            <double name="DoubleValue"/>
+         </sequence-of>
+         <sequence-of name="FloatValues" size="$size" if="$classType/@value = '[F'">
+            <float name="FloatValue"/>
+         </sequence-of>
+         <sequence-of name="IntValues" size="$size" if="$classType/@value = '[I'">
+            <int name="IntValue"/>
+         </sequence-of>
+         <sequence-of name="LongValues" size="$size" if="$classType/@value = '[J'">
+            <long name="LongValue"/>
+         </sequence-of>
+         <sequence-of name="ShortValues" size="$size" if="$classType/@value = '[S'">
+            <short name="ShortValue"/>
+         </sequence-of>
+         <sequence-of name="BooleanValues" size="$size" if="$classType/@value = '[Z'">
+            <boolean name="BooleanValue"/>
+         </sequence-of>
+      </choice>
+
+      <choice name="FieldValue">
+         <byte name="byte" if="$context/PrimitiveDesc/PrimitiveTypeCode/byte"/>
+         <char name="char" if="$context/PrimitiveDesc/PrimitiveTypeCode/char"/>
+         <double name="double" if="$context/PrimitiveDesc/PrimitiveTypeCode/double"/>
+         <float name="float" if="$context/PrimitiveDesc/PrimitiveTypeCode/float"/>
+         <int name="int" if="$context/PrimitiveDesc/PrimitiveTypeCode/integer"/>
+         <long name="long" if="$context/PrimitiveDesc/PrimitiveTypeCode/long"/>
+         <short name="short" if="$context/PrimitiveDesc/PrimitiveTypeCode/short"/>
+         <boolean name="boolean" if="$context/PrimitiveDesc/PrimitiveTypeCode/boolean"/>
+
+         <reference to="Object" if="$context/ObjectDesc/ObjectTypeCode/object"/>
+         <reference to="NewArray" if="$context/ObjectDesc/ObjectTypeCode/array"/>
+      </choice>
    </sequence>
 
    <sequence name="NewClass">
@@ -242,6 +284,7 @@
          <boolean name="boolean" if="$context/PrimitiveDesc/PrimitiveTypeCode/boolean"/>
 
          <reference to="Object" if="$context/ObjectDesc/ObjectTypeCode/object"/>
+         <reference to="NewArray" if="$context/ObjectDesc/ObjectTypeCode/array"/>
       </choice>
    </for-each>
 

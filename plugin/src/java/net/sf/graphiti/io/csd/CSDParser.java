@@ -173,10 +173,6 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		return (NodeList) evaluateXPath(expression, XPathConstants.NODESET);
 	}
 
-	private String evaluateXPathString(String expression) {
-		return (String) evaluateXPath(expression, XPathConstants.STRING);
-	}
-
 	/**
 	 * Returns true if the given type is a valid alternative. This method is a
 	 * helper for {@link #visit(Choice)}.
@@ -355,7 +351,7 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 	public void visit(Variable variable) {
 		String varName = variable.getName();
 		String select = variable.getSelect();
-		String value = evaluateXPathString(select);
+		Object value = evaluateXPath(select, variable.getTypeQName());
 		variables.put(varName, value);
 	}
 

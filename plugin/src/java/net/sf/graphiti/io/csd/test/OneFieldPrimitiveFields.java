@@ -26,53 +26,37 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.csd.ast;
+package net.sf.graphiti.io.csd.test;
 
-import javax.xml.namespace.QName;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-import net.sf.graphiti.io.csd.CSDParseException;
-
-/**
- * This class is a variable.
- * 
- * @author Matthieu Wipliez
- * 
- */
-public class Variable extends Type {
-
-	private String select;
-	
-	private QName type;
+public class OneFieldPrimitiveFields implements Serializable {
 
 	/**
-	 * Creates a new variable.
 	 * 
-	 * @param select
 	 */
-	public Variable(String name, String select, String as) {
-		super(name);
-		this.select = select;
-		if (as.isEmpty()) {
-			as = "STRING";
+	private static final long serialVersionUID = 2500L;
+
+	public static void main(String[] args) {
+		OneFieldPrimitiveFields obj = new OneFieldPrimitiveFields();
+
+		try {
+			new ObjectOutputStream(new FileOutputStream(args[0]
+					+ File.separator + obj.getClass().getSimpleName()))
+					.writeObject(obj);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		type = new QName("http://www.w3.org/1999/XSL/Transform", as);
 	}
 
-	@Override
-	public void accept(CSDVisitor visitor) throws CSDParseException {
-		visitor.visit(this);
-	}
+	public PrimitiveFields oneField;
 
-	public String getSelect() {
-		return select;
-	}
-	
-	public QName getTypeQName() {
-		return type;
-	}
-
-	public String toString() {
-		return super.toString() + ": " + select;
+	public OneFieldPrimitiveFields() {
+		oneField = new PrimitiveFields();
 	}
 
 }

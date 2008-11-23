@@ -251,7 +251,8 @@ public class CSDFileParser {
 	private Variable parseVariable(Element variableElt) {
 		String name = variableElt.getAttribute("name");
 		String select = variableElt.getAttribute("select");
-		return new Variable(name, select);
+		String as = variableElt.getAttribute("as");
+		return new Variable(name, select, as);
 	}
 
 	private void stripText(Node node) {
