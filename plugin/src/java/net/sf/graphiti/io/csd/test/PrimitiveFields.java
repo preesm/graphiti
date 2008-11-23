@@ -36,9 +36,9 @@ public class PrimitiveFields implements Serializable {
 	public byte aByteField;
 
 	public char aCharField;
-	
+
 	public double aDoubleField;
-	
+
 	public float aFloatField;
 
 	public int aIntField;

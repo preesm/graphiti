@@ -18,17 +18,17 @@
    <sequence name="BlockDataShort">
       <byte name="tcBlockData" value="0x77"/>
       <byte name="size"/>
-      <sequenceOf name="Data" size="ancestor::BlockDataShort/size/@value">
+      <sequence-of name="Data" size="ancestor::BlockDataShort/size/@value">
          <byte name="byte"/>
-      </sequenceOf>
+      </sequence-of>
    </sequence>
 
    <sequence name="BlockDataLong">
       <byte name="tcBlockDataLong" value="0x7A"/>
       <int name="size"/>
-      <sequenceOf name="Data" size="ancestor::BlockDataLong/size/@value">
+      <sequence-of name="Data" size="ancestor::BlockDataLong/size/@value">
          <byte name="byte"/>
-      </sequenceOf>
+      </sequence-of>
    </sequence>
 
    <choice name="ClassAnnotation">
@@ -66,9 +66,9 @@
       <reference to="BlockData"/>
    </choice>
 
-   <sequenceOf name="Contents">
+   <sequence-of name="Contents">
       <reference to="Content"/>
-   </sequenceOf>
+   </sequence-of>
 
    <sequence name="Exception">
       <byte name="tcException" value="0x7B"/>
@@ -77,40 +77,40 @@
 
    <sequence name="Fields">
       <short name="count"/>
-      <sequenceOf name="FieldSequence" size="ancestor::Fields/count/@value">
+      <sequence-of name="FieldSequence" size="ancestor::Fields/count/@value">
          <reference to="FieldDesc"/>
-      </sequenceOf>
+      </sequence-of>
    </sequence>
 
    <choice name="FieldDesc">
       <reference to="PrimitiveDesc"/>
       <reference to="ObjectDesc"/>
    </choice>
-   
+
    <!-- java.util.HashMap has a readObject function. -->
    <sequence name="HashMap">
       <!-- first we read its field values. -->
       <reference to="Values"/>
-      
+
       <!-- a short block of 8 bytes -->
       <byte name="ShortBlock" value="0x77"/>
       <byte name="BlockSize" value="8"/>
-      
+
       <!-- then the number of buckets -->
       <int name="numBuckets"/>
-      
+
       <!-- the number of mappings a.k.a size -->
       <int name="size"/>
-      
-      <sequenceOf name="Entries" size="ancestor::HashMap/size/@value">
+
+      <sequence-of name="Entries" size="ancestor::HashMap/size/@value">
          <sequence name="Entry">
             <!-- key -->
             <reference to="Object"/>
-            
+
             <!-- value -->
             <reference to="Object"/>
          </sequence>
-      </sequenceOf>
+      </sequence-of>
    </sequence>
 
    <sequence name="NewArray">
@@ -147,11 +147,11 @@
    <sequence name="NewObject">
       <byte name="tcObject" value="0x73"/>
       <reference to="ClassDesc"/>
-      
+
       <!-- for each class read, from superclass to subclass (hence "reverse") -->
-      <forEach name="ClassDataArray" select="reverse((parent::node())/descendant::NormalClassDesc)">
+      <for-each name="ClassDataArray" select="reverse((parent::node())/descendant::NormalClassDesc)">
          <reference to="ClassData"/>
-      </forEach>
+      </for-each>
    </sequence>
 
    <choice name="NewString">
@@ -221,15 +221,15 @@
 
    <sequence name="ProxyClassDescInfo">
       <int name="count"/>
-      <sequenceOf name="ProxyFields" size="ancestor::ProxyClassDescInfo/count/@value">
+      <sequence-of name="ProxyFields" size="ancestor::ProxyClassDescInfo/count/@value">
          <reference name="fieldName" to="UTF8String"/>
-      </sequenceOf>
+      </sequence-of>
       <reference to="ClassAnnotation"/>
       <reference to="ClassDesc"/>
    </sequence>
 
    <!-- field values of NormalClassDesc in $context -->
-   <forEach name="Values" select="$context/ClassDescInfo/Fields/FieldSequence/FieldDesc">
+   <for-each name="Values" select="$context/ClassDescInfo/Fields/FieldSequence/FieldDesc">
       <!-- $context = FieldDesc -->
       <choice name="FieldValue">
          <byte name="byte" if="$context/PrimitiveDesc/PrimitiveTypeCode/byte"/>
@@ -240,10 +240,10 @@
          <long name="long" if="$context/PrimitiveDesc/PrimitiveTypeCode/long"/>
          <short name="short" if="$context/PrimitiveDesc/PrimitiveTypeCode/short"/>
          <boolean name="boolean" if="$context/PrimitiveDesc/PrimitiveTypeCode/boolean"/>
-         
+
          <reference to="Object" if="$context/ObjectDesc/ObjectTypeCode/object"/>
       </choice>
-   </forEach>
+   </for-each>
 
    <sequence name="WRClass">
       <reference to="Values"/>

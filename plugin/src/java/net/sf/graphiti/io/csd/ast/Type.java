@@ -40,7 +40,7 @@ import java.util.TreeSet;
 public abstract class Type implements CSDVisitable {
 
 	private String condition;
-	
+
 	private Set<Token> first;
 
 	private String name;
@@ -64,11 +64,11 @@ public abstract class Type implements CSDVisitable {
 		condition = "";
 		first = new TreeSet<Token>();
 	}
-	
+
 	public String getCondition() {
 		return condition;
 	}
-	
+
 	public Set<Token> getFirst() {
 		return first;
 	}

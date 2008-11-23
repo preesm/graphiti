@@ -189,9 +189,7 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		// test condition
 		String condition = type.getCondition();
 		if (!condition.isEmpty()) {
-			if (!evaluateXPathBoolean(condition)) {
-				return false;
-			}
+			return evaluateXPathBoolean(condition);
 		}
 
 		// if no token specified, assume it's ok
