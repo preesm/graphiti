@@ -28,6 +28,9 @@
  */
 package net.sf.graphiti.io.csd.ast;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 /**
  * This class represents a type definition.
  * 
@@ -37,6 +40,8 @@ package net.sf.graphiti.io.csd.ast;
 public abstract class Type implements CSDVisitable {
 
 	private String condition;
+	
+	private Set<Token> first;
 
 	private String name;
 
@@ -57,10 +62,15 @@ public abstract class Type implements CSDVisitable {
 	public Type(String name) {
 		this.name = name;
 		condition = "";
+		first = new TreeSet<Token>();
 	}
 	
 	public String getCondition() {
 		return condition;
+	}
+	
+	public Set<Token> getFirst() {
+		return first;
 	}
 
 	/**

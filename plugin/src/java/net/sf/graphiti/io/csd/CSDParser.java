@@ -29,7 +29,9 @@
 package net.sf.graphiti.io.csd;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.RandomAccessFile;
 import java.math.BigInteger;
 import java.util.ArrayDeque;
@@ -55,19 +57,23 @@ import net.sf.graphiti.io.csd.ast.LongUTF8String;
 import net.sf.graphiti.io.csd.ast.Reference;
 import net.sf.graphiti.io.csd.ast.Sequence;
 import net.sf.graphiti.io.csd.ast.SequenceOf;
+import net.sf.graphiti.io.csd.ast.Token;
 import net.sf.graphiti.io.csd.ast.Type;
 import net.sf.graphiti.io.csd.ast.UTF8String;
 import net.sf.graphiti.io.csd.ast.Variable;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class CSDParser implements CSDVisitor, XPathVariableResolver {
 
 	public static void main(String[] args) throws Exception {
 		new CSDParser(args[0], args[1]);
+		
+		ObjectInputStream oin = new ObjectInputStream(new FileInputStream(args[1]));
+		Object obj = oin.readObject();
+		System.out.println(obj);
 	}
 
 	private Document document;
@@ -80,15 +86,19 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 
 	private Map<String, Object> variables;
 
+	private String indent;
+
 	public CSDParser(String csdFile, String binFile) throws ClassCastException,
 			ClassNotFoundException, CSDFileParseException,
 			IllegalAccessException, InstantiationException, IOException,
 			XPathFactoryConfigurationException, XPathExpressionException {
+		indent = "";
 		variables = new TreeMap<String, Object>();
 
 		// parse the Concrete Syntax Description
 		List<Type> types = new CSDFileParser(csdFile).getTypes();
 		new TypeReferenceVisitor(types);
+		new FirstSetVisitor(types);
 
 		// initialize XPath factory
 		factory = XPathFactory.newInstance(
@@ -115,7 +125,7 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		}
 	}
 
-	private Element begin(Type type) throws CSDParseException {
+	private void begin(Type type) throws CSDParseException {
 		String condition = type.getCondition();
 		if (!condition.isEmpty()) {
 			if (!evaluateXPathBoolean(condition)) {
@@ -126,11 +136,15 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		Element typeElt = document.createElement(type.getName());
 		nodeStack.peek().appendChild(typeElt);
 		nodeStack.push(typeElt);
-		return typeElt;
+
+		System.out.println(indent + "Parsing " + typeElt.getNodeName());
+		indent += "  ";
 	}
 
 	private void end() {
-		nodeStack.pop();
+		Element node = nodeStack.pop();
+		indent = indent.substring(2);
+		System.out.println(indent + "Finished parsing " + node.getNodeName());
 	}
 
 	private Object evaluateXPath(String expression, QName returnType) {
@@ -162,6 +176,40 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		return (String) evaluateXPath(expression, XPathConstants.STRING);
 	}
 
+	/**
+	 * Returns true if the given type is a valid alternative. This method is a
+	 * helper for {@link #visit(Choice)}.
+	 * 
+	 * @param type
+	 *            A {@link Type}.
+	 * @return True if the given type is a valid alternative, false otherwise.
+	 */
+	private boolean isValid(Type type) {
+		try {
+			long fp = in.getFilePointer();
+
+			for (Token token : type.getFirst()) {
+				if (token == Token.epsilon) {
+					return true;
+				} else {
+					CSDNumber csdNumber = token.getValue();
+					int length = csdNumber.getLength();
+					byte[] bytes = new byte[length];
+					in.read(bytes);
+					in.seek(fp);
+
+					if (csdNumber.hasValue() && csdNumber.match(bytes)) {
+						return true;
+					}
+				}
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		return false;
+	}
+
 	private void printParseTree() {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		DomHelper.write(document, bos);
@@ -174,54 +222,26 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		return value;
 	}
 
-	private void revert(Element elt) {
-		// pop elements
-		Element stackElt;
-		do {
-			stackElt = nodeStack.pop();
-		} while (stackElt != elt);
-
-		// remove children
-		Node node = elt.getFirstChild();
-		while (node != null) {
-			elt.removeChild(node);
-			node = node.getNextSibling();
-		}
-
-		// remove itself
-		elt.getParentNode().removeChild(elt);
-	}
-
 	@Override
 	public void visit(Choice choice) throws CSDParseException {
-		Element choiceElt = begin(choice);
+		begin(choice);
 
-		try {
-			long fp = in.getFilePointer();
-			for (Type type : choice.getAlternatives()) {
-				try {
-					type.accept(this);
-					if (type instanceof Variable) {
-						continue;
-					}
-					end();
-					return;
-				} catch (CSDParseException e) {
-					// something wrong when parsing this type: wrong rule
-					in.seek(fp);
-				}
+		for (Type type : choice.getAlternatives()) {
+			if (type instanceof Variable) {
+				type.accept(this);
+			} else if (isValid(type)) {
+				type.accept(this);
+				end();
+				return;
 			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
 		}
 
-		revert(choiceElt);
 		throw new CSDParseException("Parse error");
 	}
 
 	@Override
 	public void visit(CSDNumber csdNumber) throws CSDParseException {
-		Element csdElt = begin(csdNumber);
+		begin(csdNumber);
 
 		int length = csdNumber.getLength();
 		byte[] bytes = new byte[length];
@@ -232,14 +252,12 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		}
 
 		if (csdNumber.hasValue() && !csdNumber.match(bytes)) {
-			revert(csdElt);
-			throw new CSDParseException(new MatchException());
+			throw new CSDParseException("oops");
 		}
 
 		// register the variable and set the value
 		String strValue = new BigInteger(1, bytes).toString();
-		System.out.println("Setting number value of: " + csdNumber + " to: "
-				+ strValue);
+		System.out.println(indent + csdNumber + " to: " + strValue);
 		nodeStack.peek().setAttribute("value", strValue);
 
 		end();
@@ -247,7 +265,6 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 
 	@Override
 	public void visit(Error error) {
-		
 		throw new RuntimeException("TODO");
 	}
 
@@ -279,14 +296,9 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 
 	@Override
 	public void visit(Sequence sequence) throws CSDParseException {
-		Element element = begin(sequence);
-		try {
-			for (Type type : sequence.getElements()) {
-				type.accept(this);
-			}
-		} catch (CSDParseException e) {
-			revert(element);
-			throw e;
+		begin(sequence);
+		for (Type type : sequence.getElements()) {
+			type.accept(this);
 		}
 		end();
 	}
@@ -318,7 +330,7 @@ public class CSDParser implements CSDVisitor, XPathVariableResolver {
 		begin(utf8String);
 		try {
 			String strValue = in.readUTF();
-			System.out.println("Parsing UTF-8: \"" + strValue + "\"");
+			System.out.println(indent + "Parsing UTF-8: \"" + strValue + "\"");
 			nodeStack.peek().setAttribute("value", strValue);
 		} catch (IOException e) {
 			throw new RuntimeException(e);

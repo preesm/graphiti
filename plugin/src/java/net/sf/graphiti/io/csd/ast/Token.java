@@ -26,12 +26,59 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.io.csd;
+package net.sf.graphiti.io.csd.ast;
 
-public class MatchException extends Exception {
+/**
+ * This class represents a token.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
+public class Token implements Comparable<Token> {
+
+	public static Token epsilon = new Token();
+
+	private CSDNumber value;
 
 	/**
+	 * Creates a new token.
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private Token() {
+	}
+
+	/**
+	 * Creates a new token.
+	 * 
+	 */
+	public Token(CSDNumber value) {
+		this.value = value;
+	}
+
+	@Override
+	public int compareTo(Token o) {
+		if (value == null && o.value == null) {
+			return 0;
+		} else if (value == null && o.value != null) {
+			return -1;
+		} else if (value != null && o.value == null) {
+			return 1;
+		} else {
+			return value.toString().compareTo(o.value.toString());
+		}
+	}
+
+	public CSDNumber getValue() {
+		return value;
+	}
+
+	@Override
+	public String toString() {
+		if (value == null) {
+			return "epsilon";
+		} else {
+			return value.toString();
+		}
+	}
+
 }
