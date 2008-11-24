@@ -121,45 +121,41 @@
       <variable name="classType" select="ClassDesc/NewClassDesc/NormalClassDesc/className" as="NODE"/>
       <choice name="ArrayValues">
          <sequence-of name="ByteValues" size="$size" if="$classType/@value = '[B'">
-            <byte name="ByteValue"/>
+            <reference to="NewByte"/>
          </sequence-of>
          <sequence-of name="CharValues" size="$size" if="$classType/@value = '[C'">
-            <char name="CharValue"/>
+            <reference to="NewChar"/>
          </sequence-of>
          <sequence-of name="DoubleValues" size="$size" if="$classType/@value = '[D'">
-            <double name="DoubleValue"/>
+            <reference to="NewDouble"/>
          </sequence-of>
          <sequence-of name="FloatValues" size="$size" if="$classType/@value = '[F'">
-            <float name="FloatValue"/>
+            <reference to="NewFloat"/>
          </sequence-of>
          <sequence-of name="IntValues" size="$size" if="$classType/@value = '[I'">
-            <int name="IntValue"/>
+            <reference to="NewInt"/>
          </sequence-of>
          <sequence-of name="LongValues" size="$size" if="$classType/@value = '[J'">
-            <long name="LongValue"/>
+            <reference to="NewLong"/>
          </sequence-of>
          <sequence-of name="ShortValues" size="$size" if="$classType/@value = '[S'">
-            <short name="ShortValue"/>
+            <reference to="NewShort"/>
          </sequence-of>
          <sequence-of name="BooleanValues" size="$size" if="$classType/@value = '[Z'">
-            <boolean name="BooleanValue"/>
+            <reference to="NewBoolean"/>
+         </sequence-of>
+         
+         <sequence-of name="ObjectValues" size="$size" if="starts-with($classType/@value, '[L')">
+            <reference to="Object"/>
          </sequence-of>
       </choice>
-
-      <choice name="FieldValue">
-         <byte name="byte" if="$context/PrimitiveDesc/PrimitiveTypeCode/byte"/>
-         <char name="char" if="$context/PrimitiveDesc/PrimitiveTypeCode/char"/>
-         <double name="double" if="$context/PrimitiveDesc/PrimitiveTypeCode/double"/>
-         <float name="float" if="$context/PrimitiveDesc/PrimitiveTypeCode/float"/>
-         <int name="int" if="$context/PrimitiveDesc/PrimitiveTypeCode/integer"/>
-         <long name="long" if="$context/PrimitiveDesc/PrimitiveTypeCode/long"/>
-         <short name="short" if="$context/PrimitiveDesc/PrimitiveTypeCode/short"/>
-         <boolean name="boolean" if="$context/PrimitiveDesc/PrimitiveTypeCode/boolean"/>
-
-         <reference to="Object" if="$context/ObjectDesc/ObjectTypeCode/object"/>
-         <reference to="NewArray" if="$context/ObjectDesc/ObjectTypeCode/array"/>
-      </choice>
    </sequence>
+
+   <boolean name="NewBoolean"/>
+   
+   <byte name="NewByte"/>
+   
+   <char name="NewChar"/>
 
    <sequence name="NewClass">
       <byte name="tcClass" value="0x76"/>
@@ -180,11 +176,19 @@
       </sequence>
    </choice>
 
+   <double name="NewDouble"/>
+
    <sequence name="NewEnum">
       <byte name="tcEnum" value="0x7E"/>
       <reference to="ClassDesc"/>
       <reference name="enumConstantName" to="UTF8String"/>
    </sequence>
+
+   <float name="NewFloat"/>
+
+   <int name="NewInt"/>
+   
+   <long name="NewLong"/>
 
    <sequence name="NewObject">
       <byte name="tcObject" value="0x73"/>
@@ -195,6 +199,8 @@
          <reference to="ClassData"/>
       </for-each>
    </sequence>
+   
+   <short name="NewShort"/>
 
    <choice name="NewString">
       <sequence name="NormalString">
@@ -232,7 +238,11 @@
    <sequence name="ObjectDesc">
       <reference to="ObjectTypeCode"/>
       <reference name="fieldName" to="UTF8String"/>
-      <reference to="NewString"/>
+      
+      <!-- the specification is utterly unclear at this point...
+         Most of the time we WILL find a utf-8 string with a class name.
+         But sometimes it is a PrevObject if the class has already been defined. -->
+      <reference to="Object"/>
    </sequence>
 
    <choice name="ObjectTypeCode">
@@ -269,19 +279,28 @@
       <reference to="ClassAnnotation"/>
       <reference to="ClassDesc"/>
    </sequence>
+   
+   <byte name="NewByte"/>
+   <char name="NewChar"/>
+   <double name="NewDouble"/>
+   <float name="NewFloat"/>
+   <int name="NewInt"/>
+   <long name="NewLong"/>
+   <short name="NewShort"/>
+   <boolean name="NewBoolean"/>
 
    <!-- field values of NormalClassDesc in $context -->
    <for-each name="Values" select="$context/ClassDescInfo/Fields/FieldSequence/FieldDesc">
       <!-- $context = FieldDesc -->
       <choice name="FieldValue">
-         <byte name="byte" if="$context/PrimitiveDesc/PrimitiveTypeCode/byte"/>
-         <char name="char" if="$context/PrimitiveDesc/PrimitiveTypeCode/char"/>
-         <double name="double" if="$context/PrimitiveDesc/PrimitiveTypeCode/double"/>
-         <float name="float" if="$context/PrimitiveDesc/PrimitiveTypeCode/float"/>
-         <int name="int" if="$context/PrimitiveDesc/PrimitiveTypeCode/integer"/>
-         <long name="long" if="$context/PrimitiveDesc/PrimitiveTypeCode/long"/>
-         <short name="short" if="$context/PrimitiveDesc/PrimitiveTypeCode/short"/>
-         <boolean name="boolean" if="$context/PrimitiveDesc/PrimitiveTypeCode/boolean"/>
+         <reference to="NewByte" if="$context/PrimitiveDesc/PrimitiveTypeCode/byte"/>
+         <reference to="NewChar" if="$context/PrimitiveDesc/PrimitiveTypeCode/char"/>
+         <reference to="NewDouble" if="$context/PrimitiveDesc/PrimitiveTypeCode/double"/>
+         <reference to="NewFloat" if="$context/PrimitiveDesc/PrimitiveTypeCode/float"/>
+         <reference to="NewInt" if="$context/PrimitiveDesc/PrimitiveTypeCode/integer"/>
+         <reference to="NewLong" if="$context/PrimitiveDesc/PrimitiveTypeCode/long"/>
+         <reference to="NewShort" if="$context/PrimitiveDesc/PrimitiveTypeCode/short"/>
+         <reference to="NewBoolean" if="$context/PrimitiveDesc/PrimitiveTypeCode/boolean"/>
 
          <reference to="Object" if="$context/ObjectDesc/ObjectTypeCode/object"/>
          <reference to="NewArray" if="$context/ObjectDesc/ObjectTypeCode/array"/>
