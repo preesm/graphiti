@@ -54,7 +54,7 @@ public class PrimitiveFieldsArray implements Serializable {
 	}
 
 	public PrimitiveFields[] array1;
-	
+
 	public PrimitiveFields[] array2;
 
 	public PrimitiveFieldsArray() {

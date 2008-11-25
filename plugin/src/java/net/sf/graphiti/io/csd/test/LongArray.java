@@ -53,9 +53,9 @@ public class LongArray implements Serializable {
 		}
 	}
 
-	public int nbEntries;
-
 	public long[] myLongArray;
+
+	public int nbEntries;
 
 	public LongArray() {
 		nbEntries = 21;

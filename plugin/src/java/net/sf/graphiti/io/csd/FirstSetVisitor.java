@@ -71,6 +71,10 @@ public class FirstSetVisitor implements CSDVisitor {
 	}
 
 	@Override
+	public void visit(AttachData data) {
+	}
+
+	@Override
 	public void visit(Choice choice) throws CSDParseException {
 		// X -> Y11 Y12 ... Y1k | Y21 Y22 ... Y2k | ... | Yn1 Yn2 ... Ynk
 		for (Type type : choice.getAlternatives()) {
@@ -154,10 +158,6 @@ public class FirstSetVisitor implements CSDVisitor {
 
 	@Override
 	public void visit(Variable variable) throws CSDParseException {
-	}
-
-	@Override
-	public void visit(AttachData data) {
 	}
 
 }

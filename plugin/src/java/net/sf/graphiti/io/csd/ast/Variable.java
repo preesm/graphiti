@@ -28,8 +28,6 @@
  */
 package net.sf.graphiti.io.csd.ast;
 
-import javax.xml.namespace.QName;
-
 import net.sf.graphiti.io.csd.CSDParseException;
 
 /**
@@ -41,21 +39,15 @@ import net.sf.graphiti.io.csd.CSDParseException;
 public class Variable extends Type {
 
 	private String select;
-	
-	private QName type;
 
 	/**
 	 * Creates a new variable.
 	 * 
 	 * @param select
 	 */
-	public Variable(String name, String select, String as) {
+	public Variable(String name, String select) {
 		super(name);
 		this.select = select;
-		if (as.isEmpty()) {
-			as = "STRING";
-		}
-		type = new QName("http://www.w3.org/1999/XSL/Transform", as);
 	}
 
 	@Override
@@ -65,10 +57,6 @@ public class Variable extends Type {
 
 	public String getSelect() {
 		return select;
-	}
-	
-	public QName getTypeQName() {
-		return type;
 	}
 
 	public String toString() {

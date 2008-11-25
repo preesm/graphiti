@@ -78,9 +78,13 @@ public class TypeReferenceVisitor implements CSDVisitor {
 			// never happens in this visitor
 		}
 	}
-	
+
 	public Type getType(String name) {
 		return types.get(name);
+	}
+
+	@Override
+	public void visit(AttachData data) {
 	}
 
 	@Override
@@ -146,10 +150,6 @@ public class TypeReferenceVisitor implements CSDVisitor {
 
 	@Override
 	public void visit(Variable variable) {
-	}
-
-	@Override
-	public void visit(AttachData data) {
 	}
 
 }

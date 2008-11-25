@@ -43,8 +43,8 @@ public class AttachData extends Variable {
 	 * 
 	 * @param select
 	 */
-	public AttachData(String name, String select, String as) {
-		super(name, select, as);
+	public AttachData(String name, String select) {
+		super(name, select);
 	}
 
 	@Override

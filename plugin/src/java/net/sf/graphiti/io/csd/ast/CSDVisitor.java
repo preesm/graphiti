@@ -38,6 +38,8 @@ import net.sf.graphiti.io.csd.CSDParseException;
  */
 public interface CSDVisitor {
 
+	public void visit(AttachData data) throws CSDParseException;
+
 	public void visit(Choice choice) throws CSDParseException;
 
 	public void visit(CSDNumber csdNumber) throws CSDParseException;
@@ -57,7 +59,5 @@ public interface CSDVisitor {
 	public void visit(UTF8String utf8String) throws CSDParseException;
 
 	public void visit(Variable variable) throws CSDParseException;
-
-	public void visit(AttachData data);
 
 }

@@ -66,9 +66,9 @@ public class CSDFileParser {
 		new CSDFileParser(args[0]);
 	}
 
-	private List<Type> types;
-	
 	private String entryPoint;
+
+	private List<Type> types;
 
 	public CSDFileParser(String csdFile) throws ClassCastException,
 			ClassNotFoundException, CSDFileParseException,
@@ -82,7 +82,7 @@ public class CSDFileParser {
 		entryPoint = docElt.getAttribute("start");
 		parseCSD(docElt.getFirstChild());
 	}
-	
+
 	public String getEntryPoint() {
 		return entryPoint;
 	}
@@ -94,8 +94,7 @@ public class CSDFileParser {
 	private AttachData parseAttachData(Element variableElt) {
 		String name = variableElt.getAttribute("name");
 		String select = variableElt.getAttribute("select");
-		String as = variableElt.getAttribute("as");
-		return new AttachData(name, select, as);
+		return new AttachData(name, select);
 	}
 
 	private CSDBoolean parseBoolean(Element booleanElt) {
@@ -268,8 +267,7 @@ public class CSDFileParser {
 	private Variable parseVariable(Element variableElt) {
 		String name = variableElt.getAttribute("name");
 		String select = variableElt.getAttribute("select");
-		String as = variableElt.getAttribute("as");
-		return new Variable(name, select, as);
+		return new Variable(name, select);
 	}
 
 	private void stripText(Node node) {

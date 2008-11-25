@@ -35,10 +35,10 @@
 
    <!-- data about the NormalClassDesc in $context -->
    <choice name="ClassData">
-      <variable name="flags" select="$context/ClassDescInfo/classDescFlags/@value"/>
-      <variable name="name" select="$context/className/@value"/>
-      <reference to="Values" if="$flags eq '2'"/>
-      <reference to="HashMap" if="$flags eq '3' and $name eq 'java.util.HashMap'"/>
+      <variable name="flags" select="number($context/ClassDescInfo/classDescFlags/@value)"/>
+      <variable name="name" select="string($context/className/@value)"/>
+      <reference to="Values" if="$flags eq 2"/>
+      <reference to="HashMap" if="$flags eq 3 and $name eq 'java.util.HashMap'"/>
       <error/>
    </choice>
 
@@ -69,7 +69,7 @@
 
    <sequence name="Fields">
       <short name="count"/>
-      <sequence-of name="FieldSequence" size="ancestor::Fields/count/@value">
+      <sequence-of name="FieldSequence" size="number(ancestor::Fields/count/@value)">
          <reference to="FieldDesc"/>
       </sequence-of>
    </sequence>
@@ -108,9 +108,11 @@
    <sequence name="NewArray">
       <byte name="tcArray" value="0x75"/>
       <reference to="ClassDesc"/>
+      <attach-data name="handle" select="$handles"/>
+      <variable name="handles" select="$handles + 1"/>
       <int name="size"/>
-      <variable name="size" select="size/@value" as="NUMBER"/>
-      <variable name="classType" select="ClassDesc/NewClassDesc/NormalClassDesc/className" as="NODE"/>
+      <variable name="size" select="number(size/@value)"/>
+      <variable name="classType" select="ClassDesc/NewClassDesc/NormalClassDesc/className"/>
       <choice name="ArrayValues">
          <sequence-of name="ByteValues" size="$size" if="$classType/@value = '[B'">
             <reference to="NewByte"/>
@@ -136,7 +138,7 @@
          <sequence-of name="BooleanValues" size="$size" if="$classType/@value = '[Z'">
             <reference to="NewBoolean"/>
          </sequence-of>
-         
+
          <sequence-of name="ObjectValues" size="$size" if="starts-with($classType/@value, '[L')">
             <reference to="Object"/>
          </sequence-of>
@@ -144,16 +146,16 @@
    </sequence>
 
    <boolean name="NewBoolean"/>
-   
+
    <byte name="NewByte"/>
-   
+
    <char name="NewChar"/>
 
    <sequence name="NewClass">
       <byte name="tcClass" value="0x76"/>
       <reference to="ClassDesc"/>
-      <variable name="handles" as="NODESET"
-         select="($handles, $handles[last()] + 1)"/>
+      <attach-data name="handle" select="$handles"/>
+      <variable name="handles" select="$handles + 1"/>
    </sequence>
 
    <choice name="NewClassDesc">
@@ -161,12 +163,15 @@
          <byte name="tcClassDesc" value="0x72"/>
          <reference name="className" to="UTF8String"/>
          <long name="serialVersionUID"/>
-         <attach-data name="handle" select=""/>
+         <attach-data name="handle" select="$handles"/>
+         <variable name="handles" select="$handles + 1"/>
          <reference to="ClassDescInfo"/>
       </sequence>
 
       <sequence name="ProxyClassDesc">
          <byte name="tcProxyClassDesc" value="0x7D"/>
+         <attach-data name="handle" select="$handles"/>
+         <variable name="handles" select="$handles + 1"/>
          <reference to="ProxyClassDescInfo"/>
       </sequence>
    </choice>
@@ -176,35 +181,43 @@
    <sequence name="NewEnum">
       <byte name="tcEnum" value="0x7E"/>
       <reference to="ClassDesc"/>
+      <attach-data name="handle" select="$handles"/>
+      <variable name="handles" select="$handles + 1"/>
       <reference name="enumConstantName" to="UTF8String"/>
    </sequence>
 
    <float name="NewFloat"/>
 
    <int name="NewInt"/>
-   
+
    <long name="NewLong"/>
 
    <sequence name="NewObject">
       <byte name="tcObject" value="0x73"/>
       <reference to="ClassDesc"/>
+      <attach-data name="handle" select="$handles"/>
+      <variable name="handles" select="$handles + 1"/>
 
       <!-- for each class read, from superclass to subclass (hence "reverse") -->
       <for-each name="ClassDataArray" select="reverse((parent::node())/descendant::NormalClassDesc)">
          <reference to="ClassData"/>
       </for-each>
    </sequence>
-   
+
    <short name="NewShort"/>
 
    <choice name="NewString">
       <sequence name="NormalString">
          <byte name="tcString" value="0x74"/>
+         <attach-data name="handle" select="$handles"/>
+         <variable name="handles" select="$handles + 1"/>
          <reference name="value" to="UTF8String"/>
       </sequence>
 
       <sequence name="LongString">
          <byte name="tcLongString" value="0x7C"/>
+         <attach-data name="handle" select="$handles"/>
+         <variable name="handles" select="$handles + 1"/>
          <reference name="value" to="LongUTF8String"/>
       </sequence>
    </choice>
@@ -233,7 +246,7 @@
    <sequence name="ObjectDesc">
       <reference to="ObjectTypeCode"/>
       <reference name="fieldName" to="UTF8String"/>
-      
+
       <!-- the specification is utterly unclear at this point...
          Most of the time we WILL find a utf-8 string with a class name.
          But sometimes it is a PrevObject if the class has already been defined. -->
@@ -248,6 +261,9 @@
    <sequence name="PrevObject">
       <byte name="tcReference" value="0x71"/>
       <int name="handle"/>
+      <variable name="handleValue" select="string(handle/@value)"/>
+      <attach-data name="copy" select="(ancestor::Stream)//*[string(./handle/@value) eq $handleValue]"
+      />
    </sequence>
 
    <sequence name="PrimitiveDesc">
@@ -268,22 +284,22 @@
 
    <sequence name="ProxyClassDescInfo">
       <int name="count"/>
-      <sequence-of name="ProxyFields" size="ancestor::ProxyClassDescInfo/count/@value">
+      <sequence-of name="ProxyFields" size="number(ancestor::ProxyClassDescInfo/count/@value)">
          <reference name="fieldName" to="UTF8String"/>
       </sequence-of>
       <reference to="ClassAnnotation"/>
       <reference to="ClassDesc"/>
    </sequence>
-   
+
    <sequence name="Stream">
       <short name="magic" value="0xACED"/>
       <short name="version" value="0x0005"/>
-      <!-- create the handles variable, init value = 0x007E0000 -->
-      <variable name="handles" select="(8257536)" as="NODESET"/>
+      <!-- create the handles variable, init value: 8257537 = 0x7E0001 -->
+      <variable name="handles" select="8257537"/>
       <reference to="Contents"/>
    </sequence>
 
-   <!-- field values of NormalClassDesc in $context -->
+   <!-- $context = NormalClassDesc -->
    <for-each name="Values" select="$context/ClassDescInfo/Fields/FieldSequence/FieldDesc">
       <!-- $context = FieldDesc -->
       <choice name="FieldValue">

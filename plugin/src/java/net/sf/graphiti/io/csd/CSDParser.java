@@ -33,11 +33,10 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.math.BigInteger;
 import java.util.ArrayDeque;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-
-import javax.xml.transform.dom.DOMSource;
+import java.util.Map.Entry;
 
 import net.sf.graphiti.io.DomHelper;
 import net.sf.graphiti.io.csd.ast.AttachData;
@@ -54,6 +53,8 @@ import net.sf.graphiti.io.csd.ast.Token;
 import net.sf.graphiti.io.csd.ast.Type;
 import net.sf.graphiti.io.csd.ast.UTF8String;
 import net.sf.graphiti.io.csd.ast.Variable;
+import net.sf.saxon.dom.NodeWrapper;
+import net.sf.saxon.om.ValueRepresentation;
 import net.sf.saxon.s9api.DocumentBuilder;
 import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.QName;
@@ -62,6 +63,7 @@ import net.sf.saxon.s9api.XPathCompiler;
 import net.sf.saxon.s9api.XPathExecutable;
 import net.sf.saxon.s9api.XPathSelector;
 import net.sf.saxon.s9api.XdmAtomicValue;
+import net.sf.saxon.s9api.XdmEmptySequence;
 import net.sf.saxon.s9api.XdmItem;
 import net.sf.saxon.s9api.XdmNode;
 import net.sf.saxon.s9api.XdmSequenceIterator;
@@ -83,6 +85,8 @@ public class CSDParser implements CSDVisitor {
 
 	private XPathCompiler compiler;
 
+	private DocumentBuilder docBuilder;
+
 	private Document document;
 
 	private RandomAccessFile in;
@@ -91,15 +95,13 @@ public class CSDParser implements CSDVisitor {
 
 	private ArrayDeque<Element> nodeStack;
 
-	private Map<String, Object> variables;
-
-	private DocumentBuilder docBuilder;
+	private Map<QName, XdmValue> variables;
 
 	public CSDParser(String csdFile, String binFile) throws ClassCastException,
 			ClassNotFoundException, CSDFileParseException,
 			IllegalAccessException, InstantiationException, IOException {
 		indent = "";
-		variables = new TreeMap<String, Object>();
+		variables = new HashMap<QName, XdmValue>();
 
 		// parse the Concrete Syntax Description
 		CSDFileParser fileParser = new CSDFileParser(csdFile);
@@ -161,11 +163,22 @@ public class CSDParser implements CSDVisitor {
 			XPathExecutable exe = compiler.compile(expression);
 			XPathSelector selector = exe.load();
 
-			XdmNode node = docBuilder.build(new DOMSource(context));
+			// set variables
+			for (Entry<QName, XdmValue> var : variables.entrySet()) {
+				QName name = var.getKey();
+				XdmValue value = var.getValue();
+				selector.setVariable(name, value);
+			}
+
+			// set context and evaluate
+			XdmNode node = docBuilder.wrap(context);
 			selector.setContextItem(node);
 			XdmValue value = selector.evaluate();
 			return value;
 		} catch (SaxonApiException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -192,7 +205,7 @@ public class CSDParser implements CSDVisitor {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return 0;
 	}
 
@@ -249,9 +262,32 @@ public class CSDParser implements CSDVisitor {
 	}
 
 	@Override
-	public void visit(AttachData data) {
-		// TODO Auto-generated method stub
+	public void visit(AttachData data) throws CSDParseException {
+		begin(data);
+		Element dataElt = nodeStack.peek();
 
+		XdmValue value = evaluateXPath(data.getSelect());
+		if (value instanceof XdmAtomicValue) {
+			XdmAtomicValue atomic = (XdmAtomicValue) value;
+			dataElt.setAttribute("value", atomic.getStringValue());
+		} else {
+			XdmSequenceIterator it = value.iterator();
+			while (it.hasNext()) {
+				XdmItem item = it.next();
+				ValueRepresentation repr = item.getUnderlyingValue();
+				if (repr instanceof NodeWrapper) {
+					NodeWrapper wrapper = (NodeWrapper) repr;
+					Element element = (Element) wrapper.getUnderlyingNode();
+					if (dataElt.getParentNode() != element) {
+						dataElt.appendChild(element);
+					}
+				} else {
+					System.err.println("oops");
+				}
+			}
+		}
+
+		end();
 	}
 
 	@Override
@@ -310,8 +346,13 @@ public class CSDParser implements CSDVisitor {
 		XdmValue value = evaluateXPath(select);
 		XdmSequenceIterator it = value.iterator();
 		while (it.hasNext()) {
+			// declare a context variable whose value is item
 			XdmItem item = it.next();
-			variables.put("context", item);
+			QName qName = new QName("context");
+			compiler.declareVariable(qName);
+			variables.put(qName, item);
+
+			// visit the type
 			type.accept(this);
 		}
 
@@ -377,16 +418,16 @@ public class CSDParser implements CSDVisitor {
 		String varName = variable.getName();
 		QName qName = new QName(varName);
 		String select = variable.getSelect();
-		compiler.declareVariable(qName);
 
-		try {
-			XPathExecutable exe = compiler.compile(select);
-			XPathSelector selector = exe.load();
-			XdmValue value = selector.evaluate();
-			selector.setVariable(qName, value);
-		} catch (SaxonApiException e) {
-			e.printStackTrace();
+		// if the variable is not declared, declare it and set its value to the
+		// empty sequence
+		if (!variables.containsKey(qName)) {
+			compiler.declareVariable(qName);
+			variables.put(qName, XdmEmptySequence.getInstance());
 		}
+
+		XdmValue value = evaluateXPath(select);
+		variables.put(qName, value);
 	}
 
 }
