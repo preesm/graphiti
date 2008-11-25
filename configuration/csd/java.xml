@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<csd>
+<csd start="Stream">
 
    <!-- as per http://java.sun.com/javase/6/docs/platform/serialization/spec/protocol.html
--->
-
-   <sequence name="Stream">
-      <short name="magic" value="0xACED"/>
-      <short name="version" value="0x0005"/>
-      <reference to="Contents"/>
-   </sequence>
+   -->
 
    <choice name="BlockData">
       <reference to="BlockDataShort"/>
@@ -61,13 +55,11 @@
       <reference to="ClassDesc"/>
    </sequence>
 
-   <choice name="Content">
-      <reference to="Object"/>
-      <reference to="BlockData"/>
-   </choice>
-
    <sequence-of name="Contents">
-      <reference to="Content"/>
+      <choice name="Content">
+         <reference to="Object"/>
+         <reference to="BlockData"/>
+      </choice>
    </sequence-of>
 
    <sequence name="Exception">
@@ -160,6 +152,8 @@
    <sequence name="NewClass">
       <byte name="tcClass" value="0x76"/>
       <reference to="ClassDesc"/>
+      <variable name="handles" as="NODESET"
+         select="($handles, $handles[last()] + 1)"/>
    </sequence>
 
    <choice name="NewClassDesc">
@@ -167,6 +161,7 @@
          <byte name="tcClassDesc" value="0x72"/>
          <reference name="className" to="UTF8String"/>
          <long name="serialVersionUID"/>
+         <attach-data name="handle" select=""/>
          <reference to="ClassDescInfo"/>
       </sequence>
 
@@ -280,14 +275,13 @@
       <reference to="ClassDesc"/>
    </sequence>
    
-   <byte name="NewByte"/>
-   <char name="NewChar"/>
-   <double name="NewDouble"/>
-   <float name="NewFloat"/>
-   <int name="NewInt"/>
-   <long name="NewLong"/>
-   <short name="NewShort"/>
-   <boolean name="NewBoolean"/>
+   <sequence name="Stream">
+      <short name="magic" value="0xACED"/>
+      <short name="version" value="0x0005"/>
+      <!-- create the handles variable, init value = 0x007E0000 -->
+      <variable name="handles" select="(8257536)" as="NODESET"/>
+      <reference to="Contents"/>
+   </sequence>
 
    <!-- field values of NormalClassDesc in $context -->
    <for-each name="Values" select="$context/ClassDescInfo/Fields/FieldSequence/FieldDesc">

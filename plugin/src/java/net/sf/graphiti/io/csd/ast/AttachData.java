@@ -31,33 +31,29 @@ package net.sf.graphiti.io.csd.ast;
 import net.sf.graphiti.io.csd.CSDParseException;
 
 /**
- * This interface defines methods to visit several parts of the ASN.1 AST.
+ * This class is an attach-data.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public interface CSDVisitor {
+public class AttachData extends Variable {
 
-	public void visit(Choice choice) throws CSDParseException;
+	/**
+	 * Creates a new variable.
+	 * 
+	 * @param select
+	 */
+	public AttachData(String name, String select, String as) {
+		super(name, select, as);
+	}
 
-	public void visit(CSDNumber csdNumber) throws CSDParseException;
+	@Override
+	public void accept(CSDVisitor visitor) throws CSDParseException {
+		visitor.visit(this);
+	}
 
-	public void visit(Error error) throws CSDParseException;
-
-	public void visit(ForEach forEach) throws CSDParseException;
-
-	public void visit(LongUTF8String utf8String) throws CSDParseException;
-
-	public void visit(Reference reference) throws CSDParseException;
-
-	public void visit(Sequence sequence) throws CSDParseException;
-
-	public void visit(SequenceOf sequenceOf) throws CSDParseException;
-
-	public void visit(UTF8String utf8String) throws CSDParseException;
-
-	public void visit(Variable variable) throws CSDParseException;
-
-	public void visit(AttachData data);
+	public String toString() {
+		return super.toString();
+	}
 
 }

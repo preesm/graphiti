@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.percederberg.grammatica.parser.Production;
+import net.sf.graphiti.io.csd.ast.AttachData;
 import net.sf.graphiti.io.csd.ast.CSDNumber;
 import net.sf.graphiti.io.csd.ast.CSDVisitor;
 import net.sf.graphiti.io.csd.ast.Choice;
@@ -76,6 +77,10 @@ public class TypeReferenceVisitor implements CSDVisitor {
 		} catch (CSDParseException e) {
 			// never happens in this visitor
 		}
+	}
+	
+	public Type getType(String name) {
+		return types.get(name);
 	}
 
 	@Override
@@ -141,6 +146,10 @@ public class TypeReferenceVisitor implements CSDVisitor {
 
 	@Override
 	public void visit(Variable variable) {
+	}
+
+	@Override
+	public void visit(AttachData data) {
 	}
 
 }

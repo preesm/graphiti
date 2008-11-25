@@ -31,6 +31,7 @@ package net.sf.graphiti.io.csd;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.graphiti.io.csd.ast.AttachData;
 import net.sf.graphiti.io.csd.ast.CSDNumber;
 import net.sf.graphiti.io.csd.ast.CSDVisitor;
 import net.sf.graphiti.io.csd.ast.Choice;
@@ -153,6 +154,10 @@ public class FirstSetVisitor implements CSDVisitor {
 
 	@Override
 	public void visit(Variable variable) throws CSDParseException {
+	}
+
+	@Override
+	public void visit(AttachData data) {
 	}
 
 }

@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.graphiti.io.DomHelper;
+import net.sf.graphiti.io.csd.ast.AttachData;
 import net.sf.graphiti.io.csd.ast.CSDBoolean;
 import net.sf.graphiti.io.csd.ast.CSDChar;
 import net.sf.graphiti.io.csd.ast.CSDDouble;
@@ -66,6 +67,8 @@ public class CSDFileParser {
 	}
 
 	private List<Type> types;
+	
+	private String entryPoint;
 
 	public CSDFileParser(String csdFile) throws ClassCastException,
 			ClassNotFoundException, CSDFileParseException,
@@ -76,11 +79,23 @@ public class CSDFileParser {
 		Document doc = DomHelper.parse(new FileInputStream(csdFile));
 		Element docElt = doc.getDocumentElement();
 		stripText(docElt);
+		entryPoint = docElt.getAttribute("start");
 		parseCSD(docElt.getFirstChild());
+	}
+	
+	public String getEntryPoint() {
+		return entryPoint;
 	}
 
 	public List<Type> getTypes() {
 		return types;
+	}
+
+	private AttachData parseAttachData(Element variableElt) {
+		String name = variableElt.getAttribute("name");
+		String select = variableElt.getAttribute("select");
+		String as = variableElt.getAttribute("as");
+		return new AttachData(name, select, as);
 	}
 
 	private CSDBoolean parseBoolean(Element booleanElt) {
@@ -205,7 +220,9 @@ public class CSDFileParser {
 	private Type parseType(Node node) throws CSDFileParseException {
 		String nodeName = node.getNodeName();
 		Type type;
-		if (nodeName.equals("boolean")) {
+		if (nodeName.equals("attach-data")) {
+			type = parseAttachData((Element) node);
+		} else if (nodeName.equals("boolean")) {
 			type = parseBoolean((Element) node);
 		} else if (nodeName.equals("byte")) {
 			type = parseByte((Element) node);
