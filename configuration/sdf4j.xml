@@ -52,6 +52,17 @@
             </parameters>
         </vertexType>
 
+	   <vertexType name="Broadcast">
+            <attributes>
+                <color red="0" green="120" blue="10"/>
+                <shape name="circle"/>
+                <size width="30" height="30"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String" default=""/>
+            </parameters>
+        </vertexType>
+
         <vertexType name="Vertex">
             <attributes>
                 <color red="163" green="0" blue="85"/>
