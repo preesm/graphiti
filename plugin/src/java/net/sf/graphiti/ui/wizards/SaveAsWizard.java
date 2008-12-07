@@ -30,11 +30,16 @@ package net.sf.graphiti.ui.wizards;
 
 import java.io.InputStream;
 
+import net.sf.graphiti.ui.editors.GraphEditor;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -70,6 +75,18 @@ public class SaveAsWizard extends Wizard implements INewWizard {
 		addPage(page);
 
 		addPage(new WizardConvertPage(selection));
+
+		// To improve user experience, the selection is the editor's input file.
+		IStructuredSelection selection = this.selection;
+		Object obj = selection.getFirstElement();
+		if (obj instanceof GraphEditor) {
+			GraphEditor editor = (GraphEditor) obj;
+			IEditorInput input = editor.getEditorInput();
+			if (input instanceof IFileEditorInput) {
+				IFile file = ((IFileEditorInput) input).getFile();
+				selection = new StructuredSelection(file);
+			}
+		}
 
 		page = new WizardSaveGraphPage(selection);
 		page.setDescription("Save graph as.");

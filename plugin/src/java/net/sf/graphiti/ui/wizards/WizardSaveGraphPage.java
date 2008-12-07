@@ -61,6 +61,8 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 		IGraphTypeSettable {
 
+	private String fileName;
+
 	private Graph graph;
 
 	/**
@@ -71,6 +73,19 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 	 */
 	public WizardSaveGraphPage(IStructuredSelection selection) {
 		super("saveGraph", selection);
+
+		// if the selection is a file, gets its file name and removes its
+		// extension. Otherwise, let fileName be null.
+		Object obj = selection.getFirstElement();
+		if (obj instanceof IFile) {
+			IFile file = (IFile) obj;
+			String ext = file.getFileExtension();
+			fileName = file.getName();
+			int idx = fileName.indexOf(ext);
+			if (idx != -1) {
+				fileName = fileName.substring(0, idx - 1);
+			}
+		}
 
 		setTitle("Choose file name and parent folder");
 	}
@@ -141,7 +156,11 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 		graph = new Graph(configuration, type);
 
 		String fileExt = configuration.getFileFormat().getFileExtension();
-		setFileName("New " + type.getName() + "." + fileExt);
+		if (fileName == null) {
+			setFileName("New " + type.getName() + "." + fileExt);
+		} else {
+			setFileName(fileName + "." + fileExt);
+		}
 	}
 
 }
