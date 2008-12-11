@@ -85,6 +85,7 @@
                 <parameter name="name" type="java.lang.String" default=""/>
                 <parameter name="version" type="java.lang.String" default=""/>
                 <parameter name="refinement" type="java.lang.String" default=""/>
+                <parameter name="setupTime" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
         
@@ -149,6 +150,7 @@
                 <parameter name="name" type="java.lang.String" default=""/>
                 <parameter name="version" type="java.lang.String" default=""/>
                 <parameter name="refinement" type="java.lang.String" default=""/>
+                <parameter name="dataRate" type="java.lang.String" default="1.0"/>
             </parameters>
         </vertexType>
         
@@ -165,6 +167,7 @@
                 <parameter name="name" type="java.lang.String" default=""/>
                 <parameter name="version" type="java.lang.String" default=""/>
                 <parameter name="refinement" type="java.lang.String" default=""/>
+                <parameter name="dataRate" type="java.lang.String" default="1.0"/>
             </parameters>
         </vertexType>
 
@@ -227,6 +230,30 @@
         
         <edgeType name="directedConnection">
             <attributes>
+                <directed value="true"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="source port" type="java.lang.String" default=""/>
+                <parameter name="target port" type="java.lang.String" default=""/>
+            </parameters>
+        </edgeType>
+        
+        <edgeType name="access">
+            <attributes>
+                <color red="0" green="255" blue="0"/>
+                <directed value="true"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="source port" type="java.lang.String" default=""/>
+                <parameter name="target port" type="java.lang.String" default=""/>
+            </parameters>
+        </edgeType>
+        
+        <edgeType name="configure">
+            <attributes>
+                <color red="0" green="0" blue="255"/>
                 <directed value="true"/>
             </attributes>
             <parameters>

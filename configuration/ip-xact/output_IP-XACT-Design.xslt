@@ -44,7 +44,7 @@
             </xsl:element>    
             
             <xsl:element name="spirit:interconnections">
-                <xsl:apply-templates select="edges/edge[@type = 'interconnection' or @type = 'directedConnection']"/>
+                <xsl:apply-templates select="edges/edge[@type = 'interconnection' or @type = 'directedConnection' or @type = 'access' or @type = 'configure']"/>
             </xsl:element>
             
             <xsl:element name="spirit:hierConnections">
@@ -108,6 +108,10 @@
                     <xsl:attribute name="spirit:referenceId">refinement</xsl:attribute>
                     <xsl:value-of select="parameters/parameter[@name = 'refinement']/@value"/>
                 </xsl:element>
+                <xsl:element name="spirit:configurableElementValue">
+                    <xsl:attribute name="spirit:referenceId">setupTime</xsl:attribute>
+                    <xsl:value-of select="parameters/parameter[@name = 'setupTime']/@value"/>
+                </xsl:element>
                 <!-- Specific medium parameters -->
                 <xsl:if test="@type='medium'">
                     <xsl:element name="spirit:configurableElementValue">
@@ -117,6 +121,13 @@
                     <xsl:element name="spirit:configurableElementValue">
                         <xsl:attribute name="spirit:referenceId">medium_overhead</xsl:attribute>
                         <xsl:value-of select="parameters/parameter[@name = 'medium_overhead']/@value"/>
+                    </xsl:element>
+                </xsl:if>
+                <!-- Specific bus and fifo parameters -->
+                <xsl:if test="@type='bus' or @type='fifo'">
+                    <xsl:element name="spirit:configurableElementValue">
+                        <xsl:attribute name="spirit:referenceId">dataRate</xsl:attribute>
+                        <xsl:value-of select="parameters/parameter[@name = 'dataRate']/@value"/>
                     </xsl:element>
                 </xsl:if>
             </xsl:element>
@@ -171,4 +182,40 @@
         </xsl:element>
     </xsl:template>
     
+    <!-- accesses -->
+    <xsl:template match="edge[@type = 'access']">
+        <xsl:element name="spirit:interconnection">
+            <xsl:element name="spirit:name">
+                <xsl:value-of select="parameters/parameter[@name = 'id']/@value"/>
+            </xsl:element>
+            <xsl:element name="spirit:displayName">access</xsl:element>
+            <xsl:element name="spirit:activeInterface">
+                <xsl:attribute name="spirit:busRef" select="parameters/parameter[@name = 'source port']/@value"/>
+                <xsl:attribute name="spirit:componentRef" select="@source"/>
+            </xsl:element>
+            <xsl:element name="spirit:activeInterface">
+                <xsl:attribute name="spirit:busRef" select="parameters/parameter[@name = 'target port']/@value"/>
+                <xsl:attribute name="spirit:componentRef" select="@target"/>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
+    <!-- configures -->
+    <xsl:template match="edge[@type = 'configure']">
+        <xsl:element name="spirit:interconnection">
+            <xsl:element name="spirit:name">
+                <xsl:value-of select="parameters/parameter[@name = 'id']/@value"/>
+            </xsl:element>
+            <xsl:element name="spirit:displayName">configure</xsl:element>
+            <xsl:element name="spirit:activeInterface">
+                <xsl:attribute name="spirit:busRef" select="parameters/parameter[@name = 'source port']/@value"/>
+                <xsl:attribute name="spirit:componentRef" select="@source"/>
+            </xsl:element>
+            <xsl:element name="spirit:activeInterface">
+                <xsl:attribute name="spirit:busRef" select="parameters/parameter[@name = 'target port']/@value"/>
+                <xsl:attribute name="spirit:componentRef" select="@target"/>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+
 </xsl:stylesheet>

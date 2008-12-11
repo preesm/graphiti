@@ -219,6 +219,20 @@
                         <xsl:attribute name="value"><xsl:value-of select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='medium_overhead']"/></xsl:attribute>
                     </xsl:element>
                 </xsl:if>
+                <!-- Specific processor parameters -->
+                <xsl:if test="$componentType='processor'">
+                    <xsl:element name="parameter">
+                        <xsl:attribute name="name">setupTime</xsl:attribute>
+                        <xsl:attribute name="value"><xsl:value-of select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='setupTime']"/></xsl:attribute>
+                    </xsl:element>
+                </xsl:if>
+                <!-- Specific bus/fifo parameters -->
+                <xsl:if test="$componentType='bus' or $componentType='fifo'">
+                    <xsl:element name="parameter">
+                        <xsl:attribute name="name">dataRate</xsl:attribute>
+                        <xsl:attribute name="value"><xsl:value-of select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='dataRate']"/></xsl:attribute>
+                    </xsl:element>
+                </xsl:if>
             </xsl:element>
         </xsl:element>
     </xsl:template>
@@ -227,6 +241,12 @@
     <xsl:template match="spirit:interconnection">
         <xsl:element name="edge">
             <xsl:choose>
+                <xsl:when test="spirit:displayName='access'">
+                    <xsl:attribute name="type">access</xsl:attribute>
+                </xsl:when>
+                <xsl:when test="spirit:displayName='configure'">
+                    <xsl:attribute name="type">configure</xsl:attribute>
+                </xsl:when>
                 <xsl:when test="spirit:displayName='directed'">
                     <xsl:attribute name="type">directedConnection</xsl:attribute>
                 </xsl:when>
