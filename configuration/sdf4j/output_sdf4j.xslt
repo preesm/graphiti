@@ -160,6 +160,11 @@
             port_direction="{replace(@type, '(Input|Output) port', '$1')}"/>
     </xsl:template>
 
+    <!-- broadcast vertex -->
+    <xsl:template match="vertex[@type = 'Broadcast']">
+        <node id="{parameters/parameter[@name = 'id']/@value}" kind="Broadcast"/>
+    </xsl:template>
+
     <!-- edge -->
     <xsl:template match="edge">
         <edge source="{@source}" target="{@target}"
