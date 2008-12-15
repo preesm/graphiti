@@ -174,6 +174,36 @@
 		</xsl:element>
 	</xsl:template>
 
+	<!-- join -->
+	<xsl:template match="graphml:node[@kind = 'join']">
+		<xsl:element name="vertex">
+			<xsl:attribute name="type">join</xsl:attribute>
+
+
+			<xsl:element name="parameters">
+				<xsl:element name="parameter">
+					<xsl:attribute name="name">id</xsl:attribute>
+					<xsl:attribute name="value" select="@id"/>
+				</xsl:element>
+			</xsl:element>
+		</xsl:element>
+	</xsl:template>
+
+	<!-- fork -->
+	<xsl:template match="graphml:node[@kind = 'fork']">
+		<xsl:element name="vertex">
+			<xsl:attribute name="type">fork</xsl:attribute>
+
+
+			<xsl:element name="parameters">
+				<xsl:element name="parameter">
+					<xsl:attribute name="name">id</xsl:attribute>
+					<xsl:attribute name="value" select="@id"/>
+				</xsl:element>
+			</xsl:element>
+		</xsl:element>
+	</xsl:template>
+
     <!-- edge -->
     <xsl:template match="graphml:edge">
         <xsl:element name="edge">

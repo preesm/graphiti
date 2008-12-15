@@ -162,6 +162,16 @@
         <node id="{parameters/parameter[@name = 'id']/@value}" kind="Broadcast"/>
     </xsl:template>
 
+    <!-- fork vertex -->
+    <xsl:template match="vertex[@type = 'fork']">
+        <node id="{parameters/parameter[@name = 'id']/@value}" kind="fork"/>
+    </xsl:template>
+
+    <!-- join  vertex -->
+    <xsl:template match="vertex[@type = 'join']">
+        <node id="{parameters/parameter[@name = 'id']/@value}" kind="join"/>
+    </xsl:template>
+
     <!-- edge -->
     <xsl:template match="edge">
         <edge source="{@source}" target="{@target}"

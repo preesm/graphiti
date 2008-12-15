@@ -63,6 +63,28 @@
             </parameters>
         </vertexType>
 
+	   <vertexType name="fork">
+            <attributes>
+                <color red="120" green="10" blue="0"/>
+                <shape name="circle"/>
+                <size width="30" height="30"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String" default=""/>
+            </parameters>
+        </vertexType>
+
+	   <vertexType name="join">
+            <attributes>
+                <color red="10" green="0" blue="120"/>
+                <shape name="circle"/>
+                <size width="30" height="30"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String" default=""/>
+            </parameters>
+        </vertexType>
+
         <vertexType name="Vertex">
             <attributes>
                 <color red="163" green="0" blue="85"/>
