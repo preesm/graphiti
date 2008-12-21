@@ -35,10 +35,25 @@
         <!-- graph -->
         <xsl:element name="XDF">
             <xsl:attribute name="name" select="parameters/parameter[@name = 'id']/@value"/>
+			<xsl:comment> ************************************** </xsl:comment>
+			<xsl:comment> Input ports of the Graph               </xsl:comment>
+			<xsl:comment> ************************************** </xsl:comment>
             <xsl:apply-templates select="vertices/vertex[@type = 'Input port']"/>
+			<xsl:comment> ************************************** </xsl:comment>
+			<xsl:comment> Output ports of the Graph              </xsl:comment>
+			<xsl:comment> ************************************** </xsl:comment>
             <xsl:apply-templates select="vertices/vertex[@type = 'Output port']"/>
+			<xsl:comment> ************************************** </xsl:comment>
+			<xsl:comment> Variables and Parameters of the Graph  </xsl:comment>
+			<xsl:comment> ************************************** </xsl:comment>
             <xsl:apply-templates select="parameters/parameter[@name != 'id']"/>
+			<xsl:comment> ************************************** </xsl:comment>
+			<xsl:comment> Instances of the Graph                 </xsl:comment>
+			<xsl:comment> ************************************** </xsl:comment>
             <xsl:apply-templates select="vertices/vertex[@type = 'Instance']"/>
+			<xsl:comment> ************************************** </xsl:comment>
+			<xsl:comment> Connections of the Graph               </xsl:comment>
+			<xsl:comment> ************************************** </xsl:comment>
             <xsl:apply-templates select="edges/edge"/>
         </xsl:element>
     </xsl:template>
@@ -81,10 +96,16 @@
     <xsl:template match="vertex[@type='Instance']">
         <xsl:element name="Instance">
             <xsl:attribute name="id" select="parameters/parameter[@name = 'id']/@value"/>
+			<xsl:comment> ************************* </xsl:comment>
+			<xsl:comment> FU/Network refinement     </xsl:comment>
+			<xsl:comment> ************************* </xsl:comment>
             <xsl:element name="Class">
                 <xsl:attribute name="name"
                     select="parameters/parameter[@name = 'refinement']/@value"/>
             </xsl:element>
+			<xsl:comment> ************************* </xsl:comment>
+			<xsl:comment> FU/Network Parameter      </xsl:comment>
+			<xsl:comment> ************************* </xsl:comment>
             <xsl:apply-templates select="parameters/parameter[@name = 'instance parameter']"/>
         </xsl:element>
     </xsl:template>
