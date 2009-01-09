@@ -76,11 +76,6 @@ public class EdgeCreateCommand extends Command {
 	}
 
 	@Override
-	public boolean canExecute() {
-		return (source.equals(target) == false);
-	}
-
-	@Override
 	public void execute() {
 		manager.setEditedFile();
 
