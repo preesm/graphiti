@@ -28,6 +28,9 @@
  */
 package net.sf.graphiti.ui.editparts;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
 
 import org.eclipse.core.runtime.IStatus;
@@ -41,6 +44,9 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * This class extends {@link AbstractGraphicalEditPart} by setting its figure
@@ -65,14 +71,25 @@ public class StatusEditPart extends AbstractGraphicalEditPart {
 	protected IFigure createFigure() {
 		// The figure associated with this graph edit part is only a
 		// free form layer
-		Figure f = new FreeformLayer();
-		f.setLayoutManager(new FreeformLayout());
+		Figure root = new FreeformLayer();
+		root.setLayoutManager(new FreeformLayout());
 
 		IStatus status = (IStatus) getModel();
-		Label label = new Label(status.getMessage() + ": "
-				+ status.getException().getMessage());
-		f.add(label, new Rectangle(0, 0, -1, -1));
-		return f;
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		Throwable exc = status.getException();
+		Throwable cause = exc.getCause();
+		cause.printStackTrace(new PrintStream(bos));
+
+		Display d = Display.getCurrent();
+		Image image = d.getSystemImage(SWT.ICON_ERROR);
+		Label labelImage = new Label(image);
+		root.add(labelImage, new Rectangle(5, 5, -1, -1));
+
+		Label label = new Label(status.getMessage() + ": " + exc.getMessage()
+				+ "\n" + bos.toString());
+		root.add(label, new Rectangle(10 + image.getBounds().width, 5, -1, -1));
+
+		return root;
 	}
 
 	@Override

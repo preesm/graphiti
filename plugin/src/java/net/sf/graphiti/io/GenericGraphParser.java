@@ -175,6 +175,9 @@ public class GenericGraphParser {
 	 *             if the parser couldn't be initialized correctly
 	 * @throws ParserLogException
 	 *             if the grammar file couldn't be parsed correctly
+	 * @throws TransformedDocumentParseError
+	 *             If the file could be read and transformed, but not parsed as
+	 *             a graph
 	 * @throws TransformerException
 	 *             If an unrecoverable error occurs during the course of the
 	 *             transformation.
@@ -183,7 +186,7 @@ public class GenericGraphParser {
 			throws ClassCastException, ClassNotFoundException,
 			GrammarException, IllegalAccessException, InstantiationException,
 			IOException, ParserCreationException, ParserLogException,
-			TransformerException {
+			TransformedDocumentParseError, TransformerException {
 		FileFormat format = configuration.getFileFormat();
 		List<String> transformations = format.getImportTransformations();
 		Element element = null;
@@ -280,6 +283,9 @@ public class GenericGraphParser {
 		} catch (ClassNotFoundException e) {
 			throw new IncompatibleConfigurationFile(
 					"A DOM class could not be found", e);
+		} catch (CoreException e) {
+			throw new IncompatibleConfigurationFile(
+					"Could not obtain the file contents.", e);
 		} catch (GrammarException e) {
 			throw new IncompatibleConfigurationFile("A grammar was not valid",
 					e);
@@ -298,13 +304,13 @@ public class GenericGraphParser {
 		} catch (ParserLogException e) {
 			throw new IncompatibleConfigurationFile(
 					"There was a problem with the parser", e);
+		} catch (TransformedDocumentParseError e) {
+			throw new IncompatibleConfigurationFile(
+					"The transformed document could not be parsed", e);
 		} catch (TransformerException e) {
 			throw new IncompatibleConfigurationFile(
 					"An unrecoverable error occurred during "
 							+ "the course of the transformation.", e);
-		} catch (CoreException e) {
-			throw new IncompatibleConfigurationFile(
-					"Could not obtain the file contents.", e);
 		} catch (Throwable e) {
 			throw new IncompatibleConfigurationFile(
 					"The file could not be parsed with the matching configuration",
@@ -320,8 +326,11 @@ public class GenericGraphParser {
 	 * @param node
 	 *            A child node of &lt;graph&gt;.
 	 * @return The node following &lt;edges&gt;.
+	 * @throws TransformedDocumentParseError
+	 *             If the edges could not be parsed.
 	 */
-	private Node parseEdges(Graph graph, Node node) {
+	private Node parseEdges(Graph graph, Node node)
+			throws TransformedDocumentParseError {
 		Configuration configuration = graph.getConfiguration();
 		node = DomHelper.getFirstSiblingNamed(node, "edges");
 		Node child = node.getFirstChild();
@@ -337,6 +346,23 @@ public class GenericGraphParser {
 
 				String targetId = element.getAttribute("target");
 				Vertex target = graph.findVertex(targetId);
+
+				if (source == null && target == null) {
+					throw new TransformedDocumentParseError("In the edge \""
+							+ sourceId + "\" -> \"" + targetId + "\", \""
+							+ sourceId + "\" nor \"" + targetId
+							+ "\" could not be found.");
+				} else if (source == null) {
+					throw new TransformedDocumentParseError("In the edge \""
+							+ sourceId + "\" -> \"" + targetId
+							+ "\", the source vertex \"" + sourceId
+							+ "\" could not be found.");
+				} else if (target == null) {
+					throw new TransformedDocumentParseError("In the edge \""
+							+ sourceId + "\" -> \"" + targetId
+							+ "\", the target vertex \"" + targetId
+							+ "\" could not be found.");
+				}
 
 				Edge edge = new Edge(type, source, target);
 				parseParameters(edge, type, child.getFirstChild());
@@ -357,8 +383,11 @@ public class GenericGraphParser {
 	 * @param element
 	 *            The &lt;graph&gt; element.
 	 * @return A newly-created graph with the given configuration.
+	 * @throws TransformedDocumentParseError
+	 *             If <code>element</code> cannot be parsed.
 	 */
-	private Graph parseGraph(Configuration configuration, Element element) {
+	private Graph parseGraph(Configuration configuration, Element element)
+			throws TransformedDocumentParseError {
 		String typeName = element.getAttribute("type");
 		GraphType type = configuration.getGraphType(typeName);
 		Graph graph = new Graph(configuration, type);
