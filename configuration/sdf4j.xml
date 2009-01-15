@@ -109,9 +109,9 @@
             <parameters>
                 <parameter name="source port" type="java.lang.String" default=""/>
                 <parameter name="target port" type="java.lang.String" default=""/>
-                <parameter name="source production" type="java.lang.Integer" default="1"/>
-                <parameter name="target consumption" type="java.lang.Integer" default="1"/>
-                <parameter name="delay" type="java.lang.Integer" default="0"/>
+                <parameter name="source production" type="java.lang.String" default="1"/>
+                <parameter name="target consumption" type="java.lang.String" default="1"/>
+                <parameter name="delay" type="java.lang.String" default="0"/>
                 <parameter name="data type" type="java.lang.String" default="char"/>
             </parameters>
         </edgeType>

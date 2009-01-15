@@ -8,8 +8,8 @@
 
     <!-- reads the layout in a file that has the same name as the source document,
         except with .layout extension. -->
-    <xsl:param name="path"/>
-    <xsl:variable name="file" select="replace($path, '(.+)[.].+', '$1.layout')"/>
+    <!-- xsl:param name="path"/>
+    <xsl:variable name="file" select="replace($path, '(.+)[.].+', '$1.layout')"/> -->
 
 
     <!-- Top-level: graph -> graph -->
@@ -41,18 +41,12 @@
 
     <!-- Parameter declarations -->
     <xsl:template match="graphml:data[@key = 'parameters']">
-        <xsl:variable name="parameters" select="."/>
-        <xsl:call-template name="addParameters">
-            <xsl:with-param name="list" select="$parameters"/>
-        </xsl:call-template>
+        <xsl:apply-templates select="graphml:parameter"/>
     </xsl:template>
 
     <!-- Variable declarations -->
     <xsl:template match="graphml:data[@key = 'variables']">
-        <xsl:variable name="variables" select="."/>
-        <xsl:call-template name="addVariables">
-            <xsl:with-param name="list" select="$variables" />
-        </xsl:call-template>
+        <xsl:apply-templates select="graphml:variable"/>
     </xsl:template>
 
     <!-- node -->
@@ -79,68 +73,34 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    
-    <xsl:template name="addArguments">  
-        <xsl:param name="list" />
-        
-        <xsl:variable name="newlist" select="concat(normalize-space($list), ',')" />
-        <xsl:variable name="first" select="substring-before($newlist, ',')" />
-        <xsl:variable name="remaining" select="substring-after($newlist, ',')" />
-        <xsl:variable name="argumentName" select="substring-before($first, '=')" />
-        <xsl:variable name="argumentValue" select="substring-after($first, '=')" />
-        <xsl:element name="entry">
-            <xsl:attribute name="key" select="$argumentName"/>
-            <xsl:attribute name="value" select="$argumentValue"/>
-        </xsl:element>
-        <xsl:if test="$remaining!='' and $remaining!=','">
-            <xsl:call-template name="addArguments">
-                <xsl:with-param name="list" select="$remaining" />
-            </xsl:call-template>
-        </xsl:if>
+ 
+
+	<!-- node actual parameter -->
+	<xsl:template match="graphml:data[@key = 'arguments']">
+    		<xsl:apply-templates select="graphml:argument"/>
+	</xsl:template>
+
+    <!-- actual parameter entry -->
+    <xsl:template match="graphml:argument">
+		<xsl:element name="entry">
+			<xsl:attribute name="key" select="@name"/>
+			<xsl:attribute name="value" select="@value"/>
+		</xsl:element>
     </xsl:template>
     
-    <xsl:template name="addParameters">  
-        <xsl:param name="list" />
-        
-        <xsl:variable name="newlist" select="concat(normalize-space($list), ',')" />
-        <xsl:variable name="first" select="substring-before($newlist, ',')" />
-        <xsl:variable name="remaining" select="substring-after($newlist, ',')" />
-        <xsl:variable name="paramName" select="$first" />
+    <!-- parameters element -->
+    <xsl:template match="graphml:parameter">
         <xsl:element name="element">
-            <xsl:attribute name="value" select="$paramName"/>
+            <xsl:attribute name="value" select="@name"/>
         </xsl:element>
-        <xsl:if test="$remaining!='' and $remaining!=','">
-            <xsl:call-template name="addParameters">
-                <xsl:with-param name="list" select="$remaining" />
-            </xsl:call-template>
-        </xsl:if>
     </xsl:template>
     
-    <xsl:template name="addVariables">  
-        <xsl:param name="list" />
-        
-        <xsl:variable name="newlist" select="concat(normalize-space($list), ',')" />
-        <xsl:variable name="first" select="substring-before($newlist, ',')" />
-        <xsl:variable name="remaining" select="substring-after($newlist, ',')" />
-        <xsl:variable name="variableName" select="substring-before($first, '=')" />
-        <xsl:variable name="variableValue" select="substring-after($first, '=')" />
+    <!-- variables entry -->
+    <xsl:template match="graphml:variable">
         <xsl:element name="entry">
-            <xsl:attribute name="key" select="$variableName"/>
-            <xsl:attribute name="value" select="$variableValue"/>
+            <xsl:attribute name="key" select="@name"/>
+            <xsl:attribute name="value" select="@value"/>
         </xsl:element>
-        <xsl:if test="$remaining!='' and $remaining!=','">
-            <xsl:call-template name="addVariables">
-                <xsl:with-param name="list" select="$remaining" />
-            </xsl:call-template>
-        </xsl:if>
-    </xsl:template>
-        
-    <!-- node parameter -->
-    <xsl:template match="graphml:data[@key = 'arguments']">
-        <xsl:variable name="arguments" select="."/>
-        <xsl:call-template name="addArguments">
-            <xsl:with-param name="list" select="$arguments" />
-        </xsl:call-template>
     </xsl:template>
 
     <!-- input/output port -->

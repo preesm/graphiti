@@ -29,13 +29,13 @@
             <key attr.name="arguments" attr.type="string" for="node" id="arguments"/>
             <key attr.name="parameters" attr.type="string" for="graph" id="parameters"/>
             <key attr.name="variables" attr.type="string" for="graph" id="variables"/>
-            <key attr.name="edge_prod" attr.type="int" for="edge" id="edge_prod">
+            <key attr.name="edge_prod" attr.type="string" for="edge" id="edge_prod">
                 <desc>org.sdf4j.model.sdf.types.SDFNumericalEdgePropertyTypeFactory</desc>
             </key>
-            <key attr.name="edge_delay" attr.type="int" for="edge" id="edge_delay">
+            <key attr.name="edge_delay" attr.type="string" for="edge" id="edge_delay">
                 <desc>org.sdf4j.model.sdf.types.SDFNumericalEdgePropertyTypeFactory</desc>
             </key>
-            <key attr.name="edge_cons" attr.type="int" for="edge" id="edge_cons">
+            <key attr.name="edge_cons" attr.type="string" for="edge" id="edge_cons">
                 <desc>org.sdf4j.model.sdf.types.SDFNumericalEdgePropertyTypeFactory</desc>
             </key>
             <key attr.name="data_type" attr.type="string" for="edge" id="data_type">
@@ -55,24 +55,16 @@
 
     <!-- Parameter declarations -->
     <xsl:template match="parameter[@name = 'graph parameter']">
-        <xsl:if test="element">
             <data key="parameters">
-                <xsl:call-template name="merge_text_value">
-                    <xsl:with-param name="some-text" select="element"/>
-                </xsl:call-template>
+                <xsl:apply-templates select="element"/>
             </data>
-        </xsl:if>
     </xsl:template>
 
     <!-- Variable declarations -->
     <xsl:template match="parameter[@name = 'graph variable']">
-        <xsl:if test="entry">
         <data key="variables">
-            <xsl:call-template name="merge_text_key_and_value">
-                <xsl:with-param name="some-text" select="entry"/>
-            </xsl:call-template>
+            <xsl:apply-templates select="entry"/>
         </data>
-        </xsl:if>
     </xsl:template>
 
     <!-- node -->
@@ -91,64 +83,21 @@
         </node>
     </xsl:template>
     
-    <!-- merge text from multiple elements adding key and value for each -->
-    <xsl:template name="merge_text_key_and_value">
-        <xsl:param name="some-text"/>
-        <xsl:choose>
-            <xsl:when test="$some-text">
-                <xsl:variable name="first-line" select="concat($some-text[1]/@key,'=',$some-text[1]/@value)"/>
-                <xsl:variable name="other-lines">
-                    <xsl:call-template name="merge_text_key_and_value">
-                        <xsl:with-param name="some-text" select="$some-text[position() != 1]"/>
-                    </xsl:call-template>
-                </xsl:variable>
-                <xsl:choose >
-                    <xsl:when test="$other-lines!=''" >
-                        <xsl:value-of select="concat($first-line, ',', $other-lines)"/>
-                    </xsl:when>
-                    <xsl:otherwise >
-                        <xsl:value-of select="$first-line"/>
-                    </xsl:otherwise>
-                </xsl:choose> 
-            </xsl:when>
-            <xsl:otherwise></xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-    
-    <!-- merge text from multiple elements adding key -->
-    <xsl:template name="merge_text_value">
-        <xsl:param name="some-text"/>
-        <xsl:choose>
-            <xsl:when test="$some-text">
-                <xsl:variable name="first-line" select="$some-text[1]/@value"/>
-                <xsl:variable name="other-lines">
-                    <xsl:call-template name="merge_text_value">
-                        <xsl:with-param name="some-text" select="$some-text[position() != 1]"/>
-                    </xsl:call-template>
-                </xsl:variable>
-                <xsl:choose >
-                    <xsl:when test="$other-lines!=''" >
-                        <xsl:value-of select="concat($first-line, ',', $other-lines)"/>
-                    </xsl:when>
-                    <xsl:otherwise >
-                        <xsl:value-of select="$first-line"/>
-                    </xsl:otherwise>
-                </xsl:choose> 
-            </xsl:when>
-            <xsl:otherwise></xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-    
-    
     <!-- node parameter -->
     <xsl:template match="parameter[@name = 'actual parameter']">
-        <xsl:if test="entry">
         <data key="arguments">
-            <xsl:call-template name="merge_text_key_and_value">
-                <xsl:with-param name="some-text" select="entry"/>
-            </xsl:call-template>
+            <xsl:apply-templates select="entry"/>
         </data>
-        </xsl:if>
+    </xsl:template>
+    
+    <!-- arguments argument or variables variable-->
+    <xsl:template match="entry">
+        <argument name="{@key}" value="{@value}"/>
+    </xsl:template>
+    
+    <!-- parameters parameter -->
+    <xsl:template match="element">
+        <parameter name="{@value}"/>
     </xsl:template>
 
     <!-- input/output port -->
