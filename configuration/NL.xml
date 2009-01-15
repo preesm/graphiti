@@ -27,7 +27,7 @@
         <graphType name="Network">
             <attributes/>
             <parameters>
-                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="id" type="java.lang.String" default="new_network"/>
                 <parameter name="network parameter" type="java.util.List">
                     <!-- default content: none -->
                 </parameter>

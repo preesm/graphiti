@@ -70,9 +70,11 @@ end
 
     <!-- entities -->
     <xsl:template name="entities">
+        <xsl:if test="EntityDecl">
         <xsl:text>entities
 
 </xsl:text>
+        </xsl:if>
         <xsl:apply-templates select="EntityDecl"/>
     </xsl:template>
 
@@ -101,9 +103,11 @@ end
 
     <!-- structure -->
     <xsl:template name="structure">
+        <xsl:if test="StructureStmt">
         <xsl:text>structure
 
 </xsl:text>
+        </xsl:if>
         <xsl:apply-templates select="StructureStmt"/>
     </xsl:template>
     
