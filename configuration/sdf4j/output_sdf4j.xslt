@@ -63,7 +63,7 @@
     <!-- Variable declarations -->
     <xsl:template match="parameter[@name = 'graph variable']">
         <data key="variables">
-            <xsl:apply-templates select="entry"/>
+            <xsl:apply-templates select="entry" mode="variable"/>
         </data>
     </xsl:template>
 
@@ -86,14 +86,20 @@
     <!-- node parameter -->
     <xsl:template match="parameter[@name = 'actual parameter']">
         <data key="arguments">
-            <xsl:apply-templates select="entry"/>
+            <xsl:apply-templates select="entry" mode="argument"/>
         </data>
     </xsl:template>
     
-    <!-- arguments argument or variables variable-->
-    <xsl:template match="entry">
+    <!-- arguments argument -->
+    <xsl:template match="entry" mode="argument">
         <argument name="{@key}" value="{@value}"/>
     </xsl:template>
+    
+    <!-- variables variable -->
+    <xsl:template match="entry" mode="variable">
+        <variable name="{@key}" value="{@value}"/>
+    </xsl:template>
+ 
     
     <!-- parameters parameter -->
     <xsl:template match="element">
