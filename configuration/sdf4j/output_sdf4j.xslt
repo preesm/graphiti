@@ -24,7 +24,7 @@
         <!-- graph -->
         <graphml>
             <key attr.name="graph_desc" attr.type="string" for="node" id="graph_desc"/>
-
+            <key attr.name="name" attr.type="string" for="graph" id="name"/>
             <key attr.name="name" attr.type="string" for="node" id="name"/>
             <key attr.name="arguments" attr.type="string" for="node" id="arguments"/>
             <key attr.name="parameters" attr.type="string" for="graph" id="parameters"/>
@@ -43,7 +43,9 @@
             </key>
 
             <graph edgedefault="directed">
-                
+                <data key="name">
+                    <xsl:value-of select="parameters/parameter[@name = 'name']/@value"/>
+                </data>
                 <xsl:apply-templates select="parameters/parameter[@name = 'graph parameter']"/>
                 <xsl:apply-templates select="parameters/parameter[@name = 'graph variable']"/>
 

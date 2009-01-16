@@ -19,6 +19,7 @@
         <graphType name="SDF Graph">
             <attributes/>
             <parameters>
+                <parameter name="name" type="java.lang.String" default=""/>
                 <parameter name="graph parameter" type="java.util.List">
                     <!-- default content: none -->
                 </parameter>
