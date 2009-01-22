@@ -94,7 +94,7 @@ public class PortAnchorReferenceManager {
 				}
 
 				Rectangle bounds = label.getBounds();
-				int x = bounds.x + bounds.width;
+				int x = bounds.x + bounds.width + 5;
 				int y = bounds.y + bounds.height / 2;
 
 				Point ref = new Point(x, y);
@@ -108,7 +108,7 @@ public class PortAnchorReferenceManager {
 				}
 
 				Rectangle bounds = label.getBounds();
-				int x = bounds.x;
+				int x = bounds.x - 5;
 				int y = bounds.y + bounds.height / 2;
 
 				Point ref = new Point(x, y);
