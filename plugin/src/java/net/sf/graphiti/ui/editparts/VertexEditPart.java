@@ -47,6 +47,7 @@ import net.sf.graphiti.ui.editpolicies.VertexDirectEditPolicy;
 import net.sf.graphiti.ui.figure.VertexFigure;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 
+import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
@@ -232,7 +233,9 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	public ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
 		VertexFigure figure = (VertexFigure) getFigure();
-		return figure.getSourceAnchor((Edge) connection.getModel());
+		Edge edge = (Edge) connection.getModel();
+		Connection conn = (Connection) connection.getFigure();
+		return figure.getSourceAnchor(edge, conn);
 	}
 
 	@Override
@@ -245,7 +248,9 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	public ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
 		VertexFigure figure = (VertexFigure) getFigure();
-		return figure.getTargetAnchor((Edge) connection.getModel());
+		Edge edge = (Edge) connection.getModel();
+		Connection conn = (Connection) connection.getFigure();
+		return figure.getTargetAnchor(edge, conn);
 	}
 
 	@Override

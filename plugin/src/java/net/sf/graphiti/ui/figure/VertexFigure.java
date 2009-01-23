@@ -29,6 +29,7 @@
 package net.sf.graphiti.ui.figure;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -39,13 +40,16 @@ import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 
+import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.Polyline;
+import org.eclipse.draw2d.RelativeBendpoint;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -61,6 +65,104 @@ import org.eclipse.swt.graphics.Font;
  * @author Matthieu Wipliez
  */
 public class VertexFigure extends Figure {
+
+	/**
+	 * This class is here because of a series of serious flaws in GEF...
+	 * <p>
+	 * See most objects in Draw2D are compared by reference. Granted, this is a
+	 * lot faster, but in some cases unwanted. For some reason
+	 * {@link VertexFigure#getSourceAnchor(Edge, Connection)} is called several
+	 * times per connection. We want to set bendpoints on a connection only
+	 * once, because otherwise Draw2D messes up if the same bendpoints occur
+	 * several times o_O Even those guys did not bother with checking a couple
+	 * of numbers...
+	 * </p>
+	 * 
+	 * <p>
+	 * Anyway that's fine, we'll just have to check if the list of bendpoints on
+	 * a connection contains the one we'd like to add. That's precisely where we
+	 * see that this fucking {@link RelativeBendpoint} does not implement the
+	 * {@link Object#equals(Object)} method o_O. What the hell were those guys
+	 * thinking? {@link AbsoluteBendpoint} DOES fucking implement it by the way.
+	 * </p>
+	 * 
+	 * <p>
+	 * Anyway, that could still be fine: If we could iterate on the list and
+	 * check whether two relative bendpoints reference the same connection (by
+	 * reference) and have the same weight and dimensions, then we consider they
+	 * are the same! Easy! Well guess what? You cannot ACCESS *any* data BUT the
+	 * location on a relative bendpoint o_O
+	 * </p>
+	 * 
+	 * <p>
+	 * So basically this class holds all the information we need (we want
+	 * bendpoint after the start or before the end and not both) and it has an
+	 * {@link Object#equals(Object)} method which allows us to check whether a
+	 * connection constraint list contains this fucker. We have to store the
+	 * association connection -> list of concrete bendpoints in a map, namely
+	 * the {@link VertexFigure#bendpoints} field.
+	 * </p>
+	 * 
+	 * <p>
+	 * TODO: I suppose that if guys use the editor for a long time adding and
+	 * removing a lot of connections, there might be a problem with this fucking
+	 * bendpoints thing...
+	 * </p>
+	 * 
+	 * @author Matthieu Wipliez
+	 */
+	private class ConcreteBendpoint {
+
+		public boolean end;
+
+		public int offset;
+
+		public ConcreteBendpoint(boolean end, int offset) {
+			this.end = end;
+			this.offset = offset;
+		}
+
+		public boolean equals(Object obj) {
+			if (obj instanceof ConcreteBendpoint) {
+				ConcreteBendpoint cbp = (ConcreteBendpoint) obj;
+				return end == cbp.end && offset == cbp.offset;
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Returns a {@link RelativeBendpoint} with the same characteristics as
+		 * this bendpoint.
+		 * 
+		 * @param conn
+		 *            The {@link Connection} to attach the relative bendpoint
+		 *            to.
+		 * @return A {@link RelativeBendpoint}
+		 */
+		public RelativeBendpoint getBendpoint(Connection conn) {
+			RelativeBendpoint bp = new RelativeBendpoint(conn);
+			if (end) {
+				bp.setWeight(1.0f);
+				bp.setRelativeDimensions(new Dimension(0, 0), new Dimension(
+						offset, 0));
+			} else {
+				bp.setWeight(0.0f);
+				bp.setRelativeDimensions(new Dimension(offset, 0),
+						new Dimension(0, 0));
+			}
+
+			return bp;
+		}
+	}
+
+	/**
+	 * The reason for this field is listed in the documentation for the inner
+	 * class {@link ConcreteBendpoint}.
+	 * 
+	 * @see ConcreteBendpoint
+	 */
+	private Map<Connection, List<ConcreteBendpoint>> bendpoints;
 
 	private Map<String, Label> inputPorts;
 
@@ -81,6 +183,7 @@ public class VertexFigure extends Figure {
 	 */
 	public VertexFigure(Font font, Dimension dimension, Color color,
 			IShape shape) {
+		bendpoints = new HashMap<Connection, List<ConcreteBendpoint>>();
 		inputPorts = new TreeMap<String, Label>();
 		outputPorts = new TreeMap<String, Label>();
 
@@ -113,6 +216,47 @@ public class VertexFigure extends Figure {
 	public void addOutputPort(String portName) {
 		if (portName != null && !portName.isEmpty()) {
 			outputPorts.put(portName, null);
+		}
+	}
+
+	/**
+	 * Adds a bendpoint to the bendpoint list that is the routing constraint of
+	 * the <code>conn</code> connection. For additional information, see
+	 * {@link ConcreteBendpoint}.
+	 * 
+	 * @param conn
+	 *            The connection.
+	 * @param end
+	 *            True for the end anchor, false for the start anchor.
+	 * @param offset
+	 *            The offset.
+	 */
+	@SuppressWarnings("unchecked")
+	public void addToList(Connection conn, boolean end, int offset) {
+		// get the concrete list
+		List<ConcreteBendpoint> list = bendpoints.get(conn);
+		if (list == null) {
+			list = new ArrayList<ConcreteBendpoint>();
+			bendpoints.put(conn, list);
+		}
+
+		ConcreteBendpoint cbp = new ConcreteBendpoint(end, offset);
+
+		// check we do not already have this bendpoint
+		if (!list.contains(cbp)) {
+			// ok we're fine, let's get the routing list
+			List<RelativeBendpoint> cstList = (List<RelativeBendpoint>) conn
+					.getRoutingConstraint();
+			if (cstList == null) {
+				// shit! it's not here, we create it and set it
+				cstList = new ArrayList<RelativeBendpoint>();
+				conn.setRoutingConstraint(cstList);
+			}
+
+			// now the magic part: we add it to our "concrete" list
+			// and to the constraint list as a relative bendpoint
+			list.add(cbp);
+			cstList.add(cbp.getBendpoint(conn));
 		}
 	}
 
@@ -202,12 +346,26 @@ public class VertexFigure extends Figure {
 	 * @param edge
 	 *            The edge model of the connection. Allows the figure to
 	 *            retrieve the source port.
+	 * @param conn
+	 *            The connection figure.
 	 * @return The {@link ConnectionAnchor} of the underlying shape.
 	 */
-	public ConnectionAnchor getSourceAnchor(Edge edge) {
+	public ConnectionAnchor getSourceAnchor(Edge edge, Connection conn) {
 		String portName = (String) edge
 				.getValue(EdgeType.PARAMETER_SOURCE_PORT);
-		return shape.getConnectionAnchor(this, portName, true);
+		ConnectionAnchor anchor = shape.getConnectionAnchor(this, portName,
+				true);
+
+		// again another serious flaw in Draw2D: if we decide to add one
+		// bendpoint near the start, and the other one in getTargetAnchor, half
+		// of the time Draw2D will mess up.
+		// Note that NONE of this is written in the documentation. Hell, the
+		// documentation does not even *state* that the constraint of a
+		// connection should be a List of Bendpoints...
+		addToList(conn, false, 20);
+		addToList(conn, true, -20);
+
+		return anchor;
 	}
 
 	/**
@@ -225,12 +383,17 @@ public class VertexFigure extends Figure {
 	 * @param edge
 	 *            The edge model of the connection. Allows the figure to
 	 *            retrieve the target port.
+	 * @param conn
+	 *            The connection figure.
 	 * @return The {@link ConnectionAnchor} of the underlying shape.
 	 */
-	public ConnectionAnchor getTargetAnchor(Edge edge) {
+	public ConnectionAnchor getTargetAnchor(Edge edge, Connection conn) {
 		String portName = (String) edge
 				.getValue(EdgeType.PARAMETER_TARGET_PORT);
-		return shape.getConnectionAnchor(this, portName, false);
+		ConnectionAnchor anchor = shape.getConnectionAnchor(this, portName,
+				false);
+
+		return anchor;
 	}
 
 	/**
