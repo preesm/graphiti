@@ -108,10 +108,6 @@
                     <xsl:attribute name="spirit:referenceId">refinement</xsl:attribute>
                     <xsl:value-of select="parameters/parameter[@name = 'refinement']/@value"/>
                 </xsl:element>
-                <xsl:element name="spirit:configurableElementValue">
-                    <xsl:attribute name="spirit:referenceId">setupTime</xsl:attribute>
-                    <xsl:value-of select="parameters/parameter[@name = 'setupTime']/@value"/>
-                </xsl:element>
                 <!-- Specific medium parameters -->
                 <xsl:if test="@type='medium'">
                     <xsl:element name="spirit:configurableElementValue">
@@ -121,6 +117,13 @@
                     <xsl:element name="spirit:configurableElementValue">
                         <xsl:attribute name="spirit:referenceId">medium_overhead</xsl:attribute>
                         <xsl:value-of select="parameters/parameter[@name = 'medium_overhead']/@value"/>
+                    </xsl:element>
+                </xsl:if>
+                <!-- Specific processor parameters -->
+                <xsl:if test="@type='processor'">
+                    <xsl:element name="spirit:configurableElementValue">
+                        <xsl:attribute name="spirit:referenceId">setupTime</xsl:attribute>
+                        <xsl:value-of select="parameters/parameter[@name = 'setupTime']/@value"/>
                     </xsl:element>
                 </xsl:if>
                 <!-- Specific bus and fifo parameters -->
