@@ -8,9 +8,22 @@
 
     <!-- reads the layout in a file that has the same name as the source document,
         except with .layout extension. -->
-    <!-- xsl:param name="path"/>
-    <xsl:variable name="file" select="replace($path, '(.+)[.].+', '$1.layout')"/> -->
+    <xsl:param name="path"/>
+    <xsl:variable name="file" select="replace($path, '(.+)[.].+', '$1.layout')"/>
+    <xsl:variable name="layout" select="document(concat('file:///', $file))"/>
 
+    <!-- returns two attributes x and y that contains the position of the vertex,
+        if specified in $layout -->
+    <xsl:template name="getVertexLayoutAttributes">
+        <xsl:param name="vertexId"/>
+        <xsl:if test="not(empty($layout))">
+            <xsl:variable name="vertex" select="$layout/layout/vertices/vertex[@id = $vertexId]"/>
+            <xsl:if test="not(empty($vertex))">
+                <xsl:attribute name="x" select="$vertex/@x"/>
+                <xsl:attribute name="y" select="$vertex/@y"/>
+            </xsl:if>
+        </xsl:if>
+    </xsl:template>
 
     <!-- Top-level: graph -> graph -->
     <xsl:template match="graphml:graph[position() = 1 and @edgedefault = 'directed']">
@@ -57,7 +70,9 @@
     <xsl:template match="graphml:node[@kind = 'vertex']">
         <xsl:element name="vertex">
             <xsl:attribute name="type">Vertex</xsl:attribute>
-
+            <xsl:call-template name="getVertexLayoutAttributes">
+                <xsl:with-param name="vertexId" select="@id"/>
+            </xsl:call-template>
 
             <xsl:element name="parameters">
                 <xsl:element name="parameter">
@@ -111,8 +126,9 @@
     <xsl:template match="graphml:node[@kind = 'port']">
         <xsl:element name="vertex">
             <xsl:attribute name="type" select="concat(@port_direction, ' port')"/>
-
-
+            <xsl:call-template name="getVertexLayoutAttributes">
+                <xsl:with-param name="vertexId" select="@id"/>
+            </xsl:call-template>
 
             <xsl:element name="parameters">
                 <xsl:element name="parameter">
@@ -127,7 +143,9 @@
 	<xsl:template match="graphml:node[@kind = 'Broadcast']">
 	    <xsl:element name="vertex">
 	        <xsl:attribute name="type">Broadcast</xsl:attribute>
-
+	        <xsl:call-template name="getVertexLayoutAttributes">
+	            <xsl:with-param name="vertexId" select="@id"/>
+	        </xsl:call-template>
 
 			<xsl:element name="parameters">
 				<xsl:element name="parameter">
@@ -141,8 +159,10 @@
 	<!-- join -->
 	<xsl:template match="graphml:node[@kind = 'join']">
 		<xsl:element name="vertex">
-			<xsl:attribute name="type">join</xsl:attribute>
-
+		    <xsl:attribute name="type">join</xsl:attribute>
+		    <xsl:call-template name="getVertexLayoutAttributes">
+		        <xsl:with-param name="vertexId" select="@id"/>
+		    </xsl:call-template>
 
 			<xsl:element name="parameters">
 				<xsl:element name="parameter">
@@ -156,8 +176,10 @@
 	<!-- fork -->
 	<xsl:template match="graphml:node[@kind = 'fork']">
 		<xsl:element name="vertex">
-			<xsl:attribute name="type">fork</xsl:attribute>
-
+		    <xsl:attribute name="type">fork</xsl:attribute>
+		    <xsl:call-template name="getVertexLayoutAttributes">
+		        <xsl:with-param name="vertexId" select="@id"/>
+		    </xsl:call-template>
 
 			<xsl:element name="parameters">
 				<xsl:element name="parameter">
