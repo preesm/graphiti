@@ -183,32 +183,41 @@
             <xsl:variable name="refinement" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='refinement']"/>
             <xsl:attribute name="type" select="$componentType"/>
             <xsl:element name="parameters">
-                <!-- Generic components have no component type -->
+                <xsl:choose>
+                    <!-- Case of a component with no component type -->
+                    <xsl:when test="empty($componentType)">
+                        <xsl:element name="parameter">
+                            <xsl:attribute name="name">vendor</xsl:attribute>
+                            <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:vendor"/></xsl:attribute>
+                        </xsl:element>
+                        <xsl:element name="parameter">
+                            <xsl:attribute name="name">library</xsl:attribute>
+                            <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:library"/></xsl:attribute>
+                        </xsl:element>
+                        <xsl:element name="parameter">
+                            <xsl:attribute name="name">version</xsl:attribute>
+                            <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:version"/></xsl:attribute>
+                        </xsl:element>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <!-- The spirit name parameter is used as a component definition in preesm -->
+                        <xsl:element name="parameter">
+                            <xsl:attribute name="name">definition</xsl:attribute>
+                            <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:name"/></xsl:attribute>
+                        </xsl:element>
+                    </xsl:otherwise>
+                </xsl:choose>
+                 
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">id</xsl:attribute>
                     <xsl:attribute name="value"><xsl:value-of select="spirit:instanceName"/></xsl:attribute>
                 </xsl:element>
                 <xsl:element name="parameter">
-                    <xsl:attribute name="name">vendor</xsl:attribute>
-                    <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:vendor"/></xsl:attribute>
-                </xsl:element>
-                <xsl:element name="parameter">
-                    <xsl:attribute name="name">library</xsl:attribute>
-                    <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:library"/></xsl:attribute>
-                </xsl:element>
-                <xsl:element name="parameter">
-                    <xsl:attribute name="name">name</xsl:attribute>
-                    <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:name"/></xsl:attribute>
-                </xsl:element>
-                <xsl:element name="parameter">
-                    <xsl:attribute name="name">version</xsl:attribute>
-                    <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:version"/></xsl:attribute>
-                </xsl:element>
-                <xsl:element name="parameter">
                     <xsl:attribute name="name">refinement</xsl:attribute>
                     <xsl:attribute name="value"><xsl:value-of select="$refinement"/></xsl:attribute>
                 </xsl:element>
-                <!-- Specific medium parameters -->
+                
+                <!-- medium parameters -->
                 <xsl:if test="$componentType='medium'">
                     <xsl:element name="parameter">
                         <xsl:attribute name="name">medium_invDataRate</xsl:attribute>
@@ -219,18 +228,11 @@
                         <xsl:attribute name="value"><xsl:value-of select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='medium_overhead']"/></xsl:attribute>
                     </xsl:element>
                 </xsl:if>
-                <!-- Specific processor parameters -->
-                <xsl:if test="$componentType='processor'">
-                    <xsl:element name="parameter">
-                        <xsl:attribute name="name">setupTime</xsl:attribute>
-                        <xsl:attribute name="value"><xsl:value-of select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='setupTime']"/></xsl:attribute>
-                    </xsl:element>
-                </xsl:if>
-                <!-- Specific bus/fifo parameters -->
-                <xsl:if test="$componentType='bus' or $componentType='fifo'">
+                <!-- node parameters -->
+                <xsl:if test="$componentType='parallelNode' or $componentType='contentionNode'">
                     <xsl:element name="parameter">
                         <xsl:attribute name="name">dataRate</xsl:attribute>
-                        <xsl:attribute name="value"><xsl:value-of select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='dataRate']"/></xsl:attribute>
+                        <xsl:attribute name="value"><xsl:value-of select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='node_dataRate']"/></xsl:attribute>
                     </xsl:element>
                 </xsl:if>
             </xsl:element>
@@ -241,19 +243,14 @@
     <xsl:template match="spirit:interconnection">
         <xsl:element name="edge">
             <xsl:choose>
-                <xsl:when test="spirit:displayName='access'">
-                    <xsl:attribute name="type">access</xsl:attribute>
-                </xsl:when>
-                <xsl:when test="spirit:displayName='configure'">
-                    <xsl:attribute name="type">configure</xsl:attribute>
-                </xsl:when>
-                <xsl:when test="spirit:displayName='directed'">
-                    <xsl:attribute name="type">directedConnection</xsl:attribute>
+                <xsl:when test="spirit:displayName='setup'">
+                    <xsl:attribute name="type">setup</xsl:attribute>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:attribute name="type">interconnection</xsl:attribute>
                 </xsl:otherwise>
             </xsl:choose>
+            
             <xsl:attribute name="source" select="spirit:activeInterface[1]/@spirit:componentRef"/>
             <xsl:attribute name="target" select="spirit:activeInterface[2]/@spirit:componentRef"/>
             <xsl:element name="parameters">
@@ -269,6 +266,12 @@
                     <xsl:attribute name="name">target port</xsl:attribute>
                     <xsl:attribute name="value"><xsl:value-of select="spirit:activeInterface[2]/@spirit:busRef"/></xsl:attribute>
                 </xsl:element>
+                <xsl:if test="spirit:displayName='setup'">
+                    <xsl:element name="parameter">
+                        <xsl:attribute name="name">setupTime</xsl:attribute>
+                        <xsl:attribute name="value"><xsl:value-of select="spirit:description"/></xsl:attribute>
+                    </xsl:element>
+                </xsl:if>
             </xsl:element>
         </xsl:element>
     </xsl:template>

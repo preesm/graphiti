@@ -41,7 +41,7 @@
 
         <vertexType name="componentInstance">
             <attributes>
-                <color red="163" green="0" blue="85"/>
+                <color red="255" green="255" blue="255"/>
                 <shape name="roundedBox"/>
                 <size width="40" height="40"/>
             </attributes>
@@ -64,10 +64,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
-                <parameter name="vendor" type="java.lang.String" default=""/>
-                <parameter name="library" type="java.lang.String" default=""/>
-                <parameter name="name" type="java.lang.String" default=""/>
-                <parameter name="version" type="java.lang.String" default=""/>
+                <parameter name="definition" type="java.lang.String" default=""/>
                 <parameter name="refinement" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
@@ -75,18 +72,59 @@
         <vertexType name="medium">
             <attributes>
                 <color red="244" green="96" blue="96"/>
+                <shape name="circle"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="definition" type="java.lang.String" default=""/>
+                <parameter name="refinement" type="java.lang.String" default=""/>
+                <parameter name="medium_invDataRate" type="java.lang.String" default=""/>
+                <parameter name="medium_overhead" type="java.lang.String" default=""/>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="parallelNode">
+            <attributes>
+                <color red="199" green="209" blue="252"/>
+                <shape name="lozenge"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="definition" type="java.lang.String" default=""/>
+                <parameter name="refinement" type="java.lang.String" default=""/>
+                <parameter name="dataRate" type="java.lang.String" default="1"/>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="contentionNode">
+            <attributes>
+                <color red="94" green="124" blue="247"/>
+                <shape name="lozenge"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="definition" type="java.lang.String" default=""/>
+                <parameter name="refinement" type="java.lang.String" default=""/>
+                <parameter name="dataRate" type="java.lang.String" default="1"/>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="dma">
+            <attributes>
+                <color red="50" green="100" blue="0"/>
                 <shape name="roundedBox"/>
                 <size width="40" height="40"/>
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
-                <parameter name="vendor" type="java.lang.String" default=""/>
-                <parameter name="library" type="java.lang.String" default=""/>
-                <parameter name="name" type="java.lang.String" default=""/>
-                <parameter name="version" type="java.lang.String" default=""/>
+                <parameter name="definition" type="java.lang.String" default=""/>
                 <parameter name="refinement" type="java.lang.String" default=""/>
-                <parameter name="medium_invDataRate" type="java.lang.String" default=""/>
-                <parameter name="medium_overhead" type="java.lang.String" default=""/>
+                <parameter name="dma driven link" type="java.util.Map">
+                    <!-- default content: none -->
+                </parameter>
             </parameters>
         </vertexType>
     </vertexTypes>
@@ -113,14 +151,16 @@
             </parameters>
         </edgeType>
         
-        <edgeType name="directedConnection">
+        <edgeType name="setup">
             <attributes>
+                <color red="0" green="255" blue="0"/>
                 <directed value="true"/>
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
                 <parameter name="source port" type="java.lang.String" default=""/>
                 <parameter name="target port" type="java.lang.String" default=""/>
+                <parameter name="setupTime" type="java.lang.String" default="1"/>
             </parameters>
         </edgeType>
     </edgeTypes>
