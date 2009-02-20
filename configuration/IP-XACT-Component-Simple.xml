@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     
-    <fileFormat extension="ipxactcmp" type="text/xml">
+    <fileFormat extension="component" type="text/xml">
         <import>
-            <transformation name="ip-xact/input_IP-XACT-Component.xslt"/>
+            <transformation name="ip-xact/simple/input_IP-XACT-Component.xslt"/>
         </import>
         
         <export>
-            <transformation name="ip-xact/output_IP-XACT-Component.xslt"/>
+            <transformation name="ip-xact/simple/output_IP-XACT-Component.xslt"/>
         </export>
     </fileFormat>
 
     <refinementFileExtensions>
-        <fileExtension name="ipxactds"/>
+        <fileExtension name="design"/>
     </refinementFileExtensions>
 
     <graphTypes>
-        <graphType name="Spirit IP-XACT component">
+        <graphType name="Spirit IP-XACT simple component">
             <attributes/>
             <parameters>
                 <parameter name="cmpVendor" type="java.lang.String" default=""/>

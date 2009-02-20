@@ -3,7 +3,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
     xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1.4">
     
-    <xsl:import href="../cal/exprToString.xslt"/>
+    <xsl:import href="../../cal/exprToString.xslt"/>
     
     <xsl:output indent="yes" method="xml"/>
     
@@ -31,7 +31,7 @@
     <!-- Top-level: design -->
     <xsl:template match="spirit:design">
         <xsl:element name="graph">
-            <xsl:attribute name="type">Spirit IP-XACT design</xsl:attribute>
+            <xsl:attribute name="type">Spirit IP-XACT advanced design</xsl:attribute>
             
             <!-- VLNV of the design -->
             <xsl:element name="parameters">

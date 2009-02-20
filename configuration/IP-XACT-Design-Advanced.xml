@@ -3,11 +3,11 @@
     
     <fileFormat extension="ipxactds" type="text/xml">
         <import>
-            <transformation name="ip-xact/input_IP-XACT-Design.xslt"/>
+            <transformation name="ip-xact/advanced/input_IP-XACT-Design.xslt"/>
         </import>
         
         <export>
-            <transformation name="ip-xact/output_IP-XACT-Design.xslt"/>
+            <transformation name="ip-xact/advanced/output_IP-XACT-Design.xslt"/>
         </export>
     </fileFormat>
 
@@ -16,7 +16,7 @@
     </refinementFileExtensions>
 
     <graphTypes>
-        <graphType name="Spirit IP-XACT design">
+        <graphType name="Spirit IP-XACT advanced design">
             <attributes/>
             <parameters>
                 <parameter name="vendor" type="java.lang.String" default=""/>
@@ -56,22 +56,6 @@
             </parameters>
         </vertexType>
 
-        <vertexType name="operator">
-            <attributes>
-                <color red="123" green="220" blue="16"/>
-                <shape name="roundedBox"/>
-                <size width="40" height="40"/>
-            </attributes>
-            <parameters>
-                <parameter name="id" type="java.lang.String" default=""/>
-                <parameter name="vendor" type="java.lang.String" default=""/>
-                <parameter name="library" type="java.lang.String" default=""/>
-                <parameter name="name" type="java.lang.String" default=""/>
-                <parameter name="version" type="java.lang.String" default=""/>
-                <parameter name="refinement" type="java.lang.String" default=""/>
-            </parameters>
-        </vertexType>
-        
         <vertexType name="processor">
             <attributes>
                 <color red="220" green="123" blue="16"/>
@@ -187,23 +171,6 @@
             </parameters>
         </vertexType>
 
-        <vertexType name="medium">
-            <attributes>
-                <color red="244" green="96" blue="96"/>
-                <shape name="roundedBox"/>
-                <size width="40" height="40"/>
-            </attributes>
-            <parameters>
-                <parameter name="id" type="java.lang.String" default=""/>
-                <parameter name="vendor" type="java.lang.String" default=""/>
-                <parameter name="library" type="java.lang.String" default=""/>
-                <parameter name="name" type="java.lang.String" default=""/>
-                <parameter name="version" type="java.lang.String" default=""/>
-                <parameter name="refinement" type="java.lang.String" default=""/>
-                <parameter name="medium_invDataRate" type="java.lang.String" default=""/>
-                <parameter name="medium_overhead" type="java.lang.String" default=""/>
-            </parameters>
-        </vertexType>
     </vertexTypes>
 
     <edgeTypes>
