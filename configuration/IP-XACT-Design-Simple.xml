@@ -122,9 +122,6 @@
                 <parameter name="id" type="java.lang.String" default=""/>
                 <parameter name="definition" type="java.lang.String" default=""/>
                 <parameter name="refinement" type="java.lang.String" default=""/>
-                <parameter name="dma driven link" type="java.util.Map">
-                    <!-- default content: none -->
-                </parameter>
             </parameters>
         </vertexType>
     </vertexTypes>

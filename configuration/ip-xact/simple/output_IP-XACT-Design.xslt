@@ -109,6 +109,7 @@
                     <xsl:attribute name="spirit:referenceId">refinement</xsl:attribute>
                     <xsl:value-of select="parameters/parameter[@name = 'refinement']/@value"/>
                 </xsl:element>
+                
                 <!-- medium parameters -->
                 <xsl:if test="@type='medium'">
                     <xsl:element name="spirit:configurableElementValue">
@@ -120,6 +121,7 @@
                         <xsl:value-of select="parameters/parameter[@name = 'medium_overhead']/@value"/>
                     </xsl:element>
                 </xsl:if>
+                
                 <!-- node parameters -->
                 <xsl:if test="@type='parallelNode' or @type='contentionNode'">
                     <xsl:element name="spirit:configurableElementValue">
@@ -127,6 +129,11 @@
                         <xsl:value-of select="parameters/parameter[@name = 'dataRate']/@value"/>
                     </xsl:element>
                 </xsl:if>
+                
+                <!-- dma parameters -->
+                <!-- <xsl:if test="@type='dma'">
+                    <xsl:apply-templates select="parameters/parameter[@name = 'dma driven link']/entry" mode="dma_drivenLinks"/>
+                </xsl:if> -->
             </xsl:element>
         </xsl:element>
     </xsl:template>

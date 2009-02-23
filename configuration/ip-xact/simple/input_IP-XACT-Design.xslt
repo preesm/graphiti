@@ -118,15 +118,15 @@
     
     <!-- template for the component instances -->
     <xsl:template match="spirit:componentInstance" mode="#default">
-            <xsl:variable name="componentType" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='componentType']"/>
-            <xsl:choose>
-                <xsl:when test="$componentType!=''">
-                    <xsl:apply-templates select="." mode="specific"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:apply-templates select="." mode="generic"/>
-                </xsl:otherwise>
-            </xsl:choose>
+        <xsl:variable name="componentType" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='componentType']"/>
+        <xsl:choose>
+            <xsl:when test="not(empty($componentType))">
+                <xsl:apply-templates select="." mode="specific"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates select="." mode="generic"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     
     <!-- template for the generic component instances -->
@@ -137,7 +137,7 @@
             </xsl:call-template>
             <xsl:variable name="componentType" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='componentType']"/>
             <xsl:variable name="refinement" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='refinement']"/>
-           
+            
             <xsl:attribute name="type">componentInstance</xsl:attribute>
             <xsl:element name="parameters">
                 <!-- Generic components have no component type -->
@@ -183,31 +183,12 @@
             <xsl:variable name="refinement" select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='refinement']"/>
             <xsl:attribute name="type" select="$componentType"/>
             <xsl:element name="parameters">
-                <xsl:choose>
-                    <!-- Case of a component with no component type -->
-                    <xsl:when test="empty($componentType)">
-                        <xsl:element name="parameter">
-                            <xsl:attribute name="name">vendor</xsl:attribute>
-                            <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:vendor"/></xsl:attribute>
-                        </xsl:element>
-                        <xsl:element name="parameter">
-                            <xsl:attribute name="name">library</xsl:attribute>
-                            <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:library"/></xsl:attribute>
-                        </xsl:element>
-                        <xsl:element name="parameter">
-                            <xsl:attribute name="name">version</xsl:attribute>
-                            <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:version"/></xsl:attribute>
-                        </xsl:element>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <!-- The spirit name parameter is used as a component definition in preesm -->
-                        <xsl:element name="parameter">
-                            <xsl:attribute name="name">definition</xsl:attribute>
-                            <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:name"/></xsl:attribute>
-                        </xsl:element>
-                    </xsl:otherwise>
-                </xsl:choose>
-                 
+                
+                <!-- The spirit name parameter is used as a component definition in preesm -->
+                <xsl:element name="parameter">
+                    <xsl:attribute name="name">definition</xsl:attribute>
+                    <xsl:attribute name="value"><xsl:value-of select="spirit:componentRef/@spirit:name"/></xsl:attribute>
+                </xsl:element>
                 <xsl:element name="parameter">
                     <xsl:attribute name="name">id</xsl:attribute>
                     <xsl:attribute name="value"><xsl:value-of select="spirit:instanceName"/></xsl:attribute>
@@ -235,7 +216,23 @@
                         <xsl:attribute name="value"><xsl:value-of select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='node_dataRate']"/></xsl:attribute>
                     </xsl:element>
                 </xsl:if>
+                
+                <!-- dma variables are stored like parameters with prefix drivenLink_-->
+                <!--  <xsl:if test="$componentType='dma'">
+                    <xsl:element name="parameter">
+                        <xsl:attribute name="name">dma driven link</xsl:attribute>
+                        <xsl:apply-templates select="spirit:configurableElementValues/spirit:configurableElementValue[starts-with(@spirit:referenceId,'drivenLink_')]" mode="dma_drivenLinks"/>
+                    </xsl:element>
+                </xsl:if>-->
             </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
+    <!-- variables entry -->
+    <xsl:template match="spirit:configurableElementValue" mode="dma_drivenLinks">
+        <xsl:element name="entry">
+            <xsl:attribute name="key" select="replace(@spirit:referenceId,'drivenLink_','')"/>
+            <xsl:attribute name="value" select="."/>
         </xsl:element>
     </xsl:template>
     
