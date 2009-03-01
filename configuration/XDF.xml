@@ -43,6 +43,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="port type" type="java.lang.String" default="int(size=32)"/>
             </parameters>
         </vertexType>
 
@@ -54,6 +55,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="port type" type="java.lang.String" default="int(size=32)"/>
             </parameters>
         </vertexType>
 

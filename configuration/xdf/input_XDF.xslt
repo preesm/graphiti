@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+<xsl:stylesheet
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 
     <xsl:import href="../cal/exprToString.xslt"/>
+    <xsl:import href="../cal/typeToString.xslt"/>
 
     <xsl:output indent="yes" method="xml"/>
 
@@ -52,12 +55,33 @@
 
     <!-- Parameter declarations -->
     <xsl:template match="Decl[@kind = 'Param']">
-        <element value="{@name}"/>
+        <xsl:choose>
+            <xsl:when test="Type">
+                <xsl:variable name="typeText">
+                    <xsl:apply-templates select="Type"/>
+                </xsl:variable>
+                <element value="{concat($typeText cast as xs:string, ' ', @name)}"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <element value="{@name}"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <!-- Variable declarations -->
     <xsl:template match="Decl[@kind = 'Variable']">
-        <entry key="{@name}">
+        <entry>
+            <xsl:choose>
+                <xsl:when test="Type">
+                    <xsl:variable name="typeText">
+                        <xsl:apply-templates select="Type"/>
+                    </xsl:variable>
+                    <xsl:attribute name="key" select="concat($typeText cast as xs:string, ' ', @name)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name="key" select="@name"/>
+                </xsl:otherwise>
+            </xsl:choose>
             <xsl:attribute name="value">
                 <xsl:apply-templates select="Expr"/>
             </xsl:attribute>
@@ -73,6 +97,11 @@
 
             <parameters>
                 <parameter name="id" value="{@name}"/>
+                <parameter name="port type">
+                    <xsl:attribute name="value">
+                        <xsl:apply-templates select="Type"/>
+                    </xsl:attribute>
+                </parameter>
             </parameters>
         </vertex>
     </xsl:template>
