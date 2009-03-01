@@ -6,7 +6,14 @@
     <xsl:template match="text()"/>
 
     <xsl:template match="Atom/ID">
-        <Expr kind="Var" name="{text()}"/>
+        <xsl:choose>
+            <xsl:when test="text() = 'true' or text() = 'false'">
+                <Expr kind="Literal" literal-kind="Boolean" value="{text()}"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <Expr kind="Var" name="{text()}"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="Atom/NUMBER">
