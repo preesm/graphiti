@@ -102,7 +102,6 @@
             <xsl:attribute name="kind">Input</xsl:attribute>
             <xsl:variable name="id" select="parameters/parameter[@name = 'id']/@value"/>
             <xsl:variable name="type" select="parameters/parameter[@name = 'port type']/@value"/>
-            <xsl:message select="concat($type, ' ', $id)"></xsl:message>
             <xsl:call-template name="typeAndId">
                 <xsl:with-param name="str" select="concat($type, ' ', $id)"/>
             </xsl:call-template>
@@ -114,7 +113,6 @@
             <xsl:attribute name="kind">Output</xsl:attribute>
             <xsl:variable name="id" select="parameters/parameter[@name = 'id']/@value"/>
             <xsl:variable name="type" select="parameters/parameter[@name = 'port type']/@value"/>
-            <xsl:message select="concat($type, ' ', $id)"></xsl:message>
             <xsl:call-template name="typeAndId">
                 <xsl:with-param name="str" select="concat($type, ' ', $id)"/>
             </xsl:call-template>
