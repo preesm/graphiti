@@ -1,0 +1,325 @@
+/*
+ * Copyright (c) 2009, IETR/INSA of Rennes
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice,
+ *     this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice,
+ *     this list of conditions and the following disclaimer in the documentation
+ *     and/or other materials provided with the distribution.
+ *   * Neither the name of the IETR/INSA of Rennes nor the names of its
+ *     contributors may be used to endorse or promote products derived from this
+ *     software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+%header%
+
+GRAMMARTYPE = "LL"
+
+DESCRIPTION = "A grammar for VHDL."
+
+AUTHOR      = "Matthieu Wipliez"
+VERSION     = "1.0"
+DATE        = "March, 23th, 2009"
+
+LICENSE     = "Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+  * Redistributions of source code must retain the above copyright notice,
+    this list of conditions and the following disclaimer.
+  * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+  * Neither the name of the IETR/INSA of Rennes nor the names of its
+    contributors may be used to endorse or promote products derived from this
+    software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS'
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE."
+
+COPYRIGHT   = "Copyright (c) 2009, IETR/INSA of Rennes. All rights reserved."
+
+
+%tokens%
+
+ABS = "abs"
+ACCESS = "access"
+ALL = "all"
+AND = "and"
+BEGIN = "begin"
+BUFFER = "buffer"
+BUS = "bus"
+CONFIGURATION = "configuration"
+CONSTANT = "constant"
+DOWNTO = "downto"
+E = "E"
+END = "end"
+ENTITY = "entity"
+GENERIC = "generic"
+IN = "in"
+INOUT = "inout"
+IS = "is"
+LIBRARY = "library"
+LINKAGE = "linkage"
+MOD = "mod"
+NAND = "nand"
+NOR = "nor"
+NOT = "not"
+OPEN = "open"
+OR = "or"
+OUT = "out"
+PACKAGE = "package"
+PORT = "port"
+KWD_RANGE = "range" // KWD because there is a "range" rule too.
+REM = "rem"
+TO = "to"
+SIGNAL = "signal"
+USE = "use"
+VARIABLE = "variable"
+XOR = "xor"
+
+// VHDL identifier
+IDENTIFIER = <<[a-zA-Z](_?[a-zA-Z0-9])*>>
+
+// integer
+INTEGER = <<[0-9](_?[0-9])*>>
+
+// based_integer
+BASED_INTEGER = <<[a-zA-Z0-9](_?[a-zA-Z0-9])*>>
+
+DOT       = "."
+COMMA     = ","
+SEMICOLON = ";"
+
+LPAREN = "("
+RPAREN = ")"
+
+LBRACKET = "["
+RBRACKET = "]"
+
+LBRACE = "{"
+RBRACE = "}"
+
+ARROW = "=>"
+
+// sign (+, -) adding_operator (+, -, &)
+PLUS = "+"
+MINUS = "-"
+AMPERSAND = "&"
+
+// relational_operator 
+EQUAL       = "="
+GE          = ">="
+GT          = ">"
+LE          = "<="
+LT          = "<"
+SLASH_EQUAL = "/="
+
+// multiplying_operator
+DIV   = "/"
+TIMES = "*"
+
+// factor
+EXP = "**"
+
+// based literal
+SHARP = "#"
+
+SINGLE_QUOTE = "'"
+
+// character literal
+CHARACTER_LITERAL = <<'.'>>
+
+// string literal
+STRING_LITERAL = <<"([^\\"]*(\\[tnr\\"])?)*">>
+
+// others
+COLON              = ":"
+COLON_EQUAL        = ":="
+
+// Comments and whitespace
+LINE_COMMENT       = <<--[^\r\n]*(\r|\n|\r\n)>> %ignore%
+WHITESPACE         = <<[ \t\n\r]+>> %ignore%
+
+%productions%
+
+// Top-level rule
+design_file = design_unit+ ;
+
+///////////////////////////////////////////////////////////////////////////////
+
+abstract_literal = decimal_literal | based_literal ;
+
+access_type_definition = ACCESS subtype_indication ;
+
+actual_designator = expression | OPEN ;
+
+actual_parameter_part = association_list ;
+
+actual_part = actual_designator | IDENTIFIER LPAREN actual_designator RPAREN ;
+
+adding_operator = PLUS | MINUS | AMPERSAND ;
+
+association_element = (formal_part ARROW)? actual_part ;
+
+association_list = association_element (COMMA association_element)* ; 
+
+attribute_designator = simple_name ;
+
+attribute_name = prefix SINGLE_QUOTE attribute_designator
+  (LPAREN expression RPAREN)? ;
+
+base = INTEGER ;
+
+based_literal =
+  base SHARP BASED_INTEGER (DOT BASED_INTEGER)? SHARP exponent? ;
+
+// TODO
+configuration_declaration = CONFIGURATION ;
+
+constraint = range_constraint | index_constraint ;
+
+context_item = library_clause | use_clause ;
+
+decimal_literal = INTEGER (DOT INTEGER)? exponent? ;
+
+design_unit = context_item* library_unit ;
+
+direction = TO | DOWNTO ;
+
+discrete_range = subtype_indication | range ;
+
+entity_declaration = ENTITY IDENTIFIER IS
+  entity_header
+  entity_declarative_item*
+  (BEGIN /* TODO: entity_statement_part */)?
+  END IDENTIFIER? SEMICOLON ;
+
+// TODO
+entity_declarative_item = use_clause ;
+
+entity_header = generic_clause | port_clause ;
+
+exponent = E PLUS? INTEGER | E MINUS? INTEGER ;
+
+expression = relation (AND relation)*
+| relation (OR relation)*
+| relation (XOR relation)*
+| relation (NAND relation)?
+| relation (NOR relation)? ;
+
+factor = primary (EXP primary)?
+| ABS primary
+| NOT primary ;
+
+formal_part = name (LPAREN name RPAREN)? ;
+
+function_call = function_name (LPAREN actual_parameter_part RPAREN)? ;
+
+function_name = IDENTIFIER ;
+
+generic_clause = GENERIC LPAREN generic_list RPAREN SEMICOLON ;
+
+generic_list = interface_list ;
+
+identifier_list = IDENTIFIER (COMMA IDENTIFIER)* ;
+
+index_constraint = LPAREN discrete_range (COMMA discrete_range)* RPAREN ;
+
+interface_constant_declaration = CONSTANT? identifier_list COLON IN?
+  subtype_indication (COLON_EQUAL expression)? ;
+
+interface_declaration = interface_constant_declaration
+| interface_signal_declaration
+| interface_variable_declaration ;
+
+interface_element = interface_declaration ;
+
+interface_list = interface_element (SEMICOLON interface_element)* ;
+
+interface_signal_declaration = SIGNAL? identifier_list COLON mode?
+  subtype_indication BUS? (COLON_EQUAL expression)? ;
+
+interface_variable_declaration = VARIABLE? identifier_list COLON mode?
+  subtype_indication (COLON_EQUAL expression)? ;
+
+library_clause = LIBRARY logical_name_list SEMICOLON ;
+
+library_unit = primary_unit /* TODO: | secondary_unit*/ ; 
+
+logical_name = IDENTIFIER ;
+
+logical_name_list = logical_name (COMMA logical_name)* ;
+
+mode = IN | OUT | INOUT | BUFFER | LINKAGE ;
+
+multiplying_operator = TIMES | DIV | MOD | REM ;
+
+// TODO
+name = simple_name ;
+
+operator_symbol = STRING_LITERAL ;
+
+// TODO
+package_declaration = PACKAGE ;
+
+port_clause = PORT LPAREN port_list RPAREN SEMICOLON ;
+
+port_list = interface_list ;
+
+prefix = name | function_call ;
+
+// TODO
+primary = name ;
+
+primary_unit = entity_declaration | configuration_declaration | package_declaration ;
+
+range = attribute_name | simple_expression direction simple_expression ;
+
+range_constraint = KWD_RANGE range ;
+
+relation = simple_expression (relational_operator simple_expression)? ;
+
+relational_operator = EQUAL | SLASH_EQUAL | LT | LE | GT | GE ;
+
+selected_name = prefix DOT suffix ;
+
+sign = PLUS | MINUS ;
+
+simple_expression = sign? term (adding_operator term)* ;
+
+simple_name = IDENTIFIER ;
+
+subtype_indication = name? type_mark constraint? ;
+
+suffix = simple_name | CHARACTER_LITERAL | operator_symbol | ALL ;
+
+term = factor (multiplying_operator factor)* ;
+
+type_mark = name ;
+
+use_clause = USE selected_name (COMMA selected_name)* ;
