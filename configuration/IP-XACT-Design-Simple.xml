@@ -100,7 +100,7 @@
 
         <vertexType name="contentionNode">
             <attributes>
-                <color red="94" green="124" blue="247"/>
+                <color red="110" green="140" blue="255"/>
                 <shape name="lozenge"/>
                 <size width="40" height="40"/>
             </attributes>
@@ -115,6 +115,19 @@
         <vertexType name="dma">
             <attributes>
                 <color red="50" green="100" blue="0"/>
+                <shape name="roundedBox"/>
+                <size width="40" height="40"/>
+            </attributes>
+            <parameters>
+                <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="definition" type="java.lang.String" default=""/>
+                <parameter name="refinement" type="java.lang.String" default=""/>
+            </parameters>
+        </vertexType>
+
+        <vertexType name="ram">
+            <attributes>
+                <color red="255" green="255" blue="150"/>
                 <shape name="roundedBox"/>
                 <size width="40" height="40"/>
             </attributes>
