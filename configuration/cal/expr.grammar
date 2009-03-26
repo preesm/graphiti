@@ -75,7 +75,7 @@ RPAREN = ")"
 
 ID          = <<[a-zA-Z_]+>>
 NUMBER      = <<[0-9]+>>
-STRING      = <<"([^\\"]*(\\[tnr\\"])?)*">>
+STRING      = <<"[^"]*">>
 WHITESPACE  = <<[ \t\n\r]+>> %ignore%
 
 

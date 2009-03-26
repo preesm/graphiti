@@ -147,7 +147,7 @@ RBRACKET           = "]"
 RPAREN             = ")"
 SEMICOLON          = ";"
 SHARP              = "#"
-STRING             = <<"([^\\"]*(\\[tnr\\"])?)*">>
+STRING             = <<"[^"]*">>
 TIMES              = "*"
 
 LINE_COMMENT       = <<#[^\r\n]*(\r|\n|\r\n)>> %ignore%

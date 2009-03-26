@@ -155,7 +155,7 @@ SINGLE_QUOTE = "'"
 CHARACTER_LITERAL = <<'.'>>
 
 // string literal
-STRING_LITERAL = <<"([^\\"]*(\\[tnr\\"])?)*">>
+STRING_LITERAL = <<"[^"]*">>
 
 // others
 COLON              = ":"
@@ -176,11 +176,9 @@ abstract_literal = decimal_literal | based_literal ;
 
 access_type_definition = ACCESS subtype_indication ;
 
-actual_designator = expression | OPEN ;
-
 actual_parameter_part = association_list ;
 
-actual_part = actual_designator | IDENTIFIER LPAREN actual_designator RPAREN ;
+actual_part = OPEN | expression ;
 
 adding_operator = PLUS | MINUS | AMPERSAND ;
 
