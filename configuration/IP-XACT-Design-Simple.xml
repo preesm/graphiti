@@ -79,7 +79,7 @@
                 <parameter name="id" type="java.lang.String" default=""/>
                 <parameter name="definition" type="java.lang.String" default=""/>
                 <parameter name="refinement" type="java.lang.String" default=""/>
-                <parameter name="medium_invDataRate" type="java.lang.String" default=""/>
+                <parameter name="medium_dataRate" type="java.lang.String" default=""/>
                 <parameter name="medium_overhead" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>

@@ -113,8 +113,8 @@
                 <!-- medium parameters -->
                 <xsl:if test="@type='medium'">
                     <xsl:element name="spirit:configurableElementValue">
-                        <xsl:attribute name="spirit:referenceId">medium_invDataRate</xsl:attribute>
-                        <xsl:value-of select="parameters/parameter[@name = 'medium_invDataRate']/@value"/>
+                        <xsl:attribute name="spirit:referenceId">medium_dataRate</xsl:attribute>
+                        <xsl:value-of select="parameters/parameter[@name = 'medium_dataRate']/@value"/>
                     </xsl:element>
                     <xsl:element name="spirit:configurableElementValue">
                         <xsl:attribute name="spirit:referenceId">medium_overhead</xsl:attribute>
