@@ -30,7 +30,7 @@ package net.sf.graphiti.io;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,9 +39,6 @@ import java.util.TreeMap;
 
 import javax.xml.transform.TransformerException;
 
-import net.percederberg.grammatica.GrammarException;
-import net.percederberg.grammatica.parser.ParserCreationException;
-import net.percederberg.grammatica.parser.ParserLogException;
 import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
@@ -53,6 +50,7 @@ import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexType;
+import net.sf.graphiti.model.FileFormat.Transformation;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -181,33 +179,40 @@ public class GenericGraphParser {
 	 * @throws TransformerException
 	 *             If an unrecoverable error occurs during the course of the
 	 *             transformation.
+	 * @throws InvocationTargetException
+	 * @throws NoSuchMethodException
+	 * @throws IllegalArgumentException
+	 * @throws SecurityException
 	 */
 	private Graph parse(Configuration configuration, String path, InputStream in)
 			throws ClassCastException, ClassNotFoundException,
-			GrammarException, IllegalAccessException, InstantiationException,
-			IOException, ParserCreationException, ParserLogException,
-			TransformedDocumentParseError, TransformerException {
+			IllegalAccessException, InstantiationException, IOException,
+			TransformedDocumentParseError, TransformerException,
+			SecurityException, IllegalArgumentException, NoSuchMethodException,
+			InvocationTargetException {
 		FileFormat format = configuration.getFileFormat();
-		List<String> transformations = format.getImportTransformations();
+		List<Transformation> transformations = format
+				.getImportTransformations();
 		Element element = null;
 		if (transformations.isEmpty()) {
 			element = DomHelper.parse(in).getDocumentElement();
 		} else {
-			for (String transformation : transformations) {
-				if (transformation.endsWith(".grammar")) {
-					GrammarTransformer transformer = new GrammarTransformer(
-							transformation);
-					element = transformer.parse(new InputStreamReader(in));
-				} else if (transformation.endsWith(".xslt")) {
+			for (Transformation transformation : transformations) {
+				if (transformation.isXslt()) {
 					// fills the element from the input stream
 					if (element == null) {
 						element = DomHelper.parse(in).getDocumentElement();
 					}
 
 					XsltTransformer transformer = new XsltTransformer(
-							transformation);
+							transformation.getFileName());
 					transformer.setParameter("path", path);
 					element = transformer.transformDomToDom(element);
+				} else {
+					GrammarTransformer transformer = new GrammarTransformer(
+							transformation.getFolder(), transformation
+									.getName(), transformation.getStartRule());
+					element = transformer.parse(in);
 				}
 			}
 		}
@@ -286,9 +291,6 @@ public class GenericGraphParser {
 		} catch (CoreException e) {
 			throw new IncompatibleConfigurationFile(
 					"Could not obtain the file contents.", e);
-		} catch (GrammarException e) {
-			throw new IncompatibleConfigurationFile("A grammar was not valid",
-					e);
 		} catch (IllegalAccessException e) {
 			throw new IncompatibleConfigurationFile(
 					"A DOM class could not be accessed", e);
@@ -298,12 +300,6 @@ public class GenericGraphParser {
 		} catch (IOException e) {
 			throw new IncompatibleConfigurationFile(
 					"The file could not be read", e);
-		} catch (ParserCreationException e) {
-			throw new IncompatibleConfigurationFile(
-					"The parser could not be created", e);
-		} catch (ParserLogException e) {
-			throw new IncompatibleConfigurationFile(
-					"There was a problem with the parser", e);
 		} catch (TransformedDocumentParseError e) {
 			throw new IncompatibleConfigurationFile(
 					"The transformed document could not be parsed", e);

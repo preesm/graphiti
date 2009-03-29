@@ -3,7 +3,7 @@
     
     <fileFormat extension="ipxactcmp" type="text/xml">
         <import>
-            <transformation name="ip-xact/advanced/input_IP-XACT-Component.xslt"/>
+            <transformation type="xslt" file="ip-xact/advanced/input_IP-XACT-Component.xslt"/>
         </import>
         
         <export>

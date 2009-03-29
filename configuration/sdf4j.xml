@@ -3,7 +3,7 @@
     
     <fileFormat extension="graphml" type="text/xml">
         <import>
-            <transformation name="sdf4j/input_sdf4j.xslt"/>
+            <transformation type="xslt" file="sdf4j/input_sdf4j.xslt"/>
         </import>
         
         <export>

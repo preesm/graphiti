@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.percederberg.grammatica.parser.Production;
 import net.sf.graphiti.io.csd.ast.AttachData;
 import net.sf.graphiti.io.csd.ast.CSDNumber;
 import net.sf.graphiti.io.csd.ast.CSDVisitor;

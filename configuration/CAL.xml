@@ -3,9 +3,9 @@
     
     <fileFormat extension="cal" type="text">
         <import>
-            <transformation name="cal/cal.grammar"/>
-            <transformation name="cal/calToCalML.xslt"/>
-            <transformation name="cal/input_CalML.xslt"/>
+            <transformation type="grammar" folder="cal" name="Cal" startRule="actor"/>
+            <transformation type="xslt" file="calToCalML.xslt"/>
+            <transformation type="xslt" file="input_CalML.xslt"/>
         </import>
         
         <export/>

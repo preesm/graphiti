@@ -3,7 +3,7 @@
     
     <fileFormat extension="xnl" type="text/xml">
         <import>
-            <transformation name="xnl/input_XNL.xslt"/>
+            <transformation type="xslt" file="xnl/input_XNL.xslt"/>
         </import>
         
         <export>

@@ -78,7 +78,11 @@ public class StatusEditPart extends AbstractGraphicalEditPart {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		Throwable exc = status.getException();
 		Throwable cause = exc.getCause();
-		cause.printStackTrace(new PrintStream(bos));
+		if (cause == null) {
+			exc.printStackTrace(new PrintStream(bos));
+		} else {
+			cause.printStackTrace(new PrintStream(bos));
+		}
 
 		Display d = Display.getCurrent();
 		Image image = d.getSystemImage(SWT.ICON_ERROR);

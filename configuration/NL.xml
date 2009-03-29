@@ -3,10 +3,10 @@
     
     <fileFormat extension="nl" type="text">
         <import>
-            <transformation name="nl/nl.grammar"/>
-            <transformation name="nl/nlToXNL.xslt"/>
-            <transformation name="xnl/input_XNL.xslt"/>
-            <transformation name="nl/changeXNLGraphType.xslt"/>
+            <transformation type="grammar" folder="nl" name="Nl" startRule="network"/>
+            <transformation type="xslt" file="nl/nlToXNL.xslt"/>
+            <transformation type="xslt" file="xnl/input_XNL.xslt"/>
+            <transformation type="xslt" file="nl/changeXNLGraphType.xslt"/>
         </import>
         
         <export>

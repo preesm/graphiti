@@ -84,6 +84,7 @@ public class ConfigurationParser {
 			try {
 				parse(fileName);
 			} catch (Exception e) {
+				System.err.println(fileName);
 				e.printStackTrace();
 			}
 		}
@@ -304,8 +305,24 @@ public class ConfigurationParser {
 	private void parseFileFormatImport(FileFormat format, Node node) {
 		while (node != null) {
 			if (node.getNodeName().equals("transformation")) {
-				String fileName = ((Element) node).getAttribute("name");
-				format.addImportTransformation(fileName);
+				String type = ((Element) node).getAttribute("type");
+				if (type.equals("grammar")) {
+					String folder = ((Element) node).getAttribute("folder");
+					String name = ((Element) node).getAttribute("name");
+					String startRule = ((Element) node)
+							.getAttribute("startRule");
+					format.addImportGrammarTransformation(folder, name,
+							startRule);
+				} else if (type.equals("xslt")) {
+					String file = ((Element) node).getAttribute("file");
+					if (file.isEmpty()) {
+						throw new IllegalArgumentException(
+								"The \"file\" attribute should not be empty!");
+					}
+					format.addImportXsltTransformation(file);
+				} else {
+					throw new IllegalArgumentException("Unknown type: " + type);
+				}
 			}
 
 			node = node.getNextSibling();

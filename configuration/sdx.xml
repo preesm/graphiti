@@ -3,8 +3,8 @@
     
     <fileFormat extension="sdx" type="text">
         <import>
-            <transformation name="sdx/sdx.grammar"/>
-            <transformation name="sdx/input_sdx.xslt"/>
+            <transformation type="grammar" folder="sdx" name="Sdx" startRule="sdx_file"/>
+            <transformation type="xslt" file="sdx/input_sdx.xslt"/>
         </import>
         
         <export>

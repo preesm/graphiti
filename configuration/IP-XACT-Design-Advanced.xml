@@ -3,7 +3,7 @@
     
     <fileFormat extension="ipxactds" type="text/xml">
         <import>
-            <transformation name="ip-xact/advanced/input_IP-XACT-Design.xslt"/>
+            <transformation type="xslt" file="ip-xact/advanced/input_IP-XACT-Design.xslt"/>
         </import>
         
         <export>

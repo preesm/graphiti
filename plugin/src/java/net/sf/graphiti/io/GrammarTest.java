@@ -28,15 +28,14 @@
  */
 package net.sf.graphiti.io;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
-
-import net.percederberg.grammatica.parser.Analyzer;
 
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -51,26 +50,29 @@ import org.w3c.dom.ls.LSSerializer;
  * @author Matthieu Wipliez
  * 
  */
-public class GrammarTest extends Analyzer {
+public class GrammarTest {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		if (args.length < 3) {
-			System.err.println("Usage: GrammarTest <grammar file name> "
-					+ "<output XML file name> "
+		if (args.length < 5) {
+			System.err.println("Usage: GrammarTest <grammar folder> "
+					+ "<grammar name> "
+					+ "<start rule name> <output XML file name> "
 					+ "<input file name or input file pattern> ");
 			return;
 		}
 
-		String grammarFileName = args[0];
-		String outputFileName = args[1];
+		String folder = args[0];
+		String name = args[1];
+		String startRule = args[2];
+		String outputFileName = args[3];
 		try {
-			for (int i = 2; i < args.length; i++) {
+			for (int i = 4; i < args.length; i++) {
 				String fileName = args[i];
 				System.out.println("parsing " + fileName);
-				new GrammarTest(grammarFileName, new FileReader(fileName),
+				new GrammarTest(folder, name, startRule, fileName,
 						outputFileName);
 			}
 		} catch (Exception e) {
@@ -92,9 +94,11 @@ public class GrammarTest extends Analyzer {
 	 *            The absolute file name to write the output to.
 	 * @throws Exception
 	 */
-	public GrammarTest(String grammarFileName, Reader reader,
-			String outputFileName) throws Exception {
-		Element element = new GrammarTransformer(grammarFileName).parse(reader);
+	public GrammarTest(String folder, String name, String startRule,
+			String fileName, String outputFileName) throws Exception {
+		InputStream in = new FileInputStream(fileName);
+		Element element = new GrammarTransformer(folder, name, startRule)
+				.parse(in);
 		document = element.getOwnerDocument();
 		outputXml(outputFileName);
 	}

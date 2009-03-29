@@ -39,11 +39,57 @@ import java.util.List;
  */
 public class FileFormat {
 
+	public class Transformation {
+
+		private boolean xslt;
+
+		private String fileName;
+
+		private String folder;
+
+		private String name;
+
+		private String startRule;
+
+		private Transformation(String fileName) {
+			xslt = true;
+			this.fileName = fileName;
+		}
+
+		private Transformation(String folder, String name, String startRule) {
+			xslt = false;
+			this.folder = folder;
+			this.name = name;
+			this.startRule = startRule;
+		}
+
+		public String getFileName() {
+			return fileName;
+		}
+
+		public String getFolder() {
+			return folder;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public String getStartRule() {
+			return startRule;
+		}
+
+		public boolean isXslt() {
+			return xslt;
+		}
+
+	}
+
 	private List<String> exports;
 
 	private String extension;
 
-	private List<String> imports;
+	private List<Transformation> imports;
 
 	private String type;
 
@@ -51,15 +97,20 @@ public class FileFormat {
 		this.extension = extension;
 		this.type = type;
 		exports = new ArrayList<String>();
-		imports = new ArrayList<String>();
+		imports = new ArrayList<Transformation>();
 	}
 
 	public void addExportTransformation(String fileName) {
 		exports.add(fileName);
 	}
 
-	public void addImportTransformation(String fileName) {
-		imports.add(fileName);
+	public void addImportGrammarTransformation(String folder, String name,
+			String startRule) {
+		imports.add(new Transformation(folder, name, startRule));
+	}
+
+	public void addImportXsltTransformation(String fileName) {
+		imports.add(new Transformation(fileName));
 	}
 
 	public String getContentType() {
@@ -74,7 +125,7 @@ public class FileFormat {
 		return extension;
 	}
 
-	public List<String> getImportTransformations() {
+	public List<Transformation> getImportTransformations() {
 		return imports;
 	}
 

@@ -3,7 +3,7 @@
     
     <fileFormat extension="xdf" type="text/xml">
         <import>
-            <transformation name="xdf/input_XDF.xslt"/>
+            <transformation type="xslt" file="xdf/input_XDF.xslt"/>
         </import>
         
         <export>
