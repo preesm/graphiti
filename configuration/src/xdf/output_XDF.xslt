@@ -64,8 +64,8 @@
     child if the declaration contains a type. -->
     <xsl:template name="typeAndId">
         <xsl:param name="str"/>
-        <xsl:variable name="gt" select="grammar:new('cal/type.grammar')"/>
-        <xsl:variable name="concreteTree" select="grammar:parseString($gt, $str)"/>
+        <xsl:variable name="gt" select="grammar:new('cal', 'Type', 'parameter')"/>
+        <xsl:variable name="concreteTree" select="grammar:parse($gt, $str)"/>
         <xsl:attribute name="name" select="$concreteTree/ID/text()"/>
         <xsl:if test="$concreteTree/Type">
             <xsl:apply-templates select="$concreteTree/Type"/>
@@ -90,8 +90,8 @@
                 <xsl:with-param name="str" select="@key"/>
             </xsl:call-template>
 
-            <xsl:variable name="gt" select="grammar:new('cal/expr.grammar')"/>
-            <xsl:variable name="concreteTree" select="grammar:parseString($gt, @value)"/>
+            <xsl:variable name="gt" select="grammar:new('cal', 'Expr', 'expression')"/>
+            <xsl:variable name="concreteTree" select="grammar:parse($gt, @value)"/>
             <xsl:apply-templates select="$concreteTree"/>
         </xsl:element>
     </xsl:template>
@@ -141,8 +141,8 @@
     <xsl:template match="parameter[@name = 'instance parameter']/entry">
         <xsl:element name="Parameter">
             <xsl:attribute name="name" select="@key"/>
-            <xsl:variable name="gt" select="grammar:new('cal/expr.grammar')"/>
-            <xsl:variable name="concreteTree" select="grammar:parseString($gt, @value)"/>
+            <xsl:variable name="gt" select="grammar:new('cal', 'Expr', 'expression')"/>
+            <xsl:variable name="concreteTree" select="grammar:parse($gt, @value)"/>
             <xsl:apply-templates select="$concreteTree"/>
         </xsl:element>
     </xsl:template>
