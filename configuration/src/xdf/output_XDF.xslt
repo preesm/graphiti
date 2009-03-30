@@ -64,11 +64,11 @@
     child if the declaration contains a type. -->
     <xsl:template name="typeAndId">
         <xsl:param name="str"/>
-        <xsl:variable name="gt" select="grammar:new('cal', 'Type', 'parameter')"/>
-        <xsl:variable name="concreteTree" select="grammar:parse($gt, $str)"/>
-        <xsl:attribute name="name" select="$concreteTree/ID/text()"/>
-        <xsl:if test="$concreteTree/Type">
-            <xsl:apply-templates select="$concreteTree/Type"/>
+        <xsl:variable name="gt" select="grammar:new('cal', 'Cal', 'mainParameter')"/>
+        <xsl:variable name="tree" select="grammar:parse($gt, $str)"/>
+        <xsl:attribute name="name" select="tree/ID/text()"/>
+        <xsl:if test="tree/Type">
+            <xsl:apply-templates select="tree/Type"/>
         </xsl:if>
     </xsl:template>
 
@@ -90,9 +90,9 @@
                 <xsl:with-param name="str" select="@key"/>
             </xsl:call-template>
 
-            <xsl:variable name="gt" select="grammar:new('cal', 'Expr', 'expression')"/>
-            <xsl:variable name="concreteTree" select="grammar:parse($gt, @value)"/>
-            <xsl:apply-templates select="$concreteTree"/>
+            <xsl:variable name="gt" select="grammar:new('cal', 'Cal', 'mainExpression')"/>
+            <xsl:variable name="tree" select="grammar:parse($gt, @value)"/>
+            <xsl:apply-templates select="tree"/>
         </xsl:element>
     </xsl:template>
 
@@ -141,9 +141,9 @@
     <xsl:template match="parameter[@name = 'instance parameter']/entry">
         <xsl:element name="Parameter">
             <xsl:attribute name="name" select="@key"/>
-            <xsl:variable name="gt" select="grammar:new('cal', 'Expr', 'expression')"/>
-            <xsl:variable name="concreteTree" select="grammar:parse($gt, @value)"/>
-            <xsl:apply-templates select="$concreteTree"/>
+            <xsl:variable name="gt" select="grammar:new('cal', 'Cal', 'mainExpression')"/>
+            <xsl:variable name="tree" select="grammar:parse($gt, @value)"/>
+            <xsl:apply-templates select="tree"/>
         </xsl:element>
     </xsl:template>
 
