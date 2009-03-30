@@ -50,17 +50,22 @@ tokens {
   TypeAttr;
   ExprAttr;
   TypePar;
+  
+  // actor
+  Actor;
+  Name;
+  Inputs;
+  Outputs;
+  PortDecl;
 }
 
 actor: oneImport* ACTOR ID
   (LBRACKET typePars? RBRACKET)?
   LPAREN parameters? RPAREN
-  portDecls? DOUBLE_EQUAL_ARROW portDecls? COLON ignore* EOF;
+  inputs=portDecls? DOUBLE_EQUAL_ARROW outputs=portDecls? COLON ignore* EOF ->
+    ^(Actor ^(Name ID) parameters? ^(Inputs $inputs?) ^(Outputs $outputs?));
 
 ignore: ALL
-| ACTOR
-| IMPORT
-| MULTI
 | ARROW
 | CARET
 | COLON
@@ -73,6 +78,7 @@ ignore: ALL
 | DOUBLE_DOT
 | DOUBLE_COLON
 | EQ
+| FALSE
 | GE
 | GT
 | ID
@@ -82,6 +88,9 @@ ignore: ALL
 | LE
 | LT
 | MINUS
+| MULTI
+| NE
+| NOT
 | NUMBER
 | PLUS
 | RBRACE
@@ -90,7 +99,8 @@ ignore: ALL
 | SEMICOLON
 | SHARP
 | STRING
-| TIMES ;
+| TIMES
+| TRUE ;
 
 ///////////////////////////////////////////////////////////////////////////////
 // IMPORTS
@@ -105,16 +115,18 @@ qualifiedId: ID (DOT ID)+ ;
 ///////////////////////////////////////////////////////////////////////////////
 // PARAMETERS
 
-parameter: typeAndId (EQ expression)? ;
+parameter: typeAndId
+  (EQ expression -> ^(Parameter typeAndId ^(Expression expression))
+  | -> ^(Parameter typeAndId));
 
-parameters: parameter (COMMA parameter)* ;
+parameters: parameter (COMMA parameter)* -> parameter+;
 
 ///////////////////////////////////////////////////////////////////////////////
 // PORT DECLARATIONS
 
-portDecl: MULTI? typeAndId;
+portDecl: MULTI? typeAndId -> ^(PortDecl typeAndId);
 
-portDecls: portDecl (COMMA portDecl)* ;
+portDecls: portDecl (COMMA portDecl)* -> portDecl+ ;
 
 ///////////////////////////////////////////////////////////////////////////////
 // TYPES
