@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding=".svn/|cal/|cal/.svn/|csd/.svn/|ip-xact/.svn/|ip-xact/advanced/.svn/|ip-xact/simple/.svn/|nl/.svn/|sdf4j/.svn/|sdx/.svn/|vhdl/.svn/|workflow/.svn/|xdf/.svn/|xnl/.svn/" kind="src" path="src"/>
-	<classpathentry kind="src" path="src/cal"/>
+	<classpathentry excluding=".svn/" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/Graphiti editor/lib/antlr-runtime-3.1.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
