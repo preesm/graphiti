@@ -3,11 +3,11 @@
 
     <fileFormat extension="workflow" type="text/xml">
         <import>
-            <transformation type="xslt" file="workflow/input_workflow.xslt"/>
+            <transformation type="xslt" file="input_workflow.xslt"/>
         </import>
 
         <export>
-            <transformation name="workflow/output_workflow.xslt"/>
+            <transformation name="output_workflow.xslt"/>
         </export>
     </fileFormat>
 

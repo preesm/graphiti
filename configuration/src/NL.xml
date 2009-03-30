@@ -3,15 +3,15 @@
     
     <fileFormat extension="nl" type="text">
         <import>
-            <transformation type="grammar" folder="nl" name="Nl" startRule="network"/>
-            <transformation type="xslt" file="nl/nlToXNL.xslt"/>
-            <transformation type="xslt" file="xnl/input_XNL.xslt"/>
-            <transformation type="xslt" file="nl/changeXNLGraphType.xslt"/>
+            <transformation type="grammar" folder="." name="Nl" startRule="network"/>
+            <transformation type="xslt" file="nlToXNL.xslt"/>
+            <transformation type="xslt" file="input_XNL.xslt"/>
+            <transformation type="xslt" file="changeXNLGraphType.xslt"/>
         </import>
         
         <export>
-            <transformation name="xnl/output_XNL.xslt"/>
-            <transformation name="nl/output_NL.xslt"/>
+            <transformation name="output_XNL.xslt"/>
+            <transformation name="output_NL.xslt"/>
         </export>
     </fileFormat>
 

@@ -3,11 +3,11 @@
     
     <fileFormat extension="xnl" type="text/xml">
         <import>
-            <transformation type="xslt" file="xnl/input_XNL.xslt"/>
+            <transformation type="xslt" file="input_XNL.xslt"/>
         </import>
         
         <export>
-            <transformation name="xnl/output_XNL.xslt"/>
+            <transformation name="output_XNL.xslt"/>
         </export>
     </fileFormat>
 

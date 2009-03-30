@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns:grammar="java:net.sf.graphiti.io.GrammarTransformer"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 
-    <xsl:import href="../cal/exprToXml.xslt"/>
+    <xsl:import href="exprToXml.xslt"/>
 
     <xsl:output indent="yes" method="xml"/>
 
@@ -66,9 +66,9 @@
         <xsl:element name="Decl">
             <xsl:attribute name="kind">Variable</xsl:attribute>
             <xsl:attribute name="name" select="@key"/>
-            <xsl:variable name="gt" select="grammar:new('cal/expr.grammar')"/>
-            <xsl:variable name="concreteTree" select="grammar:parseString($gt, @value)"/>
-            <xsl:apply-templates select="$concreteTree"/>
+            <xsl:variable name="gt" select="grammar:new('.', 'Cal', 'mainExpression')"/>
+            <xsl:variable name="tree" select="grammar:parse($gt, @value)"/>
+            <xsl:apply-templates select="tree"/>
         </xsl:element>
     </xsl:template>
 
@@ -104,9 +104,9 @@
     <xsl:template match="parameter[@name = 'instance parameter']/entry">
         <xsl:element name="Arg">
             <xsl:attribute name="name" select="@key"/>
-            <xsl:variable name="gt" select="grammar:new('cal/expr.grammar')"/>
-            <xsl:variable name="concreteTree" select="grammar:parseString($gt, @value)"/>
-            <xsl:apply-templates select="$concreteTree"/>
+            <xsl:variable name="gt" select="grammar:new('.', 'Cal', 'mainExpression')"/>
+            <xsl:variable name="tree" select="grammar:parse($gt, @value)"/>
+            <xsl:apply-templates select="tree"/>
         </xsl:element>
     </xsl:template>
 

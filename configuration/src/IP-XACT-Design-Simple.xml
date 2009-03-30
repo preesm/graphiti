@@ -3,11 +3,11 @@
     
     <fileFormat extension="design" type="text/xml">
         <import>
-            <transformation type="xslt" file="ip-xact/simple/input_IP-XACT-Design.xslt"/>
+            <transformation type="xslt" file="input_IP-XACT-Design-Simple.xslt"/>
         </import>
         
         <export>
-            <transformation name="ip-xact/simple/output_IP-XACT-Design.xslt"/>
+            <transformation name="output_IP-XACT-Design-Simple.xslt"/>
         </export>
     </fileFormat>
 

@@ -3,11 +3,11 @@
     
     <fileFormat extension="graphml" type="text/xml">
         <import>
-            <transformation type="xslt" file="sdf4j/input_sdf4j.xslt"/>
+            <transformation type="xslt" file="input_sdf4j.xslt"/>
         </import>
         
         <export>
-            <transformation name="sdf4j/output_sdf4j.xslt"/>
+            <transformation name="output_sdf4j.xslt"/>
         </export>
     </fileFormat>
 

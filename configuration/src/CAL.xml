@@ -3,7 +3,7 @@
     
     <fileFormat extension="cal" type="text">
         <import>
-            <transformation type="grammar" folder="cal" name="Cal" startRule="actor"/>
+            <transformation type="grammar" folder="." name="Cal" startRule="actor"/>
             <transformation type="xslt" file="calToCalML.xslt"/>
             <transformation type="xslt" file="input_CalML.xslt"/>
         </import>

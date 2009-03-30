@@ -6,8 +6,6 @@
     xsi:schemaLocation="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1.4 http://www.spiritconsortium.org/XMLSchema/SPIRIT/1.4/index.xsd" 
     xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1.4">
     
-    <xsl:import href="../../cal/exprToXml.xslt"/>
-    
     <xsl:output indent="yes" method="xml"/>
     
     <xsl:template match="text()"/>

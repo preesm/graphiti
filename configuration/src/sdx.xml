@@ -3,12 +3,12 @@
     
     <fileFormat extension="sdx" type="text">
         <import>
-            <transformation type="grammar" folder="sdx" name="Sdx" startRule="sdx_file"/>
-            <transformation type="xslt" file="sdx/input_sdx.xslt"/>
+            <transformation type="grammar" folder="." name="Sdx" startRule="sdx_file"/>
+            <transformation type="xslt" file="input_sdx.xslt"/>
         </import>
         
         <export>
-            <transformation name="sdx/output_sdx.xslt"/>
+            <transformation name="output_sdx.xslt"/>
         </export>
     </fileFormat>
 

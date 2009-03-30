@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+<xsl:stylesheet
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 
-    <xsl:import href="../cal/exprToString.xslt"/>
+    <xsl:import href="exprToString.xslt"/>
+    <xsl:import href="typeToString.xslt"/>
 
     <xsl:output indent="yes" method="xml"/>
 
@@ -26,13 +29,13 @@
         </xsl:if>
     </xsl:template>
 
-    <!-- Top-level: Network -> graph -->
-    <xsl:template match="Network">
-        <graph type="XML Network Language">
+    <!-- Top-level: XDF -> graph -->
+    <xsl:template match="XDF">
+        <graph type="XML Dataflow Network">
             <parameters>
-				<parameter name="id" value="{QID/@name}"/>
+                <parameter name="id" value="{@name}"/>
                 <parameter name="network parameter">
-                    <xsl:apply-templates select="Decl[@kind = 'Parameter']"/>
+                    <xsl:apply-templates select="Decl[@kind = 'Param']"/>
                 </parameter>
                 <parameter name="network variable declaration">
                     <xsl:apply-templates select="Decl[@kind = 'Variable']"/>
@@ -41,23 +44,44 @@
 
             <vertices>
                 <xsl:apply-templates select="Port"/>
-                <xsl:apply-templates select="EntityDecl"/>
+                <xsl:apply-templates select="Instance"/>
             </vertices>
 
             <edges>
-                <xsl:apply-templates select="StructureStmt"/>
+                <xsl:apply-templates select="Connection"/>
             </edges>
         </graph>
     </xsl:template>
 
     <!-- Parameter declarations -->
-    <xsl:template match="Decl[@kind = 'Parameter']">
-        <element value="{@name}"/>
+    <xsl:template match="Decl[@kind = 'Param']">
+        <xsl:choose>
+            <xsl:when test="Type">
+                <xsl:variable name="typeText">
+                    <xsl:apply-templates select="Type"/>
+                </xsl:variable>
+                <element value="{concat($typeText cast as xs:string, ' ', @name)}"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <element value="{@name}"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <!-- Variable declarations -->
     <xsl:template match="Decl[@kind = 'Variable']">
-        <entry key="{@name}">
+        <entry>
+            <xsl:choose>
+                <xsl:when test="Type">
+                    <xsl:variable name="typeText">
+                        <xsl:apply-templates select="Type"/>
+                    </xsl:variable>
+                    <xsl:attribute name="key" select="concat($typeText cast as xs:string, ' ', @name)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name="key" select="@name"/>
+                </xsl:otherwise>
+            </xsl:choose>
             <xsl:attribute name="value">
                 <xsl:apply-templates select="Expr"/>
             </xsl:attribute>
@@ -73,33 +97,34 @@
 
             <parameters>
                 <parameter name="id" value="{@name}"/>
+                <parameter name="port type">
+                    <xsl:attribute name="value">
+                        <xsl:apply-templates select="Type"/>
+                    </xsl:attribute>
+                </parameter>
             </parameters>
         </vertex>
     </xsl:template>
 
     <!-- Instances -->
-    <xsl:template match="EntityDecl">
+    <xsl:template match="Instance">
         <vertex type="Instance">
             <xsl:call-template name="getVertexLayoutAttributes">
-                <xsl:with-param name="vertexId" select="@name"/>
+                <xsl:with-param name="vertexId" select="@id"/>
             </xsl:call-template>
 
             <parameters>
-                <parameter name="id" value="{@name}"/>
-                <xsl:element name="parameter">
-                    <xsl:attribute name="name">refinement</xsl:attribute>
-                    <xsl:attribute name="value" select="EntityExpr/@name"/>
-                </xsl:element>
-                <xsl:element name="parameter">
-                    <xsl:attribute name="name">instance parameter</xsl:attribute>
-					<xsl:apply-templates select="EntityExpr/Arg"/>
-				</xsl:element>
+                <parameter name="id" value="{@id}"/>
+                <parameter name="refinement" value="{Class/@name}"/>
+                <parameter name="instance parameter">
+                    <xsl:apply-templates select="Parameter"/>
+                </parameter>
             </parameters>
         </vertex>
     </xsl:template>
 
     <!-- Parameter instantiations -->
-    <xsl:template match="Arg">
+    <xsl:template match="Parameter">
         <entry key="{@name}">
             <xsl:attribute name="value">
                 <xsl:apply-templates select="Expr"/>
@@ -108,31 +133,30 @@
     </xsl:template>
 
     <!-- Connections -->
-    <xsl:template match="StructureStmt[@kind = 'Connection']">
+    <xsl:template match="Connection">
         <edge type="Connection">
             <xsl:choose>
-                <xsl:when test="PortSpec[1]/@kind = 'Local'">
-                    <xsl:attribute name="source" select="PortSpec[1]/PortRef/@name"/>
+                <xsl:when test="@src = ''">
+                    <xsl:attribute name="source" select="@src-port"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:attribute name="source" select="PortSpec[1]/EntityRef/@name"/>
+                    <xsl:attribute name="source" select="@src"/>
                 </xsl:otherwise>
             </xsl:choose>
             <xsl:choose>
-                <xsl:when test="PortSpec[2]/@kind = 'Local'">
-                    <xsl:attribute name="target" select="PortSpec[2]/PortRef/@name"/>
+                <xsl:when test="@dst = ''">
+                    <xsl:attribute name="target" select="@dst-port"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:attribute name="target" select="PortSpec[2]/EntityRef/@name"/>
+                    <xsl:attribute name="target" select="@dst"/>
                 </xsl:otherwise>
             </xsl:choose>
-            
             <parameters>
-                <xsl:if test="PortSpec[1]/@kind = 'Entity'">
-                    <parameter name="source port" value="{PortSpec[1]/PortRef/@name}"/>
+                <xsl:if test="@src != ''">
+                    <parameter name="source port" value="{@src-port}"/>
                 </xsl:if>
-                <xsl:if test="PortSpec[2]/@kind = 'Entity'">
-                    <parameter name="target port" value="{PortSpec[2]/PortRef/@name}"/>
+                <xsl:if test="@dst != ''">
+                    <parameter name="target port" value="{@dst-port}"/>
                 </xsl:if>
             </parameters>
         </edge>

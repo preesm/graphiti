@@ -3,11 +3,11 @@
     
     <fileFormat extension="xdf" type="text/xml">
         <import>
-            <transformation type="xslt" file="xdf/input_XDF.xslt"/>
+            <transformation type="xslt" file="input_XDF.xslt"/>
         </import>
         
         <export>
-            <transformation name="xdf/output_XDF.xslt"/>
+            <transformation name="output_XDF.xslt"/>
         </export>
     </fileFormat>
 
