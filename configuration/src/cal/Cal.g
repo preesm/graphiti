@@ -30,19 +30,25 @@
 grammar Cal;
 options {
   output = AST;
+  k = 1;
 }
 tokens {
   // expressions
+  BinOp;
+  Boolean;
   Expression;
   Integer;
+  Minus;
+  Not;
   String;
-  Operator;
+  UnOp;
   Var;
   
   // types
   Parameter;
   Type;
   TypeAttr;
+  ExprAttr;
   TypePar;
 }
 
@@ -99,14 +105,14 @@ qualifiedId: ID (DOT ID)+ ;
 ///////////////////////////////////////////////////////////////////////////////
 // PARAMETERS
 
-parameter: type? ID (EQ expression)? ;
+parameter: typeAndId (EQ expression)? ;
 
 parameters: parameter (COMMA parameter)* ;
 
 ///////////////////////////////////////////////////////////////////////////////
 // PORT DECLARATIONS
 
-portDecl: MULTI? type? ID ;
+portDecl: MULTI? typeAndId;
 
 portDecls: portDecl (COMMA portDecl)* ;
 
@@ -115,17 +121,21 @@ portDecls: portDecl (COMMA portDecl)* ;
 
 mainParameter: typeAndId EOF -> ^(Parameter typeAndId);
 
-typeAndId: type? ID;
+typeAndId: typeName=ID
+  (typeRest? varName=ID -> ^(Type ^(Var $typeName) typeRest?) ^(Var $varName)
+  | -> ^(Var $typeName));
 
-type: ID typeRest? -> ^(Type ID typeRest?);
+type: ID typeRest? -> ^(Type ^(Var ID) typeRest?);
 
 typeRest: LBRACKET typePars? RBRACKET -> typePars?
   | LPAREN typeAttrs? RPAREN -> typeAttrs?;
 
 typeAttrs: typeAttr (COMMA typeAttr)* -> typeAttr+;
 
-typeAttr: ID COLON type -> ^(TypeAttr ID Type type)
-| ID EQ expression -> ^(TypeAttr ID Expression expression);
+typeAttr: ID typeAttrRest -> typeAttrRest;
+
+typeAttrRest: COLON type -> ^(TypeAttr type)
+| EQ expression -> ^(ExprAttr ^(Expression expression));
 
 typePars: typePar (COMMA typePar)* -> typePar+;
 
@@ -136,16 +146,23 @@ typePar: ID (LT type)? -> ^(TypePar ID type?);
 
 mainExpression: expression EOF -> ^(Expression expression);
 
-expression: factor (operator factor)*;
+expression: factor (binop factor)*;
 
-operator: (op=PLUS | op=MINUS | op=TIMES | op=DIV | op=CARET) -> ^(Operator $op);
+unop: (op=MINUS | op=NOT) -> ^(UnOp $op);
 
-factor: atom
+binop: (op=PLUS | op=MINUS | op=TIMES | op=DIV | op=CARET) -> ^(BinOp $op);
+
+factor: term
+| unop term -> ^(Expression unop term);
+
+term: atom
   | LPAREN expression RPAREN -> ^(Expression expression);
 
 atom: ID -> ^(Var ID)
 | NUMBER -> ^(Integer NUMBER)
-| STRING -> ^(String STRING);
+| STRING -> ^(String STRING)
+| TRUE -> ^(Boolean TRUE)
+| FALSE -> ^(Boolean FALSE);
 
 ///////////////////////////////////////////////////////////////////////////////
 // TOKENS
@@ -154,9 +171,13 @@ ALL: 'all';
 ACTOR: 'actor';
 IMPORT: 'import';
 MULTI: 'multi';
+NOT: 'not';
+
+TRUE: 'true';
+FALSE: 'false';
 
 ID: ('a'..'z' | 'A'..'Z' | '_' | '$') ('a'..'z' | 'A'..'Z' | '_' | '$' | '0' .. '9')* ;
-NUMBER: ('0'..'9')+ ;
+NUMBER: '-'? ('0'..'9')+ ;
 STRING: '\"' .* '\"';
 
 LINE_COMMENT: '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;};

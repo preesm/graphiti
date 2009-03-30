@@ -9,20 +9,20 @@
 
     <!-- Type -->
     <xsl:template match="Type">
-        <Type name="{ID/text()}">
-            <xsl:apply-templates select="TypeRest/TypeAttrs"/>
+        <Type name="{Var/text()}">
+            <xsl:apply-templates select="child::node()[name() != 'Var']"/>
         </Type>
     </xsl:template>
 
-    <xsl:template match="TypeAttr[ID/text() = 'type']">
+    <xsl:template match="TypeAttr">
         <Entry name="type" kind="Type">
-            <xsl:apply-templates select="TypeAttrRest/Type"/>
+            <xsl:apply-templates/>
         </Entry>
     </xsl:template>
 
-    <xsl:template match="TypeAttr[ID/text() = 'size']">
+    <xsl:template match="ExprAttr">
         <Entry name="size" kind="Expr">
-            <xsl:apply-templates select="TypeAttrRest/Expression"/>
+            <xsl:apply-templates/>
         </Entry>
     </xsl:template>
 

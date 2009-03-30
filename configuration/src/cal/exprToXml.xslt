@@ -5,36 +5,43 @@
 
     <xsl:template match="text()"/>
 
-    <xsl:template match="Atom/ID">
-        <xsl:choose>
-            <xsl:when test="text() = 'true' or text() = 'false'">
-                <Expr kind="Literal" literal-kind="Boolean" value="{text()}"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <Expr kind="Var" name="{text()}"/>
-            </xsl:otherwise>
-        </xsl:choose>
+    <xsl:template match="Boolean">
+        <Expr kind="Literal" literal-kind="Boolean" value="{text()}"/>
     </xsl:template>
-
-    <xsl:template match="Atom/NUMBER">
+    
+    <xsl:template match="Integer">
         <Expr kind="Literal" literal-kind="Integer" value="{text()}"/>
     </xsl:template>
-
-    <xsl:template match="Atom/STRING">
+    
+    <xsl:template match="String">
         <xsl:variable name="textValue" select="text()"/>
         <xsl:variable name="string" select="substring($textValue, 2, string-length($textValue) - 2)"/>
         <Expr kind="Literal" literal-kind="String" value="{$string}"/>
     </xsl:template>
+    
+    <xsl:template match="Var">
+        <Expr kind="Var" name="{text()}"/>
+    </xsl:template>
 
-    <xsl:template match="Operator">
-        <Op name="{(PLUS | MINUS | TIMES | DIV)/text()}"/>
+    <xsl:template match="BinOp">
+        <Op name="{text()}"/>
+    </xsl:template>
+    
+    <xsl:template match="UnOp">
+        <Op name="{text()}"/>
     </xsl:template>
 
     <xsl:template match="Expression">
         <xsl:choose>
-            <xsl:when test="count(Operator) = 0">
+            <xsl:when test="count(BinOp) = 0 and count(UnOp) = 0">
                 <!-- this expression is a single factor -->
                 <xsl:apply-templates/>
+            </xsl:when>
+            <xsl:when test="count(BinOp) = 0 and count(UnOp) != 0">
+                <!-- this expression is a unary operation -->
+                <Expr kind="UnaryOp">
+                    <xsl:apply-templates/>
+                </Expr>
             </xsl:when>
             <xsl:otherwise>
                 <!-- this expression is a sequence of binary operations -->

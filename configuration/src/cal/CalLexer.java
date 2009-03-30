@@ -1,4 +1,4 @@
-// $ANTLR 3.1.2 D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g 2009-03-30 13:59:22
+// $ANTLR 3.1.2 D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g 2009-03-30 15:25:19
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -6,54 +6,62 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class CalLexer extends Lexer {
-    public static final int LT=38;
-    public static final int Operator=7;
-    public static final int LBRACE=36;
-    public static final int MULTI=23;
-    public static final int ID=14;
+    public static final int LT=43;
+    public static final int LBRACE=41;
+    public static final int MULTI=28;
+    public static final int NOT=52;
+    public static final int ID=19;
     public static final int EOF=-1;
-    public static final int DOUBLE_DOT=31;
-    public static final int LPAREN=17;
-    public static final int LBRACKET=15;
-    public static final int RPAREN=18;
-    public static final int IMPORT=22;
-    public static final int COLON_EQUAL=26;
-    public static final int COMMA=27;
-    public static final int CARET=25;
-    public static final int ALL=21;
-    public static final int TypeAttr=11;
-    public static final int PLUS=41;
-    public static final int String=6;
-    public static final int RBRACKET=16;
-    public static final int EQ=33;
-    public static final int DOT=29;
-    public static final int NE=50;
-    public static final int DOUBLE_EQUAL_ARROW=19;
-    public static final int DOUBLE_DASH_ARROW=30;
-    public static final int GE=34;
-    public static final int SHARP=44;
-    public static final int Type=10;
-    public static final int RBRACE=42;
-    public static final int LINE_COMMENT=47;
-    public static final int NUMBER=40;
-    public static final int WHITESPACE=49;
-    public static final int SEMICOLON=43;
-    public static final int MINUS=39;
-    public static final int Expression=4;
-    public static final int MULTI_LINE_COMMENT=48;
-    public static final int Parameter=9;
-    public static final int TypePar=12;
-    public static final int COLON=20;
-    public static final int DOUBLE_COLON=32;
-    public static final int ACTOR=13;
-    public static final int GT=35;
-    public static final int ARROW=24;
-    public static final int DIV=28;
-    public static final int TIMES=46;
-    public static final int LE=37;
-    public static final int Integer=5;
-    public static final int Var=8;
-    public static final int STRING=45;
+    public static final int DOUBLE_DOT=36;
+    public static final int LPAREN=22;
+    public static final int LBRACKET=20;
+    public static final int RPAREN=23;
+    public static final int IMPORT=27;
+    public static final int COLON_EQUAL=31;
+    public static final int COMMA=32;
+    public static final int CARET=30;
+    public static final int ALL=26;
+    public static final int TypeAttr=15;
+    public static final int PLUS=46;
+    public static final int String=10;
+    public static final int RBRACKET=21;
+    public static final int EQ=38;
+    public static final int DOT=34;
+    public static final int NE=58;
+    public static final int DOUBLE_EQUAL_ARROW=24;
+    public static final int DOUBLE_DASH_ARROW=35;
+    public static final int GE=39;
+    public static final int SHARP=49;
+    public static final int RBRACE=47;
+    public static final int Type=14;
+    public static final int LINE_COMMENT=55;
+    public static final int NUMBER=45;
+    public static final int WHITESPACE=57;
+    public static final int SEMICOLON=48;
+    public static final int MINUS=44;
+    public static final int TRUE=53;
+    public static final int Expression=6;
+    public static final int MULTI_LINE_COMMENT=56;
+    public static final int Parameter=13;
+    public static final int TypePar=17;
+    public static final int COLON=25;
+    public static final int UnOp=11;
+    public static final int Minus=8;
+    public static final int DOUBLE_COLON=37;
+    public static final int Boolean=5;
+    public static final int ExprAttr=16;
+    public static final int ACTOR=18;
+    public static final int Not=9;
+    public static final int GT=40;
+    public static final int ARROW=29;
+    public static final int DIV=33;
+    public static final int BinOp=4;
+    public static final int TIMES=51;
+    public static final int FALSE=54;
+    public static final int LE=42;
+    public static final int Integer=7;
+    public static final int Var=12;
+    public static final int STRING=50;
 
     // delegates
     // delegators
@@ -73,8 +81,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = ALL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:153:4: ( 'all' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:153:6: 'all'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:170:4: ( 'all' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:170:6: 'all'
             {
             match("all"); 
 
@@ -94,8 +102,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = ACTOR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:154:6: ( 'actor' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:154:8: 'actor'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:171:6: ( 'actor' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:171:8: 'actor'
             {
             match("actor"); 
 
@@ -115,8 +123,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = IMPORT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:155:7: ( 'import' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:155:9: 'import'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:172:7: ( 'import' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:172:9: 'import'
             {
             match("import"); 
 
@@ -136,8 +144,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = MULTI;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:156:6: ( 'multi' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:156:8: 'multi'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:173:6: ( 'multi' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:173:8: 'multi'
             {
             match("multi"); 
 
@@ -152,13 +160,76 @@ public class CalLexer extends Lexer {
     }
     // $ANTLR end "MULTI"
 
+    // $ANTLR start "NOT"
+    public final void mNOT() throws RecognitionException {
+        try {
+            int _type = NOT;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:174:4: ( 'not' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:174:6: 'not'
+            {
+            match("not"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "NOT"
+
+    // $ANTLR start "TRUE"
+    public final void mTRUE() throws RecognitionException {
+        try {
+            int _type = TRUE;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:176:5: ( 'true' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:176:7: 'true'
+            {
+            match("true"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "TRUE"
+
+    // $ANTLR start "FALSE"
+    public final void mFALSE() throws RecognitionException {
+        try {
+            int _type = FALSE;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:177:6: ( 'false' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:177:8: 'false'
+            {
+            match("false"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "FALSE"
+
     // $ANTLR start "ID"
     public final void mID() throws RecognitionException {
         try {
             int _type = ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:158:3: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' | '0' .. '9' )* )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:158:5: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' | '0' .. '9' )*
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:179:3: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' | '0' .. '9' )* )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:179:5: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' | '0' .. '9' )*
             {
             if ( input.LA(1)=='$'||(input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -169,7 +240,7 @@ public class CalLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:158:39: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' | '0' .. '9' )*
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:179:39: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '$' | '0' .. '9' )*
             loop1:
             do {
                 int alt1=2;
@@ -218,24 +289,42 @@ public class CalLexer extends Lexer {
         try {
             int _type = NUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:159:7: ( ( '0' .. '9' )+ )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:159:9: ( '0' .. '9' )+
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:180:7: ( ( '-' )? ( '0' .. '9' )+ )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:180:9: ( '-' )? ( '0' .. '9' )+
             {
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:159:9: ( '0' .. '9' )+
-            int cnt2=0;
-            loop2:
-            do {
-                int alt2=2;
-                int LA2_0 = input.LA(1);
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:180:9: ( '-' )?
+            int alt2=2;
+            int LA2_0 = input.LA(1);
 
-                if ( ((LA2_0>='0' && LA2_0<='9')) ) {
-                    alt2=1;
+            if ( (LA2_0=='-') ) {
+                alt2=1;
+            }
+            switch (alt2) {
+                case 1 :
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:180:9: '-'
+                    {
+                    match('-'); 
+
+                    }
+                    break;
+
+            }
+
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:180:14: ( '0' .. '9' )+
+            int cnt3=0;
+            loop3:
+            do {
+                int alt3=2;
+                int LA3_0 = input.LA(1);
+
+                if ( ((LA3_0>='0' && LA3_0<='9')) ) {
+                    alt3=1;
                 }
 
 
-                switch (alt2) {
+                switch (alt3) {
             	case 1 :
-            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:159:10: '0' .. '9'
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:180:15: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -243,12 +332,12 @@ public class CalLexer extends Lexer {
             	    break;
 
             	default :
-            	    if ( cnt2 >= 1 ) break loop2;
+            	    if ( cnt3 >= 1 ) break loop3;
                         EarlyExitException eee =
-                            new EarlyExitException(2, input);
+                            new EarlyExitException(3, input);
                         throw eee;
                 }
-                cnt2++;
+                cnt3++;
             } while (true);
 
 
@@ -267,27 +356,27 @@ public class CalLexer extends Lexer {
         try {
             int _type = STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:160:7: ( '\\\"' ( . )* '\\\"' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:160:9: '\\\"' ( . )* '\\\"'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:181:7: ( '\\\"' ( . )* '\\\"' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:181:9: '\\\"' ( . )* '\\\"'
             {
             match('\"'); 
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:160:14: ( . )*
-            loop3:
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:181:14: ( . )*
+            loop4:
             do {
-                int alt3=2;
-                int LA3_0 = input.LA(1);
+                int alt4=2;
+                int LA4_0 = input.LA(1);
 
-                if ( (LA3_0=='\"') ) {
-                    alt3=2;
+                if ( (LA4_0=='\"') ) {
+                    alt4=2;
                 }
-                else if ( ((LA3_0>='\u0000' && LA3_0<='!')||(LA3_0>='#' && LA3_0<='\uFFFF')) ) {
-                    alt3=1;
+                else if ( ((LA4_0>='\u0000' && LA4_0<='!')||(LA4_0>='#' && LA4_0<='\uFFFF')) ) {
+                    alt4=1;
                 }
 
 
-                switch (alt3) {
+                switch (alt4) {
             	case 1 :
-            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:160:14: .
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:181:14: .
             	    {
             	    matchAny(); 
 
@@ -295,7 +384,7 @@ public class CalLexer extends Lexer {
             	    break;
 
             	default :
-            	    break loop3;
+            	    break loop4;
                 }
             } while (true);
 
@@ -316,25 +405,25 @@ public class CalLexer extends Lexer {
         try {
             int _type = LINE_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:162:13: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:162:15: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:183:13: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:183:15: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
             {
             match("//"); 
 
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:162:20: (~ ( '\\n' | '\\r' ) )*
-            loop4:
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:183:20: (~ ( '\\n' | '\\r' ) )*
+            loop5:
             do {
-                int alt4=2;
-                int LA4_0 = input.LA(1);
+                int alt5=2;
+                int LA5_0 = input.LA(1);
 
-                if ( ((LA4_0>='\u0000' && LA4_0<='\t')||(LA4_0>='\u000B' && LA4_0<='\f')||(LA4_0>='\u000E' && LA4_0<='\uFFFF')) ) {
-                    alt4=1;
+                if ( ((LA5_0>='\u0000' && LA5_0<='\t')||(LA5_0>='\u000B' && LA5_0<='\f')||(LA5_0>='\u000E' && LA5_0<='\uFFFF')) ) {
+                    alt5=1;
                 }
 
 
-                switch (alt4) {
+                switch (alt5) {
             	case 1 :
-            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:162:20: ~ ( '\\n' | '\\r' )
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:183:20: ~ ( '\\n' | '\\r' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -350,20 +439,20 @@ public class CalLexer extends Lexer {
             	    break;
 
             	default :
-            	    break loop4;
+            	    break loop5;
                 }
             } while (true);
 
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:162:34: ( '\\r' )?
-            int alt5=2;
-            int LA5_0 = input.LA(1);
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:183:34: ( '\\r' )?
+            int alt6=2;
+            int LA6_0 = input.LA(1);
 
-            if ( (LA5_0=='\r') ) {
-                alt5=1;
+            if ( (LA6_0=='\r') ) {
+                alt6=1;
             }
-            switch (alt5) {
+            switch (alt6) {
                 case 1 :
-                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:162:34: '\\r'
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:183:34: '\\r'
                     {
                     match('\r'); 
 
@@ -390,37 +479,37 @@ public class CalLexer extends Lexer {
         try {
             int _type = MULTI_LINE_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:163:19: ( '/*' ( . )* '*/' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:163:21: '/*' ( . )* '*/'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:184:19: ( '/*' ( . )* '*/' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:184:21: '/*' ( . )* '*/'
             {
             match("/*"); 
 
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:163:26: ( . )*
-            loop6:
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:184:26: ( . )*
+            loop7:
             do {
-                int alt6=2;
-                int LA6_0 = input.LA(1);
+                int alt7=2;
+                int LA7_0 = input.LA(1);
 
-                if ( (LA6_0=='*') ) {
-                    int LA6_1 = input.LA(2);
+                if ( (LA7_0=='*') ) {
+                    int LA7_1 = input.LA(2);
 
-                    if ( (LA6_1=='/') ) {
-                        alt6=2;
+                    if ( (LA7_1=='/') ) {
+                        alt7=2;
                     }
-                    else if ( ((LA6_1>='\u0000' && LA6_1<='.')||(LA6_1>='0' && LA6_1<='\uFFFF')) ) {
-                        alt6=1;
+                    else if ( ((LA7_1>='\u0000' && LA7_1<='.')||(LA7_1>='0' && LA7_1<='\uFFFF')) ) {
+                        alt7=1;
                     }
 
 
                 }
-                else if ( ((LA6_0>='\u0000' && LA6_0<=')')||(LA6_0>='+' && LA6_0<='\uFFFF')) ) {
-                    alt6=1;
+                else if ( ((LA7_0>='\u0000' && LA7_0<=')')||(LA7_0>='+' && LA7_0<='\uFFFF')) ) {
+                    alt7=1;
                 }
 
 
-                switch (alt6) {
+                switch (alt7) {
             	case 1 :
-            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:163:26: .
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:184:26: .
             	    {
             	    matchAny(); 
 
@@ -428,7 +517,7 @@ public class CalLexer extends Lexer {
             	    break;
 
             	default :
-            	    break loop6;
+            	    break loop7;
                 }
             } while (true);
 
@@ -451,8 +540,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = WHITESPACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:164:11: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:164:13: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:185:11: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:185:13: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
             {
             if ( (input.LA(1)>='\t' && input.LA(1)<='\n')||(input.LA(1)>='\f' && input.LA(1)<='\r')||input.LA(1)==' ' ) {
                 input.consume();
@@ -480,8 +569,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = EQ;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:166:3: ( '=' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:166:5: '='
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:187:3: ( '=' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:187:5: '='
             {
             match('='); 
 
@@ -500,8 +589,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = GE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:167:3: ( '>=' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:167:5: '>='
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:188:3: ( '>=' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:188:5: '>='
             {
             match(">="); 
 
@@ -521,8 +610,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = GT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:168:3: ( '>' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:168:5: '>'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:189:3: ( '>' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:189:5: '>'
             {
             match('>'); 
 
@@ -541,8 +630,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = LE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:169:3: ( '<=' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:169:5: '<='
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:190:3: ( '<=' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:190:5: '<='
             {
             match("<="); 
 
@@ -562,8 +651,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = LT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:170:3: ( '<' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:170:5: '<'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:191:3: ( '<' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:191:5: '<'
             {
             match('<'); 
 
@@ -582,8 +671,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = NE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:171:3: ( '!=' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:171:5: '!='
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:192:3: ( '!=' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:192:5: '!='
             {
             match("!="); 
 
@@ -603,8 +692,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = ARROW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:173:6: ( '->' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:173:8: '->'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:194:6: ( '->' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:194:8: '->'
             {
             match("->"); 
 
@@ -624,8 +713,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = COLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:174:6: ( ':' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:174:8: ':'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:195:6: ( ':' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:195:8: ':'
             {
             match(':'); 
 
@@ -644,8 +733,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = COLON_EQUAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:175:12: ( ':=' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:175:14: ':='
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:196:12: ( ':=' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:196:14: ':='
             {
             match(":="); 
 
@@ -665,8 +754,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = COMMA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:176:6: ( ',' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:176:8: ','
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:197:6: ( ',' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:197:8: ','
             {
             match(','); 
 
@@ -685,8 +774,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = DOT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:177:4: ( '.' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:177:6: '.'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:198:4: ( '.' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:198:6: '.'
             {
             match('.'); 
 
@@ -705,8 +794,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = DOUBLE_DASH_ARROW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:178:18: ( '-->' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:178:20: '-->'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:199:18: ( '-->' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:199:20: '-->'
             {
             match("-->"); 
 
@@ -726,8 +815,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = DOUBLE_EQUAL_ARROW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:179:19: ( '==>' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:179:21: '==>'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:200:19: ( '==>' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:200:21: '==>'
             {
             match("==>"); 
 
@@ -747,8 +836,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = DOUBLE_DOT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:180:11: ( '..' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:180:13: '..'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:201:11: ( '..' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:201:13: '..'
             {
             match(".."); 
 
@@ -768,8 +857,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = DOUBLE_COLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:181:13: ( '::' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:181:15: '::'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:202:13: ( '::' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:202:15: '::'
             {
             match("::"); 
 
@@ -789,8 +878,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = LBRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:183:7: ( '{' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:183:9: '{'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:204:7: ( '{' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:204:9: '{'
             {
             match('{'); 
 
@@ -809,8 +898,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = RBRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:184:7: ( '}' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:184:9: '}'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:205:7: ( '}' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:205:9: '}'
             {
             match('}'); 
 
@@ -829,8 +918,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = LBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:185:9: ( '[' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:185:11: '['
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:206:9: ( '[' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:206:11: '['
             {
             match('['); 
 
@@ -849,8 +938,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = RBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:186:9: ( ']' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:186:11: ']'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:207:9: ( ']' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:207:11: ']'
             {
             match(']'); 
 
@@ -869,8 +958,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = LPAREN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:187:7: ( '(' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:187:9: '('
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:208:7: ( '(' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:208:9: '('
             {
             match('('); 
 
@@ -889,8 +978,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = RPAREN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:188:7: ( ')' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:188:9: ')'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:209:7: ( ')' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:209:9: ')'
             {
             match(')'); 
 
@@ -909,8 +998,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = CARET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:190:6: ( '^' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:190:8: '^'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:211:6: ( '^' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:211:8: '^'
             {
             match('^'); 
 
@@ -929,8 +1018,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = DIV;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:191:4: ( '/' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:191:6: '/'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:212:4: ( '/' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:212:6: '/'
             {
             match('/'); 
 
@@ -949,8 +1038,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = MINUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:192:6: ( '-' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:192:8: '-'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:213:6: ( '-' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:213:8: '-'
             {
             match('-'); 
 
@@ -969,8 +1058,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = PLUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:193:5: ( '+' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:193:7: '+'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:214:5: ( '+' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:214:7: '+'
             {
             match('+'); 
 
@@ -989,8 +1078,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = TIMES;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:194:6: ( '*' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:194:8: '*'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:215:6: ( '*' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:215:8: '*'
             {
             match('*'); 
 
@@ -1009,8 +1098,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = SEMICOLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:196:10: ( ';' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:196:12: ';'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:217:10: ( ';' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:217:12: ';'
             {
             match(';'); 
 
@@ -1029,8 +1118,8 @@ public class CalLexer extends Lexer {
         try {
             int _type = SHARP;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:197:6: ( '#' )
-            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:197:8: '#'
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:218:6: ( '#' )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:218:8: '#'
             {
             match('#'); 
 
@@ -1045,10 +1134,10 @@ public class CalLexer extends Lexer {
     // $ANTLR end "SHARP"
 
     public void mTokens() throws RecognitionException {
-        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:8: ( ALL | ACTOR | IMPORT | MULTI | ID | NUMBER | STRING | LINE_COMMENT | MULTI_LINE_COMMENT | WHITESPACE | EQ | GE | GT | LE | LT | NE | ARROW | COLON | COLON_EQUAL | COMMA | DOT | DOUBLE_DASH_ARROW | DOUBLE_EQUAL_ARROW | DOUBLE_DOT | DOUBLE_COLON | LBRACE | RBRACE | LBRACKET | RBRACKET | LPAREN | RPAREN | CARET | DIV | MINUS | PLUS | TIMES | SEMICOLON | SHARP )
-        int alt7=38;
-        alt7 = dfa7.predict(input);
-        switch (alt7) {
+        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:8: ( ALL | ACTOR | IMPORT | MULTI | NOT | TRUE | FALSE | ID | NUMBER | STRING | LINE_COMMENT | MULTI_LINE_COMMENT | WHITESPACE | EQ | GE | GT | LE | LT | NE | ARROW | COLON | COLON_EQUAL | COMMA | DOT | DOUBLE_DASH_ARROW | DOUBLE_EQUAL_ARROW | DOUBLE_DOT | DOUBLE_COLON | LBRACE | RBRACE | LBRACKET | RBRACKET | LPAREN | RPAREN | CARET | DIV | MINUS | PLUS | TIMES | SEMICOLON | SHARP )
+        int alt8=41;
+        alt8 = dfa8.predict(input);
+        switch (alt8) {
             case 1 :
                 // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:10: ALL
                 {
@@ -1078,238 +1167,259 @@ public class CalLexer extends Lexer {
                 }
                 break;
             case 5 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:33: ID
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:33: NOT
+                {
+                mNOT(); 
+
+                }
+                break;
+            case 6 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:37: TRUE
+                {
+                mTRUE(); 
+
+                }
+                break;
+            case 7 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:42: FALSE
+                {
+                mFALSE(); 
+
+                }
+                break;
+            case 8 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:48: ID
                 {
                 mID(); 
 
                 }
                 break;
-            case 6 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:36: NUMBER
+            case 9 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:51: NUMBER
                 {
                 mNUMBER(); 
 
                 }
                 break;
-            case 7 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:43: STRING
+            case 10 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:58: STRING
                 {
                 mSTRING(); 
 
                 }
                 break;
-            case 8 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:50: LINE_COMMENT
+            case 11 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:65: LINE_COMMENT
                 {
                 mLINE_COMMENT(); 
 
                 }
                 break;
-            case 9 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:63: MULTI_LINE_COMMENT
+            case 12 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:78: MULTI_LINE_COMMENT
                 {
                 mMULTI_LINE_COMMENT(); 
 
                 }
                 break;
-            case 10 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:82: WHITESPACE
+            case 13 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:97: WHITESPACE
                 {
                 mWHITESPACE(); 
 
                 }
                 break;
-            case 11 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:93: EQ
+            case 14 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:108: EQ
                 {
                 mEQ(); 
 
                 }
                 break;
-            case 12 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:96: GE
+            case 15 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:111: GE
                 {
                 mGE(); 
 
                 }
                 break;
-            case 13 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:99: GT
+            case 16 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:114: GT
                 {
                 mGT(); 
 
                 }
                 break;
-            case 14 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:102: LE
+            case 17 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:117: LE
                 {
                 mLE(); 
 
                 }
                 break;
-            case 15 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:105: LT
+            case 18 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:120: LT
                 {
                 mLT(); 
 
                 }
                 break;
-            case 16 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:108: NE
+            case 19 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:123: NE
                 {
                 mNE(); 
 
                 }
                 break;
-            case 17 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:111: ARROW
+            case 20 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:126: ARROW
                 {
                 mARROW(); 
 
                 }
                 break;
-            case 18 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:117: COLON
+            case 21 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:132: COLON
                 {
                 mCOLON(); 
 
                 }
                 break;
-            case 19 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:123: COLON_EQUAL
+            case 22 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:138: COLON_EQUAL
                 {
                 mCOLON_EQUAL(); 
 
                 }
                 break;
-            case 20 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:135: COMMA
+            case 23 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:150: COMMA
                 {
                 mCOMMA(); 
 
                 }
                 break;
-            case 21 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:141: DOT
+            case 24 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:156: DOT
                 {
                 mDOT(); 
 
                 }
                 break;
-            case 22 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:145: DOUBLE_DASH_ARROW
+            case 25 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:160: DOUBLE_DASH_ARROW
                 {
                 mDOUBLE_DASH_ARROW(); 
 
                 }
                 break;
-            case 23 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:163: DOUBLE_EQUAL_ARROW
+            case 26 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:178: DOUBLE_EQUAL_ARROW
                 {
                 mDOUBLE_EQUAL_ARROW(); 
 
                 }
                 break;
-            case 24 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:182: DOUBLE_DOT
+            case 27 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:197: DOUBLE_DOT
                 {
                 mDOUBLE_DOT(); 
 
                 }
                 break;
-            case 25 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:193: DOUBLE_COLON
+            case 28 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:208: DOUBLE_COLON
                 {
                 mDOUBLE_COLON(); 
 
                 }
                 break;
-            case 26 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:206: LBRACE
+            case 29 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:221: LBRACE
                 {
                 mLBRACE(); 
 
                 }
                 break;
-            case 27 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:213: RBRACE
+            case 30 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:228: RBRACE
                 {
                 mRBRACE(); 
 
                 }
                 break;
-            case 28 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:220: LBRACKET
+            case 31 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:235: LBRACKET
                 {
                 mLBRACKET(); 
 
                 }
                 break;
-            case 29 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:229: RBRACKET
+            case 32 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:244: RBRACKET
                 {
                 mRBRACKET(); 
 
                 }
                 break;
-            case 30 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:238: LPAREN
+            case 33 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:253: LPAREN
                 {
                 mLPAREN(); 
 
                 }
                 break;
-            case 31 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:245: RPAREN
+            case 34 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:260: RPAREN
                 {
                 mRPAREN(); 
 
                 }
                 break;
-            case 32 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:252: CARET
+            case 35 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:267: CARET
                 {
                 mCARET(); 
 
                 }
                 break;
-            case 33 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:258: DIV
+            case 36 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:273: DIV
                 {
                 mDIV(); 
 
                 }
                 break;
-            case 34 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:262: MINUS
+            case 37 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:277: MINUS
                 {
                 mMINUS(); 
 
                 }
                 break;
-            case 35 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:268: PLUS
+            case 38 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:283: PLUS
                 {
                 mPLUS(); 
 
                 }
                 break;
-            case 36 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:273: TIMES
+            case 39 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:288: TIMES
                 {
                 mTIMES(); 
 
                 }
                 break;
-            case 37 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:279: SEMICOLON
+            case 40 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:294: SEMICOLON
                 {
                 mSEMICOLON(); 
 
                 }
                 break;
-            case 38 :
-                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:289: SHARP
+            case 41 :
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\cal\\Cal.g:1:304: SHARP
                 {
                 mSHARP(); 
 
@@ -1321,66 +1431,58 @@ public class CalLexer extends Lexer {
     }
 
 
-    protected DFA7 dfa7 = new DFA7(this);
-    static final String DFA7_eotS =
-        "\1\uffff\3\4\3\uffff\1\42\1\uffff\1\44\1\46\1\50\1\uffff\1\53\1"+
-        "\56\1\uffff\1\60\13\uffff\4\4\21\uffff\1\65\3\4\1\uffff\3\4\1\74"+
-        "\1\4\1\76\1\uffff\1\77\2\uffff";
-    static final String DFA7_eofS =
-        "\100\uffff";
-    static final String DFA7_minS =
-        "\1\11\1\143\1\155\1\165\3\uffff\1\52\1\uffff\3\75\1\uffff\1\55"+
-        "\1\72\1\uffff\1\56\13\uffff\1\154\1\164\1\160\1\154\21\uffff\1\44"+
-        "\2\157\1\164\1\uffff\2\162\1\151\1\44\1\164\1\44\1\uffff\1\44\2"+
-        "\uffff";
-    static final String DFA7_maxS =
-        "\1\175\1\154\1\155\1\165\3\uffff\1\57\1\uffff\3\75\1\uffff\1\76"+
-        "\1\75\1\uffff\1\56\13\uffff\1\154\1\164\1\160\1\154\21\uffff\1\172"+
-        "\2\157\1\164\1\uffff\2\162\1\151\1\172\1\164\1\172\1\uffff\1\172"+
-        "\2\uffff";
-    static final String DFA7_acceptS =
-        "\4\uffff\1\5\1\6\1\7\1\uffff\1\12\3\uffff\1\20\2\uffff\1\24\1\uffff"+
-        "\1\32\1\33\1\34\1\35\1\36\1\37\1\40\1\43\1\44\1\45\1\46\4\uffff"+
-        "\1\10\1\11\1\41\1\27\1\13\1\14\1\15\1\16\1\17\1\21\1\26\1\42\1\23"+
-        "\1\31\1\22\1\30\1\25\4\uffff\1\1\6\uffff\1\2\1\uffff\1\4\1\3";
-    static final String DFA7_specialS =
-        "\100\uffff}>";
-    static final String[] DFA7_transitionS = {
-            "\2\10\1\uffff\2\10\22\uffff\1\10\1\14\1\6\1\33\1\4\3\uffff"+
-            "\1\25\1\26\1\31\1\30\1\17\1\15\1\20\1\7\12\5\1\16\1\32\1\13"+
-            "\1\11\1\12\2\uffff\32\4\1\23\1\uffff\1\24\1\27\1\4\1\uffff\1"+
-            "\1\7\4\1\2\3\4\1\3\15\4\1\21\1\uffff\1\22",
-            "\1\35\10\uffff\1\34",
-            "\1\36",
-            "\1\37",
-            "",
-            "",
-            "",
-            "\1\41\4\uffff\1\40",
-            "",
+    protected DFA8 dfa8 = new DFA8(this);
+    static final String DFA8_eotS =
+        "\1\uffff\6\7\1\uffff\1\50\2\uffff\1\53\1\uffff\1\55\1\57\1\61\1"+
+        "\uffff\1\64\1\uffff\1\66\13\uffff\7\7\21\uffff\1\76\3\7\1\102\2"+
+        "\7\1\uffff\3\7\1\uffff\1\110\1\7\1\112\1\7\1\114\1\uffff\1\115\1"+
+        "\uffff\1\116\3\uffff";
+    static final String DFA8_eofS =
+        "\117\uffff";
+    static final String DFA8_minS =
+        "\1\11\1\143\1\155\1\165\1\157\1\162\1\141\1\uffff\1\55\2\uffff"+
+        "\1\52\1\uffff\3\75\1\uffff\1\72\1\uffff\1\56\13\uffff\1\154\1\164"+
+        "\1\160\1\154\1\164\1\165\1\154\21\uffff\1\44\2\157\1\164\1\44\1"+
+        "\145\1\163\1\uffff\2\162\1\151\1\uffff\1\44\1\145\1\44\1\164\1\44"+
+        "\1\uffff\1\44\1\uffff\1\44\3\uffff";
+    static final String DFA8_maxS =
+        "\1\175\1\154\1\155\1\165\1\157\1\162\1\141\1\uffff\1\76\2\uffff"+
+        "\1\57\1\uffff\3\75\1\uffff\1\75\1\uffff\1\56\13\uffff\1\154\1\164"+
+        "\1\160\1\154\1\164\1\165\1\154\21\uffff\1\172\2\157\1\164\1\172"+
+        "\1\145\1\163\1\uffff\2\162\1\151\1\uffff\1\172\1\145\1\172\1\164"+
+        "\1\172\1\uffff\1\172\1\uffff\1\172\3\uffff";
+    static final String DFA8_acceptS =
+        "\7\uffff\1\10\1\uffff\1\11\1\12\1\uffff\1\15\3\uffff\1\23\1\uffff"+
+        "\1\27\1\uffff\1\35\1\36\1\37\1\40\1\41\1\42\1\43\1\46\1\47\1\50"+
+        "\1\51\7\uffff\1\24\1\31\1\45\1\13\1\14\1\44\1\32\1\16\1\17\1\20"+
+        "\1\21\1\22\1\26\1\34\1\25\1\33\1\30\7\uffff\1\1\3\uffff\1\5\5\uffff"+
+        "\1\6\1\uffff\1\2\1\uffff\1\4\1\7\1\3";
+    static final String DFA8_specialS =
+        "\117\uffff}>";
+    static final String[] DFA8_transitionS = {
+            "\2\14\1\uffff\2\14\22\uffff\1\14\1\20\1\12\1\36\1\7\3\uffff"+
+            "\1\30\1\31\1\34\1\33\1\22\1\10\1\23\1\13\12\11\1\21\1\35\1\17"+
+            "\1\15\1\16\2\uffff\32\7\1\26\1\uffff\1\27\1\32\1\7\1\uffff\1"+
+            "\1\4\7\1\6\2\7\1\2\3\7\1\3\1\4\5\7\1\5\6\7\1\24\1\uffff\1\25",
+            "\1\40\10\uffff\1\37",
+            "\1\41",
+            "\1\42",
             "\1\43",
+            "\1\44",
             "\1\45",
-            "\1\47",
             "",
-            "\1\52\20\uffff\1\51",
-            "\1\55\2\uffff\1\54",
-            "",
-            "\1\57",
+            "\1\47\2\uffff\12\11\4\uffff\1\46",
             "",
             "",
+            "\1\52\4\uffff\1\51",
             "",
+            "\1\54",
+            "\1\56",
+            "\1\60",
             "",
+            "\1\63\2\uffff\1\62",
             "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\61",
-            "\1\62",
-            "\1\63",
-            "\1\64",
+            "\1\65",
             "",
             "",
             "",
@@ -1392,60 +1494,87 @@ public class CalLexer extends Lexer {
             "",
             "",
             "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\4\13\uffff\12\4\7\uffff\32\4\4\uffff\1\4\1\uffff\32\4",
-            "\1\66",
             "\1\67",
             "\1\70",
-            "",
             "\1\71",
             "\1\72",
             "\1\73",
-            "\1\4\13\uffff\12\4\7\uffff\32\4\4\uffff\1\4\1\uffff\32\4",
+            "\1\74",
             "\1\75",
-            "\1\4\13\uffff\12\4\7\uffff\32\4\4\uffff\1\4\1\uffff\32\4",
             "",
-            "\1\4\13\uffff\12\4\7\uffff\32\4\4\uffff\1\4\1\uffff\32\4",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\7\13\uffff\12\7\7\uffff\32\7\4\uffff\1\7\1\uffff\32\7",
+            "\1\77",
+            "\1\100",
+            "\1\101",
+            "\1\7\13\uffff\12\7\7\uffff\32\7\4\uffff\1\7\1\uffff\32\7",
+            "\1\103",
+            "\1\104",
+            "",
+            "\1\105",
+            "\1\106",
+            "\1\107",
+            "",
+            "\1\7\13\uffff\12\7\7\uffff\32\7\4\uffff\1\7\1\uffff\32\7",
+            "\1\111",
+            "\1\7\13\uffff\12\7\7\uffff\32\7\4\uffff\1\7\1\uffff\32\7",
+            "\1\113",
+            "\1\7\13\uffff\12\7\7\uffff\32\7\4\uffff\1\7\1\uffff\32\7",
+            "",
+            "\1\7\13\uffff\12\7\7\uffff\32\7\4\uffff\1\7\1\uffff\32\7",
+            "",
+            "\1\7\13\uffff\12\7\7\uffff\32\7\4\uffff\1\7\1\uffff\32\7",
+            "",
             "",
             ""
     };
 
-    static final short[] DFA7_eot = DFA.unpackEncodedString(DFA7_eotS);
-    static final short[] DFA7_eof = DFA.unpackEncodedString(DFA7_eofS);
-    static final char[] DFA7_min = DFA.unpackEncodedStringToUnsignedChars(DFA7_minS);
-    static final char[] DFA7_max = DFA.unpackEncodedStringToUnsignedChars(DFA7_maxS);
-    static final short[] DFA7_accept = DFA.unpackEncodedString(DFA7_acceptS);
-    static final short[] DFA7_special = DFA.unpackEncodedString(DFA7_specialS);
-    static final short[][] DFA7_transition;
+    static final short[] DFA8_eot = DFA.unpackEncodedString(DFA8_eotS);
+    static final short[] DFA8_eof = DFA.unpackEncodedString(DFA8_eofS);
+    static final char[] DFA8_min = DFA.unpackEncodedStringToUnsignedChars(DFA8_minS);
+    static final char[] DFA8_max = DFA.unpackEncodedStringToUnsignedChars(DFA8_maxS);
+    static final short[] DFA8_accept = DFA.unpackEncodedString(DFA8_acceptS);
+    static final short[] DFA8_special = DFA.unpackEncodedString(DFA8_specialS);
+    static final short[][] DFA8_transition;
 
     static {
-        int numStates = DFA7_transitionS.length;
-        DFA7_transition = new short[numStates][];
+        int numStates = DFA8_transitionS.length;
+        DFA8_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA7_transition[i] = DFA.unpackEncodedString(DFA7_transitionS[i]);
+            DFA8_transition[i] = DFA.unpackEncodedString(DFA8_transitionS[i]);
         }
     }
 
-    class DFA7 extends DFA {
+    class DFA8 extends DFA {
 
-        public DFA7(BaseRecognizer recognizer) {
+        public DFA8(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 7;
-            this.eot = DFA7_eot;
-            this.eof = DFA7_eof;
-            this.min = DFA7_min;
-            this.max = DFA7_max;
-            this.accept = DFA7_accept;
-            this.special = DFA7_special;
-            this.transition = DFA7_transition;
+            this.decisionNumber = 8;
+            this.eot = DFA8_eot;
+            this.eof = DFA8_eof;
+            this.min = DFA8_min;
+            this.max = DFA8_max;
+            this.accept = DFA8_accept;
+            this.special = DFA8_special;
+            this.transition = DFA8_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( ALL | ACTOR | IMPORT | MULTI | ID | NUMBER | STRING | LINE_COMMENT | MULTI_LINE_COMMENT | WHITESPACE | EQ | GE | GT | LE | LT | NE | ARROW | COLON | COLON_EQUAL | COMMA | DOT | DOUBLE_DASH_ARROW | DOUBLE_EQUAL_ARROW | DOUBLE_DOT | DOUBLE_COLON | LBRACE | RBRACE | LBRACKET | RBRACKET | LPAREN | RPAREN | CARET | DIV | MINUS | PLUS | TIMES | SEMICOLON | SHARP );";
+            return "1:1: Tokens : ( ALL | ACTOR | IMPORT | MULTI | NOT | TRUE | FALSE | ID | NUMBER | STRING | LINE_COMMENT | MULTI_LINE_COMMENT | WHITESPACE | EQ | GE | GT | LE | LT | NE | ARROW | COLON | COLON_EQUAL | COMMA | DOT | DOUBLE_DASH_ARROW | DOUBLE_EQUAL_ARROW | DOUBLE_DOT | DOUBLE_COLON | LBRACE | RBRACE | LBRACKET | RBRACKET | LPAREN | RPAREN | CARET | DIV | MINUS | PLUS | TIMES | SEMICOLON | SHARP );";
         }
     }
  
