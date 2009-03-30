@@ -88,12 +88,8 @@ public class GrammarTransformer {
 			throws IOException, ClassNotFoundException {
 		this.startRule = startRule;
 
-		File lexerFile = FileLocator.getFile(folder + File.separator + name
-				+ "Lexer.class");
-		File parserFile = FileLocator.getFile(folder + File.separator + name
-				+ "Parser.class");
-		URL[] urls = new URL[] { lexerFile.toURI().toURL(),
-				parserFile.toURI().toURL() };
+		File lexerFile = FileLocator.getFile(folder);
+		URL[] urls = new URL[] { lexerFile.toURI().toURL() };
 		URLClassLoader loader = new URLClassLoader(urls);
 
 		lexer = loader.loadClass(name + "Lexer");
