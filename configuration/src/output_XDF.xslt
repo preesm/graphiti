@@ -66,10 +66,9 @@
         <xsl:param name="str"/>
         <xsl:variable name="gt" select="grammar:new('.', 'Cal', 'mainParameter')"/>
         <xsl:variable name="tree" select="grammar:parseString($gt, $str)"/>
-        <xsl:message select="$tree"/>
-        <xsl:attribute name="name" select="$tree/Parameter/Var/text()"/>
-        <xsl:if test="$tree/Parameter/Type">
-            <xsl:apply-templates select="$tree/Parameter/Type"/>
+        <xsl:attribute name="name" select="$tree/Var/text()"/>
+        <xsl:if test="$tree/Type">
+            <xsl:apply-templates select="$tree/Type"/>
         </xsl:if>
     </xsl:template>
 

@@ -37,6 +37,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.sf.graphiti.util.FileLocator;
 
@@ -59,6 +61,10 @@ import org.w3c.dom.Element;
  * 
  */
 public class GrammarTransformer {
+
+	private static Map<String, Class<?>> lexerMap = new HashMap<String, Class<?>>();
+
+	private static Map<String, Class<?>> parserMap = new HashMap<String, Class<?>>();
 
 	private Class<?> lexer;
 
@@ -88,12 +94,21 @@ public class GrammarTransformer {
 			throws IOException, ClassNotFoundException {
 		this.startRule = startRule;
 
-		File lexerFile = FileLocator.getFile(folder);
-		URL[] urls = new URL[] { lexerFile.toURI().toURL() };
-		URLClassLoader loader = new URLClassLoader(urls);
+		if (lexerMap.containsKey(name)) {
+			lexer = lexerMap.get(name);
+			parser = parserMap.get(name);
+		} else {
+			File lexerFile = FileLocator.getFile(folder);
+			URL[] urls = new URL[] { lexerFile.toURI().toURL() };
+			ClassLoader parentLoader = Thread.currentThread()
+					.getContextClassLoader();
+			URLClassLoader loader = new URLClassLoader(urls, parentLoader);
 
-		lexer = loader.loadClass(name + "Lexer");
-		parser = loader.loadClass(name + "Parser");
+			lexer = loader.loadClass(name + "Lexer");
+			lexerMap.put(name, lexer);
+			parser = loader.loadClass(name + "Parser");
+			parserMap.put(name, parser);
+		}
 	}
 
 	/**
@@ -207,6 +222,14 @@ public class GrammarTransformer {
 		return convertTreeToDom(tree);
 	}
 
+	public Element parse(InputStream in) throws ClassCastException,
+			ClassNotFoundException, InstantiationException,
+			IllegalAccessException, SecurityException,
+			IllegalArgumentException, NoSuchMethodException,
+			InvocationTargetException, IOException {
+		return parse(new ANTLRInputStream(in));
+	}
+
 	/**
 	 * Parses an input readable by using the given reader.
 	 * 
@@ -234,13 +257,5 @@ public class GrammarTransformer {
 			IllegalArgumentException, NoSuchMethodException,
 			InvocationTargetException {
 		return parse(new ANTLRStringStream(text));
-	}
-
-	public Element parse(InputStream in) throws ClassCastException,
-			ClassNotFoundException, InstantiationException,
-			IllegalAccessException, SecurityException,
-			IllegalArgumentException, NoSuchMethodException,
-			InvocationTargetException, IOException {
-		return parse(new ANTLRInputStream(in));
 	}
 }
