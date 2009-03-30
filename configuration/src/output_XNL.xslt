@@ -67,8 +67,8 @@
             <xsl:attribute name="kind">Variable</xsl:attribute>
             <xsl:attribute name="name" select="@key"/>
             <xsl:variable name="gt" select="grammar:new('.', 'Cal', 'mainExpression')"/>
-            <xsl:variable name="tree" select="grammar:parse($gt, @value)"/>
-            <xsl:apply-templates select="tree"/>
+            <xsl:variable name="tree" select="grammar:parseString($gt, @value)"/>
+            <xsl:apply-templates select="$tree"/>
         </xsl:element>
     </xsl:template>
 
@@ -106,7 +106,7 @@
             <xsl:attribute name="name" select="@key"/>
             <xsl:variable name="gt" select="grammar:new('.', 'Cal', 'mainExpression')"/>
             <xsl:variable name="tree" select="grammar:parse($gt, @value)"/>
-            <xsl:apply-templates select="tree"/>
+            <xsl:apply-templates select="$tree"/>
         </xsl:element>
     </xsl:template>
 

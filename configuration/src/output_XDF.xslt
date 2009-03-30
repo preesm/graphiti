@@ -65,10 +65,11 @@
     <xsl:template name="typeAndId">
         <xsl:param name="str"/>
         <xsl:variable name="gt" select="grammar:new('.', 'Cal', 'mainParameter')"/>
-        <xsl:variable name="tree" select="grammar:parse($gt, $str)"/>
-        <xsl:attribute name="name" select="tree/ID/text()"/>
-        <xsl:if test="tree/Type">
-            <xsl:apply-templates select="tree/Type"/>
+        <xsl:variable name="tree" select="grammar:parseString($gt, $str)"/>
+        <xsl:message select="$tree"/>
+        <xsl:attribute name="name" select="$tree/Parameter/Var/text()"/>
+        <xsl:if test="$tree/Parameter/Type">
+            <xsl:apply-templates select="$tree/Parameter/Type"/>
         </xsl:if>
     </xsl:template>
 
@@ -91,8 +92,8 @@
             </xsl:call-template>
 
             <xsl:variable name="gt" select="grammar:new('.', 'Cal', 'mainExpression')"/>
-            <xsl:variable name="tree" select="grammar:parse($gt, @value)"/>
-            <xsl:apply-templates select="tree"/>
+            <xsl:variable name="tree" select="grammar:parseString($gt, @value)"/>
+            <xsl:apply-templates select="$tree"/>
         </xsl:element>
     </xsl:template>
 
@@ -142,8 +143,8 @@
         <xsl:element name="Parameter">
             <xsl:attribute name="name" select="@key"/>
             <xsl:variable name="gt" select="grammar:new('.', 'Cal', 'mainExpression')"/>
-            <xsl:variable name="tree" select="grammar:parse($gt, @value)"/>
-            <xsl:apply-templates select="tree"/>
+            <xsl:variable name="tree" select="grammar:parseString($gt, @value)"/>
+            <xsl:apply-templates select="$tree"/>
         </xsl:element>
     </xsl:template>
 

@@ -228,7 +228,7 @@ public class GrammarTransformer {
 	 * @throws IllegalArgumentException
 	 * @throws SecurityException
 	 */
-	public Element parse(String text) throws ClassCastException,
+	public Element parseString(String text) throws ClassCastException,
 			ClassNotFoundException, InstantiationException,
 			IllegalAccessException, SecurityException,
 			IllegalArgumentException, NoSuchMethodException,
