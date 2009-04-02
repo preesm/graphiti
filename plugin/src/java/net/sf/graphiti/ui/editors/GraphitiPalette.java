@@ -155,10 +155,12 @@ public class GraphitiPalette {
 
 		// replace the "black" palette entry with the color.
 		ImageData data = id.getImageData();
-		RGB rgb = data.palette.colors[0];
-		rgb.red = color.getRed();
-		rgb.green = color.getGreen();
-		rgb.blue = color.getBlue();
+		if (data.palette.colors != null) {
+			RGB rgb = data.palette.colors[0];
+			rgb.red = color.getRed();
+			rgb.green = color.getGreen();
+			rgb.blue = color.getBlue();
+		}
 
 		// returns an image descriptor on the modified image data.
 		id = ImageDescriptor.createFromImageData(data);
