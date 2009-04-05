@@ -3,7 +3,7 @@
     
     <fileFormat extension="nl" type="text">
         <import>
-            <transformation type="grammar" folder="." name="Nl" startRule="network"/>
+            <transformation type="grammar" folder="." name="Cal" startRule="network"/>
             <transformation type="xslt" file="nlToXNL.xslt"/>
             <transformation type="xslt" file="input_XNL.xslt"/>
             <transformation type="xslt" file="changeXNLGraphType.xslt"/>

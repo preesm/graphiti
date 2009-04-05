@@ -33,31 +33,89 @@ options {
   k = 1;
 }
 tokens {
-  // expressions
-  BinOp;
-  Boolean;
-  Expression;
-  Integer;
-  Minus;
-  Not;
-  String;
-  UnOp;
-  Var;
-  
-  // types
-  Parameter;
-  Type;
-  TypeAttr;
-  ExprAttr;
-  TypePar;
-  
+  // network
+  Connector;
+  EntityDecl;
+  EntityExpr;
+  EntityPar;
+  Network;
+  StructureStmt;
+  VarDecl;
+
   // actor
   Actor;
   Name;
   Inputs;
   Outputs;
   PortDecl;
+
+  // types
+  Parameter;
+  Type;
+  TypeAttr;
+  ExprAttr;
+  TypePar;
+
+  // expressions
+  BinOp;
+  Boolean;
+  Expression;
+  Integer;
+  List;
+  Minus;
+  Not;
+  Real;
+  String;
+  UnOp;
+  Var;
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// NETWORK
+
+network: NETWORK qualifiedId (LBRACKET typePars? RBRACKET)?
+  LPAREN parameters? RPAREN
+  inputs=portDecls? DOUBLE_EQUAL_ARROW outputs=portDecls? COLON
+  oneImport* varDeclSection?
+  entitySection? structureSection?
+  END EOF ->
+    ^(Network ^(Name ID) parameters? ^(Inputs $inputs?) ^(Outputs $outputs?)
+      varDeclSection? entitySection? structureSection?);
+
+// var declarations
+varDeclSection:	VAR varDecl+ -> varDecl+;
+
+varDecl: MUTABLE? typeAndId
+  ((EQ | COLON_EQUAL) expression -> ^(VarDecl typeAndId ^(Expression expression))
+  | -> ^(VarDecl typeAndId)) SEMICOLON;
+
+// entities
+entitySection: ENTITIES entityDecl+ -> entityDecl+;
+
+entityDecl: ID EQ entityExpr SEMICOLON -> ^(EntityDecl ^(Var ID) entityExpr);
+
+entityExpr: ID LPAREN entityPars? RPAREN -> ^(EntityExpr ^(Var ID) entityPars?);
+
+entityPars: entityPar (COMMA entityPar)* -> entityPar+;
+
+entityPar: ID EQ expression -> ^(EntityPar ^(Var ID) ^(Expression expression));
+
+// structure section
+structureSection: STRUCTURE structureStmt+ -> structureStmt+;
+
+structureStmt: c1=connector DOUBLE_DASH_ARROW c2=connector attributeSection? SEMICOLON ->
+  ^(StructureStmt $c1 $c2) ;
+
+connector: v1=ID (
+  DOT v2=ID -> ^(Connector ^(Var $v1) ^(Var $v2))
+  | -> ^(Connector ^(Var $v1)));
+
+attributeSection: LBRACE attributeDecl* RBRACE ;
+
+attributeDecl: ID (EQ expression SEMICOLON | COLON type SEMICOLON) ;
+
+///////////////////////////////////////////////////////////////////////////////
+// ACTOR
 
 actor: oneImport* ACTOR ID
   (LBRACKET typePars? RBRACKET)?
@@ -78,10 +136,14 @@ ignore: ALL
 | DOUBLE_DOT
 | DOUBLE_COLON
 | EQ
+| END
+| ENTITIES
 | FALSE
+| FLOAT
 | GE
 | GT
 | ID
+| INTEGER
 | LBRACE
 | LBRACKET
 | LPAREN
@@ -89,9 +151,10 @@ ignore: ALL
 | LT
 | MINUS
 | MULTI
+| MUTABLE
 | NE
+| NETWORK
 | NOT
-| NUMBER
 | PLUS
 | RBRACE
 | RBRACKET
@@ -99,8 +162,10 @@ ignore: ALL
 | SEMICOLON
 | SHARP
 | STRING
+| STRUCTURE
 | TIMES
-| TRUE ;
+| TRUE
+| VAR;
 
 ///////////////////////////////////////////////////////////////////////////////
 // IMPORTS
@@ -171,25 +236,36 @@ term: atom
   | LPAREN expression RPAREN -> ^(Expression expression);
 
 atom: ID -> ^(Var ID)
-| NUMBER -> ^(Integer NUMBER)
+| FLOAT -> ^(Real FLOAT)
+| INTEGER -> ^(Integer INTEGER)
 | STRING -> ^(String STRING)
 | TRUE -> ^(Boolean TRUE)
-| FALSE -> ^(Boolean FALSE);
+| FALSE -> ^(Boolean FALSE)
+| LBRACKET (expression (COMMA expression)*)? RBRACKET -> ^(List expression*);
 
 ///////////////////////////////////////////////////////////////////////////////
 // TOKENS
 
 ALL: 'all';
 ACTOR: 'actor';
+END: 'end';
+ENTITIES: 'entities';
 IMPORT: 'import';
 MULTI: 'multi';
+MUTABLE: 'mutable';
+NETWORK: 'network';
+STRUCTURE: 'structure';
 NOT: 'not';
+VAR: 'var';
 
 TRUE: 'true';
 FALSE: 'false';
 
 ID: ('a'..'z' | 'A'..'Z' | '_' | '$') ('a'..'z' | 'A'..'Z' | '_' | '$' | '0' .. '9')* ;
-NUMBER: '-'? ('0'..'9')+ ;
+FLOAT: '-'? (('0'..'9')+ '.' ('0'..'9')* (('e' | 'E') ('+' | '-')? ('0'..'9')+)?
+	| '.' ('0'..'9')+ (('e' | 'E') ('+' | '-')? ('0'..'9')+)?
+	| ('0'..'9')+ (('e' | 'E') ('+' | '-')? ('0'..'9')+));
+INTEGER: '-'? ('0'..'9')+ ;
 STRING: '\"' .* '\"';
 
 LINE_COMMENT: '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;};

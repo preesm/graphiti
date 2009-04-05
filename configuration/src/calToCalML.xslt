@@ -11,7 +11,7 @@
     <!-- XDF -->
     <xsl:template match="Actor">
         <Actor name="{Name/text()}">
-            <xsl:apply-templates select="Parameters"/>
+            <xsl:apply-templates select="Parameter"/>
             <xsl:apply-templates select="Inputs">
                 <xsl:with-param name="kind">Input</xsl:with-param>
             </xsl:apply-templates>

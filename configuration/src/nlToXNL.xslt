@@ -2,6 +2,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
 
     <xsl:import href="exprToXml.xslt"/>
+    <xsl:import href="typeToXml.xslt"/>
 
     <xsl:output indent="yes" method="xml"/>
 
@@ -11,27 +12,17 @@
     <xsl:template match="Network">
         <Network>
             <xsl:apply-templates select="QualifiedId"/>
+            <xsl:apply-templates select="Parameter"/>
+            <xsl:apply-templates select="Inputs">
+                <xsl:with-param name="kind">Input</xsl:with-param>
+            </xsl:apply-templates>
+            <xsl:apply-templates select="Outputs">
+                <xsl:with-param name="kind">Output</xsl:with-param>
+            </xsl:apply-templates>
             
-            <xsl:choose>
-                <xsl:when test="PortDecls[1] &lt;&lt; DOUBLE_EQUAL_ARROW">
-                    <xsl:apply-templates select="PortDecls[1]">
-                        <xsl:with-param name="kind">Input</xsl:with-param>
-                    </xsl:apply-templates>
-                    <xsl:apply-templates select="PortDecls[2]">
-                        <xsl:with-param name="kind">Output</xsl:with-param>
-                    </xsl:apply-templates>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:apply-templates select="PortDecls[1]">
-                        <xsl:with-param name="kind">Output</xsl:with-param>
-                    </xsl:apply-templates>
-                </xsl:otherwise>
-            </xsl:choose>
-            
-            <xsl:apply-templates select="VarDeclSection"/>
-            <xsl:apply-templates select="Parameters"/>
-            <xsl:apply-templates select="EntitySection"/>
-            <xsl:apply-templates select="StructureSection"/>
+            <xsl:apply-templates select="VarDecl"/>
+            <xsl:apply-templates select="EntityDecl"/>
+            <xsl:apply-templates select="StructureStmt"/>
         </Network>
     </xsl:template>
 
@@ -49,7 +40,7 @@
 
     <!-- Variable -->
     <xsl:template match="VarDecl">
-        <Decl kind="Variable" name="{ID[1]/text()}">
+        <Decl kind="Variable" name="{Var/text()}">
             <xsl:apply-templates select="Type"/>
             <xsl:apply-templates select="Expression"/>
         </Decl>
@@ -57,41 +48,36 @@
 
     <!-- Parameter -->
     <xsl:template match="Parameter">
-        <Decl kind="Parameter" name="{ID[1]/text()}">
+        <Decl kind="Parameter" name="{Var/text()}">
             <xsl:apply-templates select="Type"/>
         </Decl>
-    </xsl:template>
-
-    <!-- Type -->
-    <xsl:template match="Type">
-        <Type name="{ID[1]/text()}"/>
     </xsl:template>
 
     <!-- Port -->
     <xsl:template match="PortDecl">
         <xsl:param name="kind"/>
-        <Port kind="{$kind}" name="{ID[1]/text()}">
+        <Port kind="{$kind}" name="{Var/text()}">
             <xsl:apply-templates select="Type"/>
         </Port>
     </xsl:template>
 
     <!-- EntityDecl -->
     <xsl:template match="EntityDecl">
-        <EntityDecl name="{ID[1]/text()}">
+        <EntityDecl name="{Var/text()}">
             <xsl:apply-templates select="EntityExpr"/>
         </EntityDecl>
     </xsl:template>
 
     <!-- EntityExpr -->
     <xsl:template match="EntityExpr">
-        <EntityExpr kind="Instantiation" name="{ID[1]/text()}">
-            <xsl:apply-templates select="EntityPars"/>
+        <EntityExpr kind="Instantiation" name="{Var/text()}">
+            <xsl:apply-templates select="EntityPar"/>
         </EntityExpr>
     </xsl:template>
 
     <!-- EntityPar -->
     <xsl:template match="EntityPar">
-        <Arg name="{ID[1]/text()}">
+        <Arg name="{Var/text()}">
             <xsl:apply-templates select="Expression"/>
         </Arg>
     </xsl:template>
@@ -107,15 +93,15 @@
     <!-- Connector -->
     <xsl:template match="Connector">
         <xsl:choose>
-            <xsl:when test="count(ID) = 1">
+            <xsl:when test="count(Var) = 1">
                 <PortSpec kind="Local">
-                    <PortRef name="{ID[1]/text()}"/>
+                    <PortRef name="{Var[1]/text()}"/>
                 </PortSpec>
             </xsl:when>
             <xsl:otherwise>
                 <PortSpec kind="Entity">
-                    <EntityRef name="{ID[1]/text()}"/>
-                    <PortRef name="{ID[2]/text()}"/>
+                    <EntityRef name="{Var[1]/text()}"/>
+                    <PortRef name="{Var[2]/text()}"/>
                 </PortSpec>
             </xsl:otherwise>
         </xsl:choose>
