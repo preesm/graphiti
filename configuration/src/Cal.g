@@ -44,10 +44,13 @@ tokens {
 
   // actor
   Actor;
+  Dot;
+  Empty;
   Name;
   Inputs;
   Outputs;
   PortDecl;
+  QualifiedId;
 
   // types
   Parameter;
@@ -75,12 +78,18 @@ tokens {
 
 network: NETWORK qualifiedId (LBRACKET typePars? RBRACKET)?
   LPAREN parameters? RPAREN
-  inputs=portDecls? DOUBLE_EQUAL_ARROW outputs=portDecls? COLON
+  portSignature COLON
   oneImport* varDeclSection?
   entitySection? structureSection?
   END EOF ->
-    ^(Network ^(Name ID) parameters? ^(Inputs $inputs?) ^(Outputs $outputs?)
+    ^(Network qualifiedId parameters? portSignature
       varDeclSection? entitySection? structureSection?);
+
+portSignature: inputPorts DOUBLE_EQUAL_ARROW outputPorts -> inputPorts outputPorts;
+
+inputPorts: portDecls -> ^(Inputs portDecls) | -> ^(Inputs Empty);
+
+outputPorts: portDecls -> ^(Outputs portDecls) | -> ^(Outputs Empty);
 
 // var declarations
 varDeclSection:	VAR varDecl+ -> varDecl+;
@@ -120,52 +129,8 @@ attributeDecl: ID (EQ expression SEMICOLON | COLON type SEMICOLON) ;
 actor: oneImport* ACTOR ID
   (LBRACKET typePars? RBRACKET)?
   LPAREN parameters? RPAREN
-  inputs=portDecls? DOUBLE_EQUAL_ARROW outputs=portDecls? COLON ignore* EOF ->
-    ^(Actor ^(Name ID) parameters? ^(Inputs $inputs?) ^(Outputs $outputs?));
-
-ignore: ALL
-| ARROW
-| CARET
-| COLON
-| COLON_EQUAL
-| COMMA
-| DIV
-| DOT
-| DOUBLE_DASH_ARROW
-| DOUBLE_EQUAL_ARROW
-| DOUBLE_DOT
-| DOUBLE_COLON
-| EQ
-| END
-| ENTITIES
-| FALSE
-| FLOAT
-| GE
-| GT
-| ID
-| INTEGER
-| LBRACE
-| LBRACKET
-| LPAREN
-| LE
-| LT
-| MINUS
-| MULTI
-| MUTABLE
-| NE
-| NETWORK
-| NOT
-| PLUS
-| RBRACE
-| RBRACKET
-| RPAREN
-| SEMICOLON
-| SHARP
-| STRING
-| STRUCTURE
-| TIMES
-| TRUE
-| VAR;
+  portSignature COLON .* EOF ->
+    ^(Actor ^(Name ID) parameters? portSignature);
 
 ///////////////////////////////////////////////////////////////////////////////
 // IMPORTS
@@ -175,7 +140,7 @@ oneImport: IMPORT importRest SEMICOLON ;
 importRest: ALL qualifiedId
   | qualifiedId (EQ ID)? ;
 
-qualifiedId: ID (DOT ID)+ ;
+qualifiedId: ID (DOT ID)* -> ^(QualifiedId ^(Var ID) (^(Dot DOT) ^(Var ID))*);
 
 ///////////////////////////////////////////////////////////////////////////////
 // PARAMETERS

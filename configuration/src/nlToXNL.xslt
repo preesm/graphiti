@@ -28,13 +28,13 @@
 
     <!-- QID -->
     <xsl:template match="QualifiedId">
-        <QID name="{string-join((ID | DOT)/text(), '')}">
+        <QID name="{string-join((Var | Dot)/text(), '')}">
             <xsl:apply-templates/>
         </QID>
     </xsl:template>
 
     <!-- ID -->
-    <xsl:template match="QualifiedId/ID">
+    <xsl:template match="QualifiedId/Var">
         <ID name="{text()}"/>
     </xsl:template>
 
