@@ -13,6 +13,16 @@
         <Expr kind="Literal" literal-kind="Integer" value="{text()}"/>
     </xsl:template>
     
+    <xsl:template match="List">
+        <Expr kind="List">
+            <xsl:apply-templates/>
+        </Expr>
+    </xsl:template>
+    
+    <xsl:template match="Real">
+        <Expr kind="Literal" literal-kind="Real" value="{text()}"/>
+    </xsl:template>
+    
     <xsl:template match="String">
         <xsl:variable name="textValue" select="text()"/>
         <xsl:variable name="string" select="substring($textValue, 2, string-length($textValue) - 2)"/>

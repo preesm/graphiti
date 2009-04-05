@@ -13,9 +13,24 @@
     <xsl:template match="Expr[@kind='Literal' and @literal-kind='Integer']">
         <xsl:value-of select="@value"/>
     </xsl:template>
+    
+    <xsl:template match="Expr[@kind='Literal' and @literal-kind='Real']">
+        <xsl:value-of select="@value"/>
+    </xsl:template>
 
     <xsl:template match="Expr[@kind='Literal' and @literal-kind='String']">
         <xsl:value-of select="concat('&quot;', @value, '&quot;')"/>
+    </xsl:template>
+    
+    <xsl:template match="Expr[@kind='List']">
+        <xsl:text>[</xsl:text>
+        <xsl:for-each select="*">
+            <xsl:apply-templates select="."/>
+            <xsl:if test="position() != last()">
+                <xsl:text>, </xsl:text>
+            </xsl:if>
+        </xsl:for-each>
+        <xsl:text>]</xsl:text>
     </xsl:template>
 
     <xsl:template match="Expr[@kind='Var']">
