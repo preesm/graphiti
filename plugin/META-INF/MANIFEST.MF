@@ -24,3 +24,4 @@ Bundle-ClassPath: .,
  lib/jgrapht-jdk1.6.jar
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: IETR/INSA of Rennes
