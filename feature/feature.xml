@@ -2,7 +2,7 @@
 <feature
       id="net.sf.graphiti.feature"
       label="Graphiti editor feature"
-      version="1.0.0.beta1">
+      version="1.0.0.beta2">
 
    <description url="http://graphiti-editor.sourceforge.net/eclipse/">
       Graphiti editor feature.
@@ -76,14 +76,14 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
          id="net.sf.graphiti"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.0.beta2"
          unpack="false"/>
 
    <plugin
          id="net.sf.graphiti.doc"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.9.0"
          unpack="false"/>
 
 </feature>
