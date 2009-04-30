@@ -4,17 +4,13 @@ Bundle-Name: Graphiti editor plug-in
 Bundle-SymbolicName: net.sf.graphiti;singleton:=true
 Bundle-Version: 1.0.0.beta2
 Bundle-Activator: net.sf.graphiti.ui.GraphitiPlugin
-Require-Bundle: com.ibm.icu,
- org.apache.xerces,
- org.eclipse.core.resources,
+Require-Bundle: org.eclipse.core.resources,
  org.eclipse.core.runtime,
  org.eclipse.gef,
- org.eclipse.help,
  org.eclipse.ui,
  org.eclipse.ui.editors,
  org.eclipse.ui.ide,
- org.eclipse.ui.views,
- org.junit
+ org.eclipse.ui.views
 Bundle-ClassPath: .,
  lib/antlr-runtime-3.1.3.jar,
  lib/saxon/saxon9.jar,
