@@ -41,8 +41,6 @@ public class FileFormat {
 
 	public class Transformation {
 
-		private boolean xslt;
-
 		private String fileName;
 
 		private String folder;
@@ -50,6 +48,8 @@ public class FileFormat {
 		private String name;
 
 		private String startRule;
+
+		private boolean xslt;
 
 		private Transformation(String fileName) {
 			xslt = true;

@@ -158,9 +158,10 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 
 		// Create the static router for the connection layer
 		ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-		ShortestPathConnectionRouter router = new ShortestPathConnectionRouter(f);
+		ShortestPathConnectionRouter router = new ShortestPathConnectionRouter(
+				f);
 		router.setSpacing(2);
-		//ManhattanConnectionRouter router = new ManhattanConnectionRouter();
+		// ManhattanConnectionRouter router = new ManhattanConnectionRouter();
 		connLayer.setConnectionRouter(router);
 
 		return f;
