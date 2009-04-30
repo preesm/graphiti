@@ -90,6 +90,6 @@ public class CopyAction extends SelectionAction {
 	public void run() {
 		// execute the copy command
 		CopyCommand command = new CopyCommand(getSelectedObjects());
-		execute(command);
+		command.execute();
 	}
 }
