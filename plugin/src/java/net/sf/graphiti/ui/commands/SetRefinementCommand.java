@@ -28,6 +28,7 @@
  */
 package net.sf.graphiti.ui.commands;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,6 +107,8 @@ public class SetRefinementCommand extends Command {
 	}
 
 	private RefinementManager manager;
+
+	private boolean refinementChanged;
 
 	/**
 	 * Creates a {@link SetRefinementCommand} action.
@@ -249,6 +252,10 @@ public class SetRefinementCommand extends Command {
 		return refinement.toString();
 	}
 
+	public boolean hasRefinementChanged() {
+		return refinementChanged;
+	}
+
 	/**
 	 * Sets the "refinement" parameter of the selected vertex to the location of
 	 * file.
@@ -259,6 +266,7 @@ public class SetRefinementCommand extends Command {
 		String refinement = getRefinementValue(file);
 		manager.getVertex().setValue(VertexType.PARAMETER_REFINEMENT,
 				refinement);
+		refinementChanged = true;
 	}
 
 	/**
@@ -301,6 +309,13 @@ public class SetRefinementCommand extends Command {
 			}
 
 		});
+
+		// initial selection
+		try {
+			tree.setInitialSelection(manager.getIFileFromSelection());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
 		// opens the dialog
 		if (tree.open() == Window.OK) {
