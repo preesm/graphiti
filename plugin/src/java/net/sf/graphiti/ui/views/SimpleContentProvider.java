@@ -37,6 +37,7 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.editparts.EdgeEditPart;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
@@ -73,8 +74,16 @@ public class SimpleContentProvider extends AbstractContentProvider {
 
 		Iterator<Parameter> it = parameters.iterator();
 		while (it.hasNext()) {
-			Class<?> type = it.next().getType();
+			Parameter parameter = it.next();
+			Class<?> type = parameter.getType();
 			if (type == List.class || type == Map.class) {
+				it.remove();
+			}
+
+			String name = parameter.getName();
+			if (source instanceof Vertex
+					&& name.equals(VertexType.PARAMETER_ID)
+					|| name.equals(VertexType.PARAMETER_REFINEMENT)) {
 				it.remove();
 			}
 		}
