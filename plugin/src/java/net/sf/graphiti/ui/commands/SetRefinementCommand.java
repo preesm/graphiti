@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.ui.commands;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -311,11 +310,11 @@ public class SetRefinementCommand extends Command {
 		});
 
 		// initial selection
-		try {
-			tree.setInitialSelection(manager.getIFileFromSelection());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		IResource resource = manager.getIFileFromSelection();
+		if (resource == null) {
+			resource = manager.getEditedFile().getParent();
 		}
+		tree.setInitialSelection(resource);
 
 		// opens the dialog
 		if (tree.open() == Window.OK) {

@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.ui.commands;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -169,11 +168,7 @@ public class PortChooser {
 	 * @return A port name if found, <code>null</code> otherwise.
 	 */
 	private String getPort(String edgePort, String[] portTypes) {
-		IFile sourceFile = null;
-		try {
-			sourceFile = manager.getIFileFromSelection();
-		} catch (FileNotFoundException e) {
-		}
+		IFile sourceFile = manager.getIFileFromSelection();
 
 		// open the refinement
 		if (sourceFile != null) {

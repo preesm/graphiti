@@ -80,8 +80,7 @@ public class RefinementManager {
 	 * @return The {@link IFile} found.
 	 * @throws FileNotFoundException
 	 */
-	private IFile findFileWithoutExtension(IPath path)
-			throws FileNotFoundException {
+	private IFile findFileWithoutExtension(IPath path) {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 
 		// get all possible candidates
@@ -104,7 +103,7 @@ public class RefinementManager {
 
 		// check the number of candidates
 		if (files.isEmpty()) {
-			throw new FileNotFoundException();
+			return null;
 		} else if (files.size() == 1) {
 			return files.get(0);
 		} else {
@@ -148,7 +147,7 @@ public class RefinementManager {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	protected IFile getIFileFromSelection() throws FileNotFoundException {
+	protected IFile getIFileFromSelection() {
 		// prevent null pointer exception when there are no refinement.
 		String refinement = getRefinement();
 		if (refinement == null) {

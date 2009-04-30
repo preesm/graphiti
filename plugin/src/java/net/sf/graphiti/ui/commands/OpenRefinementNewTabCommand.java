@@ -28,8 +28,6 @@
  */
 package net.sf.graphiti.ui.commands;
 
-import java.io.FileNotFoundException;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -67,23 +65,21 @@ public class OpenRefinementNewTabCommand extends Command {
 	public void execute() {
 		manager.setEditedFile();
 
-		try {
-			IFile input = manager.getIFileFromSelection();
-			if (input != null) {
-				IWorkbench workbench = PlatformUI.getWorkbench();
-				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-				IWorkbenchPage page = window.getActivePage();
-
-				try {
-					IDE.openEditor(page, input);
-				} catch (PartInitException e) {
-					MessageDialog.openError(null, "Could not open refinement",
-							e.getLocalizedMessage());
-				}
-			}
-		} catch (FileNotFoundException e) {
+		IFile input = manager.getIFileFromSelection();
+		if (input == null) {
 			MessageDialog.openError(null, "Could not open refinement",
 					"File not found or invalid: " + manager.getRefinement());
+		} else {
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+			IWorkbenchPage page = window.getActivePage();
+
+			try {
+				IDE.openEditor(page, input);
+			} catch (PartInitException e) {
+				MessageDialog.openError(null, "Could not open refinement", e
+						.getLocalizedMessage());
+			}
 		}
 	}
 
