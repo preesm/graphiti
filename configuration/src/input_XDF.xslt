@@ -158,6 +158,14 @@
                 <xsl:if test="@dst != ''">
                     <parameter name="target port" value="{@dst-port}"/>
                 </xsl:if>
+                <xsl:if test="Attribute[@kind = 'Value' and @name = 'bufferSize']">
+                    <parameter name="buffer size">
+                        <xsl:attribute name="value">
+                            <xsl:apply-templates
+                                select="Attribute[@kind = 'Value' and @name = 'bufferSize']/Expr"/>
+                        </xsl:attribute>
+                    </parameter>
+                </xsl:if>
             </parameters>
         </edge>
     </xsl:template>

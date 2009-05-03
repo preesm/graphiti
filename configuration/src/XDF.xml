@@ -83,6 +83,7 @@
             <parameters>
                 <parameter name="source port" type="java.lang.String" default=""/>
                 <parameter name="target port" type="java.lang.String" default=""/>
+                <parameter name="buffer size" type="java.lang.String" default=""/>
             </parameters>
         </edgeType>
     </edgeTypes>

@@ -172,6 +172,17 @@
                     <xsl:attribute name="dst-port" select="@target"/>
                 </xsl:otherwise>
             </xsl:choose>
+
+            <xsl:variable name="value" select="parameters/parameter[@name = 'buffer size']/@value"/>
+            <xsl:if test="$value != ''">
+                <xsl:element name="Attribute">
+                    <xsl:attribute name="kind" select="'Value'"/>
+                    <xsl:attribute name="name" select="'bufferSize'"/>
+                    <xsl:variable name="gt" select="grammar:new('.', 'Cal', 'mainExpression')"/>
+                    <xsl:variable name="tree" select="grammar:parseString($gt, $value)"/>
+                    <xsl:apply-templates select="$tree"/>
+                </xsl:element>
+            </xsl:if>
         </xsl:element>
     </xsl:template>
 
