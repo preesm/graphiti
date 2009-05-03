@@ -4,13 +4,13 @@
     <fileFormat extension="nl" type="text">
         <import>
             <transformation type="grammar" folder="." name="Cal" startRule="network"/>
-            <transformation type="xslt" file="nlToXNL.xslt"/>
-            <transformation type="xslt" file="input_XNL.xslt"/>
-            <transformation type="xslt" file="changeXNLGraphType.xslt"/>
+            <transformation type="xslt" file="nlToXDF.xslt"/>
+            <transformation type="xslt" file="input_XDF.xslt"/>
+            <transformation type="xslt" file="ToXDFGraphType.xslt"/>
         </import>
         
         <export>
-            <transformation name="output_XNL.xslt"/>
+            <transformation name="output_XDF.xslt"/>
             <transformation name="output_NL.xslt"/>
         </export>
     </fileFormat>
@@ -47,6 +47,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="port type" type="java.lang.String" default="int(size=32)"/>
             </parameters>
         </vertexType>
 
@@ -58,6 +59,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
+                <parameter name="port type" type="java.lang.String" default="int(size=32)"/>
             </parameters>
         </vertexType>
 
@@ -85,6 +87,7 @@
             <parameters>
                 <parameter name="source port" type="java.lang.String" default=""/>
                 <parameter name="target port" type="java.lang.String" default=""/>
+                <parameter name="buffer size" type="java.lang.String" default=""/>
             </parameters>
         </edgeType>
     </edgeTypes>

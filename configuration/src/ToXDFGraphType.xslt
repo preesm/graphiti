@@ -6,7 +6,7 @@
     <xsl:template match="text()"/>
 
     <!-- graph -> graph -->
-    <xsl:template match="graph[@type = 'XML Network Language']">
+    <xsl:template match="graph[@type = 'XML Dataflow Network']">
         <graph type="Network">
             <xsl:apply-templates/>
         </graph>

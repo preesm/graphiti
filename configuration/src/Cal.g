@@ -34,6 +34,7 @@ options {
 }
 tokens {
   // network
+  Attribute;
   Connector;
   EntityDecl;
   EntityExpr;
@@ -112,16 +113,17 @@ entityPar: ID EQ expression -> ^(EntityPar ^(Var ID) ^(Expression expression));
 // structure section
 structureSection: STRUCTURE structureStmt+ -> structureStmt+;
 
-structureStmt: c1=connector DOUBLE_DASH_ARROW c2=connector attributeSection? SEMICOLON ->
-  ^(StructureStmt $c1 $c2) ;
+structureStmt: c1=connector DOUBLE_DASH_ARROW c2=connector at=attributeSection? SEMICOLON ->
+  ^(StructureStmt $c1 $c2 $at?) ;
 
 connector: v1=ID (
   DOT v2=ID -> ^(Connector ^(Var $v1) ^(Var $v2))
   | -> ^(Connector ^(Var $v1)));
 
-attributeSection: LBRACE attributeDecl* RBRACE ;
+attributeSection: LBRACE attributeDecl* RBRACE -> attributeDecl*;
 
-attributeDecl: ID (EQ expression SEMICOLON | COLON type SEMICOLON) ;
+attributeDecl: id=ID (EQ expression SEMICOLON -> ^(Attribute ^(Var $id) ^(Expression expression))
+| COLON type SEMICOLON -> ^(Attribute ^(Var $id) ^(Type type))) ;
 
 ///////////////////////////////////////////////////////////////////////////////
 // ACTOR

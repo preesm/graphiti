@@ -10,7 +10,7 @@
 
     <!-- XDF -->
     <xsl:template match="Network">
-        <Network>
+        <XDF>
             <xsl:apply-templates select="QualifiedId"/>
             <xsl:apply-templates select="Parameter"/>
             <xsl:apply-templates select="Inputs">
@@ -19,23 +19,23 @@
             <xsl:apply-templates select="Outputs">
                 <xsl:with-param name="kind">Output</xsl:with-param>
             </xsl:apply-templates>
-            
+
             <xsl:apply-templates select="VarDecl"/>
             <xsl:apply-templates select="EntityDecl"/>
             <xsl:apply-templates select="StructureStmt"/>
-        </Network>
+        </XDF>
     </xsl:template>
 
     <!-- QID -->
     <xsl:template match="QualifiedId">
-        <QID name="{string-join((Var | Dot)/text(), '')}">
-            <xsl:apply-templates/>
-        </QID>
+        <xsl:attribute name="name" select="string-join((Var | Dot)/text(), '')"/>
     </xsl:template>
 
-    <!-- ID -->
-    <xsl:template match="QualifiedId/Var">
-        <ID name="{text()}"/>
+    <!-- Parameter -->
+    <xsl:template match="Parameter">
+        <Decl kind="Param" name="{Var/text()}">
+            <xsl:apply-templates select="Type"/>
+        </Decl>
     </xsl:template>
 
     <!-- Variable -->
@@ -43,13 +43,6 @@
         <Decl kind="Variable" name="{Var/text()}">
             <xsl:apply-templates select="Type"/>
             <xsl:apply-templates select="Expression"/>
-        </Decl>
-    </xsl:template>
-
-    <!-- Parameter -->
-    <xsl:template match="Parameter">
-        <Decl kind="Parameter" name="{Var/text()}">
-            <xsl:apply-templates select="Type"/>
         </Decl>
     </xsl:template>
 
@@ -63,48 +56,65 @@
 
     <!-- EntityDecl -->
     <xsl:template match="EntityDecl">
-        <EntityDecl name="{Var/text()}">
+        <Instance id="{Var/text()}">
             <xsl:apply-templates select="EntityExpr"/>
-        </EntityDecl>
+        </Instance>
     </xsl:template>
 
     <!-- EntityExpr -->
     <xsl:template match="EntityExpr">
-        <EntityExpr kind="Instantiation" name="{Var/text()}">
-            <xsl:apply-templates select="EntityPar"/>
-        </EntityExpr>
+        <Class name="{Var/text()}"/>
+        <xsl:apply-templates select="EntityPar"/>
     </xsl:template>
 
     <!-- EntityPar -->
     <xsl:template match="EntityPar">
-        <Arg name="{Var/text()}">
+        <Parameter name="{Var/text()}">
             <xsl:apply-templates select="Expression"/>
-        </Arg>
+        </Parameter>
     </xsl:template>
-    
+
     <!-- StructureStmt -->
     <xsl:template match="StructureStmt">
-        <StructureStmt kind="Connection">
-            <xsl:apply-templates select="Connector[1]"/>
-            <xsl:apply-templates select="Connector[2]"/>
-        </StructureStmt>
+        <Connection kind="Connection">
+            <xsl:apply-templates select="Connector[1]">
+                <xsl:with-param name="name" select="'src'"/>
+            </xsl:apply-templates>
+            <xsl:apply-templates select="Connector[2]">
+                <xsl:with-param name="name" select="'dst'"/>
+            </xsl:apply-templates>
+            <xsl:apply-templates select="Attribute"/>
+        </Connection>
     </xsl:template>
-    
+
     <!-- Connector -->
     <xsl:template match="Connector">
+        <xsl:param name="name"/>
         <xsl:choose>
             <xsl:when test="count(Var) = 1">
-                <PortSpec kind="Local">
-                    <PortRef name="{Var[1]/text()}"/>
-                </PortSpec>
+                <xsl:attribute name="{$name}" select="Var[1]/text()"/>
             </xsl:when>
             <xsl:otherwise>
-                <PortSpec kind="Entity">
-                    <EntityRef name="{Var[1]/text()}"/>
-                    <PortRef name="{Var[2]/text()}"/>
-                </PortSpec>
+                <xsl:attribute name="{$name}" select="Var[1]/text()"/>
+                <xsl:attribute name="{concat($name, '-port')}" select="Var[2]/text()"/>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+
+    <!-- Attribute -->
+    <xsl:template match="Attribute">
+        <Attribute name="{Var/text()}">
+            <xsl:choose>
+                <xsl:when test="Expression">
+                    <xsl:attribute name="kind" select="'Value'"/>
+                    <xsl:apply-templates select="Expression"/>
+                </xsl:when>
+                <xsl:when test="Type">
+                    <xsl:attribute name="kind" select="'Type'"/>
+                    <xsl:apply-templates select="Type"/>
+                </xsl:when>
+            </xsl:choose>
+        </Attribute>
     </xsl:template>
 
 </xsl:stylesheet>
