@@ -33,11 +33,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.graphiti.util.FileLocator;
@@ -48,7 +49,9 @@ import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.Lexer;
 import org.antlr.runtime.Parser;
+import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.Tree;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -147,20 +150,8 @@ public class GrammarTransformer {
 	 * @param root
 	 *            The root parse node.
 	 * @return The document element of the newly created document.
-	 * @throws ClassCastException
-	 *             If any specified class does not implement
-	 *             DOMImplementationSource
-	 * @throws ClassNotFoundException
-	 *             If any specified class can not be found
-	 * @throws IllegalAccessException
-	 *             If the default constructor of a specified class is not
-	 *             accessible
-	 * @throws InstantiationException
-	 *             If any specified class is an interface or abstract class
 	 */
-	private Element convertTreeToDom(Tree root) throws ClassCastException,
-			ClassNotFoundException, IllegalAccessException,
-			InstantiationException {
+	private Element convertTreeToDom(Tree root) throws Exception {
 		// create document
 		Document document = DomHelper.createDocument("", root.getText());
 
@@ -181,31 +172,8 @@ public class GrammarTransformer {
 	 * @param reader
 	 *            A {@link Reader}.
 	 * @return The DOM document element of the parsed file XML representation.
-	 * @throws ClassCastException
-	 *             If any specified class does not implement
-	 *             DOMImplementationSource
-	 * @throws ClassNotFoundException
-	 *             If any specified class can not be found
-	 * @throws GrammarException
-	 *             if the tokenizer couldn't be created or initialized correctly
-	 * @throws IllegalAccessException
-	 *             If the default constructor of a specified class is not
-	 *             accessible
-	 * @throws InstantiationException
-	 *             If any specified class is an interface or abstract class
-	 * @throws NoSuchMethodException
-	 * @throws SecurityException
-	 * @throws InvocationTargetException
-	 * @throws IllegalArgumentException
-	 * @throws ParserCreationException
-	 *             if the parser couldn't be initialized correctly
-	 * @throws ParserLogException
-	 *             if the input couldn't be parsed correctly
 	 */
-	public Element parse(ANTLRStringStream stream) throws ClassCastException,
-			ClassNotFoundException, IllegalAccessException,
-			InstantiationException, SecurityException, NoSuchMethodException,
-			IllegalArgumentException, InvocationTargetException {
+	public Element parse(ANTLRStringStream stream) throws Exception {
 		Constructor<?> ctor = lexer.getConstructor(CharStream.class);
 		Lexer lexerInst = (Lexer) ctor.newInstance(stream);
 
@@ -219,14 +187,19 @@ public class GrammarTransformer {
 		Object returnObj = start.invoke(parserInst);
 		Tree tree = (Tree) returnObj.getClass().getMethod("getTree").invoke(
 				returnObj);
+
+		int numErrors = parserInst.getNumberOfSyntaxErrors();
+		if (numErrors > 0) {
+			List<String> errorMessages = new ArrayList<String>();
+			reportErrors(parserInst, errorMessages, tree);
+			throw new Exception(numErrors + " errors found when parsing: "
+					+ errorMessages);
+		}
+
 		return convertTreeToDom(tree);
 	}
 
-	public Element parse(InputStream in) throws ClassCastException,
-			ClassNotFoundException, InstantiationException,
-			IllegalAccessException, SecurityException,
-			IllegalArgumentException, NoSuchMethodException,
-			InvocationTargetException, IOException {
+	public Element parse(InputStream in) throws Exception {
 		return parse(new ANTLRInputStream(in));
 	}
 
@@ -236,26 +209,25 @@ public class GrammarTransformer {
 	 * @param text
 	 *            A {@link String}.
 	 * @return The DOM document element of the parsed file XML representation.
-	 * @throws ClassCastException
-	 *             If any specified class does not implement
-	 *             DOMImplementationSource
-	 * @throws ClassNotFoundException
-	 *             If any specified class can not be found
-	 * @throws InstantiationException
-	 *             If any specified class is an interface or abstract class
-	 * @throws IllegalAccessException
-	 *             If the default constructor of a specified class is not
-	 *             accessible
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
-	 * @throws IllegalArgumentException
-	 * @throws SecurityException
 	 */
-	public Element parseString(String text) throws ClassCastException,
-			ClassNotFoundException, InstantiationException,
-			IllegalAccessException, SecurityException,
-			IllegalArgumentException, NoSuchMethodException,
-			InvocationTargetException {
+	public Element parseString(String text) throws Exception {
 		return parse(new ANTLRStringStream(text));
+	}
+
+	private void reportErrors(Parser parser, List<String> msgs, Tree node) {
+		int n = node.getChildCount();
+		if (n == 0) {
+			if (node instanceof CommonErrorNode) {
+				RecognitionException e = ((CommonErrorNode) node).trappedException;
+				String msg = parser.getErrorHeader(e) + ", ";
+				msg += parser.getErrorMessage(e, parser.getTokenNames());
+				msgs.add(msg);
+			}
+		} else {
+			for (int i = 0; i < n; i++) {
+				Tree child = node.getChild(i);
+				reportErrors(parser, msgs, child);
+			}
+		}
 	}
 }

@@ -30,7 +30,6 @@ package net.sf.graphiti.io;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -155,41 +154,10 @@ public class GenericGraphParser {
 	 * @param in
 	 *            The contents.
 	 * @return A {@link Graph} if successful.
-	 * @throws ClassCastException
-	 *             If any specified class does not implement
-	 *             DOMImplementationSource
-	 * @throws ClassNotFoundException
-	 *             If any specified class can not be found
-	 * @throws GrammarException
-	 *             if the grammar wasn't valid
-	 * @throws IllegalAccessException
-	 *             If the default constructor of a specified class is not
-	 *             accessible
-	 * @throws InstantiationException
-	 *             If any specified class is an interface or abstract class
-	 * @throws IOException
-	 *             if the grammar file couldn't be read
-	 * @throws ParserCreationException
-	 *             if the parser couldn't be initialized correctly
-	 * @throws ParserLogException
-	 *             if the grammar file couldn't be parsed correctly
-	 * @throws TransformedDocumentParseError
-	 *             If the file could be read and transformed, but not parsed as
-	 *             a graph
-	 * @throws TransformerException
-	 *             If an unrecoverable error occurs during the course of the
-	 *             transformation.
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
-	 * @throws IllegalArgumentException
-	 * @throws SecurityException
+	 * @throws Exception 
 	 */
 	private Graph parse(Configuration configuration, String path, InputStream in)
-			throws ClassCastException, ClassNotFoundException,
-			IllegalAccessException, InstantiationException, IOException,
-			TransformedDocumentParseError, TransformerException,
-			SecurityException, IllegalArgumentException, NoSuchMethodException,
-			InvocationTargetException {
+			throws Exception {
 		FileFormat format = configuration.getFileFormat();
 		List<Transformation> transformations = format
 				.getImportTransformations();
