@@ -61,7 +61,7 @@
 
         <vertexType name="Instance">
             <attributes>
-                <color red="163" green="0" blue="85"/>
+                <color red="190" green="232" blue="23"/>
                 <shape name="roundedBox"/>
                 <size width="40" height="40"/>
             </attributes>

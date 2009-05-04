@@ -88,7 +88,7 @@
 
         <vertexType name="Vertex">
             <attributes>
-                <color red="163" green="0" blue="85"/>
+                <color red="238" green="188" blue="17"/>
                 <shape name="roundedBox"/>
                 <size width="40" height="40"/>
             </attributes>
