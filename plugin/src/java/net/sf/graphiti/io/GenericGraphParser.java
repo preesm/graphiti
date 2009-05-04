@@ -154,7 +154,7 @@ public class GenericGraphParser {
 	 * @param in
 	 *            The contents.
 	 * @return A {@link Graph} if successful.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	private Graph parse(Configuration configuration, String path, InputStream in)
 			throws Exception {

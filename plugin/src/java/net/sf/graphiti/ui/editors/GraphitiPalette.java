@@ -48,10 +48,10 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
+import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
-import org.eclipse.gef.palette.PaletteSeparator;
 import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -79,9 +79,9 @@ public class GraphitiPalette {
 	 * @param paletteGroup
 	 *            The palette group.
 	 */
-	private static void addEdgeTypes(Graph graph, PaletteRoot paletteModel) {
+	private static void addEdgeTypes(Graph graph, PaletteContainer container) {
 		if (graph != null) {
-			PaletteDrawer depDrawer = new PaletteDrawer("Connections");
+			PaletteDrawer edgeDrawer = new PaletteDrawer("Connections");
 
 			Configuration config = graph.getConfiguration();
 			Set<EdgeType> edgeTypes = config.getEdgeTypes();
@@ -95,11 +95,11 @@ public class GraphitiPalette {
 						new EdgeCreationFactory(type), id, ImageDescriptor
 								.getMissingImageDescriptor());
 
-				depDrawer.add(tool);
+				edgeDrawer.add(tool);
 			}
 
 			// Add connection tool
-			paletteModel.add(depDrawer);
+			container.add(edgeDrawer);
 		}
 	}
 
@@ -111,8 +111,10 @@ public class GraphitiPalette {
 	 * @param paletteGroup
 	 *            The palette group.
 	 */
-	private static void addVertexTypes(Graph graph, PaletteGroup paletteGroup) {
+	private static void addVertexTypes(Graph graph, PaletteContainer container) {
 		if (graph != null) {
+			PaletteDrawer toolDrawer = new PaletteDrawer("Vertices");
+
 			Configuration config = graph.getConfiguration();
 			Set<VertexType> vertexTypes = config.getVertexTypes();
 			for (VertexType type : vertexTypes) {
@@ -123,8 +125,10 @@ public class GraphitiPalette {
 				ToolEntry tool = new CreationToolEntry(typeStr, "Create a new "
 						+ typeStr, new VertexCreationFactory(type), id, null);
 
-				paletteGroup.add(tool);
+				toolDrawer.add(tool);
 			}
+
+			container.add(toolDrawer);
 		}
 	}
 
@@ -225,6 +229,7 @@ public class GraphitiPalette {
 
 		PaletteRoot paletteModel = new PaletteRoot();
 		PaletteGroup toolGroup = new PaletteGroup("Tools");
+		paletteModel.add(toolGroup);
 
 		// Add a selection tool to the group
 		ToolEntry tool = new SelectionToolEntry();
@@ -234,12 +239,7 @@ public class GraphitiPalette {
 		// Add a marquee tool to the group
 		toolGroup.add(new MarqueeToolEntry());
 
-		// Add an unnamed separator to the group
-		toolGroup.add(new PaletteSeparator());
-
-		addVertexTypes(graph, toolGroup);
-		paletteModel.add(toolGroup);
-		toolGroup.add(new PaletteSeparator());
+		addVertexTypes(graph, paletteModel);
 		addEdgeTypes(graph, paletteModel);
 
 		return paletteModel;
