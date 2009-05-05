@@ -98,8 +98,7 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 	private void convertEdgeTypes(Graph graph, Map<EdgeType, EdgeType> edgeTypes) {
 		Set<Edge> edges = originalGraph.edgeSet();
 		for (Edge edge : edges) {
-			EdgeType type = edge.getType();
-			EdgeType newType = edgeTypes.get(type);
+			EdgeType newType = edgeTypes.get(edge.getType());
 			if (newType != null) {
 				edge = new Edge(edge);
 				String sourceId = (String) edge.getSource().getValue(
@@ -123,8 +122,7 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 			Map<VertexType, VertexType> vertexTypes) {
 		Set<Vertex> vertices = originalGraph.vertexSet();
 		for (Vertex vertex : vertices) {
-			VertexType type = vertex.getType();
-			VertexType newType = vertexTypes.get(type);
+			VertexType newType = vertexTypes.get(vertex.getType());
 			if (newType != null) {
 				vertex = new Vertex(vertex);
 				vertex.setType(newType);

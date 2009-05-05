@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
 
 import org.eclipse.draw2d.ConnectionLayer;
@@ -187,9 +186,9 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(PropertyBean.PROPERTY_ADD)) {
+		if (evt.getPropertyName().equals(Graph.PROPERTY_ADD)) {
 			refresh();
-		} else if (evt.getPropertyName().equals(PropertyBean.PROPERTY_REMOVE)) {
+		} else if (evt.getPropertyName().equals(Graph.PROPERTY_REMOVE)) {
 			refresh();
 		}
 	}

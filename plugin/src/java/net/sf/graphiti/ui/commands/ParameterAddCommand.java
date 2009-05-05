@@ -31,7 +31,7 @@ package net.sf.graphiti.ui.commands;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.model.AbstractObject;
 
 import org.eclipse.gef.commands.Command;
 
@@ -48,7 +48,7 @@ public class ParameterAddCommand extends Command {
 
 	private Map<Object, Object> map;
 
-	private PropertyBean source;
+	private AbstractObject source;
 
 	private String value;
 
@@ -58,7 +58,7 @@ public class ParameterAddCommand extends Command {
 	 * @param value
 	 *            The value.
 	 */
-	public ParameterAddCommand(PropertyBean source, String value) {
+	public ParameterAddCommand(AbstractObject source, String value) {
 		this.source = source;
 		this.value = value;
 	}

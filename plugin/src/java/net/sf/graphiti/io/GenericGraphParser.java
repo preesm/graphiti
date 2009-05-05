@@ -46,7 +46,7 @@ import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.GraphType;
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.model.FileFormat.Transformation;
@@ -442,7 +442,7 @@ public class GenericGraphParser {
 	 * Parses the parameters and set the properties of the given
 	 * <code>propertyBean</code>, that has the given type.
 	 * 
-	 * @param propertyBean
+	 * @param abstractObject
 	 *            The target property bean.
 	 * @param type
 	 *            The type of <code>propertyBean</code>.
@@ -451,7 +451,7 @@ public class GenericGraphParser {
 	 *            &lt;parameters&gt; itself.
 	 * @return The node following &lt;parameters&gt;.
 	 */
-	private Node parseParameters(PropertyBean propertyBean, AbstractType type,
+	private Node parseParameters(AbstractObject abstractObject, AbstractType type,
 			Node node) {
 		node = DomHelper.getFirstSiblingNamed(node, "parameters");
 
@@ -463,7 +463,7 @@ public class GenericGraphParser {
 				Parameter parameter = type.getParameter(parameterName);
 				Object value = parseParameter(parameter, element);
 				if (value != null) {
-					propertyBean.setValue(parameterName, value);
+					abstractObject.setValue(parameterName, value);
 				}
 			}
 

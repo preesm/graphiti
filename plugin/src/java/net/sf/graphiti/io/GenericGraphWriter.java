@@ -43,7 +43,7 @@ import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexType;
 
@@ -206,7 +206,7 @@ public class GenericGraphWriter {
 		return graphElement;
 	}
 
-	private void writeParameters(PropertyBean propertyBean, AbstractType type,
+	private void writeParameters(AbstractObject abstractObject, AbstractType type,
 			Element parametersElement) {
 		Document document = parametersElement.getOwnerDocument();
 		List<Parameter> parameters = type.getParameters();
@@ -217,7 +217,7 @@ public class GenericGraphWriter {
 
 			Class<?> parameterType = parameter.getType();
 			if (parameterType == List.class) {
-				List<?> list = (List<?>) propertyBean.getValue(parameterName);
+				List<?> list = (List<?>) abstractObject.getValue(parameterName);
 				if (list != null) {
 					for (Object obj : list) {
 						if (obj != null) {
@@ -229,7 +229,7 @@ public class GenericGraphWriter {
 					parametersElement.appendChild(parameterElement);
 				}
 			} else if (parameterType == Map.class) {
-				Map<?, ?> map = (Map<?, ?>) propertyBean
+				Map<?, ?> map = (Map<?, ?>) abstractObject
 						.getValue(parameterName);
 				if (map != null) {
 					for (Entry<?, ?> entry : map.entrySet()) {
@@ -245,7 +245,7 @@ public class GenericGraphWriter {
 					parametersElement.appendChild(parameterElement);
 				}
 			} else {
-				Object value = propertyBean.getValue(parameterName);
+				Object value = abstractObject.getValue(parameterName);
 				if (value != null) {
 					parameterElement.setAttribute("value", value.toString());
 					parametersElement.appendChild(parameterElement);

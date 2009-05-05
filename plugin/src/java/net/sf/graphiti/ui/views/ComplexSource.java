@@ -29,7 +29,7 @@
 package net.sf.graphiti.ui.views;
 
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.model.AbstractObject;
 
 /**
  * The source used in complex utility classes.
@@ -39,11 +39,11 @@ import net.sf.graphiti.model.PropertyBean;
  */
 public class ComplexSource {
 
-	public PropertyBean bean;
+	public AbstractObject bean;
 
 	public Parameter parameter;
 
-	public ComplexSource(PropertyBean bean, Parameter parameter) {
+	public ComplexSource(AbstractObject bean, Parameter parameter) {
 		this.bean = bean;
 		this.parameter = parameter;
 	}

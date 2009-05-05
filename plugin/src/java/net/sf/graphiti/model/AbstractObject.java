@@ -39,26 +39,15 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 /**
- * This class provides the ability to store properties. Classes may listen to
- * property change events by registering themselves using
+ * This class is the base class for any object in the model. It has the ability
+ * to store properties. Classes may listen to property change events by
+ * registering themselves using
  * {@link #addPropertyChangeListener(PropertyChangeListener)}.
  * 
  * @author Jonathan Piat
  * @author Matthieu Wipliez
  */
-public class PropertyBean {
-
-	/**
-	 * String for the "child added" property. Set when a vertex or a port is
-	 * added to a vertex.
-	 */
-	public static final String PROPERTY_ADD = "child added";
-
-	/**
-	 * String for the "child removed" property. Set when a vertex or a port is
-	 * removed from a vertex.
-	 */
-	public static final String PROPERTY_REMOVE = "child removed";
+public abstract class AbstractObject {
 
 	static final long serialVersionUID = 1;
 
@@ -73,11 +62,17 @@ public class PropertyBean {
 	private PropertyChangeSupport propertyChange;
 
 	/**
+	 * This object's type.
+	 */
+	protected AbstractType type;
+
+	/**
 	 * Constructs a new property bean, with no initial properties set.
 	 */
-	public PropertyBean() {
+	public AbstractObject(AbstractType type) {
 		propertyChange = new PropertyChangeSupport(this);
 		properties = new HashMap<String, Object>();
+		this.type = type;
 	}
 
 	/**
@@ -87,7 +82,7 @@ public class PropertyBean {
 	 *            The source bean.
 	 */
 	@SuppressWarnings("unchecked")
-	protected PropertyBean(PropertyBean bean) {
+	protected AbstractObject(AbstractObject bean) {
 		propertyChange = new PropertyChangeSupport(this);
 		properties = new HashMap<String, Object>();
 		Set<Entry<String, Object>> entries = bean.properties.entrySet();
@@ -141,12 +136,44 @@ public class PropertyBean {
 	}
 
 	/**
-	 * Gives this PropertyBean properties keySet
+	 * Returns the value of an attribute associated with this object's type and
+	 * the given attribute name <code>attributeName</code>.
 	 * 
-	 * @return a List of property Names
+	 * @param attributeName
+	 *            The name of an attribute.
+	 * @return The value of the attribute as an object.
 	 */
-	public List<String> getProperties() {
-		return new ArrayList<String>(properties.keySet());
+	public Object getAttribute(String attributeName) {
+		return type.getAttribute(attributeName);
+	}
+
+	/**
+	 * Returns the parameter in this vertex type with the given name.
+	 * 
+	 * @param parameterName
+	 *            The parameter name.
+	 * @return A {@link Parameter}.
+	 */
+	public Parameter getParameter(String parameterName) {
+		return type.getParameter(parameterName);
+	}
+
+	/**
+	 * Returns a list of parameters associated with this vertex type.
+	 * 
+	 * @return A List of Parameters.
+	 */
+	public List<Parameter> getParameters() {
+		return type.getParameters();
+	}
+
+	/**
+	 * Returns this object's type.
+	 * 
+	 * @return This object's type.
+	 */
+	public AbstractType getType() {
+		return type;
 	}
 
 	/**
@@ -169,6 +196,17 @@ public class PropertyBean {
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		propertyChange.removePropertyChangeListener(listener);
+	}
+
+	/**
+	 * Sets this object's type. This method should be called with caution, as a
+	 * lot of things in the editor depend on this...
+	 * 
+	 * @param type
+	 *            The new type.
+	 */
+	public void setType(AbstractType type) {
+		this.type = type;
 	}
 
 	/**

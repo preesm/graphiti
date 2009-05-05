@@ -46,7 +46,13 @@ import org.jgrapht.graph.Multigraph;
  * @author Matthieu Wipliez
  * 
  */
-public class Graph extends PropertyBean {
+public class Graph extends AbstractObject {
+
+	/**
+	 * String for the "child added" property. Set when a vertex or a port is
+	 * added to a vertex.
+	 */
+	public static final String PROPERTY_ADD = "child added";
 
 	/**
 	 * String for the "hasLayout" property. This is a boolean property
@@ -54,6 +60,12 @@ public class Graph extends PropertyBean {
 	 * the graph should be automatically laid out.
 	 */
 	public static final String PROPERTY_HAS_LAYOUT = "has layout";
+
+	/**
+	 * String for the "child removed" property. Set when a vertex or a port is
+	 * removed from a vertex.
+	 */
+	public static final String PROPERTY_REMOVE = "child removed";
 
 	/**
 	 * Serial ID.
@@ -66,8 +78,6 @@ public class Graph extends PropertyBean {
 	Configuration configuration;
 
 	private AbstractBaseGraph<Vertex, Edge> graph;
-
-	private GraphType type;
 
 	private Map<String, Vertex> vertices;
 
@@ -94,6 +104,8 @@ public class Graph extends PropertyBean {
 	 *            Specifies whether the graph should be directed or not.
 	 */
 	public Graph(Configuration configuration, GraphType type, boolean directed) {
+		super(type);
+
 		this.configuration = configuration;
 		if (directed) {
 			graph = new DirectedMultigraph<Vertex, Edge>(Edge.class);
@@ -101,7 +113,6 @@ public class Graph extends PropertyBean {
 			graph = new Multigraph<Vertex, Edge>(Edge.class);
 		}
 		vertices = new HashMap<String, Vertex>();
-		this.type = type;
 
 		// set default values
 		List<Parameter> parameters = type.getParameters();
@@ -161,7 +172,7 @@ public class Graph extends PropertyBean {
 
 		vertices.put((String) child.getValue(VertexType.PARAMETER_ID), child);
 
-		firePropertyChange(PropertyBean.PROPERTY_ADD, null, child);
+		firePropertyChange(PROPERTY_ADD, null, child);
 		return res;
 	}
 
@@ -207,24 +218,6 @@ public class Graph extends PropertyBean {
 	 */
 	public Configuration getConfiguration() {
 		return configuration;
-	}
-
-	/**
-	 * Returns a list of parameters associated with this graph type.
-	 * 
-	 * @return A List of Parameters.
-	 */
-	public List<Parameter> getParameters() {
-		return type.getParameters();
-	}
-
-	/**
-	 * Returns this graph's type.
-	 * 
-	 * @return This graph's type.
-	 */
-	public GraphType getType() {
-		return type;
 	}
 
 	/**
@@ -279,7 +272,7 @@ public class Graph extends PropertyBean {
 
 		vertices.remove((String) child.getValue(VertexType.PARAMETER_ID));
 
-		firePropertyChange(PropertyBean.PROPERTY_REMOVE, null, child);
+		firePropertyChange(PROPERTY_REMOVE, null, child);
 		return res;
 	}
 

@@ -37,7 +37,7 @@ import java.util.List;
  * @author Matthieu Wipliez
  * 
  */
-public class Edge extends PropertyBean {
+public class Edge extends AbstractObject {
 
 	/**
 	 * Serial ID.
@@ -53,11 +53,6 @@ public class Edge extends PropertyBean {
 	 * This edge's target.
 	 */
 	private Vertex target;
-
-	/**
-	 * This edge's type.
-	 */
-	private EdgeType type;
 
 	/**
 	 * Creates a new edge which is a copy of the given edge.
@@ -79,7 +74,7 @@ public class Edge extends PropertyBean {
 	 *            The edge type.
 	 */
 	public Edge(EdgeType type) {
-		this.type = type;
+		super(type);
 
 		// set default values
 		List<Parameter> parameters = type.getParameters();
@@ -99,7 +94,7 @@ public class Edge extends PropertyBean {
 	 *            The target vertex.
 	 */
 	public Edge(EdgeType type, Vertex source, Vertex target) {
-		this.type = type;
+		super(type);
 		this.source = source;
 		this.target = target;
 	}
@@ -117,27 +112,6 @@ public class Edge extends PropertyBean {
 		} else {
 			return null;
 		}
-	}
-
-	/**
-	 * Returns the parameter associated with this edge type and the given
-	 * parameter name.
-	 * 
-	 * @param parameterName
-	 *            The parameter name.
-	 * @return The parameter.
-	 */
-	public Parameter getParameter(String parameterName) {
-		return type.getParameter(parameterName);
-	}
-
-	/**
-	 * Returns a list of parameters associated with this edge type.
-	 * 
-	 * @return A List of Parameters.
-	 */
-	public List<Parameter> getParameters() {
-		return type.getParameters();
 	}
 
 	/**
@@ -159,15 +133,6 @@ public class Edge extends PropertyBean {
 	}
 
 	/**
-	 * Returns this edge's type.
-	 * 
-	 * @return This edge's type.
-	 */
-	public EdgeType getType() {
-		return type;
-	}
-
-	/**
 	 * Sets this edge's source.
 	 * 
 	 * @param source
@@ -185,17 +150,6 @@ public class Edge extends PropertyBean {
 	 */
 	public void setTarget(Vertex target) {
 		this.target = target;
-	}
-
-	/**
-	 * Sets this edge's type. This method should be called with caution, as a
-	 * lot of things in the editor depend on this...
-	 * 
-	 * @param type
-	 *            The new type.
-	 */
-	public void setType(EdgeType type) {
-		this.type = type;
 	}
 
 	@Override

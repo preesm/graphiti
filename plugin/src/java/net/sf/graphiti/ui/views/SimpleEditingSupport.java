@@ -32,7 +32,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.ui.commands.ParameterChangeValueCommand;
 import net.sf.graphiti.ui.editors.GraphEditor;
 
@@ -60,7 +60,7 @@ public class SimpleEditingSupport extends EditingSupport implements
 	/**
 	 * The source we provide editing support for.
 	 */
-	private PropertyBean source;
+	private AbstractObject source;
 
 	/**
 	 * Creates a new {@link SimpleEditingSupport} on the given column viewer and
@@ -101,7 +101,7 @@ public class SimpleEditingSupport extends EditingSupport implements
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(SimpleContentProvider.INPUT_CHANGED)) {
-			source = (PropertyBean) evt.getNewValue();
+			source = (AbstractObject) evt.getNewValue();
 		}
 	}
 

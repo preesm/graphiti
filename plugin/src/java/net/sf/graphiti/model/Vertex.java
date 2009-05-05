@@ -36,7 +36,7 @@ import java.util.List;
  * @author Matthieu Wipliez
  * 
  */
-public class Vertex extends PropertyBean {
+public class Vertex extends AbstractObject {
 
 	/**
 	 * String for the "destination vertex" property. Set when a vertex becomes
@@ -77,11 +77,6 @@ public class Vertex extends PropertyBean {
 	Graph parent;
 
 	/**
-	 * This vertex's type.
-	 */
-	private VertexType type;
-
-	/**
 	 * Creates a new vertex which is a copy of the given vertex.
 	 * 
 	 * @param vertex
@@ -90,7 +85,6 @@ public class Vertex extends PropertyBean {
 	public Vertex(Vertex vertex) {
 		super(vertex);
 		parent = vertex.parent;
-		type = vertex.type;
 	}
 
 	/**
@@ -100,25 +94,13 @@ public class Vertex extends PropertyBean {
 	 *            The vertex type.
 	 */
 	public Vertex(VertexType type) {
-		this.type = type;
+		super(type);
 
 		// set default values
 		List<Parameter> parameters = type.getParameters();
 		for (Parameter parameter : parameters) {
 			setValue(parameter.getName(), parameter.getDefault());
 		}
-	}
-
-	/**
-	 * Returns the value of an attribute associated with this vertex type and
-	 * the given attribute name <code>attributeName</code>.
-	 * 
-	 * @param attributeName
-	 *            The name of an attribute.
-	 * @return The value of the attribute as an object.
-	 */
-	public Object getAttribute(String attributeName) {
-		return type.getAttribute(attributeName);
 	}
 
 	/**
@@ -131,52 +113,12 @@ public class Vertex extends PropertyBean {
 	}
 
 	/**
-	 * Returns the parameter in this vertex type with the given name.
-	 * 
-	 * @param parameterName
-	 *            The parameter name.
-	 * @return A {@link Parameter}.
-	 */
-	public Parameter getParameter(String parameterName) {
-		return type.getParameter(parameterName);
-	}
-
-	/**
-	 * Returns a list of parameters associated with this vertex type.
-	 * 
-	 * @return A List of Parameters.
-	 */
-	public List<Parameter> getParameters() {
-		return type.getParameters();
-	}
-
-	/**
 	 * Returns the parent {@link Graph} of this Vertex.
 	 * 
 	 * @return The parent {@link Graph} of this Vertex.
 	 */
 	public Graph getParent() {
 		return parent;
-	}
-
-	/**
-	 * Returns this vertex's type.
-	 * 
-	 * @return This vertex's type.
-	 */
-	public VertexType getType() {
-		return type;
-	}
-
-	/**
-	 * Sets this vertex's type. This method should be called with caution, as a
-	 * lot of things in the editor depend on this...
-	 * 
-	 * @param type
-	 *            The new type.
-	 */
-	public void setType(VertexType type) {
-		this.type = type;
 	}
 
 	@Override

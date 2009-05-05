@@ -30,6 +30,7 @@ package net.sf.graphiti.ui.editors;
 
 import net.sf.graphiti.ui.actions.OpenRefinementNewTabAction;
 import net.sf.graphiti.ui.actions.SetRefinementAction;
+import net.sf.graphiti.ui.actions.ShowParametersAction;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
@@ -60,6 +61,14 @@ public class GraphEditorContextMenuProvider extends ContextMenuProvider {
 		setActionRegistry(registry);
 	}
 
+	private void addIfEnabled(ActionRegistry registry, IMenuManager menu,
+			String actionId) {
+		IAction action = registry.getAction(actionId);
+		if (action.isEnabled()) {
+			menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
+		}
+	}
+
 	@Override
 	public void buildContextMenu(IMenuManager menu) {
 		IAction action;
@@ -67,15 +76,9 @@ public class GraphEditorContextMenuProvider extends ContextMenuProvider {
 		GEFActionConstants.addStandardActionGroups(menu);
 		ActionRegistry registry = getActionRegistry();
 
-		action = registry.getAction(SetRefinementAction.getActionId());
-		if (action.isEnabled()) {
-			menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
-		}
-
-		action = registry.getAction(OpenRefinementNewTabAction.getActionId());
-		if (action.isEnabled()) {
-			menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
-		}
+		addIfEnabled(registry, menu, SetRefinementAction.getActionId());
+		addIfEnabled(registry, menu, OpenRefinementNewTabAction.getActionId());
+		addIfEnabled(registry, menu, ShowParametersAction.getActionId());
 
 		action = registry.getAction(ActionFactory.UNDO.getId());
 		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);

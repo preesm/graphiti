@@ -36,7 +36,7 @@ import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.GraphType;
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Util;
 import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.GraphitiPlugin;
@@ -333,7 +333,7 @@ public class ComplexPropertyView extends AbstractPropertyView {
 		if (model == null) {
 			tableViewer.setInput(null);
 		} else {
-			source = new ComplexSource((PropertyBean) model, parameter);
+			source = new ComplexSource((AbstractObject) model, parameter);
 			tableViewer.setInput(source);
 		}
 	}

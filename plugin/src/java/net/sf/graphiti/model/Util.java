@@ -42,7 +42,7 @@ import java.util.Map;
  */
 public class Util {
 
-	public static Collection<?> getCollection(PropertyBean bean,
+	public static Collection<?> getCollection(AbstractObject bean,
 			Parameter parameter) {
 		if (parameter.getType() == List.class) {
 			return getList(bean, parameter);
@@ -53,7 +53,7 @@ public class Util {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<Object> getList(PropertyBean bean, Parameter parameter) {
+	public static List<Object> getList(AbstractObject bean, Parameter parameter) {
 		String parameterName = parameter.getName();
 		List<Object> list = (List<Object>) bean.getValue(parameterName);
 		if (list == null) {
@@ -65,7 +65,7 @@ public class Util {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Map<Object, Object> getMap(PropertyBean bean,
+	public static Map<Object, Object> getMap(AbstractObject bean,
 			Parameter parameter) {
 		String parameterName = parameter.getName();
 		Map<Object, Object> map = (Map<Object, Object>) bean

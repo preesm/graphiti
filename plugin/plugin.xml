@@ -98,5 +98,18 @@
          </description>
       </view>
    </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="net.sf.graphiti.ui.properties.ParametersPropertyPage"
+            id="net.sf.graphiti.ui.properties.parametersPropertyPage"
+            name="Parameters">
+         <enabledWhen>
+            <instanceof
+                  value="net.sf.graphiti.model.AbstractObject">
+            </instanceof>
+         </enabledWhen>
+      </page>
+   </extension>
 
 </plugin>

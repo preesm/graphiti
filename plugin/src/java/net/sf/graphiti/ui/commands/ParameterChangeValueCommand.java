@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.model.AbstractObject;
 
 import org.eclipse.gef.commands.Command;
 
@@ -93,7 +93,7 @@ public class ParameterChangeValueCommand extends Command {
 	/**
 	 * The property bean we're modifying.
 	 */
-	private PropertyBean source;
+	private AbstractObject source;
 
 	/**
 	 * Creates a new add parameter command.
@@ -101,7 +101,7 @@ public class ParameterChangeValueCommand extends Command {
 	 * @param newValue
 	 *            The value.
 	 */
-	public ParameterChangeValueCommand(PropertyBean source) {
+	public ParameterChangeValueCommand(AbstractObject source) {
 		this.source = source;
 	}
 

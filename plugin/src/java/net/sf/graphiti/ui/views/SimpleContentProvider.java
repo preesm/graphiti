@@ -35,7 +35,7 @@ import java.util.Map;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.editparts.EdgeEditPart;
@@ -54,7 +54,7 @@ public class SimpleContentProvider extends AbstractContentProvider {
 	@Override
 	public void dispose() {
 		if (source != null) {
-			((PropertyBean) source).removePropertyChangeListener(this);
+			((AbstractObject) source).removePropertyChangeListener(this);
 		}
 		super.dispose();
 	}
@@ -96,12 +96,12 @@ public class SimpleContentProvider extends AbstractContentProvider {
 		super.inputChanged(viewer, oldInput, newInput);
 
 		// remove ourselves as a listener to the previous model
-		if (source instanceof PropertyBean) {
-			((PropertyBean) source).removePropertyChangeListener(this);
+		if (source instanceof AbstractObject) {
+			((AbstractObject) source).removePropertyChangeListener(this);
 		}
 
 		// update the source
-		PropertyBean oldSource = (PropertyBean) source;
+		AbstractObject oldSource = (AbstractObject) source;
 		if (newInput instanceof GraphEditPart) {
 			source = (Graph) ((GraphEditPart) newInput).getModel();
 		} else if (newInput instanceof VertexEditPart) {
@@ -115,7 +115,7 @@ public class SimpleContentProvider extends AbstractContentProvider {
 		if (source != null) {
 			// add ourselves as a listener, and informs registered listeners of
 			// the change
-			((PropertyBean) source).addPropertyChangeListener(this);
+			((AbstractObject) source).addPropertyChangeListener(this);
 			firePropertyChange(INPUT_CHANGED, oldSource, source);
 		}
 	}

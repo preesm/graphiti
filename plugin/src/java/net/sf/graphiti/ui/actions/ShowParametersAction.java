@@ -26,101 +26,75 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.commands;
+package net.sf.graphiti.ui.actions;
 
-import java.util.List;
-import java.util.Map;
+import net.sf.graphiti.ui.commands.ShowParametersCommand;
+import net.sf.graphiti.ui.commands.refinement.OpenRefinementNewTabCommand;
 
-import net.sf.graphiti.model.AbstractObject;
-
-import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * This class provides a command that removes a parameter to the currently
- * selected object(s).
+ * This class provides a way to open a vertex refinement.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class ParameterRemoveCommand extends Command {
+public class ShowParametersAction extends SelectionAction {
 
-	private List<Object> list;
-
-	private Map<Object, Object> map;
-
-	private int oldListIndex;
-
-	private Object oldMapValue;
-
-	private AbstractObject source;
-
-	private Object value;
+	private static final String ID = "net.sf.graphiti.ui.actions.ShowParametersAction";
 
 	/**
-	 * Creates a new remove parameter command.
+	 * Returns this action identifier.
 	 * 
-	 * @param value
-	 *            The value.
+	 * @return This action identifier.
 	 */
-	public ParameterRemoveCommand(AbstractObject source) {
-		this.source = source;
+	public static String getActionId() {
+		return ID;
 	}
 
-	@Override
-	public void execute() {
-		if (list == null) {
-			oldMapValue = map.remove(value);
-			source.firePropertyChange("", null, map);
-		} else {
-			oldListIndex = list.indexOf(value);
-			list.remove(value);
-			source.firePropertyChange("", null, list);
+	private ShowParametersCommand command;
+
+	/**
+	 * Creates a {@link OpenRefinementNewTabCommand} action.
+	 * 
+	 * @param part
+	 */
+	public ShowParametersAction(IWorkbenchPart part) {
+		super(part);
+		command = new ShowParametersCommand(part.getSite().getShell());
+	}
+
+	public boolean calculateEnabled() {
+		IStructuredSelection selection = (IStructuredSelection) getSelection();
+
+		Object sel = selection.getFirstElement();
+		if (sel instanceof EditPart) {
+			Object model = ((EditPart) sel).getModel();
+			selection = new StructuredSelection(model);
 		}
+
+		command.setSelection(selection);
+		return command.canExecute();
 	}
 
 	@Override
-	public String getLabel() {
-		return "Remove parameter";
-	}
-
-	/**
-	 * Sets the list to add a parameter to.
-	 * 
-	 * @param list
-	 *            A {@link List}.
-	 */
-	public void setList(List<Object> list) {
-		this.list = list;
-	}
-
-	/**
-	 * Sets the map to add a parameter to.
-	 * 
-	 * @param map
-	 *            A {@link Map}.
-	 */
-	public void setMap(Map<Object, Object> map) {
-		this.map = map;
-	}
-
-	/**
-	 * Sets the value to remove.
-	 * 
-	 * @param value
-	 *            A {@link String}.
-	 */
-	public void setValue(Object value) {
-		this.value = value;
+	public String getId() {
+		return ID;
 	}
 
 	@Override
-	public void undo() {
-		if (list == null) {
-			map.put(value, oldMapValue);
-			source.firePropertyChange("", null, map);
-		} else {
-			list.add(oldListIndex, value);
-			source.firePropertyChange("", null, list);
-		}
+	protected void init() {
+		setId(getId());
+		setText("Show parameters");
+		setToolTipText("Show parameters");
+	}
+
+	@Override
+	public void run() {
+		command.execute();
 	}
 }

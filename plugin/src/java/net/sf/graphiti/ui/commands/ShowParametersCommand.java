@@ -28,99 +28,75 @@
  */
 package net.sf.graphiti.ui.commands;
 
-import java.util.List;
-import java.util.Map;
-
-import net.sf.graphiti.model.AbstractObject;
-
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.window.IShellProvider;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.dialogs.PropertyDialogAction;
 
 /**
- * This class provides a command that removes a parameter to the currently
- * selected object(s).
+ * This class provides a command that adds a parameter to the currently selected
+ * object(s).
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class ParameterRemoveCommand extends Command {
+public class ShowParametersCommand extends Command implements IShellProvider,
+		ISelectionProvider {
 
-	private List<Object> list;
+	private final Shell shell;
 
-	private Map<Object, Object> map;
-
-	private int oldListIndex;
-
-	private Object oldMapValue;
-
-	private AbstractObject source;
-
-	private Object value;
+	private ISelection selection;
 
 	/**
-	 * Creates a new remove parameter command.
+	 * Creates a new add parameter command.
 	 * 
 	 * @param value
 	 *            The value.
 	 */
-	public ParameterRemoveCommand(AbstractObject source) {
-		this.source = source;
+	public ShowParametersCommand(Shell shell) {
+		this.shell = shell;
+	}
+
+	@Override
+	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 	}
 
 	@Override
 	public void execute() {
-		if (list == null) {
-			oldMapValue = map.remove(value);
-			source.firePropertyChange("", null, map);
-		} else {
-			oldListIndex = list.indexOf(value);
-			list.remove(value);
-			source.firePropertyChange("", null, list);
+		PropertyDialogAction action = new PropertyDialogAction(this, this);
+		if (action.isApplicableForSelection()) {
+			action.run();
 		}
 	}
 
 	@Override
 	public String getLabel() {
-		return "Remove parameter";
+		return "Show parameters";
 	}
 
-	/**
-	 * Sets the list to add a parameter to.
-	 * 
-	 * @param list
-	 *            A {@link List}.
-	 */
-	public void setList(List<Object> list) {
-		this.list = list;
+	@Override
+	public ISelection getSelection() {
+		return selection;
 	}
 
-	/**
-	 * Sets the map to add a parameter to.
-	 * 
-	 * @param map
-	 *            A {@link Map}.
-	 */
-	public void setMap(Map<Object, Object> map) {
-		this.map = map;
+	@Override
+	public Shell getShell() {
+		return shell;
 	}
 
-	/**
-	 * Sets the value to remove.
-	 * 
-	 * @param value
-	 *            A {@link String}.
-	 */
-	public void setValue(Object value) {
-		this.value = value;
+	@Override
+	public void removeSelectionChangedListener(
+			ISelectionChangedListener listener) {
+	}
+
+	public void setSelection(ISelection selection) {
+		this.selection = selection;
 	}
 
 	@Override
 	public void undo() {
-		if (list == null) {
-			map.put(value, oldMapValue);
-			source.firePropertyChange("", null, map);
-		} else {
-			list.add(oldListIndex, value);
-			source.firePropertyChange("", null, list);
-		}
 	}
 }

@@ -32,7 +32,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.model.AbstractObject;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
@@ -48,7 +48,7 @@ public class SimpleCellLabelProvider extends CellLabelProvider implements
 	/**
 	 * The source we provide labels for.
 	 */
-	private PropertyBean source;
+	private AbstractObject source;
 
 	@Override
 	public void dispose() {
@@ -59,7 +59,7 @@ public class SimpleCellLabelProvider extends CellLabelProvider implements
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(SimpleContentProvider.INPUT_CHANGED)) {
-			source = (PropertyBean) evt.getNewValue();
+			source = (AbstractObject) evt.getNewValue();
 		}
 	}
 
