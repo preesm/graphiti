@@ -26,66 +26,101 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.actions;
+package net.sf.graphiti.ui.commands;
 
-import net.sf.graphiti.ui.commands.refinement.SetRefinementCommand;
+import java.util.List;
+import java.util.Map;
 
-import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.ui.IWorkbenchPart;
+import net.sf.graphiti.model.PropertyBean;
+
+import org.eclipse.gef.commands.Command;
 
 /**
- * This class provides a way to create a vertex refinement.
+ * This class provides a command that removes a parameter to the currently
+ * selected object(s).
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class SetRefinementAction extends SelectionAction {
+public class ParameterRemoveCommand extends Command {
 
-	private static final String ID = "net.sf.graphiti.ui.actions.SetRefinementAction";
+	private List<Object> list;
+
+	private Map<Object, Object> map;
+
+	private int oldListIndex;
+
+	private Object oldMapValue;
+
+	private PropertyBean source;
+
+	private Object value;
 
 	/**
-	 * Returns this action identifier.
+	 * Creates a new remove parameter command.
 	 * 
-	 * @return This action identifier.
+	 * @param value
+	 *            The value.
 	 */
-	public static String getActionId() {
-		return ID;
+	public ParameterRemoveCommand(PropertyBean source) {
+		this.source = source;
 	}
 
-	private SetRefinementCommand command;
+	@Override
+	public void execute() {
+		if (list == null) {
+			oldMapValue = map.remove(value);
+			source.firePropertyChange("", null, map);
+		} else {
+			oldListIndex = list.indexOf(value);
+			list.remove(value);
+			source.firePropertyChange("", null, list);
+		}
+	}
+
+	@Override
+	public String getLabel() {
+		return "Remove parameter";
+	}
 
 	/**
-	 * Creates a {@link SetRefinementCommand} action.
+	 * Sets the list to add a parameter to.
 	 * 
-	 * @param part
+	 * @param list
+	 *            A {@link List}.
 	 */
-	public SetRefinementAction(IWorkbenchPart part) {
-		super(part);
-		command = new SetRefinementCommand();
+	public void setList(List<Object> list) {
+		this.list = list;
 	}
 
-	public boolean calculateEnabled() {
-		command.setSelection(getSelection());
-		return command.canExecute();
+	/**
+	 * Sets the map to add a parameter to.
+	 * 
+	 * @param map
+	 *            A {@link Map}.
+	 */
+	public void setMap(Map<Object, Object> map) {
+		this.map = map;
+	}
+
+	/**
+	 * Sets the value to remove.
+	 * 
+	 * @param value
+	 *            A {@link String}.
+	 */
+	public void setValue(Object value) {
+		this.value = value;
 	}
 
 	@Override
-	public String getId() {
-		return ID;
-	}
-
-	@Override
-	protected void init() {
-		setId(getId());
-		setText("Set/Update Refinement");
-		setToolTipText("Set/Update Refinement");
-	}
-
-	@Override
-	public void run() {
-		execute(command);
-		if (!command.hasRefinementChanged()) {
-			getCommandStack().undo();
+	public void undo() {
+		if (list == null) {
+			map.put(value, oldMapValue);
+			source.firePropertyChange("", null, map);
+		} else {
+			list.add(oldListIndex, value);
+			source.firePropertyChange("", null, list);
 		}
 	}
 }

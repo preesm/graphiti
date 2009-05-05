@@ -33,7 +33,7 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ui.commands.PasteCommand;
+import net.sf.graphiti.ui.commands.copyPaste.PasteCommand;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 

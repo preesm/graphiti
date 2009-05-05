@@ -28,99 +28,50 @@
  */
 package net.sf.graphiti.ui.commands;
 
-import java.util.List;
-import java.util.Map;
+import net.sf.graphiti.model.Vertex;
 
-import net.sf.graphiti.model.PropertyBean;
-
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
 /**
- * This class provides a command that removes a parameter to the currently
- * selected object(s).
+ * This class executes a command that moves a vertex.
  * 
+ * @author Samuel Beaussier
+ * @author Nicolas Isch
  * @author Matthieu Wipliez
- * 
  */
-public class RemoveParameterCommand extends Command {
+public class VertexMoveCommand extends Command {
 
-	private List<Object> list;
+	private Rectangle newBounds;
 
-	private Map<Object, Object> map;
+	private Rectangle oldBounds;
 
-	private int oldListIndex;
+	private Vertex vertex;
 
-	private Object oldMapValue;
-
-	private PropertyBean source;
-
-	private Object value;
-
-	/**
-	 * Creates a new remove parameter command.
-	 * 
-	 * @param value
-	 *            The value.
-	 */
-	public RemoveParameterCommand(PropertyBean source) {
-		this.source = source;
+	public VertexMoveCommand(Vertex vertex, Rectangle newBounds) {
+		this.newBounds = newBounds;
+		this.vertex = vertex;
+		Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
+		this.oldBounds = bounds.getCopy();
 	}
 
 	@Override
 	public void execute() {
-		if (list == null) {
-			oldMapValue = map.remove(value);
-			source.firePropertyChange("", null, map);
-		} else {
-			oldListIndex = list.indexOf(value);
-			list.remove(value);
-			source.firePropertyChange("", null, list);
-		}
+		vertex.setValue(Vertex.PROPERTY_SIZE, newBounds);
 	}
 
 	@Override
 	public String getLabel() {
-		return "Remove parameter";
-	}
-
-	/**
-	 * Sets the list to add a parameter to.
-	 * 
-	 * @param list
-	 *            A {@link List}.
-	 */
-	public void setList(List<Object> list) {
-		this.list = list;
-	}
-
-	/**
-	 * Sets the map to add a parameter to.
-	 * 
-	 * @param map
-	 *            A {@link Map}.
-	 */
-	public void setMap(Map<Object, Object> map) {
-		this.map = map;
-	}
-
-	/**
-	 * Sets the value to remove.
-	 * 
-	 * @param value
-	 *            A {@link String}.
-	 */
-	public void setValue(Object value) {
-		this.value = value;
+		if (vertex != null) {
+			String type = vertex.getType().getName();
+			return "Move " + type;
+		} else {
+			return "Move vertex";
+		}
 	}
 
 	@Override
 	public void undo() {
-		if (list == null) {
-			map.put(value, oldMapValue);
-			source.firePropertyChange("", null, map);
-		} else {
-			list.add(oldListIndex, value);
-			source.firePropertyChange("", null, list);
-		}
+		vertex.setValue(Vertex.PROPERTY_SIZE, oldBounds);
 	}
 }

@@ -31,7 +31,7 @@ package net.sf.graphiti.ui.editpolicies;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexType;
-import net.sf.graphiti.ui.commands.RenameVertexCommand;
+import net.sf.graphiti.ui.commands.VertexRenameCommand;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 import net.sf.graphiti.ui.figure.VertexFigure;
 
@@ -77,7 +77,7 @@ public class VertexDirectEditPolicy extends DirectEditPolicy {
 
 		Vertex vertex = (Vertex) getHost().getModel();
 		if (editor.getValidator().isValid(editor.getValue()) == null) {
-			RenameVertexCommand cmd = new RenameVertexCommand(vertex);
+			VertexRenameCommand cmd = new VertexRenameCommand(vertex);
 			cmd.setName((String) editor.getValue());
 			return cmd;
 		} else {

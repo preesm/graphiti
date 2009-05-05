@@ -29,9 +29,9 @@
 package net.sf.graphiti.ui.editpolicies;
 
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ui.commands.CreateCommand;
-import net.sf.graphiti.ui.commands.MoveVertexCommand;
-import net.sf.graphiti.ui.commands.OpenRefinementNewTabCommand;
+import net.sf.graphiti.ui.commands.VertexCreateCommand;
+import net.sf.graphiti.ui.commands.VertexMoveCommand;
+import net.sf.graphiti.ui.commands.refinement.OpenRefinementNewTabCommand;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -59,13 +59,13 @@ public class LayoutPolicy extends XYLayoutEditPolicy {
 	@Override
 	protected Command createChangeConstraintCommand(EditPart child,
 			Object constraint) {
-		MoveVertexCommand command = null;
+		VertexMoveCommand command = null;
 
 		if (child instanceof VertexEditPart) {
 			VertexEditPart editPart = (VertexEditPart) child;
 			Vertex vertex = (Vertex) editPart.getModel();
 
-			command = new MoveVertexCommand(vertex, (Rectangle) constraint);
+			command = new VertexMoveCommand(vertex, (Rectangle) constraint);
 		}
 
 		return command;
@@ -89,7 +89,7 @@ public class LayoutPolicy extends XYLayoutEditPolicy {
 	@Override
 	protected Command getCreateCommand(CreateRequest request) {
 		Object newObject = request.getNewObject();
-		CreateCommand command = new CreateCommand();
+		VertexCreateCommand command = new VertexCreateCommand();
 
 		command.setNewObject(newObject);
 		command.setModel(getHost().getModel());

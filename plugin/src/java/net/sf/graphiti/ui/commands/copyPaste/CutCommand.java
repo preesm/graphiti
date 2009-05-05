@@ -26,31 +26,39 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.commands;
+package net.sf.graphiti.ui.commands.copyPaste;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.actions.GraphitiClipboard;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.dnd.Transfer;
 
 /**
- * This class provides a command that copies vertices.
+ * This class provides a command that removes vertices from their parent.
  * 
  * @author Samuel Beaussier
  * @author Nicolas Isch
  * @author Matthieu Wipliez
  * 
  */
-public class CopyCommand extends Command {
+public class CutCommand extends Command {
 
 	private List<?> list;
+
+	/**
+	 * Contains the parents of each port/graph.
+	 */
+	private List<Graph> parents;
 
 	/**
 	 * Creates a new cut command with the selected objects.
@@ -58,22 +66,30 @@ public class CopyCommand extends Command {
 	 * @param objects
 	 *            A list of objects to cut.
 	 */
-	public CopyCommand(List<?> objects) {
+	public CutCommand(List<?> objects) {
 		list = objects;
 	}
 
 	@Override
 	public void execute() {
-		// copy vertices
+		parents = new ArrayList<Graph>();
 		List<Vertex> vertices = new ArrayList<Vertex>();
+
 		for (Object obj : list) {
 			if (obj instanceof VertexEditPart) {
-				VertexEditPart vertexEditPart = (VertexEditPart) obj;
-				Vertex vertex = (Vertex) vertexEditPart.getModel();
+				VertexEditPart part = (VertexEditPart) obj;
+				Vertex vertex = (Vertex) part.getModel();
 
-				// copy vertex and add to list
+				// remove from parent
+				Graph parent = vertex.getParent();
+				parent.removeVertex(vertex);
+
+				// copy and add to cut list
 				vertex = new Vertex(vertex);
 				vertices.add(vertex);
+
+				// for undo
+				parents.add(parent);
 			}
 		}
 
@@ -90,6 +106,26 @@ public class CopyCommand extends Command {
 
 	@Override
 	public String getLabel() {
-		return "Copy";
+		return "Cut";
+	}
+
+	@Override
+	public void undo() {
+		Iterator<Graph> it = parents.iterator();
+		for (Object obj : list) {
+			if (obj instanceof VertexEditPart) {
+				VertexEditPart part = (VertexEditPart) obj;
+				Vertex vertex = (Vertex) part.getModel();
+				Graph parent = it.next();
+				parent.addVertex(vertex);
+
+				// update bounds
+				Rectangle bounds = (Rectangle) vertex
+						.getValue(Vertex.PROPERTY_SIZE);
+				vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, bounds);
+			}
+		}
+
+		parents = null;
 	}
 }

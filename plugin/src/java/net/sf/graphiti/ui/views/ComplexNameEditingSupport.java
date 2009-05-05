@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sf.graphiti.model.Util;
-import net.sf.graphiti.ui.commands.ChangeParameterValueCommand;
+import net.sf.graphiti.ui.commands.ParameterChangeValueCommand;
 import net.sf.graphiti.ui.editors.GraphEditor;
 
 import org.eclipse.jface.viewers.CellEditor;
@@ -116,7 +116,7 @@ public class ComplexNameEditingSupport extends EditingSupport implements
 
 			Map<Object, Object> map = Util
 					.getMap(source.bean, source.parameter);
-			ChangeParameterValueCommand command = new ChangeParameterValueCommand(
+			ParameterChangeValueCommand command = new ParameterChangeValueCommand(
 					source.bean);
 			command.setMap(map, oldKey, newKey);
 

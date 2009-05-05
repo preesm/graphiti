@@ -33,7 +33,7 @@ import java.beans.PropertyChangeListener;
 
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.PropertyBean;
-import net.sf.graphiti.ui.commands.ChangeParameterValueCommand;
+import net.sf.graphiti.ui.commands.ParameterChangeValueCommand;
 import net.sf.graphiti.ui.editors.GraphEditor;
 
 import org.eclipse.jface.viewers.CellEditor;
@@ -109,7 +109,7 @@ public class SimpleEditingSupport extends EditingSupport implements
 	protected void setValue(Object element, Object value) {
 		if (element instanceof Parameter) {
 			Parameter parameter = (Parameter) element;
-			ChangeParameterValueCommand command = new ChangeParameterValueCommand(
+			ParameterChangeValueCommand command = new ParameterChangeValueCommand(
 					source);
 			command.setValue(parameter.getName(), value);
 

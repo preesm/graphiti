@@ -26,52 +26,72 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.commands;
+package net.sf.graphiti.ui.commands.refinement;
 
-import net.sf.graphiti.model.Vertex;
-
-import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
 
 /**
- * This class executes a command that moves a vertex.
+ * This class provides a way to open a vertex refinement.
  * 
- * @author Samuel Beaussier
- * @author Nicolas Isch
  * @author Matthieu Wipliez
+ * 
  */
-public class MoveVertexCommand extends Command {
+public class OpenRefinementNewTabCommand extends Command {
 
-	private Rectangle newBounds;
+	private RefinementManager manager;
 
-	private Rectangle oldBounds;
+	/**
+	 * Creates a {@link OpenRefinementNewTabCommand} action.
+	 */
+	public OpenRefinementNewTabCommand() {
+		manager = new RefinementManager();
+	}
 
-	private Vertex vertex;
-
-	public MoveVertexCommand(Vertex vertex, Rectangle newBounds) {
-		this.newBounds = newBounds;
-		this.vertex = vertex;
-		Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
-		this.oldBounds = bounds.getCopy();
+	@Override
+	public boolean canExecute() {
+		return (manager.getRefinement() != null);
 	}
 
 	@Override
 	public void execute() {
-		vertex.setValue(Vertex.PROPERTY_SIZE, newBounds);
-	}
+		manager.setEditedFile();
 
-	@Override
-	public String getLabel() {
-		if (vertex != null) {
-			String type = vertex.getType().getName();
-			return "Move " + type;
+		IFile input = manager.getIFileFromSelection();
+		if (input == null) {
+			MessageDialog.openError(null, "Could not open refinement",
+					"File not found or invalid: " + manager.getRefinement());
 		} else {
-			return "Move vertex";
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+			IWorkbenchPage page = window.getActivePage();
+
+			try {
+				IDE.openEditor(page, input);
+			} catch (PartInitException e) {
+				MessageDialog.openError(null, "Could not open refinement", e
+						.getLocalizedMessage());
+			}
 		}
 	}
 
 	@Override
-	public void undo() {
-		vertex.setValue(Vertex.PROPERTY_SIZE, oldBounds);
+	public String getLabel() {
+		return "Open refinement";
+	}
+
+	/**
+	 * @see RefinementManager#setSelection(ISelection)
+	 */
+	public void setSelection(ISelection selection) {
+		manager.setSelection(selection);
 	}
 }

@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ui.actions;
 
-import net.sf.graphiti.ui.commands.CopyCommand;
+import net.sf.graphiti.ui.commands.copyPaste.CopyCommand;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.gef.ui.actions.SelectionAction;

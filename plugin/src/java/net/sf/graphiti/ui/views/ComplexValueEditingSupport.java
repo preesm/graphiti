@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import net.sf.graphiti.model.Util;
-import net.sf.graphiti.ui.commands.ChangeParameterValueCommand;
+import net.sf.graphiti.ui.commands.ParameterChangeValueCommand;
 import net.sf.graphiti.ui.editors.GraphEditor;
 
 import org.eclipse.jface.viewers.CellEditor;
@@ -114,7 +114,7 @@ public class ComplexValueEditingSupport extends EditingSupport implements
 			List<Object> list = Util.getList(source.bean, source.parameter);
 			int index = list.indexOf(element);
 			if (index != -1) {
-				ChangeParameterValueCommand command = new ChangeParameterValueCommand(
+				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
 						source.bean);
 				command.setList(list, index, value);
 
@@ -127,7 +127,7 @@ public class ComplexValueEditingSupport extends EditingSupport implements
 			}
 		} else if (element instanceof Entry<?, ?>) {
 			Entry<Object, Object> entry = (Entry<Object, Object>) element;
-			ChangeParameterValueCommand command = new ChangeParameterValueCommand(
+			ParameterChangeValueCommand command = new ParameterChangeValueCommand(
 					source.bean);
 			command.setEntry(entry, value);
 

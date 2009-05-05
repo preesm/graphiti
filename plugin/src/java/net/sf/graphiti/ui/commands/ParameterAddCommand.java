@@ -28,70 +28,85 @@
  */
 package net.sf.graphiti.ui.commands;
 
-import org.eclipse.core.resources.IFile;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.graphiti.model.PropertyBean;
+
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 
 /**
- * This class provides a way to open a vertex refinement.
+ * This class provides a command that adds a parameter to the currently selected
+ * object(s).
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class OpenRefinementNewTabCommand extends Command {
+public class ParameterAddCommand extends Command {
 
-	private RefinementManager manager;
+	private List<Object> list;
+
+	private Map<Object, Object> map;
+
+	private PropertyBean source;
+
+	private String value;
 
 	/**
-	 * Creates a {@link OpenRefinementNewTabCommand} action.
+	 * Creates a new add parameter command.
+	 * 
+	 * @param value
+	 *            The value.
 	 */
-	public OpenRefinementNewTabCommand() {
-		manager = new RefinementManager();
-	}
-
-	@Override
-	public boolean canExecute() {
-		return (manager.getRefinement() != null);
+	public ParameterAddCommand(PropertyBean source, String value) {
+		this.source = source;
+		this.value = value;
 	}
 
 	@Override
 	public void execute() {
-		manager.setEditedFile();
-
-		IFile input = manager.getIFileFromSelection();
-		if (input == null) {
-			MessageDialog.openError(null, "Could not open refinement",
-					"File not found or invalid: " + manager.getRefinement());
+		if (list == null) {
+			map.put(value, "");
+			source.firePropertyChange("", null, map);
 		} else {
-			IWorkbench workbench = PlatformUI.getWorkbench();
-			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-			IWorkbenchPage page = window.getActivePage();
-
-			try {
-				IDE.openEditor(page, input);
-			} catch (PartInitException e) {
-				MessageDialog.openError(null, "Could not open refinement", e
-						.getLocalizedMessage());
-			}
+			list.add(value);
+			source.firePropertyChange("", null, list);
 		}
 	}
 
 	@Override
 	public String getLabel() {
-		return "Open refinement";
+		return "Add parameter";
 	}
 
 	/**
-	 * @see RefinementManager#setSelection(ISelection)
+	 * Sets the list to add a parameter to.
+	 * 
+	 * @param list
+	 *            A {@link List}.
 	 */
-	public void setSelection(ISelection selection) {
-		manager.setSelection(selection);
+	public void setList(List<Object> list) {
+		this.list = list;
+	}
+
+	/**
+	 * Sets the map to add a parameter to.
+	 * 
+	 * @param map
+	 *            A {@link Map}.
+	 */
+	public void setMap(Map<Object, Object> map) {
+		this.map = map;
+	}
+
+	@Override
+	public void undo() {
+		if (list == null) {
+			map.remove(value);
+			source.firePropertyChange("", null, map);
+		} else {
+			list.remove(value);
+			source.firePropertyChange("", null, list);
+		}
 	}
 }

@@ -20,7 +20,7 @@ import org.eclipse.gef.commands.Command;
  * 
  * @author Daniel Lee
  */
-public class RenameVertexCommand extends Command {
+public class VertexRenameCommand extends Command {
 
 	private String id;
 
@@ -29,12 +29,12 @@ public class RenameVertexCommand extends Command {
 	private Vertex vertex;
 
 	/**
-	 * Creates a new RenameVertexCommand for the given vertex.
+	 * Creates a new VertexRenameCommand for the given vertex.
 	 * 
 	 * @param vertex
 	 *            The {@link Vertex}.
 	 */
-	public RenameVertexCommand(Vertex vertex) {
+	public VertexRenameCommand(Vertex vertex) {
 		this.vertex = vertex;
 		previousId = (String) vertex.getValue(VertexType.PARAMETER_ID);
 	}

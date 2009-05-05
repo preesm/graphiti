@@ -28,7 +28,7 @@
  */
 package net.sf.graphiti.ui.actions;
 
-import net.sf.graphiti.ui.commands.OpenRefinementNewTabCommand;
+import net.sf.graphiti.ui.commands.refinement.OpenRefinementNewTabCommand;
 
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;

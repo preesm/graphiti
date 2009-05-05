@@ -26,87 +26,70 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.commands;
+package net.sf.graphiti.ui.commands.copyPaste;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import net.sf.graphiti.model.PropertyBean;
+import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ui.actions.GraphitiClipboard;
+import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.dnd.Transfer;
 
 /**
- * This class provides a command that adds a parameter to the currently selected
- * object(s).
+ * This class provides a command that copies vertices.
  * 
+ * @author Samuel Beaussier
+ * @author Nicolas Isch
  * @author Matthieu Wipliez
  * 
  */
-public class AddParameterCommand extends Command {
+public class CopyCommand extends Command {
 
-	private List<Object> list;
-
-	private Map<Object, Object> map;
-
-	private PropertyBean source;
-
-	private String value;
+	private List<?> list;
 
 	/**
-	 * Creates a new add parameter command.
+	 * Creates a new cut command with the selected objects.
 	 * 
-	 * @param value
-	 *            The value.
+	 * @param objects
+	 *            A list of objects to cut.
 	 */
-	public AddParameterCommand(PropertyBean source, String value) {
-		this.source = source;
-		this.value = value;
+	public CopyCommand(List<?> objects) {
+		list = objects;
 	}
 
 	@Override
 	public void execute() {
-		if (list == null) {
-			map.put(value, "");
-			source.firePropertyChange("", null, map);
-		} else {
-			list.add(value);
-			source.firePropertyChange("", null, list);
+		// copy vertices
+		List<Vertex> vertices = new ArrayList<Vertex>();
+		for (Object obj : list) {
+			if (obj instanceof VertexEditPart) {
+				VertexEditPart vertexEditPart = (VertexEditPart) obj;
+				Vertex vertex = (Vertex) vertexEditPart.getModel();
+
+				// copy vertex and add to list
+				vertex = new Vertex(vertex);
+				vertices.add(vertex);
+			}
 		}
+
+		// prepare transfer
+		LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
+		Object[] verticesArray = vertices.toArray();
+		transfer.setSelection(new StructuredSelection(verticesArray));
+
+		// put in clipboard
+		Object[] data = new Object[] { verticesArray };
+		Transfer[] transfers = new Transfer[] { transfer };
+		GraphitiClipboard.getInstance().setContents(data, transfers);
 	}
 
 	@Override
 	public String getLabel() {
-		return "Add parameter";
-	}
-
-	/**
-	 * Sets the list to add a parameter to.
-	 * 
-	 * @param list
-	 *            A {@link List}.
-	 */
-	public void setList(List<Object> list) {
-		this.list = list;
-	}
-
-	/**
-	 * Sets the map to add a parameter to.
-	 * 
-	 * @param map
-	 *            A {@link Map}.
-	 */
-	public void setMap(Map<Object, Object> map) {
-		this.map = map;
-	}
-
-	@Override
-	public void undo() {
-		if (list == null) {
-			map.remove(value);
-			source.firePropertyChange("", null, map);
-		} else {
-			list.remove(value);
-			source.firePropertyChange("", null, list);
-		}
+		return "Copy";
 	}
 }

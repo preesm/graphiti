@@ -43,7 +43,7 @@ import org.eclipse.gef.commands.Command;
  * @author Matthieu Wipliez
  * 
  */
-public class ChangeParameterValueCommand extends Command {
+public class ParameterChangeValueCommand extends Command {
 
 	/**
 	 * Set by {@link #setEntry(Entry, Object)}.
@@ -101,7 +101,7 @@ public class ChangeParameterValueCommand extends Command {
 	 * @param newValue
 	 *            The value.
 	 */
-	public ChangeParameterValueCommand(PropertyBean source) {
+	public ParameterChangeValueCommand(PropertyBean source) {
 		this.source = source;
 	}
 

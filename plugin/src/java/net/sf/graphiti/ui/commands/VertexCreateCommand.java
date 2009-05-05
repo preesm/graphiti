@@ -49,7 +49,7 @@ import org.eclipse.ui.PlatformUI;
  * @author Matthieu Wipliez
  * 
  */
-public class CreateCommand extends Command {
+public class VertexCreateCommand extends Command {
 
 	private Rectangle bounds;
 
@@ -57,7 +57,7 @@ public class CreateCommand extends Command {
 
 	private Vertex vertex;
 
-	public CreateCommand() {
+	public VertexCreateCommand() {
 	}
 
 	@Override

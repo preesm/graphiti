@@ -33,6 +33,8 @@ import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexType;
+import net.sf.graphiti.ui.commands.refinement.PortChooser;
+import net.sf.graphiti.ui.commands.refinement.RefinementManager;
 
 import org.eclipse.gef.commands.Command;
 

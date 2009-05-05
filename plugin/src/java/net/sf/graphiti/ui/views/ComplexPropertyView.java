@@ -40,8 +40,8 @@ import net.sf.graphiti.model.PropertyBean;
 import net.sf.graphiti.model.Util;
 import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.GraphitiPlugin;
-import net.sf.graphiti.ui.commands.AddParameterCommand;
-import net.sf.graphiti.ui.commands.RemoveParameterCommand;
+import net.sf.graphiti.ui.commands.ParameterAddCommand;
+import net.sf.graphiti.ui.commands.ParameterRemoveCommand;
 import net.sf.graphiti.ui.editors.GraphEditor;
 import net.sf.graphiti.ui.editparts.EdgeEditPart;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
@@ -189,7 +189,7 @@ public class ComplexPropertyView extends AbstractPropertyView {
 				});
 
 		if (dialog.open() == InputDialog.OK) {
-			AddParameterCommand command = new AddParameterCommand(source.bean,
+			ParameterAddCommand command = new ParameterAddCommand(source.bean,
 					dialog.getValue());
 			if (parameter.getType() == List.class) {
 				List<Object> list = Util.getList(source.bean, parameter);
@@ -299,7 +299,7 @@ public class ComplexPropertyView extends AbstractPropertyView {
 			IWorkbench workbench = PlatformUI.getWorkbench();
 			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 
-			RemoveParameterCommand command = new RemoveParameterCommand(
+			ParameterRemoveCommand command = new ParameterRemoveCommand(
 					source.bean);
 			if (parameter.getType() == List.class) {
 				List<Object> list = Util.getList(source.bean, parameter);
