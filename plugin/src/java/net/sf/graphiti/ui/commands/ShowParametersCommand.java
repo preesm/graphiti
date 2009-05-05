@@ -28,10 +28,18 @@
  */
 package net.sf.graphiti.ui.commands;
 
+import net.sf.graphiti.model.AbstractObject;
+import net.sf.graphiti.model.Edge;
+import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.model.VertexType;
+
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.IShellProvider;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.PropertyDialogAction;
@@ -46,9 +54,9 @@ import org.eclipse.ui.dialogs.PropertyDialogAction;
 public class ShowParametersCommand extends Command implements IShellProvider,
 		ISelectionProvider {
 
-	private final Shell shell;
-
 	private ISelection selection;
+
+	private final Shell shell;
 
 	/**
 	 * Creates a new add parameter command.
@@ -68,7 +76,11 @@ public class ShowParametersCommand extends Command implements IShellProvider,
 	public void execute() {
 		PropertyDialogAction action = new PropertyDialogAction(this, this);
 		if (action.isApplicableForSelection()) {
-			action.run();
+			PreferenceDialog dialog = action.createDialog();
+			if (dialog != null) {
+				setTitle(dialog.getShell());
+				dialog.open();
+			}
 		}
 	}
 
@@ -94,6 +106,21 @@ public class ShowParametersCommand extends Command implements IShellProvider,
 
 	public void setSelection(ISelection selection) {
 		this.selection = selection;
+	}
+
+	private void setTitle(Shell shell) {
+		String name = null;
+		IStructuredSelection sel = (IStructuredSelection) selection;
+		AbstractObject model = (AbstractObject) sel.getFirstElement();
+		if (model instanceof Vertex) {
+			name = "\"" + model.getValue(VertexType.PARAMETER_ID) + "\"";
+		} else if (model instanceof Graph) {
+			name = "graph";
+		} else if (model instanceof Edge) {
+			name = "edge";
+		}
+
+		shell.setText("Parameters of " + name);
 	}
 
 	@Override
