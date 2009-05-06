@@ -28,20 +28,20 @@
  */
 package net.sf.graphiti.ui.views;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.graphiti.model.AbstractObject;
-import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexType;
-import net.sf.graphiti.ui.editparts.EdgeEditPart;
-import net.sf.graphiti.ui.editparts.GraphEditPart;
-import net.sf.graphiti.ui.editparts.VertexEditPart;
 
+import org.eclipse.gef.EditPart;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
@@ -49,29 +49,76 @@ import org.eclipse.jface.viewers.Viewer;
  * 
  * @author Matthieu Wipliez
  */
-public class SimpleContentProvider extends AbstractContentProvider {
+public class SimpleContentProvider implements IStructuredContentProvider,
+		PropertyChangeListener {
+
+	/**
+	 * When input has changed.
+	 */
+	public static final String INPUT_CHANGED = "inputChanged";
+
+	/**
+	 * The {@link PropertyChangeSupport} we use.
+	 */
+	private PropertyChangeSupport propertyChange;
+
+	/**
+	 * The object we provide content for.
+	 */
+	private Object source;
+
+	/**
+	 * The viewer.
+	 */
+	private Viewer viewer;
+
+	public SimpleContentProvider() {
+		propertyChange = new PropertyChangeSupport(this);
+	}
+
+	/**
+	 * Add the listener <code>listener</code> to the registered listeners.
+	 * 
+	 * @param listener
+	 *            The PropertyChangeListener to add.
+	 */
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		propertyChange.addPropertyChangeListener(listener);
+	}
 
 	@Override
 	public void dispose() {
 		if (source != null) {
 			((AbstractObject) source).removePropertyChangeListener(this);
 		}
-		super.dispose();
+
+		// remove all listeners
+		for (PropertyChangeListener listener : propertyChange
+				.getPropertyChangeListeners()) {
+			propertyChange.removePropertyChangeListener(listener);
+		}
+
+		// nothing left
+		propertyChange = null;
+		source = null;
+		viewer = null;
+	}
+
+	/**
+	 * @see PropertyChangeSupport#firePropertyChange(String, Object, Object)
+	 */
+	protected void firePropertyChange(String propertyName, Object oldValue,
+			Object newValue) {
+		propertyChange.firePropertyChange(propertyName, oldValue, newValue);
 	}
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		List<Parameter> parameters;
-		if (source instanceof Graph) {
-			parameters = ((Graph) source).getParameters();
-		} else if (source instanceof Vertex) {
-			parameters = ((Vertex) source).getParameters();
-		} else if (source instanceof Edge) {
-			parameters = ((Edge) source).getParameters();
-		} else {
+		if (source == null) {
 			return new Object[] {};
 		}
 
+		List<Parameter> parameters = ((AbstractObject) source).getParameters();
 		Iterator<Parameter> it = parameters.iterator();
 		while (it.hasNext()) {
 			Parameter parameter = it.next();
@@ -93,7 +140,7 @@ public class SimpleContentProvider extends AbstractContentProvider {
 
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		super.inputChanged(viewer, oldInput, newInput);
+		this.viewer = viewer;
 
 		// remove ourselves as a listener to the previous model
 		if (source instanceof AbstractObject) {
@@ -102,14 +149,12 @@ public class SimpleContentProvider extends AbstractContentProvider {
 
 		// update the source
 		AbstractObject oldSource = (AbstractObject) source;
-		if (newInput instanceof GraphEditPart) {
-			source = (Graph) ((GraphEditPart) newInput).getModel();
-		} else if (newInput instanceof VertexEditPart) {
-			source = (Vertex) ((VertexEditPart) newInput).getModel();
-		} else if (newInput instanceof EdgeEditPart) {
-			source = (Edge) ((EdgeEditPart) newInput).getModel();
-		} else {
-			source = null;
+		source = null;
+		if (newInput instanceof EditPart) {
+			Object obj = ((EditPart) newInput).getModel();
+			if (obj instanceof AbstractObject) {
+				source = obj;
+			}
 		}
 
 		if (source != null) {
@@ -118,6 +163,16 @@ public class SimpleContentProvider extends AbstractContentProvider {
 			((AbstractObject) source).addPropertyChangeListener(this);
 			firePropertyChange(INPUT_CHANGED, oldSource, source);
 		}
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (viewer != null) {
+			viewer.refresh();
+		}
+
+		// Forward the event to registered listeners
+		propertyChange.firePropertyChange(evt);
 	}
 
 }

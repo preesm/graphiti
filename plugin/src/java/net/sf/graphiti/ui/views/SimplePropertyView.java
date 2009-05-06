@@ -30,13 +30,22 @@ package net.sf.graphiti.ui.views;
 
 import net.sf.graphiti.model.Parameter;
 
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
 
 /**
  * This class exposes the Graphiti version of property view. It is a derivative
@@ -46,7 +55,7 @@ import org.eclipse.swt.widgets.TableColumn;
  * 
  * @author Matthieu Wipliez
  */
-public class SimplePropertyView extends AbstractPropertyView {
+public class SimplePropertyView extends ViewPart implements ISelectionListener {
 
 	/**
 	 * Sorts parameters by name.
@@ -68,12 +77,78 @@ public class SimplePropertyView extends AbstractPropertyView {
 	public static final String ID = "net.sf.graphiti.ui.views.SimplePropertyView";
 
 	/**
+	 * The {@link Composite} that contains all the children.
+	 */
+	private Composite panel;
+
+	private TableViewer tableViewer;
+
+	/**
+	 * Creates a panel on the parent, sets the layout, and creates the different
+	 * UI components.
+	 * 
+	 * @param parent
+	 *            The parent {@link Composite}.
+	 */
+	private void createComponents(Composite parent) {
+		panel = new Composite(parent, 0);
+
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+				| GridData.FILL_BOTH);
+		panel.setLayoutData(gridData);
+
+		GridLayout layout = new GridLayout(3, false);
+		layout.marginWidth = 4;
+		panel.setLayout(layout);
+
+		Table table = createTable(panel);
+		createTableViewer(table);
+	}
+
+	@Override
+	public void createPartControl(Composite parent) {
+		// Listens to selectionChanged event.
+		getSite().getPage().addSelectionListener(this);
+
+		createComponents(parent);
+
+		// Create the help context id for the viewer's control
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(
+				tableViewer.getControl(), "net.sf.graphiti.viewer");
+	}
+
+	/**
+	 * Creates the table component from the <code>parent</code>
+	 * {@link Composite}.
+	 * 
+	 * @param parent
+	 *            The {@link Composite} parent.
+	 * @return The {@link Table} created.
+	 */
+	private Table createTable(Composite parent) {
+		int style = SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
+				| SWT.FULL_SELECTION | SWT.HIDE_SELECTION;
+
+		Table table = new Table(parent, style);
+
+		GridData gridData = new GridData(GridData.FILL_BOTH);
+		gridData.horizontalSpan = 3;
+		gridData.grabExcessVerticalSpace = true;
+		table.setLayoutData(gridData);
+
+		table.setLinesVisible(true);
+		table.setHeaderVisible(true);
+
+		return table;
+	}
+
+	/**
 	 * Creates the table viewer using the given table.
 	 * 
 	 * @param table
 	 *            A {@link Table}.
 	 */
-	protected void createTableViewer(Table table) {
+	private void createTableViewer(Table table) {
 		// 1st column
 		TableColumn column = new TableColumn(table, SWT.CENTER, 0);
 		column.setText("Name");
@@ -116,7 +191,35 @@ public class SimplePropertyView extends AbstractPropertyView {
 	}
 
 	@Override
-	public void selectionChanged(Object object) {
-		tableViewer.setInput(object);
+	public void dispose() {
+		// remove ourselves as a selection listener
+		getSite().getPage().removeSelectionListener(this);
+		panel.dispose();
+		super.dispose();
 	}
+
+	@Override
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		// we ignore our own selection or null selection
+		if (part == this || selection == null) {
+			return;
+		}
+
+		if (selection.isEmpty() == false) {
+			if (selection instanceof IStructuredSelection) {
+				IStructuredSelection structSel = (IStructuredSelection) selection;
+				Object object = structSel.getFirstElement();
+				tableViewer.setInput(object);
+			}
+		}
+	}
+
+	/**
+	 * Passing the focus request to the viewer's control.
+	 */
+	@Override
+	public void setFocus() {
+		tableViewer.getControl().setFocus();
+	}
+
 }
