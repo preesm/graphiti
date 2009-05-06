@@ -50,8 +50,8 @@ public class MapNameEditingSupport extends EditingSupport {
 	private Map<Object, Object> map;
 
 	/**
-	 * Creates a new {@link MapNameEditingSupport} on the given column viewer and
-	 * table.
+	 * Creates a new {@link MapNameEditingSupport} on the given column viewer
+	 * and table.
 	 * 
 	 * @param viewer
 	 * @param table

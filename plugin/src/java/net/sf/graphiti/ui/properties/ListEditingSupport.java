@@ -45,12 +45,12 @@ import org.eclipse.swt.widgets.Table;
 public class ListEditingSupport extends EditingSupport {
 
 	private TextCellEditor editor;
-	
+
 	private List<Object> list;
 
 	/**
-	 * Creates a new {@link ListEditingSupport} on the given column
-	 * viewer and table.
+	 * Creates a new {@link ListEditingSupport} on the given column viewer and
+	 * table.
 	 * 
 	 * @param viewer
 	 * @param table
@@ -83,7 +83,7 @@ public class ListEditingSupport extends EditingSupport {
 		if (index != -1) {
 			list.set(index, value);
 		}
-		
+
 		getViewer().refresh();
 	}
 

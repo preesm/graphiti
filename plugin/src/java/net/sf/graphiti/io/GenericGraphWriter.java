@@ -37,13 +37,13 @@ import java.util.Map.Entry;
 
 import javax.xml.transform.TransformerException;
 
+import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexType;
 
@@ -206,8 +206,8 @@ public class GenericGraphWriter {
 		return graphElement;
 	}
 
-	private void writeParameters(AbstractObject abstractObject, AbstractType type,
-			Element parametersElement) {
+	private void writeParameters(AbstractObject abstractObject,
+			AbstractType type, Element parametersElement) {
 		Document document = parametersElement.getOwnerDocument();
 		List<Parameter> parameters = type.getParameters();
 		for (Parameter parameter : parameters) {

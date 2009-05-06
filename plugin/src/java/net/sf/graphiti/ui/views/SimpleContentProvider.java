@@ -32,10 +32,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.editparts.EdgeEditPart;

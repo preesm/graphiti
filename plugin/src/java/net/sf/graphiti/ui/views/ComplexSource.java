@@ -28,8 +28,8 @@
  */
 package net.sf.graphiti.ui.views;
 
-import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.AbstractObject;
+import net.sf.graphiti.model.Parameter;
 
 /**
  * The source used in complex utility classes.

@@ -30,9 +30,13 @@ package net.sf.graphiti.ui.actions;
 
 import net.sf.graphiti.ui.commands.ShowParametersCommand;
 import net.sf.graphiti.ui.commands.refinement.OpenRefinementNewTabCommand;
+import net.sf.graphiti.ui.editparts.EdgeEditPart;
+import net.sf.graphiti.ui.editparts.GraphEditPart;
+import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
@@ -56,8 +60,6 @@ public class ShowParametersAction extends SelectionAction {
 		return ID;
 	}
 
-	private ShowParametersCommand command;
-
 	/**
 	 * Creates a {@link OpenRefinementNewTabCommand} action.
 	 * 
@@ -65,20 +67,23 @@ public class ShowParametersAction extends SelectionAction {
 	 */
 	public ShowParametersAction(IWorkbenchPart part) {
 		super(part);
-		command = new ShowParametersCommand(part.getSite().getShell());
 	}
 
 	public boolean calculateEnabled() {
-		IStructuredSelection selection = (IStructuredSelection) getSelection();
-
-		Object sel = selection.getFirstElement();
-		if (sel instanceof EditPart) {
-			Object model = ((EditPart) sel).getModel();
-			selection = new StructuredSelection(model);
+		// enabled when at least one object is selected
+		ISelection selection = getSelection();
+		if (selection instanceof IStructuredSelection) {
+			IStructuredSelection ssel = (IStructuredSelection) selection;
+			if (ssel.isEmpty()) {
+				return false;
+			} else {
+				Object obj = ssel.getFirstElement();
+				return (obj instanceof EdgeEditPart
+						|| obj instanceof GraphEditPart || obj instanceof VertexEditPart);
+			}
+		} else {
+			return false;
 		}
-
-		command.setSelection(selection);
-		return command.canExecute();
 	}
 
 	@Override
@@ -95,6 +100,19 @@ public class ShowParametersAction extends SelectionAction {
 
 	@Override
 	public void run() {
-		command.execute();
+		IWorkbenchPart part = getWorkbenchPart();
+		ShowParametersCommand command = new ShowParametersCommand(part
+				.getSite().getShell());
+
+		IStructuredSelection selection = (IStructuredSelection) getSelection();
+
+		Object sel = selection.getFirstElement();
+		selection = new StructuredSelection(((EditPart) sel).getModel());
+		command.setSelection(selection);
+
+		command.run();
+		if (command.hasChanges()) {
+			execute(command);
+		}
 	}
 }

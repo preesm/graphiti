@@ -31,8 +31,8 @@ package net.sf.graphiti.ui.views;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.AbstractObject;
+import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.ui.commands.ParameterChangeValueCommand;
 import net.sf.graphiti.ui.editors.GraphEditor;
 

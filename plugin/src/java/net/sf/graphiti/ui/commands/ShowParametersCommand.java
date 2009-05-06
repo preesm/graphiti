@@ -28,6 +28,12 @@
  */
 package net.sf.graphiti.ui.commands;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Map.Entry;
+
 import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
@@ -52,7 +58,15 @@ import org.eclipse.ui.dialogs.PropertyDialogAction;
  * 
  */
 public class ShowParametersCommand extends Command implements IShellProvider,
-		ISelectionProvider {
+		ISelectionProvider, PropertyChangeListener {
+
+	private boolean hasChanges;
+
+	private AbstractObject model;
+
+	private Map<String, Object> newValues;
+
+	private Map<String, Object> oldValues;
 
 	private ISelection selection;
 
@@ -66,6 +80,8 @@ public class ShowParametersCommand extends Command implements IShellProvider,
 	 */
 	public ShowParametersCommand(Shell shell) {
 		this.shell = shell;
+		oldValues = new TreeMap<String, Object>();
+		newValues = new TreeMap<String, Object>();
 	}
 
 	@Override
@@ -74,14 +90,6 @@ public class ShowParametersCommand extends Command implements IShellProvider,
 
 	@Override
 	public void execute() {
-		PropertyDialogAction action = new PropertyDialogAction(this, this);
-		if (action.isApplicableForSelection()) {
-			PreferenceDialog dialog = action.createDialog();
-			if (dialog != null) {
-				setTitle(dialog.getShell());
-				dialog.open();
-			}
-		}
 	}
 
 	@Override
@@ -99,9 +107,55 @@ public class ShowParametersCommand extends Command implements IShellProvider,
 		return shell;
 	}
 
+	public boolean hasChanges() {
+		return hasChanges;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		String name = evt.getPropertyName();
+		Object oldValue = evt.getOldValue();
+		Object newValue = evt.getNewValue();
+
+		if (oldValue == null) {
+			if (newValue != null) {
+				oldValues.put(name, oldValue);
+				newValues.put(name, newValue);
+				hasChanges = true;
+			}
+		} else {
+			oldValues.put(name, oldValue);
+			newValues.put(name, newValue);
+			hasChanges |= !oldValue.equals(newValue);
+		}
+	}
+
+	@Override
+	public void redo() {
+		for (Entry<String, Object> entry : newValues.entrySet()) {
+			model.setValue(entry.getKey(), entry.getValue());
+		}
+	}
+
 	@Override
 	public void removeSelectionChangedListener(
 			ISelectionChangedListener listener) {
+	}
+
+	public void run() {
+		PropertyDialogAction action = new PropertyDialogAction(this, this);
+		if (action.isApplicableForSelection()) {
+			PreferenceDialog dialog = action.createDialog();
+			if (dialog != null) {
+				IStructuredSelection sel = (IStructuredSelection) selection;
+				model = (AbstractObject) sel.getFirstElement();
+
+				model.addPropertyChangeListener(this);
+				setTitle(dialog.getShell());
+				dialog.open();
+				model.removePropertyChangeListener(this);
+			}
+		}
 	}
 
 	public void setSelection(ISelection selection) {
@@ -110,8 +164,6 @@ public class ShowParametersCommand extends Command implements IShellProvider,
 
 	private void setTitle(Shell shell) {
 		String name = null;
-		IStructuredSelection sel = (IStructuredSelection) selection;
-		AbstractObject model = (AbstractObject) sel.getFirstElement();
 		if (model instanceof Vertex) {
 			name = "\"" + model.getValue(VertexType.PARAMETER_ID) + "\"";
 		} else if (model instanceof Graph) {
@@ -125,5 +177,8 @@ public class ShowParametersCommand extends Command implements IShellProvider,
 
 	@Override
 	public void undo() {
+		for (Entry<String, Object> entry : oldValues.entrySet()) {
+			model.setValue(entry.getKey(), entry.getValue());
+		}
 	}
 }

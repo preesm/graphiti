@@ -38,6 +38,7 @@ import java.util.TreeMap;
 
 import javax.xml.transform.TransformerException;
 
+import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
@@ -46,7 +47,6 @@ import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.GraphType;
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.model.FileFormat.Transformation;
@@ -451,8 +451,8 @@ public class GenericGraphParser {
 	 *            &lt;parameters&gt; itself.
 	 * @return The node following &lt;parameters&gt;.
 	 */
-	private Node parseParameters(AbstractObject abstractObject, AbstractType type,
-			Node node) {
+	private Node parseParameters(AbstractObject abstractObject,
+			AbstractType type, Node node) {
 		node = DomHelper.getFirstSiblingNamed(node, "parameters");
 
 		Node child = node.getFirstChild();

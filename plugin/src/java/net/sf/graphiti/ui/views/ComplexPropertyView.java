@@ -32,11 +32,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.GraphType;
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Util;
 import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.GraphitiPlugin;
