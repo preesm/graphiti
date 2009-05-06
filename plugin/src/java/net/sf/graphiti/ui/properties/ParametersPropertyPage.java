@@ -37,14 +37,20 @@ import java.util.Map.Entry;
 
 import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Parameter;
+import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
@@ -77,6 +83,7 @@ public class ParametersPropertyPage extends PropertyPage {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		composite.setLayout(layout);
+
 		GridData data = new GridData(GridData.FILL);
 		data.grabExcessHorizontalSpace = true;
 		composite.setLayoutData(data);
@@ -89,14 +96,22 @@ public class ParametersPropertyPage extends PropertyPage {
 	}
 
 	private void createListTable(Composite parent, Object value) {
-		Table table = createTable(parent);
+		final Table table = createTable(parent);
 		TableViewer tableViewer = new TableViewer(table);
 		tableViewer.setContentProvider(new ListContentProvider());
 
 		// 1st column
-		TableColumn column = new TableColumn(table, SWT.CENTER, 0);
+		final TableColumn column = new TableColumn(table, SWT.NONE);
 		column.setText("Value");
-		column.setWidth(100);
+		table.addControlListener(new ControlAdapter() {
+
+			@Override
+			public void controlResized(ControlEvent e) {
+				Rectangle bounds = table.getClientArea();
+				column.setWidth(bounds.width);
+			}
+
+		});
 
 		// first column
 		TableViewerColumn tvc = new TableViewerColumn(tableViewer, column);
@@ -112,26 +127,36 @@ public class ParametersPropertyPage extends PropertyPage {
 	}
 
 	private void createMapTable(Composite parent, Object value) {
-		Table table = createTable(parent);
+		final Table table = createTable(parent);
 		TableViewer tableViewer = new TableViewer(table);
 		tableViewer.setContentProvider(new MapContentProvider());
 
 		MapCellLabelProvider labelProvider = new MapCellLabelProvider();
 
 		// 1st column
-		TableColumn column = new TableColumn(table, SWT.CENTER, 0);
-		column.setText("Name");
-		column.setWidth(100);
-
-		TableViewerColumn tvc1 = new TableViewerColumn(tableViewer, column);
-		tvc1.setLabelProvider(labelProvider);
+		final TableColumn column1 = new TableColumn(table, SWT.NONE, 0);
+		column1.setText("Name");
 
 		// 2nd column
-		column = new TableColumn(table, SWT.LEFT, 1);
-		column.setText("Value");
-		column.setWidth(300);
+		final TableColumn column2 = new TableColumn(table, SWT.NONE, 1);
+		column2.setText("Value");
 
-		TableViewerColumn tvc2 = new TableViewerColumn(tableViewer, column);
+		// resizing
+		table.addControlListener(new ControlAdapter() {
+
+			@Override
+			public void controlResized(ControlEvent e) {
+				Rectangle bounds = table.getClientArea();
+				column1.setWidth(bounds.width / 2);
+				column2.setWidth(bounds.width / 2);
+			}
+
+		});
+
+		TableViewerColumn tvc1 = new TableViewerColumn(tableViewer, column1);
+		tvc1.setLabelProvider(labelProvider);
+
+		TableViewerColumn tvc2 = new TableViewerColumn(tableViewer, column2);
 		tvc2.setLabelProvider(labelProvider);
 
 		// set input, must be done after label providers are set
@@ -191,18 +216,29 @@ public class ParametersPropertyPage extends PropertyPage {
 	 * @return The table created.
 	 */
 	private Table createTable(Composite parent) {
+		Composite panel = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout(2, false);
+		panel.setLayout(layout);
+
+		GridData data = new GridData(GridData.FILL);
+		data.grabExcessHorizontalSpace = true;
+		panel.setLayoutData(data);
+		
+		// create table
 		int style = SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
 				| SWT.FULL_SELECTION | SWT.HIDE_SELECTION;
 
-		Table table = new Table(parent, style);
+		Table table = new Table(panel, style);
 
-		GridData gridData = new GridData(GridData.FILL_BOTH);
-		gridData.horizontalSpan = 3;
-		gridData.grabExcessVerticalSpace = true;
+		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		table.setLayoutData(gridData);
 
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
+		
+		// create buttons
+		Button addButton = new Button(panel, SWT.NONE);
+		addButton.setImage(GraphitiPlugin.getImage("icons/add_obj.gif"));
 
 		return table;
 	}
