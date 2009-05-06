@@ -79,22 +79,10 @@
             class="net.sf.graphiti.ui.views.SimplePropertyView"
             icon="icons/graphiti.gif"
             id="net.sf.graphiti.ui.views.SimplePropertyView"
-            name="Simple properties"
+            name="Properties"
             restorable="true">
          <description>
-            The Simple Properties view displays simple properties associated with the current selection. Simple properties are properties whose values are scalars: integers, strings...
-         </description>
-      </view>
-      <view
-            allowMultiple="true"
-            category="net.sf.graphiti.ui.views"
-            class="net.sf.graphiti.ui.views.ComplexPropertyView"
-            icon="icons/graphiti.gif"
-            id="net.sf.graphiti.ui.views.ComplexPropertyView"
-            name="Complex properties"
-            restorable="false">
-         <description>
-            The Complex Properties view displays complex properties (of type list, map) associated with the current selection.
+            The Properties view displays properties associated with the current selection. Properties are key-value associations where both the key and value are strings.
          </description>
       </view>
    </extension>
