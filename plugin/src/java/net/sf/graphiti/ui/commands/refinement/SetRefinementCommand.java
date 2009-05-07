@@ -105,6 +105,8 @@ public class SetRefinementCommand extends Command {
 		}
 	}
 
+	private String refinement;
+
 	private RefinementManager manager;
 
 	private boolean refinementChanged;
@@ -146,24 +148,10 @@ public class SetRefinementCommand extends Command {
 
 	@Override
 	public void execute() {
-		manager.setEditedFile();
-
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		Shell shell = window.getShell();
-
-		// prompts the user to choose a file
-		final String message = "The selected vertex can be refined by an existing "
-				+ "file, or by a new file you can create.";
-		MessageDialog dialog = new MessageDialog(shell,
-				"Set/Update Refinement", null, message, MessageDialog.QUESTION,
-				new String[] { "Use an existing file", "Create a new file" }, 0);
-		int index = dialog.open();
-		if (index == 0) {
-			useExistingFile(shell);
-		} else if (index == 1) {
-			createNewFile(shell);
-		}
+		// save old value of refinement in refinement
+		// allows execute() to be executed by undo()
+		refinement = (String) manager.getVertex().setValue(
+				VertexType.PARAMETER_REFINEMENT, refinement);
 	}
 
 	/**
@@ -256,15 +244,31 @@ public class SetRefinementCommand extends Command {
 	}
 
 	/**
-	 * Sets the "refinement" parameter of the selected vertex to the location of
-	 * file.
 	 * 
-	 * @param file
 	 */
+	public void run() {
+		manager.setEditedFile();
+
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		Shell shell = window.getShell();
+
+		// prompts the user to choose a file
+		final String message = "The selected vertex can be refined by an existing "
+				+ "file, or by a new file you can create.";
+		MessageDialog dialog = new MessageDialog(shell,
+				"Set/Update Refinement", null, message, MessageDialog.QUESTION,
+				new String[] { "Use an existing file", "Create a new file" }, 0);
+		int index = dialog.open();
+		if (index == 0) {
+			useExistingFile(shell);
+		} else if (index == 1) {
+			createNewFile(shell);
+		}
+	}
+
 	private void setRefinement(IFile file) {
-		String refinement = getRefinementValue(file);
-		manager.getVertex().setValue(VertexType.PARAMETER_REFINEMENT,
-				refinement);
+		refinement = getRefinementValue(file);
 		refinementChanged = true;
 	}
 
@@ -273,6 +277,11 @@ public class SetRefinementCommand extends Command {
 	 */
 	public void setSelection(ISelection selection) {
 		manager.setSelection(selection);
+	}
+
+	@Override
+	public void undo() {
+		execute();
 	}
 
 	/**

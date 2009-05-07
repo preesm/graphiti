@@ -83,9 +83,9 @@ public class SetRefinementAction extends SelectionAction {
 
 	@Override
 	public void run() {
-		execute(command);
-		if (!command.hasRefinementChanged()) {
-			getCommandStack().undo();
+		command.run();
+		if (command.hasRefinementChanged()) {
+			execute(command);
 		}
 	}
 }

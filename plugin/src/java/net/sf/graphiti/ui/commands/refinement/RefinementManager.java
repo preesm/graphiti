@@ -64,12 +64,12 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
  */
 public class RefinementManager {
 
-	protected IFile editedFile;
+	private IFile editedFile;
 
 	/**
 	 * The vertex selected, or <code>null</code> otherwise.
 	 */
-	protected Vertex vertex;
+	private Vertex vertex;
 
 	/**
 	 * This method looks for file named "path.ext" where <code>ext</code> is one
@@ -147,7 +147,7 @@ public class RefinementManager {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	protected IFile getIFileFromSelection() {
+	public IFile getIFileFromSelection() {
 		// prevent null pointer exception when there are no refinement.
 		String refinement = getRefinement();
 		if (refinement == null) {
