@@ -105,9 +105,9 @@ public class SetRefinementCommand extends Command {
 		}
 	}
 
-	private String refinement;
-
 	private RefinementManager manager;
+
+	private String refinement;
 
 	private boolean refinementChanged;
 

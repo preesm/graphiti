@@ -86,7 +86,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IShowEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -100,8 +99,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * @author Matthieu Wipliez
  * 
  */
-public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
-		IShowEditorInput {
+public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 
 	/**
 	 * The editor ID
@@ -398,11 +396,5 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	 */
 	public void setWidthZoom() {
 		manager.setZoomAsText(ZoomManager.FIT_WIDTH);
-	}
-
-	@Override
-	public void showEditorInput(IEditorInput editorInput) {
-		setInput(editorInput);
-		initializeGraphicalViewer();
 	}
 }
