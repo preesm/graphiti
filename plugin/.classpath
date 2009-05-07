@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/antlr-runtime-3.1.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/saxon/saxon9-s9api.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/saxon/saxon9-xpath.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jgrapht-jdk1.6.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry excluding=".svn/|net/.svn/|net/sf/.svn/|net/sf/graphiti/.svn/|net/sf/graphiti/model/.svn/|net/sf/graphiti/ontology/.svn/|net/sf/graphiti/ontology/attributes/.svn/|net/sf/graphiti/ontology/attributes/impl/.svn/|net/sf/graphiti/ontology/enums/.svn/|net/sf/graphiti/ontology/enums/impl/.svn/|net/sf/graphiti/ontology/nodes/.svn/|net/sf/graphiti/ontology/nodes/impl/.svn/|net/sf/graphiti/ontology/nodes/parameters/.svn/|net/sf/graphiti/ontology/nodes/parameters/edges/.svn/|net/sf/graphiti/ontology/nodes/parameters/edges/impl/.svn/|net/sf/graphiti/ontology/nodes/parameters/impl/.svn/|net/sf/graphiti/ontology/parameters/.svn/|net/sf/graphiti/ontology/parameters/impl/.svn/|net/sf/graphiti/ontology/types/.svn/|net/sf/graphiti/ontology/types/impl/.svn/|net/sf/graphiti/parsers/.svn/|net/sf/graphiti/ui/.svn/|net/sf/graphiti/ui/actions/.svn/|net/sf/graphiti/ui/adapters/.svn/|net/sf/graphiti/ui/commands/.svn/|net/sf/graphiti/ui/editors/.svn/|net/sf/graphiti/ui/editparts/.svn/|net/sf/graphiti/ui/editpolicies/.svn/|net/sf/graphiti/ui/figure/.svn/|net/sf/graphiti/ui/figure/shapes/.svn/|net/sf/graphiti/ui/propertysource/.svn/|net/sf/graphiti/ui/views/.svn/|net/sf/graphiti/ui/wizards/.svn/|net/sf/graphiti/writer/.svn/" kind="src" path="src/java"/>
-	<classpathentry exported="true" kind="lib" path="lib/saxon/saxon9.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/saxon/saxon9-dom.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/antlr-runtime-3.1.3.jar" sourcepath="Graphiti editorsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/saxon/saxon9.jar" sourcepath="Graphiti editorsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/saxon/saxon9-dom.jar" sourcepath="Graphiti editorsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/saxon/saxon9-s9api.jar" sourcepath="Graphiti editorsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/saxon/saxon9-xpath.jar" sourcepath="Graphiti editorsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/jgrapht-jdk1.6.jar" sourcepath="Graphiti editorsrc.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

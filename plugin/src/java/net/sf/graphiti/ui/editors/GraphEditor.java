@@ -195,7 +195,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 		ActionRegistry registry = getActionRegistry();
 		Class<?> actions[] = { CopyAction.class, CutAction.class,
-				OpenRefinementNewTabAction.class, PasteAction.class,
+				/*OpenRefinementNewTabAction.class,*/ PasteAction.class,
 				PrintAction.class, SelectAllAction.class,
 				SetRefinementAction.class, ShowParametersAction.class };
 

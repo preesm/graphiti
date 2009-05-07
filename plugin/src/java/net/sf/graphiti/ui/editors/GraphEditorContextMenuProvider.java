@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.ui.editors;
 
-import net.sf.graphiti.ui.actions.OpenRefinementNewTabAction;
 import net.sf.graphiti.ui.actions.SetRefinementAction;
 import net.sf.graphiti.ui.actions.ShowParametersAction;
 
@@ -77,7 +76,6 @@ public class GraphEditorContextMenuProvider extends ContextMenuProvider {
 		ActionRegistry registry = getActionRegistry();
 
 		addIfEnabled(registry, menu, SetRefinementAction.getActionId());
-		addIfEnabled(registry, menu, OpenRefinementNewTabAction.getActionId());
 		addIfEnabled(registry, menu, ShowParametersAction.getActionId());
 
 		action = registry.getAction(ActionFactory.UNDO.getId());
