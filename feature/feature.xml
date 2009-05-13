@@ -80,11 +80,4 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
          version="1.0.0.beta2"
          unpack="false"/>
 
-   <plugin
-         id="net.sf.graphiti.doc"
-         download-size="0"
-         install-size="0"
-         version="0.9.0"
-         unpack="false"/>
-
 </feature>
