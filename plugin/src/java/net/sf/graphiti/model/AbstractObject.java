@@ -76,6 +76,8 @@ public abstract class AbstractObject {
 	protected AbstractObject(AbstractObject bean) {
 		propertyChange = new PropertyChangeSupport(this);
 		properties = new HashMap<String, Object>();
+		type = bean.type;
+		
 		Set<Entry<String, Object>> entries = bean.properties.entrySet();
 		for (Entry<String, Object> entry : entries) {
 			Object value = entry.getValue();
