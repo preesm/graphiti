@@ -29,17 +29,29 @@
 package net.sf.graphiti.io;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
+import net.sf.graphiti.configuration.ui.Activator;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.osgi.framework.Bundle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -67,15 +79,21 @@ public class XsltTransformer {
 	 * @throws TransformerConfigurationException
 	 *             Thrown if there are errors when parsing the Source or it is
 	 *             not possible to create a {@link Transformer} instance.
+	 * @throws IOException
+	 * @throws URISyntaxException
 	 */
 	public XsltTransformer(String fileName)
-			throws TransformerConfigurationException {
-		// TODO: use file from configuration.
-//		File file = FileLocator.getFile(fileName);
-//		TransformerFactory factory = TransformerFactory.newInstance(
-//				"net.sf.saxon.TransformerFactoryImpl", null);
-//		StreamSource xsltSource = new StreamSource(file);
-//		transformer = factory.newTransformer(xsltSource);
+			throws TransformerConfigurationException, IOException,
+			URISyntaxException {
+		Bundle bundle = Activator.getDefault().getBundle();
+		IPath path = new Path(fileName);
+		URL url = FileLocator.find(bundle, path, null);
+		url = FileLocator.toFileURL(url);
+		InputStream is = FileLocator.openStream(bundle, path, false);
+		TransformerFactory factory = TransformerFactory.newInstance(
+				"net.sf.saxon.TransformerFactoryImpl", null);
+		StreamSource xsltSource = new StreamSource(new File(url.toURI()));
+		transformer = factory.newTransformer(xsltSource);
 	}
 
 	/**

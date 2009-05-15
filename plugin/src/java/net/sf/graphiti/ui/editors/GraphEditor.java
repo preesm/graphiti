@@ -253,6 +253,10 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		} catch (TransformerException e) {
 			errorMessage("An unrecoverable error occurred during "
 					+ "the course of the transformation.", e);
+		} catch (IOException e) {
+			errorMessage("I/O exception", e);
+		} catch (Exception e) {
+			errorMessage("Exception", e);
 		}
 
 		monitor.setCanceled(true);

@@ -94,12 +94,17 @@ public class Configuration {
 	 *            The name of the file this document configuration is associated
 	 *            with.
 	 */
-	public Configuration(String fileName, Map<String, ObjectType> graphTypes,
-			Map<String, ObjectType> vertexTypes, Map<String, ObjectType> edgeTypes) {
+	public Configuration(String fileName, FileFormat fileFormat,
+			String[] refinementFileExtensions,
+			Map<String, ObjectType> graphTypes,
+			Map<String, ObjectType> vertexTypes,
+			Map<String, ObjectType> edgeTypes) {
+		this.fileFormat = fileFormat;
 		this.fileName = fileName;
 		this.edgeTypes = edgeTypes;
 		this.graphTypes = graphTypes;
 		this.vertexTypes = vertexTypes;
+		this.refinementFileExtensions = refinementFileExtensions;
 	}
 
 	/**
@@ -176,27 +181,6 @@ public class Configuration {
 	 */
 	public Set<ObjectType> getVertexTypes() {
 		return new TreeSet<ObjectType>(vertexTypes.values());
-	}
-
-	/**
-	 * Sets the file format associated with this configuration.
-	 * 
-	 * @param format
-	 *            A {@link FileFormat}.
-	 */
-	public void setFileFormat(FileFormat format) {
-		fileFormat = format;
-	}
-
-	/**
-	 * Sets the file extensions a refinement may have.
-	 * 
-	 * @param refinementFileExtensions
-	 *            A Set of strings representing file extensions.
-	 */
-	public void setRefinementFileExtensions(Set<String> refinementFileExtensions) {
-		this.refinementFileExtensions = refinementFileExtensions
-				.toArray(new String[] {});
 	}
 
 	@Override

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Graphiti configuration Plug-in
 Bundle-SymbolicName: net.sf.graphiti.configuration;singleton:=true
 Bundle-Version: 1.0.0
-Bundle-Activator: net.sf.graphiti.configuration.Activator
+Bundle-Activator: net.sf.graphiti.configuration.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-ActivationPolicy: lazy
@@ -15,7 +15,8 @@ Bundle-ClassPath: lib/antlr-runtime-3.1.3.jar,
  lib/saxon/saxon9-s9api.jar,
  lib/saxon/saxon9-xpath.jar,
  lib/saxon/saxon9.jar
-Export-Package: net.sf.graphiti.model,
+Export-Package: net.sf.graphiti.io,
+ net.sf.graphiti.model,
  net.sf.saxon,
  net.sf.saxon.charcode,
  net.sf.saxon.codenorm,

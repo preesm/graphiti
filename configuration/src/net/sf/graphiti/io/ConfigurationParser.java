@@ -31,21 +31,13 @@ package net.sf.graphiti.io;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.ParameterPosition;
-import net.sf.graphiti.ui.figure.shapes.IShape;
-import net.sf.graphiti.ui.figure.shapes.ShapeCircle;
-import net.sf.graphiti.ui.figure.shapes.ShapeHexagon;
-import net.sf.graphiti.ui.figure.shapes.ShapeLozenge;
-import net.sf.graphiti.ui.figure.shapes.ShapeRoundedBox;
-import net.sf.graphiti.ui.figure.shapes.ShapeTriangle;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -97,37 +89,6 @@ public class ConfigurationParser {
 	}
 
 	/**
-	 * Parses a configuration definition element.
-	 * 
-	 * @param element
-	 *            A configuration definition element.
-	 * @throws Exception
-	 *             If anything wrong occurs.
-	 */
-	private Configuration parseConfiguration(IConfigurationElement element) {
-		String name = element.getAttribute("name");
-
-		String extension = element.getAttribute("extension");
-		String type = element.getAttribute("type");
-		FileFormat format = new FileFormat(extension, type);
-
-		element.getChildren("import");
-
-		Map<String, ObjectType> graphTypes = parseTypes(element
-				.getChildren("graphType"));
-		Map<String, ObjectType> vertexTypes = parseTypes(element
-				.getChildren("vertexType"));
-		Map<String, ObjectType> edgeTypes = parseTypes(element
-				.getChildren("edgeType"));
-		Configuration configuration = new Configuration(name, graphTypes,
-				vertexTypes, edgeTypes);
-
-		configuration.setFileFormat(format);
-
-		return configuration;
-	}
-
-	/**
 	 * Parse the "color" attribute for the given type.
 	 * 
 	 * @param type
@@ -141,27 +102,6 @@ public class ConfigurationParser {
 		int blue = Integer.parseInt(element.getAttribute("blue"));
 		Color color = new Color(null, red, green, blue);
 		type.addAttribute(ObjectType.ATTRIBUTE_COLOR, color);
-	}
-
-	/**
-	 * Parses the attributes for the given edge type.
-	 * 
-	 * @param type
-	 *            The type whose attributes are being specified.
-	 * @param node
-	 *            A child node of &lt;attributes&gt;.
-	 */
-	private void parseEdgeAttributes(ObjectType type,
-			IConfigurationElement element) {
-		// TODO
-//		String nodeName = element.getNodeName();
-//		if (nodeName.equals("color")) {
-//			parseAttributeColor(type, element);
-//		} else if (nodeName.equals("directed")) {
-//			boolean directed = Boolean.parseBoolean(element
-//					.getAttribute("value"));
-//			type.addAttribute(ObjectType.ATTRIBUTE_DIRECTED, directed);
-//		}
 	}
 
 	/**
@@ -179,19 +119,20 @@ public class ConfigurationParser {
 				parseAttributeColor(type, (Element) node);
 			} else if (nodeName.equals("shape")) {
 				String shapeName = ((Element) node).getAttribute("name");
-				IShape shape = null;
-				if (shapeName.equals("circle")) {
-					shape = new ShapeCircle();
-				} else if (shapeName.equals("hexagon")) {
-					shape = new ShapeHexagon();
-				} else if (shapeName.equals("lozenge")) {
-					shape = new ShapeLozenge();
-				} else if (shapeName.equals("roundedBox")) {
-					shape = new ShapeRoundedBox();
-				} else if (shapeName.equals("triangle")) {
-					shape = new ShapeTriangle();
-				}
-				type.addAttribute(ObjectType.ATTRIBUTE_SHAPE, shape);
+				// FIXME
+//				IShape shape = null;
+//				if (shapeName.equals("circle")) {
+//					shape = new ShapeCircle();
+//				} else if (shapeName.equals("hexagon")) {
+//					shape = new ShapeHexagon();
+//				} else if (shapeName.equals("lozenge")) {
+//					shape = new ShapeLozenge();
+//				} else if (shapeName.equals("roundedBox")) {
+//					shape = new ShapeRoundedBox();
+//				} else if (shapeName.equals("triangle")) {
+//					shape = new ShapeTriangle();
+//				}
+//				type.addAttribute(ObjectType.ATTRIBUTE_SHAPE, shape);
 			} else if (nodeName.equals("size")) {
 				Element element = (Element) node;
 				int width = Integer.parseInt(element.getAttribute("width"));
@@ -205,6 +146,66 @@ public class ConfigurationParser {
 	}
 
 	/**
+	 * Parses a configuration definition element.
+	 * 
+	 * @param element
+	 *            A configuration definition element.
+	 * @throws Exception
+	 *             If anything wrong occurs.
+	 */
+	private Configuration parseConfiguration(IConfigurationElement element) {
+		String name = element.getAttribute("name");
+
+		String extension = element.getAttribute("extension");
+		String type = element.getAttribute("type");
+		FileFormat format = new FileFormat(extension, type);
+
+		IConfigurationElement[] children = element.getChildren("import");
+		children = children[0].getChildren();
+		parseFileFormatImport(format, children);
+
+		children = element.getChildren("export");
+		children = children[0].getChildren();
+		parseFileFormatExport(format, children);
+
+		Map<String, ObjectType> graphTypes = parseTypes(element
+				.getChildren("graphType"));
+		Map<String, ObjectType> vertexTypes = parseTypes(element
+				.getChildren("vertexType"));
+		Map<String, ObjectType> edgeTypes = parseTypes(element
+				.getChildren("edgeType"));
+
+		IConfigurationElement refinement = element
+				.getChildren("refinement-file-extensions")[0];
+		String fileExts = refinement.getAttribute("file-extensions");
+
+		Configuration configuration = new Configuration(name, format, fileExts
+				.split(","), graphTypes, vertexTypes, edgeTypes);
+		return configuration;
+	}
+
+	/**
+	 * Parses the attributes for the given edge type.
+	 * 
+	 * @param type
+	 *            The type whose attributes are being specified.
+	 * @param node
+	 *            A child node of &lt;attributes&gt;.
+	 */
+	private void parseEdgeAttributes(ObjectType type,
+			IConfigurationElement element) {
+		// TODO parse edge attributes
+		// String nodeName = element.getNodeName();
+		// if (nodeName.equals("color")) {
+		// parseAttributeColor(type, element);
+		// } else if (nodeName.equals("directed")) {
+		// boolean directed = Boolean.parseBoolean(element
+		// .getAttribute("value"));
+		// type.addAttribute(ObjectType.ATTRIBUTE_DIRECTED, directed);
+		// }
+	}
+
+	/**
 	 * Parses the file format exports.
 	 * 
 	 * @param format
@@ -212,14 +213,17 @@ public class ConfigurationParser {
 	 * @param node
 	 *            A child node of &lt;exports&gt;.
 	 */
-	private void parseFileFormatExport(FileFormat format, Node node) {
-		while (node != null) {
-			if (node.getNodeName().equals("transformation")) {
-				String fileName = ((Element) node).getAttribute("name");
-				format.addExportTransformation(fileName);
+	private void parseFileFormatExport(FileFormat format,
+			IConfigurationElement[] children) {
+		for (IConfigurationElement child : children) {
+			String name = child.getAttribute("name");
+			String type = child.getAttribute("type");
+			format.addExportTransformation(name);
+			if (type.equals("xslt")) {
+				format.addExportTransformation(name);
+			} else {
+				throw new IllegalArgumentException("Unknown type: " + type);
 			}
-
-			node = node.getNextSibling();
 		}
 	}
 
@@ -231,53 +235,20 @@ public class ConfigurationParser {
 	 * @param node
 	 *            A child node of &lt;imports&gt;.
 	 */
-	private void parseFileFormatImport(FileFormat format, Node node) {
-		while (node != null) {
-			if (node.getNodeName().equals("transformation")) {
-				String type = ((Element) node).getAttribute("type");
-				if (type.equals("grammar")) {
-					String folder = ((Element) node).getAttribute("folder");
-					String name = ((Element) node).getAttribute("name");
-					String startRule = ((Element) node)
-							.getAttribute("startRule");
-					format.addImportGrammarTransformation(folder, name,
-							startRule);
-				} else if (type.equals("xslt")) {
-					String file = ((Element) node).getAttribute("file");
-					if (file.isEmpty()) {
-						throw new IllegalArgumentException(
-								"The \"file\" attribute should not be empty!");
-					}
-					format.addImportXsltTransformation(file);
-				} else {
-					throw new IllegalArgumentException("Unknown type: " + type);
-				}
-			}
-
-			node = node.getNextSibling();
-		}
-	}
-
-	/**
-	 * Parses the graph types.
-	 * 
-	 * @param configuration
-	 *            The configuration to fill.
-	 * @param node
-	 *            A child node of configuration.
-	 * @return The node following &lt;graphTypes&gt;
-	 */
-	private Map<String, ObjectType> parseTypes(IConfigurationElement[] children) {
-		Map<String, ObjectType> types = new TreeMap<String, ObjectType>();
-
+	private void parseFileFormatImport(FileFormat format,
+			IConfigurationElement[] children) {
 		for (IConfigurationElement child : children) {
-			String typeName = child.getAttribute("name");
-			ObjectType type = new ObjectType(typeName);
-			types.put(typeName, type);
-			parseType(type, child);
+			String name = child.getAttribute("name");
+			String type = child.getAttribute("type");
+			if (type.equals("grammar")) {
+				// TODO start Rule
+				format.addImportGrammarTransformation("", name, "");
+			} else if (type.equals("xslt")) {
+				format.addImportXsltTransformation(name);
+			} else {
+				throw new IllegalArgumentException("Unknown type: " + type);
+			}
 		}
-
-		return types;
 	}
 
 	/**
@@ -372,34 +343,6 @@ public class ConfigurationParser {
 	}
 
 	/**
-	 * Parses the refinement file extensions.
-	 * 
-	 * @param configuration
-	 *            The configuration to fill.
-	 * @param node
-	 *            A child node of configuration.
-	 * @return The node following &lt;refinementFileExtensions&gt;
-	 */
-	private Node parseRefinementFileExtensions(Configuration configuration,
-			Node node) {
-		node = DomHelper.getFirstSiblingNamed(node, "refinementFileExtensions");
-		Set<String> fileExtensions = new TreeSet<String>();
-
-		Node child = node.getFirstChild();
-		while (child != null) {
-			if (child.getNodeName().equals("fileExtension")) {
-				String fileExtension = ((Element) child).getAttribute("name");
-				fileExtensions.add(fileExtension);
-			}
-
-			child = child.getNextSibling();
-		}
-
-		configuration.setRefinementFileExtensions(fileExtensions);
-		return node.getNextSibling();
-	}
-
-	/**
 	 * Parses a type.
 	 * 
 	 * @param configuration
@@ -410,6 +353,28 @@ public class ConfigurationParser {
 	 */
 	private void parseType(ObjectType type, IConfigurationElement child) {
 		// TODO: parse attributes
+	}
+
+	/**
+	 * Parses the graph types.
+	 * 
+	 * @param configuration
+	 *            The configuration to fill.
+	 * @param node
+	 *            A child node of configuration.
+	 * @return The node following &lt;graphTypes&gt;
+	 */
+	private Map<String, ObjectType> parseTypes(IConfigurationElement[] children) {
+		Map<String, ObjectType> types = new TreeMap<String, ObjectType>();
+
+		for (IConfigurationElement child : children) {
+			String typeName = child.getAttribute("name");
+			ObjectType type = new ObjectType(typeName);
+			types.put(typeName, type);
+			parseType(type, child);
+		}
+
+		return types;
 	}
 
 }

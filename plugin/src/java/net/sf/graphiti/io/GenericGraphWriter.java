@@ -92,11 +92,10 @@ public class GenericGraphWriter {
 	 * @throws TransformerException
 	 *             If an unrecoverable error occurs during the course of the
 	 *             transformation.
+	 * @throws IOException
 	 */
 	private void applyTransformations(String path, Element element,
-			OutputStream byteStream) throws ClassCastException,
-			ClassNotFoundException, InstantiationException,
-			IllegalAccessException, TransformerException {
+			OutputStream byteStream) throws Exception {
 		Configuration configuration = graph.getConfiguration();
 		FileFormat format = configuration.getFileFormat();
 
@@ -140,11 +139,9 @@ public class GenericGraphWriter {
 	 * @throws TransformerException
 	 *             If an unrecoverable error occurs during the course of the
 	 *             transformation.
+	 * @throws IOException
 	 */
-	public void write(String path, OutputStream byteStream)
-			throws ClassCastException, ClassNotFoundException,
-			IllegalAccessException, InstantiationException,
-			TransformerException {
+	public void write(String path, OutputStream byteStream) throws Exception {
 		Element element = writeGraph();
 		applyTransformations(path, element, byteStream);
 	}

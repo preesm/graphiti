@@ -30,6 +30,7 @@ package net.sf.graphiti.ui.wizards;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import javax.xml.transform.TransformerException;
@@ -135,6 +136,10 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 		} catch (TransformerException e) {
 			errorMessage("An unrecoverable error occurred during "
 					+ "the course of the transformation.", e);
+		} catch (IOException e) {
+			errorMessage("I/O exception", e);
+		} catch (Exception e) {
+			errorMessage("Exception", e);
 		}
 
 		return null;
