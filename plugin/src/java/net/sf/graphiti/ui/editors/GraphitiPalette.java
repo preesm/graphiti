@@ -32,12 +32,12 @@ import java.util.Set;
 
 import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Configuration;
-import net.sf.graphiti.model.EdgeCreationFactory;
 import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.VertexCreationFactory;
 import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.GraphitiPlugin;
+import net.sf.graphiti.ui.editparts.EdgeCreationFactory;
+import net.sf.graphiti.ui.editparts.VertexCreationFactory;
 import net.sf.graphiti.ui.figure.VertexFigure;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 
