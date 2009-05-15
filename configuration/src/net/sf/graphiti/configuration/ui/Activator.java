@@ -1,4 +1,4 @@
-package net.sf.graphiti.configuration;
+package net.sf.graphiti.configuration.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;

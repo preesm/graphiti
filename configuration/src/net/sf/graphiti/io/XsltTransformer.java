@@ -31,7 +31,6 @@ package net.sf.graphiti.io;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -89,7 +88,6 @@ public class XsltTransformer {
 		IPath path = new Path(fileName);
 		URL url = FileLocator.find(bundle, path, null);
 		url = FileLocator.toFileURL(url);
-		InputStream is = FileLocator.openStream(bundle, path, false);
 		TransformerFactory factory = TransformerFactory.newInstance(
 				"net.sf.saxon.TransformerFactoryImpl", null);
 		StreamSource xsltSource = new StreamSource(new File(url.toURI()));
