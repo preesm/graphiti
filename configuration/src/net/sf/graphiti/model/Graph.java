@@ -89,7 +89,7 @@ public class Graph extends AbstractObject {
 	 * @param type
 	 *            The graph type.
 	 */
-	public Graph(Configuration configuration, GraphType type) {
+	public Graph(Configuration configuration, ObjectType type) {
 		this(configuration, type, true);
 	}
 
@@ -103,7 +103,7 @@ public class Graph extends AbstractObject {
 	 * @param directed
 	 *            Specifies whether the graph should be directed or not.
 	 */
-	public Graph(Configuration configuration, GraphType type, boolean directed) {
+	public Graph(Configuration configuration, ObjectType type, boolean directed) {
 		super(type);
 
 		this.configuration = configuration;
@@ -133,7 +133,7 @@ public class Graph extends AbstractObject {
 	 * @param type
 	 *            The graph type.
 	 */
-	public Graph(Graph graph, Configuration configuration, GraphType type) {
+	public Graph(Graph graph, Configuration configuration, ObjectType type) {
 		super(graph);
 		this.configuration = configuration;
 		if (graph.isDirected()) {
@@ -170,7 +170,7 @@ public class Graph extends AbstractObject {
 		boolean res = graph.addVertex(child);
 		child.parent = this;
 
-		vertices.put((String) child.getValue(VertexType.PARAMETER_ID), child);
+		vertices.put((String) child.getValue(ObjectType.PARAMETER_ID), child);
 
 		firePropertyChange(PROPERTY_ADD, null, child);
 		return res;
@@ -185,7 +185,7 @@ public class Graph extends AbstractObject {
 	 *            Its new id.
 	 */
 	void changeVertexId(Vertex vertex, String id) {
-		String oldId = (String) vertex.getValue(VertexType.PARAMETER_ID);
+		String oldId = (String) vertex.getValue(ObjectType.PARAMETER_ID);
 		if (oldId != null && id != null && !oldId.equals(id)) {
 			vertices.remove(oldId);
 			vertices.put(id, vertex);
@@ -270,7 +270,7 @@ public class Graph extends AbstractObject {
 		boolean res = graph.removeVertex(child);
 		child.parent = null;
 
-		vertices.remove((String) child.getValue(VertexType.PARAMETER_ID));
+		vertices.remove((String) child.getValue(ObjectType.PARAMETER_ID));
 
 		firePropertyChange(PROPERTY_REMOVE, null, child);
 		return res;

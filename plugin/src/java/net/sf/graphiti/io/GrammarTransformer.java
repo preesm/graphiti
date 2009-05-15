@@ -28,20 +28,15 @@
  */
 package net.sf.graphiti.io;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.sf.graphiti.util.FileLocator;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.ANTLRStringStream;
@@ -101,16 +96,17 @@ public class GrammarTransformer {
 			lexer = lexerMap.get(name);
 			parser = parserMap.get(name);
 		} else {
-			File lexerFile = FileLocator.getFile(folder);
-			URL[] urls = new URL[] { lexerFile.toURI().toURL() };
-			ClassLoader parentLoader = Thread.currentThread()
-					.getContextClassLoader();
-			URLClassLoader loader = new URLClassLoader(urls, parentLoader);
-
-			lexer = loader.loadClass(name + "Lexer");
-			lexerMap.put(name, lexer);
-			parser = loader.loadClass(name + "Parser");
-			parserMap.put(name, parser);
+			// TODO: use lexer/parser from configuration
+//			File lexerFile = FileLocator.getFile(folder);
+//			URL[] urls = new URL[] { lexerFile.toURI().toURL() };
+//			ClassLoader parentLoader = Thread.currentThread()
+//					.getContextClassLoader();
+//			URLClassLoader loader = new URLClassLoader(urls, parentLoader);
+//
+//			lexer = loader.loadClass(name + "Lexer");
+//			lexerMap.put(name, lexer);
+//			parser = loader.loadClass(name + "Parser");
+//			parserMap.put(name, parser);
 		}
 	}
 

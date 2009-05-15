@@ -29,7 +29,6 @@
 package net.sf.graphiti.io;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 
 import javax.xml.transform.Result;
@@ -37,13 +36,9 @@ import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
-import net.sf.graphiti.util.FileLocator;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -75,11 +70,12 @@ public class XsltTransformer {
 	 */
 	public XsltTransformer(String fileName)
 			throws TransformerConfigurationException {
-		File file = FileLocator.getFile(fileName);
-		TransformerFactory factory = TransformerFactory.newInstance(
-				"net.sf.saxon.TransformerFactoryImpl", null);
-		StreamSource xsltSource = new StreamSource(file);
-		transformer = factory.newTransformer(xsltSource);
+		// TODO: use file from configuration.
+//		File file = FileLocator.getFile(fileName);
+//		TransformerFactory factory = TransformerFactory.newInstance(
+//				"net.sf.saxon.TransformerFactoryImpl", null);
+//		StreamSource xsltSource = new StreamSource(file);
+//		transformer = factory.newTransformer(xsltSource);
 	}
 
 	/**

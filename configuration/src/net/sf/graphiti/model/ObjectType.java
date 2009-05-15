@@ -34,18 +34,60 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class provides an abstract representation of types.
+ * This class provides an object type.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public abstract class AbstractType implements Comparable<AbstractType> {
+public class ObjectType implements Comparable<ObjectType> {
+
+	/**
+	 * String for the "height" attribute. Defines the vertex height.
+	 */
+	public static final String ATTRIBUTE_HEIGHT = "height";
+
+	/**
+	 * String for the "shape" attribute. Defines the vertex shape.
+	 */
+	public static final String ATTRIBUTE_SHAPE = "shape";
+
+	/**
+	 * String for the "width" attribute. Defines the vertex width.
+	 */
+	public static final String ATTRIBUTE_WIDTH = "width";
+
+	/**
+	 * String for the "id" parameter. Defines the vertex id.
+	 */
+	public static final String PARAMETER_ID = "id";
+
+	/**
+	 * String for the "refinement" parameter. Defines the vertex refinement.
+	 */
+	public static final String PARAMETER_REFINEMENT = "refinement";
 
 	/**
 	 * String for the "color" attribute. Defines the color of a graph, a vertex,
 	 * an edge.
 	 */
 	public static final String ATTRIBUTE_COLOR = "color";
+
+	/**
+	 * String for the "directed" attribute.
+	 */
+	public static final String ATTRIBUTE_DIRECTED = "directed";
+
+	/**
+	 * String for the "source port" parameter. Defines the edge source port (if
+	 * any).
+	 */
+	public static final String PARAMETER_SOURCE_PORT = "source port";
+
+	/**
+	 * String for the "target port" parameter. Defines the edge target port (if
+	 * any).
+	 */
+	public static final String PARAMETER_TARGET_PORT = "target port";
 
 	private Map<String, Object> attributes;
 
@@ -59,7 +101,7 @@ public abstract class AbstractType implements Comparable<AbstractType> {
 	 * @param name
 	 *            The type name.
 	 */
-	protected AbstractType(String name) {
+	public ObjectType(String name) {
 		this.name = name;
 		attributes = new HashMap<String, Object>();
 		parameters = new HashMap<String, Parameter>();
@@ -86,14 +128,14 @@ public abstract class AbstractType implements Comparable<AbstractType> {
 	}
 
 	@Override
-	public int compareTo(AbstractType type) {
+	public int compareTo(ObjectType type) {
 		return name.compareTo(type.name);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof AbstractType) {
-			AbstractType type = (AbstractType) obj;
+		if (obj instanceof ObjectType) {
+			ObjectType type = (ObjectType) obj;
 			return name.equals(type.name);
 		} else {
 			return false;

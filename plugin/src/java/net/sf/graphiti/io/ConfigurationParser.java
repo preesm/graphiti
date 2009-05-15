@@ -28,8 +28,6 @@
  */
 package net.sf.graphiti.io;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,24 +35,24 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Configuration;
-import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.FileFormat;
-import net.sf.graphiti.model.GraphType;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.ParameterPosition;
-import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 import net.sf.graphiti.ui.figure.shapes.ShapeCircle;
 import net.sf.graphiti.ui.figure.shapes.ShapeHexagon;
 import net.sf.graphiti.ui.figure.shapes.ShapeLozenge;
 import net.sf.graphiti.ui.figure.shapes.ShapeRoundedBox;
 import net.sf.graphiti.ui.figure.shapes.ShapeTriangle;
-import net.sf.graphiti.util.FileLocator;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.Color;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -73,20 +71,19 @@ public class ConfigurationParser {
 	 * Creates a new configuration parser that parses all configuration files
 	 * located in the configuration folder (defined in the plug-in preferences).
 	 * 
+	 * @throws CoreException
+	 * 
 	 * @see FileLocator
 	 */
-	public ConfigurationParser() {
+	public ConfigurationParser() throws CoreException {
 		configurations = new ArrayList<Configuration>();
 
-		// Get all *.xml files
-		List<String> confFiles = FileLocator.listFiles("[^.]*\\.xml");
-		for (String fileName : confFiles) {
-			try {
-				parse(fileName);
-			} catch (Exception e) {
-				System.err.println(fileName);
-				e.printStackTrace();
-			}
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IConfigurationElement[] elements = registry
+				.getConfigurationElementsFor("net.sf.graphiti.configuration.definition");
+		for (IConfigurationElement element : elements) {
+			Configuration configuration = parseConfiguration(element);
+			configurations.add(configuration);
 		}
 	}
 
@@ -100,17 +97,34 @@ public class ConfigurationParser {
 	}
 
 	/**
-	 * Parses a configuration file whose name is given.
+	 * Parses a configuration definition element.
 	 * 
-	 * @param fileName
-	 *            The configuration file name.
+	 * @param element
+	 *            A configuration definition element.
 	 * @throws Exception
 	 *             If anything wrong occurs.
 	 */
-	private void parse(String fileName) throws Exception {
-		InputStream byteStream = new FileInputStream(fileName);
-		Document document = DomHelper.parse(byteStream);
-		parseConfiguration(fileName, document.getDocumentElement());
+	private Configuration parseConfiguration(IConfigurationElement element) {
+		String name = element.getAttribute("name");
+
+		String extension = element.getAttribute("extension");
+		String type = element.getAttribute("type");
+		FileFormat format = new FileFormat(extension, type);
+
+		element.getChildren("import");
+
+		Map<String, ObjectType> graphTypes = parseTypes(element
+				.getChildren("graphType"));
+		Map<String, ObjectType> vertexTypes = parseTypes(element
+				.getChildren("vertexType"));
+		Map<String, ObjectType> edgeTypes = parseTypes(element
+				.getChildren("edgeType"));
+		Configuration configuration = new Configuration(name, graphTypes,
+				vertexTypes, edgeTypes);
+
+		configuration.setFileFormat(format);
+
+		return configuration;
 	}
 
 	/**
@@ -121,12 +135,12 @@ public class ConfigurationParser {
 	 * @param element
 	 *            An element.
 	 */
-	private void parseAttributeColor(AbstractType type, Element element) {
+	private void parseAttributeColor(ObjectType type, Element element) {
 		int red = Integer.parseInt(element.getAttribute("red"));
 		int green = Integer.parseInt(element.getAttribute("green"));
 		int blue = Integer.parseInt(element.getAttribute("blue"));
 		Color color = new Color(null, red, green, blue);
-		type.addAttribute(AbstractType.ATTRIBUTE_COLOR, color);
+		type.addAttribute(ObjectType.ATTRIBUTE_COLOR, color);
 	}
 
 	/**
@@ -137,20 +151,17 @@ public class ConfigurationParser {
 	 * @param node
 	 *            A child node of &lt;attributes&gt;.
 	 */
-	private void parseAttributes(EdgeType type, Node node) {
-		while (node != null) {
-			String nodeName = node.getNodeName();
-			if (nodeName.equals("color")) {
-				parseAttributeColor(type, (Element) node);
-			} else if (nodeName.equals("directed")) {
-				Element element = (Element) node;
-				boolean directed = Boolean.parseBoolean(element
-						.getAttribute("value"));
-				type.addAttribute(EdgeType.ATTRIBUTE_DIRECTED, directed);
-			}
-
-			node = node.getNextSibling();
-		}
+	private void parseEdgeAttributes(ObjectType type,
+			IConfigurationElement element) {
+		// TODO
+//		String nodeName = element.getNodeName();
+//		if (nodeName.equals("color")) {
+//			parseAttributeColor(type, element);
+//		} else if (nodeName.equals("directed")) {
+//			boolean directed = Boolean.parseBoolean(element
+//					.getAttribute("value"));
+//			type.addAttribute(ObjectType.ATTRIBUTE_DIRECTED, directed);
+//		}
 	}
 
 	/**
@@ -161,7 +172,7 @@ public class ConfigurationParser {
 	 * @param node
 	 *            A child node of &lt;attributes&gt;.
 	 */
-	private void parseAttributes(VertexType type, Node node) {
+	private void parseAttributes(ObjectType type, Node node) {
 		while (node != null) {
 			String nodeName = node.getNodeName();
 			if (nodeName.equals("color")) {
@@ -180,99 +191,17 @@ public class ConfigurationParser {
 				} else if (shapeName.equals("triangle")) {
 					shape = new ShapeTriangle();
 				}
-				type.addAttribute(VertexType.ATTRIBUTE_SHAPE, shape);
+				type.addAttribute(ObjectType.ATTRIBUTE_SHAPE, shape);
 			} else if (nodeName.equals("size")) {
 				Element element = (Element) node;
 				int width = Integer.parseInt(element.getAttribute("width"));
 				int height = Integer.parseInt(element.getAttribute("height"));
-				type.addAttribute(VertexType.ATTRIBUTE_WIDTH, width);
-				type.addAttribute(VertexType.ATTRIBUTE_HEIGHT, height);
+				type.addAttribute(ObjectType.ATTRIBUTE_WIDTH, width);
+				type.addAttribute(ObjectType.ATTRIBUTE_HEIGHT, height);
 			}
 
 			node = node.getNextSibling();
 		}
-	}
-
-	/**
-	 * Parses the given document element of a configuration file into a
-	 * {@link Configuration}, which is then added to {@link #configurations}.
-	 * 
-	 * @param fileName
-	 *            The configuration file name.
-	 * @param element
-	 *            The root element of the configuration file.
-	 */
-	private void parseConfiguration(String fileName, Element element) {
-		Configuration configuration = new Configuration(fileName);
-
-		// parse different sections
-		Node node = element.getFirstChild();
-		node = parseFileFormat(configuration, node);
-		node = parseRefinementFileExtensions(configuration, node);
-		node = parseGraphTypes(configuration, node);
-		node = parseVertexTypes(configuration, node);
-		node = parseEdgeTypes(configuration, node);
-
-		// if nothing has failed
-		configurations.add(configuration);
-	}
-
-	/**
-	 * Parses the edge types.
-	 * 
-	 * @param configuration
-	 *            The configuration to fill.
-	 * @param node
-	 *            A child node of configuration.
-	 * @return The node following &lt;edgeTypes&gt;
-	 */
-	private Node parseEdgeTypes(Configuration configuration, Node node) {
-		node = DomHelper.getFirstSiblingNamed(node, "edgeTypes");
-		Set<EdgeType> edgeTypes = new TreeSet<EdgeType>();
-
-		Node child = node.getFirstChild();
-		while (child != null) {
-			if (child.getNodeName().equals("edgeType")) {
-				String typeName = ((Element) child).getAttribute("name");
-				EdgeType type = new EdgeType(typeName);
-				edgeTypes.add(type);
-				parseType(type, child.getFirstChild());
-			}
-
-			child = child.getNextSibling();
-		}
-
-		configuration.setEdgeTypes(edgeTypes);
-		return node.getNextSibling();
-	}
-
-	/**
-	 * Parses the file format defined by this configuration.
-	 * 
-	 * @param configuration
-	 *            The configuration to fill.
-	 * @param node
-	 *            A child node of configuration.
-	 * @return The node following &lt;fileFormat&gt;
-	 */
-	private Node parseFileFormat(Configuration configuration, Node node) {
-		node = DomHelper.getFirstSiblingNamed(node, "fileFormat");
-		Element element = (Element) node;
-
-		// file format
-		String extension = element.getAttribute("extension");
-		String type = element.getAttribute("type");
-		FileFormat format = new FileFormat(extension, type);
-		configuration.setFileFormat(format);
-
-		// import/export
-		Node child = node.getFirstChild();
-		child = DomHelper.getFirstSiblingNamed(child, "import");
-		parseFileFormatImport(format, child.getFirstChild());
-		child = DomHelper.getFirstSiblingNamed(child, "export");
-		parseFileFormatExport(format, child.getFirstChild());
-
-		return node.getNextSibling();
 	}
 
 	/**
@@ -338,24 +267,17 @@ public class ConfigurationParser {
 	 *            A child node of configuration.
 	 * @return The node following &lt;graphTypes&gt;
 	 */
-	private Node parseGraphTypes(Configuration configuration, Node node) {
-		node = DomHelper.getFirstSiblingNamed(node, "graphTypes");
-		Set<GraphType> graphTypes = new TreeSet<GraphType>();
+	private Map<String, ObjectType> parseTypes(IConfigurationElement[] children) {
+		Map<String, ObjectType> types = new TreeMap<String, ObjectType>();
 
-		Node child = node.getFirstChild();
-		while (child != null) {
-			if (child.getNodeName().equals("graphType")) {
-				String typeName = ((Element) child).getAttribute("name");
-				GraphType type = new GraphType(typeName);
-				graphTypes.add(type);
-				parseType(type, child.getFirstChild());
-			}
-
-			child = child.getNextSibling();
+		for (IConfigurationElement child : children) {
+			String typeName = child.getAttribute("name");
+			ObjectType type = new ObjectType(typeName);
+			types.put(typeName, type);
+			parseType(type, child);
 		}
 
-		configuration.setGraphTypes(graphTypes);
-		return node.getNextSibling();
+		return types;
 	}
 
 	/**
@@ -422,7 +344,7 @@ public class ConfigurationParser {
 	 * @param node
 	 *            A child node of &lt;parameters&gt;.
 	 */
-	private void parseParameters(AbstractType type, Node node) {
+	private void parseParameters(ObjectType type, Node node) {
 		while (node != null) {
 			if (node.getNodeName().equals("parameter")) {
 				Element element = (Element) node;
@@ -486,44 +408,8 @@ public class ConfigurationParser {
 	 *            A child node of a type element (one of &lt;graphType&gt;,
 	 *            &lt;vertexType&gt; or &lt;edgeType&gt;).
 	 */
-	private void parseType(AbstractType type, Node node) {
-		node = DomHelper.getFirstSiblingNamed(node, "attributes");
-		if (type instanceof EdgeType) {
-			parseAttributes((EdgeType) type, node.getFirstChild());
-		} else if (type instanceof VertexType) {
-			parseAttributes((VertexType) type, node.getFirstChild());
-		}
-		node = DomHelper.getFirstSiblingNamed(node, "parameters");
-		parseParameters(type, node.getFirstChild());
-	}
-
-	/**
-	 * Parses the vertex types.
-	 * 
-	 * @param configuration
-	 *            The configuration to fill.
-	 * @param node
-	 *            A child node of configuration.
-	 * @return The node following &lt;vertexTypes&gt;
-	 */
-	private Node parseVertexTypes(Configuration configuration, Node node) {
-		node = DomHelper.getFirstSiblingNamed(node, "vertexTypes");
-		Set<VertexType> vertexTypes = new TreeSet<VertexType>();
-
-		Node child = node.getFirstChild();
-		while (child != null) {
-			if (child.getNodeName().equals("vertexType")) {
-				String typeName = ((Element) child).getAttribute("name");
-				VertexType type = new VertexType(typeName);
-				vertexTypes.add(type);
-				parseType(type, child.getFirstChild());
-			}
-
-			child = child.getNextSibling();
-		}
-
-		configuration.setVertexTypes(vertexTypes);
-		return node.getNextSibling();
+	private void parseType(ObjectType type, IConfigurationElement child) {
+		// TODO: parse attributes
 	}
 
 }

@@ -28,8 +28,8 @@
  */
 package net.sf.graphiti.ui.editparts;
 
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.model.VertexType;
 
 import org.eclipse.gef.requests.CreationFactory;
 
@@ -41,7 +41,7 @@ import org.eclipse.gef.requests.CreationFactory;
  */
 public class VertexCreationFactory implements CreationFactory {
 
-	private VertexType type;
+	private ObjectType type;
 
 	/**
 	 * Create a new vertex creation factory.
@@ -51,7 +51,7 @@ public class VertexCreationFactory implements CreationFactory {
 	 * @param type
 	 *            The vertex type.
 	 */
-	public VertexCreationFactory(VertexType type) {
+	public VertexCreationFactory(ObjectType type) {
 		this.type = type;
 	}
 

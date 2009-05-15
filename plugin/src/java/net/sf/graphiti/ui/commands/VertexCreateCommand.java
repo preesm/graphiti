@@ -29,8 +29,8 @@
 package net.sf.graphiti.ui.commands;
 
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.model.VertexType;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
@@ -65,7 +65,7 @@ public class VertexCreateCommand extends Command {
 		if (graph != null && vertex != null) {
 			String id = getVertexId();
 			if (id != null) {
-				vertex.setValue(VertexType.PARAMETER_ID, id);
+				vertex.setValue(ObjectType.PARAMETER_ID, id);
 				graph.addVertex(vertex);
 
 				// retrieve the vertex bounds (they have been set by the edit

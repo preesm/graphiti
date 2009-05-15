@@ -31,9 +31,8 @@ package net.sf.graphiti.ui.figure;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.EdgeType;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.ParameterPosition;
 
@@ -79,14 +78,14 @@ public class EdgeFigure extends PolylineConnection {
 		}
 
 		Boolean directed = (Boolean) edge.getType().getAttribute(
-				EdgeType.ATTRIBUTE_DIRECTED);
+				ObjectType.ATTRIBUTE_DIRECTED);
 		if (directed == null || directed) {
 			// we consider the edge directed by default.
 			setTargetDecoration(new PolygonDecoration());
 		}
 
 		Color color = (Color) edge.getType().getAttribute(
-				AbstractType.ATTRIBUTE_COLOR);
+				ObjectType.ATTRIBUTE_COLOR);
 		if (color == null) {
 			color = ColorConstants.black;
 		}

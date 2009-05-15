@@ -37,8 +37,8 @@ import java.util.Map.Entry;
 import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.model.VertexType;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.preference.PreferenceDialog;
@@ -165,7 +165,7 @@ public class ShowParametersCommand extends Command implements IShellProvider,
 	private void setTitle(Shell shell) {
 		String name = null;
 		if (model instanceof Vertex) {
-			name = "\"" + model.getValue(VertexType.PARAMETER_ID) + "\"";
+			name = "\"" + model.getValue(ObjectType.PARAMETER_ID) + "\"";
 		} else if (model instanceof Graph) {
 			name = "graph";
 		} else if (model instanceof Edge) {

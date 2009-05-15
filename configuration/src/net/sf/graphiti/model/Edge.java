@@ -73,7 +73,7 @@ public class Edge extends AbstractObject {
 	 * @param type
 	 *            The edge type.
 	 */
-	public Edge(EdgeType type) {
+	public Edge(ObjectType type) {
 		super(type);
 
 		// set default values
@@ -93,7 +93,7 @@ public class Edge extends AbstractObject {
 	 * @param target
 	 *            The target vertex.
 	 */
-	public Edge(EdgeType type, Vertex source, Vertex target) {
+	public Edge(ObjectType type, Vertex source, Vertex target) {
 		super(type);
 		this.source = source;
 		this.target = target;

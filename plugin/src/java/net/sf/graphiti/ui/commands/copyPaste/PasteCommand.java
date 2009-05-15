@@ -32,8 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
 
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -80,12 +80,12 @@ public class PasteCommand extends Command {
 	}
 
 	private String checkVertexId(Graph graph, Vertex vertex) {
-		String id = (String) vertex.getValue(VertexType.PARAMETER_ID);
+		String id = (String) vertex.getValue(ObjectType.PARAMETER_ID);
 		Vertex existing = graph.findVertex(id);
 		if (existing != vertex) {
 			id = getVertexId(id);
 			if (id != null) {
-				vertex.setValue(VertexType.PARAMETER_ID, id);
+				vertex.setValue(ObjectType.PARAMETER_ID, id);
 			}
 		}
 

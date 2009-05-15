@@ -93,7 +93,7 @@ public class Vertex extends AbstractObject {
 	 * @param type
 	 *            The vertex type.
 	 */
-	public Vertex(VertexType type) {
+	public Vertex(ObjectType type) {
 		super(type);
 
 		// set default values
@@ -123,7 +123,7 @@ public class Vertex extends AbstractObject {
 
 	@Override
 	public Object setValue(String propertyName, Object newValue) {
-		if (VertexType.PARAMETER_ID.equals(propertyName)) {
+		if (ObjectType.PARAMETER_ID.equals(propertyName)) {
 			if (parent != null) {
 				parent.changeVertexId(this, (String) newValue);
 			}
@@ -132,7 +132,7 @@ public class Vertex extends AbstractObject {
 	}
 
 	public String toString() {
-		return getType() + ": " + getValue(VertexType.PARAMETER_ID);
+		return getType() + ": " + getValue(ObjectType.PARAMETER_ID);
 	}
 
 }

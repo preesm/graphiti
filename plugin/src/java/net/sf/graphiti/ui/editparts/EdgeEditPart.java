@@ -32,7 +32,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.EdgeType;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.editpolicies.DependencyEditPolicy;
 import net.sf.graphiti.ui.editpolicies.DependencyEndPointEditPolicy;
@@ -85,13 +85,13 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		String propertyName = evt.getPropertyName();
-		if (propertyName.equals(EdgeType.PARAMETER_SOURCE_PORT)) {
+		if (propertyName.equals(ObjectType.PARAMETER_SOURCE_PORT)) {
 			VertexEditPart vertexEP = (VertexEditPart) getSource();
 			vertexEP.propertyChange(new PropertyChangeEvent(this,
 					Vertex.PROPERTY_SRC_VERTEX, null, null));
 			// update anchors
 			refresh();
-		} else if (propertyName.equals(EdgeType.PARAMETER_TARGET_PORT)) {
+		} else if (propertyName.equals(ObjectType.PARAMETER_TARGET_PORT)) {
 			VertexEditPart vertexEP = (VertexEditPart) getTarget();
 			vertexEP.propertyChange(new PropertyChangeEvent(this,
 					Vertex.PROPERTY_DST_VERTEX, null, null));

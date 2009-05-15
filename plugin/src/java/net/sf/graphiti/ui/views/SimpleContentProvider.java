@@ -36,9 +36,9 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.graphiti.model.AbstractObject;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.model.VertexType;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -129,8 +129,8 @@ public class SimpleContentProvider implements IStructuredContentProvider,
 
 			String name = parameter.getName();
 			if (source instanceof Vertex
-					&& name.equals(VertexType.PARAMETER_ID)
-					|| name.equals(VertexType.PARAMETER_REFINEMENT)) {
+					&& name.equals(ObjectType.PARAMETER_ID)
+					|| name.equals(ObjectType.PARAMETER_REFINEMENT)) {
 				it.remove();
 			}
 		}

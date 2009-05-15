@@ -64,7 +64,7 @@ public abstract class AbstractObject {
 	/**
 	 * This object's type.
 	 */
-	protected AbstractType type;
+	protected ObjectType type;
 
 	/**
 	 * Constructs a new property bean from the given bean.
@@ -100,7 +100,7 @@ public abstract class AbstractObject {
 	/**
 	 * Constructs a new property bean, with no initial properties set.
 	 */
-	public AbstractObject(AbstractType type) {
+	public AbstractObject(ObjectType type) {
 		propertyChange = new PropertyChangeSupport(this);
 		properties = new HashMap<String, Object>();
 		this.type = type;
@@ -174,7 +174,7 @@ public abstract class AbstractObject {
 	 * 
 	 * @return This object's type.
 	 */
-	public AbstractType getType() {
+	public ObjectType getType() {
 		return type;
 	}
 
@@ -207,7 +207,7 @@ public abstract class AbstractObject {
 	 * @param type
 	 *            The new type.
 	 */
-	public void setType(AbstractType type) {
+	public void setType(ObjectType type) {
 		this.type = type;
 	}
 

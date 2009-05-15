@@ -29,7 +29,7 @@
 package net.sf.graphiti.ui.wizards;
 
 import net.sf.graphiti.model.Configuration;
-import net.sf.graphiti.model.GraphType;
+import net.sf.graphiti.model.ObjectType;
 
 /**
  * This interface defines how to set a graph type on a page.
@@ -47,6 +47,6 @@ public interface IGraphTypeSettable {
 	 * @param type
 	 *            The graph type to set.
 	 */
-	public void setGraphType(Configuration configuration, GraphType type);
+	public void setGraphType(Configuration configuration, ObjectType type);
 
 }

@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.model;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -60,7 +59,7 @@ public class Configuration {
 	/**
 	 * A edge type name -> edge type object map.
 	 */
-	private Map<String, EdgeType> edgeTypes;
+	private Map<String, ObjectType> edgeTypes;
 
 	/**
 	 * The file format associated with this configuration.
@@ -75,7 +74,7 @@ public class Configuration {
 	/**
 	 * A graph type name -> graph type object map.
 	 */
-	private Map<String, GraphType> graphTypes;
+	private Map<String, ObjectType> graphTypes;
 
 	/**
 	 * Refinement file extensions associated with this document configuration.
@@ -85,7 +84,7 @@ public class Configuration {
 	/**
 	 * A vertex type name -> vertex type object map.
 	 */
-	private Map<String, VertexType> vertexTypes;
+	private Map<String, ObjectType> vertexTypes;
 
 	/**
 	 * Creates a new document configuration with no initial attributes or
@@ -95,11 +94,12 @@ public class Configuration {
 	 *            The name of the file this document configuration is associated
 	 *            with.
 	 */
-	public Configuration(String fileName) {
+	public Configuration(String fileName, Map<String, ObjectType> graphTypes,
+			Map<String, ObjectType> vertexTypes, Map<String, ObjectType> edgeTypes) {
 		this.fileName = fileName;
-		edgeTypes = new HashMap<String, EdgeType>();
-		graphTypes = new HashMap<String, GraphType>();
-		vertexTypes = new HashMap<String, VertexType>();
+		this.edgeTypes = edgeTypes;
+		this.graphTypes = graphTypes;
+		this.vertexTypes = vertexTypes;
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class Configuration {
 	 *            The name of the edge type we're looking for.
 	 * @return The relevant edge type.
 	 */
-	public EdgeType getEdgeType(String name) {
+	public ObjectType getEdgeType(String name) {
 		return edgeTypes.get(name);
 	}
 
@@ -118,8 +118,8 @@ public class Configuration {
 	 * 
 	 * @return A set of edge types.
 	 */
-	public Set<EdgeType> getEdgeTypes() {
-		return new TreeSet<EdgeType>(edgeTypes.values());
+	public Set<ObjectType> getEdgeTypes() {
+		return new TreeSet<ObjectType>(edgeTypes.values());
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class Configuration {
 	 *            The name of the graph type we're looking for.
 	 * @return The relevant graph type.
 	 */
-	public GraphType getGraphType(String name) {
+	public ObjectType getGraphType(String name) {
 		return graphTypes.get(name);
 	}
 
@@ -147,8 +147,8 @@ public class Configuration {
 	 * 
 	 * @return A set of graph types.
 	 */
-	public Set<GraphType> getGraphTypes() {
-		return new TreeSet<GraphType>(graphTypes.values());
+	public Set<ObjectType> getGraphTypes() {
+		return new TreeSet<ObjectType>(graphTypes.values());
 	}
 
 	/**
@@ -165,7 +165,7 @@ public class Configuration {
 	 *            The name of the vertex type we're looking for.
 	 * @return The relevant vertex type.
 	 */
-	public VertexType getVertexType(String name) {
+	public ObjectType getVertexType(String name) {
 		return vertexTypes.get(name);
 	}
 
@@ -174,20 +174,8 @@ public class Configuration {
 	 * 
 	 * @return A set of vertex types.
 	 */
-	public Set<VertexType> getVertexTypes() {
-		return new TreeSet<VertexType>(vertexTypes.values());
-	}
-
-	/**
-	 * Sets the edge types for this configuration.
-	 * 
-	 * @param edgeTypes
-	 *            A set of {@link EdgeType}.
-	 */
-	public void setEdgeTypes(Set<EdgeType> edgeTypes) {
-		for (EdgeType type : edgeTypes) {
-			this.edgeTypes.put(type.getName(), type);
-		}
+	public Set<ObjectType> getVertexTypes() {
+		return new TreeSet<ObjectType>(vertexTypes.values());
 	}
 
 	/**
@@ -201,18 +189,6 @@ public class Configuration {
 	}
 
 	/**
-	 * Sets the graph types for this configuration.
-	 * 
-	 * @param graphTypes
-	 *            A set of {@link GraphType}.
-	 */
-	public void setGraphTypes(Set<GraphType> graphTypes) {
-		for (GraphType type : graphTypes) {
-			this.graphTypes.put(type.getName(), type);
-		}
-	}
-
-	/**
 	 * Sets the file extensions a refinement may have.
 	 * 
 	 * @param refinementFileExtensions
@@ -221,18 +197,6 @@ public class Configuration {
 	public void setRefinementFileExtensions(Set<String> refinementFileExtensions) {
 		this.refinementFileExtensions = refinementFileExtensions
 				.toArray(new String[] {});
-	}
-
-	/**
-	 * Sets the vertex types for this configuration.
-	 * 
-	 * @param vertexTypes
-	 *            A set of {@link VertexType}.
-	 */
-	public void setVertexTypes(Set<VertexType> vertexTypes) {
-		for (VertexType type : vertexTypes) {
-			this.vertexTypes.put(type.getName(), type);
-		}
 	}
 
 	@Override

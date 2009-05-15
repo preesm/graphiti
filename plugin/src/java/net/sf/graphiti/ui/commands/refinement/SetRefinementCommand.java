@@ -31,7 +31,7 @@ package net.sf.graphiti.ui.commands.refinement;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.graphiti.model.VertexType;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.core.resources.IFile;
@@ -151,7 +151,7 @@ public class SetRefinementCommand extends Command {
 		// save old value of refinement in refinement
 		// allows execute() to be executed by undo()
 		refinement = (String) manager.getVertex().setValue(
-				VertexType.PARAMETER_REFINEMENT, refinement);
+				ObjectType.PARAMETER_REFINEMENT, refinement);
 	}
 
 	/**

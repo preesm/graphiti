@@ -37,7 +37,7 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.EdgeType;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 
 import org.eclipse.draw2d.AbsoluteBendpoint;
@@ -352,7 +352,7 @@ public class VertexFigure extends Figure {
 	 */
 	public ConnectionAnchor getSourceAnchor(Edge edge, Connection conn) {
 		String portName = (String) edge
-				.getValue(EdgeType.PARAMETER_SOURCE_PORT);
+				.getValue(ObjectType.PARAMETER_SOURCE_PORT);
 		ConnectionAnchor anchor = shape.getConnectionAnchor(this, portName,
 				true);
 
@@ -389,7 +389,7 @@ public class VertexFigure extends Figure {
 	 */
 	public ConnectionAnchor getTargetAnchor(Edge edge, Connection conn) {
 		String portName = (String) edge
-				.getValue(EdgeType.PARAMETER_TARGET_PORT);
+				.getValue(ObjectType.PARAMETER_TARGET_PORT);
 		ConnectionAnchor anchor = shape.getConnectionAnchor(this, portName,
 				false);
 

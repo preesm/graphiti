@@ -39,16 +39,13 @@ import java.util.TreeMap;
 import javax.xml.transform.TransformerException;
 
 import net.sf.graphiti.model.AbstractObject;
-import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.GraphType;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.model.FileFormat.Transformation;
 
 import org.eclipse.core.resources.IFile;
@@ -96,11 +93,11 @@ public class GenericGraphParser {
 		@Override
 		public String getText(Object element) {
 			Configuration configuration = (Configuration) element;
-			Set<GraphType> types = configuration.getGraphTypes();
+			Set<ObjectType> types = configuration.getGraphTypes();
 			String res = "";
 			int i = 0;
 			int n = types.size();
-			for (GraphType type : types) {
+			for (ObjectType type : types) {
 				res += type.getName();
 				if (i < n - 1) {
 					res += ", ";
@@ -303,7 +300,7 @@ public class GenericGraphParser {
 				Element element = (Element) child;
 
 				String typeName = element.getAttribute("type");
-				EdgeType type = configuration.getEdgeType(typeName);
+				ObjectType type = configuration.getEdgeType(typeName);
 
 				String sourceId = element.getAttribute("source");
 				Vertex source = graph.findVertex(sourceId);
@@ -353,7 +350,7 @@ public class GenericGraphParser {
 	private Graph parseGraph(Configuration configuration, Element element)
 			throws TransformedDocumentParseError {
 		String typeName = element.getAttribute("type");
-		GraphType type = configuration.getGraphType(typeName);
+		ObjectType type = configuration.getGraphType(typeName);
 		Graph graph = new Graph(configuration, type);
 
 		// parse different sections
@@ -452,7 +449,7 @@ public class GenericGraphParser {
 	 * @return The node following &lt;parameters&gt;.
 	 */
 	private Node parseParameters(AbstractObject abstractObject,
-			AbstractType type, Node node) {
+			ObjectType type, Node node) {
 		node = DomHelper.getFirstSiblingNamed(node, "parameters");
 
 		Node child = node.getFirstChild();
@@ -489,7 +486,7 @@ public class GenericGraphParser {
 		while (child != null) {
 			if (child.getNodeName().equals("vertex")) {
 				String typeName = ((Element) child).getAttribute("type");
-				VertexType type = configuration.getVertexType(typeName);
+				ObjectType type = configuration.getVertexType(typeName);
 				Vertex vertex = new Vertex(type);
 
 				// set layout information if present

@@ -34,12 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.editpolicies.DeleteComponentEditPolicy;
 import net.sf.graphiti.ui.editpolicies.EdgeGraphicalNodeEditPolicy;
 import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
@@ -157,19 +155,19 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		Vertex vertex = (Vertex) getModel();
 
 		// Get default width and height
-		int width = (Integer) vertex.getAttribute(VertexType.ATTRIBUTE_WIDTH);
-		int height = (Integer) vertex.getAttribute(VertexType.ATTRIBUTE_HEIGHT);
+		int width = (Integer) vertex.getAttribute(ObjectType.ATTRIBUTE_WIDTH);
+		int height = (Integer) vertex.getAttribute(ObjectType.ATTRIBUTE_HEIGHT);
 
 		// Get dimension, color, shape
 		Dimension dimension = new Dimension(width, height);
-		Color color = (Color) vertex.getAttribute(AbstractType.ATTRIBUTE_COLOR);
-		IShape shape = (IShape) vertex.getAttribute(VertexType.ATTRIBUTE_SHAPE);
+		Color color = (Color) vertex.getAttribute(ObjectType.ATTRIBUTE_COLOR);
+		IShape shape = (IShape) vertex.getAttribute(ObjectType.ATTRIBUTE_SHAPE);
 		shape = shape.newShape();
 
 		// Creates the figure with the specified properties, sets its id
 		Font font = ((GraphicalEditPart) getParent()).getFigure().getFont();
 		VertexFigure figure = new VertexFigure(font, dimension, color, shape);
-		String id = (String) vertex.getValue(VertexType.PARAMETER_ID);
+		String id = (String) vertex.getValue(ObjectType.PARAMETER_ID);
 		figure.setId(id);
 
 		// update the figure position (if the graph has layout information)
@@ -291,7 +289,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 			refresh();
 		} else {
 			// other parameters
-			if (propertyName.equals(VertexType.PARAMETER_ID)) {
+			if (propertyName.equals(ObjectType.PARAMETER_ID)) {
 				refreshVisuals();
 			}
 
@@ -308,7 +306,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		Vertex vertex = (Vertex) getModel();
 
 		VertexFigure figure = (VertexFigure) getFigure();
-		figure.setId((String) vertex.getValue(VertexType.PARAMETER_ID));
+		figure.setId((String) vertex.getValue(ObjectType.PARAMETER_ID));
 	}
 
 	/**
@@ -360,13 +358,13 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 		for (Edge edge : parent.incomingEdgesOf(vertex)) {
 			String port = (String) edge
-					.getValue(EdgeType.PARAMETER_TARGET_PORT);
+					.getValue(ObjectType.PARAMETER_TARGET_PORT);
 			figure.addInputPort(port);
 		}
 
 		for (Edge edge : parent.outgoingEdgesOf(vertex)) {
 			String port = (String) edge
-					.getValue(EdgeType.PARAMETER_SOURCE_PORT);
+					.getValue(ObjectType.PARAMETER_SOURCE_PORT);
 			figure.addOutputPort(port);
 		}
 

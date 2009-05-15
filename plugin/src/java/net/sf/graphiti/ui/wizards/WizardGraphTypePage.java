@@ -35,7 +35,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import net.sf.graphiti.model.Configuration;
-import net.sf.graphiti.model.GraphType;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -57,9 +57,9 @@ import org.eclipse.swt.widgets.Label;
  */
 public class WizardGraphTypePage extends WizardPage {
 
-	private Map<GraphType, Configuration> graphTypeConfigurations;
+	private Map<ObjectType, Configuration> graphTypeConfigurations;
 
-	private Map<String, GraphType> graphTypeNames;
+	private Map<String, ObjectType> graphTypeNames;
 
 	private Combo listGraphTypes;
 
@@ -130,12 +130,12 @@ public class WizardGraphTypePage extends WizardPage {
 	private void fillGraphTypes() {
 		List<Configuration> configurations = GraphitiPlugin.getDefault()
 				.getConfigurations();
-		graphTypeConfigurations = new HashMap<GraphType, Configuration>();
-		graphTypeNames = new HashMap<String, GraphType>();
+		graphTypeConfigurations = new HashMap<ObjectType, Configuration>();
+		graphTypeNames = new HashMap<String, ObjectType>();
 
 		for (Configuration configuration : configurations) {
-			Set<GraphType> graphTypes = configuration.getGraphTypes();
-			for (GraphType type : graphTypes) {
+			Set<ObjectType> graphTypes = configuration.getGraphTypes();
+			for (ObjectType type : graphTypes) {
 				graphTypeConfigurations.put(type, configuration);
 
 				String fileExt = configuration.getFileFormat()
@@ -158,7 +158,7 @@ public class WizardGraphTypePage extends WizardPage {
 		int index = listGraphTypes.getSelectionIndex();
 		String graphType = listGraphTypes.getItem(index);
 
-		GraphType type = graphTypeNames.get(graphType);
+		ObjectType type = graphTypeNames.get(graphType);
 		Configuration configuration = graphTypeConfigurations.get(type);
 		page.setGraphType(configuration, type);
 	}

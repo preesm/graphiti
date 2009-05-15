@@ -60,7 +60,7 @@
             <element ref="edgeType" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="import"/>
             <element ref="export" minOccurs="0" maxOccurs="1"/>
-            <element ref="refinement-values" minOccurs="0" maxOccurs="1"/>
+            <element ref="refinement-file-extensions" minOccurs="0" maxOccurs="1"/>
          </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -319,6 +319,9 @@
                <documentation>
                   Transformation file name.
                </documentation>
+               <appinfo>
+                  <meta.attribute kind="resource"/>
+               </appinfo>
             </annotation>
          </attribute>
          <attribute name="type" use="required">
@@ -339,20 +342,12 @@
       </complexType>
    </element>
 
-   <element name="refinement-values">
+   <element name="refinement-file-extensions">
       <complexType>
-         <sequence>
-            <element ref="file-extension" minOccurs="1" maxOccurs="unbounded"/>
-         </sequence>
-      </complexType>
-   </element>
-
-   <element name="file-extension">
-      <complexType>
-         <attribute name="name" type="string" use="required">
+         <attribute name="file-extensions" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  a comma-separated list of file extensions to be associated with the target content type
                </documentation>
             </annotation>
          </attribute>

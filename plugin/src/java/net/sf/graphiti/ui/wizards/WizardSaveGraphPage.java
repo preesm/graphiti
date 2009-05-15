@@ -37,7 +37,7 @@ import javax.xml.transform.TransformerException;
 import net.sf.graphiti.io.GenericGraphWriter;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.GraphType;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.core.resources.IFile;
@@ -151,7 +151,7 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 	}
 
 	@Override
-	public void setGraphType(Configuration configuration, GraphType type) {
+	public void setGraphType(Configuration configuration, ObjectType type) {
 		// create an empty graph, may be overridden
 		graph = new Graph(configuration, type);
 

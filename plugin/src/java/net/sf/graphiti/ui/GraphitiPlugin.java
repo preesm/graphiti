@@ -35,7 +35,6 @@ import java.util.Set;
 import net.sf.graphiti.io.ConfigurationParser;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.FileFormat;
-import net.sf.graphiti.ui.preferences.PreferenceConstants;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILog;
@@ -44,16 +43,9 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -232,31 +224,7 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-
-		IPreferenceStore store = getPreferenceStore();
-		if (store.isDefault(PreferenceConstants.PATH)) {
-			IWorkbench workbench = PlatformUI.getWorkbench();
-			workbench.getDisplay().asyncExec(new Runnable() {
-
-				@Override
-				public void run() {
-					IWorkbench workbench = PlatformUI.getWorkbench();
-					String message = "Please edit Graphiti preferences to specify "
-							+ "the configuration folder.";
-					Shell shell = workbench.getDisplay().getActiveShell();
-					MessageDialog.openInformation(shell,
-							"Graphiti configuration", message);
-
-					String pageId = "net.sf.graphiti.ui.preferences.GraphitiPreferences";
-					PreferenceDialog dialog = PreferencesUtil
-							.createPreferenceDialogOn(shell, pageId, null, null);
-					dialog.open();
-				}
-
-			});
-		} else {
-			loadConfigurations();
-		}
+		loadConfigurations();
 	}
 
 	@Override

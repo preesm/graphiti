@@ -29,7 +29,7 @@
 package net.sf.graphiti.ui.editparts;
 
 import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.EdgeType;
+import net.sf.graphiti.model.ObjectType;
 
 import org.eclipse.gef.requests.CreationFactory;
 
@@ -41,7 +41,7 @@ import org.eclipse.gef.requests.CreationFactory;
  */
 public class EdgeCreationFactory implements CreationFactory {
 
-	private EdgeType type;
+	private ObjectType type;
 
 	/**
 	 * Create a new edge creation factory.
@@ -49,7 +49,7 @@ public class EdgeCreationFactory implements CreationFactory {
 	 * @param type
 	 *            The edge type.
 	 */
-	public EdgeCreationFactory(EdgeType type) {
+	public EdgeCreationFactory(ObjectType type) {
 		this.type = type;
 	}
 

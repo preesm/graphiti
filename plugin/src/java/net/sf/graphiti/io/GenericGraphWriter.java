@@ -38,14 +38,13 @@ import java.util.Map.Entry;
 import javax.xml.transform.TransformerException;
 
 import net.sf.graphiti.model.AbstractObject;
-import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.model.VertexType;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.w3c.dom.Document;
@@ -156,9 +155,9 @@ public class GenericGraphWriter {
 		for (Edge edge : edges) {
 			Element edgeElement = document.createElement("edge");
 			edgeElement.setAttribute("source", (String) edge.getSource()
-					.getValue(VertexType.PARAMETER_ID));
+					.getValue(ObjectType.PARAMETER_ID));
 			edgeElement.setAttribute("target", (String) edge.getTarget()
-					.getValue(VertexType.PARAMETER_ID));
+					.getValue(ObjectType.PARAMETER_ID));
 			edgeElement.setAttribute("type", edge.getType().getName());
 
 			Element parameters = document.createElement("parameters");
@@ -207,7 +206,7 @@ public class GenericGraphWriter {
 	}
 
 	private void writeParameters(AbstractObject abstractObject,
-			AbstractType type, Element parametersElement) {
+			ObjectType type, Element parametersElement) {
 		Document document = parametersElement.getOwnerDocument();
 		List<Parameter> parameters = type.getParameters();
 		for (Parameter parameter : parameters) {

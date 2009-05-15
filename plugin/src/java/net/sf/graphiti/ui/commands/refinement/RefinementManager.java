@@ -32,9 +32,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.core.resources.IFile;
@@ -186,7 +186,7 @@ public class RefinementManager {
 	public String getRefinement() {
 		if (vertex != null) {
 			Object refinement = vertex
-					.getValue(VertexType.PARAMETER_REFINEMENT);
+					.getValue(ObjectType.PARAMETER_REFINEMENT);
 			if (refinement instanceof String) {
 				return (String) refinement;
 			}
@@ -210,7 +210,7 @@ public class RefinementManager {
 		if (vertex != null) {
 			List<Parameter> parameters = vertex.getParameters();
 			for (Parameter parameter : parameters) {
-				if (parameter.getName().equals(VertexType.PARAMETER_REFINEMENT)) {
+				if (parameter.getName().equals(ObjectType.PARAMETER_REFINEMENT)) {
 					return true;
 				}
 			}

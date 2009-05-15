@@ -10,8 +10,8 @@
  *******************************************************************************/
 package net.sf.graphiti.ui.commands;
 
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.model.VertexType;
 
 import org.eclipse.gef.commands.Command;
 
@@ -36,12 +36,12 @@ public class VertexRenameCommand extends Command {
 	 */
 	public VertexRenameCommand(Vertex vertex) {
 		this.vertex = vertex;
-		previousId = (String) vertex.getValue(VertexType.PARAMETER_ID);
+		previousId = (String) vertex.getValue(ObjectType.PARAMETER_ID);
 	}
 
 	@Override
 	public void execute() {
-		vertex.setValue(VertexType.PARAMETER_ID, id);
+		vertex.setValue(ObjectType.PARAMETER_ID, id);
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class VertexRenameCommand extends Command {
 
 	@Override
 	public void undo() {
-		vertex.setValue(VertexType.PARAMETER_ID, previousId);
+		vertex.setValue(ObjectType.PARAMETER_ID, previousId);
 	}
 
 }

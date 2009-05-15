@@ -30,11 +30,9 @@ package net.sf.graphiti.ui.editors;
 
 import java.util.Set;
 
-import net.sf.graphiti.model.AbstractType;
 import net.sf.graphiti.model.Configuration;
-import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.VertexType;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.editparts.EdgeCreationFactory;
 import net.sf.graphiti.ui.editparts.VertexCreationFactory;
@@ -84,11 +82,11 @@ public class GraphitiPalette {
 			PaletteDrawer edgeDrawer = new PaletteDrawer("Connections");
 
 			Configuration config = graph.getConfiguration();
-			Set<EdgeType> edgeTypes = config.getEdgeTypes();
-			for (EdgeType type : edgeTypes) {
+			Set<ObjectType> edgeTypes = config.getEdgeTypes();
+			for (ObjectType type : edgeTypes) {
 				String typeStr = type.getName();
 
-				ImageDescriptor id = getImageDescriptorFromType(type);
+				ImageDescriptor id = getImgDescEdge(type);
 
 				ToolEntry tool = new ConnectionCreationToolEntry(typeStr,
 						"Create a new " + typeStr,
@@ -116,11 +114,11 @@ public class GraphitiPalette {
 			PaletteDrawer toolDrawer = new PaletteDrawer("Vertices");
 
 			Configuration config = graph.getConfiguration();
-			Set<VertexType> vertexTypes = config.getVertexTypes();
-			for (VertexType type : vertexTypes) {
+			Set<ObjectType> vertexTypes = config.getVertexTypes();
+			for (ObjectType type : vertexTypes) {
 				String typeStr = type.getName();
 
-				ImageDescriptor id = getImageDescriptorFromType(type);
+				ImageDescriptor id = getImgDescVertex(type);
 
 				ToolEntry tool = new CreationToolEntry(typeStr, "Create a new "
 						+ typeStr, new VertexCreationFactory(type), id, null);
@@ -139,10 +137,10 @@ public class GraphitiPalette {
 	 *            A string representation of the edge type.
 	 * @return A new {@link ImageDescriptor}.
 	 */
-	private static ImageDescriptor getImageDescriptorFromType(EdgeType type) {
+	private static ImageDescriptor getImgDescEdge(ObjectType type) {
 		ImageDescriptor id;
 		Boolean directed = (Boolean) type
-				.getAttribute(EdgeType.ATTRIBUTE_DIRECTED);
+				.getAttribute(ObjectType.ATTRIBUTE_DIRECTED);
 		if (directed == null || directed) {
 			id = ImageDescriptor.createFromImage(GraphitiPlugin
 					.getImage("icons/directed_edge.gif"));
@@ -152,7 +150,7 @@ public class GraphitiPalette {
 		}
 
 		// retrieve the color
-		Color color = (Color) type.getAttribute(AbstractType.ATTRIBUTE_COLOR);
+		Color color = (Color) type.getAttribute(ObjectType.ATTRIBUTE_COLOR);
 		if (color == null) {
 			color = ColorConstants.black;
 		}
@@ -178,12 +176,12 @@ public class GraphitiPalette {
 	 *            A string representation of the vertex type.
 	 * @return A new {@link ImageDescriptor}.
 	 */
-	private static ImageDescriptor getImageDescriptorFromType(VertexType type) {
+	private static ImageDescriptor getImgDescVertex(ObjectType type) {
 		// attributes
-		int width = (Integer) type.getAttribute(VertexType.ATTRIBUTE_WIDTH);
-		int height = (Integer) type.getAttribute(VertexType.ATTRIBUTE_HEIGHT);
-		Color color = (Color) type.getAttribute(AbstractType.ATTRIBUTE_COLOR);
-		IShape shape = (IShape) type.getAttribute(VertexType.ATTRIBUTE_SHAPE);
+		int width = (Integer) type.getAttribute(ObjectType.ATTRIBUTE_WIDTH);
+		int height = (Integer) type.getAttribute(ObjectType.ATTRIBUTE_HEIGHT);
+		Color color = (Color) type.getAttribute(ObjectType.ATTRIBUTE_COLOR);
+		IShape shape = (IShape) type.getAttribute(ObjectType.ATTRIBUTE_SHAPE);
 		shape = shape.newShape();
 
 		// adjust width and height

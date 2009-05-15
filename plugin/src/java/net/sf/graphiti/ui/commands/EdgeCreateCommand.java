@@ -29,10 +29,9 @@
 package net.sf.graphiti.ui.commands;
 
 import net.sf.graphiti.model.Edge;
-import net.sf.graphiti.model.EdgeType;
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.model.VertexType;
 import net.sf.graphiti.ui.commands.refinement.PortChooser;
 import net.sf.graphiti.ui.commands.refinement.RefinementManager;
 
@@ -88,17 +87,17 @@ public class EdgeCreateCommand extends Command {
 		edge.setSource(source);
 		edge.setTarget(target);
 
-		String connection = source.getValue(VertexType.PARAMETER_ID) + " - "
-				+ target.getValue(VertexType.PARAMETER_ID);
+		String connection = source.getValue(ObjectType.PARAMETER_ID) + " - "
+				+ target.getValue(ObjectType.PARAMETER_ID);
 
 		PortChooser portChooser = new PortChooser(manager, connection);
-		if (edge.getParameter(EdgeType.PARAMETER_SOURCE_PORT) != null) {
-			edge.setValue(EdgeType.PARAMETER_SOURCE_PORT, portChooser
+		if (edge.getParameter(ObjectType.PARAMETER_SOURCE_PORT) != null) {
+			edge.setValue(ObjectType.PARAMETER_SOURCE_PORT, portChooser
 					.getSourcePort(source));
 		}
 
-		if (edge.getParameter(EdgeType.PARAMETER_TARGET_PORT) != null) {
-			edge.setValue(EdgeType.PARAMETER_TARGET_PORT, portChooser
+		if (edge.getParameter(ObjectType.PARAMETER_TARGET_PORT) != null) {
+			edge.setValue(ObjectType.PARAMETER_TARGET_PORT, portChooser
 					.getTargetPort(target));
 		}
 
