@@ -99,5 +99,145 @@
          </enabledWhen>
       </page>
    </extension>
+   <extension
+         point="net.sf.graphiti.configuration.definition">
+      <configuration
+            extension="xdf"
+            name="XDF"
+            type="text/xml">
+         <graphType
+               name="XML Dataflow Network">
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
+            <parameter
+                  name="network parameter"
+                  type="java.util.List">
+            </parameter>
+            <parameter
+                  name="network variable declaration"
+                  type="java.util.Map">
+            </parameter>
+         </graphType>
+         <vertexType
+               name="Input port">
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
+            <parameter
+                  default="int(size=32)"
+                  name="port type"
+                  type="java.lang.String">
+            </parameter>
+               <color
+                     blue="100"
+                     green="60"
+                     red="0">
+               </color>
+               <size
+                     height="30"
+                     width="30">
+               </size>
+               <shape
+                     type="triangle">
+               </shape>
+         </vertexType>
+         <vertexType
+               name="Output port">
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
+            <parameter
+                  default="int(size=32)"
+                  name="port type"
+                  type="java.lang.String">
+            </parameter>
+               <color
+                     blue="100"
+                     green="0"
+                     red="60">
+               </color>
+               <shape
+                     type="triangle">
+               </shape>
+               <size
+                     height="30"
+                     width="30">
+               </size>
+         </vertexType>
+         <vertexType
+               name="Instance">
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
+            <parameter
+                  name="instance parameter"
+                  type="java.util.Map">
+            </parameter>
+            <parameter
+                  name="refinement"
+                  type="java.lang.String">
+            </parameter>
+            <color
+                  blue="23"
+                  green="232"
+                  red="190">
+            </color>
+            <size
+                  height="40"
+                  width="40">
+            </size>
+            <shape
+                  type="roundedBox">
+            </shape>
+         </vertexType>
+         <edgeType
+               directed="true"
+               name="Connection">
+            <parameter
+                  name="source port"
+                  type="java.lang.String">
+            </parameter>
+            <parameter
+                  name="target port"
+                  type="java.lang.String">
+            </parameter>
+            <parameter
+                  name="buffer size"
+                  type="java.lang.String">
+            </parameter>
+         </edgeType>
+         <import>
+            <transformation
+                  name="input_XDF.xslt"
+                  type="xslt">
+            </transformation>
+         </import>
+         <export>
+            <transformation
+                  name="output_XDF.xslt"
+                  type="xslt">
+            </transformation>
+         </export>
+         <refinement-values>
+            <file-extension
+                  name="xdf">
+            </file-extension>
+            <file-extension
+                  name="xnl">
+            </file-extension>
+            <file-extension
+                  name="nl">
+            </file-extension>
+            <file-extension
+                  name="cal">
+            </file-extension>
+         </refinement-values>
+      </configuration>
+   </extension>
 
 </plugin>
