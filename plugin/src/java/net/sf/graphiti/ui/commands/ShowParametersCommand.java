@@ -107,7 +107,7 @@ public class ShowParametersCommand extends Command implements IShellProvider,
 		return shell;
 	}
 
-	public boolean hasChanges() {
+	public boolean isDirty() {
 		return hasChanges;
 	}
 

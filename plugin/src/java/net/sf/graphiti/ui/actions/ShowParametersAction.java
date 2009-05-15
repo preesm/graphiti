@@ -111,7 +111,7 @@ public class ShowParametersAction extends SelectionAction {
 		command.setSelection(selection);
 
 		command.run();
-		if (command.hasChanges()) {
+		if (command.isDirty()) {
 			execute(command);
 		}
 	}

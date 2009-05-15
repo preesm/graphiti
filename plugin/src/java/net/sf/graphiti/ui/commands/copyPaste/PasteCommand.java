@@ -57,6 +57,8 @@ public class PasteCommand extends Command {
 
 	private List<Object> added;
 
+	private boolean dirty;
+
 	/**
 	 * The target EditPart.
 	 */
@@ -92,33 +94,7 @@ public class PasteCommand extends Command {
 
 	@Override
 	public void execute() {
-		added = new ArrayList<Object>();
 
-		for (Vertex vertex : vertices) {
-			// check id
-			if (checkVertexId(graph, vertex) != null) {
-				// Adds the cloned graph to the parent graph and the added list
-				added.add(vertex);
-				Rectangle previousBounds = (Rectangle) vertex
-						.getValue(Vertex.PROPERTY_SIZE);
-				graph.addVertex(vertex);
-				Rectangle bounds = (Rectangle) vertex
-						.getValue(Vertex.PROPERTY_SIZE);
-
-				Rectangle newBounds = new Rectangle(previousBounds.x
-						+ previousBounds.width + 10, previousBounds.y
-						+ previousBounds.height + 10, bounds.width,
-						bounds.height);
-				vertex
-						.firePropertyChange(Vertex.PROPERTY_SIZE, null,
-								newBounds);
-			}
-		}
-	}
-
-	@Override
-	public String getLabel() {
-		return "Paste";
 	}
 
 	/**
@@ -154,13 +130,47 @@ public class PasteCommand extends Command {
 					}
 
 				});
-		dialog.open();
-
-		String value = dialog.getValue();
-		if (value == null || value.isEmpty()) {
-			return null;
+		int res = dialog.open();
+		if (res == InputDialog.OK) {
+			String value = dialog.getValue();
+			if (value == null || value.isEmpty()) {
+				return null;
+			} else {
+				return value;
+			}
 		} else {
-			return value;
+			return null;
+		}
+	}
+
+	public boolean isDirty() {
+		return dirty;
+	}
+
+	public void run() {
+		added = new ArrayList<Object>();
+
+		for (Vertex vertex : vertices) {
+			// check id
+			if (checkVertexId(graph, vertex) != null) {
+				// Adds the cloned graph to the parent graph and the added list
+				added.add(vertex);
+				Rectangle previousBounds = (Rectangle) vertex
+						.getValue(Vertex.PROPERTY_SIZE);
+				graph.addVertex(vertex);
+				Rectangle bounds = (Rectangle) vertex
+						.getValue(Vertex.PROPERTY_SIZE);
+
+				Rectangle newBounds = new Rectangle(previousBounds.x
+						+ previousBounds.width + 10, previousBounds.y
+						+ previousBounds.height + 10, bounds.width,
+						bounds.height);
+				vertex
+						.firePropertyChange(Vertex.PROPERTY_SIZE, null,
+								newBounds);
+
+				dirty = true;
+			}
 		}
 	}
 

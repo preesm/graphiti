@@ -128,6 +128,9 @@ public class PasteAction extends SelectionAction implements
 		// execute the paste command
 		List<Vertex> contents = (List<Vertex>) getClipboardContents();
 		PasteCommand command = new PasteCommand(part, contents);
-		execute(command);
+		command.run();
+		if (command.isDirty()) {
+			execute(command);
+		}
 	}
 }

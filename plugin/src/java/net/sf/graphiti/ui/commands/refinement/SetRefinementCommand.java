@@ -239,7 +239,7 @@ public class SetRefinementCommand extends Command {
 		return refinement.toString();
 	}
 
-	public boolean hasRefinementChanged() {
+	public boolean isDirty() {
 		return refinementChanged;
 	}
 
