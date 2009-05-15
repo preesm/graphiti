@@ -120,19 +120,19 @@ public class ConfigurationParser {
 			} else if (nodeName.equals("shape")) {
 				String shapeName = ((Element) node).getAttribute("name");
 				// FIXME
-//				IShape shape = null;
-//				if (shapeName.equals("circle")) {
-//					shape = new ShapeCircle();
-//				} else if (shapeName.equals("hexagon")) {
-//					shape = new ShapeHexagon();
-//				} else if (shapeName.equals("lozenge")) {
-//					shape = new ShapeLozenge();
-//				} else if (shapeName.equals("roundedBox")) {
-//					shape = new ShapeRoundedBox();
-//				} else if (shapeName.equals("triangle")) {
-//					shape = new ShapeTriangle();
-//				}
-//				type.addAttribute(ObjectType.ATTRIBUTE_SHAPE, shape);
+				// IShape shape = null;
+				// if (shapeName.equals("circle")) {
+				// shape = new ShapeCircle();
+				// } else if (shapeName.equals("hexagon")) {
+				// shape = new ShapeHexagon();
+				// } else if (shapeName.equals("lozenge")) {
+				// shape = new ShapeLozenge();
+				// } else if (shapeName.equals("roundedBox")) {
+				// shape = new ShapeRoundedBox();
+				// } else if (shapeName.equals("triangle")) {
+				// shape = new ShapeTriangle();
+				// }
+				// type.addAttribute(ObjectType.ATTRIBUTE_SHAPE, shape);
 			} else if (nodeName.equals("size")) {
 				Element element = (Element) node;
 				int width = Integer.parseInt(element.getAttribute("width"));
@@ -262,36 +262,15 @@ public class ConfigurationParser {
 	 *         {@link Integer}, a {@link Float}, a {@link Boolean}, or a
 	 *         {@link String}.
 	 */
-	private Object parseParameter(Class<?> parameterType, Element child) {
+	private Object parseParameter(Class<?> parameterType,
+			IConfigurationElement element) {
 		if (parameterType == List.class) {
 			List<String> list = new ArrayList<String>();
-			Node element = child.getFirstChild();
-			while (element != null) {
-				if (element.getNodeName().equals("element")) {
-					String eltValue = ((Element) element).getAttribute("value");
-					list.add(eltValue);
-				}
-
-				element = element.getNextSibling();
-			}
-
 			return list;
 		} else if (parameterType == Map.class) {
 			Map<String, String> map = new TreeMap<String, String>();
-			Node element = child.getFirstChild();
-			while (element != null) {
-				if (element.getNodeName().equals("entry")) {
-					String key = ((Element) element).getAttribute("key");
-					String value = ((Element) element).getAttribute("value");
-					map.put(key, value);
-				}
-
-				element = element.getNextSibling();
-			}
-
 			return map;
 		} else {
-			Element element = (Element) child;
 			String value = element.getAttribute("default");
 			if (parameterType == Integer.class) {
 				return Integer.valueOf(value);
@@ -315,30 +294,26 @@ public class ConfigurationParser {
 	 * @param node
 	 *            A child node of &lt;parameters&gt;.
 	 */
-	private void parseParameters(ObjectType type, Node node) {
-		while (node != null) {
-			if (node.getNodeName().equals("parameter")) {
-				Element element = (Element) node;
-				String parameterName = element.getAttribute("name");
-				String typeName = element.getAttribute("type");
-				Class<?> clz = String.class;
-				try {
-					clz = Class.forName(typeName);
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-
-				// creates the parameter
-				ParameterPosition position = null;
-				Object value = parseParameter(clz, element);
-				Parameter parameter = new Parameter(parameterName, value,
-						position, clz);
-
-				// adds the parameter to the type
-				type.addParameter(parameter);
+	private void parseParameters(ObjectType type,
+			IConfigurationElement[] children) {
+		for (IConfigurationElement element : children) {
+			String parameterName = element.getAttribute("name");
+			String typeName = element.getAttribute("type");
+			Class<?> clz = String.class;
+			try {
+				clz = Class.forName(typeName);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
 
-			node = node.getNextSibling();
+			// creates the parameter
+			ParameterPosition position = null;
+			Object value = parseParameter(clz, element);
+			Parameter parameter = new Parameter(parameterName, value, position,
+					clz);
+
+			// adds the parameter to the type
+			type.addParameter(parameter);
 		}
 	}
 
@@ -351,8 +326,23 @@ public class ConfigurationParser {
 	 *            A child node of a type element (one of &lt;graphType&gt;,
 	 *            &lt;vertexType&gt; or &lt;edgeType&gt;).
 	 */
-	private void parseType(ObjectType type, IConfigurationElement child) {
-		// TODO: parse attributes
+	private void parseType(ObjectType type, IConfigurationElement element) {
+		IConfigurationElement[] children = element.getChildren();
+		for (IConfigurationElement child : children) {
+			if (child.getName().equals(ObjectType.ATTRIBUTE_COLOR)) {
+				
+			} else if (child.getName().equals(ObjectType.ATTRIBUTE_DIRECTED)) {
+				
+			} else if (child.getName().equals(ObjectType.ATTRIBUTE_HEIGHT)) {
+				
+			} else if (child.getName().equals(ObjectType.ATTRIBUTE_SHAPE)) {
+				
+			} else if (child.getName().equals(ObjectType.ATTRIBUTE_WIDTH)) {
+				
+			}
+		}
+
+		parseParameters(type, element.getChildren("parameter"));
 	}
 
 	/**
