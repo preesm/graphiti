@@ -28,10 +28,6 @@
  */
 package net.sf.graphiti.ui.commands;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.sf.graphiti.model.AbstractObject;
 
 import org.eclipse.gef.commands.Command;
@@ -46,44 +42,14 @@ import org.eclipse.gef.commands.Command;
 public class ParameterChangeValueCommand extends Command {
 
 	/**
-	 * Set by {@link #setEntry(Entry, Object)}.
-	 */
-	private Entry<Object, Object> entry;
-
-	/**
-	 * Set by {@link #setList(List, int, Object)}.
-	 */
-	private int index;
-
-	/**
-	 * Set by {@link #setList(List, int, Object)}.
-	 */
-	private List<Object> list;
-
-	/**
-	 * Set by {@link #setMap(Map, Object, Object)}.
-	 */
-	private Map<Object, Object> map;
-
-	/**
 	 * Set by {@link #setValue(String, Object)}.
 	 */
 	private String name;
 
 	/**
-	 * Set by {@link #setMap(Map, Object, Object)}.
-	 */
-	private Object newKey;
-
-	/**
 	 * The new value.
 	 */
 	private Object newValue;
-
-	/**
-	 * Set by {@link #setMap(Map, Object, Object)}.
-	 */
-	private Object oldKey;
 
 	/**
 	 * The old value.
@@ -107,70 +73,12 @@ public class ParameterChangeValueCommand extends Command {
 
 	@Override
 	public void execute() {
-		if (entry != null) {
-			oldValue = entry.setValue(newValue);
-			source.firePropertyChange("", null, map);
-		} else if (list != null) {
-			oldValue = list.set(index, newValue);
-			source.firePropertyChange("", null, list);
-		} else if (map != null) {
-			Object value = map.remove(oldKey);
-			map.put(newKey, value);
-			source.firePropertyChange("", null, map);
-		} else {
-			// simple parameter
-			oldValue = source.setValue(name, newValue);
-		}
+		oldValue = source.setValue(name, newValue);
 	}
 
 	@Override
 	public String getLabel() {
 		return "Change parameter value";
-	}
-
-	/**
-	 * Updates the "value" field of the given entry to the given value.
-	 * 
-	 * @param entry
-	 *            An entry.
-	 * @param value
-	 *            A new value for the entry's value field.
-	 */
-	public void setEntry(Entry<Object, Object> entry, Object value) {
-		this.entry = entry;
-		this.newValue = value;
-	}
-
-	/**
-	 * Updates the value of the element at the given index in the given list.
-	 * 
-	 * @param list
-	 *            A list of objects.
-	 * @param index
-	 *            The index of the element to be updated.
-	 * @param value
-	 *            The new value.
-	 */
-	public void setList(List<Object> list, int index, Object value) {
-		this.list = list;
-		this.index = index;
-		this.newValue = value;
-	}
-
-	/**
-	 * Updates a key name in the given map.
-	 * 
-	 * @param map
-	 *            A map from objects to objects.
-	 * @param oldKey
-	 *            The previous key.
-	 * @param newKey
-	 *            The new key.
-	 */
-	public void setMap(Map<Object, Object> map, Object oldKey, Object newKey) {
-		this.map = map;
-		this.oldKey = oldKey;
-		this.newKey = newKey;
 	}
 
 	/**
@@ -188,19 +96,6 @@ public class ParameterChangeValueCommand extends Command {
 
 	@Override
 	public void undo() {
-		if (entry != null) {
-			entry.setValue(oldValue);
-			source.firePropertyChange("", null, map);
-		} else if (list != null) {
-			list.set(index, oldValue);
-			source.firePropertyChange("", null, list);
-		} else if (map != null) {
-			Object value = map.remove(newKey);
-			map.put(oldKey, value);
-			source.firePropertyChange("", null, map);
-		} else {
-			// simple parameter
-			source.setValue(name, oldValue);
-		}
+		source.setValue(name, oldValue);
 	}
 }
