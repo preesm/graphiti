@@ -28,12 +28,19 @@
  */
 package net.sf.graphiti.validator;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+
+import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.IValidator;
+import net.sf.graphiti.model.ObjectType;
+import net.sf.graphiti.model.Vertex;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 
 /**
@@ -44,16 +51,51 @@ import org.eclipse.core.runtime.CoreException;
  */
 public class DataflowValidator implements IValidator {
 
-	@Override
-	public boolean validate(Graph graph, IFile file) {
-		int depth = IResource.DEPTH_INFINITE;
-		try {
-			file.deleteMarkers(IMarker.PROBLEM, true, depth);
-		} catch (CoreException e) {
-			// something went wrong
+	private boolean checkInputPorts(Graph graph, IFile file) {
+		boolean res = true;
+		for (Vertex vertex : graph.vertexSet()) {
+			Set<Edge> edges = graph.incomingEdgesOf(vertex);
+			Map<String, Integer> countMap = new HashMap<String, Integer>();
+			for (Edge edge : edges) {
+				Object value = edge.getValue(ObjectType.PARAMETER_TARGET_PORT);
+				if (value != null) {
+					String tgt = (String) value;
+					Integer inCount = countMap.get(tgt);
+					if (inCount == null) {
+						inCount = 0;
+					}
+
+					countMap.put(tgt, inCount + 1);
+				}
+			}
+
+			for (Entry<String, Integer> count : countMap.entrySet()) {
+				if (count.getValue() > 1) {
+					res = false;
+					String message = "The input port " + count.getKey()
+							+ " of vertex "
+							+ vertex.getValue(ObjectType.PARAMETER_ID)
+							+ " has " + count.getValue() + " connections "
+							+ "but should not have more than one connection";
+					createMarker(file, message);
+				}
+			}
 		}
 
-		return true;
+		return res;
 	}
 
+	private void createMarker(IFile file, String message) {
+		try {
+			IMarker marker = file.createMarker(IMarker.PROBLEM);
+			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+			marker.setAttribute(IMarker.MESSAGE, message);
+		} catch (CoreException e) {
+		}
+	}
+
+	@Override
+	public boolean validate(Graph graph, IFile file) {
+		return checkInputPorts(graph, file);
+	}
 }
