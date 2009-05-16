@@ -28,13 +28,13 @@
  */
 package net.sf.graphiti.validator;
 
+import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.IValidator;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-
-import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.IValidator;
 
 /**
  * This class implements a model validator.

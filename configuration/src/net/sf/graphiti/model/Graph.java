@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
 import org.jgrapht.graph.AbstractBaseGraph;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.Multigraph;
@@ -288,17 +287,6 @@ public class Graph extends AbstractObject {
 	 */
 	public Set<Vertex> vertexSet() {
 		return graph.vertexSet();
-	}
-
-	/**
-	 * Validates this graph.
-	 * 
-	 * @param file
-	 *            The file this graph is about to be saved to.
-	 * @return True if the graph is valid, false otherwise.
-	 */
-	public boolean validate(IFile file) {
-		return configuration.getValidator().validate(this, file);
 	}
 
 }

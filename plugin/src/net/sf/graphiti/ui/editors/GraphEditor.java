@@ -40,6 +40,7 @@ import javax.xml.transform.TransformerException;
 import net.sf.graphiti.io.GenericGraphParser;
 import net.sf.graphiti.io.GenericGraphWriter;
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.IValidator;
 import net.sf.graphiti.ui.GraphitiPlugin;
 import net.sf.graphiti.ui.actions.CopyAction;
 import net.sf.graphiti.ui.actions.CutAction;
@@ -51,6 +52,8 @@ import net.sf.graphiti.ui.editparts.GraphEditPart;
 import net.sf.graphiti.ui.wizards.SaveAsWizard;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -223,15 +226,36 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 	}
 
 	@Override
-	public void doSave(IProgressMonitor monitor) {
+	public void dispose() {
+		// remove existing markers
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-		if (graph.validate(file)) {
+		try {
+			file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+		} catch (CoreException e) {
+		}
+
+		// dispose parent
+		super.dispose();
+	}
+
+	@Override
+	public void doSave(IProgressMonitor monitor) {
+		// remove existing markers
+		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
+		try {
+			file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+		} catch (CoreException e) {
+		}
+
+		// validate and then save
+		IValidator validator = graph.getConfiguration().getValidator();
+		if (validator.validate(graph, file)) {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			GenericGraphWriter writer = new GenericGraphWriter(graph);
 			try {
 				writer.write(file.getLocation().toString(), out);
-				file.setContents(new ByteArrayInputStream(out.toByteArray()), true,
-						false, monitor);
+				file.setContents(new ByteArrayInputStream(out.toByteArray()),
+						true, false, monitor);
 				try {
 					out.close();
 				} catch (IOException e) {
@@ -260,7 +284,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 				errorMessage("Exception", e);
 			}
 		}
-		
+
 		monitor.setCanceled(true);
 	}
 

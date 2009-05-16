@@ -64,16 +64,16 @@ public class FileFormat {
 			return fileName;
 		}
 
+		public String getGrammarId() {
+			return grammarId;
+		}
+
 		public String getStartRule() {
 			return startRule;
 		}
 
 		public boolean isXslt() {
 			return xslt;
-		}
-
-		public String getGrammarId() {
-			return grammarId;
 		}
 
 	}

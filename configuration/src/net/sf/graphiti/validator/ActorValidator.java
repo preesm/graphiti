@@ -29,8 +29,11 @@
 package net.sf.graphiti.validator;
 
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.IValidator;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
 
 /**
  * This class implements a model validator.
@@ -38,11 +41,20 @@ import org.eclipse.core.resources.IFile;
  * @author Matthieu Wipliez
  * 
  */
-public class StaticDataflowValidator extends DataflowValidator {
+public class ActorValidator implements IValidator {
 
 	@Override
 	public boolean validate(Graph graph, IFile file) {
-		return true;
+		try {
+			IMarker marker = file.createMarker(IMarker.PROBLEM);
+			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+			marker.setAttribute(IMarker.MESSAGE,
+					"a CAL actor cannot be saved with Graphiti");
+
+			return false;
+		} catch (CoreException e) {
+			return false;
+		}
 	}
 
 }

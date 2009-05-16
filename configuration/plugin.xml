@@ -314,6 +314,77 @@
             </shape>
          </vertexType>
       </configuration>
+      <configuration
+            extension="cal"
+            name="CAL"
+            type="text"
+            validator="net.sf.graphiti.validator.ActorValidator">
+         <graphType
+               name="CAL actor">
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
+            <parameter
+                  name="actor parameter"
+                  type="java.util.List">
+            </parameter>
+            <parameter
+                  name="actor variable declaration"
+                  type="java.util.Map">
+            </parameter>
+         </graphType>
+         <import>
+            <grammar
+                  definition="net.sf.graphiti.grammar.cal"
+                  startRule="actor">
+            </grammar>
+            <xslt
+                  name="xslt/net/sf/graphiti/xdf/calToCalML.xslt">
+            </xslt>
+            <xslt
+                  name="xslt/net/sf/graphiti/xdf/input_CalML.xslt">
+            </xslt>
+         </import>
+         <vertexType
+               name="Input port">
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
+            <color
+                  blue="100"
+                  green="60"
+                  red="0">
+            </color>
+            <size
+                  height="30"
+                  width="30">
+            </size>
+            <shape
+                  type="triangle">
+            </shape>
+         </vertexType>
+         <vertexType
+               name="Output port">
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
+            <color
+                  blue="100"
+                  green="0"
+                  red="60">
+            </color>
+            <shape
+                  type="triangle">
+            </shape>
+            <size
+                  height="30"
+                  width="30">
+            </size>
+         </vertexType>
+      </configuration>
    </extension>
    <extension
          point="net.sf.graphiti.configuration.grammar">

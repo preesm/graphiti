@@ -115,8 +115,10 @@ public class ConfigurationParser {
 		parseFileFormatImport(format, children);
 
 		children = element.getChildren("export");
-		children = children[0].getChildren();
-		parseFileFormatExport(format, children);
+		if (children.length > 0) {
+			children = children[0].getChildren();
+			parseFileFormatExport(format, children);
+		}
 
 		Map<String, ObjectType> graphTypes = parseTypes(element
 				.getChildren("graphType"));
@@ -126,10 +128,12 @@ public class ConfigurationParser {
 				.getChildren("edgeType"));
 
 		String fileExtsValue = element.getAttribute("file-extensions");
+		String[] fileExts;
 		if (fileExtsValue == null) {
-			fileExtsValue = "";
+			fileExts = new String[] {};
+		} else {
+			fileExts = fileExtsValue.split(",");
 		}
-		String[] fileExts = fileExtsValue.split(",");
 
 		Object value = element.createExecutableExtension("validator");
 

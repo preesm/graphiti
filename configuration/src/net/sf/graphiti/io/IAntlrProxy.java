@@ -31,7 +31,6 @@ package net.sf.graphiti.io;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.Parser;
 
-
 /**
  * This interface gives access to ANTLR lexer and parser.
  * 
@@ -41,5 +40,5 @@ import org.antlr.runtime.Parser;
 public interface IAntlrProxy {
 
 	public Parser createParser(CharStream stream);
-	
+
 }

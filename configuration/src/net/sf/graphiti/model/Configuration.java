@@ -82,14 +82,14 @@ public class Configuration {
 	private String[] refinementFileExtensions;
 
 	/**
-	 * A vertex type name -> vertex type object map.
-	 */
-	private Map<String, ObjectType> vertexTypes;
-
-	/**
 	 * The validator called when the graph is about to be saved.
 	 */
 	private IValidator validator;
+
+	/**
+	 * A vertex type name -> vertex type object map.
+	 */
+	private Map<String, ObjectType> vertexTypes;
 
 	/**
 	 * Creates a new document configuration with no initial attributes or
