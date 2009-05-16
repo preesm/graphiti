@@ -28,10 +28,12 @@
  */
 
 grammar Cal;
+
 options {
   output = AST;
   k = 1;
 }
+
 tokens {
   // network
   Attribute;
@@ -72,6 +74,14 @@ tokens {
   String;
   UnOp;
   Var;
+}
+
+@lexer::header {
+package net.sf.graphiti.grammar;
+}
+
+@parser::header {
+package net.sf.graphiti.grammar;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

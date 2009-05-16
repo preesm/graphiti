@@ -117,12 +117,12 @@
          </edgeType>
          <import>
             <xslt
-                  name="bin/net/sf/graphiti/xdf/input_XDF.xslt">
+                  name="xslt/net/sf/graphiti/xdf/input_XDF.xslt">
             </xslt>
          </import>
          <export>
             <xslt
-                  name="bin/net/sf/graphiti/xdf/output_XDF.xslt">
+                  name="xslt/net/sf/graphiti/xdf/output_XDF.xslt">
             </xslt>
          </export>
          <refinement-file-extensions
