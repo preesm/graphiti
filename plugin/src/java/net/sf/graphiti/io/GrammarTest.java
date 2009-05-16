@@ -96,6 +96,7 @@ public class GrammarTest {
 	 */
 	public GrammarTest(String folder, String name, String startRule,
 			String fileName, String outputFileName) throws Exception {
+		// TODO grammar test
 		InputStream in = new FileInputStream(fileName);
 		Element element = new GrammarTransformer(folder, name, startRule)
 				.parse(in);

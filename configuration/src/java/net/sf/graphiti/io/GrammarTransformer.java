@@ -33,10 +33,14 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.sf.graphiti.configuration.ui.Activator;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.ANTLRStringStream;
@@ -48,6 +52,10 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.TokenStream;
 import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.Tree;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.osgi.framework.Bundle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -96,31 +104,26 @@ public class GrammarTransformer {
 			lexer = lexerMap.get(name);
 			parser = parserMap.get(name);
 		} else {
-			// InputStream is = FileLocator.openStream(null, new Path(fileName),
-			// false);
-			// URL url = FileLocator.find(null, new Path(fileName), null);
-			// url = FileLocator.toFileURL(url);
-			// // TODO: use lexer/parser from configuration
-			// ClassLoader parentLoader = Thread.currentThread()
-			// .getContextClassLoader();
-			// URLClassLoader loader = new URLClassLoader(url, parentLoader);
-			//
-			// lexer = loader.loadClass(name + "Lexer");
-			// lexerMap.put(name, lexer);
-			// parser = loader.loadClass(name + "Parser");
-			// parserMap.put(name, parser);
+			ClassLoader parentLoader = Thread.currentThread()
+					.getContextClassLoader();
 
-			// TODO: use lexer/parser from configuration
-			// File lexerFile = FileLocator.getFile(folder);
-			// URL[] urls = new URL[] { lexerFile.toURI().toURL() };
-			// ClassLoader parentLoader = Thread.currentThread()
-			// .getContextClassLoader();
-			// URLClassLoader loader = new URLClassLoader(urls, parentLoader);
-			//
-			// lexer = loader.loadClass(name + "Lexer");
-			// lexerMap.put(name, lexer);
-			// parser = loader.loadClass(name + "Parser");
-			// parserMap.put(name, parser);
+			Bundle bundle = Activator.getDefault().getBundle();
+			IPath lexerPath = new Path(folder).append(name + "Lexer.class");
+			URL urlLexer = FileLocator.find(bundle, lexerPath, null);
+			urlLexer = FileLocator.toFileURL(urlLexer);
+
+			IPath parserPath = new Path(folder).append(name + "Parser.class");
+			URL urlParser = FileLocator.find(bundle, parserPath, null);
+			urlParser = FileLocator.toFileURL(urlParser);
+
+			URLClassLoader loader = new URLClassLoader(new URL[] { urlLexer,
+					urlParser }, parentLoader);
+
+			lexer = loader.loadClass(name + "Lexer");
+			lexerMap.put(name + "Lexer", lexer);
+
+			parser = loader.loadClass(name + "Parser");
+			parserMap.put(name + "Parser", parser);
 		}
 	}
 

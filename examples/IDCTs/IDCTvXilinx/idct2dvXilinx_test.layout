@@ -2,7 +2,7 @@
 <layout>
    <vertices>
       <vertex id="$id_n$0" x="50" y="100"/>
-      <vertex id="$id_n$1" x="135" y="103"/>
-      <vertex id="$id_n$2" x="239" y="121"/>
+      <vertex id="$id_n$1" x="160" y="82"/>
+      <vertex id="$id_n$2" x="271" y="107"/>
    </vertices>
 </layout>

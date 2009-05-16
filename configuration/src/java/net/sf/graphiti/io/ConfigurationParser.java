@@ -135,11 +135,10 @@ public class ConfigurationParser {
 	 */
 	private void parseFileFormatExport(FileFormat format,
 			IConfigurationElement[] children) {
-		for (IConfigurationElement child : children) {
-			String name = child.getAttribute("name");
-			String type = child.getAttribute("type");
-			format.addExportTransformation(name);
+		for (IConfigurationElement element : children) {
+			String type = element.getName();
 			if (type.equals("xslt")) {
+				String name = element.getAttribute("name");
 				format.addExportTransformation(name);
 			} else {
 				throw new IllegalArgumentException("Unknown type: " + type);
@@ -157,12 +156,15 @@ public class ConfigurationParser {
 	 */
 	private void parseFileFormatImport(FileFormat format,
 			IConfigurationElement[] children) {
-		for (IConfigurationElement child : children) {
-			String name = child.getAttribute("name");
-			String type = child.getAttribute("type");
+		for (IConfigurationElement element : children) {
+			String name = element.getAttribute("name");
+			String type = element.getName();
 			if (type.equals("grammar")) {
-				// TODO start Rule
-				format.addImportGrammarTransformation("", name, "");
+				String folder = element.getAttribute("folder");
+				String grammar = element.getAttribute("name");
+				String startRule = element.getAttribute("startRule");
+				format.addImportGrammarTransformation(folder, grammar,
+						startRule);
 			} else if (type.equals("xslt")) {
 				format.addImportXsltTransformation(name);
 			} else {
@@ -280,11 +282,11 @@ public class ConfigurationParser {
 	private Map<String, ObjectType> parseTypes(IConfigurationElement[] children) {
 		Map<String, ObjectType> types = new TreeMap<String, ObjectType>();
 
-		for (IConfigurationElement child : children) {
-			String typeName = child.getAttribute("name");
+		for (IConfigurationElement element : children) {
+			String typeName = element.getAttribute("name");
 			ObjectType type = new ObjectType(typeName);
 			types.put(typeName, type);
-			parseType(type, child.getChildren());
+			parseType(type, element.getChildren());
 		}
 
 		return types;

@@ -289,7 +289,8 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="transformation" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="grammar" minOccurs="0" maxOccurs="1"/>
+            <element ref="xslt" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
       </complexType>
    </element>
@@ -302,43 +303,8 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="transformation" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="xslt" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
-      </complexType>
-   </element>
-
-   <element name="transformation">
-      <annotation>
-         <documentation>
-            Defines a transformation, as a ANTLR parser or an XSLT stylesheet.
-         </documentation>
-      </annotation>
-      <complexType>
-         <attribute name="name" type="string" use="required">
-            <annotation>
-               <documentation>
-                  Transformation file name.
-               </documentation>
-               <appinfo>
-                  <meta.attribute kind="resource"/>
-               </appinfo>
-            </annotation>
-         </attribute>
-         <attribute name="type" use="required">
-            <annotation>
-               <documentation>
-                  Transformation type: ANTLR parser or XSLT stylesheet.
-               </documentation>
-            </annotation>
-            <simpleType>
-               <restriction base="string">
-                  <enumeration value="grammar">
-                  </enumeration>
-                  <enumeration value="xslt">
-                  </enumeration>
-               </restriction>
-            </simpleType>
-         </attribute>
       </complexType>
    </element>
 
@@ -349,6 +315,53 @@
                <documentation>
                   a comma-separated list of file extensions to be associated with the target content type
                </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="grammar">
+      <complexType>
+         <attribute name="parser" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn="org.antlr.runtime.Parser:"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="lexer" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn="org.antlr.runtime.Lexer:"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="startRule" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="xslt">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="resource"/>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>

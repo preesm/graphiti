@@ -116,16 +116,14 @@
             </parameter>
          </edgeType>
          <import>
-            <transformation
-                  name="src/net/sf/graphiti/xdf/input_XDF.xslt"
-                  type="xslt">
-            </transformation>
+            <xslt
+                  name="bin/net/sf/graphiti/xdf/input_XDF.xslt">
+            </xslt>
          </import>
          <export>
-            <transformation
-                  name="src/net/sf/graphiti/xdf/output_XDF.xslt"
-                  type="xslt">
-            </transformation>
+            <xslt
+                  name="bin/net/sf/graphiti/xdf/output_XDF.xslt">
+            </xslt>
          </export>
          <refinement-file-extensions
                file-extensions="cal,nl,xnl,xdf">
