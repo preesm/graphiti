@@ -30,9 +30,11 @@ package net.sf.graphiti.io;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -40,6 +42,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.URIResolver;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -84,13 +87,54 @@ public class XsltTransformer {
 	public XsltTransformer(String fileName)
 			throws TransformerConfigurationException, IOException,
 			URISyntaxException {
-		Bundle bundle = Activator.getDefault().getBundle();
 		IPath path = new Path(fileName);
-		URL url = FileLocator.find(bundle, path, null);
-		url = FileLocator.toFileURL(url);
+		final Bundle bundle = Activator.getDefault().getBundle();
+		final IPath folder = path.removeLastSegments(1);
+
 		TransformerFactory factory = TransformerFactory.newInstance(
 				"net.sf.saxon.TransformerFactoryImpl", null);
-		StreamSource xsltSource = new StreamSource(new File(url.toURI()));
+		factory.setURIResolver(new URIResolver() {
+
+			@Override
+			public Source resolve(String href, String base)
+					throws TransformerException {
+				try {
+					// What we are doing here is solving the "href" URI and get
+					// an InputStream from it.
+					IPath path = new Path(href);
+					InputStream is;
+
+					if (path.isAbsolute()) {
+						// absolute path, we assume it refers to something in
+						// the file system (an absolute path in the workspace
+						// would not make sense anyway).
+
+						// Strangely enough, the toString method seems to be the
+						// only one that returns a URI accepted by the URI class
+						String str = path.toString();
+						try {
+							URI uri = new URI(str);
+							is = new FileInputStream(new File(uri));
+						} catch (URISyntaxException e) {
+							throw new TransformerException(e);
+						}
+					} else {
+						// relative path, a file that is relative to the
+						// "folder" path in this bundle.
+						path = folder.append(path);
+						is = FileLocator.openStream(bundle, path, false);
+					}
+
+					return new StreamSource(is);
+				} catch (IOException e) {
+					throw new TransformerException(e);
+				}
+			}
+
+		});
+
+		InputStream is = FileLocator.openStream(bundle, path, false);
+		StreamSource xsltSource = new StreamSource(is);
 		transformer = factory.newTransformer(xsltSource);
 	}
 

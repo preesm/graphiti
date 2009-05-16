@@ -42,7 +42,8 @@ public class StaticDataflowValidator extends DataflowValidator {
 
 	@Override
 	public boolean validate(Graph graph, IFile file) {
-		return true;
+		// first checks dataflow rules.
+		return super.validate(graph, file);
 	}
 
 }
