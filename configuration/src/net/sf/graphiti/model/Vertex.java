@@ -77,17 +77,6 @@ public class Vertex extends AbstractObject {
 	Graph parent;
 
 	/**
-	 * Creates a new vertex which is a copy of the given vertex.
-	 * 
-	 * @param vertex
-	 *            The source vertex.
-	 */
-	public Vertex(Vertex vertex) {
-		super(vertex);
-		parent = vertex.parent;
-	}
-
-	/**
 	 * Creates a vertex with the given type.
 	 * 
 	 * @param type
@@ -101,6 +90,17 @@ public class Vertex extends AbstractObject {
 		for (Parameter parameter : parameters) {
 			setValue(parameter.getName(), parameter.getDefault());
 		}
+	}
+
+	/**
+	 * Creates a new vertex which is a copy of the given vertex.
+	 * 
+	 * @param vertex
+	 *            The source vertex.
+	 */
+	public Vertex(Vertex vertex) {
+		super(vertex);
+		parent = vertex.parent;
 	}
 
 	/**

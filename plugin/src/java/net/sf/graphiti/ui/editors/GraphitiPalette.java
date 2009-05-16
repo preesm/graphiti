@@ -38,6 +38,7 @@ import net.sf.graphiti.ui.editparts.EdgeCreationFactory;
 import net.sf.graphiti.ui.editparts.VertexCreationFactory;
 import net.sf.graphiti.ui.figure.VertexFigure;
 import net.sf.graphiti.ui.figure.shapes.IShape;
+import net.sf.graphiti.ui.figure.shapes.ShapeFactory;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
@@ -181,8 +182,8 @@ public class GraphitiPalette {
 		int width = (Integer) type.getAttribute(ObjectType.ATTRIBUTE_WIDTH);
 		int height = (Integer) type.getAttribute(ObjectType.ATTRIBUTE_HEIGHT);
 		Color color = (Color) type.getAttribute(ObjectType.ATTRIBUTE_COLOR);
-		IShape shape = (IShape) type.getAttribute(ObjectType.ATTRIBUTE_SHAPE);
-		shape = shape.newShape();
+		String name = (String) type.getAttribute(ObjectType.ATTRIBUTE_SHAPE);
+		IShape shape = ShapeFactory.createShape(name);
 
 		// adjust width and height
 		double ratio = (double) width / (double) height;

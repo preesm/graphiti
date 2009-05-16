@@ -96,31 +96,31 @@ public class GrammarTransformer {
 			lexer = lexerMap.get(name);
 			parser = parserMap.get(name);
 		} else {
-//			InputStream is = FileLocator.openStream(null, new Path(fileName),
-//					false);
-//			URL url = FileLocator.find(null, new Path(fileName), null);
-//			url = FileLocator.toFileURL(url);
-//			// TODO: use lexer/parser from configuration
-//			ClassLoader parentLoader = Thread.currentThread()
-//					.getContextClassLoader();
-//			URLClassLoader loader = new URLClassLoader(url, parentLoader);
-//
-//			lexer = loader.loadClass(name + "Lexer");
-//			lexerMap.put(name, lexer);
-//			parser = loader.loadClass(name + "Parser");
-//			parserMap.put(name, parser);
-			
+			// InputStream is = FileLocator.openStream(null, new Path(fileName),
+			// false);
+			// URL url = FileLocator.find(null, new Path(fileName), null);
+			// url = FileLocator.toFileURL(url);
+			// // TODO: use lexer/parser from configuration
+			// ClassLoader parentLoader = Thread.currentThread()
+			// .getContextClassLoader();
+			// URLClassLoader loader = new URLClassLoader(url, parentLoader);
+			//
+			// lexer = loader.loadClass(name + "Lexer");
+			// lexerMap.put(name, lexer);
+			// parser = loader.loadClass(name + "Parser");
+			// parserMap.put(name, parser);
+
 			// TODO: use lexer/parser from configuration
-//			File lexerFile = FileLocator.getFile(folder);
-//			URL[] urls = new URL[] { lexerFile.toURI().toURL() };
-//			ClassLoader parentLoader = Thread.currentThread()
-//					.getContextClassLoader();
-//			URLClassLoader loader = new URLClassLoader(urls, parentLoader);
-//
-//			lexer = loader.loadClass(name + "Lexer");
-//			lexerMap.put(name, lexer);
-//			parser = loader.loadClass(name + "Parser");
-//			parserMap.put(name, parser);
+			// File lexerFile = FileLocator.getFile(folder);
+			// URL[] urls = new URL[] { lexerFile.toURI().toURL() };
+			// ClassLoader parentLoader = Thread.currentThread()
+			// .getContextClassLoader();
+			// URLClassLoader loader = new URLClassLoader(urls, parentLoader);
+			//
+			// lexer = loader.loadClass(name + "Lexer");
+			// lexerMap.put(name, lexer);
+			// parser = loader.loadClass(name + "Parser");
+			// parserMap.put(name, parser);
 		}
 	}
 

@@ -42,6 +42,17 @@ import java.util.Map;
 public class ObjectType implements Comparable<ObjectType> {
 
 	/**
+	 * String for the "color" attribute. Defines the color of a graph, a vertex,
+	 * an edge.
+	 */
+	public static final String ATTRIBUTE_COLOR = "color";
+
+	/**
+	 * String for the "directed" attribute.
+	 */
+	public static final String ATTRIBUTE_DIRECTED = "directed";
+
+	/**
 	 * String for the "height" attribute. Defines the vertex height.
 	 */
 	public static final String ATTRIBUTE_HEIGHT = "height";
@@ -65,17 +76,6 @@ public class ObjectType implements Comparable<ObjectType> {
 	 * String for the "refinement" parameter. Defines the vertex refinement.
 	 */
 	public static final String PARAMETER_REFINEMENT = "refinement";
-
-	/**
-	 * String for the "color" attribute. Defines the color of a graph, a vertex,
-	 * an edge.
-	 */
-	public static final String ATTRIBUTE_COLOR = "color";
-
-	/**
-	 * String for the "directed" attribute.
-	 */
-	public static final String ATTRIBUTE_DIRECTED = "directed";
 
 	/**
 	 * String for the "source port" parameter. Defines the edge source port (if

@@ -44,6 +44,7 @@ import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
 import net.sf.graphiti.ui.editpolicies.VertexDirectEditPolicy;
 import net.sf.graphiti.ui.figure.VertexFigure;
 import net.sf.graphiti.ui.figure.shapes.IShape;
+import net.sf.graphiti.ui.figure.shapes.ShapeFactory;
 
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -161,8 +162,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		// Get dimension, color, shape
 		Dimension dimension = new Dimension(width, height);
 		Color color = (Color) vertex.getAttribute(ObjectType.ATTRIBUTE_COLOR);
-		IShape shape = (IShape) vertex.getAttribute(ObjectType.ATTRIBUTE_SHAPE);
-		shape = shape.newShape();
+		String name = (String) vertex.getAttribute(ObjectType.ATTRIBUTE_SHAPE);
+		IShape shape = ShapeFactory.createShape(name);
 
 		// Creates the figure with the specified properties, sets its id
 		Font font = ((GraphicalEditPart) getParent()).getFigure().getFont();
