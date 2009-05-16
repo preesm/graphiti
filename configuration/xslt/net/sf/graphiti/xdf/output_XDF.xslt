@@ -14,7 +14,7 @@
     <xsl:param name="path"/>
     <xsl:variable name="file" select="replace($path, '(.+)[.].+', '$1.layout')"/>
     
-    <xsl:variable name="grammarPath" select="'net/sf/graphiti/grammar'"/>
+    <xsl:variable name="grammarId" select="'net.sf.graphiti.grammar.cal'"/>
 
     <!-- Top-level: graph -> XDF -->
     <xsl:template match="graph">
@@ -66,8 +66,7 @@
     child if the declaration contains a type. -->
     <xsl:template name="typeAndId">
         <xsl:param name="str"/>
-        <xsl:variable name="gt"
-            select="grammar:new($grammarPath, 'CalAntlrProxy', 'mainParameter')"/>
+        <xsl:variable name="gt" select="grammar:new($grammarId, 'mainParameter')"/>
         <xsl:variable name="tree" select="grammar:parseString($gt, $str)"/>
         <xsl:attribute name="name" select="$tree/Var/text()"/>
         <xsl:if test="$tree/Type">
@@ -93,8 +92,7 @@
                 <xsl:with-param name="str" select="@key"/>
             </xsl:call-template>
 
-            <xsl:variable name="gt"
-                select="grammar:new($grammarPath, 'CalAntlrProxy', 'mainExpression')"/>
+            <xsl:variable name="gt" select="grammar:new($grammarId, 'mainExpression')"/>
             <xsl:variable name="tree" select="grammar:parseString($gt, @value)"/>
             <xsl:apply-templates select="$tree"/>
         </xsl:element>
@@ -145,8 +143,7 @@
     <xsl:template match="parameter[@name = 'instance parameter']/entry">
         <xsl:element name="Parameter">
             <xsl:attribute name="name" select="@key"/>
-            <xsl:variable name="gt"
-                select="grammar:new($grammarPath, 'CalAntlrProxy', 'mainExpression')"/>
+            <xsl:variable name="gt" select="grammar:new($grammarId, 'mainExpression')"/>
             <xsl:variable name="tree" select="grammar:parseString($gt, @value)"/>
             <xsl:apply-templates select="$tree"/>
         </xsl:element>
@@ -183,8 +180,7 @@
                 <xsl:element name="Attribute">
                     <xsl:attribute name="kind" select="'Value'"/>
                     <xsl:attribute name="name" select="'bufferSize'"/>
-                    <xsl:variable name="gt"
-                        select="grammar:new($grammarPath, 'CalAntlrProxy', 'mainExpression')"/>
+                    <xsl:variable name="gt" select="grammar:new($grammarId, 'mainExpression')"/>
                     <xsl:variable name="tree" select="grammar:parseString($gt, $value)"/>
                     <xsl:apply-templates select="$tree"/>
                 </xsl:element>

@@ -175,8 +175,8 @@ public class GenericGraphParser {
 					element = transformer.transformDomToDom(element);
 				} else {
 					GrammarTransformer transformer = new GrammarTransformer(
-							transformation.getFolder(), transformation
-									.getName(), transformation.getStartRule());
+							transformation.getGrammarId(), transformation
+									.getStartRule());
 					element = transformer.parse(in);
 				}
 			}

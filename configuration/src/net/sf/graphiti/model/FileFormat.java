@@ -43,9 +43,7 @@ public class FileFormat {
 
 		private String fileName;
 
-		private String folder;
-
-		private String name;
+		private String grammarId;
 
 		private String startRule;
 
@@ -56,23 +54,14 @@ public class FileFormat {
 			this.fileName = fileName;
 		}
 
-		private Transformation(String folder, String name, String startRule) {
+		private Transformation(String grammarId, String startRule) {
 			xslt = false;
-			this.folder = folder;
-			this.name = name;
+			this.grammarId = grammarId;
 			this.startRule = startRule;
 		}
 
 		public String getFileName() {
 			return fileName;
-		}
-
-		public String getFolder() {
-			return folder;
-		}
-
-		public String getName() {
-			return name;
 		}
 
 		public String getStartRule() {
@@ -81,6 +70,10 @@ public class FileFormat {
 
 		public boolean isXslt() {
 			return xslt;
+		}
+
+		public String getGrammarId() {
+			return grammarId;
 		}
 
 	}
@@ -104,9 +97,9 @@ public class FileFormat {
 		exports.add(fileName);
 	}
 
-	public void addImportGrammarTransformation(String folder, String name,
+	public void addImportGrammarTransformation(String grammarId,
 			String startRule) {
-		imports.add(new Transformation(folder, name, startRule));
+		imports.add(new Transformation(grammarId, startRule));
 	}
 
 	public void addImportXsltTransformation(String fileName) {

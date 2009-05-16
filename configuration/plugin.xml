@@ -2,13 +2,10 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="definition" name="definition" schema="schema/definition.exsd"/>
+   <extension-point id="grammar" name="grammar" schema="schema/grammar.exsd"/>
 
    <extension
          point="net.sf.graphiti.configuration.definition">
-      <grammarDefinition
-            class="net.sf.graphiti.grammar.CalAntlrProxy"
-            id="net.sf.graphiti.grammar.cal">
-      </grammarDefinition>
       <configuration
             extension="xdf"
             file-extensions="cal,nl,xnl,xdf"
@@ -124,9 +121,6 @@
             <xslt
                   name="xslt/net/sf/graphiti/xdf/input_XDF.xslt">
             </xslt>
-            <grammar
-                  grammarDefinition="net.sf.graphiti.grammar.cal">
-            </grammar>
          </import>
          <export>
             <xslt
@@ -134,5 +128,12 @@
             </xslt>
          </export>
       </configuration>
+   </extension>
+   <extension
+         point="net.sf.graphiti.configuration.grammar">
+      <definition
+            class="net.sf.graphiti.grammar.CalAntlrProxy"
+            id="net.sf.graphiti.grammar.cal">
+      </definition>
    </extension>
 </plugin>

@@ -98,8 +98,7 @@ public class GrammarTest {
 			String fileName, String outputFileName) throws Exception {
 		// TODO grammar test
 		InputStream in = new FileInputStream(fileName);
-		Element element = new GrammarTransformer(folder, name, startRule)
-				.parse(in);
+		Element element = new GrammarTransformer("", startRule).parse(in);
 		document = element.getOwnerDocument();
 		outputXml(outputFileName);
 	}

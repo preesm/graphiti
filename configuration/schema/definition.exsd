@@ -18,7 +18,6 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="grammarDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="configuration" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
@@ -315,28 +314,6 @@
       </complexType>
    </element>
 
-   <element name="grammarDefinition">
-      <complexType>
-         <attribute name="class" type="string" use="required">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-               <appinfo>
-                  <meta.attribute kind="java" basedOn=":net.sf.graphiti.io.IAntlrProxy"/>
-               </appinfo>
-            </annotation>
-         </attribute>
-         <attribute name="id" type="string" use="required">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-            </annotation>
-         </attribute>
-      </complexType>
-   </element>
-
    <element name="xslt">
       <complexType>
          <attribute name="name" type="string" use="required">
@@ -354,13 +331,13 @@
 
    <element name="grammar">
       <complexType>
-         <attribute name="grammarDefinition" type="string" use="required">
+         <attribute name="definition" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="identifier" basedOn="net.sf.graphiti.configuration.definition/grammarDefinition/@id"/>
+                  <meta.attribute kind="identifier" basedOn="net.sf.graphiti.configuration.grammar/definition/@id"/>
                </appinfo>
             </annotation>
          </attribute>

@@ -70,6 +70,12 @@ public class ConfigurationParser {
 
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IConfigurationElement[] elements = registry
+				.getConfigurationElementsFor("net.sf.graphiti.configuration.grammar");
+		for (IConfigurationElement element : elements) {
+			registerGrammar(element);
+		}
+
+		elements = registry
 				.getConfigurationElementsFor("net.sf.graphiti.configuration.definition");
 		for (IConfigurationElement element : elements) {
 			Configuration configuration = parseConfiguration(element);
@@ -158,11 +164,9 @@ public class ConfigurationParser {
 			String name = element.getAttribute("name");
 			String type = element.getName();
 			if (type.equals("grammar")) {
-				String folder = element.getAttribute("folder");
-				String grammar = element.getAttribute("name");
+				String grammarId = element.getAttribute("definition");
 				String startRule = element.getAttribute("startRule");
-				format.addImportGrammarTransformation(folder, grammar,
-						startRule);
+				format.addImportGrammarTransformation(grammarId, startRule);
 			} else if (type.equals("xslt")) {
 				format.addImportXsltTransformation(name);
 			} else {
@@ -288,6 +292,13 @@ public class ConfigurationParser {
 		}
 
 		return types;
+	}
+
+	private void registerGrammar(IConfigurationElement element)
+			throws CoreException {
+		String id = element.getAttribute("id");
+		Object proxy = element.createExecutableExtension("class");
+		GrammarTransformer.registerProxy(id, (IAntlrProxy) proxy);
 	}
 
 }

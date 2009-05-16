@@ -28,18 +28,13 @@
  */
 package net.sf.graphiti.io;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.sf.graphiti.configuration.ui.Activator;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.ANTLRStringStream;
@@ -47,10 +42,6 @@ import org.antlr.runtime.Parser;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.Tree;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.osgi.framework.Bundle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -65,6 +56,10 @@ public class GrammarTransformer {
 
 	private static Map<String, IAntlrProxy> proxies = new HashMap<String, IAntlrProxy>();
 
+	public static void registerProxy(String id, IAntlrProxy proxy) {
+		proxies.put(id, proxy);
+	}
+
 	private IAntlrProxy proxy;
 
 	private String startRule;
@@ -73,44 +68,14 @@ public class GrammarTransformer {
 	 * Creates a new grammar transformer using the grammar with the given file
 	 * name.
 	 * 
-	 * @param folder
-	 *            The folder where the grammar classes are located.
-	 * @param name
-	 *            The grammar name.
+	 * @param grammarId
+	 *            The grammar identifier.
 	 * @param startRule
 	 *            The start rule.
-	 * @throws GrammarException
-	 *             if the grammar wasn't valid
-	 * @throws IOException
-	 *             if the grammar file couldn't be read
-	 * @throws ClassNotFoundException
-	 * @throws IllegalAccessException
-	 * @throws InstantiationException
-	 * @throws ParserLogException
-	 *             if the grammar file couldn't be parsed correctly
 	 */
-	public GrammarTransformer(String folder, String name, String startRule)
-			throws IOException, ClassNotFoundException, InstantiationException,
-			IllegalAccessException {
+	public GrammarTransformer(String grammarId, String startRule) {
 		this.startRule = startRule;
-
-		if (proxies.containsKey(name)) {
-			proxy = proxies.get(name);
-		} else {
-			ClassLoader parentLoader = Thread.currentThread()
-					.getContextClassLoader();
-
-			Bundle bundle = Activator.getDefault().getBundle();
-			IPath path = new Path("bin").append(folder).append(name + ".class");
-			URL url = FileLocator.find(bundle, path, null);
-			url = FileLocator.toFileURL(url);
-
-			URLClassLoader loader = new URLClassLoader(new URL[] { url },
-					parentLoader);
-
-			proxy = (IAntlrProxy) loader.loadClass(name).newInstance();
-			proxies.put(name, proxy);
-		}
+		proxy = proxies.get(grammarId);
 	}
 
 	/**
