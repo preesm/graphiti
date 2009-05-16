@@ -5,8 +5,13 @@
 
    <extension
          point="net.sf.graphiti.configuration.definition">
+      <grammarDefinition
+            class="net.sf.graphiti.grammar.CalAntlrProxy"
+            id="net.sf.graphiti.grammar.cal">
+      </grammarDefinition>
       <configuration
             extension="xdf"
+            file-extensions="cal,nl,xnl,xdf"
             name="XDF"
             type="text/xml">
          <graphType
@@ -119,15 +124,15 @@
             <xslt
                   name="xslt/net/sf/graphiti/xdf/input_XDF.xslt">
             </xslt>
+            <grammar
+                  grammarDefinition="net.sf.graphiti.grammar.cal">
+            </grammar>
          </import>
          <export>
             <xslt
                   name="xslt/net/sf/graphiti/xdf/output_XDF.xslt">
             </xslt>
          </export>
-         <refinement-file-extensions
-               file-extensions="cal,nl,xnl,xdf">
-         </refinement-file-extensions>
       </configuration>
    </extension>
 </plugin>

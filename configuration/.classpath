@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding=".svn/|net/.svn/|net/sf/.svn/|net/sf/graphiti/.svn/|net/sf/graphiti/configuration/.svn/|net/sf/graphiti/configuration/ui/.svn/|net/sf/graphiti/io/.svn/|net/sf/graphiti/model/.svn/" kind="src" path="src"/>
+	<classpathentry excluding=".svn/|net/.svn/|net/sf/.svn/|net/sf/graphiti/.svn/|net/sf/graphiti/configuration/.svn/|net/sf/graphiti/configuration/ui/.svn/|net/sf/graphiti/grammar/.svn/|net/sf/graphiti/io/.svn/|net/sf/graphiti/model/.svn/" kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="lib/saxon/saxon9-dom.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/saxon/saxon9-s9api.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/saxon/saxon9-xpath.jar"/>

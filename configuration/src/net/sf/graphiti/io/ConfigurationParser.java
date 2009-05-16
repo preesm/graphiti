@@ -116,9 +116,7 @@ public class ConfigurationParser {
 		Map<String, ObjectType> edgeTypes = parseTypes(element
 				.getChildren("edgeType"));
 
-		IConfigurationElement refinement = element
-				.getChildren("refinement-file-extensions")[0];
-		String fileExts = refinement.getAttribute("file-extensions");
+		String fileExts = element.getAttribute("file-extensions");
 
 		Configuration configuration = new Configuration(name, format, fileExts
 				.split(","), graphTypes, vertexTypes, edgeTypes);

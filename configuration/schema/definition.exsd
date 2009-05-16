@@ -18,6 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
+            <element ref="grammarDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="configuration" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
@@ -60,7 +61,6 @@
             <element ref="edgeType" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="import"/>
             <element ref="export" minOccurs="0" maxOccurs="1"/>
-            <element ref="refinement-file-extensions" minOccurs="0" maxOccurs="1"/>
          </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -90,6 +90,13 @@
                   </enumeration>
                </restriction>
             </simpleType>
+         </attribute>
+         <attribute name="file-extensions" type="string">
+            <annotation>
+               <documentation>
+                  a comma-separated list of file extensions to be associated with the target content type
+               </documentation>
+            </annotation>
          </attribute>
       </complexType>
    </element>
@@ -308,41 +315,19 @@
       </complexType>
    </element>
 
-   <element name="refinement-file-extensions">
+   <element name="grammarDefinition">
       <complexType>
-         <attribute name="file-extensions" type="string" use="required">
-            <annotation>
-               <documentation>
-                  a comma-separated list of file extensions to be associated with the target content type
-               </documentation>
-            </annotation>
-         </attribute>
-      </complexType>
-   </element>
-
-   <element name="grammar">
-      <complexType>
-         <attribute name="parser" type="string" use="required">
+         <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn="org.antlr.runtime.Parser:"/>
+                  <meta.attribute kind="java" basedOn=":net.sf.graphiti.io.IAntlrProxy"/>
                </appinfo>
             </annotation>
          </attribute>
-         <attribute name="lexer" type="string" use="required">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-               <appinfo>
-                  <meta.attribute kind="java" basedOn="org.antlr.runtime.Lexer:"/>
-               </appinfo>
-            </annotation>
-         </attribute>
-         <attribute name="startRule" type="string" use="required">
+         <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
                   
@@ -361,6 +346,21 @@
                </documentation>
                <appinfo>
                   <meta.attribute kind="resource"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="grammar">
+      <complexType>
+         <attribute name="grammarDefinition" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="identifier" basedOn="net.sf.graphiti.configuration.definition/grammarDefinition/@id"/>
                </appinfo>
             </annotation>
          </attribute>

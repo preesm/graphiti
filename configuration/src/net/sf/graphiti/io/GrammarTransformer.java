@@ -31,7 +31,6 @@ package net.sf.graphiti.io;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -44,12 +43,8 @@ import net.sf.graphiti.configuration.ui.Activator;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CharStream;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.Lexer;
 import org.antlr.runtime.Parser;
 import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.TokenStream;
 import org.antlr.runtime.tree.CommonErrorNode;
 import org.antlr.runtime.tree.Tree;
 import org.eclipse.core.runtime.FileLocator;
@@ -68,13 +63,9 @@ import org.w3c.dom.Element;
  */
 public class GrammarTransformer {
 
-	private static Map<String, Class<?>> lexerMap = new HashMap<String, Class<?>>();
+	private static Map<String, IAntlrProxy> proxies = new HashMap<String, IAntlrProxy>();
 
-	private static Map<String, Class<?>> parserMap = new HashMap<String, Class<?>>();
-
-	private Class<?> lexer;
-
-	private Class<?> parser;
+	private IAntlrProxy proxy;
 
 	private String startRule;
 
@@ -93,37 +84,32 @@ public class GrammarTransformer {
 	 * @throws IOException
 	 *             if the grammar file couldn't be read
 	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 * @throws ParserLogException
 	 *             if the grammar file couldn't be parsed correctly
 	 */
 	public GrammarTransformer(String folder, String name, String startRule)
-			throws IOException, ClassNotFoundException {
+			throws IOException, ClassNotFoundException, InstantiationException,
+			IllegalAccessException {
 		this.startRule = startRule;
 
-		if (lexerMap.containsKey(name)) {
-			lexer = lexerMap.get(name);
-			parser = parserMap.get(name);
+		if (proxies.containsKey(name)) {
+			proxy = proxies.get(name);
 		} else {
 			ClassLoader parentLoader = Thread.currentThread()
 					.getContextClassLoader();
 
 			Bundle bundle = Activator.getDefault().getBundle();
-			IPath lexerPath = new Path(folder).append(name + "Lexer.class");
-			URL urlLexer = FileLocator.find(bundle, lexerPath, null);
-			urlLexer = FileLocator.toFileURL(urlLexer);
+			IPath path = new Path("bin").append(folder).append(name + ".class");
+			URL url = FileLocator.find(bundle, path, null);
+			url = FileLocator.toFileURL(url);
 
-			IPath parserPath = new Path(folder).append(name + "Parser.class");
-			URL urlParser = FileLocator.find(bundle, parserPath, null);
-			urlParser = FileLocator.toFileURL(urlParser);
+			URLClassLoader loader = new URLClassLoader(new URL[] { url },
+					parentLoader);
 
-			URLClassLoader loader = new URLClassLoader(new URL[] { urlLexer,
-					urlParser }, parentLoader);
-
-			lexer = loader.loadClass(name + "Lexer");
-			lexerMap.put(name + "Lexer", lexer);
-
-			parser = loader.loadClass(name + "Parser");
-			parserMap.put(name + "Parser", parser);
+			proxy = (IAntlrProxy) loader.loadClass(name).newInstance();
+			proxies.put(name, proxy);
 		}
 	}
 
@@ -187,24 +173,17 @@ public class GrammarTransformer {
 	 * @return The DOM document element of the parsed file XML representation.
 	 */
 	public Element parse(ANTLRStringStream stream) throws Exception {
-		Constructor<?> ctor = lexer.getConstructor(CharStream.class);
-		Lexer lexerInst = (Lexer) ctor.newInstance(stream);
+		Parser parser = proxy.createParser(stream);
 
-		// create the token buffer
-		CommonTokenStream tokens = new CommonTokenStream(lexerInst);
-
-		ctor = parser.getConstructor(TokenStream.class);
-		Parser parserInst = (Parser) ctor.newInstance(tokens);
-
-		Method start = parser.getMethod(startRule);
-		Object returnObj = start.invoke(parserInst);
+		Method start = parser.getClass().getMethod(startRule);
+		Object returnObj = start.invoke(parser);
 		Tree tree = (Tree) returnObj.getClass().getMethod("getTree").invoke(
 				returnObj);
 
-		int numErrors = parserInst.getNumberOfSyntaxErrors();
+		int numErrors = parser.getNumberOfSyntaxErrors();
 		if (numErrors > 0) {
 			List<String> errorMessages = new ArrayList<String>();
-			reportErrors(parserInst, errorMessages, tree);
+			reportErrors(parser, errorMessages, tree);
 			throw new Exception(numErrors + " errors found when parsing: "
 					+ errorMessages);
 		}
