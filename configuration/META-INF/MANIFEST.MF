@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Graphiti configuration Plug-in
 Bundle-SymbolicName: net.sf.graphiti.configuration;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.1.0.alpha1
 Bundle-Activator: net.sf.graphiti.configuration.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

@@ -6,6 +6,9 @@
    <feature url="features/net.sf.graphiti.feature_1.0.0.beta3.jar" id="net.sf.graphiti.feature" version="1.0.0.beta3">
       <category name="Graphiti category"/>
    </feature>
+   <feature url="features/net.sf.graphiti.feature_1.1.0.alpha1.jar" id="net.sf.graphiti.feature" version="1.1.0.alpha1">
+      <category name="Graphiti category"/>
+   </feature>
    <category-def name="Graphiti category" label="Graphiti">
       <description>
          Provides a generic graph editor.
