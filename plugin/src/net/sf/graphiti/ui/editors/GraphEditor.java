@@ -225,40 +225,42 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		GenericGraphWriter writer = new GenericGraphWriter(graph);
-		try {
-			writer.write(file.getLocation().toString(), out);
-			file.setContents(new ByteArrayInputStream(out.toByteArray()), true,
-					false, monitor);
+		if (graph.validate(file)) {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			GenericGraphWriter writer = new GenericGraphWriter(graph);
 			try {
-				out.close();
+				writer.write(file.getLocation().toString(), out);
+				file.setContents(new ByteArrayInputStream(out.toByteArray()), true,
+						false, monitor);
+				try {
+					out.close();
+				} catch (IOException e) {
+					// Can never occur on a ByteArrayOutputStream
+				}
+				getCommandStack().markSaveLocation();
+				return;
+			} catch (ClassCastException e) {
+				errorMessage(
+						"There was a problem with the creation of a DOM document.",
+						e);
+			} catch (ClassNotFoundException e) {
+				errorMessage("A DOM class could not be found.", e);
+			} catch (CoreException e) {
+				errorMessage("Could not set the file contents.", e);
+			} catch (IllegalAccessException e) {
+				errorMessage("A DOM class could not be accessed.", e);
+			} catch (InstantiationException e) {
+				errorMessage("A DOM class could not be instantiated.", e);
+			} catch (TransformerException e) {
+				errorMessage("An unrecoverable error occurred during "
+						+ "the course of the transformation.", e);
 			} catch (IOException e) {
-				// Can never occur on a ByteArrayOutputStream
+				errorMessage("I/O exception", e);
+			} catch (Exception e) {
+				errorMessage("Exception", e);
 			}
-			getCommandStack().markSaveLocation();
-			return;
-		} catch (ClassCastException e) {
-			errorMessage(
-					"There was a problem with the creation of a DOM document.",
-					e);
-		} catch (ClassNotFoundException e) {
-			errorMessage("A DOM class could not be found.", e);
-		} catch (CoreException e) {
-			errorMessage("Could not set the file contents.", e);
-		} catch (IllegalAccessException e) {
-			errorMessage("A DOM class could not be accessed.", e);
-		} catch (InstantiationException e) {
-			errorMessage("A DOM class could not be instantiated.", e);
-		} catch (TransformerException e) {
-			errorMessage("An unrecoverable error occurred during "
-					+ "the course of the transformation.", e);
-		} catch (IOException e) {
-			errorMessage("I/O exception", e);
-		} catch (Exception e) {
-			errorMessage("Exception", e);
 		}
-
+		
 		monitor.setCanceled(true);
 	}
 

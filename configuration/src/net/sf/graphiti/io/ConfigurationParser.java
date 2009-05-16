@@ -35,6 +35,7 @@ import java.util.TreeMap;
 
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.FileFormat;
+import net.sf.graphiti.model.IValidator;
 import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.ParameterPosition;
@@ -97,10 +98,12 @@ public class ConfigurationParser {
 	 * 
 	 * @param element
 	 *            A configuration definition element.
+	 * @throws CoreException
 	 * @throws Exception
 	 *             If anything wrong occurs.
 	 */
-	private Configuration parseConfiguration(IConfigurationElement element) {
+	private Configuration parseConfiguration(IConfigurationElement element)
+			throws CoreException {
 		String name = element.getAttribute("name");
 
 		String extension = element.getAttribute("extension");
@@ -122,10 +125,16 @@ public class ConfigurationParser {
 		Map<String, ObjectType> edgeTypes = parseTypes(element
 				.getChildren("edgeType"));
 
-		String fileExts = element.getAttribute("file-extensions");
+		String fileExtsValue = element.getAttribute("file-extensions");
+		if (fileExtsValue == null) {
+			fileExtsValue = "";
+		}
+		String[] fileExts = fileExtsValue.split(",");
 
-		Configuration configuration = new Configuration(name, format, fileExts
-				.split(","), graphTypes, vertexTypes, edgeTypes);
+		Object value = element.createExecutableExtension("validator");
+
+		Configuration configuration = new Configuration(name, format, fileExts,
+				graphTypes, vertexTypes, edgeTypes, (IValidator) value);
 		return configuration;
 	}
 

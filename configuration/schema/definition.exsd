@@ -93,8 +93,18 @@
          <attribute name="file-extensions" type="string">
             <annotation>
                <documentation>
-                  a comma-separated list of file extensions to be associated with the target content type
+                  When setting a refinement, if the file extension belongs to this comma-separated list of file extensions, then it will be removed.
                </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="validator" type="string" use="required">
+            <annotation>
+               <documentation>
+                  This attribute defines a class that implements IValidator. It is called when a graph is about to be saved. A validator checks that the given graph is valid. A validator may modify the graph in order to make it correct, or add errors/warnings to the Problems view, or both.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":net.sf.graphiti.model.IValidator"/>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>

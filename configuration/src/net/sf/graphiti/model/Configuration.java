@@ -87,6 +87,11 @@ public class Configuration {
 	private Map<String, ObjectType> vertexTypes;
 
 	/**
+	 * The validator called when the graph is about to be saved.
+	 */
+	private IValidator validator;
+
+	/**
 	 * Creates a new document configuration with no initial attributes or
 	 * parameters.
 	 * 
@@ -98,13 +103,14 @@ public class Configuration {
 			String[] refinementFileExtensions,
 			Map<String, ObjectType> graphTypes,
 			Map<String, ObjectType> vertexTypes,
-			Map<String, ObjectType> edgeTypes) {
+			Map<String, ObjectType> edgeTypes, IValidator validator) {
+		this.edgeTypes = edgeTypes;
 		this.fileFormat = fileFormat;
 		this.fileName = fileName;
-		this.edgeTypes = edgeTypes;
 		this.graphTypes = graphTypes;
-		this.vertexTypes = vertexTypes;
 		this.refinementFileExtensions = refinementFileExtensions;
+		this.validator = validator;
+		this.vertexTypes = vertexTypes;
 	}
 
 	/**
@@ -161,6 +167,15 @@ public class Configuration {
 	 */
 	public String[] getRefinementFileExtensions() {
 		return refinementFileExtensions;
+	}
+
+	/**
+	 * Returns the validator for this configuration.
+	 * 
+	 * @return the validator for this configuration.
+	 */
+	public IValidator getValidator() {
+		return validator;
 	}
 
 	/**
