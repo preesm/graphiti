@@ -38,16 +38,6 @@
       </wizard>
    </extension>
    <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="net.sf.graphiti.ui.perspectives.GraphitiPerspectiveFactory"
-            fixed="false"
-            icon="icons/graphiti.gif"
-            id="net.sf.graphiti.ui.perspective"
-            name="Graphiti">
-      </perspective>
-   </extension>
-   <extension
          point="org.eclipse.ui.views">
       <category
             id="net.sf.graphiti.ui.views"
