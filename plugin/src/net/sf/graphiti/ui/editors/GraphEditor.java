@@ -49,6 +49,7 @@ import net.sf.graphiti.ui.actions.SetRefinementAction;
 import net.sf.graphiti.ui.actions.ShowParametersAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
+import net.sf.graphiti.ui.views.SimplePropertyView;
 import net.sf.graphiti.ui.wizards.SaveAsWizard;
 
 import org.eclipse.core.resources.IFile;
@@ -89,10 +90,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
@@ -227,29 +230,15 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 
 	@Override
 	public void dispose() {
-		// remove existing markers
-		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-		try {
-			file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
-		} catch (CoreException e) {
-		}
-
-		// dispose parent
+		removeMarkers();
 		super.dispose();
 	}
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// remove existing markers
-		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-		try {
-			file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
-		} catch (CoreException e) {
-		}
-
 		// validate and then save
-		IValidator validator = graph.getConfiguration().getValidator();
-		if (validator.validate(graph, file)) {
+		if (validate()) {
+			IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			GenericGraphWriter writer = new GenericGraphWriter(graph);
 			try {
@@ -400,6 +389,18 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		return true;
 	}
 
+	/**
+	 * Remove existing markers.
+	 */
+	private void removeMarkers() {
+		// remove existing markers
+		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
+		try {
+			file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+		} catch (CoreException e) {
+		}
+	}
+
 	@Override
 	protected void setInput(IEditorInput input) {
 		super.setInput(input);
@@ -414,6 +415,14 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 			// Updates the palette
 			getEditDomain().setPaletteRoot(getPaletteRoot());
 
+			// show properties
+			IWorkbenchPage page = PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow().getActivePage();
+			try {
+				page.showView(SimplePropertyView.ID);
+			} catch (PartInitException e) {
+			}
+
 			firePropertyChange(PROP_INPUT);
 		} catch (Throwable e) {
 			status = new Status(Status.ERROR, GraphitiPlugin.PLUGIN_ID,
@@ -426,5 +435,28 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 	 */
 	public void setWidthZoom() {
 		manager.setZoomAsText(ZoomManager.FIT_WIDTH);
+	}
+
+	/**
+	 * Validate the graph.
+	 * 
+	 * @return True if the graph is valid, false otherwise.
+	 */
+	private boolean validate() {
+		removeMarkers();
+		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
+		IValidator validator = graph.getConfiguration().getValidator();
+		if (validator.validate(graph, file)) {
+			return true;
+		} else {
+			// activate problems view
+			IWorkbenchPage page = PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow().getActivePage();
+			try {
+				page.showView(IPageLayout.ID_PROBLEM_VIEW);
+			} catch (PartInitException e) {
+			}
+			return false;
+		}
 	}
 }
