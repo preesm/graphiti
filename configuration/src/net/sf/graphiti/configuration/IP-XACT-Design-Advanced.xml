@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     
-    <fileFormat extension="ipxactds" type="text/xml">
+    <fileFormat extension="advds" type="text/xml">
         <import>
             <transformation type="xslt" file="input_IP-XACT-Design-Advanced.xslt"/>
         </import>
@@ -12,7 +12,7 @@
     </fileFormat>
 
     <refinementFileExtensions>
-        <fileExtension name="ipxactcmp"/>
+        <fileExtension name="advcmp"/>
     </refinementFileExtensions>
 
     <graphTypes>
@@ -31,7 +31,7 @@
         <vertexType name="hierConnection">
             <attributes>
                 <color red="255" green="0" blue="0"/>
-                <shape name="roundedBox"/>
+                <shape name="triangle"/>
                 <size width="30" height="30"/>
             </attributes>
             <parameters>
@@ -41,7 +41,7 @@
 
         <vertexType name="componentInstance">
             <attributes>
-                <color red="163" green="0" blue="85"/>
+                <color red="255" green="255" blue="255"/>
                 <shape name="roundedBox"/>
                 <size width="40" height="40"/>
             </attributes>
@@ -64,12 +64,8 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
-                <parameter name="vendor" type="java.lang.String" default=""/>
-                <parameter name="library" type="java.lang.String" default=""/>
-                <parameter name="name" type="java.lang.String" default=""/>
-                <parameter name="version" type="java.lang.String" default=""/>
+                <parameter name="definition" type="java.lang.String" default=""/>
                 <parameter name="refinement" type="java.lang.String" default=""/>
-                <parameter name="setupTime" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
         
@@ -81,10 +77,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
-                <parameter name="vendor" type="java.lang.String" default=""/>
-                <parameter name="library" type="java.lang.String" default=""/>
-                <parameter name="name" type="java.lang.String" default=""/>
-                <parameter name="version" type="java.lang.String" default=""/>
+                <parameter name="definition" type="java.lang.String" default=""/>
                 <parameter name="refinement" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
@@ -92,15 +85,12 @@
         <vertexType name="communicationNode">
             <attributes>
                 <color red="72" green="236" blue="141"/>
-                <shape name="roundedBox"/>
+                <shape name="hexagon"/>
                 <size width="40" height="40"/>
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
-                <parameter name="vendor" type="java.lang.String" default=""/>
-                <parameter name="library" type="java.lang.String" default=""/>
-                <parameter name="name" type="java.lang.String" default=""/>
-                <parameter name="version" type="java.lang.String" default=""/>
+                <parameter name="definition" type="java.lang.String" default=""/>
                 <parameter name="refinement" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
@@ -113,10 +103,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
-                <parameter name="vendor" type="java.lang.String" default=""/>
-                <parameter name="library" type="java.lang.String" default=""/>
-                <parameter name="name" type="java.lang.String" default=""/>
-                <parameter name="version" type="java.lang.String" default=""/>
+                <parameter name="definition" type="java.lang.String" default=""/>
                 <parameter name="refinement" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
@@ -129,10 +116,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
-                <parameter name="vendor" type="java.lang.String" default=""/>
-                <parameter name="library" type="java.lang.String" default=""/>
-                <parameter name="name" type="java.lang.String" default=""/>
-                <parameter name="version" type="java.lang.String" default=""/>
+                <parameter name="definition" type="java.lang.String" default=""/>
                 <parameter name="refinement" type="java.lang.String" default=""/>
                 <parameter name="dataRate" type="java.lang.String" default="1.0"/>
             </parameters>
@@ -146,10 +130,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
-                <parameter name="vendor" type="java.lang.String" default=""/>
-                <parameter name="library" type="java.lang.String" default=""/>
-                <parameter name="name" type="java.lang.String" default=""/>
-                <parameter name="version" type="java.lang.String" default=""/>
+                <parameter name="definition" type="java.lang.String" default=""/>
                 <parameter name="refinement" type="java.lang.String" default=""/>
                 <parameter name="dataRate" type="java.lang.String" default="1.0"/>
             </parameters>
@@ -163,10 +144,7 @@
             </attributes>
             <parameters>
                 <parameter name="id" type="java.lang.String" default=""/>
-                <parameter name="vendor" type="java.lang.String" default=""/>
-                <parameter name="library" type="java.lang.String" default=""/>
-                <parameter name="name" type="java.lang.String" default=""/>
-                <parameter name="version" type="java.lang.String" default=""/>
+                <parameter name="definition" type="java.lang.String" default=""/>
                 <parameter name="refinement" type="java.lang.String" default=""/>
             </parameters>
         </vertexType>
@@ -176,6 +154,7 @@
     <edgeTypes>
         <edgeType name="interconnection">
             <attributes>
+                <color red="255" green="255" blue="255"/>
                 <directed value="false"/>
             </attributes>
             <parameters>
@@ -197,6 +176,7 @@
         
         <edgeType name="directedConnection">
             <attributes>
+                <color red="0" green="255" blue="255"/>
                 <directed value="true"/>
             </attributes>
             <parameters>
@@ -227,6 +207,7 @@
                 <parameter name="id" type="java.lang.String" default=""/>
                 <parameter name="source port" type="java.lang.String" default=""/>
                 <parameter name="target port" type="java.lang.String" default=""/>
+                <parameter name="setupTime" type="java.lang.String" default=""/>
             </parameters>
         </edgeType>
     </edgeTypes>

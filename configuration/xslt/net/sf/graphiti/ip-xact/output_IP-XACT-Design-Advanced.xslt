@@ -93,7 +93,8 @@
             </xsl:element>
             <xsl:element name="spirit:componentRef">
                 <xsl:attribute name="spirit:library" select="parameters/parameter[@name = 'library']/@value"/>
-                <xsl:attribute name="spirit:name" select="parameters/parameter[@name = 'name']/@value"/>
+                <!-- Careful! The spirit name is used as definition -->
+                <xsl:attribute name="spirit:name" select="parameters/parameter[@name = 'definition']/@value"/>
                 <xsl:attribute name="spirit:vendor" select="parameters/parameter[@name = 'vendor']/@value"/>
                 <xsl:attribute name="spirit:version" select="parameters/parameter[@name = 'version']/@value"/>
             </xsl:element>
@@ -106,24 +107,6 @@
                     <xsl:attribute name="spirit:referenceId">refinement</xsl:attribute>
                     <xsl:value-of select="parameters/parameter[@name = 'refinement']/@value"/>
                 </xsl:element>
-                <!-- Specific medium parameters -->
-                <xsl:if test="@type='medium'">
-                    <xsl:element name="spirit:configurableElementValue">
-                        <xsl:attribute name="spirit:referenceId">medium_invDataRate</xsl:attribute>
-                        <xsl:value-of select="parameters/parameter[@name = 'medium_invDataRate']/@value"/>
-                    </xsl:element>
-                    <xsl:element name="spirit:configurableElementValue">
-                        <xsl:attribute name="spirit:referenceId">medium_overhead</xsl:attribute>
-                        <xsl:value-of select="parameters/parameter[@name = 'medium_overhead']/@value"/>
-                    </xsl:element>
-                </xsl:if>
-                <!-- Specific processor parameters -->
-                <xsl:if test="@type='processor'">
-                    <xsl:element name="spirit:configurableElementValue">
-                        <xsl:attribute name="spirit:referenceId">setupTime</xsl:attribute>
-                        <xsl:value-of select="parameters/parameter[@name = 'setupTime']/@value"/>
-                    </xsl:element>
-                </xsl:if>
                 <!-- Specific bus and fifo parameters -->
                 <xsl:if test="@type='bus' or @type='fifo'">
                     <xsl:element name="spirit:configurableElementValue">
@@ -208,6 +191,9 @@
                 <xsl:value-of select="parameters/parameter[@name = 'id']/@value"/>
             </xsl:element>
             <xsl:element name="spirit:displayName">configure</xsl:element>
+            <xsl:element name="spirit:description">
+                <xsl:value-of select="parameters/parameter[@name = 'setupTime']/@value"/>
+            </xsl:element>
             <xsl:element name="spirit:activeInterface">
                 <xsl:attribute name="spirit:busRef" select="parameters/parameter[@name = 'source port']/@value"/>
                 <xsl:attribute name="spirit:componentRef" select="@source"/>
