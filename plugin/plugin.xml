@@ -26,7 +26,6 @@
       <wizard
             category="net.sf.graphiti.ui.newWizards.graphiti"
             class="net.sf.graphiti.ui.wizards.NewGraphWizard"
-            finalPerspective="net.sf.graphiti.ui.perspective"
             hasPages="true"
             icon="icons/graphiti.gif"
             id="net.sf.graphiti.ui.wizards.NewGraphWizard"
