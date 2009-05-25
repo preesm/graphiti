@@ -300,6 +300,12 @@ public class ConfigurationParser {
 		for (IConfigurationElement element : children) {
 			String typeName = element.getAttribute("name");
 			ObjectType type = new ObjectType(typeName);
+
+			String isDirected = element.getAttribute("directed");
+			if (isDirected != null) {
+				boolean value = Boolean.parseBoolean(isDirected);
+				type.addAttribute(ObjectType.ATTRIBUTE_DIRECTED, value);
+			}
 			types.put(typeName, type);
 			parseType(type, element.getChildren());
 		}
