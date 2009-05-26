@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:fn="http://www.w3.org/2005/xpath-functions"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
-    xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1.4">
+<xsl:stylesheet xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1.4">
     
     <xsl:output indent="yes" method="xml"/>
     
@@ -193,13 +191,76 @@
                     <xsl:attribute name="name">refinement</xsl:attribute>
                     <xsl:attribute name="value"><xsl:value-of select="$refinement"/></xsl:attribute>
                 </xsl:element>
-                <!-- Specific bus/fifo parameters -->
-                <xsl:if test="$componentType='bus' or $componentType='fifo'">
-                    <xsl:element name="parameter">
-                        <xsl:attribute name="name">dataRate</xsl:attribute>
-                        <xsl:attribute name="value"><xsl:value-of select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='dataRate']"/></xsl:attribute>
-                    </xsl:element>
-                </xsl:if>
+                <xsl:choose>
+                    <!-- Specific processor parameters -->
+                    <xsl:when test="$componentType='processor'">
+                        <xsl:element name="parameter">
+                            <xsl:attribute name="name">routeStep = terminalId;communicatorId;firstLinkId;(nodeId,linkId);...;(nodeId,linkId)</xsl:attribute>
+                            <xsl:for-each select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='routeStep']">
+                                <xsl:element name="element">
+                                    <xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+                                </xsl:element>
+                            </xsl:for-each>
+                        </xsl:element>
+                        <xsl:element name="parameter">
+                            <xsl:attribute name="name">setupTime = communicatorId:time</xsl:attribute>
+                            <xsl:for-each select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='setupTime']">
+                                <xsl:element name="element">
+                                    <xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+                                </xsl:element>
+                            </xsl:for-each>
+                        </xsl:element>
+                        <xsl:element name="parameter">
+                            <xsl:attribute name="name">access = terminalId</xsl:attribute>
+                            <xsl:for-each select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='access']">
+                                <xsl:element name="element">
+                                    <xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+                                </xsl:element>
+                            </xsl:for-each>
+                        </xsl:element>
+                    </xsl:when>
+                    <!-- Specific ipCoprocessor parameters -->
+                    <xsl:when test="$componentType='ipCoprocessor'">
+                        <xsl:element name="parameter">
+                            <xsl:attribute name="name">routeStep = terminalId;communicatorId;firstLinkId;(nodeId,linkId);...;(nodeId,linkId)</xsl:attribute>
+                            <xsl:for-each select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='routeStep']">
+                                <xsl:element name="element">
+                                    <xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+                                </xsl:element>
+                            </xsl:for-each>
+                        </xsl:element>
+                    </xsl:when>
+                    <!-- Specific communicator parameters -->
+                    <xsl:when test="$componentType='communicator'">
+                        <xsl:element name="parameter">
+                            <xsl:attribute name="name">access = terminalId</xsl:attribute>
+                            <xsl:for-each select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='access']">
+                                <xsl:element name="element">
+                                    <xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+                                </xsl:element>
+                            </xsl:for-each>
+                        </xsl:element>
+                    </xsl:when>
+                    <!-- Specific memory parameters -->
+                    <xsl:when test="$componentType='memory'">
+                        <xsl:element name="parameter">
+                            <xsl:attribute name="name">routeStep = terminalId;communicatorId;firstLinkId;(nodeId,linkId);...;(nodeId,linkId)</xsl:attribute>
+                            <xsl:for-each select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='routeStep']">
+                                <xsl:element name="element">
+                                    <xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+                                </xsl:element>
+                            </xsl:for-each>
+                        </xsl:element>
+                    </xsl:when>
+                    <!-- Specific bus/fifo parameters -->
+                    <xsl:when test="$componentType='bus' or $componentType='fifo'">
+                        <xsl:element name="parameter">
+                            <xsl:attribute name="name">dataRate</xsl:attribute>
+                            <xsl:attribute name="value"><xsl:value-of select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='dataRate']"/></xsl:attribute>
+                        </xsl:element>
+                    </xsl:when>
+                </xsl:choose>
+                
             </xsl:element>
         </xsl:element>
     </xsl:template>
@@ -208,12 +269,6 @@
     <xsl:template match="spirit:interconnection">
         <xsl:element name="edge">
             <xsl:choose>
-                <xsl:when test="spirit:displayName='access'">
-                    <xsl:attribute name="type">access</xsl:attribute>
-                </xsl:when>
-                <xsl:when test="spirit:displayName='configure'">
-                    <xsl:attribute name="type">configure</xsl:attribute>
-                </xsl:when>
                 <xsl:when test="spirit:displayName='directed'">
                     <xsl:attribute name="type">directedConnection</xsl:attribute>
                 </xsl:when>
@@ -236,12 +291,6 @@
                     <xsl:attribute name="name">target port</xsl:attribute>
                     <xsl:attribute name="value"><xsl:value-of select="spirit:activeInterface[2]/@spirit:busRef"/></xsl:attribute>
                 </xsl:element>
-                <xsl:if test="spirit:displayName='configure'">
-                    <xsl:element name="parameter">
-                        <xsl:attribute name="name">setupTime</xsl:attribute>
-                        <xsl:attribute name="value"><xsl:value-of select="spirit:description"/></xsl:attribute>
-                    </xsl:element>
-                </xsl:if>
             </xsl:element>
         </xsl:element>
     </xsl:template>

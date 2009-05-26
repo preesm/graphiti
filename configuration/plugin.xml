@@ -905,14 +905,14 @@
             <shape
                   type="roundedBox">
             </shape>
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
             <size
                   height="40"
                   width="40">
             </size>
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
             <parameter
                   name="vendor"
                   type="java.lang.String">
@@ -948,14 +948,14 @@
             <shape
                   type="roundedBox">
             </shape>
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
             <size
                   height="40"
                   width="40">
             </size>
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
             <parameter
                   name="refinement"
                   type="java.lang.String">
@@ -963,6 +963,18 @@
             <parameter
                   name="definition"
                   type="java.lang.String">
+            </parameter>
+            <parameter
+                  name="setupTime = communicatorId:time"
+                  type="java.util.List">
+            </parameter>
+            <parameter
+                  name="access = terminalId"
+                  type="java.util.List">
+            </parameter>
+            <parameter
+                  name="routeStep = terminalId;communicatorId;firstLinkId;(nodeId,linkId);...;(nodeId,linkId)"
+                  type="java.util.List">
             </parameter>
          </vertexType>
          <vertexType
@@ -975,14 +987,14 @@
             <shape
                   type="roundedBox">
             </shape>
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
             <size
                   height="40"
                   width="40">
             </size>
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
             <parameter
                   name="refinement"
                   type="java.lang.String">
@@ -990,6 +1002,10 @@
             <parameter
                   name="definition"
                   type="java.lang.String">
+            </parameter>
+            <parameter
+                  name="routeStep = terminalId;communicatorId;firstLinkId;(nodeId,linkId);...;(nodeId,linkId)"
+                  type="java.util.List">
             </parameter>
          </vertexType>
          <vertexType
@@ -1002,14 +1018,14 @@
             <shape
                   type="roundedBox">
             </shape>
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
             <size
                   height="40"
                   width="40">
             </size>
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
             <parameter
                   name="refinement"
                   type="java.lang.String">
@@ -1029,14 +1045,14 @@
             <shape
                   type="roundedBox">
             </shape>
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
             <size
                   height="40"
                   width="40">
             </size>
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
             <parameter
                   name="refinement"
                   type="java.lang.String">
@@ -1044,6 +1060,10 @@
             <parameter
                   name="definition"
                   type="java.lang.String">
+            </parameter>
+            <parameter
+                  name="access = terminalId"
+                  type="java.util.List">
             </parameter>
          </vertexType>
          <vertexType
@@ -1056,14 +1076,14 @@
             <shape
                   type="circle">
             </shape>
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
             <size
                   height="40"
                   width="40">
             </size>
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
             <parameter
                   name="refinement"
                   type="java.lang.String">
@@ -1087,14 +1107,14 @@
             <shape
                   type="circle">
             </shape>
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
             <size
                   height="40"
                   width="40">
             </size>
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
             <parameter
                   name="refinement"
                   type="java.lang.String">
@@ -1118,14 +1138,14 @@
             <shape
                   type="roundedBox">
             </shape>
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
             <size
                   height="40"
                   width="40">
             </size>
+            <parameter
+                  name="id"
+                  type="java.lang.String">
+            </parameter>
             <parameter
                   name="refinement"
                   type="java.lang.String">
@@ -1133,6 +1153,10 @@
             <parameter
                   name="definition"
                   type="java.lang.String">
+            </parameter>
+            <parameter
+                  name="routeStep = terminalId;communicatorId;firstLinkId;(nodeId,linkId);...;(nodeId,linkId)"
+                  type="java.util.List">
             </parameter>
          </vertexType>
          <edgeType
@@ -1174,52 +1198,6 @@
                name="directedConnection">
             <color
                   blue="255"
-                  green="0"
-                  red="255">
-            </color>
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="source port"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="target port"
-                  type="java.lang.String">
-            </parameter>
-         </edgeType>
-         <edgeType
-               directed="true"
-               name="configure">
-            <color
-                  blue="255"
-                  green="0"
-                  red="0">
-            </color>
-            <parameter
-                  name="setupTime"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="source port"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="target port"
-                  type="java.lang.String">
-            </parameter>
-         </edgeType>
-         <edgeType
-               directed="true"
-               name="access">
-            <color
-                  blue="0"
                   green="255"
                   red="0">
             </color>
