@@ -4,12 +4,15 @@
       Graphiti Project Update Site
    </description>
    <feature url="features/net.sf.graphiti.feature_1.0.0.beta3.jar" id="net.sf.graphiti.feature" version="1.0.0.beta3">
-      <category name="Graphiti editor features"/>
+      <category name="Graphiti editor"/>
    </feature>
    <feature url="features/net.sf.graphiti_1.1.0.alpha2.jar" id="net.sf.graphiti" version="1.1.0.alpha2">
-      <category name="Graphiti editor features"/>
+      <category name="Graphiti editor"/>
    </feature>
-   <category-def name="Graphiti editor features" label="Graphiti editor features">
+   <feature url="features/net.sf.graphiti_1.1.0.alpha3.jar" id="net.sf.graphiti" version="1.1.0.alpha3">
+      <category name="Graphiti editor"/>
+   </feature>
+   <category-def name="Graphiti editor" label="Graphiti editor">
       <description>
          Provides a generic graph editor.
       </description>
