@@ -419,7 +419,9 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 			IWorkbenchPage page = PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getActivePage();
 			try {
-				page.showView(SimplePropertyView.ID);
+				if (page != null) {
+					page.showView(SimplePropertyView.ID);
+				}
 			} catch (PartInitException e) {
 			}
 
