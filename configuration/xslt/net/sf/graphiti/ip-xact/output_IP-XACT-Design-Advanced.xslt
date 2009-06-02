@@ -110,19 +110,19 @@
                 <xsl:choose>
                     <!-- Specific processor parameters -->
                     <xsl:when test="@type='processor'">
-                        <xsl:for-each select="parameters/parameter[@name = 'routeStep = terminalId;communicatorId;firstLinkId;(nodeId,linkId);...;(nodeId,linkId)']/element">
+                        <xsl:for-each select="parameters/parameter[@name = 'routeStep = terminal;communicator;firstLink;(node,link);...;(node,link)']/element">
                             <xsl:element name="spirit:configurableElementValue">
                                 <xsl:attribute name="spirit:referenceId">routeStep</xsl:attribute>
                                 <xsl:value-of select="@value"/>
                             </xsl:element>
                         </xsl:for-each>
-                        <xsl:for-each select="parameters/parameter[@name = 'setupTime = communicatorId:time']/element">
+                        <xsl:for-each select="parameters/parameter[@name = 'setupTime = communicator:time']/element">
                             <xsl:element name="spirit:configurableElementValue">
                                 <xsl:attribute name="spirit:referenceId">setupTime</xsl:attribute>
                                 <xsl:value-of select="@value"/>
                             </xsl:element>
                         </xsl:for-each>
-                        <xsl:for-each select="parameters/parameter[@name = 'access = terminalId']/element">
+                        <xsl:for-each select="parameters/parameter[@name = 'access = terminal']/element">
                             <xsl:element name="spirit:configurableElementValue">
                                 <xsl:attribute name="spirit:referenceId">access</xsl:attribute>
                                 <xsl:value-of select="@value"/>
@@ -131,7 +131,7 @@
                     </xsl:when>
                     <!-- Specific ipCoprocessor parameters -->
                     <xsl:when test="@type='ipCoprocessor'">
-                        <xsl:for-each select="parameters/parameter[@name = 'routeStep = terminalId;communicatorId;firstLinkId;(nodeId,linkId);...;(nodeId,linkId)']/element">
+                        <xsl:for-each select="parameters/parameter[@name = 'routeStep = terminal;communicator;firstLink;(node,link);...;(node,link)']/element">
                             <xsl:element name="spirit:configurableElementValue">
                                 <xsl:attribute name="spirit:referenceId">routeStep</xsl:attribute>
                                 <xsl:value-of select="@value"/>
@@ -140,7 +140,7 @@
                     </xsl:when>
                     <!-- Specific communicator parameters -->
                     <xsl:when test="@type='communicator'">
-                        <xsl:for-each select="parameters/parameter[@name = 'access = terminalId']/element">
+                        <xsl:for-each select="parameters/parameter[@name = 'access = terminal']/element">
                             <xsl:element name="spirit:configurableElementValue">
                                 <xsl:attribute name="spirit:referenceId">access</xsl:attribute>
                                 <xsl:value-of select="@value"/>
@@ -149,7 +149,7 @@
                     </xsl:when>
                     <!-- Specific memory parameters -->
                     <xsl:when test="@type='memory'">
-                        <xsl:for-each select="parameters/parameter[@name = 'routeStep = terminalId;communicatorId;firstLinkId;(nodeId,linkId);...;(nodeId,linkId)']/element">
+                        <xsl:for-each select="parameters/parameter[@name = 'routeStep = terminal;communicator;firstLink;(node,link);...;(node,link)']/element">
                             <xsl:element name="spirit:configurableElementValue">
                                 <xsl:attribute name="spirit:referenceId">routeStep</xsl:attribute>
                                 <xsl:value-of select="@value"/>

@@ -851,10 +851,6 @@
          <graphType
                name="Spirit IP-XACT advanced design">
             <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
                   name="vendor"
                   type="java.lang.String">
             </parameter>
@@ -965,15 +961,15 @@
                   type="java.lang.String">
             </parameter>
             <parameter
-                  name="setupTime = communicatorId:time"
+                  name="setupTime = communicator:time"
                   type="java.util.List">
             </parameter>
             <parameter
-                  name="access = terminalId"
+                  name="access = terminal"
                   type="java.util.List">
             </parameter>
             <parameter
-                  name="routeStep = terminalId;communicatorId;firstLinkId;(nodeId,linkId);...;(nodeId,linkId)"
+                  name="routeStep = terminal;communicator;firstLink;(node,link);...;(node,link)"
                   type="java.util.List">
             </parameter>
          </vertexType>
@@ -1004,7 +1000,7 @@
                   type="java.lang.String">
             </parameter>
             <parameter
-                  name="routeStep = terminalId;communicatorId;firstLinkId;(nodeId,linkId);...;(nodeId,linkId)"
+                  name="routeStep = terminal;communicator;firstLink;(node,link);...;(node,link)"
                   type="java.util.List">
             </parameter>
          </vertexType>
@@ -1062,7 +1058,7 @@
                   type="java.lang.String">
             </parameter>
             <parameter
-                  name="access = terminalId"
+                  name="access = terminal"
                   type="java.util.List">
             </parameter>
          </vertexType>
@@ -1155,7 +1151,7 @@
                   type="java.lang.String">
             </parameter>
             <parameter
-                  name="routeStep = terminalId;communicatorId;firstLinkId;(nodeId,linkId);...;(nodeId,linkId)"
+                  name="routeStep = terminal;communicator;firstLink;(node,link);...;(node,link)"
                   type="java.util.List">
             </parameter>
          </vertexType>
