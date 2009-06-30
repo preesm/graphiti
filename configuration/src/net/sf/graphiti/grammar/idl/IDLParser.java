@@ -4,13 +4,11 @@ package net.sf.graphiti.grammar.idl;
 
 
 import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
 
 
 import org.antlr.runtime.tree.*;
 
+@SuppressWarnings("unused")
 public class IDLParser extends Parser {
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "Module", "Parameter", "Id", "InputArgument", "OutputArgument", "MODULE", "ID", "LBRACE", "RBRACE", "SEMICOLON", "TYPEDEF", "PARAMETER", "INTERFACE", "LPAREN", "COMMA", "RPAREN", "OUT", "IN", "CHAR", "INT", "LONG", "BOOLEAN", "ANY", "VOID", "INOUT", "TRUE", "FALSE", "FLOAT", "INTEGER", "STRING", "LINE_COMMENT", "MULTI_LINE_COMMENT", "WHITESPACE", "EQ", "GE", "GT", "LE", "LT", "NE", "ARROW", "COLON", "COLON_EQUAL", "DOT", "DOUBLE_DASH_ARROW", "DOUBLE_EQUAL_ARROW", "DOUBLE_DOT", "DOUBLE_COLON", "LBRACKET", "RBRACKET", "CARET", "DIV", "MINUS", "PLUS", "TIMES", "SHARP"
