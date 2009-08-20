@@ -506,6 +506,11 @@
                   name="definition"
                   type="java.lang.String">
             </parameter>
+            <parameter
+                  default="-1"
+                  name="dataCopySpeed"
+                  type="java.lang.String">
+            </parameter>
          </vertexType>
          <vertexType
                name="medium">

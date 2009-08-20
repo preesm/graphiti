@@ -108,6 +108,14 @@
                     <xsl:value-of select="parameters/parameter[@name = 'refinement']/@value"/>
                 </xsl:element>
                 
+                <!-- operator parameters -->
+                <xsl:if test="@type='operator'">
+                    <xsl:element name="spirit:configurableElementValue">
+                        <xsl:attribute name="spirit:referenceId">dataCopySpeed</xsl:attribute>
+                        <xsl:value-of select="parameters/parameter[@name = 'dataCopySpeed']/@value"/>
+                    </xsl:element>
+                </xsl:if>
+                
                 <!-- medium parameters -->
                 <xsl:if test="@type='medium'">
                     <xsl:element name="spirit:configurableElementValue">

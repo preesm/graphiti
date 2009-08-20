@@ -196,6 +196,14 @@
                     <xsl:attribute name="value"><xsl:value-of select="$refinement"/></xsl:attribute>
                 </xsl:element>
                 
+                
+                <!-- operator parameters -->
+                <xsl:if test="$componentType='operator'">
+                    <xsl:element name="parameter">
+                        <xsl:attribute name="name">dataCopySpeed</xsl:attribute>
+                        <xsl:attribute name="value"><xsl:value-of select="spirit:configurableElementValues/spirit:configurableElementValue[@spirit:referenceId='dataCopySpeed']"/></xsl:attribute>
+                    </xsl:element>
+                </xsl:if>
                 <!-- medium parameters -->
                 <xsl:if test="$componentType='medium'">
                     <xsl:element name="parameter">
