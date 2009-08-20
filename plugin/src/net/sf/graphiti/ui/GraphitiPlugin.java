@@ -28,21 +28,16 @@
  */
 package net.sf.graphiti.ui;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import net.sf.graphiti.io.ConfigurationParser;
 import net.sf.graphiti.model.Configuration;
-import net.sf.graphiti.model.FileFormat;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.content.IContentType;
-import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
@@ -119,46 +114,6 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	}
 
 	/**
-	 * Associate file extensions defined in the configurations to the
-	 * org.eclipse.core.runtime.xml content type.
-	 * 
-	 * @param configurations
-	 *            The list of configurations parsed.
-	 * @throws CoreException
-	 */
-	private void addExtensions(List<Configuration> configurations)
-			throws CoreException {
-		// add all file extensions to sets (in case one extension is present
-		// several times, such as .xml)
-		Set<String> textFormats = new HashSet<String>();
-		Set<String> xmlFormats = new HashSet<String>();
-		for (Configuration configuration : configurations) {
-			FileFormat format = configuration.getFileFormat();
-			if (format.getContentType().equals("text/xml")) {
-				xmlFormats.add(format.getFileExtension());
-			} else if (format.getContentType().equals("text")) {
-				textFormats.add(format.getFileExtension());
-			}
-		}
-
-		// add to content type manager
-		IContentTypeManager mgr = Platform.getContentTypeManager();
-		IContentType contentType;
-
-		// text
-		contentType = mgr.getContentType("org.eclipse.core.runtime.text");
-		for (String fileExt : textFormats) {
-			contentType.addFileSpec(fileExt, IContentType.FILE_EXTENSION_SPEC);
-		}
-
-		// text/xml
-		contentType = mgr.getContentType("org.eclipse.core.runtime.xml");
-		for (String fileExt : xmlFormats) {
-			contentType.addFileSpec(fileExt, IContentType.FILE_EXTENSION_SPEC);
-		}
-	}
-
-	/**
 	 * Returns the list of configurations.
 	 * 
 	 * @return A reference to the {@link Configuration} list.
@@ -206,7 +161,6 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	public void loadConfigurations() throws CoreException {
 		ConfigurationParser parser = new ConfigurationParser();
 		configurations = parser.getConfigurations();
-		addExtensions(configurations);
 	}
 
 	/**

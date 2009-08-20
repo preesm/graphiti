@@ -9,12 +9,6 @@
             icon="icons/graphiti.gif"
             id="net.sf.graphiti.ui.editors.GraphEditor"
             name="Graphiti graph editor">
-         <contentTypeBinding
-               contentTypeId="org.eclipse.core.runtime.text">
-         </contentTypeBinding>
-         <contentTypeBinding
-               contentTypeId="org.eclipse.core.runtime.xml">
-         </contentTypeBinding>
       </editor>
    </extension>
    <extension
@@ -26,11 +20,9 @@
       <wizard
             category="net.sf.graphiti.ui.newWizards.graphiti"
             class="net.sf.graphiti.ui.wizards.NewGraphWizard"
-            hasPages="true"
             icon="icons/graphiti.gif"
             id="net.sf.graphiti.ui.wizards.NewGraphWizard"
-            name="Graph"
-            project="false">
+            name="Graph">
          <description>
             Create an empty graph.
          </description>
