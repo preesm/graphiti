@@ -119,6 +119,14 @@
                 <parameter name="instance parameter">
                     <xsl:apply-templates select="Parameter"/>
                 </parameter>
+                <xsl:if test="Attribute[@kind = 'Value' and @name = 'partName']">
+                    <parameter name="part name">
+                        <xsl:attribute name="value">
+                            <xsl:apply-templates
+                                select="Attribute[@kind = 'Value' and @name = 'partName']/Expr"/>
+                        </xsl:attribute>
+                    </parameter>
+                </xsl:if>
             </parameters>
         </vertex>
     </xsl:template>

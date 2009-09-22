@@ -136,6 +136,16 @@
 			<xsl:comment> FU/Network Parameter      </xsl:comment>
 			<xsl:comment> ************************* </xsl:comment>
             <xsl:apply-templates select="parameters/parameter[@name = 'instance parameter']"/>
+            <xsl:variable name="value" select="parameters/parameter[@name = 'part name']/@value"/>
+            <xsl:if test="$value != ''">
+                <xsl:element name="Attribute">
+                    <xsl:attribute name="kind" select="'Value'"/>
+                    <xsl:attribute name="name" select="'partName'"/>
+                    <xsl:variable name="gt" select="grammar:new($grammarId, 'mainExpression')"/>
+                    <xsl:variable name="tree" select="grammar:parseString($gt, $value)"/>
+                    <xsl:apply-templates select="$tree"/>
+                </xsl:element>
+            </xsl:if>
         </xsl:element>
     </xsl:template>
 

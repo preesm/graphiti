@@ -89,6 +89,10 @@
                   name="refinement"
                   type="java.lang.String">
             </parameter>
+            <parameter
+                  name="part name"
+                  type="java.lang.String">
+            </parameter>
             <color
                   blue="23"
                   green="232"
