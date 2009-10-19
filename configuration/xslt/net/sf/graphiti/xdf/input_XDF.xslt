@@ -127,6 +127,9 @@
                         </xsl:attribute>
                     </parameter>
                 </xsl:if>
+                <xsl:if test="Attribute[@kind = 'Flag' and @name = 'skip']">
+                    <parameter name="skip" value="true"/>
+                </xsl:if>
             </parameters>
         </vertex>
     </xsl:template>

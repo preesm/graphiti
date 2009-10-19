@@ -146,6 +146,12 @@
                     <xsl:apply-templates select="$tree"/>
                 </xsl:element>
             </xsl:if>
+            <xsl:if test="parameters/parameter[@name = 'skip']/@value = 'true'">
+                <xsl:element name="Attribute">
+                    <xsl:attribute name="kind" select="'Flag'"/>
+                    <xsl:attribute name="name" select="'skip'"/>
+                </xsl:element>
+            </xsl:if>
         </xsl:element>
     </xsl:template>
 

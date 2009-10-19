@@ -105,6 +105,10 @@
             <shape
                   type="roundedBox">
             </shape>
+            <parameter
+                  name="skip"
+                  type="java.lang.Boolean">
+            </parameter>
          </vertexType>
          <edgeType
                directed="true"
