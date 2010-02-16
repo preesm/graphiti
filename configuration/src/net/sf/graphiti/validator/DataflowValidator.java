@@ -85,6 +85,24 @@ public class DataflowValidator implements IValidator {
 		return res;
 	}
 
+	private boolean checkName(Graph graph, IFile file) {
+		String name = (String) graph.getValue(ObjectType.PARAMETER_ID);
+		String fileName = file.getName();
+		int index = fileName.lastIndexOf('.');
+		if (index != -1) {
+			fileName = fileName.substring(0, index);
+		}
+
+		if (!fileName.equals(name)) {
+			String message = "The current name of the network is \"" + name
+					+ "\", it should be \"" + fileName + "\"";
+			createMarker(file, message);
+			return false;
+		}
+
+		return true;
+	}
+
 	private void createMarker(IFile file, String message) {
 		try {
 			IMarker marker = file.createMarker(IMarker.PROBLEM);
@@ -96,6 +114,7 @@ public class DataflowValidator implements IValidator {
 
 	@Override
 	public boolean validate(Graph graph, IFile file) {
-		return checkInputPorts(graph, file);
+		return checkName(graph, file) && checkInputPorts(graph, file);
 	}
+
 }

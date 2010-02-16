@@ -2,7 +2,7 @@
 <feature
       id="net.sf.graphiti"
       label="Graphiti editor"
-      version="1.1.0.alpha3"
+      version="1.1.1.beta1"
       provider-name="IETR/INSA of Rennes">
 
    <description url="http://graphiti-editor.sourceforge.net/eclipse/">
