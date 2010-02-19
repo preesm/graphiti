@@ -3,9 +3,6 @@
    <description name="Graphiti editor" url="http://graphiti-editor.sf.net/eclipse/">
       Graphiti Editor Update Site
    </description>
-   <feature url="features/net.sf.graphiti_1.1.1.beta1.jar" id="net.sf.graphiti" version="1.1.1.beta1">
-      <category name="Graphiti editor"/>
-   </feature>
    <feature url="features/net.sf.graphiti_1.1.1.beta2.jar" id="net.sf.graphiti" version="1.1.1.beta2">
       <category name="Graphiti editor"/>
    </feature>
