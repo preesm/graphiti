@@ -11,7 +11,7 @@
             file-extensions="cal,nl,xdf"
             name="XDF"
             type="text/xml"
-            validator="net.sf.graphiti.validator.DataflowValidator">
+            validator="net.sf.graphiti.validator.XdfValidator">
          <graphType
                name="XML Dataflow Network">
             <parameter
@@ -1469,7 +1469,7 @@
             file-extensions="cal,nl,xdf"
             name="NL"
             type="text"
-            validator="net.sf.graphiti.validator.DataflowValidator">
+            validator="net.sf.graphiti.validator.XdfValidator">
          <graphType
                name="Network">
             <parameter

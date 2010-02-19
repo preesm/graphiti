@@ -2,11 +2,11 @@
 <feature
       id="net.sf.graphiti"
       label="Graphiti editor"
-      version="1.1.1.beta1"
-      provider-name="IETR/INSA of Rennes">
+      version="1.1.1.beta2"
+      provider-name="IETR/INSA Rennes">
 
    <description url="http://graphiti-editor.sourceforge.net/eclipse/">
-      Graphiti editor feature.
+      Graphiti is a generic graph editor under BSD license created by IETR/INSA Rennes shipped as an Eclipse plug-in.
    </description>
 
    <copyright>
@@ -45,7 +45,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
    </license>
 
    <url>
-      <update label="Graphiti Project Update Site" url="http://graphiti-editor.sourceforge.net/eclipse/"/>
+      <update label="Graphiti Project Update Site" url="http://graphiti-editor.sf.net/eclipse/"/>
    </url>
 
    <plugin

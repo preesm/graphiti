@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, IETR/INSA of Rennes
+ * Copyright (c) 2008-2010, IETR/INSA of Rennes
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -85,25 +85,7 @@ public class DataflowValidator implements IValidator {
 		return res;
 	}
 
-	private boolean checkName(Graph graph, IFile file) {
-		String name = (String) graph.getValue(ObjectType.PARAMETER_ID);
-		String fileName = file.getName();
-		int index = fileName.lastIndexOf('.');
-		if (index != -1) {
-			fileName = fileName.substring(0, index);
-		}
-
-		if (!fileName.equals(name)) {
-			String message = "The current name of the network is \"" + name
-					+ "\", it should be \"" + fileName + "\"";
-			createMarker(file, message);
-			return false;
-		}
-
-		return true;
-	}
-
-	private void createMarker(IFile file, String message) {
+	protected void createMarker(IFile file, String message) {
 		try {
 			IMarker marker = file.createMarker(IMarker.PROBLEM);
 			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
@@ -114,7 +96,7 @@ public class DataflowValidator implements IValidator {
 
 	@Override
 	public boolean validate(Graph graph, IFile file) {
-		return checkName(graph, file) && checkInputPorts(graph, file);
+		return checkInputPorts(graph, file);
 	}
 
 }

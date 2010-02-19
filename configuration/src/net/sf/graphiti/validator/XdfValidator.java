@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009, IETR/INSA of Rennes
+ * Copyright (c) 2008-2010, IETR/INSA of Rennes
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -28,16 +28,40 @@
  */
 package net.sf.graphiti.validator;
 
+import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.ObjectType;
+
 import org.eclipse.core.resources.IFile;
 
-import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.IValidator;
+/**
+ * This class implements a model validator.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
+public class XdfValidator extends DataflowValidator {
 
-public class IDLValidator implements IValidator{
+	private boolean checkName(Graph graph, IFile file) {
+		String name = (String) graph.getValue(ObjectType.PARAMETER_ID);
+		String fileName = file.getName();
+		int index = fileName.lastIndexOf('.');
+		if (index != -1) {
+			fileName = fileName.substring(0, index);
+		}
+
+		if (!fileName.equals(name)) {
+			String message = "The current name of the network is \"" + name
+					+ "\", it should be \"" + fileName + "\"";
+			createMarker(file, message);
+			return false;
+		}
+
+		return true;
+	}
 
 	@Override
 	public boolean validate(Graph graph, IFile file) {
-		return true;
+		return checkName(graph, file) && super.validate(graph, file);
 	}
 
 }
