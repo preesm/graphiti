@@ -33,14 +33,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 
-import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -67,45 +66,29 @@ import org.eclipse.swt.graphics.Font;
 public class VertexFigure extends Figure {
 
 	/**
-	 * This class is here because of a series of serious flaws in GEF...
+	 * This class is here because it is necessary to circumvent a missing
+	 * feature in GEF.
 	 * <p>
-	 * See most objects in Draw2D are compared by reference. Granted, this is a
-	 * lot faster, but in some cases unwanted. For some reason
+	 * Most objects in Draw2D are compared by reference. Granted, this is a lot
+	 * faster, but in some cases unwanted. For some reason
 	 * {@link VertexFigure#getSourceAnchor(Edge, Connection)} is called several
 	 * times per connection. We want to set bendpoints on a connection only
 	 * once, because otherwise Draw2D messes up if the same bendpoints occur
-	 * several times o_O Even those guys did not bother with checking a couple
-	 * of numbers...
-	 * </p>
-	 * 
-	 * <p>
-	 * Anyway that's fine, we'll just have to check if the list of bendpoints on
-	 * a connection contains the one we'd like to add. That's precisely where we
-	 * see that this fucking {@link RelativeBendpoint} does not implement the
-	 * {@link Object#equals(Object)} method o_O. What the hell were those guys
-	 * thinking? {@link AbsoluteBendpoint} DOES fucking implement it by the way.
-	 * </p>
-	 * 
-	 * <p>
-	 * Anyway, that could still be fine: If we could iterate on the list and
-	 * check whether two relative bendpoints reference the same connection (by
-	 * reference) and have the same weight and dimensions, then we consider they
-	 * are the same! Easy! Well guess what? You cannot ACCESS *any* data BUT the
-	 * location on a relative bendpoint o_O
+	 * several times.
 	 * </p>
 	 * 
 	 * <p>
 	 * So basically this class holds all the information we need (we want
 	 * bendpoint after the start or before the end and not both) and it has an
 	 * {@link Object#equals(Object)} method which allows us to check whether a
-	 * connection constraint list contains this fucker. We have to store the
+	 * connection constraint list contains this. We have to store the
 	 * association connection -> list of concrete bendpoints in a map, namely
 	 * the {@link VertexFigure#bendpoints} field.
 	 * </p>
 	 * 
 	 * <p>
 	 * TODO: I suppose that if guys use the editor for a long time adding and
-	 * removing a lot of connections, there might be a problem with this fucking
+	 * removing a lot of connections, there might be a problem with this
 	 * bendpoints thing...
 	 * </p>
 	 * 
