@@ -55,6 +55,7 @@ import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -191,7 +192,8 @@ public class GraphitiPalette {
 		height = (int) ((double) width / ratio);
 
 		// Creates a new vertex figure
-		VertexFigure figure = new VertexFigure(null, new Dimension(width,
+		Font font = Display.getDefault().getSystemFont();
+		VertexFigure figure = new VertexFigure(font, new Dimension(width,
 				height), color, shape);
 
 		// Creates a new image of width x height on the current display
