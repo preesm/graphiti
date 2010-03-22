@@ -99,7 +99,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	 * 
 	 * @param edges
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	void addEdges(EdgeList edges) {
 		List connections = new ArrayList<EdgeEditPart>();
 		connections.addAll(getSourceConnections());
@@ -193,7 +193,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected List getModelSourceConnections() {
 		if (getModel() instanceof Vertex) {
 			Vertex vertex = (Vertex) getModel();
@@ -211,7 +211,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected List getModelTargetConnections() {
 		if (getModel() instanceof Vertex) {
 			Vertex vertex = (Vertex) getModel();

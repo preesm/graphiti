@@ -221,9 +221,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 			@Override
 			protected void configurePaletteViewer(PaletteViewer viewer) {
 				super.configurePaletteViewer(viewer);
-				viewer
-						.addDragSourceListener(new TemplateTransferDragSourceListener(
-								viewer));
+				viewer.addDragSourceListener(new TemplateTransferDragSourceListener(
+						viewer));
 			}
 		};
 	}
@@ -320,8 +319,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		stack.execute(command);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
+	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Class type) {
 		if (type == ZoomManager.class) {
 			return ((ScalableFreeformRootEditPart) getGraphicalViewer()
