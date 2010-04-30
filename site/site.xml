@@ -6,6 +6,9 @@
    <feature url="features/net.sf.graphiti_1.1.1.beta2.jar" id="net.sf.graphiti" version="1.1.1.beta2">
       <category name="Graphiti editor"/>
    </feature>
+   <feature url="features/net.sf.graphiti_1.1.2.beta1.jar" id="net.sf.graphiti" version="1.1.2.beta1">
+      <category name="Graphiti editor"/>
+   </feature>
    <category-def name="Graphiti editor" label="Graphiti editor">
       <description>
          Graphiti is a generic graph editor under BSD license created by IETR/INSA Rennes shipped as an Eclipse plug-in.
