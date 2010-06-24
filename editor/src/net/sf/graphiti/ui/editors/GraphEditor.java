@@ -250,6 +250,10 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 					// Can never occur on a ByteArrayOutputStream
 				}
 				getCommandStack().markSaveLocation();
+
+				// refresh folder if we have written layout
+				file.getParent().refreshLocal(IFile.DEPTH_ONE, null);
+
 				return;
 			} catch (ClassCastException e) {
 				errorMessage(
@@ -422,6 +426,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 					page.showView(SimplePropertyView.ID);
 				}
 			} catch (PartInitException e) {
+				e.printStackTrace();
 			}
 
 			firePropertyChange(PROP_INPUT);
