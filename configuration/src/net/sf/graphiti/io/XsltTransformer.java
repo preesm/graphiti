@@ -29,11 +29,9 @@
 package net.sf.graphiti.io;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.xml.transform.Result;
@@ -105,19 +103,8 @@ public class XsltTransformer {
 					InputStream is;
 
 					if (path.isAbsolute()) {
-						// absolute path, we assume it refers to something in
-						// the file system (an absolute path in the workspace
-						// would not make sense anyway).
-
-						// Strangely enough, the toString method seems to be the
-						// only one that returns a URI accepted by the URI class
-						String str = path.toString();
-						try {
-							URI uri = new URI(str);
-							is = new FileInputStream(new File(uri));
-						} catch (URISyntaxException e) {
-							throw new TransformerException(e);
-						}
+						// absolute path, just opens it
+						is = new FileInputStream(path.toOSString());
 					} else {
 						// relative path, a file that is relative to the
 						// "folder" path in this bundle.
