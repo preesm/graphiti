@@ -88,7 +88,7 @@ public class SimpleEditingSupport extends EditingSupport implements
 	protected Object getValue(Object element) {
 		if (element instanceof Parameter) {
 			Parameter parameter = (Parameter) element;
-			Object value = (Object) source.getValue(parameter.getName());
+			Object value = source.getValue(parameter.getName());
 			if (value == null) {
 				value = "";
 			}

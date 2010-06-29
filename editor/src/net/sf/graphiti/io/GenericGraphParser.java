@@ -415,7 +415,7 @@ public class GenericGraphParser {
 
 			return map;
 		} else {
-			Element element = (Element) child;
+			Element element = child;
 			String value = element.getAttribute("value");
 			if (!element.hasAttribute("value") || value.isEmpty()) {
 				return null;

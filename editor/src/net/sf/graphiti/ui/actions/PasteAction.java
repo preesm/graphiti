@@ -77,12 +77,11 @@ public class PasteAction extends SelectionAction implements
 				.get(0) instanceof VertexEditPart));
 	}
 
-	@SuppressWarnings("unchecked")
 	protected List<?> getClipboardContents() {
 		LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
 		Object data = GraphitiClipboard.getInstance().getContents(transfer);
 		if (data instanceof IStructuredSelection) {
-			return (List<Vertex>) ((IStructuredSelection) data).toList();
+			return ((IStructuredSelection) data).toList();
 		} else {
 			return null;
 		}

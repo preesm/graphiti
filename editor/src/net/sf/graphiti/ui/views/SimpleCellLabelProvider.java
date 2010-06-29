@@ -71,7 +71,7 @@ public class SimpleCellLabelProvider extends CellLabelProvider implements
 			if (cell.getColumnIndex() == 0) {
 				cell.setText(parameter.getName());
 			} else {
-				Object value = (Object) source.getValue(parameter.getName());
+				Object value = source.getValue(parameter.getName());
 				if (value == null) {
 					value = "";
 				}

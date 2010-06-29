@@ -189,7 +189,7 @@ public class GraphitiPalette {
 		// adjust width and height
 		double ratio = (double) width / (double) height;
 		width = 16;
-		height = (int) ((double) width / ratio);
+		height = (int) (width / ratio);
 
 		// Creates a new vertex figure
 		Font font = Display.getDefault().getSystemFont();

@@ -270,7 +270,7 @@ public class Graph extends AbstractObject {
 		boolean res = graph.removeVertex(child);
 		child.parent = null;
 
-		vertices.remove((String) child.getValue(ObjectType.PARAMETER_ID));
+		vertices.remove(child.getValue(ObjectType.PARAMETER_ID));
 
 		firePropertyChange(PROPERTY_REMOVE, null, child);
 		return res;

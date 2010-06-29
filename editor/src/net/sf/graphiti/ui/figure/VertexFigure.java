@@ -248,8 +248,7 @@ public class VertexFigure extends Figure {
 	 */
 	@SuppressWarnings("unchecked")
 	public void adjustSize() {
-		List<IFigure> children = new ArrayList<IFigure>((List<IFigure>) shape
-				.getChildren());
+		List<IFigure> children = new ArrayList<IFigure>(shape.getChildren());
 		children.remove(labelId);
 		for (IFigure child : children) {
 			shape.remove(child);
