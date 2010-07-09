@@ -105,6 +105,8 @@ public class SetRefinementCommand extends Command {
 		}
 	}
 
+	private static IFile lastFile;
+
 	private RefinementManager manager;
 
 	private String refinement;
@@ -135,8 +137,8 @@ public class SetRefinementCommand extends Command {
 	 */
 	private void createNewFile(Shell shell) {
 		IWorkbench workbench = PlatformUI.getWorkbench();
-		NewWizardAction action = new NewWizardAction(workbench
-				.getActiveWorkbenchWindow());
+		NewWizardAction action = new NewWizardAction(
+				workbench.getActiveWorkbenchWindow());
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IResourceChangeListener listener = new NewFileListener();
@@ -233,8 +235,8 @@ public class SetRefinementCommand extends Command {
 			}
 		}
 
-		String fileName = getFileNameWithoutExtension(createdFilePath, file
-				.getName());
+		String fileName = getFileNameWithoutExtension(createdFilePath,
+				file.getName());
 		refinement = refinement.append(fileName);
 		return refinement.toString();
 	}
@@ -248,6 +250,10 @@ public class SetRefinementCommand extends Command {
 	 */
 	public void run() {
 		manager.setEditedFile();
+
+		if (lastFile == null) {
+			lastFile = manager.getEditedFile();
+		}
 
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
@@ -321,13 +327,19 @@ public class SetRefinementCommand extends Command {
 		// initial selection
 		IResource resource = manager.getIFileFromSelection();
 		if (resource == null) {
-			resource = manager.getEditedFile().getParent();
+			resource = lastFile.getParent();
 		}
 		tree.setInitialSelection(resource);
 
 		// opens the dialog
 		if (tree.open() == Window.OK) {
-			setRefinement((IFile) tree.getFirstResult());
+			IFile file = (IFile) tree.getFirstResult();
+			if (file != null) {
+				lastFile = file;
+			}
+
+			setRefinement(file);
 		}
 	}
+
 }
