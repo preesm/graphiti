@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, IETR/INSA of Rennes
+ * Copyright (c) 2008-2010, IETR/INSA of Rennes
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -139,20 +139,20 @@ attributeDecl: id=ID (EQ expression SEMICOLON -> ^(Attribute ^(Var $id) ^(Expres
 // ACTOR
 
 actor: oneImport* ACTOR ID
-  (LBRACKET typePars? RBRACKET)?
   LPAREN parameters? RPAREN
   portSignature COLON .* EOF ->
     ^(Actor ^(Name ID) parameters? portSignature);
+    
+qualifiedId: ID (DOT ID)* -> ^(QualifiedId ^(Var ID) (^(Dot DOT) ^(Var ID))*);
 
 ///////////////////////////////////////////////////////////////////////////////
 // IMPORTS
 
-oneImport: IMPORT importRest SEMICOLON ;
+oneImport: IMPORT importId SEMICOLON ;
 
-importRest: ALL qualifiedId
-  | qualifiedId (EQ ID)? ;
+importId: ID importIdRest?;
 
-qualifiedId: ID (DOT ID)* -> ^(QualifiedId ^(Var ID) (^(Dot DOT) ^(Var ID))*);
+importIdRest: DOT (TIMES | ID importIdRest?);
 
 ///////////////////////////////////////////////////////////////////////////////
 // PARAMETERS
@@ -204,7 +204,7 @@ expression: factor (binop factor)*;
 
 unop: (op=MINUS | op=NOT) -> ^(UnOp $op);
 
-binop: (op=PLUS | op=MINUS | op=TIMES | op=DIV | op=CARET) -> ^(BinOp $op);
+binop: (op=PLUS | op=MINUS | op=TIMES | op=DIV | op=XOR) -> ^(BinOp $op);
 
 factor: term
 | unop term -> ^(Expression unop term);
@@ -264,7 +264,6 @@ DOT: '.';
 DOUBLE_DASH_ARROW: '-->';
 DOUBLE_EQUAL_ARROW: '==>';
 DOUBLE_DOT: '..';
-DOUBLE_COLON: '::';
 
 LBRACE: '{';
 RBRACE: '}';
@@ -273,7 +272,9 @@ RBRACKET: ']';
 LPAREN: '(';
 RPAREN: ')';
 
-CARET: '^';
+XOR: '^';
+AND: '&';
+OR: '|';
 DIV: '/';
 MINUS: '-';
 PLUS: '+';

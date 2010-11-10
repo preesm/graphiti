@@ -1,31 +1,39 @@
-// $ANTLR 3.1.2 D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g 2009-05-16 11:00:22
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g 2010-11-10 15:33:33
 
 package net.sf.graphiti.grammar;
 
 
-import org.antlr.runtime.*;
-import java.util.Stack;
-import java.util.List;
-import java.util.ArrayList;
-
-
-import org.antlr.runtime.tree.*;
+import org.antlr.runtime.BitSet;
+import org.antlr.runtime.EarlyExitException;
+import org.antlr.runtime.NoViableAltException;
+import org.antlr.runtime.Parser;
+import org.antlr.runtime.ParserRuleReturnScope;
+import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.RecognizerSharedState;
+import org.antlr.runtime.Token;
+import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.tree.CommonTreeAdaptor;
+import org.antlr.runtime.tree.RewriteEarlyExitException;
+import org.antlr.runtime.tree.RewriteRuleSubtreeStream;
+import org.antlr.runtime.tree.RewriteRuleTokenStream;
+import org.antlr.runtime.tree.TreeAdaptor;
 
 @SuppressWarnings("unused")
 public class CalParser extends Parser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "Attribute", "Connector", "EntityDecl", "EntityExpr", "EntityPar", "Network", "StructureStmt", "VarDecl", "Actor", "Dot", "Empty", "Name", "Inputs", "Outputs", "PortDecl", "QualifiedId", "Parameter", "Type", "TypeAttr", "ExprAttr", "TypePar", "BinOp", "Boolean", "Expression", "Integer", "List", "Minus", "Not", "Real", "String", "UnOp", "Var", "NETWORK", "LBRACKET", "RBRACKET", "LPAREN", "RPAREN", "COLON", "END", "DOUBLE_EQUAL_ARROW", "VAR", "MUTABLE", "EQ", "COLON_EQUAL", "SEMICOLON", "ENTITIES", "ID", "COMMA", "STRUCTURE", "DOUBLE_DASH_ARROW", "DOT", "LBRACE", "RBRACE", "ACTOR", "IMPORT", "ALL", "MULTI", "LT", "MINUS", "NOT", "PLUS", "TIMES", "DIV", "CARET", "FLOAT", "INTEGER", "STRING", "TRUE", "FALSE", "LINE_COMMENT", "MULTI_LINE_COMMENT", "WHITESPACE", "GE", "GT", "LE", "NE", "ARROW", "DOUBLE_DOT", "DOUBLE_COLON", "SHARP"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "Attribute", "Connector", "EntityDecl", "EntityExpr", "EntityPar", "Network", "StructureStmt", "VarDecl", "Actor", "Dot", "Empty", "Name", "Inputs", "Outputs", "PortDecl", "QualifiedId", "Parameter", "Type", "TypeAttr", "ExprAttr", "TypePar", "BinOp", "Boolean", "Expression", "Integer", "List", "Minus", "Not", "Real", "String", "UnOp", "Var", "NETWORK", "LBRACKET", "RBRACKET", "LPAREN", "RPAREN", "COLON", "END", "DOUBLE_EQUAL_ARROW", "VAR", "MUTABLE", "EQ", "COLON_EQUAL", "SEMICOLON", "ENTITIES", "ID", "COMMA", "STRUCTURE", "DOUBLE_DASH_ARROW", "DOT", "LBRACE", "RBRACE", "ACTOR", "IMPORT", "TIMES", "MULTI", "LT", "MINUS", "NOT", "PLUS", "DIV", "XOR", "FLOAT", "INTEGER", "STRING", "TRUE", "FALSE", "ALL", "LINE_COMMENT", "MULTI_LINE_COMMENT", "WHITESPACE", "GE", "GT", "LE", "NE", "ARROW", "DOUBLE_DOT", "AND", "OR", "SHARP"
     };
     public static final int StructureStmt=10;
     public static final int LT=61;
     public static final int Inputs=16;
     public static final int LBRACE=55;
     public static final int Empty=14;
-    public static final int FLOAT=68;
+    public static final int FLOAT=67;
     public static final int MULTI=60;
     public static final int Actor=12;
     public static final int VarDecl=11;
     public static final int NOT=63;
+    public static final int AND=82;
     public static final int ID=50;
     public static final int EOF=-1;
     public static final int Attribute=4;
@@ -37,8 +45,7 @@ public class CalParser extends Parser {
     public static final int IMPORT=58;
     public static final int COLON_EQUAL=47;
     public static final int COMMA=51;
-    public static final int CARET=67;
-    public static final int ALL=59;
+    public static final int ALL=72;
     public static final int TypeAttr=22;
     public static final int ENTITIES=49;
     public static final int Real=32;
@@ -51,13 +58,14 @@ public class CalParser extends Parser {
     public static final int DOT=54;
     public static final int EntityDecl=6;
     public static final int NE=79;
-    public static final int INTEGER=69;
+    public static final int INTEGER=68;
     public static final int Outputs=17;
     public static final int DOUBLE_EQUAL_ARROW=43;
     public static final int GE=76;
     public static final int DOUBLE_DASH_ARROW=53;
     public static final int EntityPar=8;
-    public static final int SHARP=83;
+    public static final int XOR=66;
+    public static final int SHARP=84;
     public static final int RBRACE=56;
     public static final int Type=21;
     public static final int LINE_COMMENT=73;
@@ -66,7 +74,7 @@ public class CalParser extends Parser {
     public static final int SEMICOLON=48;
     public static final int NETWORK=36;
     public static final int MINUS=62;
-    public static final int TRUE=71;
+    public static final int TRUE=70;
     public static final int Expression=27;
     public static final int MULTI_LINE_COMMENT=74;
     public static final int Parameter=20;
@@ -76,27 +84,27 @@ public class CalParser extends Parser {
     public static final int UnOp=34;
     public static final int Minus=30;
     public static final int Connector=5;
-    public static final int DOUBLE_COLON=82;
     public static final int Boolean=26;
     public static final int ACTOR=57;
     public static final int EntityExpr=7;
     public static final int ExprAttr=23;
+    public static final int OR=83;
     public static final int Not=31;
     public static final int Name=15;
     public static final int Dot=13;
     public static final int ARROW=80;
     public static final int GT=77;
-    public static final int DIV=66;
-    public static final int TIMES=65;
+    public static final int DIV=65;
+    public static final int TIMES=59;
     public static final int BinOp=25;
     public static final int END=42;
-    public static final int FALSE=72;
+    public static final int FALSE=71;
     public static final int MUTABLE=45;
     public static final int PortDecl=18;
     public static final int LE=78;
     public static final int Integer=28;
     public static final int Var=35;
-    public static final int STRING=70;
+    public static final int STRING=69;
 
     // delegates
     // delegators
@@ -120,7 +128,7 @@ public class CalParser extends Parser {
     }
 
     public String[] getTokenNames() { return CalParser.tokenNames; }
-    public String getGrammarFileName() { return "D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g"; }
+    public String getGrammarFileName() { return "D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g"; }
 
 
     public static class network_return extends ParserRuleReturnScope {
@@ -129,7 +137,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "network"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:90:1: network : NETWORK qualifiedId ( LBRACKET ( typePars )? RBRACKET )? LPAREN ( parameters )? RPAREN portSignature COLON ( oneImport )* ( varDeclSection )? ( entitySection )? ( structureSection )? END EOF -> ^( Network qualifiedId ( parameters )? portSignature ( varDeclSection )? ( entitySection )? ( structureSection )? ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:90:1: network : NETWORK qualifiedId ( LBRACKET ( typePars )? RBRACKET )? LPAREN ( parameters )? RPAREN portSignature COLON ( oneImport )* ( varDeclSection )? ( entitySection )? ( structureSection )? END EOF -> ^( Network qualifiedId ( parameters )? portSignature ( varDeclSection )? ( entitySection )? ( structureSection )? ) ;
     public final CalParser.network_return network() throws RecognitionException {
         CalParser.network_return retval = new CalParser.network_return();
         retval.start = input.LT(1);
@@ -186,8 +194,8 @@ public class CalParser extends Parser {
         RewriteRuleSubtreeStream stream_parameters=new RewriteRuleSubtreeStream(adaptor,"rule parameters");
         RewriteRuleSubtreeStream stream_oneImport=new RewriteRuleSubtreeStream(adaptor,"rule oneImport");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:90:8: ( NETWORK qualifiedId ( LBRACKET ( typePars )? RBRACKET )? LPAREN ( parameters )? RPAREN portSignature COLON ( oneImport )* ( varDeclSection )? ( entitySection )? ( structureSection )? END EOF -> ^( Network qualifiedId ( parameters )? portSignature ( varDeclSection )? ( entitySection )? ( structureSection )? ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:90:10: NETWORK qualifiedId ( LBRACKET ( typePars )? RBRACKET )? LPAREN ( parameters )? RPAREN portSignature COLON ( oneImport )* ( varDeclSection )? ( entitySection )? ( structureSection )? END EOF
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:90:8: ( NETWORK qualifiedId ( LBRACKET ( typePars )? RBRACKET )? LPAREN ( parameters )? RPAREN portSignature COLON ( oneImport )* ( varDeclSection )? ( entitySection )? ( structureSection )? END EOF -> ^( Network qualifiedId ( parameters )? portSignature ( varDeclSection )? ( entitySection )? ( structureSection )? ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:90:10: NETWORK qualifiedId ( LBRACKET ( typePars )? RBRACKET )? LPAREN ( parameters )? RPAREN portSignature COLON ( oneImport )* ( varDeclSection )? ( entitySection )? ( structureSection )? END EOF
             {
             NETWORK1=(Token)match(input,NETWORK,FOLLOW_NETWORK_in_network236);  
             stream_NETWORK.add(NETWORK1);
@@ -198,7 +206,7 @@ public class CalParser extends Parser {
             state._fsp--;
 
             stream_qualifiedId.add(qualifiedId2.getTree());
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:90:30: ( LBRACKET ( typePars )? RBRACKET )?
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:90:30: ( LBRACKET ( typePars )? RBRACKET )?
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -207,12 +215,12 @@ public class CalParser extends Parser {
             }
             switch (alt2) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:90:31: LBRACKET ( typePars )? RBRACKET
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:90:31: LBRACKET ( typePars )? RBRACKET
                     {
                     LBRACKET3=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_network241);  
                     stream_LBRACKET.add(LBRACKET3);
 
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:90:40: ( typePars )?
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:90:40: ( typePars )?
                     int alt1=2;
                     int LA1_0 = input.LA(1);
 
@@ -221,7 +229,7 @@ public class CalParser extends Parser {
                     }
                     switch (alt1) {
                         case 1 :
-                            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:90:40: typePars
+                            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:90:40: typePars
                             {
                             pushFollow(FOLLOW_typePars_in_network243);
                             typePars4=typePars();
@@ -247,7 +255,7 @@ public class CalParser extends Parser {
             LPAREN6=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_network252);  
             stream_LPAREN.add(LPAREN6);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:91:10: ( parameters )?
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:91:10: ( parameters )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -256,7 +264,7 @@ public class CalParser extends Parser {
             }
             switch (alt3) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:91:10: parameters
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:91:10: parameters
                     {
                     pushFollow(FOLLOW_parameters_in_network254);
                     parameters7=parameters();
@@ -282,7 +290,7 @@ public class CalParser extends Parser {
             COLON10=(Token)match(input,COLON,FOLLOW_COLON_in_network263);  
             stream_COLON.add(COLON10);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:93:3: ( oneImport )*
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:93:3: ( oneImport )*
             loop4:
             do {
                 int alt4=2;
@@ -295,7 +303,7 @@ public class CalParser extends Parser {
 
                 switch (alt4) {
             	case 1 :
-            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:93:3: oneImport
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:93:3: oneImport
             	    {
             	    pushFollow(FOLLOW_oneImport_in_network267);
             	    oneImport11=oneImport();
@@ -312,7 +320,7 @@ public class CalParser extends Parser {
                 }
             } while (true);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:93:14: ( varDeclSection )?
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:93:14: ( varDeclSection )?
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -321,7 +329,7 @@ public class CalParser extends Parser {
             }
             switch (alt5) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:93:14: varDeclSection
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:93:14: varDeclSection
                     {
                     pushFollow(FOLLOW_varDeclSection_in_network270);
                     varDeclSection12=varDeclSection();
@@ -335,7 +343,7 @@ public class CalParser extends Parser {
 
             }
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:94:3: ( entitySection )?
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:94:3: ( entitySection )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -344,7 +352,7 @@ public class CalParser extends Parser {
             }
             switch (alt6) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:94:3: entitySection
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:94:3: entitySection
                     {
                     pushFollow(FOLLOW_entitySection_in_network275);
                     entitySection13=entitySection();
@@ -358,7 +366,7 @@ public class CalParser extends Parser {
 
             }
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:94:18: ( structureSection )?
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:94:18: ( structureSection )?
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -367,7 +375,7 @@ public class CalParser extends Parser {
             }
             switch (alt7) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:94:18: structureSection
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:94:18: structureSection
                     {
                     pushFollow(FOLLOW_structureSection_in_network278);
                     structureSection14=structureSection();
@@ -390,7 +398,7 @@ public class CalParser extends Parser {
 
 
             // AST REWRITE
-            // elements: qualifiedId, entitySection, varDeclSection, portSignature, parameters, structureSection
+            // elements: parameters, portSignature, varDeclSection, qualifiedId, structureSection, entitySection
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -402,32 +410,32 @@ public class CalParser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 95:11: -> ^( Network qualifiedId ( parameters )? portSignature ( varDeclSection )? ( entitySection )? ( structureSection )? )
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:96:5: ^( Network qualifiedId ( parameters )? portSignature ( varDeclSection )? ( entitySection )? ( structureSection )? )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:96:5: ^( Network qualifiedId ( parameters )? portSignature ( varDeclSection )? ( entitySection )? ( structureSection )? )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Network, "Network"), root_1);
 
                 adaptor.addChild(root_1, stream_qualifiedId.nextTree());
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:96:27: ( parameters )?
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:96:27: ( parameters )?
                 if ( stream_parameters.hasNext() ) {
                     adaptor.addChild(root_1, stream_parameters.nextTree());
 
                 }
                 stream_parameters.reset();
                 adaptor.addChild(root_1, stream_portSignature.nextTree());
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:97:7: ( varDeclSection )?
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:97:7: ( varDeclSection )?
                 if ( stream_varDeclSection.hasNext() ) {
                     adaptor.addChild(root_1, stream_varDeclSection.nextTree());
 
                 }
                 stream_varDeclSection.reset();
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:97:23: ( entitySection )?
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:97:23: ( entitySection )?
                 if ( stream_entitySection.hasNext() ) {
                     adaptor.addChild(root_1, stream_entitySection.nextTree());
 
                 }
                 stream_entitySection.reset();
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:97:38: ( structureSection )?
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:97:38: ( structureSection )?
                 if ( stream_structureSection.hasNext() ) {
                     adaptor.addChild(root_1, stream_structureSection.nextTree());
 
@@ -466,7 +474,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "portSignature"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:99:1: portSignature : inputPorts DOUBLE_EQUAL_ARROW outputPorts -> inputPorts outputPorts ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:99:1: portSignature : inputPorts DOUBLE_EQUAL_ARROW outputPorts -> inputPorts outputPorts ;
     public final CalParser.portSignature_return portSignature() throws RecognitionException {
         CalParser.portSignature_return retval = new CalParser.portSignature_return();
         retval.start = input.LT(1);
@@ -484,8 +492,8 @@ public class CalParser extends Parser {
         RewriteRuleSubtreeStream stream_inputPorts=new RewriteRuleSubtreeStream(adaptor,"rule inputPorts");
         RewriteRuleSubtreeStream stream_outputPorts=new RewriteRuleSubtreeStream(adaptor,"rule outputPorts");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:99:14: ( inputPorts DOUBLE_EQUAL_ARROW outputPorts -> inputPorts outputPorts )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:99:16: inputPorts DOUBLE_EQUAL_ARROW outputPorts
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:99:14: ( inputPorts DOUBLE_EQUAL_ARROW outputPorts -> inputPorts outputPorts )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:99:16: inputPorts DOUBLE_EQUAL_ARROW outputPorts
             {
             pushFollow(FOLLOW_inputPorts_in_portSignature324);
             inputPorts17=inputPorts();
@@ -549,7 +557,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "inputPorts"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:101:1: inputPorts : ( portDecls -> ^( Inputs portDecls ) | -> ^( Inputs Empty ) );
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:101:1: inputPorts : ( portDecls -> ^( Inputs portDecls ) | -> ^( Inputs Empty ) );
     public final CalParser.inputPorts_return inputPorts() throws RecognitionException {
         CalParser.inputPorts_return retval = new CalParser.inputPorts_return();
         retval.start = input.LT(1);
@@ -561,7 +569,7 @@ public class CalParser extends Parser {
 
         RewriteRuleSubtreeStream stream_portDecls=new RewriteRuleSubtreeStream(adaptor,"rule portDecls");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:101:11: ( portDecls -> ^( Inputs portDecls ) | -> ^( Inputs Empty ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:101:11: ( portDecls -> ^( Inputs portDecls ) | -> ^( Inputs Empty ) )
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -579,7 +587,7 @@ public class CalParser extends Parser {
             }
             switch (alt8) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:101:13: portDecls
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:101:13: portDecls
                     {
                     pushFollow(FOLLOW_portDecls_in_inputPorts341);
                     portDecls20=portDecls();
@@ -602,7 +610,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 101:23: -> ^( Inputs portDecls )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:101:26: ^( Inputs portDecls )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:101:26: ^( Inputs portDecls )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Inputs, "Inputs"), root_1);
@@ -618,7 +626,7 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:101:48: 
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:101:48: 
                     {
 
                     // AST REWRITE
@@ -634,7 +642,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 101:48: -> ^( Inputs Empty )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:101:51: ^( Inputs Empty )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:101:51: ^( Inputs Empty )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Inputs, "Inputs"), root_1);
@@ -675,7 +683,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "outputPorts"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:103:1: outputPorts : ( portDecls -> ^( Outputs portDecls ) | -> ^( Outputs Empty ) );
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:103:1: outputPorts : ( portDecls -> ^( Outputs portDecls ) | -> ^( Outputs Empty ) );
     public final CalParser.outputPorts_return outputPorts() throws RecognitionException {
         CalParser.outputPorts_return retval = new CalParser.outputPorts_return();
         retval.start = input.LT(1);
@@ -687,7 +695,7 @@ public class CalParser extends Parser {
 
         RewriteRuleSubtreeStream stream_portDecls=new RewriteRuleSubtreeStream(adaptor,"rule portDecls");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:103:12: ( portDecls -> ^( Outputs portDecls ) | -> ^( Outputs Empty ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:103:12: ( portDecls -> ^( Outputs portDecls ) | -> ^( Outputs Empty ) )
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -705,7 +713,7 @@ public class CalParser extends Parser {
             }
             switch (alt9) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:103:14: portDecls
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:103:14: portDecls
                     {
                     pushFollow(FOLLOW_portDecls_in_outputPorts366);
                     portDecls21=portDecls();
@@ -728,7 +736,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 103:24: -> ^( Outputs portDecls )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:103:27: ^( Outputs portDecls )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:103:27: ^( Outputs portDecls )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Outputs, "Outputs"), root_1);
@@ -744,7 +752,7 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:103:50: 
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:103:50: 
                     {
 
                     // AST REWRITE
@@ -760,7 +768,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 103:50: -> ^( Outputs Empty )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:103:53: ^( Outputs Empty )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:103:53: ^( Outputs Empty )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Outputs, "Outputs"), root_1);
@@ -801,7 +809,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "varDeclSection"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:106:1: varDeclSection : VAR ( varDecl )+ -> ( varDecl )+ ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:106:1: varDeclSection : VAR ( varDecl )+ -> ( varDecl )+ ;
     public final CalParser.varDeclSection_return varDeclSection() throws RecognitionException {
         CalParser.varDeclSection_return retval = new CalParser.varDeclSection_return();
         retval.start = input.LT(1);
@@ -816,13 +824,13 @@ public class CalParser extends Parser {
         RewriteRuleTokenStream stream_VAR=new RewriteRuleTokenStream(adaptor,"token VAR");
         RewriteRuleSubtreeStream stream_varDecl=new RewriteRuleSubtreeStream(adaptor,"rule varDecl");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:106:15: ( VAR ( varDecl )+ -> ( varDecl )+ )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:106:17: VAR ( varDecl )+
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:106:15: ( VAR ( varDecl )+ -> ( varDecl )+ )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:106:17: VAR ( varDecl )+
             {
             VAR22=(Token)match(input,VAR,FOLLOW_VAR_in_varDeclSection392);  
             stream_VAR.add(VAR22);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:106:21: ( varDecl )+
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:106:21: ( varDecl )+
             int cnt10=0;
             loop10:
             do {
@@ -836,7 +844,7 @@ public class CalParser extends Parser {
 
                 switch (alt10) {
             	case 1 :
-            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:106:21: varDecl
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:106:21: varDecl
             	    {
             	    pushFollow(FOLLOW_varDecl_in_varDeclSection394);
             	    varDecl23=varDecl();
@@ -910,7 +918,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "varDecl"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:108:1: varDecl : ( MUTABLE )? typeAndId ( ( EQ | COLON_EQUAL ) expression -> ^( VarDecl typeAndId ^( Expression expression ) ) | -> ^( VarDecl typeAndId ) ) SEMICOLON ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:108:1: varDecl : ( MUTABLE )? typeAndId ( ( EQ | COLON_EQUAL ) expression -> ^( VarDecl typeAndId ^( Expression expression ) ) | -> ^( VarDecl typeAndId ) ) SEMICOLON ;
     public final CalParser.varDecl_return varDecl() throws RecognitionException {
         CalParser.varDecl_return retval = new CalParser.varDecl_return();
         retval.start = input.LT(1);
@@ -937,10 +945,10 @@ public class CalParser extends Parser {
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         RewriteRuleSubtreeStream stream_typeAndId=new RewriteRuleSubtreeStream(adaptor,"rule typeAndId");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:108:8: ( ( MUTABLE )? typeAndId ( ( EQ | COLON_EQUAL ) expression -> ^( VarDecl typeAndId ^( Expression expression ) ) | -> ^( VarDecl typeAndId ) ) SEMICOLON )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:108:10: ( MUTABLE )? typeAndId ( ( EQ | COLON_EQUAL ) expression -> ^( VarDecl typeAndId ^( Expression expression ) ) | -> ^( VarDecl typeAndId ) ) SEMICOLON
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:108:8: ( ( MUTABLE )? typeAndId ( ( EQ | COLON_EQUAL ) expression -> ^( VarDecl typeAndId ^( Expression expression ) ) | -> ^( VarDecl typeAndId ) ) SEMICOLON )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:108:10: ( MUTABLE )? typeAndId ( ( EQ | COLON_EQUAL ) expression -> ^( VarDecl typeAndId ^( Expression expression ) ) | -> ^( VarDecl typeAndId ) ) SEMICOLON
             {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:108:10: ( MUTABLE )?
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:108:10: ( MUTABLE )?
             int alt11=2;
             int LA11_0 = input.LA(1);
 
@@ -949,7 +957,7 @@ public class CalParser extends Parser {
             }
             switch (alt11) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:108:10: MUTABLE
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:108:10: MUTABLE
                     {
                     MUTABLE24=(Token)match(input,MUTABLE,FOLLOW_MUTABLE_in_varDecl407);  
                     stream_MUTABLE.add(MUTABLE24);
@@ -966,7 +974,7 @@ public class CalParser extends Parser {
             state._fsp--;
 
             stream_typeAndId.add(typeAndId25.getTree());
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:109:3: ( ( EQ | COLON_EQUAL ) expression -> ^( VarDecl typeAndId ^( Expression expression ) ) | -> ^( VarDecl typeAndId ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:109:3: ( ( EQ | COLON_EQUAL ) expression -> ^( VarDecl typeAndId ^( Expression expression ) ) | -> ^( VarDecl typeAndId ) )
             int alt13=2;
             int LA13_0 = input.LA(1);
 
@@ -984,9 +992,9 @@ public class CalParser extends Parser {
             }
             switch (alt13) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:109:4: ( EQ | COLON_EQUAL ) expression
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:109:4: ( EQ | COLON_EQUAL ) expression
                     {
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:109:4: ( EQ | COLON_EQUAL )
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:109:4: ( EQ | COLON_EQUAL )
                     int alt12=2;
                     int LA12_0 = input.LA(1);
 
@@ -1004,7 +1012,7 @@ public class CalParser extends Parser {
                     }
                     switch (alt12) {
                         case 1 :
-                            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:109:5: EQ
+                            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:109:5: EQ
                             {
                             EQ26=(Token)match(input,EQ,FOLLOW_EQ_in_varDecl416);  
                             stream_EQ.add(EQ26);
@@ -1013,7 +1021,7 @@ public class CalParser extends Parser {
                             }
                             break;
                         case 2 :
-                            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:109:10: COLON_EQUAL
+                            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:109:10: COLON_EQUAL
                             {
                             COLON_EQUAL27=(Token)match(input,COLON_EQUAL,FOLLOW_COLON_EQUAL_in_varDecl420);  
                             stream_COLON_EQUAL.add(COLON_EQUAL27);
@@ -1033,7 +1041,7 @@ public class CalParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: typeAndId, expression
+                    // elements: expression, typeAndId
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1045,13 +1053,13 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 109:34: -> ^( VarDecl typeAndId ^( Expression expression ) )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:109:37: ^( VarDecl typeAndId ^( Expression expression ) )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:109:37: ^( VarDecl typeAndId ^( Expression expression ) )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(VarDecl, "VarDecl"), root_1);
 
                         adaptor.addChild(root_1, stream_typeAndId.nextTree());
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:109:57: ^( Expression expression )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:109:57: ^( Expression expression )
                         {
                         Object root_2 = (Object)adaptor.nil();
                         root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Expression, "Expression"), root_2);
@@ -1070,7 +1078,7 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:110:5: 
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:110:5: 
                     {
 
                     // AST REWRITE
@@ -1086,7 +1094,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 110:5: -> ^( VarDecl typeAndId )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:110:8: ^( VarDecl typeAndId )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:110:8: ^( VarDecl typeAndId )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(VarDecl, "VarDecl"), root_1);
@@ -1134,7 +1142,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "entitySection"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:113:1: entitySection : ENTITIES ( entityDecl )+ -> ( entityDecl )+ ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:113:1: entitySection : ENTITIES ( entityDecl )+ -> ( entityDecl )+ ;
     public final CalParser.entitySection_return entitySection() throws RecognitionException {
         CalParser.entitySection_return retval = new CalParser.entitySection_return();
         retval.start = input.LT(1);
@@ -1149,13 +1157,13 @@ public class CalParser extends Parser {
         RewriteRuleTokenStream stream_ENTITIES=new RewriteRuleTokenStream(adaptor,"token ENTITIES");
         RewriteRuleSubtreeStream stream_entityDecl=new RewriteRuleSubtreeStream(adaptor,"rule entityDecl");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:113:14: ( ENTITIES ( entityDecl )+ -> ( entityDecl )+ )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:113:16: ENTITIES ( entityDecl )+
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:113:14: ( ENTITIES ( entityDecl )+ -> ( entityDecl )+ )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:113:16: ENTITIES ( entityDecl )+
             {
             ENTITIES30=(Token)match(input,ENTITIES,FOLLOW_ENTITIES_in_entitySection460);  
             stream_ENTITIES.add(ENTITIES30);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:113:25: ( entityDecl )+
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:113:25: ( entityDecl )+
             int cnt14=0;
             loop14:
             do {
@@ -1169,7 +1177,7 @@ public class CalParser extends Parser {
 
                 switch (alt14) {
             	case 1 :
-            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:113:25: entityDecl
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:113:25: entityDecl
             	    {
             	    pushFollow(FOLLOW_entityDecl_in_entitySection462);
             	    entityDecl31=entityDecl();
@@ -1243,7 +1251,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "entityDecl"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:115:1: entityDecl : ID EQ entityExpr SEMICOLON -> ^( EntityDecl ^( Var ID ) entityExpr ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:115:1: entityDecl : ID EQ entityExpr SEMICOLON -> ^( EntityDecl ^( Var ID ) entityExpr ) ;
     public final CalParser.entityDecl_return entityDecl() throws RecognitionException {
         CalParser.entityDecl_return retval = new CalParser.entityDecl_return();
         retval.start = input.LT(1);
@@ -1264,8 +1272,8 @@ public class CalParser extends Parser {
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
         RewriteRuleSubtreeStream stream_entityExpr=new RewriteRuleSubtreeStream(adaptor,"rule entityExpr");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:115:11: ( ID EQ entityExpr SEMICOLON -> ^( EntityDecl ^( Var ID ) entityExpr ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:115:13: ID EQ entityExpr SEMICOLON
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:115:11: ( ID EQ entityExpr SEMICOLON -> ^( EntityDecl ^( Var ID ) entityExpr ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:115:13: ID EQ entityExpr SEMICOLON
             {
             ID32=(Token)match(input,ID,FOLLOW_ID_in_entityDecl475);  
             stream_ID.add(ID32);
@@ -1285,7 +1293,7 @@ public class CalParser extends Parser {
 
 
             // AST REWRITE
-            // elements: entityExpr, ID
+            // elements: ID, entityExpr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1297,12 +1305,12 @@ public class CalParser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 115:40: -> ^( EntityDecl ^( Var ID ) entityExpr )
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:115:43: ^( EntityDecl ^( Var ID ) entityExpr )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:115:43: ^( EntityDecl ^( Var ID ) entityExpr )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(EntityDecl, "EntityDecl"), root_1);
 
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:115:56: ^( Var ID )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:115:56: ^( Var ID )
                 {
                 Object root_2 = (Object)adaptor.nil();
                 root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_2);
@@ -1345,7 +1353,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "entityExpr"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:1: entityExpr : ID LPAREN ( entityPars )? RPAREN -> ^( EntityExpr ^( Var ID ) ( entityPars )? ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:1: entityExpr : ID LPAREN ( entityPars )? RPAREN -> ^( EntityExpr ^( Var ID ) ( entityPars )? ) ;
     public final CalParser.entityExpr_return entityExpr() throws RecognitionException {
         CalParser.entityExpr_return retval = new CalParser.entityExpr_return();
         retval.start = input.LT(1);
@@ -1366,8 +1374,8 @@ public class CalParser extends Parser {
         RewriteRuleTokenStream stream_LPAREN=new RewriteRuleTokenStream(adaptor,"token LPAREN");
         RewriteRuleSubtreeStream stream_entityPars=new RewriteRuleSubtreeStream(adaptor,"rule entityPars");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:11: ( ID LPAREN ( entityPars )? RPAREN -> ^( EntityExpr ^( Var ID ) ( entityPars )? ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:13: ID LPAREN ( entityPars )? RPAREN
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:11: ( ID LPAREN ( entityPars )? RPAREN -> ^( EntityExpr ^( Var ID ) ( entityPars )? ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:13: ID LPAREN ( entityPars )? RPAREN
             {
             ID36=(Token)match(input,ID,FOLLOW_ID_in_entityExpr502);  
             stream_ID.add(ID36);
@@ -1375,7 +1383,7 @@ public class CalParser extends Parser {
             LPAREN37=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_entityExpr504);  
             stream_LPAREN.add(LPAREN37);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:23: ( entityPars )?
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:23: ( entityPars )?
             int alt15=2;
             int LA15_0 = input.LA(1);
 
@@ -1384,7 +1392,7 @@ public class CalParser extends Parser {
             }
             switch (alt15) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:23: entityPars
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:23: entityPars
                     {
                     pushFollow(FOLLOW_entityPars_in_entityExpr506);
                     entityPars38=entityPars();
@@ -1404,7 +1412,7 @@ public class CalParser extends Parser {
 
 
             // AST REWRITE
-            // elements: ID, entityPars
+            // elements: entityPars, ID
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1416,12 +1424,12 @@ public class CalParser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 117:42: -> ^( EntityExpr ^( Var ID ) ( entityPars )? )
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:45: ^( EntityExpr ^( Var ID ) ( entityPars )? )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:45: ^( EntityExpr ^( Var ID ) ( entityPars )? )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(EntityExpr, "EntityExpr"), root_1);
 
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:58: ^( Var ID )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:58: ^( Var ID )
                 {
                 Object root_2 = (Object)adaptor.nil();
                 root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_2);
@@ -1430,7 +1438,7 @@ public class CalParser extends Parser {
 
                 adaptor.addChild(root_1, root_2);
                 }
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:68: ( entityPars )?
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:117:68: ( entityPars )?
                 if ( stream_entityPars.hasNext() ) {
                     adaptor.addChild(root_1, stream_entityPars.nextTree());
 
@@ -1469,7 +1477,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "entityPars"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:119:1: entityPars : entityPar ( COMMA entityPar )* -> ( entityPar )+ ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:119:1: entityPars : entityPar ( COMMA entityPar )* -> ( entityPar )+ ;
     public final CalParser.entityPars_return entityPars() throws RecognitionException {
         CalParser.entityPars_return retval = new CalParser.entityPars_return();
         retval.start = input.LT(1);
@@ -1486,8 +1494,8 @@ public class CalParser extends Parser {
         RewriteRuleTokenStream stream_COMMA=new RewriteRuleTokenStream(adaptor,"token COMMA");
         RewriteRuleSubtreeStream stream_entityPar=new RewriteRuleSubtreeStream(adaptor,"rule entityPar");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:119:11: ( entityPar ( COMMA entityPar )* -> ( entityPar )+ )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:119:13: entityPar ( COMMA entityPar )*
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:119:11: ( entityPar ( COMMA entityPar )* -> ( entityPar )+ )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:119:13: entityPar ( COMMA entityPar )*
             {
             pushFollow(FOLLOW_entityPar_in_entityPars531);
             entityPar40=entityPar();
@@ -1495,7 +1503,7 @@ public class CalParser extends Parser {
             state._fsp--;
 
             stream_entityPar.add(entityPar40.getTree());
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:119:23: ( COMMA entityPar )*
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:119:23: ( COMMA entityPar )*
             loop16:
             do {
                 int alt16=2;
@@ -1508,7 +1516,7 @@ public class CalParser extends Parser {
 
                 switch (alt16) {
             	case 1 :
-            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:119:24: COMMA entityPar
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:119:24: COMMA entityPar
             	    {
             	    COMMA41=(Token)match(input,COMMA,FOLLOW_COMMA_in_entityPars534);  
             	    stream_COMMA.add(COMMA41);
@@ -1581,7 +1589,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "entityPar"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:121:1: entityPar : ID EQ expression -> ^( EntityPar ^( Var ID ) ^( Expression expression ) ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:121:1: entityPar : ID EQ expression -> ^( EntityPar ^( Var ID ) ^( Expression expression ) ) ;
     public final CalParser.entityPar_return entityPar() throws RecognitionException {
         CalParser.entityPar_return retval = new CalParser.entityPar_return();
         retval.start = input.LT(1);
@@ -1599,8 +1607,8 @@ public class CalParser extends Parser {
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:121:10: ( ID EQ expression -> ^( EntityPar ^( Var ID ) ^( Expression expression ) ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:121:12: ID EQ expression
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:121:10: ( ID EQ expression -> ^( EntityPar ^( Var ID ) ^( Expression expression ) ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:121:12: ID EQ expression
             {
             ID43=(Token)match(input,ID,FOLLOW_ID_in_entityPar550);  
             stream_ID.add(ID43);
@@ -1617,7 +1625,7 @@ public class CalParser extends Parser {
 
 
             // AST REWRITE
-            // elements: ID, expression
+            // elements: expression, ID
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1629,12 +1637,12 @@ public class CalParser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 121:29: -> ^( EntityPar ^( Var ID ) ^( Expression expression ) )
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:121:32: ^( EntityPar ^( Var ID ) ^( Expression expression ) )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:121:32: ^( EntityPar ^( Var ID ) ^( Expression expression ) )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(EntityPar, "EntityPar"), root_1);
 
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:121:44: ^( Var ID )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:121:44: ^( Var ID )
                 {
                 Object root_2 = (Object)adaptor.nil();
                 root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_2);
@@ -1643,7 +1651,7 @@ public class CalParser extends Parser {
 
                 adaptor.addChild(root_1, root_2);
                 }
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:121:54: ^( Expression expression )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:121:54: ^( Expression expression )
                 {
                 Object root_2 = (Object)adaptor.nil();
                 root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Expression, "Expression"), root_2);
@@ -1685,7 +1693,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "structureSection"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:124:1: structureSection : STRUCTURE ( structureStmt )+ -> ( structureStmt )+ ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:124:1: structureSection : STRUCTURE ( structureStmt )+ -> ( structureStmt )+ ;
     public final CalParser.structureSection_return structureSection() throws RecognitionException {
         CalParser.structureSection_return retval = new CalParser.structureSection_return();
         retval.start = input.LT(1);
@@ -1700,13 +1708,13 @@ public class CalParser extends Parser {
         RewriteRuleTokenStream stream_STRUCTURE=new RewriteRuleTokenStream(adaptor,"token STRUCTURE");
         RewriteRuleSubtreeStream stream_structureStmt=new RewriteRuleSubtreeStream(adaptor,"rule structureStmt");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:124:17: ( STRUCTURE ( structureStmt )+ -> ( structureStmt )+ )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:124:19: STRUCTURE ( structureStmt )+
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:124:17: ( STRUCTURE ( structureStmt )+ -> ( structureStmt )+ )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:124:19: STRUCTURE ( structureStmt )+
             {
             STRUCTURE46=(Token)match(input,STRUCTURE,FOLLOW_STRUCTURE_in_structureSection580);  
             stream_STRUCTURE.add(STRUCTURE46);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:124:29: ( structureStmt )+
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:124:29: ( structureStmt )+
             int cnt17=0;
             loop17:
             do {
@@ -1720,7 +1728,7 @@ public class CalParser extends Parser {
 
                 switch (alt17) {
             	case 1 :
-            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:124:29: structureStmt
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:124:29: structureStmt
             	    {
             	    pushFollow(FOLLOW_structureStmt_in_structureSection582);
             	    structureStmt47=structureStmt();
@@ -1794,7 +1802,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "structureStmt"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:126:1: structureStmt : c1= connector DOUBLE_DASH_ARROW c2= connector (at= attributeSection )? SEMICOLON -> ^( StructureStmt $c1 $c2 ( $at)? ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:126:1: structureStmt : c1= connector DOUBLE_DASH_ARROW c2= connector (at= attributeSection )? SEMICOLON -> ^( StructureStmt $c1 $c2 ( $at)? ) ;
     public final CalParser.structureStmt_return structureStmt() throws RecognitionException {
         CalParser.structureStmt_return retval = new CalParser.structureStmt_return();
         retval.start = input.LT(1);
@@ -1817,8 +1825,8 @@ public class CalParser extends Parser {
         RewriteRuleSubtreeStream stream_attributeSection=new RewriteRuleSubtreeStream(adaptor,"rule attributeSection");
         RewriteRuleSubtreeStream stream_connector=new RewriteRuleSubtreeStream(adaptor,"rule connector");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:126:14: (c1= connector DOUBLE_DASH_ARROW c2= connector (at= attributeSection )? SEMICOLON -> ^( StructureStmt $c1 $c2 ( $at)? ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:126:16: c1= connector DOUBLE_DASH_ARROW c2= connector (at= attributeSection )? SEMICOLON
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:126:14: (c1= connector DOUBLE_DASH_ARROW c2= connector (at= attributeSection )? SEMICOLON -> ^( StructureStmt $c1 $c2 ( $at)? ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:126:16: c1= connector DOUBLE_DASH_ARROW c2= connector (at= attributeSection )? SEMICOLON
             {
             pushFollow(FOLLOW_connector_in_structureStmt597);
             c1=connector();
@@ -1835,7 +1843,7 @@ public class CalParser extends Parser {
             state._fsp--;
 
             stream_connector.add(c2.getTree());
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:126:62: (at= attributeSection )?
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:126:62: (at= attributeSection )?
             int alt18=2;
             int LA18_0 = input.LA(1);
 
@@ -1844,7 +1852,7 @@ public class CalParser extends Parser {
             }
             switch (alt18) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:126:62: at= attributeSection
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:126:62: at= attributeSection
                     {
                     pushFollow(FOLLOW_attributeSection_in_structureStmt607);
                     at=attributeSection();
@@ -1864,7 +1872,7 @@ public class CalParser extends Parser {
 
 
             // AST REWRITE
-            // elements: c1, at, c2
+            // elements: c1, c2, at
             // token labels: 
             // rule labels: retval, c1, c2, at
             // token list labels: 
@@ -1879,14 +1887,14 @@ public class CalParser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 126:91: -> ^( StructureStmt $c1 $c2 ( $at)? )
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:127:3: ^( StructureStmt $c1 $c2 ( $at)? )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:127:3: ^( StructureStmt $c1 $c2 ( $at)? )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(StructureStmt, "StructureStmt"), root_1);
 
                 adaptor.addChild(root_1, stream_c1.nextTree());
                 adaptor.addChild(root_1, stream_c2.nextTree());
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:127:27: ( $at)?
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:127:27: ( $at)?
                 if ( stream_at.hasNext() ) {
                     adaptor.addChild(root_1, stream_at.nextTree());
 
@@ -1925,7 +1933,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "connector"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:129:1: connector : v1= ID ( DOT v2= ID -> ^( Connector ^( Var $v1) ^( Var $v2) ) | -> ^( Connector ^( Var $v1) ) ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:129:1: connector : v1= ID ( DOT v2= ID -> ^( Connector ^( Var $v1) ^( Var $v2) ) | -> ^( Connector ^( Var $v1) ) ) ;
     public final CalParser.connector_return connector() throws RecognitionException {
         CalParser.connector_return retval = new CalParser.connector_return();
         retval.start = input.LT(1);
@@ -1943,13 +1951,13 @@ public class CalParser extends Parser {
         RewriteRuleTokenStream stream_DOT=new RewriteRuleTokenStream(adaptor,"token DOT");
 
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:129:10: (v1= ID ( DOT v2= ID -> ^( Connector ^( Var $v1) ^( Var $v2) ) | -> ^( Connector ^( Var $v1) ) ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:129:12: v1= ID ( DOT v2= ID -> ^( Connector ^( Var $v1) ^( Var $v2) ) | -> ^( Connector ^( Var $v1) ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:129:10: (v1= ID ( DOT v2= ID -> ^( Connector ^( Var $v1) ^( Var $v2) ) | -> ^( Connector ^( Var $v1) ) ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:129:12: v1= ID ( DOT v2= ID -> ^( Connector ^( Var $v1) ^( Var $v2) ) | -> ^( Connector ^( Var $v1) ) )
             {
             v1=(Token)match(input,ID,FOLLOW_ID_in_connector638);  
             stream_ID.add(v1);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:129:18: ( DOT v2= ID -> ^( Connector ^( Var $v1) ^( Var $v2) ) | -> ^( Connector ^( Var $v1) ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:129:18: ( DOT v2= ID -> ^( Connector ^( Var $v1) ^( Var $v2) ) | -> ^( Connector ^( Var $v1) ) )
             int alt19=2;
             int LA19_0 = input.LA(1);
 
@@ -1967,7 +1975,7 @@ public class CalParser extends Parser {
             }
             switch (alt19) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:130:3: DOT v2= ID
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:130:3: DOT v2= ID
                     {
                     DOT50=(Token)match(input,DOT,FOLLOW_DOT_in_connector644);  
                     stream_DOT.add(DOT50);
@@ -1978,7 +1986,7 @@ public class CalParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: v1, v2
+                    // elements: v2, v1
                     // token labels: v1, v2
                     // rule labels: retval
                     // token list labels: 
@@ -1992,12 +2000,12 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 130:13: -> ^( Connector ^( Var $v1) ^( Var $v2) )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:130:16: ^( Connector ^( Var $v1) ^( Var $v2) )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:130:16: ^( Connector ^( Var $v1) ^( Var $v2) )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Connector, "Connector"), root_1);
 
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:130:28: ^( Var $v1)
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:130:28: ^( Var $v1)
                         {
                         Object root_2 = (Object)adaptor.nil();
                         root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_2);
@@ -2006,7 +2014,7 @@ public class CalParser extends Parser {
 
                         adaptor.addChild(root_1, root_2);
                         }
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:130:39: ^( Var $v2)
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:130:39: ^( Var $v2)
                         {
                         Object root_2 = (Object)adaptor.nil();
                         root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_2);
@@ -2025,7 +2033,7 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:131:5: 
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:131:5: 
                     {
 
                     // AST REWRITE
@@ -2042,12 +2050,12 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 131:5: -> ^( Connector ^( Var $v1) )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:131:8: ^( Connector ^( Var $v1) )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:131:8: ^( Connector ^( Var $v1) )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Connector, "Connector"), root_1);
 
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:131:20: ^( Var $v1)
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:131:20: ^( Var $v1)
                         {
                         Object root_2 = (Object)adaptor.nil();
                         root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_2);
@@ -2095,7 +2103,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "attributeSection"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:133:1: attributeSection : LBRACE ( attributeDecl )* RBRACE -> ( attributeDecl )* ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:133:1: attributeSection : LBRACE ( attributeDecl )* RBRACE -> ( attributeDecl )* ;
     public final CalParser.attributeSection_return attributeSection() throws RecognitionException {
         CalParser.attributeSection_return retval = new CalParser.attributeSection_return();
         retval.start = input.LT(1);
@@ -2113,13 +2121,13 @@ public class CalParser extends Parser {
         RewriteRuleTokenStream stream_LBRACE=new RewriteRuleTokenStream(adaptor,"token LBRACE");
         RewriteRuleSubtreeStream stream_attributeDecl=new RewriteRuleSubtreeStream(adaptor,"rule attributeDecl");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:133:17: ( LBRACE ( attributeDecl )* RBRACE -> ( attributeDecl )* )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:133:19: LBRACE ( attributeDecl )* RBRACE
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:133:17: ( LBRACE ( attributeDecl )* RBRACE -> ( attributeDecl )* )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:133:19: LBRACE ( attributeDecl )* RBRACE
             {
             LBRACE51=(Token)match(input,LBRACE,FOLLOW_LBRACE_in_attributeSection693);  
             stream_LBRACE.add(LBRACE51);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:133:26: ( attributeDecl )*
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:133:26: ( attributeDecl )*
             loop20:
             do {
                 int alt20=2;
@@ -2132,7 +2140,7 @@ public class CalParser extends Parser {
 
                 switch (alt20) {
             	case 1 :
-            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:133:26: attributeDecl
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:133:26: attributeDecl
             	    {
             	    pushFollow(FOLLOW_attributeDecl_in_attributeSection695);
             	    attributeDecl52=attributeDecl();
@@ -2167,7 +2175,7 @@ public class CalParser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 133:48: -> ( attributeDecl )*
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:133:51: ( attributeDecl )*
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:133:51: ( attributeDecl )*
                 while ( stream_attributeDecl.hasNext() ) {
                     adaptor.addChild(root_0, stream_attributeDecl.nextTree());
 
@@ -2203,7 +2211,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "attributeDecl"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:1: attributeDecl : id= ID ( EQ expression SEMICOLON -> ^( Attribute ^( Var $id) ^( Expression expression ) ) | COLON type SEMICOLON -> ^( Attribute ^( Var $id) ^( Type type ) ) ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:1: attributeDecl : id= ID ( EQ expression SEMICOLON -> ^( Attribute ^( Var $id) ^( Expression expression ) ) | COLON type SEMICOLON -> ^( Attribute ^( Var $id) ^( Type type ) ) ) ;
     public final CalParser.attributeDecl_return attributeDecl() throws RecognitionException {
         CalParser.attributeDecl_return retval = new CalParser.attributeDecl_return();
         retval.start = input.LT(1);
@@ -2232,13 +2240,13 @@ public class CalParser extends Parser {
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         RewriteRuleSubtreeStream stream_type=new RewriteRuleSubtreeStream(adaptor,"rule type");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:14: (id= ID ( EQ expression SEMICOLON -> ^( Attribute ^( Var $id) ^( Expression expression ) ) | COLON type SEMICOLON -> ^( Attribute ^( Var $id) ^( Type type ) ) ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:16: id= ID ( EQ expression SEMICOLON -> ^( Attribute ^( Var $id) ^( Expression expression ) ) | COLON type SEMICOLON -> ^( Attribute ^( Var $id) ^( Type type ) ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:14: (id= ID ( EQ expression SEMICOLON -> ^( Attribute ^( Var $id) ^( Expression expression ) ) | COLON type SEMICOLON -> ^( Attribute ^( Var $id) ^( Type type ) ) ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:16: id= ID ( EQ expression SEMICOLON -> ^( Attribute ^( Var $id) ^( Expression expression ) ) | COLON type SEMICOLON -> ^( Attribute ^( Var $id) ^( Type type ) ) )
             {
             id=(Token)match(input,ID,FOLLOW_ID_in_attributeDecl712);  
             stream_ID.add(id);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:22: ( EQ expression SEMICOLON -> ^( Attribute ^( Var $id) ^( Expression expression ) ) | COLON type SEMICOLON -> ^( Attribute ^( Var $id) ^( Type type ) ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:22: ( EQ expression SEMICOLON -> ^( Attribute ^( Var $id) ^( Expression expression ) ) | COLON type SEMICOLON -> ^( Attribute ^( Var $id) ^( Type type ) ) )
             int alt21=2;
             int LA21_0 = input.LA(1);
 
@@ -2256,7 +2264,7 @@ public class CalParser extends Parser {
             }
             switch (alt21) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:23: EQ expression SEMICOLON
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:23: EQ expression SEMICOLON
                     {
                     EQ54=(Token)match(input,EQ,FOLLOW_EQ_in_attributeDecl715);  
                     stream_EQ.add(EQ54);
@@ -2273,7 +2281,7 @@ public class CalParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: id, expression
+                    // elements: expression, id
                     // token labels: id
                     // rule labels: retval
                     // token list labels: 
@@ -2286,12 +2294,12 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 135:47: -> ^( Attribute ^( Var $id) ^( Expression expression ) )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:50: ^( Attribute ^( Var $id) ^( Expression expression ) )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:50: ^( Attribute ^( Var $id) ^( Expression expression ) )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Attribute, "Attribute"), root_1);
 
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:62: ^( Var $id)
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:62: ^( Var $id)
                         {
                         Object root_2 = (Object)adaptor.nil();
                         root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_2);
@@ -2300,7 +2308,7 @@ public class CalParser extends Parser {
 
                         adaptor.addChild(root_1, root_2);
                         }
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:73: ^( Expression expression )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:135:73: ^( Expression expression )
                         {
                         Object root_2 = (Object)adaptor.nil();
                         root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Expression, "Expression"), root_2);
@@ -2319,7 +2327,7 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:136:3: COLON type SEMICOLON
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:136:3: COLON type SEMICOLON
                     {
                     COLON57=(Token)match(input,COLON,FOLLOW_COLON_in_attributeDecl742);  
                     stream_COLON.add(COLON57);
@@ -2349,12 +2357,12 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 136:24: -> ^( Attribute ^( Var $id) ^( Type type ) )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:136:27: ^( Attribute ^( Var $id) ^( Type type ) )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:136:27: ^( Attribute ^( Var $id) ^( Type type ) )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Attribute, "Attribute"), root_1);
 
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:136:39: ^( Var $id)
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:136:39: ^( Var $id)
                         {
                         Object root_2 = (Object)adaptor.nil();
                         root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_2);
@@ -2363,7 +2371,7 @@ public class CalParser extends Parser {
 
                         adaptor.addChild(root_1, root_2);
                         }
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:136:50: ^( Type type )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:136:50: ^( Type type )
                         {
                         Object root_2 = (Object)adaptor.nil();
                         root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Type, "Type"), root_2);
@@ -2411,7 +2419,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "actor"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:141:1: actor : ( oneImport )* ACTOR ID ( LBRACKET ( typePars )? RBRACKET )? LPAREN ( parameters )? RPAREN portSignature COLON ( . )* EOF -> ^( Actor ^( Name ID ) ( parameters )? portSignature ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:141:1: actor : ( oneImport )* ACTOR ID LPAREN ( parameters )? RPAREN portSignature COLON ( . )* EOF -> ^( Actor ^( Name ID ) ( parameters )? portSignature ) ;
     public final CalParser.actor_return actor() throws RecognitionException {
         CalParser.actor_return retval = new CalParser.actor_return();
         retval.start = input.LT(1);
@@ -2420,48 +2428,39 @@ public class CalParser extends Parser {
 
         Token ACTOR61=null;
         Token ID62=null;
-        Token LBRACKET63=null;
-        Token RBRACKET65=null;
-        Token LPAREN66=null;
-        Token RPAREN68=null;
-        Token COLON70=null;
-        Token wildcard71=null;
-        Token EOF72=null;
+        Token LPAREN63=null;
+        Token RPAREN65=null;
+        Token COLON67=null;
+        Token wildcard68=null;
+        Token EOF69=null;
         CalParser.oneImport_return oneImport60 = null;
 
-        CalParser.typePars_return typePars64 = null;
+        CalParser.parameters_return parameters64 = null;
 
-        CalParser.parameters_return parameters67 = null;
-
-        CalParser.portSignature_return portSignature69 = null;
+        CalParser.portSignature_return portSignature66 = null;
 
 
         Object ACTOR61_tree=null;
         Object ID62_tree=null;
-        Object LBRACKET63_tree=null;
-        Object RBRACKET65_tree=null;
-        Object LPAREN66_tree=null;
-        Object RPAREN68_tree=null;
-        Object COLON70_tree=null;
-        Object wildcard71_tree=null;
-        Object EOF72_tree=null;
-        RewriteRuleTokenStream stream_LBRACKET=new RewriteRuleTokenStream(adaptor,"token LBRACKET");
+        Object LPAREN63_tree=null;
+        Object RPAREN65_tree=null;
+        Object COLON67_tree=null;
+        Object wildcard68_tree=null;
+        Object EOF69_tree=null;
         RewriteRuleTokenStream stream_COLON=new RewriteRuleTokenStream(adaptor,"token COLON");
         RewriteRuleTokenStream stream_RPAREN=new RewriteRuleTokenStream(adaptor,"token RPAREN");
-        RewriteRuleTokenStream stream_RBRACKET=new RewriteRuleTokenStream(adaptor,"token RBRACKET");
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
         RewriteRuleTokenStream stream_EOF=new RewriteRuleTokenStream(adaptor,"token EOF");
         RewriteRuleTokenStream stream_ACTOR=new RewriteRuleTokenStream(adaptor,"token ACTOR");
         RewriteRuleTokenStream stream_LPAREN=new RewriteRuleTokenStream(adaptor,"token LPAREN");
-        RewriteRuleSubtreeStream stream_typePars=new RewriteRuleSubtreeStream(adaptor,"rule typePars");
         RewriteRuleSubtreeStream stream_portSignature=new RewriteRuleSubtreeStream(adaptor,"rule portSignature");
         RewriteRuleSubtreeStream stream_parameters=new RewriteRuleSubtreeStream(adaptor,"rule parameters");
         RewriteRuleSubtreeStream stream_oneImport=new RewriteRuleSubtreeStream(adaptor,"rule oneImport");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:141:6: ( ( oneImport )* ACTOR ID ( LBRACKET ( typePars )? RBRACKET )? LPAREN ( parameters )? RPAREN portSignature COLON ( . )* EOF -> ^( Actor ^( Name ID ) ( parameters )? portSignature ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:141:8: ( oneImport )* ACTOR ID ( LBRACKET ( typePars )? RBRACKET )? LPAREN ( parameters )? RPAREN portSignature COLON ( . )* EOF
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:141:6: ( ( oneImport )* ACTOR ID LPAREN ( parameters )? RPAREN portSignature COLON ( . )* EOF -> ^( Actor ^( Name ID ) ( parameters )? portSignature ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:141:8: ( oneImport )* ACTOR ID LPAREN ( parameters )? RPAREN portSignature COLON ( . )* EOF
             {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:141:8: ( oneImport )*
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:141:8: ( oneImport )*
             loop22:
             do {
                 int alt22=2;
@@ -2474,7 +2473,7 @@ public class CalParser extends Parser {
 
                 switch (alt22) {
             	case 1 :
-            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:141:8: oneImport
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:141:8: oneImport
             	    {
             	    pushFollow(FOLLOW_oneImport_in_actor777);
             	    oneImport60=oneImport();
@@ -2497,129 +2496,83 @@ public class CalParser extends Parser {
             ID62=(Token)match(input,ID,FOLLOW_ID_in_actor782);  
             stream_ID.add(ID62);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:142:3: ( LBRACKET ( typePars )? RBRACKET )?
-            int alt24=2;
-            int LA24_0 = input.LA(1);
+            LPAREN63=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_actor786);  
+            stream_LPAREN.add(LPAREN63);
 
-            if ( (LA24_0==LBRACKET) ) {
-                alt24=1;
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:142:10: ( parameters )?
+            int alt23=2;
+            int LA23_0 = input.LA(1);
+
+            if ( (LA23_0==ID) ) {
+                alt23=1;
             }
-            switch (alt24) {
+            switch (alt23) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:142:4: LBRACKET ( typePars )? RBRACKET
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:142:10: parameters
                     {
-                    LBRACKET63=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_actor787);  
-                    stream_LBRACKET.add(LBRACKET63);
-
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:142:13: ( typePars )?
-                    int alt23=2;
-                    int LA23_0 = input.LA(1);
-
-                    if ( (LA23_0==ID) ) {
-                        alt23=1;
-                    }
-                    switch (alt23) {
-                        case 1 :
-                            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:142:13: typePars
-                            {
-                            pushFollow(FOLLOW_typePars_in_actor789);
-                            typePars64=typePars();
-
-                            state._fsp--;
-
-                            stream_typePars.add(typePars64.getTree());
-
-                            }
-                            break;
-
-                    }
-
-                    RBRACKET65=(Token)match(input,RBRACKET,FOLLOW_RBRACKET_in_actor792);  
-                    stream_RBRACKET.add(RBRACKET65);
-
-
-                    }
-                    break;
-
-            }
-
-            LPAREN66=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_actor798);  
-            stream_LPAREN.add(LPAREN66);
-
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:143:10: ( parameters )?
-            int alt25=2;
-            int LA25_0 = input.LA(1);
-
-            if ( (LA25_0==ID) ) {
-                alt25=1;
-            }
-            switch (alt25) {
-                case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:143:10: parameters
-                    {
-                    pushFollow(FOLLOW_parameters_in_actor800);
-                    parameters67=parameters();
+                    pushFollow(FOLLOW_parameters_in_actor788);
+                    parameters64=parameters();
 
                     state._fsp--;
 
-                    stream_parameters.add(parameters67.getTree());
+                    stream_parameters.add(parameters64.getTree());
 
                     }
                     break;
 
             }
 
-            RPAREN68=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_actor803);  
-            stream_RPAREN.add(RPAREN68);
+            RPAREN65=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_actor791);  
+            stream_RPAREN.add(RPAREN65);
 
-            pushFollow(FOLLOW_portSignature_in_actor807);
-            portSignature69=portSignature();
+            pushFollow(FOLLOW_portSignature_in_actor795);
+            portSignature66=portSignature();
 
             state._fsp--;
 
-            stream_portSignature.add(portSignature69.getTree());
-            COLON70=(Token)match(input,COLON,FOLLOW_COLON_in_actor809);  
-            stream_COLON.add(COLON70);
+            stream_portSignature.add(portSignature66.getTree());
+            COLON67=(Token)match(input,COLON,FOLLOW_COLON_in_actor797);  
+            stream_COLON.add(COLON67);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:144:23: ( . )*
-            loop26:
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:143:23: ( . )*
+            loop24:
             do {
-                int alt26=2;
-                int LA26_0 = input.LA(1);
+                int alt24=2;
+                int LA24_0 = input.LA(1);
 
-                if ( ((LA26_0>=Attribute && LA26_0<=SHARP)) ) {
-                    alt26=1;
+                if ( ((LA24_0>=Attribute && LA24_0<=SHARP)) ) {
+                    alt24=1;
                 }
-                else if ( (LA26_0==EOF) ) {
-                    alt26=2;
+                else if ( (LA24_0==EOF) ) {
+                    alt24=2;
                 }
 
 
-                switch (alt26) {
+                switch (alt24) {
             	case 1 :
-            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:144:23: .
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:143:23: .
             	    {
-            	    wildcard71=(Token)input.LT(1);
+            	    wildcard68=(Token)input.LT(1);
             	    matchAny(input); 
-            	    wildcard71_tree = (Object)adaptor.create(wildcard71);
-            	    adaptor.addChild(root_0, wildcard71_tree);
+            	    wildcard68_tree = (Object)adaptor.create(wildcard68);
+            	    adaptor.addChild(root_0, wildcard68_tree);
 
 
             	    }
             	    break;
 
             	default :
-            	    break loop26;
+            	    break loop24;
                 }
             } while (true);
 
-            EOF72=(Token)match(input,EOF,FOLLOW_EOF_in_actor814);  
-            stream_EOF.add(EOF72);
+            EOF69=(Token)match(input,EOF,FOLLOW_EOF_in_actor802);  
+            stream_EOF.add(EOF69);
 
 
 
             // AST REWRITE
-            // elements: portSignature, ID, parameters
+            // elements: parameters, portSignature, ID
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2629,14 +2582,14 @@ public class CalParser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 144:30: -> ^( Actor ^( Name ID ) ( parameters )? portSignature )
+            // 143:30: -> ^( Actor ^( Name ID ) ( parameters )? portSignature )
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:145:5: ^( Actor ^( Name ID ) ( parameters )? portSignature )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:144:5: ^( Actor ^( Name ID ) ( parameters )? portSignature )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Actor, "Actor"), root_1);
 
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:145:13: ^( Name ID )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:144:13: ^( Name ID )
                 {
                 Object root_2 = (Object)adaptor.nil();
                 root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Name, "Name"), root_2);
@@ -2645,7 +2598,7 @@ public class CalParser extends Parser {
 
                 adaptor.addChild(root_1, root_2);
                 }
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:145:24: ( parameters )?
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:144:24: ( parameters )?
                 if ( stream_parameters.hasNext() ) {
                     adaptor.addChild(root_1, stream_parameters.nextTree());
 
@@ -2679,252 +2632,70 @@ public class CalParser extends Parser {
     }
     // $ANTLR end "actor"
 
-    public static class oneImport_return extends ParserRuleReturnScope {
-        Object tree;
-        public Object getTree() { return tree; }
-    };
-
-    // $ANTLR start "oneImport"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:150:1: oneImport : IMPORT importRest SEMICOLON ;
-    public final CalParser.oneImport_return oneImport() throws RecognitionException {
-        CalParser.oneImport_return retval = new CalParser.oneImport_return();
-        retval.start = input.LT(1);
-
-        Object root_0 = null;
-
-        Token IMPORT73=null;
-        Token SEMICOLON75=null;
-        CalParser.importRest_return importRest74 = null;
-
-
-        Object IMPORT73_tree=null;
-        Object SEMICOLON75_tree=null;
-
-        try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:150:10: ( IMPORT importRest SEMICOLON )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:150:12: IMPORT importRest SEMICOLON
-            {
-            root_0 = (Object)adaptor.nil();
-
-            IMPORT73=(Token)match(input,IMPORT,FOLLOW_IMPORT_in_oneImport845); 
-            IMPORT73_tree = (Object)adaptor.create(IMPORT73);
-            adaptor.addChild(root_0, IMPORT73_tree);
-
-            pushFollow(FOLLOW_importRest_in_oneImport847);
-            importRest74=importRest();
-
-            state._fsp--;
-
-            adaptor.addChild(root_0, importRest74.getTree());
-            SEMICOLON75=(Token)match(input,SEMICOLON,FOLLOW_SEMICOLON_in_oneImport849); 
-            SEMICOLON75_tree = (Object)adaptor.create(SEMICOLON75);
-            adaptor.addChild(root_0, SEMICOLON75_tree);
-
-
-            }
-
-            retval.stop = input.LT(-1);
-
-            retval.tree = (Object)adaptor.rulePostProcessing(root_0);
-            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-    	retval.tree = (Object)adaptor.errorNode(input, retval.start, input.LT(-1), re);
-
-        }
-        finally {
-        }
-        return retval;
-    }
-    // $ANTLR end "oneImport"
-
-    public static class importRest_return extends ParserRuleReturnScope {
-        Object tree;
-        public Object getTree() { return tree; }
-    };
-
-    // $ANTLR start "importRest"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:152:1: importRest : ( ALL qualifiedId | qualifiedId ( EQ ID )? );
-    public final CalParser.importRest_return importRest() throws RecognitionException {
-        CalParser.importRest_return retval = new CalParser.importRest_return();
-        retval.start = input.LT(1);
-
-        Object root_0 = null;
-
-        Token ALL76=null;
-        Token EQ79=null;
-        Token ID80=null;
-        CalParser.qualifiedId_return qualifiedId77 = null;
-
-        CalParser.qualifiedId_return qualifiedId78 = null;
-
-
-        Object ALL76_tree=null;
-        Object EQ79_tree=null;
-        Object ID80_tree=null;
-
-        try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:152:11: ( ALL qualifiedId | qualifiedId ( EQ ID )? )
-            int alt28=2;
-            int LA28_0 = input.LA(1);
-
-            if ( (LA28_0==ALL) ) {
-                alt28=1;
-            }
-            else if ( (LA28_0==ID) ) {
-                alt28=2;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 28, 0, input);
-
-                throw nvae;
-            }
-            switch (alt28) {
-                case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:152:13: ALL qualifiedId
-                    {
-                    root_0 = (Object)adaptor.nil();
-
-                    ALL76=(Token)match(input,ALL,FOLLOW_ALL_in_importRest857); 
-                    ALL76_tree = (Object)adaptor.create(ALL76);
-                    adaptor.addChild(root_0, ALL76_tree);
-
-                    pushFollow(FOLLOW_qualifiedId_in_importRest859);
-                    qualifiedId77=qualifiedId();
-
-                    state._fsp--;
-
-                    adaptor.addChild(root_0, qualifiedId77.getTree());
-
-                    }
-                    break;
-                case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:153:5: qualifiedId ( EQ ID )?
-                    {
-                    root_0 = (Object)adaptor.nil();
-
-                    pushFollow(FOLLOW_qualifiedId_in_importRest865);
-                    qualifiedId78=qualifiedId();
-
-                    state._fsp--;
-
-                    adaptor.addChild(root_0, qualifiedId78.getTree());
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:153:17: ( EQ ID )?
-                    int alt27=2;
-                    int LA27_0 = input.LA(1);
-
-                    if ( (LA27_0==EQ) ) {
-                        alt27=1;
-                    }
-                    switch (alt27) {
-                        case 1 :
-                            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:153:18: EQ ID
-                            {
-                            EQ79=(Token)match(input,EQ,FOLLOW_EQ_in_importRest868); 
-                            EQ79_tree = (Object)adaptor.create(EQ79);
-                            adaptor.addChild(root_0, EQ79_tree);
-
-                            ID80=(Token)match(input,ID,FOLLOW_ID_in_importRest870); 
-                            ID80_tree = (Object)adaptor.create(ID80);
-                            adaptor.addChild(root_0, ID80_tree);
-
-
-                            }
-                            break;
-
-                    }
-
-
-                    }
-                    break;
-
-            }
-            retval.stop = input.LT(-1);
-
-            retval.tree = (Object)adaptor.rulePostProcessing(root_0);
-            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
-
-        }
-        catch (RecognitionException re) {
-            reportError(re);
-            recover(input,re);
-    	retval.tree = (Object)adaptor.errorNode(input, retval.start, input.LT(-1), re);
-
-        }
-        finally {
-        }
-        return retval;
-    }
-    // $ANTLR end "importRest"
-
     public static class qualifiedId_return extends ParserRuleReturnScope {
         Object tree;
         public Object getTree() { return tree; }
     };
 
     // $ANTLR start "qualifiedId"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:1: qualifiedId : ID ( DOT ID )* -> ^( QualifiedId ^( Var ID ) ( ^( Dot DOT ) ^( Var ID ) )* ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:146:1: qualifiedId : ID ( DOT ID )* -> ^( QualifiedId ^( Var ID ) ( ^( Dot DOT ) ^( Var ID ) )* ) ;
     public final CalParser.qualifiedId_return qualifiedId() throws RecognitionException {
         CalParser.qualifiedId_return retval = new CalParser.qualifiedId_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token ID81=null;
-        Token DOT82=null;
-        Token ID83=null;
+        Token ID70=null;
+        Token DOT71=null;
+        Token ID72=null;
 
-        Object ID81_tree=null;
-        Object DOT82_tree=null;
-        Object ID83_tree=null;
+        Object ID70_tree=null;
+        Object DOT71_tree=null;
+        Object ID72_tree=null;
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
         RewriteRuleTokenStream stream_DOT=new RewriteRuleTokenStream(adaptor,"token DOT");
 
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:12: ( ID ( DOT ID )* -> ^( QualifiedId ^( Var ID ) ( ^( Dot DOT ) ^( Var ID ) )* ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:14: ID ( DOT ID )*
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:146:12: ( ID ( DOT ID )* -> ^( QualifiedId ^( Var ID ) ( ^( Dot DOT ) ^( Var ID ) )* ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:146:14: ID ( DOT ID )*
             {
-            ID81=(Token)match(input,ID,FOLLOW_ID_in_qualifiedId880);  
-            stream_ID.add(ID81);
+            ID70=(Token)match(input,ID,FOLLOW_ID_in_qualifiedId834);  
+            stream_ID.add(ID70);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:17: ( DOT ID )*
-            loop29:
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:146:17: ( DOT ID )*
+            loop25:
             do {
-                int alt29=2;
-                int LA29_0 = input.LA(1);
+                int alt25=2;
+                int LA25_0 = input.LA(1);
 
-                if ( (LA29_0==DOT) ) {
-                    alt29=1;
+                if ( (LA25_0==DOT) ) {
+                    alt25=1;
                 }
 
 
-                switch (alt29) {
+                switch (alt25) {
             	case 1 :
-            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:18: DOT ID
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:146:18: DOT ID
             	    {
-            	    DOT82=(Token)match(input,DOT,FOLLOW_DOT_in_qualifiedId883);  
-            	    stream_DOT.add(DOT82);
+            	    DOT71=(Token)match(input,DOT,FOLLOW_DOT_in_qualifiedId837);  
+            	    stream_DOT.add(DOT71);
 
-            	    ID83=(Token)match(input,ID,FOLLOW_ID_in_qualifiedId885);  
-            	    stream_ID.add(ID83);
+            	    ID72=(Token)match(input,ID,FOLLOW_ID_in_qualifiedId839);  
+            	    stream_ID.add(ID72);
 
 
             	    }
             	    break;
 
             	default :
-            	    break loop29;
+            	    break loop25;
                 }
             } while (true);
 
 
 
             // AST REWRITE
-            // elements: ID, DOT, ID
+            // elements: ID, ID, DOT
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2934,14 +2705,14 @@ public class CalParser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 155:27: -> ^( QualifiedId ^( Var ID ) ( ^( Dot DOT ) ^( Var ID ) )* )
+            // 146:27: -> ^( QualifiedId ^( Var ID ) ( ^( Dot DOT ) ^( Var ID ) )* )
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:30: ^( QualifiedId ^( Var ID ) ( ^( Dot DOT ) ^( Var ID ) )* )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:146:30: ^( QualifiedId ^( Var ID ) ( ^( Dot DOT ) ^( Var ID ) )* )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(QualifiedId, "QualifiedId"), root_1);
 
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:44: ^( Var ID )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:146:44: ^( Var ID )
                 {
                 Object root_2 = (Object)adaptor.nil();
                 root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_2);
@@ -2950,9 +2721,9 @@ public class CalParser extends Parser {
 
                 adaptor.addChild(root_1, root_2);
                 }
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:54: ( ^( Dot DOT ) ^( Var ID ) )*
-                while ( stream_DOT.hasNext()||stream_ID.hasNext() ) {
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:55: ^( Dot DOT )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:146:54: ( ^( Dot DOT ) ^( Var ID ) )*
+                while ( stream_ID.hasNext()||stream_DOT.hasNext() ) {
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:146:55: ^( Dot DOT )
                     {
                     Object root_2 = (Object)adaptor.nil();
                     root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Dot, "Dot"), root_2);
@@ -2961,7 +2732,7 @@ public class CalParser extends Parser {
 
                     adaptor.addChild(root_1, root_2);
                     }
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:66: ^( Var ID )
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:146:66: ^( Var ID )
                     {
                     Object root_2 = (Object)adaptor.nil();
                     root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_2);
@@ -2972,8 +2743,8 @@ public class CalParser extends Parser {
                     }
 
                 }
-                stream_DOT.reset();
                 stream_ID.reset();
+                stream_DOT.reset();
 
                 adaptor.addChild(root_0, root_1);
                 }
@@ -3001,68 +2772,320 @@ public class CalParser extends Parser {
     }
     // $ANTLR end "qualifiedId"
 
+    public static class oneImport_return extends ParserRuleReturnScope {
+        Object tree;
+        public Object getTree() { return tree; }
+    };
+
+    // $ANTLR start "oneImport"
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:151:1: oneImport : IMPORT importId SEMICOLON ;
+    public final CalParser.oneImport_return oneImport() throws RecognitionException {
+        CalParser.oneImport_return retval = new CalParser.oneImport_return();
+        retval.start = input.LT(1);
+
+        Object root_0 = null;
+
+        Token IMPORT73=null;
+        Token SEMICOLON75=null;
+        CalParser.importId_return importId74 = null;
+
+
+        Object IMPORT73_tree=null;
+        Object SEMICOLON75_tree=null;
+
+        try {
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:151:10: ( IMPORT importId SEMICOLON )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:151:12: IMPORT importId SEMICOLON
+            {
+            root_0 = (Object)adaptor.nil();
+
+            IMPORT73=(Token)match(input,IMPORT,FOLLOW_IMPORT_in_oneImport878); 
+            IMPORT73_tree = (Object)adaptor.create(IMPORT73);
+            adaptor.addChild(root_0, IMPORT73_tree);
+
+            pushFollow(FOLLOW_importId_in_oneImport880);
+            importId74=importId();
+
+            state._fsp--;
+
+            adaptor.addChild(root_0, importId74.getTree());
+            SEMICOLON75=(Token)match(input,SEMICOLON,FOLLOW_SEMICOLON_in_oneImport882); 
+            SEMICOLON75_tree = (Object)adaptor.create(SEMICOLON75);
+            adaptor.addChild(root_0, SEMICOLON75_tree);
+
+
+            }
+
+            retval.stop = input.LT(-1);
+
+            retval.tree = (Object)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+    	retval.tree = (Object)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+
+        }
+        finally {
+        }
+        return retval;
+    }
+    // $ANTLR end "oneImport"
+
+    public static class importId_return extends ParserRuleReturnScope {
+        Object tree;
+        public Object getTree() { return tree; }
+    };
+
+    // $ANTLR start "importId"
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:153:1: importId : ID ( importIdRest )? ;
+    public final CalParser.importId_return importId() throws RecognitionException {
+        CalParser.importId_return retval = new CalParser.importId_return();
+        retval.start = input.LT(1);
+
+        Object root_0 = null;
+
+        Token ID76=null;
+        CalParser.importIdRest_return importIdRest77 = null;
+
+
+        Object ID76_tree=null;
+
+        try {
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:153:9: ( ID ( importIdRest )? )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:153:11: ID ( importIdRest )?
+            {
+            root_0 = (Object)adaptor.nil();
+
+            ID76=(Token)match(input,ID,FOLLOW_ID_in_importId890); 
+            ID76_tree = (Object)adaptor.create(ID76);
+            adaptor.addChild(root_0, ID76_tree);
+
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:153:14: ( importIdRest )?
+            int alt26=2;
+            int LA26_0 = input.LA(1);
+
+            if ( (LA26_0==DOT) ) {
+                alt26=1;
+            }
+            switch (alt26) {
+                case 1 :
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:153:14: importIdRest
+                    {
+                    pushFollow(FOLLOW_importIdRest_in_importId892);
+                    importIdRest77=importIdRest();
+
+                    state._fsp--;
+
+                    adaptor.addChild(root_0, importIdRest77.getTree());
+
+                    }
+                    break;
+
+            }
+
+
+            }
+
+            retval.stop = input.LT(-1);
+
+            retval.tree = (Object)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+    	retval.tree = (Object)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+
+        }
+        finally {
+        }
+        return retval;
+    }
+    // $ANTLR end "importId"
+
+    public static class importIdRest_return extends ParserRuleReturnScope {
+        Object tree;
+        public Object getTree() { return tree; }
+    };
+
+    // $ANTLR start "importIdRest"
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:1: importIdRest : DOT ( TIMES | ID ( importIdRest )? ) ;
+    public final CalParser.importIdRest_return importIdRest() throws RecognitionException {
+        CalParser.importIdRest_return retval = new CalParser.importIdRest_return();
+        retval.start = input.LT(1);
+
+        Object root_0 = null;
+
+        Token DOT78=null;
+        Token TIMES79=null;
+        Token ID80=null;
+        CalParser.importIdRest_return importIdRest81 = null;
+
+
+        Object DOT78_tree=null;
+        Object TIMES79_tree=null;
+        Object ID80_tree=null;
+
+        try {
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:13: ( DOT ( TIMES | ID ( importIdRest )? ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:15: DOT ( TIMES | ID ( importIdRest )? )
+            {
+            root_0 = (Object)adaptor.nil();
+
+            DOT78=(Token)match(input,DOT,FOLLOW_DOT_in_importIdRest900); 
+            DOT78_tree = (Object)adaptor.create(DOT78);
+            adaptor.addChild(root_0, DOT78_tree);
+
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:19: ( TIMES | ID ( importIdRest )? )
+            int alt28=2;
+            int LA28_0 = input.LA(1);
+
+            if ( (LA28_0==TIMES) ) {
+                alt28=1;
+            }
+            else if ( (LA28_0==ID) ) {
+                alt28=2;
+            }
+            else {
+                NoViableAltException nvae =
+                    new NoViableAltException("", 28, 0, input);
+
+                throw nvae;
+            }
+            switch (alt28) {
+                case 1 :
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:20: TIMES
+                    {
+                    TIMES79=(Token)match(input,TIMES,FOLLOW_TIMES_in_importIdRest903); 
+                    TIMES79_tree = (Object)adaptor.create(TIMES79);
+                    adaptor.addChild(root_0, TIMES79_tree);
+
+
+                    }
+                    break;
+                case 2 :
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:28: ID ( importIdRest )?
+                    {
+                    ID80=(Token)match(input,ID,FOLLOW_ID_in_importIdRest907); 
+                    ID80_tree = (Object)adaptor.create(ID80);
+                    adaptor.addChild(root_0, ID80_tree);
+
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:31: ( importIdRest )?
+                    int alt27=2;
+                    int LA27_0 = input.LA(1);
+
+                    if ( (LA27_0==DOT) ) {
+                        alt27=1;
+                    }
+                    switch (alt27) {
+                        case 1 :
+                            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:155:31: importIdRest
+                            {
+                            pushFollow(FOLLOW_importIdRest_in_importIdRest909);
+                            importIdRest81=importIdRest();
+
+                            state._fsp--;
+
+                            adaptor.addChild(root_0, importIdRest81.getTree());
+
+                            }
+                            break;
+
+                    }
+
+
+                    }
+                    break;
+
+            }
+
+
+            }
+
+            retval.stop = input.LT(-1);
+
+            retval.tree = (Object)adaptor.rulePostProcessing(root_0);
+            adaptor.setTokenBoundaries(retval.tree, retval.start, retval.stop);
+
+        }
+        catch (RecognitionException re) {
+            reportError(re);
+            recover(input,re);
+    	retval.tree = (Object)adaptor.errorNode(input, retval.start, input.LT(-1), re);
+
+        }
+        finally {
+        }
+        return retval;
+    }
+    // $ANTLR end "importIdRest"
+
     public static class parameter_return extends ParserRuleReturnScope {
         Object tree;
         public Object getTree() { return tree; }
     };
 
     // $ANTLR start "parameter"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:160:1: parameter : typeAndId ( EQ expression -> ^( Parameter typeAndId ^( Expression expression ) ) | -> ^( Parameter typeAndId ) ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:160:1: parameter : typeAndId ( EQ expression -> ^( Parameter typeAndId ^( Expression expression ) ) | -> ^( Parameter typeAndId ) ) ;
     public final CalParser.parameter_return parameter() throws RecognitionException {
         CalParser.parameter_return retval = new CalParser.parameter_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token EQ85=null;
-        CalParser.typeAndId_return typeAndId84 = null;
+        Token EQ83=null;
+        CalParser.typeAndId_return typeAndId82 = null;
 
-        CalParser.expression_return expression86 = null;
+        CalParser.expression_return expression84 = null;
 
 
-        Object EQ85_tree=null;
+        Object EQ83_tree=null;
         RewriteRuleTokenStream stream_EQ=new RewriteRuleTokenStream(adaptor,"token EQ");
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         RewriteRuleSubtreeStream stream_typeAndId=new RewriteRuleSubtreeStream(adaptor,"rule typeAndId");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:160:10: ( typeAndId ( EQ expression -> ^( Parameter typeAndId ^( Expression expression ) ) | -> ^( Parameter typeAndId ) ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:160:12: typeAndId ( EQ expression -> ^( Parameter typeAndId ^( Expression expression ) ) | -> ^( Parameter typeAndId ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:160:10: ( typeAndId ( EQ expression -> ^( Parameter typeAndId ^( Expression expression ) ) | -> ^( Parameter typeAndId ) ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:160:12: typeAndId ( EQ expression -> ^( Parameter typeAndId ^( Expression expression ) ) | -> ^( Parameter typeAndId ) )
             {
-            pushFollow(FOLLOW_typeAndId_in_parameter924);
-            typeAndId84=typeAndId();
+            pushFollow(FOLLOW_typeAndId_in_parameter921);
+            typeAndId82=typeAndId();
 
             state._fsp--;
 
-            stream_typeAndId.add(typeAndId84.getTree());
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:161:3: ( EQ expression -> ^( Parameter typeAndId ^( Expression expression ) ) | -> ^( Parameter typeAndId ) )
-            int alt30=2;
-            int LA30_0 = input.LA(1);
+            stream_typeAndId.add(typeAndId82.getTree());
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:161:3: ( EQ expression -> ^( Parameter typeAndId ^( Expression expression ) ) | -> ^( Parameter typeAndId ) )
+            int alt29=2;
+            int LA29_0 = input.LA(1);
 
-            if ( (LA30_0==EQ) ) {
-                alt30=1;
+            if ( (LA29_0==EQ) ) {
+                alt29=1;
             }
-            else if ( (LA30_0==RPAREN||LA30_0==COMMA) ) {
-                alt30=2;
+            else if ( (LA29_0==RPAREN||LA29_0==COMMA) ) {
+                alt29=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 30, 0, input);
+                    new NoViableAltException("", 29, 0, input);
 
                 throw nvae;
             }
-            switch (alt30) {
+            switch (alt29) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:161:4: EQ expression
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:161:4: EQ expression
                     {
-                    EQ85=(Token)match(input,EQ,FOLLOW_EQ_in_parameter929);  
-                    stream_EQ.add(EQ85);
+                    EQ83=(Token)match(input,EQ,FOLLOW_EQ_in_parameter926);  
+                    stream_EQ.add(EQ83);
 
-                    pushFollow(FOLLOW_expression_in_parameter931);
-                    expression86=expression();
+                    pushFollow(FOLLOW_expression_in_parameter928);
+                    expression84=expression();
 
                     state._fsp--;
 
-                    stream_expression.add(expression86.getTree());
+                    stream_expression.add(expression84.getTree());
 
 
                     // AST REWRITE
@@ -3078,13 +3101,13 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 161:18: -> ^( Parameter typeAndId ^( Expression expression ) )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:161:21: ^( Parameter typeAndId ^( Expression expression ) )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:161:21: ^( Parameter typeAndId ^( Expression expression ) )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Parameter, "Parameter"), root_1);
 
                         adaptor.addChild(root_1, stream_typeAndId.nextTree());
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:161:43: ^( Expression expression )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:161:43: ^( Expression expression )
                         {
                         Object root_2 = (Object)adaptor.nil();
                         root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Expression, "Expression"), root_2);
@@ -3103,7 +3126,7 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:162:5: 
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:162:5: 
                     {
 
                     // AST REWRITE
@@ -3119,7 +3142,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 162:5: -> ^( Parameter typeAndId )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:162:8: ^( Parameter typeAndId )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:162:8: ^( Parameter typeAndId )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Parameter, "Parameter"), root_1);
@@ -3164,62 +3187,62 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "parameters"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:164:1: parameters : parameter ( COMMA parameter )* -> ( parameter )+ ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:164:1: parameters : parameter ( COMMA parameter )* -> ( parameter )+ ;
     public final CalParser.parameters_return parameters() throws RecognitionException {
         CalParser.parameters_return retval = new CalParser.parameters_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token COMMA88=null;
+        Token COMMA86=null;
+        CalParser.parameter_return parameter85 = null;
+
         CalParser.parameter_return parameter87 = null;
 
-        CalParser.parameter_return parameter89 = null;
 
-
-        Object COMMA88_tree=null;
+        Object COMMA86_tree=null;
         RewriteRuleTokenStream stream_COMMA=new RewriteRuleTokenStream(adaptor,"token COMMA");
         RewriteRuleSubtreeStream stream_parameter=new RewriteRuleSubtreeStream(adaptor,"rule parameter");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:164:11: ( parameter ( COMMA parameter )* -> ( parameter )+ )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:164:13: parameter ( COMMA parameter )*
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:164:11: ( parameter ( COMMA parameter )* -> ( parameter )+ )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:164:13: parameter ( COMMA parameter )*
             {
-            pushFollow(FOLLOW_parameter_in_parameters965);
-            parameter87=parameter();
+            pushFollow(FOLLOW_parameter_in_parameters962);
+            parameter85=parameter();
 
             state._fsp--;
 
-            stream_parameter.add(parameter87.getTree());
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:164:23: ( COMMA parameter )*
-            loop31:
+            stream_parameter.add(parameter85.getTree());
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:164:23: ( COMMA parameter )*
+            loop30:
             do {
-                int alt31=2;
-                int LA31_0 = input.LA(1);
+                int alt30=2;
+                int LA30_0 = input.LA(1);
 
-                if ( (LA31_0==COMMA) ) {
-                    alt31=1;
+                if ( (LA30_0==COMMA) ) {
+                    alt30=1;
                 }
 
 
-                switch (alt31) {
+                switch (alt30) {
             	case 1 :
-            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:164:24: COMMA parameter
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:164:24: COMMA parameter
             	    {
-            	    COMMA88=(Token)match(input,COMMA,FOLLOW_COMMA_in_parameters968);  
-            	    stream_COMMA.add(COMMA88);
+            	    COMMA86=(Token)match(input,COMMA,FOLLOW_COMMA_in_parameters965);  
+            	    stream_COMMA.add(COMMA86);
 
-            	    pushFollow(FOLLOW_parameter_in_parameters970);
-            	    parameter89=parameter();
+            	    pushFollow(FOLLOW_parameter_in_parameters967);
+            	    parameter87=parameter();
 
             	    state._fsp--;
 
-            	    stream_parameter.add(parameter89.getTree());
+            	    stream_parameter.add(parameter87.getTree());
 
             	    }
             	    break;
 
             	default :
-            	    break loop31;
+            	    break loop30;
                 }
             } while (true);
 
@@ -3276,37 +3299,37 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "portDecl"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:169:1: portDecl : ( MULTI )? typeAndId -> ^( PortDecl typeAndId ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:169:1: portDecl : ( MULTI )? typeAndId -> ^( PortDecl typeAndId ) ;
     public final CalParser.portDecl_return portDecl() throws RecognitionException {
         CalParser.portDecl_return retval = new CalParser.portDecl_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token MULTI90=null;
-        CalParser.typeAndId_return typeAndId91 = null;
+        Token MULTI88=null;
+        CalParser.typeAndId_return typeAndId89 = null;
 
 
-        Object MULTI90_tree=null;
+        Object MULTI88_tree=null;
         RewriteRuleTokenStream stream_MULTI=new RewriteRuleTokenStream(adaptor,"token MULTI");
         RewriteRuleSubtreeStream stream_typeAndId=new RewriteRuleSubtreeStream(adaptor,"rule typeAndId");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:169:9: ( ( MULTI )? typeAndId -> ^( PortDecl typeAndId ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:169:11: ( MULTI )? typeAndId
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:169:9: ( ( MULTI )? typeAndId -> ^( PortDecl typeAndId ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:169:11: ( MULTI )? typeAndId
             {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:169:11: ( MULTI )?
-            int alt32=2;
-            int LA32_0 = input.LA(1);
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:169:11: ( MULTI )?
+            int alt31=2;
+            int LA31_0 = input.LA(1);
 
-            if ( (LA32_0==MULTI) ) {
-                alt32=1;
+            if ( (LA31_0==MULTI) ) {
+                alt31=1;
             }
-            switch (alt32) {
+            switch (alt31) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:169:11: MULTI
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:169:11: MULTI
                     {
-                    MULTI90=(Token)match(input,MULTI,FOLLOW_MULTI_in_portDecl987);  
-                    stream_MULTI.add(MULTI90);
+                    MULTI88=(Token)match(input,MULTI,FOLLOW_MULTI_in_portDecl984);  
+                    stream_MULTI.add(MULTI88);
 
 
                     }
@@ -3314,12 +3337,12 @@ public class CalParser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_typeAndId_in_portDecl990);
-            typeAndId91=typeAndId();
+            pushFollow(FOLLOW_typeAndId_in_portDecl987);
+            typeAndId89=typeAndId();
 
             state._fsp--;
 
-            stream_typeAndId.add(typeAndId91.getTree());
+            stream_typeAndId.add(typeAndId89.getTree());
 
 
             // AST REWRITE
@@ -3335,7 +3358,7 @@ public class CalParser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 169:28: -> ^( PortDecl typeAndId )
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:169:31: ^( PortDecl typeAndId )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:169:31: ^( PortDecl typeAndId )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(PortDecl, "PortDecl"), root_1);
@@ -3374,62 +3397,62 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "portDecls"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:171:1: portDecls : portDecl ( COMMA portDecl )* -> ( portDecl )+ ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:171:1: portDecls : portDecl ( COMMA portDecl )* -> ( portDecl )+ ;
     public final CalParser.portDecls_return portDecls() throws RecognitionException {
         CalParser.portDecls_return retval = new CalParser.portDecls_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token COMMA93=null;
+        Token COMMA91=null;
+        CalParser.portDecl_return portDecl90 = null;
+
         CalParser.portDecl_return portDecl92 = null;
 
-        CalParser.portDecl_return portDecl94 = null;
 
-
-        Object COMMA93_tree=null;
+        Object COMMA91_tree=null;
         RewriteRuleTokenStream stream_COMMA=new RewriteRuleTokenStream(adaptor,"token COMMA");
         RewriteRuleSubtreeStream stream_portDecl=new RewriteRuleSubtreeStream(adaptor,"rule portDecl");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:171:10: ( portDecl ( COMMA portDecl )* -> ( portDecl )+ )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:171:12: portDecl ( COMMA portDecl )*
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:171:10: ( portDecl ( COMMA portDecl )* -> ( portDecl )+ )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:171:12: portDecl ( COMMA portDecl )*
             {
-            pushFollow(FOLLOW_portDecl_in_portDecls1005);
-            portDecl92=portDecl();
+            pushFollow(FOLLOW_portDecl_in_portDecls1002);
+            portDecl90=portDecl();
 
             state._fsp--;
 
-            stream_portDecl.add(portDecl92.getTree());
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:171:21: ( COMMA portDecl )*
-            loop33:
+            stream_portDecl.add(portDecl90.getTree());
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:171:21: ( COMMA portDecl )*
+            loop32:
             do {
-                int alt33=2;
-                int LA33_0 = input.LA(1);
+                int alt32=2;
+                int LA32_0 = input.LA(1);
 
-                if ( (LA33_0==COMMA) ) {
-                    alt33=1;
+                if ( (LA32_0==COMMA) ) {
+                    alt32=1;
                 }
 
 
-                switch (alt33) {
+                switch (alt32) {
             	case 1 :
-            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:171:22: COMMA portDecl
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:171:22: COMMA portDecl
             	    {
-            	    COMMA93=(Token)match(input,COMMA,FOLLOW_COMMA_in_portDecls1008);  
-            	    stream_COMMA.add(COMMA93);
+            	    COMMA91=(Token)match(input,COMMA,FOLLOW_COMMA_in_portDecls1005);  
+            	    stream_COMMA.add(COMMA91);
 
-            	    pushFollow(FOLLOW_portDecl_in_portDecls1010);
-            	    portDecl94=portDecl();
+            	    pushFollow(FOLLOW_portDecl_in_portDecls1007);
+            	    portDecl92=portDecl();
 
             	    state._fsp--;
 
-            	    stream_portDecl.add(portDecl94.getTree());
+            	    stream_portDecl.add(portDecl92.getTree());
 
             	    }
             	    break;
 
             	default :
-            	    break loop33;
+            	    break loop32;
                 }
             } while (true);
 
@@ -3486,32 +3509,32 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "mainParameter"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:176:1: mainParameter : typeAndId EOF -> ^( Parameter typeAndId ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:176:1: mainParameter : typeAndId EOF -> ^( Parameter typeAndId ) ;
     public final CalParser.mainParameter_return mainParameter() throws RecognitionException {
         CalParser.mainParameter_return retval = new CalParser.mainParameter_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token EOF96=null;
-        CalParser.typeAndId_return typeAndId95 = null;
+        Token EOF94=null;
+        CalParser.typeAndId_return typeAndId93 = null;
 
 
-        Object EOF96_tree=null;
+        Object EOF94_tree=null;
         RewriteRuleTokenStream stream_EOF=new RewriteRuleTokenStream(adaptor,"token EOF");
         RewriteRuleSubtreeStream stream_typeAndId=new RewriteRuleSubtreeStream(adaptor,"rule typeAndId");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:176:14: ( typeAndId EOF -> ^( Parameter typeAndId ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:176:16: typeAndId EOF
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:176:14: ( typeAndId EOF -> ^( Parameter typeAndId ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:176:16: typeAndId EOF
             {
-            pushFollow(FOLLOW_typeAndId_in_mainParameter1028);
-            typeAndId95=typeAndId();
+            pushFollow(FOLLOW_typeAndId_in_mainParameter1025);
+            typeAndId93=typeAndId();
 
             state._fsp--;
 
-            stream_typeAndId.add(typeAndId95.getTree());
-            EOF96=(Token)match(input,EOF,FOLLOW_EOF_in_mainParameter1030);  
-            stream_EOF.add(EOF96);
+            stream_typeAndId.add(typeAndId93.getTree());
+            EOF94=(Token)match(input,EOF,FOLLOW_EOF_in_mainParameter1027);  
+            stream_EOF.add(EOF94);
 
 
 
@@ -3528,7 +3551,7 @@ public class CalParser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 176:30: -> ^( Parameter typeAndId )
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:176:33: ^( Parameter typeAndId )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:176:33: ^( Parameter typeAndId )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Parameter, "Parameter"), root_1);
@@ -3567,7 +3590,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "typeAndId"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:178:1: typeAndId : typeName= ID ( ( typeRest )? varName= ID -> ^( Type ^( Var $typeName) ( typeRest )? ) ^( Var $varName) | -> ^( Var $typeName) ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:178:1: typeAndId : typeName= ID ( ( typeRest )? varName= ID -> ^( Type ^( Var $typeName) ( typeRest )? ) ^( Var $varName) | -> ^( Var $typeName) ) ;
     public final CalParser.typeAndId_return typeAndId() throws RecognitionException {
         CalParser.typeAndId_return retval = new CalParser.typeAndId_return();
         retval.start = input.LT(1);
@@ -3576,7 +3599,7 @@ public class CalParser extends Parser {
 
         Token typeName=null;
         Token varName=null;
-        CalParser.typeRest_return typeRest97 = null;
+        CalParser.typeRest_return typeRest95 = null;
 
 
         Object typeName_tree=null;
@@ -3584,62 +3607,62 @@ public class CalParser extends Parser {
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
         RewriteRuleSubtreeStream stream_typeRest=new RewriteRuleSubtreeStream(adaptor,"rule typeRest");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:178:10: (typeName= ID ( ( typeRest )? varName= ID -> ^( Type ^( Var $typeName) ( typeRest )? ) ^( Var $varName) | -> ^( Var $typeName) ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:178:12: typeName= ID ( ( typeRest )? varName= ID -> ^( Type ^( Var $typeName) ( typeRest )? ) ^( Var $varName) | -> ^( Var $typeName) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:178:10: (typeName= ID ( ( typeRest )? varName= ID -> ^( Type ^( Var $typeName) ( typeRest )? ) ^( Var $varName) | -> ^( Var $typeName) ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:178:12: typeName= ID ( ( typeRest )? varName= ID -> ^( Type ^( Var $typeName) ( typeRest )? ) ^( Var $varName) | -> ^( Var $typeName) )
             {
-            typeName=(Token)match(input,ID,FOLLOW_ID_in_typeAndId1047);  
+            typeName=(Token)match(input,ID,FOLLOW_ID_in_typeAndId1044);  
             stream_ID.add(typeName);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:3: ( ( typeRest )? varName= ID -> ^( Type ^( Var $typeName) ( typeRest )? ) ^( Var $varName) | -> ^( Var $typeName) )
-            int alt35=2;
-            int LA35_0 = input.LA(1);
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:3: ( ( typeRest )? varName= ID -> ^( Type ^( Var $typeName) ( typeRest )? ) ^( Var $varName) | -> ^( Var $typeName) )
+            int alt34=2;
+            int LA34_0 = input.LA(1);
 
-            if ( (LA35_0==LBRACKET||LA35_0==LPAREN||LA35_0==ID) ) {
-                alt35=1;
+            if ( (LA34_0==LBRACKET||LA34_0==LPAREN||LA34_0==ID) ) {
+                alt34=1;
             }
-            else if ( (LA35_0==EOF||(LA35_0>=RPAREN && LA35_0<=COLON)||LA35_0==DOUBLE_EQUAL_ARROW||(LA35_0>=EQ && LA35_0<=SEMICOLON)||LA35_0==COMMA) ) {
-                alt35=2;
+            else if ( (LA34_0==EOF||(LA34_0>=RPAREN && LA34_0<=COLON)||LA34_0==DOUBLE_EQUAL_ARROW||(LA34_0>=EQ && LA34_0<=SEMICOLON)||LA34_0==COMMA) ) {
+                alt34=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 35, 0, input);
+                    new NoViableAltException("", 34, 0, input);
 
                 throw nvae;
             }
-            switch (alt35) {
+            switch (alt34) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:4: ( typeRest )? varName= ID
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:4: ( typeRest )? varName= ID
                     {
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:4: ( typeRest )?
-                    int alt34=2;
-                    int LA34_0 = input.LA(1);
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:4: ( typeRest )?
+                    int alt33=2;
+                    int LA33_0 = input.LA(1);
 
-                    if ( (LA34_0==LBRACKET||LA34_0==LPAREN) ) {
-                        alt34=1;
+                    if ( (LA33_0==LBRACKET||LA33_0==LPAREN) ) {
+                        alt33=1;
                     }
-                    switch (alt34) {
+                    switch (alt33) {
                         case 1 :
-                            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:4: typeRest
+                            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:4: typeRest
                             {
-                            pushFollow(FOLLOW_typeRest_in_typeAndId1052);
-                            typeRest97=typeRest();
+                            pushFollow(FOLLOW_typeRest_in_typeAndId1049);
+                            typeRest95=typeRest();
 
                             state._fsp--;
 
-                            stream_typeRest.add(typeRest97.getTree());
+                            stream_typeRest.add(typeRest95.getTree());
 
                             }
                             break;
 
                     }
 
-                    varName=(Token)match(input,ID,FOLLOW_ID_in_typeAndId1057);  
+                    varName=(Token)match(input,ID,FOLLOW_ID_in_typeAndId1054);  
                     stream_ID.add(varName);
 
 
 
                     // AST REWRITE
-                    // elements: typeName, varName, typeRest
+                    // elements: varName, typeRest, typeName
                     // token labels: typeName, varName
                     // rule labels: retval
                     // token list labels: 
@@ -3653,12 +3676,12 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 179:25: -> ^( Type ^( Var $typeName) ( typeRest )? ) ^( Var $varName)
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:28: ^( Type ^( Var $typeName) ( typeRest )? )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:28: ^( Type ^( Var $typeName) ( typeRest )? )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Type, "Type"), root_1);
 
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:35: ^( Var $typeName)
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:35: ^( Var $typeName)
                         {
                         Object root_2 = (Object)adaptor.nil();
                         root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_2);
@@ -3667,7 +3690,7 @@ public class CalParser extends Parser {
 
                         adaptor.addChild(root_1, root_2);
                         }
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:52: ( typeRest )?
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:52: ( typeRest )?
                         if ( stream_typeRest.hasNext() ) {
                             adaptor.addChild(root_1, stream_typeRest.nextTree());
 
@@ -3676,7 +3699,7 @@ public class CalParser extends Parser {
 
                         adaptor.addChild(root_0, root_1);
                         }
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:63: ^( Var $varName)
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:179:63: ^( Var $varName)
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_1);
@@ -3692,7 +3715,7 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:180:5: 
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:180:5: 
                     {
 
                     // AST REWRITE
@@ -3709,7 +3732,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 180:5: -> ^( Var $typeName)
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:180:8: ^( Var $typeName)
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:180:8: ^( Var $typeName)
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_1);
@@ -3754,44 +3777,44 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "type"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:1: type : ID ( typeRest )? -> ^( Type ^( Var ID ) ( typeRest )? ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:1: type : ID ( typeRest )? -> ^( Type ^( Var ID ) ( typeRest )? ) ;
     public final CalParser.type_return type() throws RecognitionException {
         CalParser.type_return retval = new CalParser.type_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token ID98=null;
-        CalParser.typeRest_return typeRest99 = null;
+        Token ID96=null;
+        CalParser.typeRest_return typeRest97 = null;
 
 
-        Object ID98_tree=null;
+        Object ID96_tree=null;
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
         RewriteRuleSubtreeStream stream_typeRest=new RewriteRuleSubtreeStream(adaptor,"rule typeRest");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:5: ( ID ( typeRest )? -> ^( Type ^( Var ID ) ( typeRest )? ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:7: ID ( typeRest )?
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:5: ( ID ( typeRest )? -> ^( Type ^( Var ID ) ( typeRest )? ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:7: ID ( typeRest )?
             {
-            ID98=(Token)match(input,ID,FOLLOW_ID_in_type1101);  
-            stream_ID.add(ID98);
+            ID96=(Token)match(input,ID,FOLLOW_ID_in_type1098);  
+            stream_ID.add(ID96);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:10: ( typeRest )?
-            int alt36=2;
-            int LA36_0 = input.LA(1);
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:10: ( typeRest )?
+            int alt35=2;
+            int LA35_0 = input.LA(1);
 
-            if ( (LA36_0==LBRACKET||LA36_0==LPAREN) ) {
-                alt36=1;
+            if ( (LA35_0==LBRACKET||LA35_0==LPAREN) ) {
+                alt35=1;
             }
-            switch (alt36) {
+            switch (alt35) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:10: typeRest
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:10: typeRest
                     {
-                    pushFollow(FOLLOW_typeRest_in_type1103);
-                    typeRest99=typeRest();
+                    pushFollow(FOLLOW_typeRest_in_type1100);
+                    typeRest97=typeRest();
 
                     state._fsp--;
 
-                    stream_typeRest.add(typeRest99.getTree());
+                    stream_typeRest.add(typeRest97.getTree());
 
                     }
                     break;
@@ -3801,7 +3824,7 @@ public class CalParser extends Parser {
 
 
             // AST REWRITE
-            // elements: typeRest, ID
+            // elements: ID, typeRest
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3813,12 +3836,12 @@ public class CalParser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 182:20: -> ^( Type ^( Var ID ) ( typeRest )? )
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:23: ^( Type ^( Var ID ) ( typeRest )? )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:23: ^( Type ^( Var ID ) ( typeRest )? )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Type, "Type"), root_1);
 
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:30: ^( Var ID )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:30: ^( Var ID )
                 {
                 Object root_2 = (Object)adaptor.nil();
                 root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_2);
@@ -3827,7 +3850,7 @@ public class CalParser extends Parser {
 
                 adaptor.addChild(root_1, root_2);
                 }
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:40: ( typeRest )?
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:182:40: ( typeRest )?
                 if ( stream_typeRest.hasNext() ) {
                     adaptor.addChild(root_1, stream_typeRest.nextTree());
 
@@ -3866,26 +3889,26 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "typeRest"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:184:1: typeRest : ( LBRACKET ( typePars )? RBRACKET -> ( typePars )? | LPAREN ( typeAttrs )? RPAREN -> ( typeAttrs )? );
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:184:1: typeRest : ( LBRACKET ( typePars )? RBRACKET -> ( typePars )? | LPAREN ( typeAttrs )? RPAREN -> ( typeAttrs )? );
     public final CalParser.typeRest_return typeRest() throws RecognitionException {
         CalParser.typeRest_return retval = new CalParser.typeRest_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token LBRACKET100=null;
-        Token RBRACKET102=null;
-        Token LPAREN103=null;
-        Token RPAREN105=null;
-        CalParser.typePars_return typePars101 = null;
+        Token LBRACKET98=null;
+        Token RBRACKET100=null;
+        Token LPAREN101=null;
+        Token RPAREN103=null;
+        CalParser.typePars_return typePars99 = null;
 
-        CalParser.typeAttrs_return typeAttrs104 = null;
+        CalParser.typeAttrs_return typeAttrs102 = null;
 
 
-        Object LBRACKET100_tree=null;
-        Object RBRACKET102_tree=null;
-        Object LPAREN103_tree=null;
-        Object RPAREN105_tree=null;
+        Object LBRACKET98_tree=null;
+        Object RBRACKET100_tree=null;
+        Object LPAREN101_tree=null;
+        Object RPAREN103_tree=null;
         RewriteRuleTokenStream stream_LBRACKET=new RewriteRuleTokenStream(adaptor,"token LBRACKET");
         RewriteRuleTokenStream stream_RPAREN=new RewriteRuleTokenStream(adaptor,"token RPAREN");
         RewriteRuleTokenStream stream_RBRACKET=new RewriteRuleTokenStream(adaptor,"token RBRACKET");
@@ -3893,54 +3916,54 @@ public class CalParser extends Parser {
         RewriteRuleSubtreeStream stream_typePars=new RewriteRuleSubtreeStream(adaptor,"rule typePars");
         RewriteRuleSubtreeStream stream_typeAttrs=new RewriteRuleSubtreeStream(adaptor,"rule typeAttrs");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:184:9: ( LBRACKET ( typePars )? RBRACKET -> ( typePars )? | LPAREN ( typeAttrs )? RPAREN -> ( typeAttrs )? )
-            int alt39=2;
-            int LA39_0 = input.LA(1);
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:184:9: ( LBRACKET ( typePars )? RBRACKET -> ( typePars )? | LPAREN ( typeAttrs )? RPAREN -> ( typeAttrs )? )
+            int alt38=2;
+            int LA38_0 = input.LA(1);
 
-            if ( (LA39_0==LBRACKET) ) {
-                alt39=1;
+            if ( (LA38_0==LBRACKET) ) {
+                alt38=1;
             }
-            else if ( (LA39_0==LPAREN) ) {
-                alt39=2;
+            else if ( (LA38_0==LPAREN) ) {
+                alt38=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 39, 0, input);
+                    new NoViableAltException("", 38, 0, input);
 
                 throw nvae;
             }
-            switch (alt39) {
+            switch (alt38) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:184:11: LBRACKET ( typePars )? RBRACKET
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:184:11: LBRACKET ( typePars )? RBRACKET
                     {
-                    LBRACKET100=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_typeRest1126);  
-                    stream_LBRACKET.add(LBRACKET100);
+                    LBRACKET98=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_typeRest1123);  
+                    stream_LBRACKET.add(LBRACKET98);
 
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:184:20: ( typePars )?
-                    int alt37=2;
-                    int LA37_0 = input.LA(1);
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:184:20: ( typePars )?
+                    int alt36=2;
+                    int LA36_0 = input.LA(1);
 
-                    if ( (LA37_0==ID) ) {
-                        alt37=1;
+                    if ( (LA36_0==ID) ) {
+                        alt36=1;
                     }
-                    switch (alt37) {
+                    switch (alt36) {
                         case 1 :
-                            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:184:20: typePars
+                            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:184:20: typePars
                             {
-                            pushFollow(FOLLOW_typePars_in_typeRest1128);
-                            typePars101=typePars();
+                            pushFollow(FOLLOW_typePars_in_typeRest1125);
+                            typePars99=typePars();
 
                             state._fsp--;
 
-                            stream_typePars.add(typePars101.getTree());
+                            stream_typePars.add(typePars99.getTree());
 
                             }
                             break;
 
                     }
 
-                    RBRACKET102=(Token)match(input,RBRACKET,FOLLOW_RBRACKET_in_typeRest1131);  
-                    stream_RBRACKET.add(RBRACKET102);
+                    RBRACKET100=(Token)match(input,RBRACKET,FOLLOW_RBRACKET_in_typeRest1128);  
+                    stream_RBRACKET.add(RBRACKET100);
 
 
 
@@ -3957,7 +3980,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 184:39: -> ( typePars )?
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:184:42: ( typePars )?
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:184:42: ( typePars )?
                         if ( stream_typePars.hasNext() ) {
                             adaptor.addChild(root_0, stream_typePars.nextTree());
 
@@ -3970,36 +3993,36 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:185:5: LPAREN ( typeAttrs )? RPAREN
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:185:5: LPAREN ( typeAttrs )? RPAREN
                     {
-                    LPAREN103=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_typeRest1142);  
-                    stream_LPAREN.add(LPAREN103);
+                    LPAREN101=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_typeRest1139);  
+                    stream_LPAREN.add(LPAREN101);
 
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:185:12: ( typeAttrs )?
-                    int alt38=2;
-                    int LA38_0 = input.LA(1);
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:185:12: ( typeAttrs )?
+                    int alt37=2;
+                    int LA37_0 = input.LA(1);
 
-                    if ( (LA38_0==ID) ) {
-                        alt38=1;
+                    if ( (LA37_0==ID) ) {
+                        alt37=1;
                     }
-                    switch (alt38) {
+                    switch (alt37) {
                         case 1 :
-                            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:185:12: typeAttrs
+                            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:185:12: typeAttrs
                             {
-                            pushFollow(FOLLOW_typeAttrs_in_typeRest1144);
-                            typeAttrs104=typeAttrs();
+                            pushFollow(FOLLOW_typeAttrs_in_typeRest1141);
+                            typeAttrs102=typeAttrs();
 
                             state._fsp--;
 
-                            stream_typeAttrs.add(typeAttrs104.getTree());
+                            stream_typeAttrs.add(typeAttrs102.getTree());
 
                             }
                             break;
 
                     }
 
-                    RPAREN105=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_typeRest1147);  
-                    stream_RPAREN.add(RPAREN105);
+                    RPAREN103=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_typeRest1144);  
+                    stream_RPAREN.add(RPAREN103);
 
 
 
@@ -4016,7 +4039,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 185:30: -> ( typeAttrs )?
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:185:33: ( typeAttrs )?
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:185:33: ( typeAttrs )?
                         if ( stream_typeAttrs.hasNext() ) {
                             adaptor.addChild(root_0, stream_typeAttrs.nextTree());
 
@@ -4054,62 +4077,62 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "typeAttrs"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:187:1: typeAttrs : typeAttr ( COMMA typeAttr )* -> ( typeAttr )+ ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:187:1: typeAttrs : typeAttr ( COMMA typeAttr )* -> ( typeAttr )+ ;
     public final CalParser.typeAttrs_return typeAttrs() throws RecognitionException {
         CalParser.typeAttrs_return retval = new CalParser.typeAttrs_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token COMMA107=null;
+        Token COMMA105=null;
+        CalParser.typeAttr_return typeAttr104 = null;
+
         CalParser.typeAttr_return typeAttr106 = null;
 
-        CalParser.typeAttr_return typeAttr108 = null;
 
-
-        Object COMMA107_tree=null;
+        Object COMMA105_tree=null;
         RewriteRuleTokenStream stream_COMMA=new RewriteRuleTokenStream(adaptor,"token COMMA");
         RewriteRuleSubtreeStream stream_typeAttr=new RewriteRuleSubtreeStream(adaptor,"rule typeAttr");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:187:10: ( typeAttr ( COMMA typeAttr )* -> ( typeAttr )+ )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:187:12: typeAttr ( COMMA typeAttr )*
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:187:10: ( typeAttr ( COMMA typeAttr )* -> ( typeAttr )+ )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:187:12: typeAttr ( COMMA typeAttr )*
             {
-            pushFollow(FOLLOW_typeAttr_in_typeAttrs1159);
-            typeAttr106=typeAttr();
+            pushFollow(FOLLOW_typeAttr_in_typeAttrs1156);
+            typeAttr104=typeAttr();
 
             state._fsp--;
 
-            stream_typeAttr.add(typeAttr106.getTree());
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:187:21: ( COMMA typeAttr )*
-            loop40:
+            stream_typeAttr.add(typeAttr104.getTree());
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:187:21: ( COMMA typeAttr )*
+            loop39:
             do {
-                int alt40=2;
-                int LA40_0 = input.LA(1);
+                int alt39=2;
+                int LA39_0 = input.LA(1);
 
-                if ( (LA40_0==COMMA) ) {
-                    alt40=1;
+                if ( (LA39_0==COMMA) ) {
+                    alt39=1;
                 }
 
 
-                switch (alt40) {
+                switch (alt39) {
             	case 1 :
-            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:187:22: COMMA typeAttr
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:187:22: COMMA typeAttr
             	    {
-            	    COMMA107=(Token)match(input,COMMA,FOLLOW_COMMA_in_typeAttrs1162);  
-            	    stream_COMMA.add(COMMA107);
+            	    COMMA105=(Token)match(input,COMMA,FOLLOW_COMMA_in_typeAttrs1159);  
+            	    stream_COMMA.add(COMMA105);
 
-            	    pushFollow(FOLLOW_typeAttr_in_typeAttrs1164);
-            	    typeAttr108=typeAttr();
+            	    pushFollow(FOLLOW_typeAttr_in_typeAttrs1161);
+            	    typeAttr106=typeAttr();
 
             	    state._fsp--;
 
-            	    stream_typeAttr.add(typeAttr108.getTree());
+            	    stream_typeAttr.add(typeAttr106.getTree());
 
             	    }
             	    break;
 
             	default :
-            	    break loop40;
+            	    break loop39;
                 }
             } while (true);
 
@@ -4166,33 +4189,33 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "typeAttr"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:189:1: typeAttr : ID typeAttrRest -> typeAttrRest ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:189:1: typeAttr : ID typeAttrRest -> typeAttrRest ;
     public final CalParser.typeAttr_return typeAttr() throws RecognitionException {
         CalParser.typeAttr_return retval = new CalParser.typeAttr_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token ID109=null;
-        CalParser.typeAttrRest_return typeAttrRest110 = null;
+        Token ID107=null;
+        CalParser.typeAttrRest_return typeAttrRest108 = null;
 
 
-        Object ID109_tree=null;
+        Object ID107_tree=null;
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
         RewriteRuleSubtreeStream stream_typeAttrRest=new RewriteRuleSubtreeStream(adaptor,"rule typeAttrRest");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:189:9: ( ID typeAttrRest -> typeAttrRest )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:189:11: ID typeAttrRest
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:189:9: ( ID typeAttrRest -> typeAttrRest )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:189:11: ID typeAttrRest
             {
-            ID109=(Token)match(input,ID,FOLLOW_ID_in_typeAttr1178);  
-            stream_ID.add(ID109);
+            ID107=(Token)match(input,ID,FOLLOW_ID_in_typeAttr1175);  
+            stream_ID.add(ID107);
 
-            pushFollow(FOLLOW_typeAttrRest_in_typeAttr1180);
-            typeAttrRest110=typeAttrRest();
+            pushFollow(FOLLOW_typeAttrRest_in_typeAttr1177);
+            typeAttrRest108=typeAttrRest();
 
             state._fsp--;
 
-            stream_typeAttrRest.add(typeAttrRest110.getTree());
+            stream_typeAttrRest.add(typeAttrRest108.getTree());
 
 
             // AST REWRITE
@@ -4239,56 +4262,56 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "typeAttrRest"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:191:1: typeAttrRest : ( COLON type -> ^( TypeAttr type ) | EQ expression -> ^( ExprAttr ^( Expression expression ) ) );
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:191:1: typeAttrRest : ( COLON type -> ^( TypeAttr type ) | EQ expression -> ^( ExprAttr ^( Expression expression ) ) );
     public final CalParser.typeAttrRest_return typeAttrRest() throws RecognitionException {
         CalParser.typeAttrRest_return retval = new CalParser.typeAttrRest_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token COLON111=null;
-        Token EQ113=null;
-        CalParser.type_return type112 = null;
+        Token COLON109=null;
+        Token EQ111=null;
+        CalParser.type_return type110 = null;
 
-        CalParser.expression_return expression114 = null;
+        CalParser.expression_return expression112 = null;
 
 
-        Object COLON111_tree=null;
-        Object EQ113_tree=null;
+        Object COLON109_tree=null;
+        Object EQ111_tree=null;
         RewriteRuleTokenStream stream_COLON=new RewriteRuleTokenStream(adaptor,"token COLON");
         RewriteRuleTokenStream stream_EQ=new RewriteRuleTokenStream(adaptor,"token EQ");
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         RewriteRuleSubtreeStream stream_type=new RewriteRuleSubtreeStream(adaptor,"rule type");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:191:13: ( COLON type -> ^( TypeAttr type ) | EQ expression -> ^( ExprAttr ^( Expression expression ) ) )
-            int alt41=2;
-            int LA41_0 = input.LA(1);
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:191:13: ( COLON type -> ^( TypeAttr type ) | EQ expression -> ^( ExprAttr ^( Expression expression ) ) )
+            int alt40=2;
+            int LA40_0 = input.LA(1);
 
-            if ( (LA41_0==COLON) ) {
-                alt41=1;
+            if ( (LA40_0==COLON) ) {
+                alt40=1;
             }
-            else if ( (LA41_0==EQ) ) {
-                alt41=2;
+            else if ( (LA40_0==EQ) ) {
+                alt40=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 41, 0, input);
+                    new NoViableAltException("", 40, 0, input);
 
                 throw nvae;
             }
-            switch (alt41) {
+            switch (alt40) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:191:15: COLON type
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:191:15: COLON type
                     {
-                    COLON111=(Token)match(input,COLON,FOLLOW_COLON_in_typeAttrRest1191);  
-                    stream_COLON.add(COLON111);
+                    COLON109=(Token)match(input,COLON,FOLLOW_COLON_in_typeAttrRest1188);  
+                    stream_COLON.add(COLON109);
 
-                    pushFollow(FOLLOW_type_in_typeAttrRest1193);
-                    type112=type();
+                    pushFollow(FOLLOW_type_in_typeAttrRest1190);
+                    type110=type();
 
                     state._fsp--;
 
-                    stream_type.add(type112.getTree());
+                    stream_type.add(type110.getTree());
 
 
                     // AST REWRITE
@@ -4304,7 +4327,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 191:26: -> ^( TypeAttr type )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:191:29: ^( TypeAttr type )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:191:29: ^( TypeAttr type )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(TypeAttr, "TypeAttr"), root_1);
@@ -4320,17 +4343,17 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:192:3: EQ expression
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:192:3: EQ expression
                     {
-                    EQ113=(Token)match(input,EQ,FOLLOW_EQ_in_typeAttrRest1205);  
-                    stream_EQ.add(EQ113);
+                    EQ111=(Token)match(input,EQ,FOLLOW_EQ_in_typeAttrRest1202);  
+                    stream_EQ.add(EQ111);
 
-                    pushFollow(FOLLOW_expression_in_typeAttrRest1207);
-                    expression114=expression();
+                    pushFollow(FOLLOW_expression_in_typeAttrRest1204);
+                    expression112=expression();
 
                     state._fsp--;
 
-                    stream_expression.add(expression114.getTree());
+                    stream_expression.add(expression112.getTree());
 
 
                     // AST REWRITE
@@ -4346,12 +4369,12 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 192:17: -> ^( ExprAttr ^( Expression expression ) )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:192:20: ^( ExprAttr ^( Expression expression ) )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:192:20: ^( ExprAttr ^( Expression expression ) )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(ExprAttr, "ExprAttr"), root_1);
 
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:192:31: ^( Expression expression )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:192:31: ^( Expression expression )
                         {
                         Object root_2 = (Object)adaptor.nil();
                         root_2 = (Object)adaptor.becomeRoot((Object)adaptor.create(Expression, "Expression"), root_2);
@@ -4395,62 +4418,62 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "typePars"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:194:1: typePars : typePar ( COMMA typePar )* -> ( typePar )+ ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:194:1: typePars : typePar ( COMMA typePar )* -> ( typePar )+ ;
     public final CalParser.typePars_return typePars() throws RecognitionException {
         CalParser.typePars_return retval = new CalParser.typePars_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token COMMA116=null;
+        Token COMMA114=null;
+        CalParser.typePar_return typePar113 = null;
+
         CalParser.typePar_return typePar115 = null;
 
-        CalParser.typePar_return typePar117 = null;
 
-
-        Object COMMA116_tree=null;
+        Object COMMA114_tree=null;
         RewriteRuleTokenStream stream_COMMA=new RewriteRuleTokenStream(adaptor,"token COMMA");
         RewriteRuleSubtreeStream stream_typePar=new RewriteRuleSubtreeStream(adaptor,"rule typePar");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:194:9: ( typePar ( COMMA typePar )* -> ( typePar )+ )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:194:11: typePar ( COMMA typePar )*
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:194:9: ( typePar ( COMMA typePar )* -> ( typePar )+ )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:194:11: typePar ( COMMA typePar )*
             {
-            pushFollow(FOLLOW_typePar_in_typePars1226);
-            typePar115=typePar();
+            pushFollow(FOLLOW_typePar_in_typePars1223);
+            typePar113=typePar();
 
             state._fsp--;
 
-            stream_typePar.add(typePar115.getTree());
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:194:19: ( COMMA typePar )*
-            loop42:
+            stream_typePar.add(typePar113.getTree());
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:194:19: ( COMMA typePar )*
+            loop41:
             do {
-                int alt42=2;
-                int LA42_0 = input.LA(1);
+                int alt41=2;
+                int LA41_0 = input.LA(1);
 
-                if ( (LA42_0==COMMA) ) {
-                    alt42=1;
+                if ( (LA41_0==COMMA) ) {
+                    alt41=1;
                 }
 
 
-                switch (alt42) {
+                switch (alt41) {
             	case 1 :
-            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:194:20: COMMA typePar
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:194:20: COMMA typePar
             	    {
-            	    COMMA116=(Token)match(input,COMMA,FOLLOW_COMMA_in_typePars1229);  
-            	    stream_COMMA.add(COMMA116);
+            	    COMMA114=(Token)match(input,COMMA,FOLLOW_COMMA_in_typePars1226);  
+            	    stream_COMMA.add(COMMA114);
 
-            	    pushFollow(FOLLOW_typePar_in_typePars1231);
-            	    typePar117=typePar();
+            	    pushFollow(FOLLOW_typePar_in_typePars1228);
+            	    typePar115=typePar();
 
             	    state._fsp--;
 
-            	    stream_typePar.add(typePar117.getTree());
+            	    stream_typePar.add(typePar115.getTree());
 
             	    }
             	    break;
 
             	default :
-            	    break loop42;
+            	    break loop41;
                 }
             } while (true);
 
@@ -4507,50 +4530,50 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "typePar"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:196:1: typePar : ID ( LT type )? -> ^( TypePar ID ( type )? ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:196:1: typePar : ID ( LT type )? -> ^( TypePar ID ( type )? ) ;
     public final CalParser.typePar_return typePar() throws RecognitionException {
         CalParser.typePar_return retval = new CalParser.typePar_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token ID118=null;
-        Token LT119=null;
-        CalParser.type_return type120 = null;
+        Token ID116=null;
+        Token LT117=null;
+        CalParser.type_return type118 = null;
 
 
-        Object ID118_tree=null;
-        Object LT119_tree=null;
+        Object ID116_tree=null;
+        Object LT117_tree=null;
         RewriteRuleTokenStream stream_LT=new RewriteRuleTokenStream(adaptor,"token LT");
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
         RewriteRuleSubtreeStream stream_type=new RewriteRuleSubtreeStream(adaptor,"rule type");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:196:8: ( ID ( LT type )? -> ^( TypePar ID ( type )? ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:196:10: ID ( LT type )?
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:196:8: ( ID ( LT type )? -> ^( TypePar ID ( type )? ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:196:10: ID ( LT type )?
             {
-            ID118=(Token)match(input,ID,FOLLOW_ID_in_typePar1245);  
-            stream_ID.add(ID118);
+            ID116=(Token)match(input,ID,FOLLOW_ID_in_typePar1242);  
+            stream_ID.add(ID116);
 
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:196:13: ( LT type )?
-            int alt43=2;
-            int LA43_0 = input.LA(1);
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:196:13: ( LT type )?
+            int alt42=2;
+            int LA42_0 = input.LA(1);
 
-            if ( (LA43_0==LT) ) {
-                alt43=1;
+            if ( (LA42_0==LT) ) {
+                alt42=1;
             }
-            switch (alt43) {
+            switch (alt42) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:196:14: LT type
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:196:14: LT type
                     {
-                    LT119=(Token)match(input,LT,FOLLOW_LT_in_typePar1248);  
-                    stream_LT.add(LT119);
+                    LT117=(Token)match(input,LT,FOLLOW_LT_in_typePar1245);  
+                    stream_LT.add(LT117);
 
-                    pushFollow(FOLLOW_type_in_typePar1250);
-                    type120=type();
+                    pushFollow(FOLLOW_type_in_typePar1247);
+                    type118=type();
 
                     state._fsp--;
 
-                    stream_type.add(type120.getTree());
+                    stream_type.add(type118.getTree());
 
                     }
                     break;
@@ -4560,7 +4583,7 @@ public class CalParser extends Parser {
 
 
             // AST REWRITE
-            // elements: type, ID
+            // elements: ID, type
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4572,13 +4595,13 @@ public class CalParser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 196:24: -> ^( TypePar ID ( type )? )
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:196:27: ^( TypePar ID ( type )? )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:196:27: ^( TypePar ID ( type )? )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(TypePar, "TypePar"), root_1);
 
                 adaptor.addChild(root_1, stream_ID.nextNode());
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:196:40: ( type )?
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:196:40: ( type )?
                 if ( stream_type.hasNext() ) {
                     adaptor.addChild(root_1, stream_type.nextTree());
 
@@ -4617,32 +4640,32 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "mainExpression"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:201:1: mainExpression : expression EOF -> ^( Expression expression ) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:201:1: mainExpression : expression EOF -> ^( Expression expression ) ;
     public final CalParser.mainExpression_return mainExpression() throws RecognitionException {
         CalParser.mainExpression_return retval = new CalParser.mainExpression_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token EOF122=null;
-        CalParser.expression_return expression121 = null;
+        Token EOF120=null;
+        CalParser.expression_return expression119 = null;
 
 
-        Object EOF122_tree=null;
+        Object EOF120_tree=null;
         RewriteRuleTokenStream stream_EOF=new RewriteRuleTokenStream(adaptor,"token EOF");
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:201:15: ( expression EOF -> ^( Expression expression ) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:201:17: expression EOF
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:201:15: ( expression EOF -> ^( Expression expression ) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:201:17: expression EOF
             {
-            pushFollow(FOLLOW_expression_in_mainExpression1273);
-            expression121=expression();
+            pushFollow(FOLLOW_expression_in_mainExpression1270);
+            expression119=expression();
 
             state._fsp--;
 
-            stream_expression.add(expression121.getTree());
-            EOF122=(Token)match(input,EOF,FOLLOW_EOF_in_mainExpression1275);  
-            stream_EOF.add(EOF122);
+            stream_expression.add(expression119.getTree());
+            EOF120=(Token)match(input,EOF,FOLLOW_EOF_in_mainExpression1272);  
+            stream_EOF.add(EOF120);
 
 
 
@@ -4659,7 +4682,7 @@ public class CalParser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 201:32: -> ^( Expression expression )
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:201:35: ^( Expression expression )
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:201:35: ^( Expression expression )
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Expression, "Expression"), root_1);
@@ -4698,66 +4721,66 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "expression"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:203:1: expression : factor ( binop factor )* ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:203:1: expression : factor ( binop factor )* ;
     public final CalParser.expression_return expression() throws RecognitionException {
         CalParser.expression_return retval = new CalParser.expression_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
+        CalParser.factor_return factor121 = null;
+
+        CalParser.binop_return binop122 = null;
+
         CalParser.factor_return factor123 = null;
-
-        CalParser.binop_return binop124 = null;
-
-        CalParser.factor_return factor125 = null;
 
 
 
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:203:11: ( factor ( binop factor )* )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:203:13: factor ( binop factor )*
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:203:11: ( factor ( binop factor )* )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:203:13: factor ( binop factor )*
             {
             root_0 = (Object)adaptor.nil();
 
-            pushFollow(FOLLOW_factor_in_expression1290);
-            factor123=factor();
+            pushFollow(FOLLOW_factor_in_expression1287);
+            factor121=factor();
 
             state._fsp--;
 
-            adaptor.addChild(root_0, factor123.getTree());
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:203:20: ( binop factor )*
-            loop44:
+            adaptor.addChild(root_0, factor121.getTree());
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:203:20: ( binop factor )*
+            loop43:
             do {
-                int alt44=2;
-                int LA44_0 = input.LA(1);
+                int alt43=2;
+                int LA43_0 = input.LA(1);
 
-                if ( (LA44_0==MINUS||(LA44_0>=PLUS && LA44_0<=CARET)) ) {
-                    alt44=1;
+                if ( (LA43_0==TIMES||LA43_0==MINUS||(LA43_0>=PLUS && LA43_0<=XOR)) ) {
+                    alt43=1;
                 }
 
 
-                switch (alt44) {
+                switch (alt43) {
             	case 1 :
-            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:203:21: binop factor
+            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:203:21: binop factor
             	    {
-            	    pushFollow(FOLLOW_binop_in_expression1293);
-            	    binop124=binop();
+            	    pushFollow(FOLLOW_binop_in_expression1290);
+            	    binop122=binop();
 
             	    state._fsp--;
 
-            	    adaptor.addChild(root_0, binop124.getTree());
-            	    pushFollow(FOLLOW_factor_in_expression1295);
-            	    factor125=factor();
+            	    adaptor.addChild(root_0, binop122.getTree());
+            	    pushFollow(FOLLOW_factor_in_expression1292);
+            	    factor123=factor();
 
             	    state._fsp--;
 
-            	    adaptor.addChild(root_0, factor125.getTree());
+            	    adaptor.addChild(root_0, factor123.getTree());
 
             	    }
             	    break;
 
             	default :
-            	    break loop44;
+            	    break loop43;
                 }
             } while (true);
 
@@ -4788,7 +4811,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "unop"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:205:1: unop : (op= MINUS | op= NOT ) -> ^( UnOp $op) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:205:1: unop : (op= MINUS | op= NOT ) -> ^( UnOp $op) ;
     public final CalParser.unop_return unop() throws RecognitionException {
         CalParser.unop_return retval = new CalParser.unop_return();
         retval.start = input.LT(1);
@@ -4802,39 +4825,39 @@ public class CalParser extends Parser {
         RewriteRuleTokenStream stream_MINUS=new RewriteRuleTokenStream(adaptor,"token MINUS");
 
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:205:5: ( (op= MINUS | op= NOT ) -> ^( UnOp $op) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:205:7: (op= MINUS | op= NOT )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:205:5: ( (op= MINUS | op= NOT ) -> ^( UnOp $op) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:205:7: (op= MINUS | op= NOT )
             {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:205:7: (op= MINUS | op= NOT )
-            int alt45=2;
-            int LA45_0 = input.LA(1);
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:205:7: (op= MINUS | op= NOT )
+            int alt44=2;
+            int LA44_0 = input.LA(1);
 
-            if ( (LA45_0==MINUS) ) {
-                alt45=1;
+            if ( (LA44_0==MINUS) ) {
+                alt44=1;
             }
-            else if ( (LA45_0==NOT) ) {
-                alt45=2;
+            else if ( (LA44_0==NOT) ) {
+                alt44=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 45, 0, input);
+                    new NoViableAltException("", 44, 0, input);
 
                 throw nvae;
             }
-            switch (alt45) {
+            switch (alt44) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:205:8: op= MINUS
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:205:8: op= MINUS
                     {
-                    op=(Token)match(input,MINUS,FOLLOW_MINUS_in_unop1307);  
+                    op=(Token)match(input,MINUS,FOLLOW_MINUS_in_unop1304);  
                     stream_MINUS.add(op);
 
 
                     }
                     break;
                 case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:205:19: op= NOT
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:205:19: op= NOT
                     {
-                    op=(Token)match(input,NOT,FOLLOW_NOT_in_unop1313);  
+                    op=(Token)match(input,NOT,FOLLOW_NOT_in_unop1310);  
                     stream_NOT.add(op);
 
 
@@ -4859,7 +4882,7 @@ public class CalParser extends Parser {
             root_0 = (Object)adaptor.nil();
             // 205:27: -> ^( UnOp $op)
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:205:30: ^( UnOp $op)
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:205:30: ^( UnOp $op)
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(UnOp, "UnOp"), root_1);
@@ -4898,7 +4921,7 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "binop"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:1: binop : (op= PLUS | op= MINUS | op= TIMES | op= DIV | op= CARET ) -> ^( BinOp $op) ;
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:1: binop : (op= PLUS | op= MINUS | op= TIMES | op= DIV | op= XOR ) -> ^( BinOp $op) ;
     public final CalParser.binop_return binop() throws RecognitionException {
         CalParser.binop_return retval = new CalParser.binop_return();
         retval.start = input.LT(1);
@@ -4909,92 +4932,92 @@ public class CalParser extends Parser {
 
         Object op_tree=null;
         RewriteRuleTokenStream stream_PLUS=new RewriteRuleTokenStream(adaptor,"token PLUS");
+        RewriteRuleTokenStream stream_XOR=new RewriteRuleTokenStream(adaptor,"token XOR");
         RewriteRuleTokenStream stream_MINUS=new RewriteRuleTokenStream(adaptor,"token MINUS");
         RewriteRuleTokenStream stream_DIV=new RewriteRuleTokenStream(adaptor,"token DIV");
         RewriteRuleTokenStream stream_TIMES=new RewriteRuleTokenStream(adaptor,"token TIMES");
-        RewriteRuleTokenStream stream_CARET=new RewriteRuleTokenStream(adaptor,"token CARET");
 
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:6: ( (op= PLUS | op= MINUS | op= TIMES | op= DIV | op= CARET ) -> ^( BinOp $op) )
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:8: (op= PLUS | op= MINUS | op= TIMES | op= DIV | op= CARET )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:6: ( (op= PLUS | op= MINUS | op= TIMES | op= DIV | op= XOR ) -> ^( BinOp $op) )
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:8: (op= PLUS | op= MINUS | op= TIMES | op= DIV | op= XOR )
             {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:8: (op= PLUS | op= MINUS | op= TIMES | op= DIV | op= CARET )
-            int alt46=5;
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:8: (op= PLUS | op= MINUS | op= TIMES | op= DIV | op= XOR )
+            int alt45=5;
             switch ( input.LA(1) ) {
             case PLUS:
                 {
-                alt46=1;
+                alt45=1;
                 }
                 break;
             case MINUS:
                 {
-                alt46=2;
+                alt45=2;
                 }
                 break;
             case TIMES:
                 {
-                alt46=3;
+                alt45=3;
                 }
                 break;
             case DIV:
                 {
-                alt46=4;
+                alt45=4;
                 }
                 break;
-            case CARET:
+            case XOR:
                 {
-                alt46=5;
+                alt45=5;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 46, 0, input);
+                    new NoViableAltException("", 45, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt46) {
+            switch (alt45) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:9: op= PLUS
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:9: op= PLUS
                     {
-                    op=(Token)match(input,PLUS,FOLLOW_PLUS_in_binop1333);  
+                    op=(Token)match(input,PLUS,FOLLOW_PLUS_in_binop1330);  
                     stream_PLUS.add(op);
 
 
                     }
                     break;
                 case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:19: op= MINUS
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:19: op= MINUS
                     {
-                    op=(Token)match(input,MINUS,FOLLOW_MINUS_in_binop1339);  
+                    op=(Token)match(input,MINUS,FOLLOW_MINUS_in_binop1336);  
                     stream_MINUS.add(op);
 
 
                     }
                     break;
                 case 3 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:30: op= TIMES
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:30: op= TIMES
                     {
-                    op=(Token)match(input,TIMES,FOLLOW_TIMES_in_binop1345);  
+                    op=(Token)match(input,TIMES,FOLLOW_TIMES_in_binop1342);  
                     stream_TIMES.add(op);
 
 
                     }
                     break;
                 case 4 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:41: op= DIV
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:41: op= DIV
                     {
-                    op=(Token)match(input,DIV,FOLLOW_DIV_in_binop1351);  
+                    op=(Token)match(input,DIV,FOLLOW_DIV_in_binop1348);  
                     stream_DIV.add(op);
 
 
                     }
                     break;
                 case 5 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:50: op= CARET
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:50: op= XOR
                     {
-                    op=(Token)match(input,CARET,FOLLOW_CARET_in_binop1357);  
-                    stream_CARET.add(op);
+                    op=(Token)match(input,XOR,FOLLOW_XOR_in_binop1354);  
+                    stream_XOR.add(op);
 
 
                     }
@@ -5016,9 +5039,9 @@ public class CalParser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (Object)adaptor.nil();
-            // 207:60: -> ^( BinOp $op)
+            // 207:58: -> ^( BinOp $op)
             {
-                // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:63: ^( BinOp $op)
+                // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:207:61: ^( BinOp $op)
                 {
                 Object root_1 = (Object)adaptor.nil();
                 root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(BinOp, "BinOp"), root_1);
@@ -5057,73 +5080,73 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "factor"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:209:1: factor : ( term | unop term -> ^( Expression unop term ) );
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:209:1: factor : ( term | unop term -> ^( Expression unop term ) );
     public final CalParser.factor_return factor() throws RecognitionException {
         CalParser.factor_return retval = new CalParser.factor_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
+        CalParser.term_return term124 = null;
+
+        CalParser.unop_return unop125 = null;
+
         CalParser.term_return term126 = null;
-
-        CalParser.unop_return unop127 = null;
-
-        CalParser.term_return term128 = null;
 
 
         RewriteRuleSubtreeStream stream_unop=new RewriteRuleSubtreeStream(adaptor,"rule unop");
         RewriteRuleSubtreeStream stream_term=new RewriteRuleSubtreeStream(adaptor,"rule term");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:209:7: ( term | unop term -> ^( Expression unop term ) )
-            int alt47=2;
-            int LA47_0 = input.LA(1);
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:209:7: ( term | unop term -> ^( Expression unop term ) )
+            int alt46=2;
+            int LA46_0 = input.LA(1);
 
-            if ( (LA47_0==LBRACKET||LA47_0==LPAREN||LA47_0==ID||(LA47_0>=FLOAT && LA47_0<=FALSE)) ) {
-                alt47=1;
+            if ( (LA46_0==LBRACKET||LA46_0==LPAREN||LA46_0==ID||(LA46_0>=FLOAT && LA46_0<=FALSE)) ) {
+                alt46=1;
             }
-            else if ( ((LA47_0>=MINUS && LA47_0<=NOT)) ) {
-                alt47=2;
+            else if ( ((LA46_0>=MINUS && LA46_0<=NOT)) ) {
+                alt46=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 47, 0, input);
+                    new NoViableAltException("", 46, 0, input);
 
                 throw nvae;
             }
-            switch (alt47) {
+            switch (alt46) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:209:9: term
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:209:9: term
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    pushFollow(FOLLOW_term_in_factor1374);
-                    term126=term();
+                    pushFollow(FOLLOW_term_in_factor1371);
+                    term124=term();
 
                     state._fsp--;
 
-                    adaptor.addChild(root_0, term126.getTree());
+                    adaptor.addChild(root_0, term124.getTree());
 
                     }
                     break;
                 case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:210:3: unop term
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:210:3: unop term
                     {
-                    pushFollow(FOLLOW_unop_in_factor1378);
-                    unop127=unop();
+                    pushFollow(FOLLOW_unop_in_factor1375);
+                    unop125=unop();
 
                     state._fsp--;
 
-                    stream_unop.add(unop127.getTree());
-                    pushFollow(FOLLOW_term_in_factor1380);
-                    term128=term();
+                    stream_unop.add(unop125.getTree());
+                    pushFollow(FOLLOW_term_in_factor1377);
+                    term126=term();
 
                     state._fsp--;
 
-                    stream_term.add(term128.getTree());
+                    stream_term.add(term126.getTree());
 
 
                     // AST REWRITE
-                    // elements: term, unop
+                    // elements: unop, term
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -5135,7 +5158,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 210:13: -> ^( Expression unop term )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:210:16: ^( Expression unop term )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:210:16: ^( Expression unop term )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Expression, "Expression"), root_1);
@@ -5177,71 +5200,71 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "term"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:212:1: term : ( atom | LPAREN expression RPAREN -> ^( Expression expression ) );
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:212:1: term : ( atom | LPAREN expression RPAREN -> ^( Expression expression ) );
     public final CalParser.term_return term() throws RecognitionException {
         CalParser.term_return retval = new CalParser.term_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token LPAREN130=null;
-        Token RPAREN132=null;
-        CalParser.atom_return atom129 = null;
+        Token LPAREN128=null;
+        Token RPAREN130=null;
+        CalParser.atom_return atom127 = null;
 
-        CalParser.expression_return expression131 = null;
+        CalParser.expression_return expression129 = null;
 
 
-        Object LPAREN130_tree=null;
-        Object RPAREN132_tree=null;
+        Object LPAREN128_tree=null;
+        Object RPAREN130_tree=null;
         RewriteRuleTokenStream stream_RPAREN=new RewriteRuleTokenStream(adaptor,"token RPAREN");
         RewriteRuleTokenStream stream_LPAREN=new RewriteRuleTokenStream(adaptor,"token LPAREN");
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:212:5: ( atom | LPAREN expression RPAREN -> ^( Expression expression ) )
-            int alt48=2;
-            int LA48_0 = input.LA(1);
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:212:5: ( atom | LPAREN expression RPAREN -> ^( Expression expression ) )
+            int alt47=2;
+            int LA47_0 = input.LA(1);
 
-            if ( (LA48_0==LBRACKET||LA48_0==ID||(LA48_0>=FLOAT && LA48_0<=FALSE)) ) {
-                alt48=1;
+            if ( (LA47_0==LBRACKET||LA47_0==ID||(LA47_0>=FLOAT && LA47_0<=FALSE)) ) {
+                alt47=1;
             }
-            else if ( (LA48_0==LPAREN) ) {
-                alt48=2;
+            else if ( (LA47_0==LPAREN) ) {
+                alt47=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 48, 0, input);
+                    new NoViableAltException("", 47, 0, input);
 
                 throw nvae;
             }
-            switch (alt48) {
+            switch (alt47) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:212:7: atom
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:212:7: atom
                     {
                     root_0 = (Object)adaptor.nil();
 
-                    pushFollow(FOLLOW_atom_in_term1397);
-                    atom129=atom();
+                    pushFollow(FOLLOW_atom_in_term1394);
+                    atom127=atom();
 
                     state._fsp--;
 
-                    adaptor.addChild(root_0, atom129.getTree());
+                    adaptor.addChild(root_0, atom127.getTree());
 
                     }
                     break;
                 case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:213:5: LPAREN expression RPAREN
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:213:5: LPAREN expression RPAREN
                     {
-                    LPAREN130=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_term1403);  
-                    stream_LPAREN.add(LPAREN130);
+                    LPAREN128=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_term1400);  
+                    stream_LPAREN.add(LPAREN128);
 
-                    pushFollow(FOLLOW_expression_in_term1405);
-                    expression131=expression();
+                    pushFollow(FOLLOW_expression_in_term1402);
+                    expression129=expression();
 
                     state._fsp--;
 
-                    stream_expression.add(expression131.getTree());
-                    RPAREN132=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_term1407);  
-                    stream_RPAREN.add(RPAREN132);
+                    stream_expression.add(expression129.getTree());
+                    RPAREN130=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_term1404);  
+                    stream_RPAREN.add(RPAREN130);
 
 
 
@@ -5258,7 +5281,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 213:30: -> ^( Expression expression )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:213:33: ^( Expression expression )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:213:33: ^( Expression expression )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Expression, "Expression"), root_1);
@@ -5299,36 +5322,36 @@ public class CalParser extends Parser {
     };
 
     // $ANTLR start "atom"
-    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:215:1: atom : ( ID -> ^( Var ID ) | FLOAT -> ^( Real FLOAT ) | INTEGER -> ^( Integer INTEGER ) | STRING -> ^( String STRING ) | TRUE -> ^( Boolean TRUE ) | FALSE -> ^( Boolean FALSE ) | LBRACKET ( expression ( COMMA expression )* )? RBRACKET -> ^( List ( expression )* ) );
+    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:215:1: atom : ( ID -> ^( Var ID ) | FLOAT -> ^( Real FLOAT ) | INTEGER -> ^( Integer INTEGER ) | STRING -> ^( String STRING ) | TRUE -> ^( Boolean TRUE ) | FALSE -> ^( Boolean FALSE ) | LBRACKET ( expression ( COMMA expression )* )? RBRACKET -> ^( List ( expression )* ) );
     public final CalParser.atom_return atom() throws RecognitionException {
         CalParser.atom_return retval = new CalParser.atom_return();
         retval.start = input.LT(1);
 
         Object root_0 = null;
 
-        Token ID133=null;
-        Token FLOAT134=null;
-        Token INTEGER135=null;
-        Token STRING136=null;
-        Token TRUE137=null;
-        Token FALSE138=null;
-        Token LBRACKET139=null;
-        Token COMMA141=null;
-        Token RBRACKET143=null;
+        Token ID131=null;
+        Token FLOAT132=null;
+        Token INTEGER133=null;
+        Token STRING134=null;
+        Token TRUE135=null;
+        Token FALSE136=null;
+        Token LBRACKET137=null;
+        Token COMMA139=null;
+        Token RBRACKET141=null;
+        CalParser.expression_return expression138 = null;
+
         CalParser.expression_return expression140 = null;
 
-        CalParser.expression_return expression142 = null;
 
-
-        Object ID133_tree=null;
-        Object FLOAT134_tree=null;
-        Object INTEGER135_tree=null;
-        Object STRING136_tree=null;
-        Object TRUE137_tree=null;
-        Object FALSE138_tree=null;
-        Object LBRACKET139_tree=null;
-        Object COMMA141_tree=null;
-        Object RBRACKET143_tree=null;
+        Object ID131_tree=null;
+        Object FLOAT132_tree=null;
+        Object INTEGER133_tree=null;
+        Object STRING134_tree=null;
+        Object TRUE135_tree=null;
+        Object FALSE136_tree=null;
+        Object LBRACKET137_tree=null;
+        Object COMMA139_tree=null;
+        Object RBRACKET141_tree=null;
         RewriteRuleTokenStream stream_LBRACKET=new RewriteRuleTokenStream(adaptor,"token LBRACKET");
         RewriteRuleTokenStream stream_INTEGER=new RewriteRuleTokenStream(adaptor,"token INTEGER");
         RewriteRuleTokenStream stream_FLOAT=new RewriteRuleTokenStream(adaptor,"token FLOAT");
@@ -5340,57 +5363,57 @@ public class CalParser extends Parser {
         RewriteRuleTokenStream stream_STRING=new RewriteRuleTokenStream(adaptor,"token STRING");
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         try {
-            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:215:5: ( ID -> ^( Var ID ) | FLOAT -> ^( Real FLOAT ) | INTEGER -> ^( Integer INTEGER ) | STRING -> ^( String STRING ) | TRUE -> ^( Boolean TRUE ) | FALSE -> ^( Boolean FALSE ) | LBRACKET ( expression ( COMMA expression )* )? RBRACKET -> ^( List ( expression )* ) )
-            int alt51=7;
+            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:215:5: ( ID -> ^( Var ID ) | FLOAT -> ^( Real FLOAT ) | INTEGER -> ^( Integer INTEGER ) | STRING -> ^( String STRING ) | TRUE -> ^( Boolean TRUE ) | FALSE -> ^( Boolean FALSE ) | LBRACKET ( expression ( COMMA expression )* )? RBRACKET -> ^( List ( expression )* ) )
+            int alt50=7;
             switch ( input.LA(1) ) {
             case ID:
                 {
-                alt51=1;
+                alt50=1;
                 }
                 break;
             case FLOAT:
                 {
-                alt51=2;
+                alt50=2;
                 }
                 break;
             case INTEGER:
                 {
-                alt51=3;
+                alt50=3;
                 }
                 break;
             case STRING:
                 {
-                alt51=4;
+                alt50=4;
                 }
                 break;
             case TRUE:
                 {
-                alt51=5;
+                alt50=5;
                 }
                 break;
             case FALSE:
                 {
-                alt51=6;
+                alt50=6;
                 }
                 break;
             case LBRACKET:
                 {
-                alt51=7;
+                alt50=7;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 51, 0, input);
+                    new NoViableAltException("", 50, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt51) {
+            switch (alt50) {
                 case 1 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:215:7: ID
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:215:7: ID
                     {
-                    ID133=(Token)match(input,ID,FOLLOW_ID_in_atom1422);  
-                    stream_ID.add(ID133);
+                    ID131=(Token)match(input,ID,FOLLOW_ID_in_atom1419);  
+                    stream_ID.add(ID131);
 
 
 
@@ -5407,7 +5430,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 215:10: -> ^( Var ID )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:215:13: ^( Var ID )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:215:13: ^( Var ID )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Var, "Var"), root_1);
@@ -5423,10 +5446,10 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:216:3: FLOAT
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:216:3: FLOAT
                     {
-                    FLOAT134=(Token)match(input,FLOAT,FOLLOW_FLOAT_in_atom1434);  
-                    stream_FLOAT.add(FLOAT134);
+                    FLOAT132=(Token)match(input,FLOAT,FOLLOW_FLOAT_in_atom1431);  
+                    stream_FLOAT.add(FLOAT132);
 
 
 
@@ -5443,7 +5466,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 216:9: -> ^( Real FLOAT )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:216:12: ^( Real FLOAT )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:216:12: ^( Real FLOAT )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Real, "Real"), root_1);
@@ -5459,10 +5482,10 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:217:3: INTEGER
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:217:3: INTEGER
                     {
-                    INTEGER135=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_atom1446);  
-                    stream_INTEGER.add(INTEGER135);
+                    INTEGER133=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_atom1443);  
+                    stream_INTEGER.add(INTEGER133);
 
 
 
@@ -5479,7 +5502,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 217:11: -> ^( Integer INTEGER )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:217:14: ^( Integer INTEGER )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:217:14: ^( Integer INTEGER )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Integer, "Integer"), root_1);
@@ -5495,10 +5518,10 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:218:3: STRING
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:218:3: STRING
                     {
-                    STRING136=(Token)match(input,STRING,FOLLOW_STRING_in_atom1458);  
-                    stream_STRING.add(STRING136);
+                    STRING134=(Token)match(input,STRING,FOLLOW_STRING_in_atom1455);  
+                    stream_STRING.add(STRING134);
 
 
 
@@ -5515,7 +5538,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 218:10: -> ^( String STRING )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:218:13: ^( String STRING )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:218:13: ^( String STRING )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(String, "String"), root_1);
@@ -5531,10 +5554,10 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:219:3: TRUE
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:219:3: TRUE
                     {
-                    TRUE137=(Token)match(input,TRUE,FOLLOW_TRUE_in_atom1470);  
-                    stream_TRUE.add(TRUE137);
+                    TRUE135=(Token)match(input,TRUE,FOLLOW_TRUE_in_atom1467);  
+                    stream_TRUE.add(TRUE135);
 
 
 
@@ -5551,7 +5574,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 219:8: -> ^( Boolean TRUE )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:219:11: ^( Boolean TRUE )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:219:11: ^( Boolean TRUE )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Boolean, "Boolean"), root_1);
@@ -5567,10 +5590,10 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 6 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:220:3: FALSE
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:220:3: FALSE
                     {
-                    FALSE138=(Token)match(input,FALSE,FOLLOW_FALSE_in_atom1482);  
-                    stream_FALSE.add(FALSE138);
+                    FALSE136=(Token)match(input,FALSE,FOLLOW_FALSE_in_atom1479);  
+                    stream_FALSE.add(FALSE136);
 
 
 
@@ -5587,7 +5610,7 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 220:9: -> ^( Boolean FALSE )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:220:12: ^( Boolean FALSE )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:220:12: ^( Boolean FALSE )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(Boolean, "Boolean"), root_1);
@@ -5603,58 +5626,58 @@ public class CalParser extends Parser {
                     }
                     break;
                 case 7 :
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:221:3: LBRACKET ( expression ( COMMA expression )* )? RBRACKET
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:221:3: LBRACKET ( expression ( COMMA expression )* )? RBRACKET
                     {
-                    LBRACKET139=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_atom1494);  
-                    stream_LBRACKET.add(LBRACKET139);
+                    LBRACKET137=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_atom1491);  
+                    stream_LBRACKET.add(LBRACKET137);
 
-                    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:221:12: ( expression ( COMMA expression )* )?
-                    int alt50=2;
-                    int LA50_0 = input.LA(1);
+                    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:221:12: ( expression ( COMMA expression )* )?
+                    int alt49=2;
+                    int LA49_0 = input.LA(1);
 
-                    if ( (LA50_0==LBRACKET||LA50_0==LPAREN||LA50_0==ID||(LA50_0>=MINUS && LA50_0<=NOT)||(LA50_0>=FLOAT && LA50_0<=FALSE)) ) {
-                        alt50=1;
+                    if ( (LA49_0==LBRACKET||LA49_0==LPAREN||LA49_0==ID||(LA49_0>=MINUS && LA49_0<=NOT)||(LA49_0>=FLOAT && LA49_0<=FALSE)) ) {
+                        alt49=1;
                     }
-                    switch (alt50) {
+                    switch (alt49) {
                         case 1 :
-                            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:221:13: expression ( COMMA expression )*
+                            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:221:13: expression ( COMMA expression )*
                             {
-                            pushFollow(FOLLOW_expression_in_atom1497);
-                            expression140=expression();
+                            pushFollow(FOLLOW_expression_in_atom1494);
+                            expression138=expression();
 
                             state._fsp--;
 
-                            stream_expression.add(expression140.getTree());
-                            // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:221:24: ( COMMA expression )*
-                            loop49:
+                            stream_expression.add(expression138.getTree());
+                            // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:221:24: ( COMMA expression )*
+                            loop48:
                             do {
-                                int alt49=2;
-                                int LA49_0 = input.LA(1);
+                                int alt48=2;
+                                int LA48_0 = input.LA(1);
 
-                                if ( (LA49_0==COMMA) ) {
-                                    alt49=1;
+                                if ( (LA48_0==COMMA) ) {
+                                    alt48=1;
                                 }
 
 
-                                switch (alt49) {
+                                switch (alt48) {
                             	case 1 :
-                            	    // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:221:25: COMMA expression
+                            	    // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:221:25: COMMA expression
                             	    {
-                            	    COMMA141=(Token)match(input,COMMA,FOLLOW_COMMA_in_atom1500);  
-                            	    stream_COMMA.add(COMMA141);
+                            	    COMMA139=(Token)match(input,COMMA,FOLLOW_COMMA_in_atom1497);  
+                            	    stream_COMMA.add(COMMA139);
 
-                            	    pushFollow(FOLLOW_expression_in_atom1502);
-                            	    expression142=expression();
+                            	    pushFollow(FOLLOW_expression_in_atom1499);
+                            	    expression140=expression();
 
                             	    state._fsp--;
 
-                            	    stream_expression.add(expression142.getTree());
+                            	    stream_expression.add(expression140.getTree());
 
                             	    }
                             	    break;
 
                             	default :
-                            	    break loop49;
+                            	    break loop48;
                                 }
                             } while (true);
 
@@ -5664,8 +5687,8 @@ public class CalParser extends Parser {
 
                     }
 
-                    RBRACKET143=(Token)match(input,RBRACKET,FOLLOW_RBRACKET_in_atom1508);  
-                    stream_RBRACKET.add(RBRACKET143);
+                    RBRACKET141=(Token)match(input,RBRACKET,FOLLOW_RBRACKET_in_atom1505);  
+                    stream_RBRACKET.add(RBRACKET141);
 
 
 
@@ -5682,12 +5705,12 @@ public class CalParser extends Parser {
                     root_0 = (Object)adaptor.nil();
                     // 221:55: -> ^( List ( expression )* )
                     {
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:221:58: ^( List ( expression )* )
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:221:58: ^( List ( expression )* )
                         {
                         Object root_1 = (Object)adaptor.nil();
                         root_1 = (Object)adaptor.becomeRoot((Object)adaptor.create(List, "List"), root_1);
 
-                        // D:\\Prog\\repositories\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:221:65: ( expression )*
+                        // D:\\repositories\\mwipliez\\graphiti-editor\\configuration\\src\\net\\sf\\graphiti\\grammar\\Cal.g:221:65: ( expression )*
                         while ( stream_expression.hasNext() ) {
                             adaptor.addChild(root_1, stream_expression.nextTree());
 
@@ -5752,8 +5775,8 @@ public class CalParser extends Parser {
     public static final BitSet FOLLOW_varDecl_in_varDeclSection394 = new BitSet(new long[]{0x0004200000000002L});
     public static final BitSet FOLLOW_MUTABLE_in_varDecl407 = new BitSet(new long[]{0x0004000000000000L});
     public static final BitSet FOLLOW_typeAndId_in_varDecl410 = new BitSet(new long[]{0x0001C00000000000L});
-    public static final BitSet FOLLOW_EQ_in_varDecl416 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000001F0L});
-    public static final BitSet FOLLOW_COLON_EQUAL_in_varDecl420 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000001F0L});
+    public static final BitSet FOLLOW_EQ_in_varDecl416 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000000F8L});
+    public static final BitSet FOLLOW_COLON_EQUAL_in_varDecl420 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000000F8L});
     public static final BitSet FOLLOW_expression_in_varDecl423 = new BitSet(new long[]{0x0001000000000000L});
     public static final BitSet FOLLOW_SEMICOLON_in_varDecl452 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ENTITIES_in_entitySection460 = new BitSet(new long[]{0x0004000000000000L});
@@ -5770,7 +5793,7 @@ public class CalParser extends Parser {
     public static final BitSet FOLLOW_COMMA_in_entityPars534 = new BitSet(new long[]{0x0004000000000000L});
     public static final BitSet FOLLOW_entityPar_in_entityPars536 = new BitSet(new long[]{0x0008000000000002L});
     public static final BitSet FOLLOW_ID_in_entityPar550 = new BitSet(new long[]{0x0000400000000000L});
-    public static final BitSet FOLLOW_EQ_in_entityPar552 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000001F0L});
+    public static final BitSet FOLLOW_EQ_in_entityPar552 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000000F8L});
     public static final BitSet FOLLOW_expression_in_entityPar554 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_STRUCTURE_in_structureSection580 = new BitSet(new long[]{0x0004000000000000L});
     public static final BitSet FOLLOW_structureStmt_in_structureSection582 = new BitSet(new long[]{0x0004000000000002L});
@@ -5786,7 +5809,7 @@ public class CalParser extends Parser {
     public static final BitSet FOLLOW_attributeDecl_in_attributeSection695 = new BitSet(new long[]{0x0104000000000000L});
     public static final BitSet FOLLOW_RBRACE_in_attributeSection698 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ID_in_attributeDecl712 = new BitSet(new long[]{0x0000420000000000L});
-    public static final BitSet FOLLOW_EQ_in_attributeDecl715 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000001F0L});
+    public static final BitSet FOLLOW_EQ_in_attributeDecl715 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000000F8L});
     public static final BitSet FOLLOW_expression_in_attributeDecl717 = new BitSet(new long[]{0x0001000000000000L});
     public static final BitSet FOLLOW_SEMICOLON_in_attributeDecl719 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_COLON_in_attributeDecl742 = new BitSet(new long[]{0x0004000000000000L});
@@ -5794,95 +5817,93 @@ public class CalParser extends Parser {
     public static final BitSet FOLLOW_SEMICOLON_in_attributeDecl746 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_oneImport_in_actor777 = new BitSet(new long[]{0x0600000000000000L});
     public static final BitSet FOLLOW_ACTOR_in_actor780 = new BitSet(new long[]{0x0004000000000000L});
-    public static final BitSet FOLLOW_ID_in_actor782 = new BitSet(new long[]{0x000000A000000000L});
-    public static final BitSet FOLLOW_LBRACKET_in_actor787 = new BitSet(new long[]{0x0004004000000000L});
-    public static final BitSet FOLLOW_typePars_in_actor789 = new BitSet(new long[]{0x0000004000000000L});
-    public static final BitSet FOLLOW_RBRACKET_in_actor792 = new BitSet(new long[]{0x0000008000000000L});
-    public static final BitSet FOLLOW_LPAREN_in_actor798 = new BitSet(new long[]{0x0004010000000000L});
-    public static final BitSet FOLLOW_parameters_in_actor800 = new BitSet(new long[]{0x0000010000000000L});
-    public static final BitSet FOLLOW_RPAREN_in_actor803 = new BitSet(new long[]{0x1004080000000000L});
-    public static final BitSet FOLLOW_portSignature_in_actor807 = new BitSet(new long[]{0x0000020000000000L});
-    public static final BitSet FOLLOW_COLON_in_actor809 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0x00000000000FFFFFL});
-    public static final BitSet FOLLOW_EOF_in_actor814 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IMPORT_in_oneImport845 = new BitSet(new long[]{0x0804000000000000L});
-    public static final BitSet FOLLOW_importRest_in_oneImport847 = new BitSet(new long[]{0x0001000000000000L});
-    public static final BitSet FOLLOW_SEMICOLON_in_oneImport849 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ALL_in_importRest857 = new BitSet(new long[]{0x0004000000000000L});
-    public static final BitSet FOLLOW_qualifiedId_in_importRest859 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_qualifiedId_in_importRest865 = new BitSet(new long[]{0x0000400000000002L});
-    public static final BitSet FOLLOW_EQ_in_importRest868 = new BitSet(new long[]{0x0004000000000000L});
-    public static final BitSet FOLLOW_ID_in_importRest870 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_qualifiedId880 = new BitSet(new long[]{0x0040000000000002L});
-    public static final BitSet FOLLOW_DOT_in_qualifiedId883 = new BitSet(new long[]{0x0004000000000000L});
-    public static final BitSet FOLLOW_ID_in_qualifiedId885 = new BitSet(new long[]{0x0040000000000002L});
-    public static final BitSet FOLLOW_typeAndId_in_parameter924 = new BitSet(new long[]{0x0000400000000002L});
-    public static final BitSet FOLLOW_EQ_in_parameter929 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000001F0L});
-    public static final BitSet FOLLOW_expression_in_parameter931 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_parameter_in_parameters965 = new BitSet(new long[]{0x0008000000000002L});
-    public static final BitSet FOLLOW_COMMA_in_parameters968 = new BitSet(new long[]{0x0004000000000000L});
-    public static final BitSet FOLLOW_parameter_in_parameters970 = new BitSet(new long[]{0x0008000000000002L});
-    public static final BitSet FOLLOW_MULTI_in_portDecl987 = new BitSet(new long[]{0x0004000000000000L});
-    public static final BitSet FOLLOW_typeAndId_in_portDecl990 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_portDecl_in_portDecls1005 = new BitSet(new long[]{0x0008000000000002L});
-    public static final BitSet FOLLOW_COMMA_in_portDecls1008 = new BitSet(new long[]{0x1004000000000000L});
-    public static final BitSet FOLLOW_portDecl_in_portDecls1010 = new BitSet(new long[]{0x0008000000000002L});
-    public static final BitSet FOLLOW_typeAndId_in_mainParameter1028 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_mainParameter1030 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_typeAndId1047 = new BitSet(new long[]{0x000400A000000002L});
-    public static final BitSet FOLLOW_typeRest_in_typeAndId1052 = new BitSet(new long[]{0x0004000000000000L});
-    public static final BitSet FOLLOW_ID_in_typeAndId1057 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_type1101 = new BitSet(new long[]{0x000000A000000002L});
-    public static final BitSet FOLLOW_typeRest_in_type1103 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LBRACKET_in_typeRest1126 = new BitSet(new long[]{0x0004004000000000L});
-    public static final BitSet FOLLOW_typePars_in_typeRest1128 = new BitSet(new long[]{0x0000004000000000L});
-    public static final BitSet FOLLOW_RBRACKET_in_typeRest1131 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LPAREN_in_typeRest1142 = new BitSet(new long[]{0x0004010000000000L});
-    public static final BitSet FOLLOW_typeAttrs_in_typeRest1144 = new BitSet(new long[]{0x0000010000000000L});
-    public static final BitSet FOLLOW_RPAREN_in_typeRest1147 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_typeAttr_in_typeAttrs1159 = new BitSet(new long[]{0x0008000000000002L});
-    public static final BitSet FOLLOW_COMMA_in_typeAttrs1162 = new BitSet(new long[]{0x0004000000000000L});
-    public static final BitSet FOLLOW_typeAttr_in_typeAttrs1164 = new BitSet(new long[]{0x0008000000000002L});
-    public static final BitSet FOLLOW_ID_in_typeAttr1178 = new BitSet(new long[]{0x0000420000000000L});
-    public static final BitSet FOLLOW_typeAttrRest_in_typeAttr1180 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_COLON_in_typeAttrRest1191 = new BitSet(new long[]{0x0004000000000000L});
-    public static final BitSet FOLLOW_type_in_typeAttrRest1193 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_EQ_in_typeAttrRest1205 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000001F0L});
-    public static final BitSet FOLLOW_expression_in_typeAttrRest1207 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_typePar_in_typePars1226 = new BitSet(new long[]{0x0008000000000002L});
-    public static final BitSet FOLLOW_COMMA_in_typePars1229 = new BitSet(new long[]{0x0004000000000000L});
-    public static final BitSet FOLLOW_typePar_in_typePars1231 = new BitSet(new long[]{0x0008000000000002L});
-    public static final BitSet FOLLOW_ID_in_typePar1245 = new BitSet(new long[]{0x2000000000000002L});
-    public static final BitSet FOLLOW_LT_in_typePar1248 = new BitSet(new long[]{0x0004000000000000L});
-    public static final BitSet FOLLOW_type_in_typePar1250 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_expression_in_mainExpression1273 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_mainExpression1275 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_factor_in_expression1290 = new BitSet(new long[]{0x4000000000000002L,0x000000000000000FL});
-    public static final BitSet FOLLOW_binop_in_expression1293 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000001F0L});
-    public static final BitSet FOLLOW_factor_in_expression1295 = new BitSet(new long[]{0x4000000000000002L,0x000000000000000FL});
-    public static final BitSet FOLLOW_MINUS_in_unop1307 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NOT_in_unop1313 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_PLUS_in_binop1333 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MINUS_in_binop1339 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_TIMES_in_binop1345 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_DIV_in_binop1351 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CARET_in_binop1357 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_term_in_factor1374 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_unop_in_factor1378 = new BitSet(new long[]{0x000400A000000000L,0x00000000000001F0L});
-    public static final BitSet FOLLOW_term_in_factor1380 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_atom_in_term1397 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LPAREN_in_term1403 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000001F0L});
-    public static final BitSet FOLLOW_expression_in_term1405 = new BitSet(new long[]{0x0000010000000000L});
-    public static final BitSet FOLLOW_RPAREN_in_term1407 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_atom1422 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_FLOAT_in_atom1434 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INTEGER_in_atom1446 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_STRING_in_atom1458 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_TRUE_in_atom1470 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_FALSE_in_atom1482 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LBRACKET_in_atom1494 = new BitSet(new long[]{0xC00400E000000000L,0x00000000000001F0L});
-    public static final BitSet FOLLOW_expression_in_atom1497 = new BitSet(new long[]{0x0008004000000000L});
-    public static final BitSet FOLLOW_COMMA_in_atom1500 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000001F0L});
-    public static final BitSet FOLLOW_expression_in_atom1502 = new BitSet(new long[]{0x0008004000000000L});
-    public static final BitSet FOLLOW_RBRACKET_in_atom1508 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_actor782 = new BitSet(new long[]{0x0000008000000000L});
+    public static final BitSet FOLLOW_LPAREN_in_actor786 = new BitSet(new long[]{0x0004010000000000L});
+    public static final BitSet FOLLOW_parameters_in_actor788 = new BitSet(new long[]{0x0000010000000000L});
+    public static final BitSet FOLLOW_RPAREN_in_actor791 = new BitSet(new long[]{0x1004080000000000L});
+    public static final BitSet FOLLOW_portSignature_in_actor795 = new BitSet(new long[]{0x0000020000000000L});
+    public static final BitSet FOLLOW_COLON_in_actor797 = new BitSet(new long[]{0xFFFFFFFFFFFFFFF0L,0x00000000001FFFFFL});
+    public static final BitSet FOLLOW_EOF_in_actor802 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_qualifiedId834 = new BitSet(new long[]{0x0040000000000002L});
+    public static final BitSet FOLLOW_DOT_in_qualifiedId837 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_ID_in_qualifiedId839 = new BitSet(new long[]{0x0040000000000002L});
+    public static final BitSet FOLLOW_IMPORT_in_oneImport878 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_importId_in_oneImport880 = new BitSet(new long[]{0x0001000000000000L});
+    public static final BitSet FOLLOW_SEMICOLON_in_oneImport882 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_importId890 = new BitSet(new long[]{0x0040000000000002L});
+    public static final BitSet FOLLOW_importIdRest_in_importId892 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_DOT_in_importIdRest900 = new BitSet(new long[]{0x0804000000000000L});
+    public static final BitSet FOLLOW_TIMES_in_importIdRest903 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_importIdRest907 = new BitSet(new long[]{0x0040000000000002L});
+    public static final BitSet FOLLOW_importIdRest_in_importIdRest909 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_typeAndId_in_parameter921 = new BitSet(new long[]{0x0000400000000002L});
+    public static final BitSet FOLLOW_EQ_in_parameter926 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000000F8L});
+    public static final BitSet FOLLOW_expression_in_parameter928 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_parameter_in_parameters962 = new BitSet(new long[]{0x0008000000000002L});
+    public static final BitSet FOLLOW_COMMA_in_parameters965 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_parameter_in_parameters967 = new BitSet(new long[]{0x0008000000000002L});
+    public static final BitSet FOLLOW_MULTI_in_portDecl984 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_typeAndId_in_portDecl987 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_portDecl_in_portDecls1002 = new BitSet(new long[]{0x0008000000000002L});
+    public static final BitSet FOLLOW_COMMA_in_portDecls1005 = new BitSet(new long[]{0x1004000000000000L});
+    public static final BitSet FOLLOW_portDecl_in_portDecls1007 = new BitSet(new long[]{0x0008000000000002L});
+    public static final BitSet FOLLOW_typeAndId_in_mainParameter1025 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_mainParameter1027 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_typeAndId1044 = new BitSet(new long[]{0x000400A000000002L});
+    public static final BitSet FOLLOW_typeRest_in_typeAndId1049 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_ID_in_typeAndId1054 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_type1098 = new BitSet(new long[]{0x000000A000000002L});
+    public static final BitSet FOLLOW_typeRest_in_type1100 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LBRACKET_in_typeRest1123 = new BitSet(new long[]{0x0004004000000000L});
+    public static final BitSet FOLLOW_typePars_in_typeRest1125 = new BitSet(new long[]{0x0000004000000000L});
+    public static final BitSet FOLLOW_RBRACKET_in_typeRest1128 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LPAREN_in_typeRest1139 = new BitSet(new long[]{0x0004010000000000L});
+    public static final BitSet FOLLOW_typeAttrs_in_typeRest1141 = new BitSet(new long[]{0x0000010000000000L});
+    public static final BitSet FOLLOW_RPAREN_in_typeRest1144 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_typeAttr_in_typeAttrs1156 = new BitSet(new long[]{0x0008000000000002L});
+    public static final BitSet FOLLOW_COMMA_in_typeAttrs1159 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_typeAttr_in_typeAttrs1161 = new BitSet(new long[]{0x0008000000000002L});
+    public static final BitSet FOLLOW_ID_in_typeAttr1175 = new BitSet(new long[]{0x0000420000000000L});
+    public static final BitSet FOLLOW_typeAttrRest_in_typeAttr1177 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_COLON_in_typeAttrRest1188 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_type_in_typeAttrRest1190 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_EQ_in_typeAttrRest1202 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000000F8L});
+    public static final BitSet FOLLOW_expression_in_typeAttrRest1204 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_typePar_in_typePars1223 = new BitSet(new long[]{0x0008000000000002L});
+    public static final BitSet FOLLOW_COMMA_in_typePars1226 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_typePar_in_typePars1228 = new BitSet(new long[]{0x0008000000000002L});
+    public static final BitSet FOLLOW_ID_in_typePar1242 = new BitSet(new long[]{0x2000000000000002L});
+    public static final BitSet FOLLOW_LT_in_typePar1245 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_type_in_typePar1247 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_expression_in_mainExpression1270 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_mainExpression1272 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_factor_in_expression1287 = new BitSet(new long[]{0x4800000000000002L,0x0000000000000007L});
+    public static final BitSet FOLLOW_binop_in_expression1290 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000000F8L});
+    public static final BitSet FOLLOW_factor_in_expression1292 = new BitSet(new long[]{0x4800000000000002L,0x0000000000000007L});
+    public static final BitSet FOLLOW_MINUS_in_unop1304 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NOT_in_unop1310 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_PLUS_in_binop1330 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_MINUS_in_binop1336 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_TIMES_in_binop1342 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_DIV_in_binop1348 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_XOR_in_binop1354 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_term_in_factor1371 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_unop_in_factor1375 = new BitSet(new long[]{0x000400A000000000L,0x00000000000000F8L});
+    public static final BitSet FOLLOW_term_in_factor1377 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_atom_in_term1394 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LPAREN_in_term1400 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000000F8L});
+    public static final BitSet FOLLOW_expression_in_term1402 = new BitSet(new long[]{0x0000010000000000L});
+    public static final BitSet FOLLOW_RPAREN_in_term1404 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_atom1419 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_FLOAT_in_atom1431 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_INTEGER_in_atom1443 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_STRING_in_atom1455 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_TRUE_in_atom1467 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_FALSE_in_atom1479 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LBRACKET_in_atom1491 = new BitSet(new long[]{0xC00400E000000000L,0x00000000000000F8L});
+    public static final BitSet FOLLOW_expression_in_atom1494 = new BitSet(new long[]{0x0008004000000000L});
+    public static final BitSet FOLLOW_COMMA_in_atom1497 = new BitSet(new long[]{0xC00400A000000000L,0x00000000000000F8L});
+    public static final BitSet FOLLOW_expression_in_atom1499 = new BitSet(new long[]{0x0008004000000000L});
+    public static final BitSet FOLLOW_RBRACKET_in_atom1505 = new BitSet(new long[]{0x0000000000000002L});
 
 }
