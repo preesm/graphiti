@@ -101,7 +101,8 @@ public class GenericGraphWriter {
 
 		List<String> transformations = format.getExportTransformations();
 		for (String transformation : transformations) {
-			XsltTransformer transformer = new XsltTransformer(transformation);
+			XsltTransformer transformer = new XsltTransformer(
+					configuration.getContributorId(), transformation);
 			transformer.setParameter("path", path);
 			element = transformer.transformDomToDom(element);
 		}

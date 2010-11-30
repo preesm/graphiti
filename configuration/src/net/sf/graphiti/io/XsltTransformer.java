@@ -46,11 +46,10 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import net.sf.graphiti.configuration.ui.Activator;
-
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -74,6 +73,8 @@ public class XsltTransformer {
 	 * Creates a new {@link XsltTransformer} with an XSLT stylesheet contained
 	 * in the file whose name is <code>fileName</code>.
 	 * 
+	 * @param contributorId
+	 *            the identifier of the contributor of the XSLT transformation
 	 * @param fileName
 	 *            The XSLT stylesheet file name.
 	 * @throws TransformerConfigurationException
@@ -82,11 +83,11 @@ public class XsltTransformer {
 	 * @throws IOException
 	 * @throws URISyntaxException
 	 */
-	public XsltTransformer(String fileName)
+	public XsltTransformer(String contributorId, String fileName)
 			throws TransformerConfigurationException, IOException,
 			URISyntaxException {
 		IPath path = new Path(fileName);
-		final Bundle bundle = Activator.getDefault().getBundle();
+		final Bundle bundle = Platform.getBundle(contributorId);
 		final IPath folder = path.removeLastSegments(1);
 
 		TransformerFactory factory = TransformerFactory.newInstance(

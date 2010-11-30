@@ -43,6 +43,7 @@ import net.sf.graphiti.model.ParameterPosition;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.Color;
@@ -137,8 +138,10 @@ public class ConfigurationParser {
 
 		Object value = element.createExecutableExtension("validator");
 
-		Configuration configuration = new Configuration(name, format, fileExts,
-				graphTypes, vertexTypes, edgeTypes, (IValidator) value);
+		IContributor contributor = element.getContributor();
+		Configuration configuration = new Configuration(name,
+				contributor.getName(), format, fileExts, graphTypes,
+				vertexTypes, edgeTypes, (IValidator) value);
 		return configuration;
 	}
 

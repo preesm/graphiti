@@ -170,13 +170,14 @@ public class GenericGraphParser {
 					}
 
 					XsltTransformer transformer = new XsltTransformer(
+							configuration.getContributorId(),
 							transformation.getFileName());
 					transformer.setParameter("path", path);
 					element = transformer.transformDomToDom(element);
 				} else {
 					GrammarTransformer transformer = new GrammarTransformer(
-							transformation.getGrammarId(), transformation
-									.getStartRule());
+							transformation.getGrammarId(),
+							transformation.getStartRule());
 					element = transformer.parse(in);
 				}
 			}
@@ -244,8 +245,8 @@ public class GenericGraphParser {
 
 		// parse with the configuration
 		try {
-			return parse(configuration, file.getLocation().toString(), file
-					.getContents());
+			return parse(configuration, file.getLocation().toString(),
+					file.getContents());
 		} catch (ClassCastException e) {
 			throw new IncompatibleConfigurationFile(
 					"There was a problem with the creation of a DOM document",

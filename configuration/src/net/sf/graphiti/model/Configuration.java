@@ -34,8 +34,8 @@ import java.util.TreeSet;
 
 /**
  * This class provides the configuration for a {@link Graph}. A configuration is
- * defined by an ontology, and contains attributes and parameters that are
- * defined for the graph, vertices and edges.
+ * defined by an extension point, and contains attributes and parameters that
+ * are defined for the graph, vertices and edges.
  * <p>
  * Attributes are specified for classes of objects: for example, all vertices of
  * type T will have an attribute A which has the value V. Examples of such
@@ -55,6 +55,8 @@ public class Configuration {
 	 * Serial version UID.
 	 */
 	private static final long serialVersionUID = 1L;
+
+	private String contributorId;
 
 	/**
 	 * A edge type name -> edge type object map.
@@ -92,25 +94,47 @@ public class Configuration {
 	private Map<String, ObjectType> vertexTypes;
 
 	/**
-	 * Creates a new document configuration with no initial attributes or
-	 * parameters.
+	 * Creates a new document configuration.
 	 * 
-	 * @param fileName
-	 *            The name of the file this document configuration is associated
-	 *            with.
+	 * @param name
+	 *            the name of this configuration
+	 * @param contributorId
+	 *            the identifier of the contributor of this configuration
+	 * @param fileFormat
+	 *            the associated file format
+	 * @param refinementFileExtensions
+	 *            an array of file extensions
+	 * @param graphTypes
+	 *            types of graphs
+	 * @param vertexTypes
+	 *            types of vertices
+	 * @param edgeTypes
+	 *            types of edges
+	 * @param validator
+	 *            the validator
 	 */
-	public Configuration(String fileName, FileFormat fileFormat,
-			String[] refinementFileExtensions,
+	public Configuration(String name, String contributorId,
+			FileFormat fileFormat, String[] refinementFileExtensions,
 			Map<String, ObjectType> graphTypes,
 			Map<String, ObjectType> vertexTypes,
 			Map<String, ObjectType> edgeTypes, IValidator validator) {
+		this.contributorId = contributorId;
 		this.edgeTypes = edgeTypes;
 		this.fileFormat = fileFormat;
-		this.fileName = fileName;
+		this.fileName = name;
 		this.graphTypes = graphTypes;
 		this.refinementFileExtensions = refinementFileExtensions;
 		this.validator = validator;
 		this.vertexTypes = vertexTypes;
+	}
+
+	/**
+	 * Returns the identifier of the contributor of this configuration.
+	 * 
+	 * @return the identifier of the contributor of this configuration
+	 */
+	public String getContributorId() {
+		return contributorId;
 	}
 
 	/**
