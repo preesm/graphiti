@@ -129,7 +129,11 @@ public class Configuration {
 		this.fileFormat = fileFormat;
 		this.fileName = name;
 		this.graphTypes = graphTypes;
-		this.refinementPolicy = policy;
+		if (policy == null) {
+			refinementPolicy = new DefaultRefinementPolicy();
+		} else {
+			this.refinementPolicy = policy;
+		}
 		this.refinementFileExtensions = refinementFileExtensions;
 		this.validator = validator;
 		this.vertexTypes = vertexTypes;

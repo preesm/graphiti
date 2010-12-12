@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, IETR/INSA of Rennes
+ * Copyright (c) 2009, IETR/INSA of Rennes
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,20 +26,14 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.validator;
+package net.sf.graphiti.validators;
+
+import org.eclipse.core.resources.IFile;
 
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.IValidator;
 
-import org.eclipse.core.resources.IFile;
-
-/**
- * This class implements an IP-XACT model validator.
- * 
- * @author mpelcat
- * 
- */
-public class IPXACTValidator implements IValidator {
+public class IDLValidator implements IValidator{
 
 	@Override
 	public boolean validate(Graph graph, IFile file) {

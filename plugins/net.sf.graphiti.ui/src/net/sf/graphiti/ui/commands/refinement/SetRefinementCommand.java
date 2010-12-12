@@ -262,11 +262,7 @@ public class SetRefinementCommand extends Command {
 			if (obj instanceof VertexEditPart) {
 				// we are dealing with a vertex edit part
 				vertex = (Vertex) ((VertexEditPart) obj).getModel();
-
 				policy = vertex.getConfiguration().getRefinementPolicy();
-				if (policy == null) {
-					policy = new DefaultRefinementPolicy();
-				}
 			}
 		}
 	}

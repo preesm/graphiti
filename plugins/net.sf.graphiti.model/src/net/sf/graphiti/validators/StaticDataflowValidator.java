@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009, IETR/INSA of Rennes
+ * Copyright (c) 2008, IETR/INSA of Rennes
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -26,18 +26,24 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.validator;
+package net.sf.graphiti.validators;
+
+import net.sf.graphiti.model.Graph;
 
 import org.eclipse.core.resources.IFile;
 
-import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.IValidator;
-
-public class IDLValidator implements IValidator{
+/**
+ * This class implements a model validator.
+ * 
+ * @author Matthieu Wipliez
+ * 
+ */
+public class StaticDataflowValidator extends DataflowValidator {
 
 	@Override
 	public boolean validate(Graph graph, IFile file) {
-		return true;
+		// first checks dataflow rules.
+		return super.validate(graph, file);
 	}
 
 }

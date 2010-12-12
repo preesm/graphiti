@@ -26,24 +26,24 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.validator;
+package net.sf.graphiti.validators;
 
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.IValidator;
 
 import org.eclipse.core.resources.IFile;
 
 /**
- * This class implements a model validator.
+ * This class implements an Workflow model validator.
  * 
- * @author Matthieu Wipliez
+ * @author mpelcat
  * 
  */
-public class StaticDataflowValidator extends DataflowValidator {
+public class WorkflowValidator implements IValidator {
 
 	@Override
 	public boolean validate(Graph graph, IFile file) {
-		// first checks dataflow rules.
-		return super.validate(graph, file);
+		return true;
 	}
 
 }

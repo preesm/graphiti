@@ -7,141 +7,10 @@
    <extension
          point="net.sf.graphiti.model.definition">
       <configuration
-            extension="xdf"
-            file-extensions="cal,nl,xdf"
-            name="XDF"
-            type="text/xml"
-            validator="net.sf.graphiti.validator.XdfValidator">
-         <graphType
-               name="XML Dataflow Network">
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="network parameter"
-                  type="java.util.List">
-            </parameter>
-            <parameter
-                  name="network variable declaration"
-                  type="java.util.Map">
-            </parameter>
-         </graphType>
-         <vertexType
-               name="Input port">
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  default="int(size=32)"
-                  name="port type"
-                  type="java.lang.String">
-            </parameter>
-               <color
-                     blue="100"
-                     green="60"
-                     red="0">
-               </color>
-               <size
-                     height="30"
-                     width="30">
-               </size>
-               <shape
-                     type="triangle">
-               </shape>
-         </vertexType>
-         <vertexType
-               name="Output port">
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  default="int(size=32)"
-                  name="port type"
-                  type="java.lang.String">
-            </parameter>
-               <color
-                     blue="100"
-                     green="0"
-                     red="60">
-               </color>
-               <shape
-                     type="triangle">
-               </shape>
-               <size
-                     height="30"
-                     width="30">
-               </size>
-         </vertexType>
-         <vertexType
-               name="Instance">
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="instance parameter"
-                  type="java.util.Map">
-            </parameter>
-            <parameter
-                  name="refinement"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="part name"
-                  type="java.lang.String">
-            </parameter>
-            <color
-                  blue="23"
-                  green="232"
-                  red="190">
-            </color>
-            <size
-                  height="40"
-                  width="40">
-            </size>
-            <shape
-                  type="roundedBox">
-            </shape>
-            <parameter
-                  name="skip"
-                  type="java.lang.Boolean">
-            </parameter>
-         </vertexType>
-         <edgeType
-               directed="true"
-               name="Connection">
-            <parameter
-                  name="source port"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="target port"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="buffer size"
-                  type="java.lang.String">
-            </parameter>
-         </edgeType>
-         <import>
-            <xslt
-                  name="xslt/net/sf/graphiti/xdf/input_XDF.xslt">
-            </xslt>
-         </import>
-         <export>
-            <xslt
-                  name="xslt/net/sf/graphiti/xdf/output_XDF.xslt">
-            </xslt>
-         </export>
-      </configuration>
-      <configuration
             extension="graphml"
             name="sdf4j"
             type="text/xml"
-            validator="net.sf.graphiti.validator.StaticDataflowValidator">
+            validator="net.sf.graphiti.validators.StaticDataflowValidator">
          <graphType
                name="SDF Graph">
             <parameter
@@ -323,81 +192,10 @@
          </vertexType>
       </configuration>
       <configuration
-            extension="cal"
-            name="CAL"
-            type="text"
-            validator="net.sf.graphiti.validator.ActorValidator">
-         <graphType
-               name="CAL actor">
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="actor parameter"
-                  type="java.util.List">
-            </parameter>
-            <parameter
-                  name="actor variable declaration"
-                  type="java.util.Map">
-            </parameter>
-         </graphType>
-         <import>
-            <grammar
-                  definition="net.sf.graphiti.grammar.cal"
-                  startRule="actor">
-            </grammar>
-            <xslt
-                  name="xslt/net/sf/graphiti/xdf/calToCalML.xslt">
-            </xslt>
-            <xslt
-                  name="xslt/net/sf/graphiti/xdf/input_CalML.xslt">
-            </xslt>
-         </import>
-         <vertexType
-               name="Input port">
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
-            <color
-                  blue="100"
-                  green="60"
-                  red="0">
-            </color>
-            <size
-                  height="30"
-                  width="30">
-            </size>
-            <shape
-                  type="triangle">
-            </shape>
-         </vertexType>
-         <vertexType
-               name="Output port">
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
-            <color
-                  blue="100"
-                  green="0"
-                  red="60">
-            </color>
-            <shape
-                  type="triangle">
-            </shape>
-            <size
-                  height="30"
-                  width="30">
-            </size>
-         </vertexType>
-      </configuration>
-      <configuration
             extension="design"
             name="IP-XACT Design Simple"
             type="text/xml"
-            validator="net.sf.graphiti.validator.IPXACTValidator">
+            validator="net.sf.graphiti.validators.IPXACTValidator">
          <graphType
                name="Spirit IP-XACT simple design">
             <parameter
@@ -740,7 +538,7 @@
             extension="component"
             name="IP-XACT Component Simple"
             type="text/xml"
-            validator="net.sf.graphiti.validator.IPXACTValidator">
+            validator="net.sf.graphiti.validators.IPXACTValidator">
          <graphType
                name="Spirit IP-XACT simple component">
             <parameter
@@ -860,7 +658,7 @@
             extension="advds"
             name="IP-XACT Design Advanced"
             type="text/xml"
-            validator="net.sf.graphiti.validator.IPXACTValidator">
+            validator="net.sf.graphiti.validators.IPXACTValidator">
          <graphType
                name="Spirit IP-XACT advanced design">
             <parameter
@@ -1233,7 +1031,7 @@
             extension="advcmp"
             name="IP-XACT Component Advanced"
             type="text/xml"
-            validator="net.sf.graphiti.validator.IPXACTValidator">
+            validator="net.sf.graphiti.validators.IPXACTValidator">
          <graphType
                name="Spirit IP-XACT advanced component">
             <parameter
@@ -1353,7 +1151,7 @@
             extension="workflow"
             name="Workflow"
             type="text/xml"
-            validator="net.sf.graphiti.validator.WorkflowValidator">
+            validator="net.sf.graphiti.validators.WorkflowValidator">
          <graphType
                name="Preesm Workflow">
          </graphType>
@@ -1465,147 +1263,10 @@
          </edgeType>
       </configuration>
       <configuration
-            extension="nl"
-            file-extensions="cal,nl,xdf"
-            name="NL"
-            type="text"
-            validator="net.sf.graphiti.validator.XdfValidator">
-         <graphType
-               name="Network">
-            <parameter
-                  default="new_network"
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="network parameter"
-                  type="java.util.List">
-            </parameter>
-            <parameter
-                  name="network variable declaration"
-                  type="java.util.Map">
-            </parameter>
-         </graphType>
-         <vertexType
-               name="Input port">
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  default="int(size=32)"
-                  name="port type"
-                  type="java.lang.String">
-            </parameter>
-            <color
-                  blue="100"
-                  green="60"
-                  red="0">
-            </color>
-            <size
-                  height="30"
-                  width="30">
-            </size>
-            <shape
-                  type="triangle">
-            </shape>
-         </vertexType>
-         <vertexType
-               name="Output port">
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  default="int(size=32)"
-                  name="port type"
-                  type="java.lang.String">
-            </parameter>
-            <color
-                  blue="100"
-                  green="0"
-                  red="60">
-            </color>
-            <shape
-                  type="triangle">
-            </shape>
-            <size
-                  height="30"
-                  width="30">
-            </size>
-         </vertexType>
-         <vertexType
-               name="Instance">
-            <parameter
-                  name="id"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="instance parameter"
-                  type="java.util.Map">
-            </parameter>
-            <parameter
-                  name="refinement"
-                  type="java.lang.String">
-            </parameter>
-            <color
-                  blue="23"
-                  green="232"
-                  red="190">
-            </color>
-            <size
-                  height="40"
-                  width="40">
-            </size>
-            <shape
-                  type="roundedBox">
-            </shape>
-         </vertexType>
-         <edgeType
-               directed="true"
-               name="Connection">
-            <parameter
-                  name="source port"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="target port"
-                  type="java.lang.String">
-            </parameter>
-            <parameter
-                  name="buffer size"
-                  type="java.lang.String">
-            </parameter>
-         </edgeType>
-         <import>
-            <grammar
-                  definition="net.sf.graphiti.grammar.cal"
-                  startRule="network">
-            </grammar>
-            <xslt
-                  name="xslt/net/sf/graphiti/xdf/nlToXDF.xslt">
-            </xslt>
-            <xslt
-                  name="xslt/net/sf/graphiti/xdf/input_XDF.xslt">
-            </xslt>
-            <xslt
-                  name="xslt/net/sf/graphiti/xdf/ToXDFGraphType.xslt">
-            </xslt>
-         </import>
-         <export>
-            <xslt
-                  name="xslt/net/sf/graphiti/xdf/output_XDF.xslt">
-            </xslt>
-            <xslt
-                  name="xslt/net/sf/graphiti/xdf/output_NL.xslt">
-            </xslt>
-         </export>
-      </configuration>
-      <configuration
             extension="idl"
             name="IDL"
             type="text"
-            validator="net.sf.graphiti.validator.IDLValidator">
+            validator="net.sf.graphiti.validators.IDLValidator">
          <graphType
                name="IDL Module">
             <parameter

@@ -170,9 +170,6 @@ public class PortChooser {
 	private String getPort(Vertex vertex, String edgePort, String[] portTypes) {
 		IRefinementPolicy policy = vertex.getConfiguration()
 				.getRefinementPolicy();
-		if (policy == null) {
-			policy = new DefaultRefinementPolicy();
-		}
 		IFile sourceFile = policy.getRefinementFile(vertex);
 
 		// open the refinement

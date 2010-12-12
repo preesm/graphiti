@@ -101,11 +101,7 @@ public class OpenRefinementNewTabCommand extends Command {
 			if (obj instanceof VertexEditPart) {
 				VertexEditPart part = (VertexEditPart) obj;
 				vertex = (Vertex) part.getModel();
-
 				policy = vertex.getConfiguration().getRefinementPolicy();
-				if (policy == null) {
-					policy = new DefaultRefinementPolicy();
-				}
 			}
 		}
 	}

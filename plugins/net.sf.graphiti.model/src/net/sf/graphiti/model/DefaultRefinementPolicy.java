@@ -26,14 +26,10 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.commands.refinement;
+package net.sf.graphiti.model;
 
 import java.util.List;
 
-import net.sf.graphiti.model.IRefinementPolicy;
-import net.sf.graphiti.model.ObjectType;
-import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.model.Vertex;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
