@@ -42,23 +42,15 @@ import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.FileFormat;
+import net.sf.graphiti.model.FileFormat.Transformation;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.model.FileFormat.Transformation;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.ListDialog;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -70,44 +62,6 @@ import org.w3c.dom.Node;
  * 
  */
 public class GenericGraphParser {
-
-	private class ConfigurationContentProvider implements
-			IStructuredContentProvider {
-
-		@Override
-		public void dispose() {
-		}
-
-		@Override
-		public Object[] getElements(Object inputElement) {
-			return ((List<?>) inputElement).toArray();
-		}
-
-		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
-	}
-
-	public class ConfigurationLabelProvider extends LabelProvider {
-
-		@Override
-		public String getText(Object element) {
-			Configuration configuration = (Configuration) element;
-			Set<ObjectType> types = configuration.getGraphTypes();
-			String res = "";
-			int i = 0;
-			int n = types.size();
-			for (ObjectType type : types) {
-				res += type.getName();
-				if (i < n - 1) {
-					res += ", ";
-				}
-				i++;
-			}
-
-			return res;
-		}
-	}
 
 	private List<Configuration> configurations;
 
@@ -218,29 +172,8 @@ public class GenericGraphParser {
 		} else if (configurations.size() == 1) {
 			configuration = configurations.get(0);
 		} else {
-			boolean res = true;
-			do {
-				configuration = pickConfiguration(configurations);
-
-				if (configuration == null) {
-					throw new IncompatibleConfigurationFile(
-							"No configuration was chosen.");
-				}
-
-				try {
-					return parse(configuration, file.getLocation().toString(),
-							file.getContents());
-				} catch (Throwable e) {
-					String fileName = "Could not parse \"" + file.getName()
-							+ "\"";
-					String message = "The file could not be parsed with the chosen configuration. "
-							+ "Would you like to try with another configuration?";
-					res = MessageDialog.openConfirm(null, fileName, message);
-				}
-			} while (res);
-
 			throw new IncompatibleConfigurationFile(
-					"No suitable configuration could be found.");
+					"Many configurations could parse the file");
 		}
 
 		// parse with the configuration
@@ -508,35 +441,6 @@ public class GenericGraphParser {
 		}
 
 		return node.getNextSibling();
-	}
-
-	/**
-	 * Asks the user to pick one configuration among n.
-	 * 
-	 * @param configurations
-	 *            A list of configurations.
-	 * @return A configuration, or <code>null</code>.
-	 */
-	private Configuration pickConfiguration(List<Configuration> configurations) {
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		Shell shell = workbench.getActiveWorkbenchWindow().getShell();
-
-		ListDialog dialog = new ListDialog(shell);
-		dialog.setAddCancelButton(false);
-		dialog.setBlockOnOpen(true);
-		dialog.setContentProvider(new ConfigurationContentProvider());
-		dialog.setLabelProvider(new ConfigurationLabelProvider());
-		dialog.setInput(configurations);
-		dialog.setMessage("Please pick a configuration below:");
-		dialog.setTitle("Choose a configuration");
-		dialog.open();
-
-		Object[] result = dialog.getResult();
-		if (result == null) {
-			return null;
-		} else {
-			return (Configuration) result[0];
-		}
 	}
 
 }
