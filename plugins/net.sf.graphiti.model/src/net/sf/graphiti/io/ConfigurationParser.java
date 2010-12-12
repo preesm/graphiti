@@ -60,6 +60,8 @@ public class ConfigurationParser {
 
 	private List<Configuration> configurations;
 
+	private static final String PLUGIN_ID = "net.sf.graphiti.model";
+
 	/**
 	 * Creates a new configuration parser that parses all configuration files
 	 * located in the configuration folder (defined in the plug-in preferences).
@@ -73,13 +75,13 @@ public class ConfigurationParser {
 
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IConfigurationElement[] elements = registry
-				.getConfigurationElementsFor("net.sf.graphiti.configuration.grammar");
+				.getConfigurationElementsFor(PLUGIN_ID + ".grammar");
 		for (IConfigurationElement element : elements) {
 			registerGrammar(element);
 		}
 
-		elements = registry
-				.getConfigurationElementsFor("net.sf.graphiti.configuration.definition");
+		elements = registry.getConfigurationElementsFor(PLUGIN_ID
+				+ ".definition");
 		for (IConfigurationElement element : elements) {
 			Configuration configuration = parseConfiguration(element);
 			configurations.add(configuration);
