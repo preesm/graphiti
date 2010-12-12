@@ -137,7 +137,7 @@ public class GenericGraphParser {
 			}
 		}
 
-		return parseGraph(configuration, element);
+		return parseGraph(configuration, path, element);
 	}
 
 	/**
@@ -281,11 +281,11 @@ public class GenericGraphParser {
 	 * @throws TransformedDocumentParseError
 	 *             If <code>element</code> cannot be parsed.
 	 */
-	private Graph parseGraph(Configuration configuration, Element element)
-			throws TransformedDocumentParseError {
+	private Graph parseGraph(Configuration configuration, String path,
+			Element element) throws TransformedDocumentParseError {
 		String typeName = element.getAttribute("type");
 		ObjectType type = configuration.getGraphType(typeName);
-		Graph graph = new Graph(configuration, type);
+		Graph graph = new Graph(configuration, type, true);
 
 		// parse different sections
 		Node node = element.getFirstChild();
@@ -294,6 +294,8 @@ public class GenericGraphParser {
 		node = parseEdges(graph, node);
 
 		checkLayout(graph);
+		
+		graph.setFileName(path);
 
 		return graph;
 	}

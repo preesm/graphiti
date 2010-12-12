@@ -77,21 +77,11 @@ public class Graph extends AbstractObject {
 	 */
 	Configuration configuration;
 
+	private String fileName;
+
 	private AbstractBaseGraph<Vertex, Edge> graph;
 
 	private Map<String, Vertex> vertices;
-
-	/**
-	 * Creates a new directed graph.
-	 * 
-	 * @param configuration
-	 *            The configuration to use with this graph.
-	 * @param type
-	 *            The graph type.
-	 */
-	public Graph(Configuration configuration, ObjectType type) {
-		this(configuration, type, true);
-	}
 
 	/**
 	 * Creates a new graph, directed or not.
@@ -221,6 +211,15 @@ public class Graph extends AbstractObject {
 	}
 
 	/**
+	 * Returns the name of the file in which this graph is defined.
+	 * 
+	 * @return the name of the file in which this graph is defined
+	 */
+	public String getFileName() {
+		return fileName;
+	}
+
+	/**
 	 * @see AbstractBaseGraph#incomingEdgesOf(Vertex)
 	 * @param vertex
 	 * @return
@@ -274,6 +273,16 @@ public class Graph extends AbstractObject {
 
 		firePropertyChange(PROPERTY_REMOVE, null, child);
 		return res;
+	}
+
+	/**
+	 * Sets the name of the file in which this graph is defined.
+	 * 
+	 * @param fileName
+	 *            a file name
+	 */
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	@Override

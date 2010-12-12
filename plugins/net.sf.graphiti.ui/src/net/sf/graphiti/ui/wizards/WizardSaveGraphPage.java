@@ -158,7 +158,7 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 	@Override
 	public void setGraphType(Configuration configuration, ObjectType type) {
 		// create an empty graph, may be overridden
-		graph = new Graph(configuration, type);
+		graph = new Graph(configuration, type, true);
 
 		String fileExt = configuration.getFileFormat().getFileExtension();
 		if (fileName == null) {

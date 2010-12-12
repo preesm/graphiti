@@ -30,18 +30,12 @@ package net.sf.graphiti.model;
 
 import java.util.List;
 
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * This class defines a default refinement policy.
@@ -70,8 +64,14 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 		return null;
 	}
 
-	@Override
-	public IFile getRefinementFile(Vertex vertex) {
+	/**
+	 * Returns the absolute path of the refinement of the given vertex.
+	 * 
+	 * @param vertex
+	 *            a vertex
+	 * @return the absolute path of the refinement of the given vertex
+	 */
+	protected IPath getRefinementAbsolutePath(Vertex vertex) {
 		String refinement = getRefinement(vertex);
 		if (refinement == null) {
 			return null;
@@ -80,22 +80,20 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 		// get the path from the refinement
 		IPath path = new Path(refinement);
 		if (path.isAbsolute() == false) {
-			// retrieve editor input
-			IWorkbenchPage page = PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getActivePage();
-			IEditorPart editorPart = page.getActiveEditor();
-			IEditorInput input = editorPart.getEditorInput();
-
-			// it is expected that we have a IFileEditorInput
-			if (input instanceof IFileEditorInput) {
-				IFile editedFile = ((IFileEditorInput) input).getFile();
-
-				path = editedFile.getParent().getFullPath().append(path);
-			}
+			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+			IFile file = root.getFileForLocation(new Path(vertex.getParent()
+					.getFileName()));
+			path = file.getParent().getFullPath().append(path);
 		}
 
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IResource resource = workspace.getRoot().findMember(path);
+		return path;
+	}
+
+	@Override
+	public IFile getRefinementFile(Vertex vertex) {
+		IPath path = getRefinementAbsolutePath(vertex);
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		IResource resource = root.findMember(path);
 		if (resource instanceof IFile) {
 			return (IFile) resource;
 		} else {
