@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "net.sf.graphiti.ui2"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "net.sf.graphiti.ui_experimental"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
