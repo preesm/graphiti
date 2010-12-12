@@ -139,6 +139,28 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 		return listener.getRefinement();
 	}
 
+	/**
+	 * Returns the absolute path of the given refinement using the given parent
+	 * filename.
+	 * 
+	 * @param parent
+	 *            parent file name
+	 * @param refinement
+	 *            a refinement
+	 * @return the absolute path of the refinement of the given vertex
+	 */
+	protected IPath getAbsolutePath(String parent, String refinement) {
+		// get the path from the refinement
+		IPath path = new Path(refinement);
+		if (path.isAbsolute() == false) {
+			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+			IFile file = root.getFileForLocation(new Path(parent));
+			path = file.getParent().getFullPath().append(path);
+		}
+
+		return path;
+	}
+
 	@Override
 	public String getNewRefinement(Vertex vertex) {
 		IWorkbench workbench = PlatformUI.getWorkbench();
@@ -174,34 +196,15 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 		return null;
 	}
 
-	/**
-	 * Returns the absolute path of the refinement of the given vertex.
-	 * 
-	 * @param vertex
-	 *            a vertex
-	 * @return the absolute path of the refinement of the given vertex
-	 */
-	protected IPath getRefinementAbsolutePath(Vertex vertex) {
+	@Override
+	public IFile getRefinementFile(Vertex vertex) {
 		String refinement = getRefinement(vertex);
 		if (refinement == null) {
 			return null;
 		}
 
-		// get the path from the refinement
-		IPath path = new Path(refinement);
-		if (path.isAbsolute() == false) {
-			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-			IFile file = root.getFileForLocation(new Path(vertex.getParent()
-					.getFileName()));
-			path = file.getParent().getFullPath().append(path);
-		}
-
-		return path;
-	}
-
-	@Override
-	public IFile getRefinementFile(Vertex vertex) {
-		IPath path = getRefinementAbsolutePath(vertex);
+		IPath path = getAbsolutePath(vertex.getParent().getFileName(),
+				refinement);
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IResource resource = root.findMember(path);
 		if (resource instanceof IFile) {
