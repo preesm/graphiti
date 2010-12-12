@@ -31,7 +31,7 @@ package net.sf.graphiti.ui.editpolicies;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.commands.VertexCreateCommand;
 import net.sf.graphiti.ui.commands.VertexMoveCommand;
-import net.sf.graphiti.ui.commands.refinement.OpenRefinementNewTabCommand;
+import net.sf.graphiti.ui.commands.refinement.OpenRefinementCommand;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -78,7 +78,7 @@ public class LayoutPolicy extends XYLayoutEditPolicy {
 
 	public Command getCommand(Request request) {
 		if (REQ_OPEN.equals(request.getType())) {
-			OpenRefinementNewTabCommand command = new OpenRefinementNewTabCommand();
+			OpenRefinementCommand command = new OpenRefinementCommand();
 			command.setSelection(new StructuredSelection(getHost()));
 			return command;
 		} else {

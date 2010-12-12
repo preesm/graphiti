@@ -50,7 +50,7 @@ import org.eclipse.ui.ide.IDE;
  * @author Matthieu Wipliez
  * 
  */
-public class OpenRefinementNewTabCommand extends Command {
+public class OpenRefinementCommand extends Command {
 
 	private IRefinementPolicy policy;
 

@@ -38,12 +38,12 @@ import org.eclipse.core.resources.IFile;
  */
 public interface IRefinementPolicy {
 
-	boolean editRefinement(Vertex vertex);
-
 	/**
 	 * Returns the value of the refinement parameter associated with the given
 	 * vertex.
 	 * 
+	 * @param vertex
+	 *            a vertex
 	 * @return the value of the refinement parameter associated with the given
 	 *         vertex, or <code>null</code>
 	 */
@@ -53,16 +53,43 @@ public interface IRefinementPolicy {
 	 * Returns the file that corresponds to the refinement associated with the
 	 * given vertex.
 	 * 
+	 * @param vertex
+	 *            a vertex
 	 * @return the file that corresponds to the refinement associated with the
 	 *         given vertex, or <code>null</code>
 	 */
 	IFile getRefinementFile(Vertex vertex);
 
 	/**
-	 * Returns true if the given vertex accepts a refinement parameter.
+	 * Returns <code>true</code> if the given vertex accepts a refinement
+	 * parameter.
 	 * 
-	 * @return true if the given vertex accepts a refinement parameter.
+	 * @param vertex
+	 *            a vertex
+	 * @return <code>true</code> if the given vertex accepts a refinement
+	 *         parameter.
 	 */
 	boolean isRefinable(Vertex vertex);
+
+	/**
+	 * Gets a new refinement by asking the user.
+	 * 
+	 * @param vertex
+	 *            a vertex
+	 * @return <code>true</code> if the refinement changed, <code>false</code>
+	 *         otherwise
+	 */
+	String getNewRefinement(Vertex vertex);
+
+	/**
+	 * Sets the refinement of this vertex to the given value.
+	 * 
+	 * @param vertex
+	 *            a vertex
+	 * @param refinement
+	 *            a refinement
+	 * @return the previous value of the refinement
+	 */
+	String setRefinement(Vertex vertex, String refinement);
 
 }

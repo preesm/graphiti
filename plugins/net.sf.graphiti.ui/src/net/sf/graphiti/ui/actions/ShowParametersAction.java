@@ -29,7 +29,6 @@
 package net.sf.graphiti.ui.actions;
 
 import net.sf.graphiti.ui.commands.ShowParametersCommand;
-import net.sf.graphiti.ui.commands.refinement.OpenRefinementNewTabCommand;
 import net.sf.graphiti.ui.editparts.EdgeEditPart;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
 import net.sf.graphiti.ui.editparts.VertexEditPart;
@@ -61,7 +60,7 @@ public class ShowParametersAction extends SelectionAction {
 	}
 
 	/**
-	 * Creates a {@link OpenRefinementNewTabCommand} action.
+	 * Creates a new ShowParametersAction action.
 	 * 
 	 * @param part
 	 */
