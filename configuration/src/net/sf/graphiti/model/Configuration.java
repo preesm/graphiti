@@ -84,6 +84,11 @@ public class Configuration {
 	private String[] refinementFileExtensions;
 
 	/**
+	 * The refinement policy.
+	 */
+	private IRefinementPolicy refinementPolicy;
+
+	/**
 	 * The validator called when the graph is about to be saved.
 	 */
 	private IValidator validator;
@@ -117,12 +122,14 @@ public class Configuration {
 			FileFormat fileFormat, String[] refinementFileExtensions,
 			Map<String, ObjectType> graphTypes,
 			Map<String, ObjectType> vertexTypes,
-			Map<String, ObjectType> edgeTypes, IValidator validator) {
+			Map<String, ObjectType> edgeTypes, IValidator validator,
+			IRefinementPolicy policy) {
 		this.contributorId = contributorId;
 		this.edgeTypes = edgeTypes;
 		this.fileFormat = fileFormat;
 		this.fileName = name;
 		this.graphTypes = graphTypes;
+		this.refinementPolicy = policy;
 		this.refinementFileExtensions = refinementFileExtensions;
 		this.validator = validator;
 		this.vertexTypes = vertexTypes;
@@ -191,6 +198,15 @@ public class Configuration {
 	 */
 	public String[] getRefinementFileExtensions() {
 		return refinementFileExtensions;
+	}
+
+	/**
+	 * Returns the refinement policy for this configuration.
+	 * 
+	 * @return the refinement policy for this configuration.
+	 */
+	public IRefinementPolicy getRefinementPolicy() {
+		return refinementPolicy;
 	}
 
 	/**

@@ -35,6 +35,7 @@ import java.util.TreeMap;
 
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.FileFormat;
+import net.sf.graphiti.model.IRefinementPolicy;
 import net.sf.graphiti.model.IValidator;
 import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Parameter;
@@ -136,12 +137,20 @@ public class ConfigurationParser {
 			fileExts = fileExtsValue.split(",");
 		}
 
-		Object value = element.createExecutableExtension("validator");
+		IValidator validator = (IValidator) element
+				.createExecutableExtension("validator");
+
+		String refinement = element.getAttribute("refinement");
+		IRefinementPolicy refinementPolicy = null;
+		if (refinement != null) {
+			refinementPolicy = (IRefinementPolicy) element
+					.createExecutableExtension("refinement");
+		}
 
 		IContributor contributor = element.getContributor();
 		Configuration configuration = new Configuration(name,
 				contributor.getName(), format, fileExts, graphTypes,
-				vertexTypes, edgeTypes, (IValidator) value);
+				vertexTypes, edgeTypes, validator, refinementPolicy);
 		return configuration;
 	}
 

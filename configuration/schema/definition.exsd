@@ -107,6 +107,16 @@
                </appinfo>
             </annotation>
          </attribute>
+         <attribute name="refinement" type="string">
+            <annotation>
+               <documentation>
+                  This attribute defines a class that implements IRefinementPolicy. It is called when the &quot;Set Refinement&quot; command is executed on a vertex. If not specified, the DefaultRequirementPolicy will be used.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":net.sf.graphiti.model.IRefinementPolicy"/>
+               </appinfo>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
