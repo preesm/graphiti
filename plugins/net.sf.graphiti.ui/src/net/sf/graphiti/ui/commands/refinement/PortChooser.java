@@ -35,6 +35,7 @@ import java.util.Set;
 import net.sf.graphiti.io.GenericGraphParser;
 import net.sf.graphiti.io.IncompatibleConfigurationFile;
 import net.sf.graphiti.model.Graph;
+import net.sf.graphiti.model.IRefinementPolicy;
 import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.GraphitiPlugin;
@@ -81,8 +82,6 @@ public class PortChooser {
 
 	private String connection;
 
-	private RefinementManager manager;
-
 	/**
 	 * Creates a new port chooser using the given refinement manager.
 	 * 
@@ -91,9 +90,8 @@ public class PortChooser {
 	 * @param connection
 	 *            The title of the connection, as "source - target".
 	 */
-	public PortChooser(RefinementManager manager, String connection) {
+	public PortChooser(String connection) {
 		this.connection = connection;
-		this.manager = manager;
 	}
 
 	/**
@@ -158,6 +156,8 @@ public class PortChooser {
 	 * Returns a port name from the current vertex (set by getSourcePort or
 	 * getTargetPort).
 	 * 
+	 * @param vertex
+	 *            vertex
 	 * @param edgePort
 	 *            The label to use when prompting the user to choose
 	 *            ("source port" or "target port").
@@ -167,8 +167,13 @@ public class PortChooser {
 	 *            {@link Vertex#TYPE_OUTPUT_PORT} or {@link Vertex#TYPE_PORT}.
 	 * @return A port name if found, <code>null</code> otherwise.
 	 */
-	private String getPort(String edgePort, String[] portTypes) {
-		IFile sourceFile = manager.getIFileFromSelection();
+	private String getPort(Vertex vertex, String edgePort, String[] portTypes) {
+		IRefinementPolicy policy = vertex.getConfiguration()
+				.getRefinementPolicy();
+		if (policy == null) {
+			policy = new DefaultRefinementPolicy();
+		}
+		IFile sourceFile = policy.getRefinementFile(vertex);
 
 		// open the refinement
 		if (sourceFile != null) {
@@ -262,8 +267,7 @@ public class PortChooser {
 	 * @return A port name.
 	 */
 	public String getSourcePort(Vertex source) {
-		manager.setVertex(source);
-		String port = getPort("source port", new String[] {
+		String port = getPort(source, "source port", new String[] {
 				Vertex.TYPE_OUTPUT_PORT, Vertex.TYPE_PORT });
 		if (port == null) {
 			return getPortName("source port");
@@ -280,8 +284,7 @@ public class PortChooser {
 	 * @return A port name.
 	 */
 	public String getTargetPort(Vertex target) {
-		manager.setVertex(target);
-		String port = getPort("target port", new String[] {
+		String port = getPort(target, "target port", new String[] {
 				Vertex.TYPE_INPUT_PORT, Vertex.TYPE_PORT });
 		if (port == null) {
 			return getPortName("target port");

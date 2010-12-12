@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.model;
 
+import org.eclipse.core.resources.IFile;
+
 /**
  * This interface defines the policy for refining vertices.
  * 
@@ -36,6 +38,31 @@ package net.sf.graphiti.model;
  */
 public interface IRefinementPolicy {
 
-	public boolean editRefinement(Vertex vertex);
+	boolean editRefinement(Vertex vertex);
+
+	/**
+	 * Returns the value of the refinement parameter associated with the given
+	 * vertex.
+	 * 
+	 * @return the value of the refinement parameter associated with the given
+	 *         vertex, or <code>null</code>
+	 */
+	String getRefinement(Vertex vertex);
+
+	/**
+	 * Returns the file that corresponds to the refinement associated with the
+	 * given vertex.
+	 * 
+	 * @return the file that corresponds to the refinement associated with the
+	 *         given vertex, or <code>null</code>
+	 */
+	IFile getRefinementFile(Vertex vertex);
+
+	/**
+	 * Returns true if the given vertex accepts a refinement parameter.
+	 * 
+	 * @return true if the given vertex accepts a refinement parameter.
+	 */
+	boolean isRefinable(Vertex vertex);
 
 }

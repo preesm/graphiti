@@ -33,7 +33,6 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.commands.refinement.PortChooser;
-import net.sf.graphiti.ui.commands.refinement.RefinementManager;
 
 import org.eclipse.gef.commands.Command;
 
@@ -53,8 +52,6 @@ public class EdgeReconnectCommand extends Command {
 	 */
 	private Edge edge;
 
-	private RefinementManager manager;
-
 	/**
 	 * The parentGraph is stored as an attribute so it can be used both in the
 	 * <code>execute</code> and <code>undo</code> methods.
@@ -67,14 +64,8 @@ public class EdgeReconnectCommand extends Command {
 
 	private Vertex target;
 
-	public EdgeReconnectCommand() {
-		manager = new RefinementManager();
-	}
-
 	@Override
 	public void execute() {
-		manager.setEditedFile();
-
 		// Disconnect
 		parentGraph = source.getParent();
 		parentGraph.removeEdge(previousEdge);
@@ -89,10 +80,10 @@ public class EdgeReconnectCommand extends Command {
 					ObjectType.PARAMETER_ID)
 					+ " - "
 					+ edge.getTarget().getValue(ObjectType.PARAMETER_ID);
-			PortChooser portChooser = new PortChooser(manager, connection);
+			PortChooser portChooser = new PortChooser(connection);
 			if (edge.getParameter(ObjectType.PARAMETER_SOURCE_PORT) != null) {
-				edge.setValue(ObjectType.PARAMETER_SOURCE_PORT, portChooser
-						.getSourcePort(source));
+				edge.setValue(ObjectType.PARAMETER_SOURCE_PORT,
+						portChooser.getSourcePort(source));
 			}
 		} else if (edge.getTarget() != target) {
 			edge.setTarget(target);
@@ -101,10 +92,10 @@ public class EdgeReconnectCommand extends Command {
 					ObjectType.PARAMETER_ID)
 					+ " - "
 					+ edge.getTarget().getValue(ObjectType.PARAMETER_ID);
-			PortChooser portChooser = new PortChooser(manager, connection);
+			PortChooser portChooser = new PortChooser(connection);
 			if (edge.getParameter(ObjectType.PARAMETER_TARGET_PORT) != null) {
-				edge.setValue(ObjectType.PARAMETER_TARGET_PORT, portChooser
-						.getTargetPort(target));
+				edge.setValue(ObjectType.PARAMETER_TARGET_PORT,
+						portChooser.getTargetPort(target));
 			}
 		}
 

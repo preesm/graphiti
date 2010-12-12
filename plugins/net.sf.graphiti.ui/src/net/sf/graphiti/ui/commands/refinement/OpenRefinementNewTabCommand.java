@@ -28,10 +28,15 @@
  */
 package net.sf.graphiti.ui.commands.refinement;
 
+import net.sf.graphiti.model.IRefinementPolicy;
+import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ui.editparts.VertexEditPart;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -47,28 +52,26 @@ import org.eclipse.ui.ide.IDE;
  */
 public class OpenRefinementNewTabCommand extends Command {
 
-	private RefinementManager manager;
+	private IRefinementPolicy policy;
 
-	/**
-	 * Creates a {@link OpenRefinementNewTabCommand} action.
-	 */
-	public OpenRefinementNewTabCommand() {
-		manager = new RefinementManager();
-	}
+	private Vertex vertex;
 
 	@Override
 	public boolean canExecute() {
-		return (manager.getRefinement() != null);
+		if (vertex == null) {
+			return false;
+		} else {
+			return policy.getRefinement(vertex) != null;
+		}
 	}
 
 	@Override
 	public void execute() {
-		manager.setEditedFile();
-
-		IFile input = manager.getIFileFromSelection();
+		IFile input = policy.getRefinementFile(vertex);
 		if (input == null) {
-			MessageDialog.openError(null, "Could not open refinement",
-					"File not found or invalid: " + manager.getRefinement());
+			String message = "File not found or invalid: "
+					+ policy.getRefinement(vertex);
+			MessageDialog.openError(null, "Could not open refinement", message);
 		} else {
 			IWorkbench workbench = PlatformUI.getWorkbench();
 			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
@@ -77,8 +80,8 @@ public class OpenRefinementNewTabCommand extends Command {
 			try {
 				IDE.openEditor(page, input);
 			} catch (PartInitException e) {
-				MessageDialog.openError(null, "Could not open refinement", e
-						.getLocalizedMessage());
+				MessageDialog.openError(null, "Could not open refinement",
+						e.getLocalizedMessage());
 			}
 		}
 	}
@@ -92,6 +95,19 @@ public class OpenRefinementNewTabCommand extends Command {
 	 * @see RefinementManager#setSelection(ISelection)
 	 */
 	public void setSelection(ISelection selection) {
-		manager.setSelection(selection);
+		vertex = null;
+		if (selection instanceof IStructuredSelection) {
+			Object obj = ((IStructuredSelection) selection).getFirstElement();
+			if (obj instanceof VertexEditPart) {
+				VertexEditPart part = (VertexEditPart) obj;
+				vertex = (Vertex) part.getModel();
+
+				policy = vertex.getConfiguration().getRefinementPolicy();
+				if (policy == null) {
+					policy = new DefaultRefinementPolicy();
+				}
+			}
+		}
 	}
+
 }

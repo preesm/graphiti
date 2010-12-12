@@ -33,7 +33,6 @@ import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.commands.refinement.PortChooser;
-import net.sf.graphiti.ui.commands.refinement.RefinementManager;
 
 import org.eclipse.gef.commands.Command;
 
@@ -53,8 +52,6 @@ public class EdgeCreateCommand extends Command {
 	 */
 	private Edge edge;
 
-	private RefinementManager manager;
-
 	/**
 	 * The parentGraph is stored as an attribute so it can be used both in the
 	 * <code>execute</code> and <code>undo</code> methods.
@@ -73,13 +70,10 @@ public class EdgeCreateCommand extends Command {
 	 */
 	public EdgeCreateCommand(Edge edge) {
 		this.edge = edge;
-		manager = new RefinementManager();
 	}
 
 	@Override
 	public void execute() {
-		manager.setEditedFile();
-
 		// parent graph
 		parentGraph = source.getParent();
 
@@ -90,7 +84,7 @@ public class EdgeCreateCommand extends Command {
 		String connection = source.getValue(ObjectType.PARAMETER_ID) + " - "
 				+ target.getValue(ObjectType.PARAMETER_ID);
 
-		PortChooser portChooser = new PortChooser(manager, connection);
+		PortChooser portChooser = new PortChooser(connection);
 		if (edge.getParameter(ObjectType.PARAMETER_SOURCE_PORT) != null) {
 			edge.setValue(ObjectType.PARAMETER_SOURCE_PORT, portChooser
 					.getSourcePort(source));

@@ -28,11 +28,11 @@
  */
 package net.sf.graphiti.ui.commands.refinement;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import net.sf.graphiti.model.IRefinementPolicy;
 import net.sf.graphiti.model.ObjectType;
+import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.GraphitiPlugin;
+import net.sf.graphiti.ui.editparts.VertexEditPart;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -48,8 +48,12 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -105,24 +109,27 @@ public class SetRefinementCommand extends Command {
 		}
 	}
 
-	private static IFile lastFile;
-
-	private RefinementManager manager;
-
 	private String refinement;
 
 	private boolean refinementChanged;
+
+	private Vertex vertex;
+
+	private IRefinementPolicy policy;
 
 	/**
 	 * Creates a {@link SetRefinementCommand} action.
 	 */
 	public SetRefinementCommand() {
-		manager = new RefinementManager();
 	}
 
 	@Override
 	public boolean canExecute() {
-		return manager.isRefinable();
+		if (vertex == null) {
+			return false;
+		} else {
+			return policy.isRefinable(vertex);
+		}
 	}
 
 	/**
@@ -152,45 +159,8 @@ public class SetRefinementCommand extends Command {
 	public void execute() {
 		// save old value of refinement in refinement
 		// allows execute() to be executed by undo()
-		refinement = (String) manager.getVertex().setValue(
-				ObjectType.PARAMETER_REFINEMENT, refinement);
-	}
-
-	/**
-	 * Checks that the given file name is unique with respect to the known file
-	 * extensions. If it is the case, it is returned with no extension.
-	 * Otherwise, it is returned "as is".
-	 * 
-	 * @param path
-	 *            The full path to the given file.
-	 * @param name
-	 *            The original file name, with an extension.
-	 * @return Either the unmodified file name, or the file name with no
-	 *         extension.
-	 */
-	private String getFileNameWithoutExtension(IPath path, String name) {
-		IPath fileNoExt = new Path(name).removeFileExtension();
-		IPath absolutePath = path.append(fileNoExt);
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-
-		// get all possible candidates
-		List<IFile> files = new ArrayList<IFile>();
-		String[] fileExts = manager.getVertex().getConfiguration()
-				.getRefinementFileExtensions();
-		for (String fileExt : fileExts) {
-			IResource resource = workspace.getRoot().findMember(
-					absolutePath + "." + fileExt);
-			if (resource instanceof IFile) {
-				files.add((IFile) resource);
-			}
-		}
-
-		if (files.size() == 1) {
-			return fileNoExt.toString();
-		} else {
-			// use the original name
-			return name;
-		}
+		refinement = (String) vertex.setValue(ObjectType.PARAMETER_REFINEMENT,
+				refinement);
 	}
 
 	@Override
@@ -209,8 +179,19 @@ public class SetRefinementCommand extends Command {
 	 */
 	private String getRefinementValue(IFile file) {
 		IPath refinement = null;
-		IPath editedFilePath = manager.getEditedFile().getParent()
-				.getFullPath();
+
+		IWorkbenchPage page = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage();
+		IEditorPart editorPart = page.getActiveEditor();
+		IEditorInput input = editorPart.getEditorInput();
+
+		// it is expected that we have a IFileEditorInput
+		IPath editedFilePath = new Path("");
+		if (input instanceof IFileEditorInput) {
+			IFile file2 = ((IFileEditorInput) input).getFile();
+			editedFilePath = file2.getParent().getFullPath();
+		}
+
 		IPath createdFilePath = file.getParent().getFullPath();
 
 		int n = editedFilePath.matchingFirstSegments(createdFilePath);
@@ -235,8 +216,7 @@ public class SetRefinementCommand extends Command {
 			}
 		}
 
-		String fileName = getFileNameWithoutExtension(createdFilePath,
-				file.getName());
+		String fileName = file.getName();
 		refinement = refinement.append(fileName);
 		return refinement.toString();
 	}
@@ -249,12 +229,6 @@ public class SetRefinementCommand extends Command {
 	 * 
 	 */
 	public void run() {
-		manager.setEditedFile();
-
-		if (lastFile == null) {
-			lastFile = manager.getEditedFile();
-		}
-
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		Shell shell = window.getShell();
@@ -282,7 +256,19 @@ public class SetRefinementCommand extends Command {
 	 * @see RefinementManager#setSelection(ISelection)
 	 */
 	public void setSelection(ISelection selection) {
-		manager.setSelection(selection);
+		vertex = null;
+		if (selection instanceof IStructuredSelection) {
+			Object obj = ((IStructuredSelection) selection).getFirstElement();
+			if (obj instanceof VertexEditPart) {
+				// we are dealing with a vertex edit part
+				vertex = (Vertex) ((VertexEditPart) obj).getModel();
+
+				policy = vertex.getConfiguration().getRefinementPolicy();
+				if (policy == null) {
+					policy = new DefaultRefinementPolicy();
+				}
+			}
+		}
 	}
 
 	@Override
@@ -325,9 +311,9 @@ public class SetRefinementCommand extends Command {
 		});
 
 		// initial selection
-		IResource resource = manager.getIFileFromSelection();
+		IResource resource = policy.getRefinementFile(vertex);
 		if (resource == null) {
-			resource = lastFile.getParent();
+			// resource = lastFile.getParent();
 		}
 		tree.setInitialSelection(resource);
 
@@ -335,7 +321,7 @@ public class SetRefinementCommand extends Command {
 		if (tree.open() == Window.OK) {
 			IFile file = (IFile) tree.getFirstResult();
 			if (file != null) {
-				lastFile = file;
+				// lastFile = file;
 			}
 
 			setRefinement(file);
