@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="net.sf.graphiti.configuration" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="net.sf.graphiti.model" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="net.sf.graphiti.configuration" id="grammar" name="grammar"/>
+         <meta.schema plugin="net.sf.graphiti.model" id="grammar" name="grammar"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]

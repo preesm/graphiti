@@ -12,7 +12,7 @@ public class Activator extends AbstractUIPlugin {
 	private static Activator plugin;
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "net.sf.graphiti.configuration";
+	public static final String PLUGIN_ID = "net.sf.graphiti.model";
 
 	/**
 	 * Returns the shared instance

@@ -5,7 +5,7 @@
    <extension-point id="grammar" name="grammar" schema="schema/grammar.exsd"/>
 
    <extension
-         point="net.sf.graphiti.configuration.definition">
+         point="net.sf.graphiti.model.definition">
       <configuration
             extension="xdf"
             file-extensions="cal,nl,xdf"
@@ -1667,7 +1667,7 @@
       </configuration>
    </extension>
    <extension
-         point="net.sf.graphiti.configuration.grammar">
+         point="net.sf.graphiti.model.grammar">
       <definition
             class="net.sf.graphiti.grammar.CalAntlrProxy"
             id="net.sf.graphiti.grammar.cal">

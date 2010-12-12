@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="net.sf.graphiti.configuration" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="net.sf.graphiti.model" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="net.sf.graphiti.configuration" id="definition" name="definition"/>
+         <meta.schema plugin="net.sf.graphiti.model" id="definition" name="definition"/>
       </appinfo>
       <documentation>
          Definition of a configuration.
@@ -357,7 +357,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="identifier" basedOn="net.sf.graphiti.configuration.grammar/definition/@id"/>
+                  <meta.attribute kind="identifier" basedOn="net.sf.graphiti.model.grammar/definition/@id"/>
                </appinfo>
             </annotation>
          </attribute>

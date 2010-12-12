@@ -58,7 +58,7 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	/**
 	 * The plug-in ID.
 	 */
-	public static final String PLUGIN_ID = "net.sf.graphiti.plugin";
+	public static final String PLUGIN_ID = "net.sf.graphiti.ui";
 
 	/**
 	 * Returns the shared instance
