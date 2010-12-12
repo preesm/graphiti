@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypes">
+      <diagramType
+            id="net.sf.graphiti.ui2.MyDiagram"
+            name="My toto diagram"
+            type="toto">
+      </diagramType>
+   </extension>
+   <extension
+         point="org.eclipse.graphiti.ui.diagramTypeProviders">
+      <diagramTypeProvider
+            class="net.sf.graphiti.ui2.diagram.DiagramTypeProvider"
+            id="net.sf.graphiti.ui2.diagramTypeProvider1"
+            name="net.sf.graphiti.ui2.diagramTypeProvider1">
+         <diagramType
+               id="net.sf.graphiti.ui2.MyDiagram">
+         </diagramType>
+      </diagramTypeProvider>
+   </extension>
+
+</plugin>
