@@ -11,9 +11,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.ide
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: lib/antlr-runtime-3.1.3.jar,
+Bundle-ClassPath: .,
+ lib/antlr-runtime-3.3.jar,
  lib/jgrapht-jdk1.6.jar,
- .,
  lib/saxon/saxon9-dom.jar,
  lib/saxon/saxon9-s9api.jar,
  lib/saxon/saxon9-xpath.jar,
@@ -21,5 +21,9 @@ Bundle-ClassPath: lib/antlr-runtime-3.1.3.jar,
 Eclipse-BuddyPolicy: global
 Export-Package: net.sf.graphiti.io,
  net.sf.graphiti.model,
- net.sf.graphiti.validators
+ net.sf.graphiti.validators,
+ org.antlr.runtime,
+ org.antlr.runtime.debug,
+ org.antlr.runtime.misc,
+ org.antlr.runtime.tree
 Bundle-Vendor: IETR/INSA Rennes
