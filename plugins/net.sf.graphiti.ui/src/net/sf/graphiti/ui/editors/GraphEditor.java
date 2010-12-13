@@ -429,6 +429,9 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 				e.printStackTrace();
 			}
 
+			// initial validation
+			validate();
+
 			firePropertyChange(PROP_INPUT);
 		} catch (Throwable e) {
 			status = new Status(Status.ERROR, GraphitiPlugin.PLUGIN_ID,
