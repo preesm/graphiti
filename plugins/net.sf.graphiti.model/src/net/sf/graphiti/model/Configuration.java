@@ -79,11 +79,6 @@ public class Configuration {
 	private Map<String, ObjectType> graphTypes;
 
 	/**
-	 * Refinement file extensions associated with this document configuration.
-	 */
-	private String[] refinementFileExtensions;
-
-	/**
 	 * The refinement policy.
 	 */
 	private IRefinementPolicy refinementPolicy;
@@ -119,8 +114,7 @@ public class Configuration {
 	 *            the validator
 	 */
 	public Configuration(String name, String contributorId,
-			FileFormat fileFormat, String[] refinementFileExtensions,
-			Map<String, ObjectType> graphTypes,
+			FileFormat fileFormat, Map<String, ObjectType> graphTypes,
 			Map<String, ObjectType> vertexTypes,
 			Map<String, ObjectType> edgeTypes, IValidator validator,
 			IRefinementPolicy policy) {
@@ -134,7 +128,6 @@ public class Configuration {
 		} else {
 			this.refinementPolicy = policy;
 		}
-		this.refinementFileExtensions = refinementFileExtensions;
 		this.validator = validator;
 		this.vertexTypes = vertexTypes;
 	}
@@ -195,13 +188,6 @@ public class Configuration {
 	 */
 	public Set<ObjectType> getGraphTypes() {
 		return new TreeSet<ObjectType>(graphTypes.values());
-	}
-
-	/**
-	 * @return the refinement file extensions
-	 */
-	public String[] getRefinementFileExtensions() {
-		return refinementFileExtensions;
 	}
 
 	/**

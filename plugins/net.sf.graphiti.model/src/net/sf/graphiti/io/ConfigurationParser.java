@@ -131,14 +131,6 @@ public class ConfigurationParser {
 		Map<String, ObjectType> edgeTypes = parseTypes(element
 				.getChildren("edgeType"));
 
-		String fileExtsValue = element.getAttribute("file-extensions");
-		String[] fileExts;
-		if (fileExtsValue == null) {
-			fileExts = new String[] {};
-		} else {
-			fileExts = fileExtsValue.split(",");
-		}
-
 		IValidator validator = (IValidator) element
 				.createExecutableExtension("validator");
 
@@ -151,8 +143,8 @@ public class ConfigurationParser {
 
 		IContributor contributor = element.getContributor();
 		Configuration configuration = new Configuration(name,
-				contributor.getName(), format, fileExts, graphTypes,
-				vertexTypes, edgeTypes, validator, refinementPolicy);
+				contributor.getName(), format, graphTypes, vertexTypes,
+				edgeTypes, validator, refinementPolicy);
 		return configuration;
 	}
 
