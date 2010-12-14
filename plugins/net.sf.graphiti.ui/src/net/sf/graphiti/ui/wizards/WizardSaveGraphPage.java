@@ -45,6 +45,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -112,6 +113,13 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 
 	@Override
 	public InputStream getInitialContents() {
+		// set graph name
+		String fileName = getFileName();
+		if (fileName != null) {
+			IPath filePath = new Path(fileName).removeFileExtension();
+			graph.setValue(ObjectType.PARAMETER_ID, filePath.toString());
+		}
+
 		// retrieve the IFile so we can get its location
 		final IPath containerPath = getContainerFullPath();
 		IPath filePath = containerPath.append(getFileName());
