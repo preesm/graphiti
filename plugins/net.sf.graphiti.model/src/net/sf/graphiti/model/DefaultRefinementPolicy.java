@@ -314,7 +314,9 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 		// initial selection
 		IResource resource = getRefinementFile(vertex);
 		if (resource == null) {
-			// resource = lastFile.getParent();
+			String fileName = vertex.getParent().getFileName();
+			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+			resource = root.getFileForLocation(new Path(fileName)).getParent();
 		}
 		tree.setInitialSelection(resource);
 
