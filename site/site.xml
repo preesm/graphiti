@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description name="Graphiti editor" url="http://graphiti-editor.sf.net/eclipse/">
+   <description name="Graphiti Editor Update Site" url="http://graphiti-editor.sf.net/eclipse/">
       Graphiti Editor Update Site
    </description>
    <feature url="features/net.sf.graphiti_1.2.0.v20101216.jar" id="net.sf.graphiti" version="1.2.0.v20101216">
