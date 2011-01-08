@@ -63,9 +63,9 @@ public class WorkflowValidator implements IValidator {
 	@Override
 	public boolean validate(Graph graph, IFile file) {
 
-		/**
+/*		*//**
 		 * Testing each task independently.
-		 */
+		 *//*
 		Set<Vertex> vertices = graph.vertexSet();
 		for (Vertex vertex : vertices) {
 			if ("Task".equals(vertex.getType().getName())) {
@@ -84,13 +84,13 @@ public class WorkflowValidator implements IValidator {
 					if (pluginId.equals(taskId)) {
 						try {
 							String taskType = element.getAttribute("type");
-							/**
+							*//**
 							 * Getting the class corresponding to the taskType
 							 * string. This is only possible because of
 							 * "Eclipse-BuddyPolicy: global" in the manifest:
 							 * the Graphiti configuration class loader has a
 							 * global knowledge of classes
-							 */
+							 *//*
 							Class<?> vertexTaskClass = Class.forName(taskType);
 
 							Object vertexTaskObj = vertexTaskClass
@@ -129,7 +129,7 @@ public class WorkflowValidator implements IValidator {
 					return false;
 				}
 			}
-		}
+		}*/
 
 		return true;
 	}
