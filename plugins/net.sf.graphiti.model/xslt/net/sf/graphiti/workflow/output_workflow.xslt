@@ -29,16 +29,21 @@
             <xsl:if test="not(empty(vertices/vertex[@type = 'Architecture source']))">
                 <preesm:architecture/>
             </xsl:if>
-
-            <xsl:if test="not(empty(vertices/vertex[@type = 'Scenario source']))">
-                <preesm:scenario/>
-            </xsl:if>
-
+            
+            <xsl:apply-templates select="vertices/vertex[@type = 'Scenario source']"/>
             <xsl:apply-templates select="vertices/vertex[@type = 'Task']"/>
             <xsl:apply-templates select="edges/edge"/>
         </preesm:workflow>
     </xsl:template>
 
+    <!-- scenario -->
+    <xsl:template match="vertex[@type = 'Scenario source']">
+        <preesm:scenario>
+            <xsl:attribute name="pluginId"
+                select="parameters/parameter[@name = 'plugin identifier']/@value"/>
+        </preesm:scenario>
+    </xsl:template>
+    
     <!-- tasks -->
     <xsl:template match="vertex[@type = 'Task']">
         <preesm:task>

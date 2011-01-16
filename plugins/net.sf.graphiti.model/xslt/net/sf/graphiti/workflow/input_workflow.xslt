@@ -67,24 +67,8 @@
                         </xsl:element>
                     </xsl:element>
                 </xsl:if>
-
-                <xsl:if test="not(empty(preesm:scenario))">
-                    <xsl:element name="vertex">
-                        <xsl:attribute name="type" select="'Scenario source'"/>
-                        
-                        <xsl:call-template name="getVertexLayoutAttributes">
-                            <xsl:with-param name="vertexId" select="'__scenario'"/>
-                        </xsl:call-template>
-                        
-                        <xsl:element name="parameters">
-                            <xsl:element name="parameter">
-                                <xsl:attribute name="name" select="'id'"/>
-                                <xsl:attribute name="value" select="'__scenario'"/>
-                            </xsl:element>
-                        </xsl:element>
-                    </xsl:element>
-                </xsl:if>
-
+                
+                <xsl:apply-templates select="preesm:scenario"/>
                 <xsl:apply-templates select="preesm:task"/>
             </xsl:element>
 
@@ -93,7 +77,29 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-
+    
+    <!-- scenario -->
+    <xsl:template match="preesm:scenario">
+        <xsl:element name="vertex">
+            <xsl:attribute name="type" select="'Scenario source'"/>
+            
+            <xsl:call-template name="getVertexLayoutAttributes">
+                <xsl:with-param name="vertexId" select="'__scenario'"/>
+            </xsl:call-template>
+            
+            <xsl:element name="parameters">
+                <xsl:element name="parameter">
+                    <xsl:attribute name="name" select="'id'"/>
+                    <xsl:attribute name="value" select="'__scenario'"/>
+                </xsl:element>
+                <xsl:element name="parameter">
+                    <xsl:attribute name="name">plugin identifier</xsl:attribute>
+                    <xsl:attribute name="value" select="@pluginId"/>
+                </xsl:element>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
     <!-- tasks -->
     <xsl:template match="preesm:task">
         <xsl:element name="vertex">
