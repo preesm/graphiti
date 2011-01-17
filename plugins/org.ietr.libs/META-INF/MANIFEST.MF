@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.ietr.libs
 Bundle-SymbolicName: org.ietr.libs
-Bundle-Version: 1.0.0.v20100117
+Bundle-Version: 1.0.0.v20110117
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .
 Export-Package: org.antlr.runtime;version="3.3.0",

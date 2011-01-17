@@ -2,7 +2,7 @@
 <feature
       id="net.sf.graphiti"
       label="Graphiti editor"
-      version="1.2.0.v20110107"
+      version="1.2.0.v20110118"
       provider-name="IETR/INSA Rennes">
 
    <description url="http://graphiti-editor.sourceforge.net/eclipse/">
@@ -10,12 +10,12 @@
    </description>
 
    <copyright>
-      Copyright (c) 2008-2010, IETR/INSA of Rennes
+      Copyright (c) 2008-2011, IETR/INSA of Rennes
 All rights reserved.
    </copyright>
 
    <license>
-      Copyright (c) 2008-2010, IETR/INSA of Rennes
+      Copyright (c) 2008-2011, IETR/INSA of Rennes
 All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
@@ -52,14 +52,21 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
          id="net.sf.graphiti.model"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.2.0.v20110117"
          unpack="false"/>
 
    <plugin
          id="net.sf.graphiti.ui"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.2.0.v20110107"
+         unpack="false"/>
+
+   <plugin
+         id="org.ietr.libs"
+         download-size="0"
+         install-size="0"
+         version="1.0.0.v20110117"
          unpack="false"/>
 
 </feature>

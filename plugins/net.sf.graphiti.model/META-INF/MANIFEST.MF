@@ -2,18 +2,17 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Graphiti configuration plug-in
 Bundle-SymbolicName: net.sf.graphiti.model;singleton:=true
-Bundle-Version: 1.2.0.v20110107
+Bundle-Version: 1.2.0.v20110117
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.draw2d,
  org.eclipse.swt,
  org.eclipse.ui,
- org.eclipse.ui.ide
+ org.eclipse.ui.ide,
+ org.ietr.libs
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
- lib/antlr-runtime-3.3.jar,
- lib/jgrapht-jdk1.6.jar,
  lib/saxon/saxon9-dom.jar,
  lib/saxon/saxon9-s9api.jar,
  lib/saxon/saxon9-xpath.jar,
@@ -21,9 +20,5 @@ Bundle-ClassPath: .,
 Eclipse-BuddyPolicy: global
 Export-Package: net.sf.graphiti.io,
  net.sf.graphiti.model,
- net.sf.graphiti.validators,
- org.antlr.runtime,
- org.antlr.runtime.debug,
- org.antlr.runtime.misc,
- org.antlr.runtime.tree
+ net.sf.graphiti.validators
 Bundle-Vendor: IETR/INSA Rennes
