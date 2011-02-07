@@ -32,13 +32,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.graphiti.GraphitiModelPlugin;
 import net.sf.graphiti.io.GenericGraphParser;
 import net.sf.graphiti.io.IncompatibleConfigurationFile;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.IRefinementPolicy;
 import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Vertex;
-import net.sf.graphiti.ui.GraphitiPlugin;
+import net.sf.graphiti.ui.GraphitiUiPlugin;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IStatus;
@@ -147,7 +148,7 @@ public class PortChooser {
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		Shell shell = window.getShell();
 
-		IStatus status = new Status(IStatus.ERROR, GraphitiPlugin.PLUGIN_ID,
+		IStatus status = new Status(IStatus.ERROR, GraphitiUiPlugin.PLUGIN_ID,
 				message, exception);
 		ErrorDialog.openError(shell, "Error", message, status, IStatus.ERROR);
 	}
@@ -224,7 +225,7 @@ public class PortChooser {
 	 */
 	private List<String> getPorts(IFile sourceFile, String[] portTypes) {
 		// refinement graph
-		GenericGraphParser parser = new GenericGraphParser(GraphitiPlugin
+		GenericGraphParser parser = new GenericGraphParser(GraphitiModelPlugin
 				.getDefault().getConfigurations());
 		Graph graph = null;
 		try {

@@ -69,14 +69,14 @@ public class Configuration {
 	private FileFormat fileFormat;
 
 	/**
-	 * The configuration absolute file name.
-	 */
-	private String fileName;
-
-	/**
 	 * A graph type name -> graph type object map.
 	 */
 	private Map<String, ObjectType> graphTypes;
+
+	/**
+	 * The configuration absolute file name.
+	 */
+	private String name;
 
 	/**
 	 * The refinement policy.
@@ -121,7 +121,7 @@ public class Configuration {
 		this.contributorId = contributorId;
 		this.edgeTypes = edgeTypes;
 		this.fileFormat = fileFormat;
-		this.fileName = name;
+		this.name = name;
 		this.graphTypes = graphTypes;
 		if (policy == null) {
 			refinementPolicy = new DefaultRefinementPolicy();
@@ -191,6 +191,15 @@ public class Configuration {
 	}
 
 	/**
+	 * Returns the name of this configuration.
+	 * 
+	 * @return the name of this configuration
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
 	 * Returns the refinement policy for this configuration.
 	 * 
 	 * @return the refinement policy for this configuration.
@@ -230,7 +239,7 @@ public class Configuration {
 
 	@Override
 	public String toString() {
-		return "[" + fileName + "] " + fileFormat;
+		return "[" + name + "] " + fileFormat;
 	}
 
 }

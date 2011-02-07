@@ -28,15 +28,15 @@
  */
 package net.sf.graphiti.ui.wizards;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import net.sf.graphiti.GraphitiModelPlugin;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.ObjectType;
-import net.sf.graphiti.ui.GraphitiPlugin;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizard;
@@ -128,7 +128,7 @@ public class WizardGraphTypePage extends WizardPage {
 	 * Fills the {@link #graphTypes} attribute using the default configuration.
 	 */
 	private void fillGraphTypes() {
-		List<Configuration> configurations = GraphitiPlugin.getDefault()
+		Collection<Configuration> configurations = GraphitiModelPlugin.getDefault()
 				.getConfigurations();
 		graphTypeConfigurations = new HashMap<ObjectType, Configuration>();
 		graphTypeNames = new HashMap<String, ObjectType>();

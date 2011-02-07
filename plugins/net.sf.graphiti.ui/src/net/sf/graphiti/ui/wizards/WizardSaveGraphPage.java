@@ -30,16 +30,13 @@ package net.sf.graphiti.ui.wizards;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-
-import javax.xml.transform.TransformerException;
 
 import net.sf.graphiti.io.GenericGraphWriter;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.ObjectType;
-import net.sf.graphiti.ui.GraphitiPlugin;
+import net.sf.graphiti.ui.GraphitiUiPlugin;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -105,7 +102,7 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		Shell shell = window.getShell();
 
-		IStatus status = new Status(IStatus.ERROR, GraphitiPlugin.PLUGIN_ID,
+		IStatus status = new Status(IStatus.ERROR, GraphitiUiPlugin.PLUGIN_ID,
 				message, exception);
 		ErrorDialog.openError(shell, "Save error",
 				"The file could not be saved.", status, IStatus.ERROR);
@@ -131,22 +128,7 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 		try {
 			writer.write(file.getLocation().toString(), out);
 			return new ByteArrayInputStream(out.toByteArray());
-		} catch (ClassCastException e) {
-			errorMessage(
-					"There was a problem with the creation of a DOM document.",
-					e);
-		} catch (ClassNotFoundException e) {
-			errorMessage("A DOM class could not be found.", e);
-		} catch (IllegalAccessException e) {
-			errorMessage("A DOM class could not be accessed.", e);
-		} catch (InstantiationException e) {
-			errorMessage("A DOM class could not be instantiated.", e);
-		} catch (TransformerException e) {
-			errorMessage("An unrecoverable error occurred during "
-					+ "the course of the transformation.", e);
-		} catch (IOException e) {
-			errorMessage("I/O exception", e);
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			errorMessage("Exception", e);
 		}
 

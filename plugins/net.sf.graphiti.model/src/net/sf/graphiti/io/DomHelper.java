@@ -58,22 +58,10 @@ public class DomHelper {
 	 *            The document namespace, may be <code>""</code>.
 	 * @param qualifiedName
 	 *            The document element name
-	 * @return The created document.
-	 * @throws ClassCastException
-	 *             If any specified class does not implement
-	 *             DOMImplementationSource
-	 * @throws ClassNotFoundException
-	 *             If any specified class can not be found
-	 * @throws InstantiationException
-	 *             If any specified class is an interface or abstract class
-	 * @throws IllegalAccessException
-	 *             If the default constructor of a specified class is not
-	 *             accessible
+	 * @return the created document
 	 */
 	public static Document createDocument(String namespaceURI,
-			String qualifiedName) throws ClassCastException,
-			ClassNotFoundException, InstantiationException,
-			IllegalAccessException {
+			String qualifiedName) {
 		DOMImplementation impl = getDOMImplementation();
 		return impl.createDocument(namespaceURI, qualifiedName, null);
 	}
@@ -88,23 +76,15 @@ public class DomHelper {
 	 * 
 	 * @return A {@link DOMImplementation} object that can be cast to
 	 *         {@link DOMImplementationLS}.
-	 * @throws ClassCastException
-	 *             If any specified class does not implement
-	 *             DOMImplementationSource
-	 * @throws ClassNotFoundException
-	 *             If any specified class can not be found
-	 * @throws InstantiationException
-	 *             If any specified class is an interface or abstract class
-	 * @throws IllegalAccessException
-	 *             If the default constructor of a specified class is not
-	 *             accessible
 	 */
-	public static DOMImplementation getDOMImplementation()
-			throws ClassCastException, ClassNotFoundException,
-			InstantiationException, IllegalAccessException {
-		DOMImplementationRegistry registry = DOMImplementationRegistry
-				.newInstance();
-		return registry.getDOMImplementation("Core 3.0 XML 3.0 LS");
+	public static DOMImplementation getDOMImplementation() {
+		try {
+			DOMImplementationRegistry registry = DOMImplementationRegistry
+					.newInstance();
+			return registry.getDOMImplementation("Core 3.0 XML 3.0 LS");
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -146,20 +126,8 @@ public class DomHelper {
 	 * @param byteStream
 	 *            The input stream.
 	 * @return The {@link Document} parsed from the input.
-	 * @throws ClassCastException
-	 *             If any specified class does not implement
-	 *             DOMImplementationSource
-	 * @throws ClassNotFoundException
-	 *             If any specified class can not be found
-	 * @throws InstantiationException
-	 *             If any specified class is an interface or abstract class
-	 * @throws IllegalAccessException
-	 *             If the default constructor of a specified class is not
-	 *             accessible
 	 */
-	public static Document parse(InputStream byteStream)
-			throws ClassCastException, ClassNotFoundException,
-			InstantiationException, IllegalAccessException {
+	public static Document parse(InputStream byteStream) {
 		// input
 		DOMImplementationLS impl = (DOMImplementationLS) getDOMImplementation();
 		LSInput input = impl.createLSInput();
@@ -195,4 +163,5 @@ public class DomHelper {
 		serializer.getDomConfig().setParameter("format-pretty-print", true);
 		serializer.write(document, output);
 	}
+
 }

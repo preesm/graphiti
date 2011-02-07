@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Graphiti configuration plug-in
+Bundle-Name: Graphiti model plug-in
 Bundle-SymbolicName: net.sf.graphiti.model;singleton:=true
 Bundle-Version: 1.2.0.v20110117
 Require-Bundle: org.eclipse.core.runtime,
@@ -18,7 +18,9 @@ Bundle-ClassPath: .,
  lib/saxon/saxon9-xpath.jar,
  lib/saxon/saxon9.jar
 Eclipse-BuddyPolicy: global
-Export-Package: net.sf.graphiti.io,
+Export-Package: net.sf.graphiti,
+ net.sf.graphiti.io,
  net.sf.graphiti.model,
  net.sf.graphiti.validators
 Bundle-Vendor: IETR/INSA Rennes
+Bundle-Activator: net.sf.graphiti.GraphitiModelPlugin

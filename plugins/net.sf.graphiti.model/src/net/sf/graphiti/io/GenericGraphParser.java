@@ -31,6 +31,7 @@ package net.sf.graphiti.io;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -63,7 +64,7 @@ import org.w3c.dom.Node;
  */
 public class GenericGraphParser {
 
-	private List<Configuration> configurations;
+	private Collection<Configuration> configurations;
 
 	/**
 	 * Creates a new parser using the given configuration list.
@@ -71,7 +72,7 @@ public class GenericGraphParser {
 	 * @param configurations
 	 *            A {@link List} of {@link Configuration}s.
 	 */
-	public GenericGraphParser(List<Configuration> configurations) {
+	public GenericGraphParser(Collection<Configuration> configurations) {
 		this.configurations = configurations;
 	}
 

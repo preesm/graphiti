@@ -30,10 +30,11 @@ package net.sf.graphiti.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.xml.transform.TransformerException;
 
@@ -79,23 +80,13 @@ public class GenericGraphWriter {
 	 *            The element resulting from {@link #writeGraph()}.
 	 * @param byteStream
 	 *            The {@link OutputStream} to write to.
-	 * @throws ClassCastException
-	 *             If any specified class does not implement
-	 *             DOMImplementationSource
-	 * @throws ClassNotFoundException
-	 *             If any specified class can not be found
-	 * @throws InstantiationException
-	 *             If any specified class is an interface or abstract class
-	 * @throws IllegalAccessException
-	 *             If the default constructor of a specified class is not
-	 *             accessible
-	 * @throws TransformerException
-	 *             If an unrecoverable error occurs during the course of the
-	 *             transformation.
+	 * @throws URISyntaxException
 	 * @throws IOException
+	 * @throws TransformerException
 	 */
 	private void applyTransformations(String path, Element element,
-			OutputStream byteStream) throws Exception {
+			OutputStream byteStream) throws IOException, URISyntaxException,
+			TransformerException {
 		Configuration configuration = graph.getConfiguration();
 		FileFormat format = configuration.getFileFormat();
 
@@ -127,24 +118,14 @@ public class GenericGraphWriter {
 	 *            The file absolute path.
 	 * @param byteStream
 	 *            The {@link OutputStream} to write to.
-	 * @throws ClassCastException
-	 *             If any specified class does not implement
-	 *             DOMImplementationSource
-	 * @throws ClassNotFoundException
-	 *             If any specified class can not be found
-	 * @throws IllegalAccessException
-	 *             If the default constructor of a specified class is not
-	 *             accessible
-	 * @throws InstantiationException
-	 *             If any specified class is an interface or abstract class
-	 * @throws TransformerException
-	 *             If an unrecoverable error occurs during the course of the
-	 *             transformation.
-	 * @throws IOException
 	 */
-	public void write(String path, OutputStream byteStream) throws Exception {
+	public void write(String path, OutputStream byteStream) {
 		Element element = writeGraph();
-		applyTransformations(path, element, byteStream);
+		try {
+			applyTransformations(path, element, byteStream);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private void writeEdges(Element edgesElement) {
@@ -170,20 +151,8 @@ public class GenericGraphWriter {
 	 * Writes the graph.
 	 * 
 	 * @return A &lt;graph&gt; element.
-	 * @throws ClassCastException
-	 *             If any specified class does not implement
-	 *             DOMImplementationSource
-	 * @throws ClassNotFoundException
-	 *             If any specified class can not be found
-	 * @throws InstantiationException
-	 *             If any specified class is an interface or abstract class
-	 * @throws IllegalAccessException
-	 *             If the default constructor of a specified class is not
-	 *             accessible
 	 */
-	private Element writeGraph() throws ClassCastException,
-			ClassNotFoundException, InstantiationException,
-			IllegalAccessException {
+	private Element writeGraph() {
 		Document document = DomHelper.createDocument("", "graph");
 		Element graphElement = document.getDocumentElement();
 		graphElement.setAttribute("type", graph.getType().getName());

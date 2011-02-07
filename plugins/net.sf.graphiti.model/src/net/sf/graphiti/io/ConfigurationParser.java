@@ -29,6 +29,7 @@
 package net.sf.graphiti.io;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -58,7 +59,7 @@ import org.eclipse.swt.graphics.Color;
  */
 public class ConfigurationParser {
 
-	private List<Configuration> configurations;
+	private Map<String, Configuration> configurations;
 
 	private static final String PLUGIN_ID = "net.sf.graphiti.model";
 
@@ -71,7 +72,7 @@ public class ConfigurationParser {
 	 * @see FileLocator
 	 */
 	public ConfigurationParser() throws CoreException {
-		configurations = new ArrayList<Configuration>();
+		configurations = new LinkedHashMap<String, Configuration>();
 
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IConfigurationElement[] elements = registry
@@ -84,7 +85,7 @@ public class ConfigurationParser {
 				+ ".definition");
 		for (IConfigurationElement element : elements) {
 			Configuration configuration = parseConfiguration(element);
-			configurations.add(configuration);
+			configurations.put(configuration.getName(), configuration);
 		}
 	}
 
@@ -93,7 +94,7 @@ public class ConfigurationParser {
 	 * 
 	 * @return A reference to the list of configurations parsed.
 	 */
-	public List<Configuration> getConfigurations() {
+	public Map<String, Configuration> getConfigurations() {
 		return configurations;
 	}
 

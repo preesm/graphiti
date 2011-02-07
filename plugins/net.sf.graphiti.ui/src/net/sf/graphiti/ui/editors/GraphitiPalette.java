@@ -33,7 +33,7 @@ import java.util.Set;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.ObjectType;
-import net.sf.graphiti.ui.GraphitiPlugin;
+import net.sf.graphiti.ui.GraphitiUiPlugin;
 import net.sf.graphiti.ui.editparts.EdgeCreationFactory;
 import net.sf.graphiti.ui.editparts.VertexCreationFactory;
 import net.sf.graphiti.ui.figure.VertexFigure;
@@ -144,10 +144,10 @@ public class GraphitiPalette {
 		Boolean directed = (Boolean) type
 				.getAttribute(ObjectType.ATTRIBUTE_DIRECTED);
 		if (directed == null || directed) {
-			id = ImageDescriptor.createFromImage(GraphitiPlugin
+			id = ImageDescriptor.createFromImage(GraphitiUiPlugin
 					.getImage("icons/directed_edge.gif"));
 		} else {
-			id = ImageDescriptor.createFromImage(GraphitiPlugin
+			id = ImageDescriptor.createFromImage(GraphitiUiPlugin
 					.getImage("icons/undirected_edge.gif"));
 		}
 

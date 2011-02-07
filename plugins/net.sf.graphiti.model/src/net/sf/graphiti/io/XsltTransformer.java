@@ -143,23 +143,12 @@ public class XsltTransformer {
 	 *            The source element to transform.
 	 * @return The document element (and its children) resulting from the
 	 *         transformation.
-	 * @throws ClassCastException
-	 *             If any specified class does not implement
-	 *             DOMImplementationSource
-	 * @throws ClassNotFoundException
-	 *             If any specified class can not be found
-	 * @throws IllegalAccessException
-	 *             If the default constructor of a specified class is not
-	 *             accessible
-	 * @throws InstantiationException
-	 *             If any specified class is an interface or abstract class
 	 * @throws TransformerException
 	 *             If an unrecoverable error occurs during the course of the
 	 *             transformation.
 	 */
-	public Element transformDomToDom(Element source) throws ClassCastException,
-			ClassNotFoundException, IllegalAccessException,
-			InstantiationException, TransformerException {
+	public Element transformDomToDom(Element source)
+			throws TransformerException {
 		// create document
 		Document document = DomHelper.createDocument("", "dummy");
 		document.removeChild(document.getDocumentElement());

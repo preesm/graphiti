@@ -35,13 +35,12 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.EventObject;
 
-import javax.xml.transform.TransformerException;
-
+import net.sf.graphiti.GraphitiModelPlugin;
 import net.sf.graphiti.io.GenericGraphParser;
 import net.sf.graphiti.io.GenericGraphWriter;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.IValidator;
-import net.sf.graphiti.ui.GraphitiPlugin;
+import net.sf.graphiti.ui.GraphitiUiPlugin;
 import net.sf.graphiti.ui.actions.CopyAction;
 import net.sf.graphiti.ui.actions.CutAction;
 import net.sf.graphiti.ui.actions.PasteAction;
@@ -259,19 +258,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 				errorMessage(
 						"There was a problem with the creation of a DOM document.",
 						e);
-			} catch (ClassNotFoundException e) {
-				errorMessage("A DOM class could not be found.", e);
-			} catch (CoreException e) {
-				errorMessage("Could not set the file contents.", e);
-			} catch (IllegalAccessException e) {
-				errorMessage("A DOM class could not be accessed.", e);
-			} catch (InstantiationException e) {
-				errorMessage("A DOM class could not be instantiated.", e);
-			} catch (TransformerException e) {
-				errorMessage("An unrecoverable error occurred during "
-						+ "the course of the transformation.", e);
-			} catch (IOException e) {
-				errorMessage("I/O exception", e);
 			} catch (Exception e) {
 				errorMessage("Exception", e);
 			}
@@ -307,7 +293,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		Shell shell = window.getShell();
 
-		IStatus status = new Status(IStatus.ERROR, GraphitiPlugin.PLUGIN_ID,
+		IStatus status = new Status(IStatus.ERROR, GraphitiUiPlugin.PLUGIN_ID,
 				message, exception);
 		ErrorDialog.openError(shell, "Save error",
 				"The file could not be saved.", status, IStatus.ERROR);
@@ -411,8 +397,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		IFile file = ((IFileEditorInput) input).getFile();
 		setPartName(file.getName());
 		try {
-			GenericGraphParser parser = new GenericGraphParser(GraphitiPlugin
-					.getDefault().getConfigurations());
+			GenericGraphParser parser = new GenericGraphParser(
+					GraphitiModelPlugin.getDefault().getConfigurations());
 			graph = parser.parse(file);
 
 			// Updates the palette
@@ -434,7 +420,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 
 			firePropertyChange(PROP_INPUT);
 		} catch (Throwable e) {
-			status = new Status(Status.ERROR, GraphitiPlugin.PLUGIN_ID,
+			status = new Status(Status.ERROR, GraphitiUiPlugin.PLUGIN_ID,
 					"An error occurred while parsing the file", e);
 		}
 	}

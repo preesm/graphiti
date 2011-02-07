@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Graphiti editor plug-in
 Bundle-SymbolicName: net.sf.graphiti.ui;singleton:=true
 Bundle-Version: 1.2.0.v20110107
-Bundle-Activator: net.sf.graphiti.ui.GraphitiPlugin
+Bundle-Activator: net.sf.graphiti.ui.GraphitiUiPlugin
 Require-Bundle: org.eclipse.core.resources,
  org.eclipse.core.runtime,
  org.eclipse.gef,
@@ -15,4 +15,6 @@ Require-Bundle: org.eclipse.core.resources,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: IETR/INSA Rennes
-Export-Package: net.sf.graphiti.ui.editors
+Export-Package: net.sf.graphiti.ui,
+ net.sf.graphiti.ui.editors,
+ net.sf.graphiti.ui.wizards

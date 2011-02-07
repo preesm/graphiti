@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, IETR/INSA of Rennes
+ * Copyright (c) 2008-2011, IETR/INSA of Rennes
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -28,12 +28,6 @@
  */
 package net.sf.graphiti.ui;
 
-import java.util.List;
-
-import net.sf.graphiti.io.ConfigurationParser;
-import net.sf.graphiti.model.Configuration;
-
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
@@ -48,12 +42,12 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class GraphitiPlugin extends AbstractUIPlugin {
+public class GraphitiUiPlugin extends AbstractUIPlugin {
 
 	/**
 	 * The shared instance.
 	 */
-	private static GraphitiPlugin plugin;
+	private static GraphitiUiPlugin plugin;
 
 	/**
 	 * The plug-in ID.
@@ -65,7 +59,7 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	 * 
 	 * @return the shared instance
 	 */
-	public static GraphitiPlugin getDefault() {
+	public static GraphitiUiPlugin getDefault() {
 		return plugin;
 	}
 
@@ -101,25 +95,10 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	}
 
 	/**
-	 * The root of the document configuration tree built when the plug-in was
-	 * activated.
-	 */
-	private List<Configuration> configurations;
-
-	/**
 	 * The constructor
 	 */
-	public GraphitiPlugin() {
+	public GraphitiUiPlugin() {
 		plugin = this;
-	}
-
-	/**
-	 * Returns the list of configurations.
-	 * 
-	 * @return A reference to the {@link Configuration} list.
-	 */
-	public List<Configuration> getConfigurations() {
-		return configurations;
 	}
 
 	/**
@@ -152,18 +131,6 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	}
 
 	/**
-	 * Parses the configurations available and (re)loads them.
-	 * 
-	 * @throws CoreException
-	 *             If the file formats cannot be added to Eclipse content type
-	 *             system.
-	 */
-	public void loadConfigurations() throws CoreException {
-		ConfigurationParser parser = new ConfigurationParser();
-		configurations = parser.getConfigurations();
-	}
-
-	/**
 	 * Logs the given <code>message</code> with the INFO status.
 	 * 
 	 * @param message
@@ -178,7 +145,6 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		loadConfigurations();
 	}
 
 	@Override
@@ -186,4 +152,5 @@ public class GraphitiPlugin extends AbstractUIPlugin {
 		plugin = null;
 		super.stop(context);
 	}
+
 }

@@ -37,7 +37,7 @@ import java.util.Map.Entry;
 
 import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Parameter;
-import net.sf.graphiti.ui.GraphitiPlugin;
+import net.sf.graphiti.ui.GraphitiUiPlugin;
 
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
@@ -266,7 +266,7 @@ public class ParametersPropertyPage extends PropertyPage {
 		final Button shiftUp = new Button(parent, SWT.NONE);
 		final Button shiftDown = new Button(parent, SWT.NONE);
 
-		shiftUp.setImage(GraphitiPlugin.getImage("icons/up_obj.gif"));
+		shiftUp.setImage(GraphitiUiPlugin.getImage("icons/up_obj.gif"));
 		shiftUp.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 		shiftUp.addSelectionListener(new SelectionAdapter() {
 
@@ -279,7 +279,7 @@ public class ParametersPropertyPage extends PropertyPage {
 		});
 
 		// create buttons
-		shiftDown.setImage(GraphitiPlugin.getImage("icons/down_obj.gif"));
+		shiftDown.setImage(GraphitiUiPlugin.getImage("icons/down_obj.gif"));
 		shiftDown.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 		shiftDown.addSelectionListener(new SelectionAdapter() {
 
@@ -335,7 +335,7 @@ public class ParametersPropertyPage extends PropertyPage {
 
 		// create buttons
 		Button button = new Button(parent, SWT.NONE);
-		button.setImage(GraphitiPlugin.getImage("icons/add_obj.gif"));
+		button.setImage(GraphitiUiPlugin.getImage("icons/add_obj.gif"));
 		button.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 		if (isList) {
 			button.addSelectionListener(new SelectionAdapter() {
@@ -355,7 +355,7 @@ public class ParametersPropertyPage extends PropertyPage {
 
 		// create buttons
 		button = new Button(parent, SWT.NONE);
-		button.setImage(GraphitiPlugin.getImage("icons/remove_obj.gif"));
+		button.setImage(GraphitiUiPlugin.getImage("icons/remove_obj.gif"));
 		button.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 		if (isList) {
 			button.addSelectionListener(new SelectionAdapter() {
