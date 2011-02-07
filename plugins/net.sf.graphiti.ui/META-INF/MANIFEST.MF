@@ -15,3 +15,4 @@ Require-Bundle: org.eclipse.core.resources,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: IETR/INSA Rennes
+Export-Package: net.sf.graphiti.ui.editors
