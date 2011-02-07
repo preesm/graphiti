@@ -96,6 +96,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 
 /**
  * This class provides the graph editor.
@@ -103,7 +104,8 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * @author Matthieu Wipliez
  * 
  */
-public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
+public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
+		ITabbedPropertySheetPageContributor {
 
 	/**
 	 * The editor ID
@@ -119,6 +121,9 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 	private PaletteRoot paletteRoot;
 
 	private IStatus status;
+
+	// TODO uncomment to enable tabbed properties
+	// private TabbedPropertySheetPage tabbedPropertySheetPage;
 
 	/**
 	 * Create an editor
@@ -317,7 +322,10 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 		} else if (type == IContentOutlinePage.class) {
 			outlinePage = new ThumbnailOutlinePage(this);
 			return outlinePage;
-		} else {
+		} /*else if (type == IPropertySheetPage.class) {
+		// TODO uncomment to activate tabbed properties
+			return tabbedPropertySheetPage;
+		}*/ else {
 			return super.getAdapter(type);
 		}
 	}
@@ -329,6 +337,11 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 	 */
 	public Graph getContents() {
 		return graph;
+	}
+
+	@Override
+	public String getContributorId() {
+		return "net.sf.graphiti.ui.propertyContributor";
 	}
 
 	@Override
@@ -370,6 +383,9 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 				automaticallyLayout(PositionConstants.EAST);
 			}
 		}
+
+		// TODO uncomment to enable tabbed properties
+		// this.tabbedPropertySheetPage = new TabbedPropertySheetPage(this);
 	}
 
 	@Override

@@ -14,5 +14,44 @@
          </enabledWhen>
       </page>
    </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor
+            contributorId="net.sf.graphiti.ui.propertyContributor"
+            typeMapper="net.sf.graphiti.ui.properties.ModelTypeMapper">
+         <propertyCategory
+               category="net.sf.graphiti.ui.propertyCategory"></propertyCategory>
+      </propertyContributor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs
+            contributorId="net.sf.graphiti.ui.propertyContributor">
+         <propertyTab
+               category="net.sf.graphiti.ui.propertyCategory"
+               id="net.sf.graphiti.ui.propertyTab1"
+               label="Basic">
+         </propertyTab>
+         <propertyTab
+               category="net.sf.graphiti.ui.propertyCategory"
+               id="net.sf.graphiti.ui.propertyTab2"
+               label="Advanced">
+         </propertyTab>
+      </propertyTabs>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections
+            contributorId="net.sf.graphiti.ui.propertyContributor">
+         <propertySection
+               class="net.sf.graphiti.ui.properties.Section1"
+               id="net.sf.graphiti.ui.propertySection1"
+               tab="net.sf.graphiti.ui.propertyTab1">
+            <input
+                  type="net.sf.graphiti.model.Graph">
+            </input>
+         </propertySection>
+      </propertySections>
+   </extension>
 
 </plugin>

@@ -55,6 +55,7 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 
 /**
  * This class extends {@link AbstractGraphicalEditPart} by setting its figure
@@ -67,7 +68,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
  * 
  */
 public class GraphEditPart extends AbstractGraphicalEditPart implements
-		PropertyChangeListener {
+		PropertyChangeListener, ITabbedPropertySheetPageContributor {
 
 	/**
 	 * The subgraph associated with this graph edit part. Set by
@@ -184,6 +185,11 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	}
 
 	@Override
+	public String getContributorId() {
+		return "net.sf.graphiti.ui.propertyContributor";
+	}
+
+	@Override
 	public List<Object> getModelChildren() {
 		Graph graph = (Graph) getModel();
 		List<Object> children = new ArrayList<Object>();
@@ -217,4 +223,5 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 			}
 		}
 	}
+
 }
