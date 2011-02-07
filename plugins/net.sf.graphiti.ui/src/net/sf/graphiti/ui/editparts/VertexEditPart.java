@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, IETR/INSA of Rennes
+ * Copyright (c) 2008-2011, IETR/INSA of Rennes
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.ObjectType;
@@ -68,6 +69,7 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
  * The EditPart associated to the Graph gives methods to refresh the view when a
@@ -190,6 +192,15 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	public void deactivate() {
 		super.deactivate();
 		((Vertex) getModel()).removePropertyChangeListener(this);
+	}
+
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Object getAdapter(Class adapter) {
+		if (adapter == IPropertySource.class) {
+			return new ModelPropertySource((AbstractObject) getModel());
+		}
+		return super.getAdapter(adapter);
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, IETR/INSA of Rennes
+ * Copyright (c) 2008-2011, IETR/INSA of Rennes
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -31,6 +31,7 @@ package net.sf.graphiti.ui.editparts;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Vertex;
@@ -41,6 +42,7 @@ import net.sf.graphiti.ui.figure.EdgeFigure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
  * The EditPart associated to the Dependency gives methods to refresh the view
@@ -80,6 +82,15 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 	public void deactivate() {
 		super.deactivate();
 		((Edge) getModel()).removePropertyChangeListener(this);
+	}
+
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Object getAdapter(Class adapter) {
+		if (adapter == IPropertySource.class) {
+			return new ModelPropertySource((AbstractObject) getModel());
+		}
+		return super.getAdapter(adapter);
 	}
 
 	@Override

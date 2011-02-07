@@ -2,25 +2,6 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension
-         point="org.eclipse.ui.views">
-      <category
-            id="net.sf.graphiti.ui.views"
-            name="Graphiti">
-      </category>
-      <view
-            allowMultiple="false"
-            category="net.sf.graphiti.ui.views"
-            class="net.sf.graphiti.ui.views.SimplePropertyView"
-            icon="icons/graphiti.gif"
-            id="net.sf.graphiti.ui.views.SimplePropertyView"
-            name="Properties"
-            restorable="true">
-         <description>
-            The Properties view displays properties associated with the current selection. Properties are key-value associations where both the key and value are strings.
-         </description>
-      </view>
-   </extension>
-   <extension
          point="org.eclipse.ui.propertyPages">
       <page
             class="net.sf.graphiti.ui.properties.ParametersPropertyPage"

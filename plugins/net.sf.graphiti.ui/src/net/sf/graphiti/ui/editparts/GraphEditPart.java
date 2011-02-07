@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, IETR/INSA of Rennes
+ * Copyright (c) 2008-2011, IETR/INSA of Rennes
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
 
@@ -53,6 +54,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
  * This class extends {@link AbstractGraphicalEditPart} by setting its figure
@@ -170,6 +172,15 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	public void deactivate() {
 		super.deactivate();
 		((Graph) getModel()).removePropertyChangeListener(this);
+	}
+
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Object getAdapter(Class adapter) {
+		if (adapter == IPropertySource.class) {
+			return new ModelPropertySource((AbstractObject) getModel());
+		}
+		return super.getAdapter(adapter);
 	}
 
 	@Override

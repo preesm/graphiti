@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, IETR/INSA of Rennes
+ * Copyright (c) 2008-2011, IETR/INSA of Rennes
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,6 @@ import net.sf.graphiti.ui.actions.SetRefinementAction;
 import net.sf.graphiti.ui.actions.ShowParametersAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
-import net.sf.graphiti.ui.views.SimplePropertyView;
 import net.sf.graphiti.ui.wizards.SaveAsWizard;
 
 import org.eclipse.core.resources.IFile;
@@ -409,7 +408,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette {
 					.getActiveWorkbenchWindow().getActivePage();
 			try {
 				if (page != null) {
-					page.showView(SimplePropertyView.ID);
+					page.showView(IPageLayout.ID_PROP_SHEET);
 				}
 			} catch (PartInitException e) {
 				e.printStackTrace();
