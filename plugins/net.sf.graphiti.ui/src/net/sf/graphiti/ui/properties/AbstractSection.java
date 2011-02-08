@@ -102,7 +102,6 @@ public abstract class AbstractSection extends AbstractPropertySection {
 		@Override
 		public void execute() {
 			oldValue = source.setValue(name, newValue);
-			refresh();
 		}
 
 		@Override
@@ -127,7 +126,6 @@ public abstract class AbstractSection extends AbstractPropertySection {
 		@Override
 		public void undo() {
 			source.setValue(name, oldValue);
-			refresh();
 		}
 
 	}
@@ -169,7 +167,7 @@ public abstract class AbstractSection extends AbstractPropertySection {
 	 */
 	final protected Table createTable(Composite parent) {
 		// create table
-		int style = SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL
+		int style = SWT.BORDER | SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL
 				| SWT.FULL_SELECTION | SWT.HIDE_SELECTION;
 
 		final Table table = getWidgetFactory().createTable(parent, style);

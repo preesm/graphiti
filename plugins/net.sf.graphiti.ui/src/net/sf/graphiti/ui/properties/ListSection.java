@@ -151,11 +151,13 @@ public class ListSection extends AbstractSection {
 			AbstractObject model = (AbstractObject) getViewer().getInput();
 			java.util.List<Object> oldList = (java.util.List<Object>) model
 					.getValue(parameterName);
-			java.util.List<Object> newList = new ArrayList<Object>(oldList);
-			int index = newList.indexOf(element);
-			if (index != -1) {
-				newList.set(index, value);
+			int index = oldList.indexOf(element);
+			if (index == -1 || oldList.get(index).equals(value)) {
+				return;
 			}
+
+			java.util.List<Object> newList = new ArrayList<Object>(oldList);
+			newList.set(index, value);
 
 			IWorkbenchPart part = getPart();
 			if (part instanceof GraphEditor) {
@@ -174,7 +176,7 @@ public class ListSection extends AbstractSection {
 		AbstractObject model = (AbstractObject) tableViewer.getInput();
 
 		String dialogTitle = "New value";
-		String dialogMessage = "Please enter:";
+		String dialogMessage = "Please enter a value:";
 		String initialValue = "";
 		InputDialog dialog = new InputDialog(getShell(), dialogTitle,
 				dialogMessage, initialValue, new IInputValidator() {
@@ -236,8 +238,7 @@ public class ListSection extends AbstractSection {
 		Table table = createTable(parent);
 
 		// spans on 4 vertical cells
-		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4);
-		data.horizontalIndent = 10;
+		GridData data = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 4);
 		table.setLayoutData(data);
 
 		createShiftButtons(parent, table);

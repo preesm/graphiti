@@ -28,18 +28,22 @@
  */
 package net.sf.graphiti.ui.properties;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.ui.editors.GraphEditor;
 
+import org.eclipse.jface.dialogs.IInputValidator;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
@@ -160,9 +164,13 @@ public class MapSection extends AbstractSection {
 			AbstractObject model = (AbstractObject) getViewer().getInput();
 			Map<Object, Object> oldMap = (Map<Object, Object>) model
 					.getValue(parameterName);
-			Map<Object, Object> newMap = new HashMap<Object, Object>(oldMap);
 
 			Entry<Object, Object> entry = (Entry<Object, Object>) element;
+			if (entry.getKey().equals(newKey)) {
+				return;
+			}
+
+			Map<Object, Object> newMap = new TreeMap<Object, Object>(oldMap);
 			Object value = newMap.remove(entry.getKey());
 			newMap.put(newKey, value);
 
@@ -226,9 +234,13 @@ public class MapSection extends AbstractSection {
 			AbstractObject model = (AbstractObject) getViewer().getInput();
 			Map<Object, Object> oldMap = (Map<Object, Object>) model
 					.getValue(parameterName);
-			Map<Object, Object> newMap = new HashMap<Object, Object>(oldMap);
 
 			Entry<Object, Object> entry = (Entry<Object, Object>) element;
+			if (entry.getValue().equals(value)) {
+				return;
+			}
+
+			Map<Object, Object> newMap = new TreeMap<Object, Object>(oldMap);
 			newMap.put(entry.getKey(), value);
 
 			IWorkbenchPart part = getPart();
@@ -243,39 +255,60 @@ public class MapSection extends AbstractSection {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	protected void buttonAddSelected() {
-		// Map<Object, Object> map = (Map<Object, Object>) viewer.getInput();
-		//
-		// String dialogTitle = "New value";
-		// String dialogMessage = "Please enter:";
-		// String initialValue = "";
-		// InputDialog dialog = new InputDialog(getShell(), dialogTitle,
-		// dialogMessage, initialValue, new IInputValidator() {
-		//
-		// @Override
-		// public String isValid(String newText) {
-		// return newText.isEmpty() ? "" : null;
-		// }
-		//
-		// });
-		//
-		// if (dialog.open() == InputDialog.OK) {
-		// map.put(dialog.getValue(), "");
-		//
-		// }
+		String dialogTitle = "New value";
+		String dialogMessage = "Please enter a value:";
+		String initialValue = "";
+		InputDialog dialog = new InputDialog(getShell(), dialogTitle,
+				dialogMessage, initialValue, new IInputValidator() {
+
+					@Override
+					public String isValid(String newText) {
+						return newText.isEmpty() ? "" : null;
+					}
+
+				});
+
+		if (dialog.open() == InputDialog.OK) {
+			AbstractObject model = (AbstractObject) tableViewer.getInput();
+			Map<Object, Object> oldMap = (Map<Object, Object>) model
+					.getValue(parameterName);
+			Map<Object, Object> newMap = new TreeMap<Object, Object>(oldMap);
+			newMap.put(dialog.getValue(), "");
+
+			IWorkbenchPart part = getPart();
+			if (part instanceof GraphEditor) {
+				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
+						model, "Add element from map");
+				command.setValue(parameterName, newMap);
+				((GraphEditor) part).executeCommand(command);
+			}
+		}
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	protected void buttonRemoveSelected() {
-		// ISelection sel = tableViewer.getSelection();
-		// if (!sel.isEmpty() && sel instanceof IStructuredSelection) {
-		// IStructuredSelection ssel = (IStructuredSelection) sel;
-		// Object obj = ssel.getFirstElement();
-		//
-		// Object input = tableViewer.getInput();
-		// Map<Object, Object> map = (Map<Object, Object>) input;
-		// map.remove(((Entry<Object, Object>) obj).getKey());
-		// }
+		ISelection sel = tableViewer.getSelection();
+		if (!sel.isEmpty() && sel instanceof IStructuredSelection) {
+			IStructuredSelection ssel = (IStructuredSelection) sel;
+			Object obj = ssel.getFirstElement();
+
+			AbstractObject model = (AbstractObject) tableViewer.getInput();
+			Map<Object, Object> oldMap = (Map<Object, Object>) model
+					.getValue(parameterName);
+			Map<Object, Object> newMap = new TreeMap<Object, Object>(oldMap);
+			newMap.remove(((Entry<Object, Object>) obj).getKey());
+
+			IWorkbenchPart part = getPart();
+			if (part instanceof GraphEditor) {
+				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
+						model, "Remove element from map");
+				command.setValue(parameterName, newMap);
+				((GraphEditor) part).executeCommand(command);
+			}
+		}
 	}
 
 	@Override
@@ -290,7 +323,7 @@ public class MapSection extends AbstractSection {
 		final Table table = createTable(parent);
 
 		// spans on 2 vertical cells
-		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2);
+		GridData data = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2);
 		data.horizontalIndent = 10;
 		table.setLayoutData(data);
 
