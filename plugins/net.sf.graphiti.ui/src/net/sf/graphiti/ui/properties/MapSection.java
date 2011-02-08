@@ -41,7 +41,6 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -271,7 +270,7 @@ public class MapSection extends AbstractSection {
 				});
 
 		if (dialog.open() == InputDialog.OK) {
-			AbstractObject model = (AbstractObject) tableViewer.getInput();
+			AbstractObject model = getModel();
 			Map<Object, Object> oldMap = (Map<Object, Object>) model
 					.getValue(parameterName);
 			Map<Object, Object> newMap = new TreeMap<Object, Object>(oldMap);
@@ -290,12 +289,11 @@ public class MapSection extends AbstractSection {
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void buttonRemoveSelected() {
-		ISelection sel = tableViewer.getSelection();
-		if (!sel.isEmpty() && sel instanceof IStructuredSelection) {
-			IStructuredSelection ssel = (IStructuredSelection) sel;
+		IStructuredSelection ssel = getTableSelection();
+		if (ssel != null && !ssel.isEmpty()) {
 			Object obj = ssel.getFirstElement();
 
-			AbstractObject model = (AbstractObject) tableViewer.getInput();
+			AbstractObject model = getModel();
 			Map<Object, Object> oldMap = (Map<Object, Object>) model
 					.getValue(parameterName);
 			Map<Object, Object> newMap = new TreeMap<Object, Object>(oldMap);
@@ -321,13 +319,14 @@ public class MapSection extends AbstractSection {
 
 	private void createMapTable(Composite parent) {
 		final Table table = createTable(parent);
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 
 		// spans on 2 vertical cells
-		GridData data = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2);
-		data.horizontalIndent = 10;
+		GridData data = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 2);
 		table.setLayoutData(data);
 
-		tableViewer = new TableViewer(table);
+		TableViewer tableViewer = getViewer();
 		tableViewer.setContentProvider(new MapContentProvider());
 		tableViewer.setLabelProvider(new MapCellLabelProvider());
 

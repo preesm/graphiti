@@ -28,6 +28,9 @@
  */
 package net.sf.graphiti.ui.properties;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import net.sf.graphiti.model.AbstractObject;
 
 import org.eclipse.gef.EditPart;
@@ -55,7 +58,8 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * @author Matthieu Wipliez
  * 
  */
-public abstract class AbstractSection extends AbstractPropertySection {
+public abstract class AbstractSection extends AbstractPropertySection implements
+		PropertyChangeListener {
 
 	/**
 	 * This class provides a command that changes the value of the currently
@@ -134,7 +138,7 @@ public abstract class AbstractSection extends AbstractPropertySection {
 
 	protected String parameterName;
 
-	protected TableViewer tableViewer;
+	private TableViewer tableViewer;
 
 	/**
 	 * Called when "Add..." is pressed.
@@ -156,6 +160,7 @@ public abstract class AbstractSection extends AbstractPropertySection {
 
 		Composite composite = form.getBody();
 		composite.setLayout(new GridLayout(2, false));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 	}
 
 	/**
@@ -167,15 +172,15 @@ public abstract class AbstractSection extends AbstractPropertySection {
 	 */
 	final protected Table createTable(Composite parent) {
 		// create table
-		int style = SWT.BORDER | SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL
-				| SWT.FULL_SELECTION | SWT.HIDE_SELECTION;
+		int style = SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION
+				| SWT.HIDE_SELECTION;
 
 		final Table table = getWidgetFactory().createTable(parent, style);
+		tableViewer = new TableViewer(table);
 
 		// create buttons
 		Button button = getWidgetFactory().createButton(parent, "Add...",
 				SWT.NONE);
-		// button.setImage(GraphitiUiPlugin.getImage("icons/add_obj.gif"));
 		button.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -186,8 +191,6 @@ public abstract class AbstractSection extends AbstractPropertySection {
 
 		// create buttons
 		button = getWidgetFactory().createButton(parent, "Remove", SWT.NONE);
-		// button = new Button(parent, SWT.NONE);
-		// button.setImage(GraphitiUiPlugin.getImage("icons/remove_obj.gif"));
 		button.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -199,6 +202,18 @@ public abstract class AbstractSection extends AbstractPropertySection {
 		return table;
 	}
 
+	@Override
+	public void dispose() {
+		AbstractObject model = getModel();
+		if (model != null) {
+			model.removePropertyChangeListener(this);
+		}
+
+		if (form != null) {
+			form.dispose();
+		}
+	}
+
 	/**
 	 * Returns the form of this section.
 	 * 
@@ -208,8 +223,53 @@ public abstract class AbstractSection extends AbstractPropertySection {
 		return form;
 	}
 
+	/**
+	 * Returns the model associated with this section. May be <code>null</code>.
+	 * 
+	 * @return the model associated with this section
+	 */
+	public AbstractObject getModel() {
+		if (tableViewer == null) {
+			return null;
+		}
+		return (AbstractObject) tableViewer.getInput();
+	}
+
+	/**
+	 * Returns the shell associated with the form of this section.
+	 * 
+	 * @return the shell associated with the form of this section
+	 */
 	public Shell getShell() {
 		return form.getShell();
+	}
+
+	/**
+	 * Returns the current selection on the table of this section. May be
+	 * <code>null</code>.
+	 * 
+	 * @return the current selection on the table of this section
+	 */
+	public IStructuredSelection getTableSelection() {
+		ISelection sel = tableViewer.getSelection();
+		if (sel instanceof IStructuredSelection) {
+			return (IStructuredSelection) sel;
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the viewer of the table of this section.
+	 * 
+	 * @return the viewer of the table of this section
+	 */
+	public TableViewer getViewer() {
+		return tableViewer;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		refresh();
 	}
 
 	@Override
@@ -226,6 +286,12 @@ public abstract class AbstractSection extends AbstractPropertySection {
 			if (object instanceof EditPart) {
 				Object model = ((EditPart) object).getModel();
 				if (model instanceof AbstractObject) {
+					AbstractObject oldModel = getModel();
+					if (oldModel != null) {
+						oldModel.removePropertyChangeListener(this);
+					}
+
+					((AbstractObject) model).addPropertyChangeListener(this);
 					tableViewer.setInput(model);
 				}
 			}

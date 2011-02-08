@@ -40,7 +40,6 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -173,7 +172,7 @@ public class ListSection extends AbstractSection {
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void buttonAddSelected() {
-		AbstractObject model = (AbstractObject) tableViewer.getInput();
+		AbstractObject model = getModel();
 
 		String dialogTitle = "New value";
 		String dialogMessage = "Please enter a value:";
@@ -206,12 +205,11 @@ public class ListSection extends AbstractSection {
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void buttonRemoveSelected() {
-		ISelection sel = tableViewer.getSelection();
-		if (!sel.isEmpty() && sel instanceof IStructuredSelection) {
-			IStructuredSelection ssel = (IStructuredSelection) sel;
+		IStructuredSelection ssel = getTableSelection();
+		if (ssel != null && !ssel.isEmpty()) {
 			Object obj = ssel.getFirstElement();
 
-			AbstractObject model = (AbstractObject) tableViewer.getInput();
+			AbstractObject model = getModel();
 			List<Object> oldList = (List<Object>) model.getValue(parameterName);
 			List<Object> newList = new ArrayList<Object>(oldList);
 			newList.remove(obj);
@@ -238,12 +236,12 @@ public class ListSection extends AbstractSection {
 		Table table = createTable(parent);
 
 		// spans on 4 vertical cells
-		GridData data = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 4);
+		GridData data = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 4);
 		table.setLayoutData(data);
 
 		createShiftButtons(parent, table);
 
-		tableViewer = new TableViewer(table);
+		TableViewer tableViewer = getViewer();
 		tableViewer.setContentProvider(new ListContentProvider());
 		tableViewer.setLabelProvider(new ListCellLabelProvider());
 
@@ -269,7 +267,7 @@ public class ListSection extends AbstractSection {
 		final Button shiftDown = getWidgetFactory().createButton(parent,
 				"Down", SWT.NONE);
 
-		shiftUp.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
+		shiftUp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true));
 		shiftUp.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -281,7 +279,7 @@ public class ListSection extends AbstractSection {
 		});
 
 		// create buttons
-		shiftDown.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
+		shiftDown.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, true));
 		shiftDown.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -304,12 +302,11 @@ public class ListSection extends AbstractSection {
 
 	@SuppressWarnings("unchecked")
 	private void shiftValue(int offset) {
-		ISelection sel = tableViewer.getSelection();
-		if (!sel.isEmpty() && sel instanceof IStructuredSelection) {
-			IStructuredSelection ssel = (IStructuredSelection) sel;
+		IStructuredSelection ssel = getTableSelection();
+		if (ssel != null && !ssel.isEmpty()) {
 			Object obj = ssel.getFirstElement();
 
-			AbstractObject model = (AbstractObject) tableViewer.getInput();
+			AbstractObject model = getModel();
 			List<Object> oldList = (List<Object>) model.getValue(parameterName);
 			List<Object> newList = new ArrayList<Object>(oldList);
 
