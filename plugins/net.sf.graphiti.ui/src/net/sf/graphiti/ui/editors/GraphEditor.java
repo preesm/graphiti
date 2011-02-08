@@ -45,7 +45,6 @@ import net.sf.graphiti.ui.actions.CopyAction;
 import net.sf.graphiti.ui.actions.CutAction;
 import net.sf.graphiti.ui.actions.PasteAction;
 import net.sf.graphiti.ui.actions.SetRefinementAction;
-import net.sf.graphiti.ui.actions.ShowParametersAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
 import net.sf.graphiti.ui.properties.PropertiesConstants;
@@ -204,7 +203,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		ActionRegistry registry = getActionRegistry();
 		Class<?> actions[] = { CopyAction.class, CutAction.class,
 				PasteAction.class, PrintAction.class, SelectAllAction.class,
-				SetRefinementAction.class, ShowParametersAction.class };
+				SetRefinementAction.class };
 
 		// Constructs all actions
 		for (Class<?> clz : actions) {
