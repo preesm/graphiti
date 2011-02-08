@@ -18,4 +18,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: IETR/INSA Rennes
 Export-Package: net.sf.graphiti.ui,
  net.sf.graphiti.ui.editors,
+ net.sf.graphiti.ui.properties,
  net.sf.graphiti.ui.wizards

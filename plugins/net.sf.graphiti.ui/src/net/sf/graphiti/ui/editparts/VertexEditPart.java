@@ -46,6 +46,7 @@ import net.sf.graphiti.ui.editpolicies.VertexDirectEditPolicy;
 import net.sf.graphiti.ui.figure.VertexFigure;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 import net.sf.graphiti.ui.figure.shapes.ShapeFactory;
+import net.sf.graphiti.ui.properties.PropertiesConstants;
 
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -70,6 +71,7 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 
 /**
  * The EditPart associated to the Graph gives methods to refresh the view when a
@@ -81,7 +83,8 @@ import org.eclipse.ui.views.properties.IPropertySource;
  * 
  */
 public class VertexEditPart extends AbstractGraphicalEditPart implements
-		PropertyChangeListener, NodeEditPart {
+		PropertyChangeListener, NodeEditPart,
+		ITabbedPropertySheetPageContributor {
 
 	private DirectEditManager directEditManager;
 
@@ -201,6 +204,11 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 			return new ModelPropertySource((AbstractObject) getModel());
 		}
 		return super.getAdapter(adapter);
+	}
+
+	@Override
+	public String getContributorId() {
+		return PropertiesConstants.CONTRIBUTOR_ID;
 	}
 
 	@Override

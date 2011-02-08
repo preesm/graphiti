@@ -38,11 +38,15 @@ import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.editpolicies.DependencyEditPolicy;
 import net.sf.graphiti.ui.editpolicies.DependencyEndPointEditPolicy;
 import net.sf.graphiti.ui.figure.EdgeFigure;
+import net.sf.graphiti.ui.properties.PropertiesConstants;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
  * The EditPart associated to the Dependency gives methods to refresh the view
@@ -53,7 +57,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
  * 
  */
 public class EdgeEditPart extends AbstractConnectionEditPart implements
-		PropertyChangeListener {
+		PropertyChangeListener, ITabbedPropertySheetPageContributor {
 
 	@Override
 	public void activate() {
@@ -90,7 +94,15 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements
 		if (adapter == IPropertySource.class) {
 			return new ModelPropertySource((AbstractObject) getModel());
 		}
+		if (adapter == IPropertySheetPage.class) {
+			return new TabbedPropertySheetPage(this);
+		}
 		return super.getAdapter(adapter);
+	}
+
+	@Override
+	public String getContributorId() {
+		return PropertiesConstants.CONTRIBUTOR_ID;
 	}
 
 	@Override

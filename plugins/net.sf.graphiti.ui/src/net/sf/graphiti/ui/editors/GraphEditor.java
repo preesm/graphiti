@@ -48,6 +48,7 @@ import net.sf.graphiti.ui.actions.SetRefinementAction;
 import net.sf.graphiti.ui.actions.ShowParametersAction;
 import net.sf.graphiti.ui.editparts.EditPartFactoryImpl;
 import net.sf.graphiti.ui.editparts.GraphEditPart;
+import net.sf.graphiti.ui.properties.PropertiesConstants;
 import net.sf.graphiti.ui.wizards.SaveAsWizard;
 
 import org.eclipse.core.resources.IFile;
@@ -96,7 +97,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
  * This class provides the graph editor.
@@ -122,8 +125,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	private IStatus status;
 
-	// TODO uncomment to enable tabbed properties
-	// private TabbedPropertySheetPage tabbedPropertySheetPage;
+	private TabbedPropertySheetPage tabbedPropertySheetPage;
 
 	/**
 	 * Create an editor
@@ -322,10 +324,9 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 		} else if (type == IContentOutlinePage.class) {
 			outlinePage = new ThumbnailOutlinePage(this);
 			return outlinePage;
-		} /*else if (type == IPropertySheetPage.class) {
-		// TODO uncomment to activate tabbed properties
+		} else if (type == IPropertySheetPage.class) {
 			return tabbedPropertySheetPage;
-		}*/ else {
+		} else {
 			return super.getAdapter(type);
 		}
 	}
@@ -341,7 +342,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 	@Override
 	public String getContributorId() {
-		return "net.sf.graphiti.ui.propertyContributor";
+		return PropertiesConstants.CONTRIBUTOR_ID;
 	}
 
 	@Override
@@ -384,8 +385,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 			}
 		}
 
-		// TODO uncomment to enable tabbed properties
-		// this.tabbedPropertySheetPage = new TabbedPropertySheetPage(this);
+		this.tabbedPropertySheetPage = new TabbedPropertySheetPage(this);
 	}
 
 	@Override

@@ -17,41 +17,68 @@
    <extension
          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
       <propertyContributor
-            contributorId="net.sf.graphiti.ui.propertyContributor"
+            contributorId="net.sf.graphiti.ui.properties.contributor"
             typeMapper="net.sf.graphiti.ui.properties.ModelTypeMapper">
          <propertyCategory
-               category="net.sf.graphiti.ui.propertyCategory"></propertyCategory>
+               category="net.sf.graphiti.ui.properties.category.graph">
+         </propertyCategory>
+         <propertyCategory
+               category="net.sf.graphiti.ui.properties.category.edge">
+         </propertyCategory>
+         <propertyCategory
+               category="net.sf.graphiti.ui.properties.category.vertex">
+         </propertyCategory>
       </propertyContributor>
    </extension>
    <extension
          point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
       <propertyTabs
-            contributorId="net.sf.graphiti.ui.propertyContributor">
+            contributorId="net.sf.graphiti.ui.properties.contributor">
          <propertyTab
-               category="net.sf.graphiti.ui.propertyCategory"
-               id="net.sf.graphiti.ui.propertyTab1"
+               category="net.sf.graphiti.ui.properties.category.graph"
+               id="net.sf.graphiti.ui.properties.tab.graph.basic"
                label="Basic">
          </propertyTab>
          <propertyTab
-               category="net.sf.graphiti.ui.propertyCategory"
-               id="net.sf.graphiti.ui.propertyTab2"
-               label="Advanced">
+               category="net.sf.graphiti.ui.properties.category.vertex"
+               id="net.sf.graphiti.ui.properties.tab.vertex.basic"
+               label="Basic">
+         </propertyTab>
+         <propertyTab
+               category="net.sf.graphiti.ui.properties.category.edge"
+               id="net.sf.graphiti.ui.properties.tab.edge.basic"
+               label="Basic">
          </propertyTab>
       </propertyTabs>
    </extension>
    <extension
          point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections
-            contributorId="net.sf.graphiti.ui.propertyContributor">
+            contributorId="net.sf.graphiti.ui.properties.contributor">
          <propertySection
-               class="net.sf.graphiti.ui.properties.Section1"
-               id="net.sf.graphiti.ui.propertySection1"
-               tab="net.sf.graphiti.ui.propertyTab1">
+               class="org.eclipse.ui.views.properties.tabbed.AdvancedPropertySection"
+               id="net.sf.graphiti.ui.properties.section.graph.basic"
+               tab="net.sf.graphiti.ui.properties.tab.graph.basic">
             <input
                   type="net.sf.graphiti.model.Graph">
             </input>
          </propertySection>
+         <propertySection
+               class="org.eclipse.ui.views.properties.tabbed.AdvancedPropertySection"
+               id="net.sf.graphiti.ui.properties.section.vertex.basic"
+               tab="net.sf.graphiti.ui.properties.tab.vertex.basic">
+            <input
+                  type="net.sf.graphiti.model.Vertex">
+            </input>
+         </propertySection>
+         <propertySection
+               class="org.eclipse.ui.views.properties.tabbed.AdvancedPropertySection"
+               id="net.sf.graphiti.ui.properties.section.edge.basic"
+               tab="net.sf.graphiti.ui.properties.tab.edge.basic">
+            <input
+                  type="net.sf.graphiti.model.Edge">
+            </input>
+         </propertySection>
       </propertySections>
    </extension>
-
 </plugin>
