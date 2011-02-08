@@ -28,19 +28,35 @@
  */
 package net.sf.graphiti.ui.properties;
 
-import net.sf.graphiti.model.AbstractObject;
-import net.sf.graphiti.model.ObjectType;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.eclipse.gef.EditPart;
+import net.sf.graphiti.model.AbstractObject;
+import net.sf.graphiti.ui.editors.GraphEditor;
+
+import org.eclipse.jface.dialogs.IInputValidator;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.forms.widgets.Form;
-import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
@@ -49,14 +65,163 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * @author Matthieu Wipliez
  * 
  */
-public class ListSection extends AbstractPropertySection {
+public class ListSection extends AbstractSection {
 
-	private List list;
+	/**
+	 * This class is a {@link CellLabelProvider} for a list.
+	 * 
+	 * @author Matthieu Wipliez
+	 */
+	private class ListCellLabelProvider extends CellLabelProvider {
 
-	private Form form;
+		@Override
+		public void update(ViewerCell cell) {
+			if (cell.getColumnIndex() == 0) {
+				cell.setText((String) cell.getElement());
+			}
+		}
 
-	final protected Form getForm() {
-		return form;
+	}
+
+	/**
+	 * This class defines a content provider for a list.
+	 * 
+	 * @author Matthieu Wipliez
+	 */
+	private class ListContentProvider implements IStructuredContentProvider {
+
+		@Override
+		public void dispose() {
+		}
+
+		@Override
+		public Object[] getElements(Object inputElement) {
+			AbstractObject model = (AbstractObject) inputElement;
+			java.util.List<?> list = (java.util.List<?>) model
+					.getValue(parameterName);
+			return list.toArray();
+		}
+
+		@Override
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		}
+
+	}
+
+	/**
+	 * This class provides {@link EditingSupport} for lists.
+	 * 
+	 * @author Matthieu Wipliez
+	 * 
+	 */
+	private class ListEditingSupport extends EditingSupport {
+
+		private TextCellEditor editor;
+
+		/**
+		 * Creates a new {@link ListEditingSupport} on the given column viewer
+		 * and table.
+		 * 
+		 * @param viewer
+		 * @param table
+		 */
+		public ListEditingSupport(ColumnViewer viewer, Table table) {
+			super(viewer);
+			editor = new TextCellEditor(table);
+		}
+
+		@Override
+		protected boolean canEdit(Object element) {
+			return true;
+		}
+
+		@Override
+		protected CellEditor getCellEditor(Object element) {
+			return editor;
+		}
+
+		@Override
+		protected Object getValue(Object element) {
+			return element.toString();
+		}
+
+		@Override
+		@SuppressWarnings("unchecked")
+		protected void setValue(Object element, Object value) {
+			AbstractObject model = (AbstractObject) getViewer().getInput();
+			java.util.List<Object> oldList = (java.util.List<Object>) model
+					.getValue(parameterName);
+			java.util.List<Object> newList = new ArrayList<Object>(oldList);
+			int index = newList.indexOf(element);
+			if (index != -1) {
+				newList.set(index, value);
+			}
+
+			IWorkbenchPart part = getPart();
+			if (part instanceof GraphEditor) {
+				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
+						model, "Change list value");
+				command.setValue(parameterName, newList);
+				((GraphEditor) part).executeCommand(command);
+			}
+		}
+
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	protected void buttonAddSelected() {
+		AbstractObject model = (AbstractObject) tableViewer.getInput();
+
+		String dialogTitle = "New value";
+		String dialogMessage = "Please enter:";
+		String initialValue = "";
+		InputDialog dialog = new InputDialog(getShell(), dialogTitle,
+				dialogMessage, initialValue, new IInputValidator() {
+
+					@Override
+					public String isValid(String newText) {
+						return newText.isEmpty() ? "" : null;
+					}
+
+				});
+
+		if (dialog.open() == InputDialog.OK) {
+			List<Object> oldList = (List<Object>) model.getValue(parameterName);
+			List<Object> newList = new ArrayList<Object>(oldList);
+			newList.add(dialog.getValue());
+
+			IWorkbenchPart part = getPart();
+			if (part instanceof GraphEditor) {
+				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
+						model, "Add element to list");
+				command.setValue(parameterName, newList);
+				((GraphEditor) part).executeCommand(command);
+			}
+		}
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	protected void buttonRemoveSelected() {
+		ISelection sel = tableViewer.getSelection();
+		if (!sel.isEmpty() && sel instanceof IStructuredSelection) {
+			IStructuredSelection ssel = (IStructuredSelection) sel;
+			Object obj = ssel.getFirstElement();
+
+			AbstractObject model = (AbstractObject) tableViewer.getInput();
+			List<Object> oldList = (List<Object>) model.getValue(parameterName);
+			List<Object> newList = new ArrayList<Object>(oldList);
+			newList.remove(obj);
+
+			IWorkbenchPart part = getPart();
+			if (part instanceof GraphEditor) {
+				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
+						model, "Remove element from list");
+				command.setValue(parameterName, newList);
+				((GraphEditor) part).executeCommand(command);
+			}
+		}
 	}
 
 	@Override
@@ -64,32 +229,108 @@ public class ListSection extends AbstractPropertySection {
 			TabbedPropertySheetPage aTabbedPropertySheetPage) {
 		super.createControls(parent, aTabbedPropertySheetPage);
 
-		form = getWidgetFactory().createForm(parent);
-		getWidgetFactory().decorateFormHeading(form);
-
-		form.getBody().setLayout(new GridLayout());
-
-		list = getWidgetFactory().createList(form.getBody(), SWT.SINGLE);
+		createListTable(getForm().getBody());
 	}
 
-	@Override
-	public void setInput(IWorkbenchPart part, ISelection selection) {
-		super.setInput(part, selection);
-		if (selection instanceof IStructuredSelection) {
-			Object object = ((IStructuredSelection) selection)
-					.getFirstElement();
-			if (object instanceof EditPart) {
-				Object model = ((EditPart) object).getModel();
-				if (model instanceof AbstractObject) {
-					list.add((String) ((AbstractObject) model)
-							.getValue(ObjectType.PARAMETER_ID));
-				}
+	private void createListTable(Composite parent) {
+		Table table = createTable(parent);
+
+		// spans on 4 vertical cells
+		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4);
+		data.horizontalIndent = 10;
+		table.setLayoutData(data);
+
+		createShiftButtons(parent, table);
+
+		tableViewer = new TableViewer(table);
+		tableViewer.setContentProvider(new ListContentProvider());
+		tableViewer.setLabelProvider(new ListCellLabelProvider());
+
+		// 1st column
+		TableColumn column = new TableColumn(table, SWT.NONE);
+		column.setText("Value");
+		column.setWidth(200);
+
+		// first column
+		TableViewerColumn tvc = new TableViewerColumn(tableViewer, column);
+		tvc.setLabelProvider(new ListCellLabelProvider());
+
+		// editing support
+		EditingSupport editing = new ListEditingSupport(tvc.getViewer(),
+				tableViewer.getTable());
+		tvc.setEditingSupport(editing);
+	}
+
+	private void createShiftButtons(Composite parent, final Table table) {
+		// create buttons
+		final Button shiftUp = getWidgetFactory().createButton(parent, "Up",
+				SWT.NONE);
+		final Button shiftDown = getWidgetFactory().createButton(parent,
+				"Down", SWT.NONE);
+
+		shiftUp.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
+		shiftUp.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				shiftValue(-1);
+				updateButtonsState(table, shiftUp, shiftDown);
+			}
+
+		});
+
+		// create buttons
+		shiftDown.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
+		shiftDown.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				shiftValue(1);
+				updateButtonsState(table, shiftUp, shiftDown);
+			}
+
+		});
+
+		table.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateButtonsState(table, shiftUp, shiftDown);
+			}
+
+		});
+	}
+
+	@SuppressWarnings("unchecked")
+	private void shiftValue(int offset) {
+		ISelection sel = tableViewer.getSelection();
+		if (!sel.isEmpty() && sel instanceof IStructuredSelection) {
+			IStructuredSelection ssel = (IStructuredSelection) sel;
+			Object obj = ssel.getFirstElement();
+
+			AbstractObject model = (AbstractObject) tableViewer.getInput();
+			List<Object> oldList = (List<Object>) model.getValue(parameterName);
+			List<Object> newList = new ArrayList<Object>(oldList);
+
+			int index = newList.indexOf(obj);
+			Object element = newList.remove(index);
+			newList.add(index + offset, element);
+
+			IWorkbenchPart part = getPart();
+			if (part instanceof GraphEditor) {
+				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
+						model, "Move element");
+				command.setValue(parameterName, newList);
+				((GraphEditor) part).executeCommand(command);
 			}
 		}
 	}
 
-	@Override
-	public void refresh() {
+	private void updateButtonsState(Table table, Button shiftUp,
+			Button shiftDown) {
+		int index = table.getSelectionIndex();
+		shiftUp.setEnabled(index > 0);
+		shiftDown.setEnabled(index < table.getItemCount() - 1);
 	}
 
 }

@@ -28,20 +28,29 @@
  */
 package net.sf.graphiti.ui.properties;
 
-import net.sf.graphiti.model.AbstractObject;
-import net.sf.graphiti.model.ObjectType;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import org.eclipse.gef.EditPart;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
+import net.sf.graphiti.model.AbstractObject;
+import net.sf.graphiti.ui.editors.GraphEditor;
+
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.List;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.forms.widgets.Form;
-import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
@@ -50,58 +59,268 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * @author Matthieu Wipliez
  * 
  */
-public class MapSection extends AbstractPropertySection {
+public class MapSection extends AbstractSection {
 
-	private Text labelText;
+	/**
+	 * This class is a {@link CellLabelProvider} for a map.
+	 * 
+	 * @author Matthieu Wipliez
+	 */
+	private class MapCellLabelProvider extends CellLabelProvider {
 
-	private List list;
+		@Override
+		@SuppressWarnings("unchecked")
+		public void update(ViewerCell cell) {
+			Object element = cell.getElement();
+			Entry<Object, Object> entry = (Entry<Object, Object>) element;
+			if (cell.getColumnIndex() == 0) {
+				cell.setText(entry.getKey().toString());
+			} else {
+				Object value = entry.getValue();
+				if (value == null) {
+					value = "";
+				}
+				cell.setText(value.toString());
+			}
+		}
 
+	}
+
+	/**
+	 * This class defines a content provider for a map.
+	 * 
+	 * @author Matthieu Wipliez
+	 */
+	private class MapContentProvider implements IStructuredContentProvider {
+
+		@Override
+		public void dispose() {
+		}
+
+		@Override
+		public Object[] getElements(Object inputElement) {
+			AbstractObject model = (AbstractObject) inputElement;
+			Map<?, ?> map = (Map<?, ?>) model.getValue(parameterName);
+			return map.entrySet().toArray();
+		}
+
+		@Override
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		}
+
+	}
+
+	/**
+	 * This class provides {@link EditingSupport} for keys of a map.
+	 * 
+	 * @author Matthieu Wipliez
+	 * 
+	 */
+	private class MapNameEditingSupport extends EditingSupport {
+
+		private TextCellEditor editor;
+
+		/**
+		 * Creates a new {@link MapNameEditingSupport} on the given column
+		 * viewer and table.
+		 * 
+		 * @param viewer
+		 * @param table
+		 */
+		public MapNameEditingSupport(ColumnViewer viewer, Table table) {
+			super(viewer);
+			editor = new TextCellEditor(table);
+		}
+
+		@Override
+		protected boolean canEdit(Object element) {
+			return true;
+		}
+
+		@Override
+		protected CellEditor getCellEditor(Object element) {
+			return editor;
+		}
+
+		@Override
+		@SuppressWarnings("unchecked")
+		protected Object getValue(Object element) {
+			Entry<Object, Object> entry = (Entry<Object, Object>) element;
+			Object value = entry.getKey();
+			if (value == null) {
+				value = "";
+			}
+
+			return value.toString();
+		}
+
+		@Override
+		@SuppressWarnings("unchecked")
+		protected void setValue(Object element, Object newKey) {
+			AbstractObject model = (AbstractObject) getViewer().getInput();
+			Map<Object, Object> oldMap = (Map<Object, Object>) model
+					.getValue(parameterName);
+			Map<Object, Object> newMap = new HashMap<Object, Object>(oldMap);
+
+			Entry<Object, Object> entry = (Entry<Object, Object>) element;
+			Object value = newMap.remove(entry.getKey());
+			newMap.put(newKey, value);
+
+			IWorkbenchPart part = getPart();
+			if (part instanceof GraphEditor) {
+				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
+						model, "Change name of value");
+				command.setValue(parameterName, newMap);
+				((GraphEditor) part).executeCommand(command);
+			}
+		}
+
+	}
+
+	/**
+	 * This class provides {@link EditingSupport} for values of a map.
+	 * 
+	 * @author Matthieu Wipliez
+	 * 
+	 */
+	private class MapValueEditingSupport extends EditingSupport {
+
+		private TextCellEditor editor;
+
+		/**
+		 * Creates a new {@link MapValueEditingSupport} on the given column
+		 * viewer and table.
+		 * 
+		 * @param viewer
+		 * @param table
+		 */
+		public MapValueEditingSupport(ColumnViewer viewer, Table table) {
+			super(viewer);
+			editor = new TextCellEditor(table);
+		}
+
+		@Override
+		protected boolean canEdit(Object element) {
+			return true;
+		}
+
+		@Override
+		protected CellEditor getCellEditor(Object element) {
+			return editor;
+		}
+
+		@Override
+		@SuppressWarnings("unchecked")
+		protected Object getValue(Object element) {
+			Entry<Object, Object> entry = (Entry<Object, Object>) element;
+			Object value = entry.getValue();
+			if (value == null) {
+				value = "";
+			}
+			return value.toString();
+		}
+
+		@Override
+		@SuppressWarnings("unchecked")
+		protected void setValue(Object element, Object value) {
+			AbstractObject model = (AbstractObject) getViewer().getInput();
+			Map<Object, Object> oldMap = (Map<Object, Object>) model
+					.getValue(parameterName);
+			Map<Object, Object> newMap = new HashMap<Object, Object>(oldMap);
+
+			Entry<Object, Object> entry = (Entry<Object, Object>) element;
+			newMap.put(entry.getKey(), value);
+
+			IWorkbenchPart part = getPart();
+			if (part instanceof GraphEditor) {
+				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
+						model, "Change value");
+				command.setValue(parameterName, newMap);
+				((GraphEditor) part).executeCommand(command);
+			}
+		}
+
+	}
+
+	@Override
+	protected void buttonAddSelected() {
+		// Map<Object, Object> map = (Map<Object, Object>) viewer.getInput();
+		//
+		// String dialogTitle = "New value";
+		// String dialogMessage = "Please enter:";
+		// String initialValue = "";
+		// InputDialog dialog = new InputDialog(getShell(), dialogTitle,
+		// dialogMessage, initialValue, new IInputValidator() {
+		//
+		// @Override
+		// public String isValid(String newText) {
+		// return newText.isEmpty() ? "" : null;
+		// }
+		//
+		// });
+		//
+		// if (dialog.open() == InputDialog.OK) {
+		// map.put(dialog.getValue(), "");
+		//
+		// }
+	}
+
+	@Override
+	protected void buttonRemoveSelected() {
+		// ISelection sel = tableViewer.getSelection();
+		// if (!sel.isEmpty() && sel instanceof IStructuredSelection) {
+		// IStructuredSelection ssel = (IStructuredSelection) sel;
+		// Object obj = ssel.getFirstElement();
+		//
+		// Object input = tableViewer.getInput();
+		// Map<Object, Object> map = (Map<Object, Object>) input;
+		// map.remove(((Entry<Object, Object>) obj).getKey());
+		// }
+	}
+
+	@Override
 	public void createControls(Composite parent,
 			TabbedPropertySheetPage aTabbedPropertySheetPage) {
 		super.createControls(parent, aTabbedPropertySheetPage);
-		/*
-		 * Composite composite = getWidgetFactory()
-		 * .createFlatFormComposite(parent); FormData data;
-		 * 
-		 * labelText = getWidgetFactory().createText(composite, "");
-		 * //$NON-NLS-1$ data = new FormData(); data.left = new
-		 * FormAttachment(0, STANDARD_LABEL_WIDTH); data.right = new
-		 * FormAttachment(100, 0); data.top = new FormAttachment(0,
-		 * ITabbedPropertyConstants.VSPACE); labelText.setLayoutData(data);
-		 * 
-		 * CLabel labelLabel = getWidgetFactory() .createCLabel(composite,
-		 * "Label:"); //$NON-NLS-1$ data = new FormData(); data.left = new
-		 * FormAttachment(0, 0); data.right = new FormAttachment(labelText,
-		 * -ITabbedPropertyConstants.HSPACE); data.top = new
-		 * FormAttachment(labelText, 0, SWT.CENTER);
-		 * labelLabel.setLayoutData(data);
-		 */
-		
-		Form form = getWidgetFactory().createForm(parent);
-		getWidgetFactory().decorateFormHeading(form);
-		form.setText("Sample form");
-		form.getBody().setLayout(new GridLayout());
-		getWidgetFactory().createButton(form.getBody(), "Checkbox", SWT.CHECK);
-		list = getWidgetFactory().createList(form.getBody(), SWT.SINGLE);
+
+		createMapTable(getForm().getBody());
 	}
 
-	public void setInput(IWorkbenchPart part, ISelection selection) {
-		super.setInput(part, selection);
-		if (selection instanceof IStructuredSelection) {
-			Object object = ((IStructuredSelection) selection)
-					.getFirstElement();
-			if (object instanceof EditPart) {
-				Object model = ((EditPart) object).getModel();
-				if (model instanceof AbstractObject) {
-					list.add((String) ((AbstractObject) model)
-							.getValue(ObjectType.PARAMETER_ID));
-				}
-			}
-		}
-	}
+	private void createMapTable(Composite parent) {
+		final Table table = createTable(parent);
 
-	public void refresh() {
-		String.valueOf(labelText);
+		// spans on 2 vertical cells
+		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2);
+		data.horizontalIndent = 10;
+		table.setLayoutData(data);
+
+		tableViewer = new TableViewer(table);
+		tableViewer.setContentProvider(new MapContentProvider());
+		tableViewer.setLabelProvider(new MapCellLabelProvider());
+
+		MapCellLabelProvider labelProvider = new MapCellLabelProvider();
+
+		// 1st column
+		final TableColumn column1 = new TableColumn(table, SWT.NONE, 0);
+		column1.setText("Name");
+		column1.setWidth(200);
+
+		// 2nd column
+		final TableColumn column2 = new TableColumn(table, SWT.NONE, 1);
+		column2.setText("Value");
+		column2.setWidth(200);
+
+		TableViewerColumn tvc1 = new TableViewerColumn(tableViewer, column1);
+		tvc1.setLabelProvider(labelProvider);
+
+		TableViewerColumn tvc2 = new TableViewerColumn(tableViewer, column2);
+		tvc2.setLabelProvider(labelProvider);
+
+		// editing support for first and second column
+		tvc1.setEditingSupport(new MapNameEditingSupport(tvc1.getViewer(),
+				table));
+		tvc2.setEditingSupport(new MapValueEditingSupport(tvc2.getViewer(),
+				table));
 	}
 
 }
