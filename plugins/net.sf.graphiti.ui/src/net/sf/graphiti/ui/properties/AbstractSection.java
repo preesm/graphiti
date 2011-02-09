@@ -134,6 +134,10 @@ public abstract class AbstractSection extends AbstractPropertySection implements
 
 	}
 
+	private Button buttonAdd;
+
+	private Button buttonRemove;
+
 	private Form form;
 
 	protected String parameterName;
@@ -179,10 +183,9 @@ public abstract class AbstractSection extends AbstractPropertySection implements
 		tableViewer = new TableViewer(table);
 
 		// create buttons
-		Button button = getWidgetFactory().createButton(parent, "Add...",
-				SWT.NONE);
-		button.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
-		button.addSelectionListener(new SelectionAdapter() {
+		buttonAdd = getWidgetFactory().createButton(parent, "Add...", SWT.NONE);
+		buttonAdd.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
+		buttonAdd.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				buttonAddSelected();
@@ -190,9 +193,11 @@ public abstract class AbstractSection extends AbstractPropertySection implements
 		});
 
 		// create buttons
-		button = getWidgetFactory().createButton(parent, "Remove", SWT.NONE);
-		button.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
-		button.addSelectionListener(new SelectionAdapter() {
+		buttonRemove = getWidgetFactory().createButton(parent, "Remove",
+				SWT.NONE);
+		buttonRemove
+				.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
+		buttonRemove.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				buttonRemoveSelected();
@@ -280,19 +285,33 @@ public abstract class AbstractSection extends AbstractPropertySection implements
 	@Override
 	public void setInput(IWorkbenchPart part, ISelection selection) {
 		super.setInput(part, selection);
+
+		// remove property listener on old model
+		AbstractObject oldModel = getModel();
+		if (oldModel != null) {
+			oldModel.removePropertyChangeListener(this);
+		}
+
 		if (selection instanceof IStructuredSelection) {
 			Object object = ((IStructuredSelection) selection)
 					.getFirstElement();
 			if (object instanceof EditPart) {
-				Object model = ((EditPart) object).getModel();
-				if (model instanceof AbstractObject) {
-					AbstractObject oldModel = getModel();
-					if (oldModel != null) {
-						oldModel.removePropertyChangeListener(this);
-					}
+				Object editPartModel = ((EditPart) object).getModel();
+				if (editPartModel instanceof AbstractObject) {
+					AbstractObject model = (AbstractObject) editPartModel;
 
-					((AbstractObject) model).addPropertyChangeListener(this);
-					tableViewer.setInput(model);
+					if (model.getParameter(parameterName) == null) {
+						tableViewer.getTable().setEnabled(false);
+						buttonAdd.setEnabled(false);
+						buttonRemove.setEnabled(false);
+					} else {
+						tableViewer.getTable().setEnabled(true);
+						buttonAdd.setEnabled(true);
+						buttonRemove.setEnabled(true);
+
+						model.addPropertyChangeListener(this);
+						tableViewer.setInput(model);
+					}
 				}
 			}
 		}
