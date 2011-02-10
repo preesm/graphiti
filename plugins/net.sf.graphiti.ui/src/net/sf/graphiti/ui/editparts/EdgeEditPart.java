@@ -38,6 +38,7 @@ import net.sf.graphiti.model.Vertex;
 import net.sf.graphiti.ui.editpolicies.DependencyEditPolicy;
 import net.sf.graphiti.ui.editpolicies.DependencyEndPointEditPolicy;
 import net.sf.graphiti.ui.figure.EdgeFigure;
+import net.sf.graphiti.ui.properties.ModelPropertySource;
 import net.sf.graphiti.ui.properties.PropertiesConstants;
 
 import org.eclipse.draw2d.IFigure;

@@ -224,10 +224,8 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 	 * @return A {@link String} with the refinement value.
 	 */
 	protected String getRefinementValue(Vertex vertex, IFile file) {
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IPath editedFilePath = root
-				.getFileForLocation(new Path(vertex.getParent().getFileName()))
-				.getParent().getFullPath();
+		IPath editedFilePath = vertex.getParent().getFile().getParent()
+				.getFullPath();
 		IPath createdFilePath = file.getParent().getFullPath();
 
 		int n = editedFilePath.matchingFirstSegments(createdFilePath);
@@ -314,9 +312,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 		// initial selection
 		IResource resource = getRefinementFile(vertex);
 		if (resource == null) {
-			String fileName = vertex.getParent().getFileName();
-			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-			resource = root.getFileForLocation(new Path(fileName)).getParent();
+			resource = vertex.getParent().getFile().getParent();
 		}
 		tree.setInitialSelection(resource);
 

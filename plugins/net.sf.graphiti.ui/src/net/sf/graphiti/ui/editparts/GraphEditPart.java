@@ -36,6 +36,7 @@ import java.util.List;
 import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.ui.editpolicies.LayoutPolicy;
+import net.sf.graphiti.ui.properties.ModelPropertySource;
 import net.sf.graphiti.ui.properties.PropertiesConstants;
 
 import org.eclipse.draw2d.ConnectionLayer;

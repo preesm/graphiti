@@ -46,6 +46,7 @@ import net.sf.graphiti.ui.editpolicies.VertexDirectEditPolicy;
 import net.sf.graphiti.ui.figure.VertexFigure;
 import net.sf.graphiti.ui.figure.shapes.IShape;
 import net.sf.graphiti.ui.figure.shapes.ShapeFactory;
+import net.sf.graphiti.ui.properties.ModelPropertySource;
 import net.sf.graphiti.ui.properties.PropertiesConstants;
 
 import org.eclipse.draw2d.Connection;

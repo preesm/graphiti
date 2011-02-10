@@ -33,6 +33,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.jgrapht.graph.AbstractBaseGraph;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.Multigraph;
@@ -208,6 +213,18 @@ public class Graph extends AbstractObject {
 	 */
 	public Configuration getConfiguration() {
 		return configuration;
+	}
+
+	/**
+	 * Returns the file in which this graph is defined.
+	 * 
+	 * @return the file in which this graph is defined
+	 */
+	public IFile getFile() {
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		IPath location = new Path(fileName);
+		IFile file = root.getFileForLocation(location);
+		return file;
 	}
 
 	/**

@@ -26,16 +26,27 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-package net.sf.graphiti.ui.editparts;
+package net.sf.graphiti.ui.properties;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.graphiti.model.AbstractObject;
+import net.sf.graphiti.model.Edge;
+import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Parameter;
+import net.sf.graphiti.model.Vertex;
+import net.sf.graphiti.ui.commands.ParameterChangeValueCommand;
+import net.sf.graphiti.ui.editors.GraphEditor;
 
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
@@ -109,7 +120,30 @@ public class ModelPropertySource implements IPropertySource {
 
 	@Override
 	public void setPropertyValue(Object id, Object value) {
-		model.setValue((String) id, value);
+		Graph graph;
+		if (model instanceof Vertex) {
+			graph = ((Vertex) model).getParent();
+		} else if (model instanceof Edge) {
+			graph = ((Edge) model).getSource().getParent();
+		} else {
+			graph = (Graph) model;
+		}
+
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchPage page = workbench.getActiveWorkbenchWindow()
+				.getActivePage();
+		try {
+			IEditorPart part = IDE.openEditor(page, graph.getFile());
+			if (part instanceof GraphEditor) {
+				String parameterName = (String) id;
+				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
+						model, "Change value");
+				command.setValue(parameterName, value);
+				((GraphEditor) part).executeCommand(command);
+			}
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
