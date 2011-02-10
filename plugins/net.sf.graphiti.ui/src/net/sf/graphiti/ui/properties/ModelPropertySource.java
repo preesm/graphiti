@@ -28,6 +28,8 @@
  */
 package net.sf.graphiti.ui.properties;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,14 +44,20 @@ import net.sf.graphiti.ui.commands.ParameterChangeValueCommand;
 import net.sf.graphiti.ui.editors.GraphEditor;
 
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
+import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.ui.views.properties.PropertySheet;
+import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
  * This class implements a property source for the different objects of our
@@ -58,16 +66,20 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
  * @author Matthieu Wipliez
  * 
  */
-public class ModelPropertySource implements IPropertySource {
-
-	private ObjectType type;
+public class ModelPropertySource implements IPropertySource,
+		PropertyChangeListener {
 
 	private IPropertyDescriptor[] descs;
 
+	private boolean doRefresh;
+
 	private AbstractObject model;
+
+	private ObjectType type;
 
 	public ModelPropertySource(AbstractObject model) {
 		this.model = model;
+		model.addPropertyChangeListener(this);
 		this.type = model.getType();
 
 		List<IPropertyDescriptor> descs = new ArrayList<IPropertyDescriptor>();
@@ -110,6 +122,33 @@ public class ModelPropertySource implements IPropertySource {
 	}
 
 	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (!doRefresh) {
+			return;
+		}
+
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchPage page = workbench.getActiveWorkbenchWindow()
+				.getActivePage();
+
+		// show properties
+		try {
+			IViewPart part = page.showView(IPageLayout.ID_PROP_SHEET);
+			if (part instanceof PropertySheet) {
+				IPropertySheetPage propPage = (IPropertySheetPage) ((PropertySheet) part)
+						.getCurrentPage();
+				if (propPage instanceof PropertySheetPage) {
+					((PropertySheetPage) propPage).refresh();
+				} else if (propPage instanceof TabbedPropertySheetPage) {
+					((TabbedPropertySheetPage) propPage).refresh();
+				}
+			}
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
 	public void resetPropertyValue(Object id) {
 		Object defaultValue = model.getParameter((String) id).getDefault();
 		if (defaultValue == null) {
@@ -136,10 +175,18 @@ public class ModelPropertySource implements IPropertySource {
 			IEditorPart part = IDE.openEditor(page, graph.getFile());
 			if (part instanceof GraphEditor) {
 				String parameterName = (String) id;
+
+				// only update value if it is different than before
+				if (value.equals(model.getValue(parameterName))) {
+					return;
+				}
+
 				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
 						model, "Change value");
 				command.setValue(parameterName, value);
+				doRefresh = false;
 				((GraphEditor) part).executeCommand(command);
+				doRefresh = true;
 			}
 		} catch (PartInitException e) {
 			e.printStackTrace();
