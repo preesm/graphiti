@@ -115,6 +115,20 @@ public class Edge extends AbstractObject {
 	}
 
 	/**
+	 * Returns the graph that contains this edge.
+	 * 
+	 * @return the graph that contains this edge
+	 */
+	public Graph getParent() {
+		Graph parent = source.getParent();
+		if (parent == null) {
+			parent = target.getParent();
+		}
+
+		return parent;
+	}
+
+	/**
 	 * Returns this edge's source.
 	 * 
 	 * @return This edge's source.

@@ -36,7 +36,10 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
 /**
- * This class provides a command that deletes a vertex.
+ * This class provides a command that deletes a vertex. NOTE: this command can
+ * delete a vertex OR an edge. Also, if an edge has already been deleted and a
+ * DeleteCommand is issued on it, execute() won't do anything because the edge
+ * does not have a parent anymore at this point.
  * 
  * @author Samuel Beaussier
  * @author Nicolas Isch
@@ -60,23 +63,38 @@ public class DeleteCommand extends Command {
 	public DeleteCommand(Object obj) {
 		if (obj instanceof Vertex) {
 			vertex = (Vertex) obj;
+			parent = vertex.getParent();
 		} else if (obj instanceof Edge) {
 			edge = (Edge) obj;
+			parent = edge.getParent();
 		}
 	}
 
+	/**
+	 * Adds a vertex to the parent graph and sets its size.
+	 * 
+	 * @param vertex
+	 *            a vertex
+	 */
+	private void addVertex(Vertex vertex) {
+		Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
+		parent.addVertex(vertex);
+		vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
+	}
+
+	@Override
 	public boolean canExecute() {
-		return (vertex != null || edge != null);
+		return (parent != null && (vertex != null || edge != null));
 	}
 
 	@Override
 	public void execute() {
-		if (vertex != null) {
-			parent = vertex.getParent();
-			parent.removeVertex(vertex);
-		} else if (edge != null) {
-			parent = edge.getSource().getParent();
-			parent.removeEdge(edge);
+		if (parent != null) {
+			if (vertex != null) {
+				parent.removeVertex(vertex);
+			} else if (edge != null) {
+				parent.removeEdge(edge);
+			}
 		}
 	}
 
@@ -87,13 +105,15 @@ public class DeleteCommand extends Command {
 
 	@Override
 	public void undo() {
-		if (vertex != null) {
-			Rectangle bounds = (Rectangle) vertex
-					.getValue(Vertex.PROPERTY_SIZE);
-			parent.addVertex(vertex);
-			vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
-		} else if (edge != null) {
-			parent.addEdge(edge);
+		if (parent != null) {
+			if (vertex != null) {
+				addVertex(vertex);
+			} else if (edge != null) {
+				addVertex(edge.getSource());
+				addVertex(edge.getTarget());
+				parent.addEdge(edge);
+			}
 		}
 	}
+
 }

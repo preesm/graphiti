@@ -163,7 +163,7 @@ public class ModelPropertySource implements IPropertySource,
 		if (model instanceof Vertex) {
 			graph = ((Vertex) model).getParent();
 		} else if (model instanceof Edge) {
-			graph = ((Edge) model).getSource().getParent();
+			graph = ((Edge) model).getParent();
 		} else {
 			graph = (Graph) model;
 		}

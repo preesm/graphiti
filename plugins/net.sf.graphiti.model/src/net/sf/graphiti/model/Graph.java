@@ -163,11 +163,17 @@ public class Graph extends AbstractObject {
 	 */
 	public boolean addVertex(Vertex child) {
 		boolean res = graph.addVertex(child);
-		child.parent = this;
+		if (res) {
+			// only updates this graph and fires property change if vertex not
+			// already present in the graph
 
-		vertices.put((String) child.getValue(ObjectType.PARAMETER_ID), child);
+			child.parent = this;
 
-		firePropertyChange(PROPERTY_ADD, null, child);
+			vertices.put((String) child.getValue(ObjectType.PARAMETER_ID),
+					child);
+
+			firePropertyChange(PROPERTY_ADD, null, child);
+		}
 		return res;
 	}
 
