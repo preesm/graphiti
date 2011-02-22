@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Graphiti model plug-in
 Bundle-SymbolicName: net.sf.graphiti.model;singleton:=true
-Bundle-Version: 1.2.8.v20110219
+Bundle-Version: 1.2.8.v20110222
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.draw2d,
@@ -17,7 +17,6 @@ Bundle-ClassPath: .,
  lib/saxon/saxon9-s9api.jar,
  lib/saxon/saxon9-xpath.jar,
  lib/saxon/saxon9.jar
-Eclipse-BuddyPolicy: global
 Export-Package: net.sf.graphiti,
  net.sf.graphiti.io,
  net.sf.graphiti.model,
