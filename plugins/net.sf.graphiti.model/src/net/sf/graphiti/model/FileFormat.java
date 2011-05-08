@@ -32,53 +32,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ * This class defines a file format.
  * 
  * @author Matthieu Wipliez
  * 
  */
 public class FileFormat {
 
-	public class Transformation {
-
-		private String fileName;
-
-		private String grammarId;
-
-		private String startRule;
-
-		private boolean xslt;
-
-		private Transformation(String fileName) {
-			xslt = true;
-			this.fileName = fileName;
-		}
-
-		private Transformation(String grammarId, String startRule) {
-			xslt = false;
-			this.grammarId = grammarId;
-			this.startRule = startRule;
-		}
-
-		public String getFileName() {
-			return fileName;
-		}
-
-		public String getGrammarId() {
-			return grammarId;
-		}
-
-		public String getStartRule() {
-			return startRule;
-		}
-
-		public boolean isXslt() {
-			return xslt;
-		}
-
-	}
-
-	private List<String> exports;
+	private List<Transformation> exports;
 
 	private String extension;
 
@@ -89,28 +50,15 @@ public class FileFormat {
 	public FileFormat(String extension, String type) {
 		this.extension = extension;
 		this.type = type;
-		exports = new ArrayList<String>();
+		exports = new ArrayList<Transformation>();
 		imports = new ArrayList<Transformation>();
-	}
-
-	public void addExportTransformation(String fileName) {
-		exports.add(fileName);
-	}
-
-	public void addImportGrammarTransformation(String grammarId,
-			String startRule) {
-		imports.add(new Transformation(grammarId, startRule));
-	}
-
-	public void addImportXsltTransformation(String fileName) {
-		imports.add(new Transformation(fileName));
 	}
 
 	public String getContentType() {
 		return type;
 	}
 
-	public List<String> getExportTransformations() {
+	public List<Transformation> getExportTransformations() {
 		return exports;
 	}
 

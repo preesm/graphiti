@@ -28,17 +28,38 @@
  */
 package net.sf.graphiti.io;
 
-import org.antlr.runtime.CharStream;
-import org.antlr.runtime.Parser;
+import java.io.OutputStream;
+
+import net.sf.graphiti.model.Graph;
+
+import org.eclipse.core.resources.IFile;
 
 /**
- * This interface gives access to ANTLR lexer and parser.
+ * This interface defines a transformation from a file to a Graph and/or the
+ * inverse transformation.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public interface IAntlrProxy {
+public interface ITransformation {
 
-	public Parser createParser(CharStream stream);
+	/**
+	 * Transforms the given file to a Graphiti graph.
+	 * 
+	 * @param file
+	 *            a file
+	 * @return a graph
+	 */
+	public Graph transform(IFile file);
+
+	/**
+	 * Writes the given graph to the given output stream.
+	 * 
+	 * @param graph
+	 *            a graph
+	 * @param out
+	 *            an output stream
+	 */
+	public void transform(Graph graph, OutputStream out);
 
 }

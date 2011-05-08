@@ -30,13 +30,10 @@ package net.sf.graphiti.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import javax.xml.transform.TransformerException;
 
 import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Configuration;
@@ -45,6 +42,7 @@ import net.sf.graphiti.model.FileFormat;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Parameter;
+import net.sf.graphiti.model.Transformation;
 import net.sf.graphiti.model.Vertex;
 
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -71,31 +69,36 @@ public class GenericGraphWriter {
 	}
 
 	/**
-	 * Applies the transformations defined in the file format associated with
-	 * the configuration associated with {@link #graph}.
+	 * Writes the graph associated with this writer to the given output stream.
+	 * The output file absolute path is passed to the underlying stylesheet(s).
 	 * 
 	 * @param path
-	 *            The output file absolute path.
-	 * @param element
-	 *            The element resulting from {@link #writeGraph()}.
+	 *            The file absolute path.
 	 * @param byteStream
 	 *            The {@link OutputStream} to write to.
-	 * @throws URISyntaxException
-	 * @throws IOException
-	 * @throws TransformerException
 	 */
-	private void applyTransformations(String path, Element element,
-			OutputStream byteStream) throws IOException, URISyntaxException,
-			TransformerException {
+	public void write(String path, OutputStream byteStream) {
+		Element element = writeGraph();
 		Configuration configuration = graph.getConfiguration();
 		FileFormat format = configuration.getFileFormat();
 
-		List<String> transformations = format.getExportTransformations();
-		for (String transformation : transformations) {
-			XsltTransformer transformer = new XsltTransformer(
-					configuration.getContributorId(), transformation);
-			transformer.setParameter("path", path);
-			element = transformer.transformDomToDom(element);
+		List<Transformation> transformations = format
+				.getExportTransformations();
+		try {
+			for (Transformation transformation : transformations) {
+				if (transformation.isXslt()) {
+					XsltTransformer transformer = new XsltTransformer(
+							configuration.getContributorId(),
+							transformation.getFileName());
+					transformer.setParameter("path", path);
+					element = transformer.transformDomToDom(element);
+				} else {
+					transformation.getInstance().transform(graph, byteStream);
+					return;
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 
 		if (format.getContentType().equals("text")) {
@@ -107,24 +110,6 @@ public class GenericGraphWriter {
 			}
 		} else {
 			DomHelper.write(element.getOwnerDocument(), byteStream);
-		}
-	}
-
-	/**
-	 * Writes the graph associated with this writer to the given output stream.
-	 * The output file absolute path is passed to the underlying stylesheet(s).
-	 * 
-	 * @param path
-	 *            The file absolute path.
-	 * @param byteStream
-	 *            The {@link OutputStream} to write to.
-	 */
-	public void write(String path, OutputStream byteStream) {
-		Element element = writeGraph();
-		try {
-			applyTransformations(path, element, byteStream);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
 		}
 	}
 

@@ -28,7 +28,6 @@
  */
 package net.sf.graphiti.io;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,20 +36,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javax.xml.transform.TransformerException;
-
 import net.sf.graphiti.model.AbstractObject;
 import net.sf.graphiti.model.Configuration;
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.FileFormat;
-import net.sf.graphiti.model.FileFormat.Transformation;
 import net.sf.graphiti.model.Graph;
 import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Parameter;
+import net.sf.graphiti.model.Transformation;
 import net.sf.graphiti.model.Vertex;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -108,19 +104,21 @@ public class GenericGraphParser {
 	 * @return A {@link Graph} if successful.
 	 * @throws Exception
 	 */
-	private Graph parse(Configuration configuration, String path, InputStream in)
+	private Graph parse(Configuration configuration, String path, IFile file)
 			throws Exception {
 		FileFormat format = configuration.getFileFormat();
 		List<Transformation> transformations = format
 				.getImportTransformations();
 		Element element = null;
 		if (transformations.isEmpty()) {
+			InputStream in = file.getContents();
 			element = DomHelper.parse(in).getDocumentElement();
 		} else {
 			for (Transformation transformation : transformations) {
 				if (transformation.isXslt()) {
 					// fills the element from the input stream
 					if (element == null) {
+						InputStream in = file.getContents();
 						element = DomHelper.parse(in).getDocumentElement();
 					}
 
@@ -130,10 +128,8 @@ public class GenericGraphParser {
 					transformer.setParameter("path", path);
 					element = transformer.transformDomToDom(element);
 				} else {
-					GrammarTransformer transformer = new GrammarTransformer(
-							transformation.getGrammarId(),
-							transformation.getStartRule());
-					element = transformer.parse(in);
+					ITransformation tr = transformation.getInstance();
+					return tr.transform(file);
 				}
 			}
 		}
@@ -179,34 +175,7 @@ public class GenericGraphParser {
 
 		// parse with the configuration
 		try {
-			return parse(configuration, file.getLocation().toString(),
-					file.getContents());
-		} catch (ClassCastException e) {
-			throw new IncompatibleConfigurationFile(
-					"There was a problem with the creation of a DOM document",
-					e);
-		} catch (ClassNotFoundException e) {
-			throw new IncompatibleConfigurationFile(
-					"A DOM class could not be found", e);
-		} catch (CoreException e) {
-			throw new IncompatibleConfigurationFile(
-					"Could not obtain the file contents.", e);
-		} catch (IllegalAccessException e) {
-			throw new IncompatibleConfigurationFile(
-					"A DOM class could not be accessed", e);
-		} catch (InstantiationException e) {
-			throw new IncompatibleConfigurationFile(
-					"A DOM class could not be instantiated", e);
-		} catch (IOException e) {
-			throw new IncompatibleConfigurationFile(
-					"The file could not be read", e);
-		} catch (TransformedDocumentParseError e) {
-			throw new IncompatibleConfigurationFile(
-					"The transformed document could not be parsed", e);
-		} catch (TransformerException e) {
-			throw new IncompatibleConfigurationFile(
-					"An unrecoverable error occurred during "
-							+ "the course of the transformation.", e);
+			return parse(configuration, file.getLocation().toString(), file);
 		} catch (Throwable e) {
 			throw new IncompatibleConfigurationFile(
 					"The file could not be parsed with the matching configuration",
@@ -295,7 +264,7 @@ public class GenericGraphParser {
 		node = parseEdges(graph, node);
 
 		checkLayout(graph);
-		
+
 		graph.setFileName(path);
 
 		return graph;

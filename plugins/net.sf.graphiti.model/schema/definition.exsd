@@ -307,10 +307,10 @@
          </documentation>
       </annotation>
       <complexType>
-         <sequence>
-            <element ref="grammar" minOccurs="0" maxOccurs="1"/>
+         <choice>
+            <element ref="transformation"/>
             <element ref="xslt" minOccurs="1" maxOccurs="unbounded"/>
-         </sequence>
+         </choice>
       </complexType>
    </element>
 
@@ -321,9 +321,10 @@
          </documentation>
       </annotation>
       <complexType>
-         <sequence>
+         <choice>
+            <element ref="transformation"/>
             <element ref="xslt" minOccurs="1" maxOccurs="unbounded"/>
-         </sequence>
+         </choice>
       </complexType>
    </element>
 
@@ -342,23 +343,16 @@
       </complexType>
    </element>
 
-   <element name="grammar">
+   <element name="transformation">
       <complexType>
-         <attribute name="definition" type="string" use="required">
+         <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="identifier" basedOn="net.sf.graphiti.model.grammar/definition/@id"/>
+                  <meta.attribute kind="java" basedOn=":net.sf.graphiti.io.ITransformation"/>
                </appinfo>
-            </annotation>
-         </attribute>
-         <attribute name="startRule" type="string" use="required">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
             </annotation>
          </attribute>
       </complexType>

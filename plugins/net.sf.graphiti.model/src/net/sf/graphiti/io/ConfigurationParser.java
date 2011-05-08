@@ -41,6 +41,7 @@ import net.sf.graphiti.model.IValidator;
 import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Parameter;
 import net.sf.graphiti.model.ParameterPosition;
+import net.sf.graphiti.model.Transformation;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -59,9 +60,9 @@ import org.eclipse.swt.graphics.Color;
  */
 public class ConfigurationParser {
 
-	private Map<String, Configuration> configurations;
-
 	private static final String PLUGIN_ID = "net.sf.graphiti.model";
+
+	private Map<String, Configuration> configurations;
 
 	/**
 	 * Creates a new configuration parser that parses all configuration files
@@ -76,13 +77,7 @@ public class ConfigurationParser {
 
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IConfigurationElement[] elements = registry
-				.getConfigurationElementsFor(PLUGIN_ID + ".grammar");
-		for (IConfigurationElement element : elements) {
-			registerGrammar(element);
-		}
-
-		elements = registry.getConfigurationElementsFor(PLUGIN_ID
-				+ ".definition");
+				.getConfigurationElementsFor(PLUGIN_ID + ".definition");
 		for (IConfigurationElement element : elements) {
 			Configuration configuration = parseConfiguration(element);
 			configurations.put(configuration.getName(), configuration);
@@ -117,12 +112,12 @@ public class ConfigurationParser {
 
 		IConfigurationElement[] children = element.getChildren("import");
 		children = children[0].getChildren();
-		parseFileFormatImport(format, children);
+		parseTransformations(format.getImportTransformations(), children);
 
 		children = element.getChildren("export");
 		if (children.length > 0) {
 			children = children[0].getChildren();
-			parseFileFormatExport(format, children);
+			parseTransformations(format.getExportTransformations(), children);
 		}
 
 		Map<String, ObjectType> graphTypes = parseTypes(element
@@ -147,52 +142,6 @@ public class ConfigurationParser {
 				contributor.getName(), format, graphTypes, vertexTypes,
 				edgeTypes, validator, refinementPolicy);
 		return configuration;
-	}
-
-	/**
-	 * Parses the file format exports.
-	 * 
-	 * @param format
-	 *            The file format to fill.
-	 * @param node
-	 *            A child node of &lt;exports&gt;.
-	 */
-	private void parseFileFormatExport(FileFormat format,
-			IConfigurationElement[] children) {
-		for (IConfigurationElement element : children) {
-			String type = element.getName();
-			if (type.equals("xslt")) {
-				String name = element.getAttribute("name");
-				format.addExportTransformation(name);
-			} else {
-				throw new IllegalArgumentException("Unknown type: " + type);
-			}
-		}
-	}
-
-	/**
-	 * Parses the file format imports.
-	 * 
-	 * @param format
-	 *            The file format to fill.
-	 * @param node
-	 *            A child node of &lt;imports&gt;.
-	 */
-	private void parseFileFormatImport(FileFormat format,
-			IConfigurationElement[] children) {
-		for (IConfigurationElement element : children) {
-			String name = element.getAttribute("name");
-			String type = element.getName();
-			if (type.equals("grammar")) {
-				String grammarId = element.getAttribute("definition");
-				String startRule = element.getAttribute("startRule");
-				format.addImportGrammarTransformation(grammarId, startRule);
-			} else if (type.equals("xslt")) {
-				format.addImportXsltTransformation(name);
-			} else {
-				throw new IllegalArgumentException("Unknown type: " + type);
-			}
-		}
 	}
 
 	/**
@@ -258,6 +207,32 @@ public class ConfigurationParser {
 	}
 
 	/**
+	 * Parses the file format imports.
+	 * 
+	 * @param format
+	 *            The file format to fill.
+	 * @param node
+	 *            A child node of &lt;imports&gt;.
+	 * @throws CoreException
+	 */
+	private void parseTransformations(List<Transformation> transformations,
+			IConfigurationElement[] children) throws CoreException {
+		for (IConfigurationElement element : children) {
+			String name = element.getAttribute("name");
+			String type = element.getName();
+			if (type.equals("transformation")) {
+				ITransformation instance = (ITransformation) element
+						.createExecutableExtension("class");
+				transformations.add(new Transformation(instance));
+			} else if (type.equals("xslt")) {
+				transformations.add(new Transformation(name));
+			} else {
+				throw new IllegalArgumentException("Unknown type: " + type);
+			}
+		}
+	}
+
+	/**
 	 * Parses a type.
 	 * 
 	 * @param configuration
@@ -318,13 +293,6 @@ public class ConfigurationParser {
 		}
 
 		return types;
-	}
-
-	private void registerGrammar(IConfigurationElement element)
-			throws CoreException {
-		String id = element.getAttribute("id");
-		Object proxy = element.createExecutableExtension("class");
-		GrammarTransformer.registerProxy(id, (IAntlrProxy) proxy);
 	}
 
 }
