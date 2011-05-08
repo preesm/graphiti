@@ -78,7 +78,7 @@ public class GenericGraphWriter {
 	 *            The {@link OutputStream} to write to.
 	 */
 	public void write(String path, OutputStream byteStream) {
-		Element element = writeGraph();
+		Element element = null;
 		Configuration configuration = graph.getConfiguration();
 		FileFormat format = configuration.getFileFormat();
 
@@ -87,6 +87,11 @@ public class GenericGraphWriter {
 		try {
 			for (Transformation transformation : transformations) {
 				if (transformation.isXslt()) {
+					if (element == null) {
+						// writes graph
+						element = writeGraph();
+					}
+					
 					XsltTransformer transformer = new XsltTransformer(
 							configuration.getContributorId(),
 							transformation.getFileName());
