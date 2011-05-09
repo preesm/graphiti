@@ -149,12 +149,12 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 	 *            a refinement
 	 * @return the absolute path of the refinement of the given vertex
 	 */
-	protected IPath getAbsolutePath(String parent, String refinement) {
+	protected IPath getAbsolutePath(IPath parent, String refinement) {
 		// get the path from the refinement
 		IPath path = new Path(refinement);
 		if (path.isAbsolute() == false) {
 			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-			IFile file = root.getFileForLocation(new Path(parent));
+			IFile file = root.getFile(parent);
 			path = file.getParent().getFullPath().append(path);
 		}
 

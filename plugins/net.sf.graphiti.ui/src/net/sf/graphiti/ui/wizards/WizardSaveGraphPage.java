@@ -121,6 +121,7 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 		final IPath containerPath = getContainerFullPath();
 		IPath filePath = containerPath.append(getFileName());
 		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
+		graph.setFileName(filePath);
 
 		// writes graph
 		ByteArrayOutputStream out = new ByteArrayOutputStream();

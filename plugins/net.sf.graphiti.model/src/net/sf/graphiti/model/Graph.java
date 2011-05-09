@@ -37,7 +37,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.jgrapht.graph.AbstractBaseGraph;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.Multigraph;
@@ -82,7 +81,7 @@ public class Graph extends AbstractObject {
 	 */
 	Configuration configuration;
 
-	private String fileName;
+	private IPath fileName;
 
 	private AbstractBaseGraph<Vertex, Edge> graph;
 
@@ -228,8 +227,7 @@ public class Graph extends AbstractObject {
 	 */
 	public IFile getFile() {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IPath location = new Path(fileName);
-		IFile file = root.getFileForLocation(location);
+		IFile file = root.getFile(fileName);
 		return file;
 	}
 
@@ -238,7 +236,7 @@ public class Graph extends AbstractObject {
 	 * 
 	 * @return the name of the file in which this graph is defined
 	 */
-	public String getFileName() {
+	public IPath getFileName() {
 		return fileName;
 	}
 
@@ -304,7 +302,7 @@ public class Graph extends AbstractObject {
 	 * @param fileName
 	 *            a file name
 	 */
-	public void setFileName(String fileName) {
+	public void setFileName(IPath fileName) {
 		this.fileName = fileName;
 	}
 

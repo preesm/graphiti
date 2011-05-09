@@ -47,6 +47,7 @@ import net.sf.graphiti.model.Transformation;
 import net.sf.graphiti.model.Vertex;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -104,7 +105,7 @@ public class GenericGraphParser {
 	 * @return A {@link Graph} if successful.
 	 * @throws Exception
 	 */
-	private Graph parse(Configuration configuration, String path, IFile file)
+	private Graph parse(Configuration configuration, IFile file)
 			throws Exception {
 		FileFormat format = configuration.getFileFormat();
 		List<Transformation> transformations = format
@@ -125,7 +126,8 @@ public class GenericGraphParser {
 					XsltTransformer transformer = new XsltTransformer(
 							configuration.getContributorId(),
 							transformation.getFileName());
-					transformer.setParameter("path", path);
+					transformer.setParameter("path", file.getLocation()
+							.toString());
 					element = transformer.transformDomToDom(element);
 				} else {
 					ITransformation tr = transformation.getInstance();
@@ -134,7 +136,7 @@ public class GenericGraphParser {
 			}
 		}
 
-		return parseGraph(configuration, path, element);
+		return parseGraph(configuration, file.getFullPath(), element);
 	}
 
 	/**
@@ -175,7 +177,7 @@ public class GenericGraphParser {
 
 		// parse with the configuration
 		try {
-			return parse(configuration, file.getLocation().toString(), file);
+			return parse(configuration, file);
 		} catch (Throwable e) {
 			throw new IncompatibleConfigurationFile(
 					"The file could not be parsed with the matching configuration",
@@ -251,7 +253,7 @@ public class GenericGraphParser {
 	 * @throws TransformedDocumentParseError
 	 *             If <code>element</code> cannot be parsed.
 	 */
-	private Graph parseGraph(Configuration configuration, String path,
+	private Graph parseGraph(Configuration configuration, IPath path,
 			Element element) throws TransformedDocumentParseError {
 		String typeName = element.getAttribute("type");
 		ObjectType type = configuration.getGraphType(typeName);
