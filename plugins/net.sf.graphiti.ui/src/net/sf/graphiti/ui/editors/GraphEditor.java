@@ -240,35 +240,28 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		// validate and then save
-		if (validate()) {
-			IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			GenericGraphWriter writer = new GenericGraphWriter(graph);
+		validate();
+
+		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		GenericGraphWriter writer = new GenericGraphWriter(graph);
+		try {
+			writer.write(file.getLocation().toString(), out);
+			file.setContents(new ByteArrayInputStream(out.toByteArray()), true,
+					false, monitor);
 			try {
-				writer.write(file.getLocation().toString(), out);
-				file.setContents(new ByteArrayInputStream(out.toByteArray()),
-						true, false, monitor);
-				try {
-					out.close();
-				} catch (IOException e) {
-					// Can never occur on a ByteArrayOutputStream
-				}
-				getCommandStack().markSaveLocation();
-
-				// refresh folder if we have written layout
-				file.getParent().refreshLocal(IFile.DEPTH_ONE, null);
-
-				return;
-			} catch (ClassCastException e) {
-				errorMessage(
-						"There was a problem with the creation of a DOM document.",
-						e);
-			} catch (Exception e) {
-				errorMessage("Exception", e);
+				out.close();
+			} catch (IOException e) {
+				// Can never occur on a ByteArrayOutputStream
 			}
-		}
+			getCommandStack().markSaveLocation();
 
-		monitor.setCanceled(true);
+			// refresh folder if we have written layout
+			file.getParent().refreshLocal(IFile.DEPTH_ONE, null);
+		} catch (Exception e) {
+			errorMessage(e.getMessage(), e);
+			monitor.setCanceled(true);
+		}
 	}
 
 	@Override
@@ -451,13 +444,11 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	 * 
 	 * @return True if the graph is valid, false otherwise.
 	 */
-	private boolean validate() {
+	private void validate() {
 		removeMarkers();
 		IFile file = ((IFileEditorInput) getEditorInput()).getFile();
 		IValidator validator = graph.getConfiguration().getValidator();
-		if (validator.validate(graph, file)) {
-			return true;
-		} else {
+		if (!validator.validate(graph, file)) {
 			// activate problems view
 			IWorkbenchPage page = PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getActivePage();
@@ -465,7 +456,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 				page.showView(IPageLayout.ID_PROBLEM_VIEW);
 			} catch (PartInitException e) {
 			}
-			return false;
 		}
 	}
+
 }
