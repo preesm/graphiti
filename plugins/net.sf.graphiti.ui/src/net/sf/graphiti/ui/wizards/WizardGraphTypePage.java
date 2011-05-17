@@ -128,20 +128,24 @@ public class WizardGraphTypePage extends WizardPage {
 	 * Fills the {@link #graphTypes} attribute using the default configuration.
 	 */
 	private void fillGraphTypes() {
-		Collection<Configuration> configurations = GraphitiModelPlugin.getDefault()
-				.getConfigurations();
+		Collection<Configuration> configurations = GraphitiModelPlugin
+				.getDefault().getConfigurations();
 		graphTypeConfigurations = new HashMap<ObjectType, Configuration>();
 		graphTypeNames = new HashMap<String, ObjectType>();
 
 		for (Configuration configuration : configurations) {
 			Set<ObjectType> graphTypes = configuration.getGraphTypes();
 			for (ObjectType type : graphTypes) {
-				graphTypeConfigurations.put(type, configuration);
+				if (!configuration.getFileFormat().getExportTransformations()
+						.isEmpty()) {
+					// only add graph types that can be exported
 
-				String fileExt = configuration.getFileFormat()
-						.getFileExtension();
-				graphTypeNames.put(type.getName() + " (*." + fileExt + ")",
-						type);
+					graphTypeConfigurations.put(type, configuration);
+					String fileExt = configuration.getFileFormat()
+							.getFileExtension();
+					graphTypeNames.put(type.getName() + " (*." + fileExt + ")",
+							type);
+				}
 			}
 		}
 	}
@@ -162,4 +166,5 @@ public class WizardGraphTypePage extends WizardPage {
 		Configuration configuration = graphTypeConfigurations.get(type);
 		page.setGraphType(configuration, type);
 	}
+
 }
