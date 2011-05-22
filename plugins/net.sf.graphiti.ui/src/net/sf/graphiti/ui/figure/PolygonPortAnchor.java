@@ -104,7 +104,7 @@ public class PolygonPortAnchor extends AbstractConnectionAnchor {
 				float d = start.y - p * start.x;
 
 				// Compute xAnchor
-				float xAnchor;
+				int xAnchor;
 				if (run == 0) {
 					// Line equation: x = center.x
 					xAnchor = center.x;
@@ -114,11 +114,11 @@ public class PolygonPortAnchor extends AbstractConnectionAnchor {
 					float rise = (reference.y - center.y);
 					float a = rise / run;
 					float b = center.y - a * center.x;
-					xAnchor = (d - b) / (a - p);
+					xAnchor = (int) ((d - b) / (a - p));
 				}
 
 				// yAnchor is just y = px + d
-				float yAnchor = p * xAnchor + d;
+				int yAnchor = (int) (p * xAnchor + d);
 				return new Point(xAnchor, yAnchor);
 			}
 		}
