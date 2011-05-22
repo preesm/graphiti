@@ -40,11 +40,6 @@ import java.util.List;
 public class Edge extends AbstractObject {
 
 	/**
-	 * Serial ID.
-	 */
-	private static final long serialVersionUID = 863045957077215818L;
-
-	/**
 	 * This edge's source.
 	 */
 	private Vertex source;

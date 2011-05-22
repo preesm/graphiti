@@ -51,11 +51,6 @@ import java.util.TreeSet;
  */
 public class Configuration {
 
-	/**
-	 * Serial version UID.
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private String contributorId;
 
 	/**

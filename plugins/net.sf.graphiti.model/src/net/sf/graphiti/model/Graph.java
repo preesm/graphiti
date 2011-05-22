@@ -72,11 +72,6 @@ public class Graph extends AbstractObject {
 	public static final String PROPERTY_REMOVE = "child removed";
 
 	/**
-	 * Serial ID.
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * The configuration associated with this graph.
 	 */
 	Configuration configuration;
