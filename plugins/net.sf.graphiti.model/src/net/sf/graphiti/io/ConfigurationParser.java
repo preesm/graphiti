@@ -235,11 +235,8 @@ public class ConfigurationParser {
 	/**
 	 * Parses a type.
 	 * 
-	 * @param configuration
-	 *            The configuration to fill.
-	 * @param node
-	 *            A child node of a type element (one of &lt;graphType&gt;,
-	 *            &lt;vertexType&gt; or &lt;edgeType&gt;).
+	 * @param type
+	 * @param children
 	 */
 	private void parseType(ObjectType type, IConfigurationElement[] children) {
 		for (IConfigurationElement element : children) {
@@ -268,13 +265,11 @@ public class ConfigurationParser {
 	}
 
 	/**
-	 * Parses the graph types.
+	 * Parses the object types.
 	 * 
-	 * @param configuration
-	 *            The configuration to fill.
-	 * @param node
-	 *            A child node of configuration.
-	 * @return The node following &lt;graphTypes&gt;
+	 * @param children
+	 *            configuration elements
+	 * @return a map from strings to object types
 	 */
 	private Map<String, ObjectType> parseTypes(IConfigurationElement[] children) {
 		Map<String, ObjectType> types = new TreeMap<String, ObjectType>();

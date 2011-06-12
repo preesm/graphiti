@@ -74,7 +74,7 @@ public class Graph extends AbstractObject {
 	/**
 	 * The configuration associated with this graph.
 	 */
-	Configuration configuration;
+	private Configuration configuration;
 
 	private IPath fileName;
 
