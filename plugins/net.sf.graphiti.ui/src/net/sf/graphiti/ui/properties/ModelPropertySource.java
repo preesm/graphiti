@@ -109,9 +109,9 @@ public class ModelPropertySource implements IPropertySource,
 	public Object getPropertyValue(Object id) {
 		Object value = model.getValue((String) id);
 		if (value == null) {
-			value = "";
+			return "";
 		}
-		return value;
+		return String.valueOf(value);
 	}
 
 	@Override
@@ -183,6 +183,22 @@ public class ModelPropertySource implements IPropertySource,
 
 				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
 						model, "Change value");
+				Class<?> parameterType = model.getParameter((String) id)
+						.getType();
+				try {
+					if (parameterType == Integer.class) {
+						value = Integer.valueOf((String) value);
+					} else if (parameterType == Float.class) {
+						value = Float.valueOf((String) value);
+					} else if (parameterType == Boolean.class) {
+						if (!"true".equals(value) && !"false".equals(value)) {
+							throw new IllegalArgumentException();
+						}
+						value = Boolean.valueOf((String) value);
+					}
+				} catch (RuntimeException e) {
+					value = "invalid \"" + value + "\" value";
+				}
 				command.setValue(parameterName, value);
 				doRefresh = false;
 				((GraphEditor) part).executeCommand(command);
