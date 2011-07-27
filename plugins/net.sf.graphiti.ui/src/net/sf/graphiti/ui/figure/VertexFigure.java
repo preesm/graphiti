@@ -31,10 +31,10 @@ package net.sf.graphiti.ui.figure;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import net.sf.graphiti.model.Edge;
 import net.sf.graphiti.model.ObjectType;
@@ -167,8 +167,8 @@ public class VertexFigure extends Figure {
 	public VertexFigure(Font font, Dimension dimension, Color color,
 			IShape shape) {
 		bendpoints = new HashMap<Connection, List<ConcreteBendpoint>>();
-		inputPorts = new TreeMap<String, Label>();
-		outputPorts = new TreeMap<String, Label>();
+		inputPorts = new LinkedHashMap<String, Label>();
+		outputPorts = new LinkedHashMap<String, Label>();
 
 		// necessary for adjustSize
 		setFont(font);
@@ -231,7 +231,7 @@ public class VertexFigure extends Figure {
 			List<RelativeBendpoint> cstList = (List<RelativeBendpoint>) conn
 					.getRoutingConstraint();
 			if (cstList == null) {
-				// shit! it's not here, we create it and set it
+				// oops! it's not here, we create it and set it
 				cstList = new ArrayList<RelativeBendpoint>();
 				conn.setRoutingConstraint(cstList);
 			}
@@ -529,4 +529,5 @@ public class VertexFigure extends Figure {
 	protected boolean useLocalCoordinates() {
 		return true;
 	}
+
 }
