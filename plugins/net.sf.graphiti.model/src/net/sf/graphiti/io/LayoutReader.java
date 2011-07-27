@@ -28,49 +28,48 @@
  */
 package net.sf.graphiti.io;
 
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import static net.sf.graphiti.model.ObjectType.PARAMETER_ID;
 
-import org.eclipse.draw2d.geometry.Rectangle;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.sf.graphiti.model.Graph;
-import net.sf.graphiti.model.ObjectType;
 import net.sf.graphiti.model.Vertex;
 
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 /**
- * This class writes the .layout file associated with graphs.
+ * This class reads the .layout file associated with graphs.
  * 
  * @author Matthieu Wipliez
  * 
  */
-public class LayoutWriter {
+public class LayoutReader {
 
-	public void write(Graph graph, OutputStream out) {
-		PrintWriter writer;
-		try {
-			writer = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
-			writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-			writer.println("<layout>");
-			writer.println("\t<vertices>");
+	public void read(Graph graph, InputStream byteStream) {
+		Map<String, Point> pointMap = new HashMap<String, Point>();
+		Document document = DomHelper.parse(byteStream);
+		Element layout = document.getDocumentElement();
+		NodeList vertices = layout.getElementsByTagName("vertex");
+		for (int i = 0; i < vertices.getLength(); i++) {
+			Element vertex = (Element) vertices.item(i);
+			String id = vertex.getAttribute("id");
+			String x = vertex.getAttribute("x");
+			String y = vertex.getAttribute("y");
+			Point point = new Point(Integer.parseInt(x), Integer.parseInt(y));
+			pointMap.put(id, point);
+		}
 
-			for (Vertex vertex : graph.vertexSet()) {
-				String id = (String) vertex.getValue(ObjectType.PARAMETER_ID);
-				Rectangle bounds = (Rectangle) vertex
-						.getValue(Vertex.PROPERTY_SIZE);
-				String x = String.valueOf(bounds.x);
-				String y = String.valueOf(bounds.y);
-
-				writer.println("\t\t<vertex id=\"" + id + "\" x=\"" + x
-						+ "\" y=\"" + y + "\"/>");
-			}
-
-			writer.println("\t</vertices>");
-			writer.println("</layout>");
-			writer.flush();
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException("UTF-8 encoding unsupported", e);
+		graph.setValue(Graph.PROPERTY_HAS_LAYOUT, true);
+		for (Vertex vertex : graph.vertexSet()) {
+			String id = (String) vertex.getValue(PARAMETER_ID);
+			Point p = pointMap.get(id);
+			vertex.setValue(Vertex.PROPERTY_SIZE, new Rectangle(p.x, p.y, 0, 0));
 		}
 	}
 

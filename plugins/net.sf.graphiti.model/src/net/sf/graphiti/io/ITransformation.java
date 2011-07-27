@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, IETR/INSA of Rennes
+ * Copyright (c) 2011, IETR/INSA of Rennes
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -28,6 +28,7 @@
  */
 package net.sf.graphiti.io;
 
+import java.io.IOException;
 import java.io.OutputStream;
 
 import net.sf.graphiti.model.Graph;
@@ -44,15 +45,6 @@ import org.eclipse.core.resources.IFile;
 public interface ITransformation {
 
 	/**
-	 * Transforms the given file to a Graphiti graph.
-	 * 
-	 * @param file
-	 *            a file
-	 * @return a graph
-	 */
-	public Graph transform(IFile file);
-
-	/**
 	 * Writes the given graph to the given output stream.
 	 * 
 	 * @param graph
@@ -60,6 +52,15 @@ public interface ITransformation {
 	 * @param out
 	 *            an output stream
 	 */
-	public void transform(Graph graph, OutputStream out);
+	public void transform(Graph graph, OutputStream out) throws IOException;
+
+	/**
+	 * Transforms the given file to a Graphiti graph.
+	 * 
+	 * @param file
+	 *            a file
+	 * @return a graph
+	 */
+	public Graph transform(IFile file);
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, IETR/INSA of Rennes
+ * Copyright (c) 2008-2011, IETR/INSA of Rennes
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -108,6 +108,9 @@ public class Graph extends AbstractObject {
 		for (Parameter parameter : parameters) {
 			setValue(parameter.getName(), parameter.getDefault());
 		}
+		
+		// initially, no layout
+		setValue(PROPERTY_HAS_LAYOUT, false);
 	}
 
 	/**

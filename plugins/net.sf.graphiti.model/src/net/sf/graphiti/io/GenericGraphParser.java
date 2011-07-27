@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, IETR/INSA of Rennes
+ * Copyright (c) 2008-2011, IETR/INSA of Rennes
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -47,7 +47,6 @@ import net.sf.graphiti.model.Transformation;
 import net.sf.graphiti.model.Vertex;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -136,7 +135,7 @@ public class GenericGraphParser {
 			}
 		}
 
-		return parseGraph(configuration, file.getFullPath(), element);
+		return parseGraph(configuration, element);
 	}
 
 	/**
@@ -177,7 +176,9 @@ public class GenericGraphParser {
 
 		// parse with the configuration
 		try {
-			return parse(configuration, file);
+			Graph graph = parse(configuration, file);
+			graph.setFileName(file.getFullPath());
+			return graph;
 		} catch (Throwable e) {
 			throw new IncompatibleConfigurationFile(
 					"The file could not be parsed with the matching configuration",
@@ -253,8 +254,8 @@ public class GenericGraphParser {
 	 * @throws TransformedDocumentParseError
 	 *             If <code>element</code> cannot be parsed.
 	 */
-	private Graph parseGraph(Configuration configuration, IPath path,
-			Element element) throws TransformedDocumentParseError {
+	private Graph parseGraph(Configuration configuration, Element element)
+			throws TransformedDocumentParseError {
 		String typeName = element.getAttribute("type");
 		ObjectType type = configuration.getGraphType(typeName);
 		Graph graph = new Graph(configuration, type, true);
@@ -266,8 +267,6 @@ public class GenericGraphParser {
 		node = parseEdges(graph, node);
 
 		checkLayout(graph);
-
-		graph.setFileName(path);
 
 		return graph;
 	}

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, IETR/INSA of Rennes
+ * Copyright (c) 2008-2011, IETR/INSA of Rennes
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -165,11 +165,18 @@ public class ConfigurationParser {
 			return map;
 		} else {
 			String value = element.getAttribute("default");
-			if (parameterType == Integer.class) {
-				return Integer.valueOf(value);
-			} else if (parameterType == Float.class) {
-				return Float.valueOf(value);
-			} else if (parameterType == Boolean.class) {
+			try {
+				if (parameterType == Integer.class) {
+					return Integer.valueOf(value);
+				}
+				if (parameterType == Float.class) {
+					return Float.valueOf(value);
+				}
+			} catch (NumberFormatException e) {
+				return null;
+			}
+
+			if (parameterType == Boolean.class) {
 				return Boolean.valueOf(value);
 			} else if (parameterType == String.class) {
 				return value;
