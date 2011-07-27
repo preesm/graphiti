@@ -28,8 +28,6 @@
  */
 package net.sf.graphiti.ui.figure;
 
-import net.sf.graphiti.ui.figure.shapes.IShape;
-
 import org.eclipse.draw2d.AbstractConnectionAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Label;
@@ -47,13 +45,11 @@ import org.eclipse.draw2d.geometry.Rectangle;
  */
 public class PortAnchorReferenceManager {
 
-	VertexFigure figure;
+	private VertexFigure figure;
 
-	boolean isOutput;
+	private boolean isOutput;
 
-	String portName;
-
-	IShape shape;
+	private String portName;
 
 	/**
 	 * Creates a new port anchor reference manager.
@@ -68,7 +64,6 @@ public class PortAnchorReferenceManager {
 	public PortAnchorReferenceManager(VertexFigure figure, String portName,
 			boolean isOutput) {
 		this.figure = figure;
-		this.shape = figure.getShape();
 		this.portName = portName;
 		this.isOutput = isOutput;
 	}
@@ -118,4 +113,5 @@ public class PortAnchorReferenceManager {
 			}
 		}
 	}
+
 }
