@@ -177,7 +177,10 @@ public class ModelPropertySource implements IPropertySource,
 				String parameterName = (String) id;
 
 				// only update value if it is different than before
-				if (value.equals(model.getValue(parameterName))) {
+				Object oldValue = model.getValue(parameterName);
+				String str = (String) value;
+				if (oldValue == null && str.isEmpty()
+						|| String.valueOf(oldValue).equals(value)) {
 					return;
 				}
 
@@ -185,19 +188,25 @@ public class ModelPropertySource implements IPropertySource,
 						model, "Change value");
 				Class<?> parameterType = model.getParameter((String) id)
 						.getType();
-				try {
-					if (parameterType == Integer.class) {
-						value = Integer.valueOf((String) value);
-					} else if (parameterType == Float.class) {
-						value = Float.valueOf((String) value);
-					} else if (parameterType == Boolean.class) {
-						if (!"true".equals(value) && !"false".equals(value)) {
-							throw new IllegalArgumentException();
+				if (str.isEmpty()) {
+					// get default value
+					value = model.getParameter(parameterName).getDefault();
+				} else {
+					try {
+						if (parameterType == Integer.class) {
+							value = Integer.valueOf(str);
+						} else if (parameterType == Float.class) {
+							value = Float.valueOf(str);
+						} else if (parameterType == Boolean.class) {
+							if (!"true".equals(value) && !"false".equals(value)) {
+								throw new IllegalArgumentException();
+							}
+							value = Boolean.valueOf(str);
 						}
-						value = Boolean.valueOf((String) value);
+					} catch (RuntimeException e) {
+						value = "invalid \"" + value + "\" value for "
+								+ parameterType.getSimpleName();
 					}
-				} catch (RuntimeException e) {
-					value = "invalid \"" + value + "\" value";
 				}
 				command.setValue(parameterName, value);
 				doRefresh = false;
