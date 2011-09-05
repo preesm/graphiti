@@ -314,6 +314,9 @@ public class MapSection extends AbstractSection {
 			TabbedPropertySheetPage aTabbedPropertySheetPage) {
 		super.createControls(parent, aTabbedPropertySheetPage);
 
+		// insuring that the containing composite is filled by the table
+		GridData data = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
+		parent.setLayoutData(data);
 		createMapTable(getForm().getBody());
 	}
 
@@ -321,9 +324,12 @@ public class MapSection extends AbstractSection {
 		final Table table = createTable(parent);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-
+		
 		// spans on 2 vertical cells
 		GridData data = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 2);
+		
+		// preventing the table from becoming too small
+		data.minimumHeight = 100;
 		table.setLayoutData(data);
 
 		TableViewer tableViewer = getViewer();
