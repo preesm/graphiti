@@ -144,6 +144,15 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements
 	 */
 	public void setGraph(Graph graph) {
 		this.graph = graph;
+		Configuration configuration = graph.getConfiguration();
+		ObjectType type = graph.getType();
+		String fileExt = configuration.getFileFormat().getFileExtension();
+		setFileExtension(fileExt);
+		if (fileName == null) {
+			setFileName("New " + type.getName() + "." + fileExt);
+		} else {
+			setFileName(fileName + "." + fileExt);
+		}
 	}
 
 	@Override
