@@ -119,20 +119,26 @@ public class MapSection extends AbstractSection {
 	 * @author Matthieu Wipliez
 	 * 
 	 */
-	private class MapNameEditingSupport extends EditingSupport {
+	private class MapEditingSupport extends EditingSupport {
 
 		private TextCellEditor editor;
 
+		private boolean key;
+
 		/**
-		 * Creates a new {@link MapNameEditingSupport} on the given column
-		 * viewer and table.
+		 * Creates a new {@link MapEditingSupport} on the given column viewer
+		 * and table.
 		 * 
 		 * @param viewer
 		 * @param table
+		 * @param keyMode
+		 *            <code>true</code> for key, <code>false</code> for value
 		 */
-		public MapNameEditingSupport(ColumnViewer viewer, Table table) {
+		public MapEditingSupport(ColumnViewer viewer, Table table,
+				boolean keyMode) {
 			super(viewer);
 			editor = new TextCellEditor(table);
+			key = keyMode;
 		}
 
 		@Override
@@ -149,103 +155,44 @@ public class MapSection extends AbstractSection {
 		@SuppressWarnings("unchecked")
 		protected Object getValue(Object element) {
 			Entry<Object, Object> entry = (Entry<Object, Object>) element;
-			Object value = entry.getKey();
+			Object value = key ? entry.getKey() : entry.getValue();
 			if (value == null) {
 				value = "";
 			}
 
-			return value.toString();
-		}
-
-		@Override
-		@SuppressWarnings("unchecked")
-		protected void setValue(Object element, Object newKey) {
-			AbstractObject model = (AbstractObject) getViewer().getInput();
-			Map<Object, Object> oldMap = (Map<Object, Object>) model
-					.getValue(parameterName);
-
-			Entry<Object, Object> entry = (Entry<Object, Object>) element;
-			if (entry.getKey().equals(newKey)) {
-				return;
-			}
-
-			Map<Object, Object> newMap = new TreeMap<Object, Object>(oldMap);
-			Object value = newMap.remove(entry.getKey());
-			newMap.put(newKey, value);
-
-			IWorkbenchPart part = getPart();
-			if (part instanceof GraphEditor) {
-				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
-						model, "Change name of value");
-				command.setValue(parameterName, newMap);
-				((GraphEditor) part).executeCommand(command);
-			}
-		}
-
-	}
-
-	/**
-	 * This class provides {@link EditingSupport} for values of a map.
-	 * 
-	 * @author Matthieu Wipliez
-	 * 
-	 */
-	private class MapValueEditingSupport extends EditingSupport {
-
-		private TextCellEditor editor;
-
-		/**
-		 * Creates a new {@link MapValueEditingSupport} on the given column
-		 * viewer and table.
-		 * 
-		 * @param viewer
-		 * @param table
-		 */
-		public MapValueEditingSupport(ColumnViewer viewer, Table table) {
-			super(viewer);
-			editor = new TextCellEditor(table);
-		}
-
-		@Override
-		protected boolean canEdit(Object element) {
-			return true;
-		}
-
-		@Override
-		protected CellEditor getCellEditor(Object element) {
-			return editor;
-		}
-
-		@Override
-		@SuppressWarnings("unchecked")
-		protected Object getValue(Object element) {
-			Entry<Object, Object> entry = (Entry<Object, Object>) element;
-			Object value = entry.getValue();
-			if (value == null) {
-				value = "";
-			}
 			return value.toString();
 		}
 
 		@Override
 		@SuppressWarnings("unchecked")
 		protected void setValue(Object element, Object value) {
+			// if key, value is a new key; otherwise it is a new value
+			// if value only contains spaces, ignore it
+			if (((String) value).trim().isEmpty()) {
+				return;
+			}
+
 			AbstractObject model = (AbstractObject) getViewer().getInput();
 			Map<Object, Object> oldMap = (Map<Object, Object>) model
 					.getValue(parameterName);
 
 			Entry<Object, Object> entry = (Entry<Object, Object>) element;
-			if (entry.getValue().equals(value)) {
+			if (value.equals(key ? entry.getKey() : entry.getValue())) {
 				return;
 			}
 
 			Map<Object, Object> newMap = new TreeMap<Object, Object>(oldMap);
-			newMap.put(entry.getKey(), value);
+			if (key) {
+				// update the value associated with the new key
+				newMap.put(value, newMap.remove(entry.getKey()));
+			} else {
+				newMap.put(entry.getKey(), value);
+			}
 
 			IWorkbenchPart part = getPart();
 			if (part instanceof GraphEditor) {
 				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
-						model, "Change value");
+						model, "Change " + (key ? "name of value" : "value"));
 				command.setValue(parameterName, newMap);
 				((GraphEditor) part).executeCommand(command);
 			}
@@ -324,10 +271,10 @@ public class MapSection extends AbstractSection {
 		final Table table = createTable(parent);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		
+
 		// spans on 2 vertical cells
 		GridData data = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 2);
-		
+
 		// preventing the table from becoming too small
 		data.minimumHeight = 100;
 		table.setLayoutData(data);
@@ -355,10 +302,10 @@ public class MapSection extends AbstractSection {
 		tvc2.setLabelProvider(labelProvider);
 
 		// editing support for first and second column
-		tvc1.setEditingSupport(new MapNameEditingSupport(tvc1.getViewer(),
-				table));
-		tvc2.setEditingSupport(new MapValueEditingSupport(tvc2.getViewer(),
-				table));
+		tvc1.setEditingSupport(new MapEditingSupport(tvc1.getViewer(), table,
+				true));
+		tvc2.setEditingSupport(new MapEditingSupport(tvc2.getViewer(), table,
+				false));
 	}
 
 }
