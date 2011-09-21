@@ -2,14 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Graphiti model plug-in
 Bundle-SymbolicName: net.sf.graphiti.model;singleton:=true
-Bundle-Version: 1.3.6.v20110719
+Bundle-Version: 1.3.7.v20110921
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.draw2d,
  org.eclipse.swt,
  org.eclipse.ui,
  org.eclipse.ui.ide,
- org.ietr.libs;bundle-version="1.3.5"
+ org.ietr.libs;bundle-version="1.3.7"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
