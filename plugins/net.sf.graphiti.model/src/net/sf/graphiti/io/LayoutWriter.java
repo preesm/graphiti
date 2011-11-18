@@ -68,7 +68,7 @@ public class LayoutWriter {
 
 			writer.println("\t</vertices>");
 			writer.println("</layout>");
-			writer.flush();
+			writer.close();
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("UTF-8 encoding unsupported", e);
 		}

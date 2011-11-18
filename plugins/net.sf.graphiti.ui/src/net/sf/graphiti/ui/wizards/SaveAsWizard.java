@@ -28,6 +28,7 @@
  */
 package net.sf.graphiti.ui.wizards;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import net.sf.graphiti.ui.editors.GraphEditor;
@@ -117,6 +118,11 @@ public class SaveAsWizard extends Wizard implements INewWizard {
 		InputStream in = page.getInitialContents();
 		if (in == null) {
 			return false;
+		}
+		try {
+			in.close();
+		} catch (IOException e) {
+			// don't care because in is a byte array input stream
 		}
 
 		IFile file = page.createNewFile();
