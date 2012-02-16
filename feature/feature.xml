@@ -63,7 +63,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
          unpack="false"/>
 
    <plugin
-         id="org.ietr.libs"
+         id="org.jgrapht"
          download-size="0"
          install-size="0"
          version="1.3.8.v20120131"
