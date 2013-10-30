@@ -166,7 +166,7 @@ public class GenericGraphParser {
 		Configuration configuration;
 		if (configurations.isEmpty()) {
 			throw new IncompatibleConfigurationFile(
-					"No configuration could parse the file");
+					"No configuration could parse the file" + file.getFullPath());
 		} else if (configurations.size() == 1) {
 			configuration = configurations.get(0);
 		} else {

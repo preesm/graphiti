@@ -231,7 +231,7 @@ public class PortChooser {
 		try {
 			graph = parser.parse(sourceFile);
 		} catch (IncompatibleConfigurationFile e) {
-			errorMessage(e.getMessage(), e.getCause());
+			System.out.println(e.getMessage());
 		}
 
 		// get ports from graph
