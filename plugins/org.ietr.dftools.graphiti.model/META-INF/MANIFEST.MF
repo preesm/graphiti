@@ -17,9 +17,9 @@ Bundle-ClassPath: .,
  lib/saxon/saxon9-s9api.jar,
  lib/saxon/saxon9-xpath.jar,
  lib/saxon/saxon9.jar
-Export-Package: net.sf.graphiti,
- net.sf.graphiti.io,
- net.sf.graphiti.model,
- net.sf.graphiti.validators
+Export-Package: org.ietr.dftools.graphiti,
+ org.ietr.dftools.graphiti.io,
+ org.ietr.dftools.graphiti.model,
+ org.ietr.dftools.graphiti.validators
 Bundle-Vendor: IETR/INSA Rennes
-Bundle-Activator: net.sf.graphiti.GraphitiModelPlugin
+Bundle-Activator: org.ietr.dftools.graphiti.GraphitiModelPlugin

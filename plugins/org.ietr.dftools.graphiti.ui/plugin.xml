@@ -5,7 +5,7 @@
          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
       <propertyContributor
             contributorId="net.sf.graphiti.ui.properties.contributor"
-            typeMapper="net.sf.graphiti.ui.properties.ModelTypeMapper">
+            typeMapper="org.ietr.dftools.graphiti.ui.properties.ModelTypeMapper">
          <propertyCategory
                category="net.sf.graphiti.ui.properties.category.graph">
          </propertyCategory>
@@ -47,7 +47,7 @@
                id="net.sf.graphiti.ui.properties.section.graph.basic"
                tab="net.sf.graphiti.ui.properties.tab.graph.basic">
             <input
-                  type="net.sf.graphiti.model.Graph">
+                  type="org.ietr.dftools.graphiti.model.Graph">
             </input>
          </propertySection>
          <propertySection
@@ -55,7 +55,7 @@
                id="net.sf.graphiti.ui.properties.section.vertex.basic"
                tab="net.sf.graphiti.ui.properties.tab.vertex.basic">
             <input
-                  type="net.sf.graphiti.model.Vertex">
+                  type="org.ietr.dftools.graphiti.model.Vertex">
             </input>
          </propertySection>
          <propertySection
@@ -63,7 +63,7 @@
                id="net.sf.graphiti.ui.properties.section.edge.basic"
                tab="net.sf.graphiti.ui.properties.tab.edge.basic">
             <input
-                  type="net.sf.graphiti.model.Edge">
+                  type="org.ietr.dftools.graphiti.model.Edge">
             </input>
          </propertySection>
       </propertySections>

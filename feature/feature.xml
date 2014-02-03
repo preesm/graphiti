@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="net.sf.graphiti"
+      id="org.ietr.dftools.graphiti.feature"
       label="Graphiti editor"
       version="1.3.11.v20131030"
       provider-name="IETR/INSA Rennes">
@@ -49,24 +49,24 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
    </url>
 
    <plugin
-         id="net.sf.graphiti.model"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="net.sf.graphiti.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.jgrapht"
          download-size="0"
          install-size="0"
          version="0.8.2"
+         unpack="false"/>
+
+   <plugin
+         id="org.ietr.dftools.graphiti.model"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ietr.dftools.graphiti.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
