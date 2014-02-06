@@ -112,7 +112,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 		}
 	}
 
-	private static final String PLUGIN_ID = "net.sf.graphiti.model";
+	private static final String PLUGIN_ID = "org.ietr.dftools.graphiti.model";
 
 	/**
 	 * Execute the {@link NewWizardAction}, and listens for resource change in

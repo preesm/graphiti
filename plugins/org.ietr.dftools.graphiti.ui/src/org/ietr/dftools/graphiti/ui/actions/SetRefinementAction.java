@@ -40,7 +40,7 @@ import org.ietr.dftools.graphiti.ui.commands.refinement.SetRefinementCommand;
  */
 public class SetRefinementAction extends SelectionAction {
 
-	private static final String ID = "net.sf.graphiti.ui.actions.SetRefinementAction";
+	private static final String ID = "org.ietr.dftools.ui.actions.SetRefinementAction";
 
 	/**
 	 * Returns this action identifier.

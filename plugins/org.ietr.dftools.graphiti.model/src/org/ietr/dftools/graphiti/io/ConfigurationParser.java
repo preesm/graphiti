@@ -59,7 +59,7 @@ import org.ietr.dftools.graphiti.model.Transformation;
  */
 public class ConfigurationParser {
 
-	private static final String PLUGIN_ID = "net.sf.graphiti.model";
+	private static final String PLUGIN_ID = "org.ietr.dftools.graphiti.model";
 
 	private Map<String, Configuration> configurations;
 

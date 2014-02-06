@@ -36,6 +36,6 @@ package org.ietr.dftools.graphiti.ui.properties;
  */
 public interface PropertiesConstants {
 
-	String CONTRIBUTOR_ID = "net.sf.graphiti.ui.properties.contributor";
+	String CONTRIBUTOR_ID = "org.ietr.dftools.ui.properties.contributor";
 
 }

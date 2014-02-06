@@ -111,7 +111,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 	/**
 	 * The editor ID
 	 */
-	public static final String ID = "net.sf.graphiti.ui.editors.GraphEditor";
+	public static final String ID = "org.ietr.dftools.ui.editors.GraphEditor";
 
 	private Graph graph;
 

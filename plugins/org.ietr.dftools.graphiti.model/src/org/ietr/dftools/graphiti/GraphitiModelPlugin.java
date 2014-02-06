@@ -51,7 +51,7 @@ public class GraphitiModelPlugin extends AbstractUIPlugin {
 	/**
 	 * The plug-in ID.
 	 */
-	public static final String PLUGIN_ID = "net.sf.graphiti.model";
+	public static final String PLUGIN_ID = "org.ietr.dftools.graphiti.model";
 
 	/**
 	 * Returns the shared instance
