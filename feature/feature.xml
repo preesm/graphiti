@@ -2,7 +2,7 @@
 <feature
       id="org.ietr.dftools.graphiti.feature"
       label="Graphiti editor"
-      version="1.3.11.v20131030"
+      version="1.3.11.qualifier"
       provider-name="IETR/INSA Rennes">
 
    <description url="http://graphiti-editor.sourceforge.net/eclipse/">
