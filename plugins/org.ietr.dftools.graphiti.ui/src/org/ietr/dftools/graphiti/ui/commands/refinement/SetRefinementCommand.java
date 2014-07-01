@@ -28,6 +28,7 @@
  */
 package org.ietr.dftools.graphiti.ui.commands.refinement;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -43,7 +44,7 @@ import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
  */
 public class SetRefinementCommand extends Command {
 
-	private String refinement;
+	private IPath refinement;
 
 	private Vertex vertex;
 
@@ -75,8 +76,8 @@ public class SetRefinementCommand extends Command {
 	 * be done by execute.
 	 */
 	public boolean run() {
-		String refinement = policy.getRefinement(vertex);
-		String newRefinement = policy.getNewRefinement(vertex);
+		IPath refinement = policy.getRefinement(vertex);
+		IPath newRefinement = policy.getNewRefinement(vertex);
 		if (newRefinement != null && !newRefinement.equals(refinement)) {
 			this.refinement = newRefinement;
 			return true;

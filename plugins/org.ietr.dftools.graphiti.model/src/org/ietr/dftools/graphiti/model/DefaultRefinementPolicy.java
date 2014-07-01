@@ -72,7 +72,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 	 */
 	private final class NewFileListener implements IResourceChangeListener {
 
-		private String refinement;
+		private IPath refinement;
 
 		private Vertex vertex;
 
@@ -99,7 +99,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 			}
 		}
 
-		public String getRefinement() {
+		public IPath getRefinement() {
 			return refinement;
 		}
 
@@ -124,7 +124,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 	 * @param page
 	 *            The current {@link IWorkbenchPage}.
 	 */
-	protected String createNewFile(Vertex vertex, Shell shell) {
+	protected IPath createNewFile(Vertex vertex, Shell shell) {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		NewWizardAction action = new NewWizardAction(
 				workbench.getActiveWorkbenchWindow());
@@ -162,7 +162,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 	}
 
 	@Override
-	public String getNewRefinement(Vertex vertex) {
+	public IPath getNewRefinement(Vertex vertex) {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		Shell shell = window.getShell();
@@ -184,12 +184,12 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 	}
 
 	@Override
-	public String getRefinement(Vertex vertex) {
+	public IPath getRefinement(Vertex vertex) {
 		if (vertex != null) {
 			Object refinement = vertex
 					.getValue(ObjectType.PARAMETER_REFINEMENT);
-			if (refinement instanceof String) {
-				return (String) refinement;
+			if (refinement instanceof IPath) {
+				return (IPath) refinement;
 			}
 		}
 
@@ -198,20 +198,14 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 
 	@Override
 	public IFile getRefinementFile(Vertex vertex) {
-		String refinement = getRefinement(vertex);
+		IPath refinement = getRefinement(vertex);
 		if (refinement == null) {
 			return null;
 		}
-
-		IPath path = getAbsolutePath(vertex.getParent().getFileName(),
-				refinement);
+		
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IResource resource = root.findMember(path);
-		if (resource instanceof IFile) {
-			return (IFile) resource;
-		} else {
-			return null;
-		}
+		IFile file = root.getFile(refinement);
+		return file;
 	}
 
 	/**
@@ -223,37 +217,40 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 	 *            The file refinining the selected vertex.
 	 * @return A {@link String} with the refinement value.
 	 */
-	protected String getRefinementValue(Vertex vertex, IFile file) {
-		IPath editedFilePath = vertex.getParent().getFile().getParent()
-				.getFullPath();
-		IPath createdFilePath = file.getParent().getFullPath();
+	protected IPath getRefinementValue(Vertex vertex, IFile file) {
+//		IPath editedFilePath = vertex.getParent().getFile().getParent()
+//				.getFullPath();
+//		IPath createdFilePath = file.getParent().getFullPath();
+		
+		IPath fileFullPath = file.getFullPath();
+		return fileFullPath;
 
-		int n = editedFilePath.matchingFirstSegments(createdFilePath);
-		IPath refinement = null;
-		if (n == 0) {
-			// no common path segments: absolute path
-			refinement = createdFilePath;
-		} else {
-			// common path segments: using a relative path
-			if (editedFilePath.isPrefixOf(createdFilePath)) {
-				// just remove the common segments
-				refinement = createdFilePath.removeFirstSegments(n);
-			} else {
-				// go up
-				int max = editedFilePath.segmentCount();
-				String path = "";
-				for (int i = 0; i < max - n; i++) {
-					path += "../";
-				}
-				// and then down
-				path += createdFilePath.removeFirstSegments(n);
-				refinement = new Path(path);
-			}
-		}
-
-		String fileName = file.getName();
-		refinement = refinement.append(fileName);
-		return refinement.toString();
+//		int n = editedFilePath.matchingFirstSegments(createdFilePath);
+//		IPath refinement = null;
+//		if (n == 0) {
+//			// no common path segments: absolute path
+//			refinement = createdFilePath;
+//		} else {
+//			// common path segments: using a relative path
+//			if (editedFilePath.isPrefixOf(createdFilePath)) {
+//				// just remove the common segments
+//				refinement = createdFilePath.removeFirstSegments(n);
+//			} else {
+//				// go up
+//				int max = editedFilePath.segmentCount();
+//				String path = "";
+//				for (int i = 0; i < max - n; i++) {
+//					path += "../";
+//				}
+//				// and then down
+//				path += createdFilePath.removeFirstSegments(n);
+//				refinement = new Path(path);
+//			}
+//		}
+//
+//		String fileName = file.getName();
+//		refinement = refinement.append(fileName);
+//		return refinement.toString();
 	}
 
 	@Override
@@ -271,8 +268,8 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 	}
 
 	@Override
-	public String setRefinement(Vertex vertex, String refinement) {
-		return (String) vertex.setValue(ObjectType.PARAMETER_REFINEMENT,
+	public IPath setRefinement(Vertex vertex, IPath refinement) {
+		return (IPath) vertex.setValue(ObjectType.PARAMETER_REFINEMENT,
 				refinement);
 	}
 
@@ -282,7 +279,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 	 * @param shell
 	 *            The active window's {@link Shell}.
 	 */
-	protected String useExistingFile(final Vertex vertex, Shell shell) {
+	protected IPath useExistingFile(final Vertex vertex, Shell shell) {
 		ElementTreeSelectionDialog tree = new ElementTreeSelectionDialog(shell,
 				WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider(),
 				new WorkbenchContentProvider());

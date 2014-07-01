@@ -29,6 +29,7 @@
 package org.ietr.dftools.graphiti.model;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
 
 /**
  * This interface defines the policy for refining vertices.
@@ -47,7 +48,7 @@ public interface IRefinementPolicy {
 	 * @return the value of the refinement parameter associated with the given
 	 *         vertex, or <code>null</code>
 	 */
-	String getRefinement(Vertex vertex);
+	IPath getRefinement(Vertex vertex);
 
 	/**
 	 * Returns the file that corresponds to the refinement associated with the
@@ -79,7 +80,7 @@ public interface IRefinementPolicy {
 	 * @return <code>true</code> if the refinement changed, <code>false</code>
 	 *         otherwise
 	 */
-	String getNewRefinement(Vertex vertex);
+	IPath getNewRefinement(Vertex vertex);
 
 	/**
 	 * Sets the refinement of this vertex to the given value.
@@ -90,6 +91,6 @@ public interface IRefinementPolicy {
 	 *            a refinement
 	 * @return the previous value of the refinement
 	 */
-	String setRefinement(Vertex vertex, String refinement);
+	IPath setRefinement(Vertex vertex, IPath refinement);
 
 }
