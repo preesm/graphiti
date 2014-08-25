@@ -191,6 +191,11 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 			if (refinement instanceof IPath) {
 				return (IPath) refinement;
 			}
+			
+			if (refinement instanceof String) {
+				return  getAbsolutePath(vertex.getParent().getFileName(),
+										(String) refinement);
+			}
 		}
 
 		return null;
