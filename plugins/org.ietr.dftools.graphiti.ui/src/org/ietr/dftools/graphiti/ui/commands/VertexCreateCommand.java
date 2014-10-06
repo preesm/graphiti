@@ -62,7 +62,11 @@ public class VertexCreateCommand extends Command {
 	@Override
 	public void execute() {
 		if (graph != null && vertex != null) {
-			String id = getVertexId();
+			String id;
+			if (vertex.getType().getName().equals("Scenario source")) {
+				id = "scenario";
+				
+			} else id = getVertexId();
 			if (id != null) {
 				vertex.setValue(ObjectType.PARAMETER_ID, id);
 				graph.addVertex(vertex);
