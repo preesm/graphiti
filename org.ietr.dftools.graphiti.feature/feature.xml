@@ -61,7 +61,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
          id="org.jgrapht"
          download-size="0"
          install-size="0"
-         version="1.3.13.qualifier"
+         version="0.8.2"
          unpack="false"/>
 
 </feature>
