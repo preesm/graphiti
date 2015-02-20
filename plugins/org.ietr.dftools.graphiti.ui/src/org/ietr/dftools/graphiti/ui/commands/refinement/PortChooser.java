@@ -135,24 +135,6 @@ public class PortChooser {
 	}
 
 	/**
-	 * Displays an error message with the given exception.
-	 * 
-	 * @param message
-	 *            A description of the error.
-	 * @param exception
-	 *            An exception.
-	 */
-	private void errorMessage(String message, Throwable exception) {
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		Shell shell = window.getShell();
-
-		IStatus status = new Status(IStatus.ERROR, GraphitiUiPlugin.PLUGIN_ID,
-				message, exception);
-		ErrorDialog.openError(shell, "Error", message, status, IStatus.ERROR);
-	}
-
-	/**
 	 * Returns a port name from the current vertex (set by getSourcePort or
 	 * getTargetPort).
 	 * 
