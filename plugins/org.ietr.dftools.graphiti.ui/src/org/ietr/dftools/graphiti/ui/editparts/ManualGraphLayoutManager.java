@@ -54,6 +54,7 @@ public class ManualGraphLayoutManager extends StackLayout {
 	 * 
 	 * @see AbstractHintLayout#calculateMinimumSize(IFigure, int, int)
 	 */
+	@Override
 	@SuppressWarnings("rawtypes")
 	protected Dimension calculateMinimumSize(IFigure figure, int wHint,
 			int hHint) {
@@ -83,6 +84,7 @@ public class ManualGraphLayoutManager extends StackLayout {
 	 * 
 	 * @see AbstractLayout#calculatePreferredSize(IFigure, int, int)
 	 */
+	@Override
 	@SuppressWarnings("rawtypes")
 	protected Dimension calculatePreferredSize(IFigure figure, int wHint,
 			int hHint) {
@@ -118,6 +120,7 @@ public class ManualGraphLayoutManager extends StackLayout {
 	/**
 	 * @see org.eclipse.draw2d.LayoutManager#layout(IFigure)
 	 */
+	@Override
 	@SuppressWarnings("rawtypes")
 	public void layout(IFigure parent) {
 		Rectangle r = parent.getClientArea();

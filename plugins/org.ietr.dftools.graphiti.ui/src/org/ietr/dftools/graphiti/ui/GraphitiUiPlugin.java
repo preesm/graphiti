@@ -109,7 +109,7 @@ public class GraphitiUiPlugin extends AbstractUIPlugin {
 	 * @return An {@link IStatus} with the ERROR level.
 	 */
 	public IStatus getErrorStatus(String message) {
-		return getStatus(Status.ERROR, message);
+		return getStatus(IStatus.ERROR, message);
 	}
 
 	private IStatus getStatus(int severity, String message) {
@@ -127,7 +127,7 @@ public class GraphitiUiPlugin extends AbstractUIPlugin {
 	 * @return An {@link IStatus} with the WARNING level.
 	 */
 	public IStatus getWarningStatus(String message) {
-		return getStatus(Status.WARNING, message);
+		return getStatus(IStatus.WARNING, message);
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class GraphitiUiPlugin extends AbstractUIPlugin {
 	 */
 	public void logInfoStatus(String message) {
 		ILog log = Platform.getLog(getBundle());
-		log.log(getStatus(Status.INFO, message));
+		log.log(getStatus(IStatus.INFO, message));
 	}
 
 	@Override

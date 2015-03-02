@@ -74,12 +74,14 @@ public class VertexDirectEditManager extends DirectEditManager {
 	/**
 	 * @see org.eclipse.gef.tools.DirectEditManager#initCellEditor()
 	 */
+	@Override
 	protected void initCellEditor() {
 		CellEditor editor = getCellEditor();
 
 		final Text text = (Text) editor.getControl();
 
 		verifyListener = new VerifyListener() {
+			@Override
 			public void verifyText(VerifyEvent event) {
 				Text text = (Text) getCellEditor().getControl();
 				String oldText = text.getText();
@@ -121,6 +123,7 @@ public class VertexDirectEditManager extends DirectEditManager {
 	/**
 	 * @see org.eclipse.gef.tools.DirectEditManager#unhookListeners()
 	 */
+	@Override
 	protected void unhookListeners() {
 		super.unhookListeners();
 		Text text = (Text) getCellEditor().getControl();

@@ -75,6 +75,7 @@ public class LayoutPolicy extends XYLayoutEditPolicy {
 		return new NonResizableEditPolicy();
 	}
 
+	@Override
 	public Command getCommand(Request request) {
 		if (REQ_OPEN.equals(request.getType())) {
 			OpenRefinementCommand command = new OpenRefinementCommand();

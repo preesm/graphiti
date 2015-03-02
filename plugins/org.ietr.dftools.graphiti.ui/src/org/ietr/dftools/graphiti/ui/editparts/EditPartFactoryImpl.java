@@ -47,6 +47,7 @@ import org.ietr.dftools.graphiti.model.Vertex;
  */
 public class EditPartFactoryImpl implements EditPartFactory {
 
+	@Override
 	public EditPart createEditPart(EditPart context, Object model) {
 		AbstractGraphicalEditPart child = null;
 

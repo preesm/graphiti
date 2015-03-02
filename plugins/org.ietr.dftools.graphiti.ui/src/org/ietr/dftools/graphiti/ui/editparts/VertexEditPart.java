@@ -293,6 +293,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 		}
 	}
 
+	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		String propertyName = evt.getPropertyName();
 		if (propertyName.equals(Vertex.PROPERTY_SIZE)) {

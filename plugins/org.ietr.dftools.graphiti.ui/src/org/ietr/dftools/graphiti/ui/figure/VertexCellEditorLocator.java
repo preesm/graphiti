@@ -60,6 +60,7 @@ public class VertexCellEditorLocator implements CellEditorLocator {
 	/**
 	 * @see CellEditorLocator#relocate(org.eclipse.jface.viewers.CellEditor)
 	 */
+	@Override
 	public void relocate(CellEditor celleditor) {
 		Text text = (Text) celleditor.getControl();
 		Point pref;

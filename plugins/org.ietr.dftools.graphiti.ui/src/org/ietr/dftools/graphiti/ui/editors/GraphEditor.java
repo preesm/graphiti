@@ -256,7 +256,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 			getCommandStack().markSaveLocation();
 
 			// refresh folder if we have written layout
-			file.getParent().refreshLocal(IFile.DEPTH_ONE, null);
+			file.getParent().refreshLocal(IResource.DEPTH_ONE, null);
 		} catch (Exception e) {
 			errorMessage(e.getMessage(), e);
 			monitor.setCanceled(true);
@@ -426,7 +426,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements
 
 			firePropertyChange(PROP_INPUT);
 		} catch (Throwable e) {
-			status = new Status(Status.ERROR, GraphitiUiPlugin.PLUGIN_ID,
+			status = new Status(IStatus.ERROR, GraphitiUiPlugin.PLUGIN_ID,
 					"An error occurred while parsing the file", e);
 		}
 	}

@@ -104,6 +104,7 @@ public class VertexFigure extends Figure {
 			this.offset = offset;
 		}
 
+		@Override
 		public boolean equals(Object obj) {
 			if (obj instanceof ConcreteBendpoint) {
 				ConcreteBendpoint cbp = (ConcreteBendpoint) obj;
@@ -299,6 +300,7 @@ public class VertexFigure extends Figure {
 	 * 
 	 * @return The size of this VertexFigure.
 	 */
+	@Override
 	public Dimension getPreferredSize(int w, int h) {
 		return getBounds().getSize();
 	}

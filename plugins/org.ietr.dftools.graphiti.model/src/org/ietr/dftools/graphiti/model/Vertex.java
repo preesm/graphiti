@@ -131,6 +131,7 @@ public class Vertex extends AbstractObject {
 		return super.setValue(propertyName, newValue);
 	}
 
+	@Override
 	public String toString() {
 		return getType() + ": " + getValue(ObjectType.PARAMETER_ID);
 	}

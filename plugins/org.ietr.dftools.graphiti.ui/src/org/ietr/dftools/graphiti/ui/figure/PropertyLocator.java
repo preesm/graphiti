@@ -59,6 +59,7 @@ public class PropertyLocator extends ConnectionLocator {
 		positions.get(c).add(this);
 	}
 
+	@Override
 	protected Point getReferencePoint() {
 		Connection conn = getConnection();
 		List<PropertyLocator> listOfProperties = positions.get(conn);

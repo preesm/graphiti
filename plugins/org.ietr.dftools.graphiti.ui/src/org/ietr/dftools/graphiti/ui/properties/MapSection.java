@@ -45,6 +45,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -215,7 +216,7 @@ public class MapSection extends AbstractSection {
 
 				});
 
-		if (dialog.open() == InputDialog.OK) {
+		if (dialog.open() == Window.OK) {
 			AbstractObject model = getModel();
 			Map<Object, Object> oldMap = (Map<Object, Object>) model
 					.getValue(parameterName);

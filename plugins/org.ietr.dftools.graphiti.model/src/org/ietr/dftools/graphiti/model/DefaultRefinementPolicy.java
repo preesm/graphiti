@@ -301,11 +301,11 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 						IFile file = (IFile) selection[0];
 						String message = "Vertex refinement: "
 								+ getRefinementValue(vertex, file);
-						return new Status(Status.OK, PLUGIN_ID, message);
+						return new Status(IStatus.OK, PLUGIN_ID, message);
 					}
 				}
 
-				return new Status(Status.ERROR, PLUGIN_ID,
+				return new Status(IStatus.ERROR, PLUGIN_ID,
 						"Only files can be selected, not folders nor projects");
 			}
 

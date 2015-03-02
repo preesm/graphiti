@@ -203,6 +203,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 		return false;
 	}
 
+	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Graph.PROPERTY_ADD)) {
 			refresh();

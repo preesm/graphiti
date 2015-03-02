@@ -70,6 +70,7 @@ public class FileFormat {
 		return imports;
 	}
 
+	@Override
 	public String toString() {
 		return "*." + extension + ": " + type;
 	}

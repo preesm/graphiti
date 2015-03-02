@@ -35,6 +35,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -130,7 +131,7 @@ public class PasteCommand extends Command {
 
 				});
 		int res = dialog.open();
-		if (res == InputDialog.OK) {
+		if (res == Window.OK) {
 			String value = dialog.getValue();
 			if (value == null || value.isEmpty()) {
 				return null;

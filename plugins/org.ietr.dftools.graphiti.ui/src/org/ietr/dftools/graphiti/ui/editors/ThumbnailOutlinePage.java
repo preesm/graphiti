@@ -65,6 +65,7 @@ public class ThumbnailOutlinePage extends ContentOutlinePage {
 		this.editor = editor;
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		canvas = new Canvas(parent, SWT.BORDER);
 		LightweightSystem lws = new LightweightSystem(canvas);
@@ -90,6 +91,7 @@ public class ThumbnailOutlinePage extends ContentOutlinePage {
 		control.addDisposeListener(disposeListener);
 	}
 
+	@Override
 	public void dispose() {
 		editor.getSelectionSynchronizer().removeViewer(getViewer());
 		Control control = editor.getGraphicalViewer().getControl();
@@ -99,6 +101,7 @@ public class ThumbnailOutlinePage extends ContentOutlinePage {
 		super.dispose();
 	}
 
+	@Override
 	public Control getControl() {
 		return canvas;
 	}

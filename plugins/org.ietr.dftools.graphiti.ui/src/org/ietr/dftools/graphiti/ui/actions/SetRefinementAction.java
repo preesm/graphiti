@@ -63,6 +63,7 @@ public class SetRefinementAction extends SelectionAction {
 		command = new SetRefinementCommand();
 	}
 
+	@Override
 	public boolean calculateEnabled() {
 		command.setSelection(getSelection());
 		return command.canExecute();

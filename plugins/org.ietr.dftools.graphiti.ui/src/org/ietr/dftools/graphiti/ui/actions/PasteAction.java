@@ -104,6 +104,7 @@ public class PasteAction extends SelectionAction implements
 		setEnabled(false);
 	}
 
+	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(GraphitiClipboard.CONTENTS_SET_EVENT))
 			setEnabled(calculateEnabled());

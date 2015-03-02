@@ -66,6 +66,7 @@ public class GraphLayoutManager extends XYLayout {
 		this.direction = direction;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	protected Dimension calculatePreferredSize(IFigure container, int wHint,
 			int hHint) {
