@@ -1,6 +1,7 @@
 Graphiti
 ========
-Graphiti is a generic graph editor under BSD license created by IETR/INSA Rennes shipped as an Eclipse plug-in.
+Graphiti is a generic graph editor created by IETR/INSA Rennes shipped as an Eclipse plug-in.
+This project is distributed under the CeCILL-C license (see LICENSE file).
 
 Copyright (c), IETR/INSA Rennes
 All rights reserved.
@@ -27,4 +28,4 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-This project is distributed under the CeCILL-C license (cee LICENSE file).
+
