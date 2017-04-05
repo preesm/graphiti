@@ -16,7 +16,7 @@
 --	 Additionneur 4 bits utilisant un Add1 et les instructions generate
 -----------------------------------------------------------------------
 
---¦ Description additionneur 1 bit ¦------------------------------------------
+--Â¦ Description additionneur 1 bit Â¦------------------------------------------
 
 library IEEE;
   use IEEE.Std_Logic_1164.all;
@@ -37,7 +37,7 @@ begin
 end Logique;
 
 
---¦ Description additionneur 4 bits ¦------------------------------------------
+--Â¦ Description additionneur 4 bits Â¦------------------------------------------
 
 library IEEE;
   use IEEE.Std_Logic_1164.all;
