@@ -11,11 +11,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.clojars.gilesc.jgrapht;bundle-version="0.8.2"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-ClassPath: .,
- lib/saxon/saxon9-dom.jar,
- lib/saxon/saxon9-s9api.jar,
- lib/saxon/saxon9-xpath.jar,
- lib/saxon/saxon9.jar
+Bundle-ClassPath: .
 Export-Package: org.ietr.dftools.graphiti,
  org.ietr.dftools.graphiti.io,
  org.ietr.dftools.graphiti.model,
