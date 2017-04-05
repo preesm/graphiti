@@ -18,6 +18,12 @@
 			<layout>p2</layout>
 			<url>http://download.eclipse.org/releases/mars/</url>
 		</repository>
+		<!-- add Preesm repository to resolve dependencies -->
+		<repository>
+			<id>Preesm</id>
+			<layout>p2</layout>
+			<url>http://preesm.sourceforge.net/gensite/update-site/complete/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -94,7 +100,6 @@
 		</plugins>
 	</build>
 	<modules>
-		<module>plugins/org.jgrapht</module>
 		<module>plugins/org.ietr.dftools.graphiti.model</module>
 		<module>plugins/org.ietr.dftools.graphiti.ui</module>
 		<module>org.ietr.dftools.graphiti.feature</module>
