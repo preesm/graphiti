@@ -8,9 +8,9 @@
 ##  below). Information is fetched from the git 
 ##  repository.
 #*******************************************************************************
-# Copyright or © or Copr. IETR/INSA - Rennes (%%DATE%%) :
+# Copyright or © or Copr. IETR/INSA - Rennes (2017) :
 #
-# %%AUTHORS%%
+# Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
 #
 # This software is a computer program whose purpose is to [describe
 # functionalities and technical features of your software].
@@ -45,11 +45,11 @@
 
 echo ""
 
-DATEPATTERN="%%DATE%%"
-AUTHORSPATTERN="%%AUTHORS%%"
+DATEPATTERN="2017"
+AUTHORSPATTERN="Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
 
 TMPFILE=`mktemp --suffix=biglisttosed`
-grep "%%AUTHORS%%" -R | cut -d':' -f1 | sort -u > $TMPFILE
+grep "Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
 
 echo " Starting" 
 
