@@ -134,8 +134,8 @@
 	</build>
 	
 	<modules>
-		<module>plugins/org.ietr.dftools.graphiti.model</module>
-		<module>plugins/org.ietr.dftools.graphiti.ui</module>
+		<module>plugins/org.ietr.graphiti.model</module>
+		<module>plugins/org.ietr.graphiti.ui</module>
 		
 		<module>test-fragments</module>
 	</modules>
