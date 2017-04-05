@@ -17,7 +17,7 @@
 -----------------------------------------------------------------------
 
 
---¦ Description additionneur N bits ¦------------------------------------------
+--Â¦ Description additionneur N bits Â¦------------------------------------------
 
 library IEEE;
   use IEEE.Std_Logic_1164.all;
