@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -40,7 +40,6 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
@@ -52,7 +51,7 @@ import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 /**
  * This class extends {@link DirectEditManager} to edit a {@link Vertex}'s id.
  * It is based on Daniel Lee's implementation for the flow example.
- * 
+ *
  * @author Daniel Lee
  * @author Matthieu Wipliez
  */
@@ -60,11 +59,11 @@ public class VertexDirectEditManager extends DirectEditManager {
 
 	private VerifyListener verifyListener;
 
-	private Label vertexLabel;
+	private final Label vertexLabel;
 
 	/**
 	 * Creates a new VertexDirectEditManager with the given attributes.
-	 * 
+	 *
 	 * @param source
 	 *            the source EditPart
 	 * @param editorType
@@ -72,11 +71,9 @@ public class VertexDirectEditManager extends DirectEditManager {
 	 * @param locator
 	 *            the CellEditorLocator
 	 */
-	public VertexDirectEditManager(VertexEditPart source,
-			VertexFigure vertexFigure) {
-		super(source, TextCellEditor.class, new VertexCellEditorLocator(
-				vertexFigure));
-		vertexLabel = vertexFigure.getLabelId();
+	public VertexDirectEditManager(final VertexEditPart source, final VertexFigure vertexFigure) {
+		super(source, TextCellEditor.class, new VertexCellEditorLocator(vertexFigure));
+		this.vertexLabel = vertexFigure.getLabelId();
 	}
 
 	/**
@@ -84,41 +81,37 @@ public class VertexDirectEditManager extends DirectEditManager {
 	 */
 	@Override
 	protected void initCellEditor() {
-		CellEditor editor = getCellEditor();
+		final CellEditor editor = getCellEditor();
 
 		final Text text = (Text) editor.getControl();
 
-		verifyListener = new VerifyListener() {
-			@Override
-			public void verifyText(VerifyEvent event) {
-				Text text = (Text) getCellEditor().getControl();
-				String oldText = text.getText();
-				String newText = oldText.substring(0, event.start) + event.text
-						+ oldText.substring(event.end, oldText.length());
+		this.verifyListener = event -> {
+			final Text text1 = (Text) getCellEditor().getControl();
+			final String oldText = text1.getText();
+			final String newText = oldText.substring(0, event.start) + event.text + oldText.substring(event.end, oldText.length());
 
-				GC gc = new GC(text);
-				Point size = gc.textExtent(newText);
-				gc.dispose();
-				if (size.x == 0) {
-					size.x = size.y;
-				} else {
-					size = text.computeSize(size.x, size.y);
-				}
-
-				// String error =
-				// getCellEditor().getValidator().isValid(newText);
-				// if (error == null || error.isEmpty()) {
-				// text.setBackground(text.getParent().getBackground());
-				// } else {
-				// text.setBackground(ColorConstants.red);
-				// }
-
-				text.setSize(size.x, size.y);
+			final GC gc = new GC(text1);
+			Point size = gc.textExtent(newText);
+			gc.dispose();
+			if (size.x == 0) {
+				size.x = size.y;
+			} else {
+				size = text1.computeSize(size.x, size.y);
 			}
-		};
-		text.addVerifyListener(verifyListener);
 
-		String initialLabelText = vertexLabel.getText();
+			// String error =
+			// getCellEditor().getValidator().isValid(newText);
+			// if (error == null || error.isEmpty()) {
+			// text.setBackground(text.getParent().getBackground());
+			// } else {
+			// text.setBackground(ColorConstants.red);
+			// }
+
+			text1.setSize(size.x, size.y);
+		};
+		text.addVerifyListener(this.verifyListener);
+
+		final String initialLabelText = this.vertexLabel.getText();
 		editor.setValue(initialLabelText);
 	}
 
@@ -134,8 +127,8 @@ public class VertexDirectEditManager extends DirectEditManager {
 	@Override
 	protected void unhookListeners() {
 		super.unhookListeners();
-		Text text = (Text) getCellEditor().getControl();
-		text.removeVerifyListener(verifyListener);
-		verifyListener = null;
+		final Text text = (Text) getCellEditor().getControl();
+		text.removeVerifyListener(this.verifyListener);
+		this.verifyListener = null;
 	}
 }

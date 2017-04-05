@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -47,19 +47,19 @@ import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
 
 /**
  * This class provides a basic graph layout.
- * 
+ *
  * @author Matthieu Wipliez
  */
 public class GraphLayoutManager extends XYLayout {
 
-	private int direction;
+	private final int direction;
 
-	private GraphEditPart part;
+	private final GraphEditPart part;
 
 	/**
 	 * Creates a new graph layout manager on the given document and with the
 	 * given direction.
-	 * 
+	 *
 	 * @param part
 	 *            The document to layout.
 	 * @param direction
@@ -69,46 +69,44 @@ public class GraphLayoutManager extends XYLayout {
 	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#SOUTH}
 	 *            </UL>
 	 */
-	public GraphLayoutManager(GraphEditPart part, int direction) {
+	public GraphLayoutManager(final GraphEditPart part, final int direction) {
 		this.part = part;
 		this.direction = direction;
 	}
 
 	@Override
 	@SuppressWarnings("rawtypes")
-	protected Dimension calculatePreferredSize(IFigure container, int wHint,
-			int hHint) {
+	protected Dimension calculatePreferredSize(final IFigure container, final int wHint, final int hHint) {
 		container.validate();
-		List children = container.getChildren();
-		Rectangle result = new Rectangle().setLocation(container
-				.getClientArea().getLocation());
-		for (int i = 0; i < children.size(); i++)
+		final List children = container.getChildren();
+		final Rectangle result = new Rectangle().setLocation(container.getClientArea().getLocation());
+		for (int i = 0; i < children.size(); i++) {
 			result.union(((IFigure) children.get(i)).getBounds());
-		result.resize(container.getInsets().getWidth(), container.getInsets()
-				.getHeight());
+		}
+		result.resize(container.getInsets().getWidth(), container.getInsets().getHeight());
 		return result.getSize();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.LayoutManager#layout(org.eclipse.draw2d.IFigure)
 	 */
 	@Override
-	public void layout(IFigure container) {
+	public void layout(final IFigure container) {
 		try {
-			CompoundDirectedGraph graph = new CompoundDirectedGraph();
-			graph.setDirection(direction);
+			final CompoundDirectedGraph graph = new CompoundDirectedGraph();
+			graph.setDirection(this.direction);
 
-			part.addNodes(graph.nodes);
-			part.addEdges(graph.edges);
+			this.part.addNodes(graph.nodes);
+			this.part.addEdges(graph.edges);
 
-			CompoundDirectedGraphLayout layout = new CompoundDirectedGraphLayout();
+			final CompoundDirectedGraphLayout layout = new CompoundDirectedGraphLayout();
 			layout.visit(graph);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 
-		part.updateFigures();
+		this.part.updateFigures();
 	}
 }

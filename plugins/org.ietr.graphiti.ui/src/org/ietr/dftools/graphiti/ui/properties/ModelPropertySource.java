@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -69,32 +69,30 @@ import org.ietr.dftools.graphiti.ui.editors.GraphEditor;
 /**
  * This class implements a property source for the different objects of our
  * model.
- * 
+ *
  * @author Matthieu Wipliez
- * 
+ *
  */
-public class ModelPropertySource implements IPropertySource,
-		PropertyChangeListener {
+public class ModelPropertySource implements IPropertySource, PropertyChangeListener {
 
-	private IPropertyDescriptor[] descs;
+	private final IPropertyDescriptor[] descs;
 
 	private boolean doRefresh;
 
-	private AbstractObject model;
+	private final AbstractObject model;
 
-	private ObjectType type;
+	private final ObjectType type;
 
-	public ModelPropertySource(AbstractObject model) {
+	public ModelPropertySource(final AbstractObject model) {
 		this.model = model;
 		model.addPropertyChangeListener(this);
 		this.type = model.getType();
 
-		List<IPropertyDescriptor> descs = new ArrayList<IPropertyDescriptor>();
-		for (Parameter parameter : type.getParameters()) {
-			if (!(parameter.getType() == List.class || parameter.getType() == Map.class)) {
-				String name = parameter.getName();
-				TextPropertyDescriptor desc = new TextPropertyDescriptor(name,
-						name);
+		final List<IPropertyDescriptor> descs = new ArrayList<>();
+		for (final Parameter parameter : this.type.getParameters()) {
+			if (!((parameter.getType() == List.class) || (parameter.getType() == Map.class))) {
+				final String name = parameter.getName();
+				final TextPropertyDescriptor desc = new TextPropertyDescriptor(name, name);
 				descs.add(desc);
 			}
 		}
@@ -109,12 +107,12 @@ public class ModelPropertySource implements IPropertySource,
 
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-		return descs;
+		return this.descs;
 	}
 
 	@Override
-	public Object getPropertyValue(Object id) {
-		Object value = model.getValue((String) id);
+	public Object getPropertyValue(final Object id) {
+		final Object value = this.model.getValue((String) id);
 		if (value == null) {
 			return "";
 		}
@@ -122,82 +120,76 @@ public class ModelPropertySource implements IPropertySource,
 	}
 
 	@Override
-	public boolean isPropertySet(Object id) {
-		Object value = model.getValue((String) id);
-		Object defaultValue = model.getParameter((String) id).getDefault();
+	public boolean isPropertySet(final Object id) {
+		final Object value = this.model.getValue((String) id);
+		final Object defaultValue = this.model.getParameter((String) id).getDefault();
 		return value != defaultValue;
 	}
 
 	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (!doRefresh) {
+	public void propertyChange(final PropertyChangeEvent evt) {
+		if (!this.doRefresh) {
 			return;
 		}
 
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchPage page = workbench.getActiveWorkbenchWindow()
-				.getActivePage();
+		final IWorkbench workbench = PlatformUI.getWorkbench();
+		final IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
 
 		// show properties
 		try {
-			IViewPart part = page.showView(IPageLayout.ID_PROP_SHEET);
+			final IViewPart part = page.showView(IPageLayout.ID_PROP_SHEET);
 			if (part instanceof PropertySheet) {
-				IPropertySheetPage propPage = (IPropertySheetPage) ((PropertySheet) part)
-						.getCurrentPage();
+				final IPropertySheetPage propPage = (IPropertySheetPage) ((PropertySheet) part).getCurrentPage();
 				if (propPage instanceof PropertySheetPage) {
 					((PropertySheetPage) propPage).refresh();
 				} else if (propPage instanceof TabbedPropertySheetPage) {
 					((TabbedPropertySheetPage) propPage).refresh();
 				}
 			}
-		} catch (PartInitException e) {
+		} catch (final PartInitException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void resetPropertyValue(Object id) {
-		Object defaultValue = model.getParameter((String) id).getDefault();
+	public void resetPropertyValue(final Object id) {
+		Object defaultValue = this.model.getParameter((String) id).getDefault();
 		if (defaultValue == null) {
 			defaultValue = "";
 		}
-		model.setValue((String) id, defaultValue);
+		this.model.setValue((String) id, defaultValue);
 	}
 
 	@Override
-	public void setPropertyValue(Object id, Object value) {
+	public void setPropertyValue(final Object id, Object value) {
 		Graph graph;
-		if (model instanceof Vertex) {
-			graph = ((Vertex) model).getParent();
-		} else if (model instanceof Edge) {
-			graph = ((Edge) model).getParent();
+		if (this.model instanceof Vertex) {
+			graph = ((Vertex) this.model).getParent();
+		} else if (this.model instanceof Edge) {
+			graph = ((Edge) this.model).getParent();
 		} else {
-			graph = (Graph) model;
+			graph = (Graph) this.model;
 		}
 
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchPage page = workbench.getActiveWorkbenchWindow()
-				.getActivePage();
+		final IWorkbench workbench = PlatformUI.getWorkbench();
+		final IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
 		try {
-			IEditorPart part = IDE.openEditor(page, graph.getFile());
+			final IEditorPart part = IDE.openEditor(page, graph.getFile());
 			if (part instanceof GraphEditor) {
-				String parameterName = (String) id;
+				final String parameterName = (String) id;
 
 				// only update value if it is different than before
-				Object oldValue = model.getValue(parameterName);
-				String str = (String) value;
-				if (oldValue == null && str.isEmpty()
-						|| String.valueOf(oldValue).equals(value)) {
+				final Object oldValue = this.model.getValue(parameterName);
+				final String str = (String) value;
+				if (((oldValue == null) && str.isEmpty()) || String.valueOf(oldValue).equals(value)) {
 					return;
 				}
 
-				ParameterChangeValueCommand command = new ParameterChangeValueCommand(
-						model, "Change value");
-				Class<?> parameterType = model.getParameter((String) id)
-						.getType();
+				final ParameterChangeValueCommand command = new ParameterChangeValueCommand(this.model, "Change value");
+				final Class<?> parameterType = this.model.getParameter((String) id).getType();
 				if (str.isEmpty()) {
 					// get default value
-					value = model.getParameter(parameterName).getDefault();
+					value = this.model.getParameter(parameterName).getDefault();
 				} else {
 					try {
 						if (parameterType == Integer.class) {
@@ -210,17 +202,16 @@ public class ModelPropertySource implements IPropertySource,
 							}
 							value = Boolean.valueOf(str);
 						}
-					} catch (RuntimeException e) {
-						value = "invalid \"" + value + "\" value for "
-								+ parameterType.getSimpleName();
+					} catch (final RuntimeException e) {
+						value = "invalid \"" + value + "\" value for " + parameterType.getSimpleName();
 					}
 				}
 				command.setValue(parameterName, value);
-				doRefresh = false;
+				this.doRefresh = false;
 				((GraphEditor) part).executeCommand(command);
-				doRefresh = true;
+				this.doRefresh = true;
 			}
-		} catch (PartInitException e) {
+		} catch (final PartInitException e) {
 			e.printStackTrace();
 		}
 	}

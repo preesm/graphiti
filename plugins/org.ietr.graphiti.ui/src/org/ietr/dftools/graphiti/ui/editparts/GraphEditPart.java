@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -72,12 +72,11 @@ import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
  * {@link EditPart#isSelectable()} method to return false, causing the selection
  * tool to act like the marquee tool when no particular children has been
  * selected.
- * 
+ *
  * @author Matthieu Wipliez
- * 
+ *
  */
-public class GraphEditPart extends AbstractGraphicalEditPart implements
-		PropertyChangeListener, ITabbedPropertySheetPageContributor {
+public class GraphEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, ITabbedPropertySheetPageContributor {
 
 	/**
 	 * The subgraph associated with this graph edit part. Set by
@@ -93,14 +92,14 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 
 	/**
 	 * Adds edges of this EditPart to the {@link EdgeList} of the parent.
-	 * 
+	 *
 	 * @param edges
 	 *            A list of edges in the graph.
 	 */
-	void addEdges(EdgeList edges) {
-		for (Object child : getChildren()) {
+	void addEdges(final EdgeList edges) {
+		for (final Object child : getChildren()) {
 			if (child instanceof VertexEditPart) {
-				VertexEditPart part = (VertexEditPart) child;
+				final VertexEditPart part = (VertexEditPart) child;
 				part.addEdges(edges);
 			}
 		}
@@ -110,26 +109,26 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	 * Adds nodes of this EditPart to the {@link NodeList} of the parent. This
 	 * method sets size and padding for all nodes. Subgraph have insets equal to
 	 * 20 (top) and 0 otherwise.
-	 * 
+	 *
 	 * @param nodes
 	 *            A list of nodes in the graph.
 	 * @param parent
 	 *            If non-null, the parent subgraph.
 	 */
 	@SuppressWarnings("unchecked")
-	void addNodes(NodeList nodes) {
-		subgraph = new Subgraph(this);
-		subgraph.innerPadding = new Insets(0, 0, 0, 0);
-		subgraph.insets = new Insets(20, 0, 0, 0);
-		Figure figure = (Figure) getFigure();
-		subgraph.setSize(figure.getPreferredSize());
-		subgraph.setPadding(new Insets(2, 2, 2, 2));
-		nodes.add(subgraph);
+	void addNodes(final NodeList nodes) {
+		this.subgraph = new Subgraph(this);
+		this.subgraph.innerPadding = new Insets(0, 0, 0, 0);
+		this.subgraph.insets = new Insets(20, 0, 0, 0);
+		final Figure figure = (Figure) getFigure();
+		this.subgraph.setSize(figure.getPreferredSize());
+		this.subgraph.setPadding(new Insets(2, 2, 2, 2));
+		nodes.add(this.subgraph);
 
-		for (Object child : getChildren()) {
+		for (final Object child : getChildren()) {
 			if (child instanceof VertexEditPart) {
-				VertexEditPart part = (VertexEditPart) child;
-				part.addNodes(nodes, subgraph);
+				final VertexEditPart part = (VertexEditPart) child;
+				part.addNodes(nodes, this.subgraph);
 			}
 		}
 	}
@@ -137,7 +136,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	/**
 	 * Automatically layouts the graphs, vertices and edges in this graphiti
 	 * document edit part.
-	 * 
+	 *
 	 * @param direction
 	 *            The direction, one of:
 	 *            <UL>
@@ -145,8 +144,8 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#SOUTH}
 	 *            </UL>
 	 */
-	public void automaticallyLayoutGraphs(int direction) {
-		LayoutManager layoutMgr = new GraphLayoutManager(this, direction);
+	public void automaticallyLayoutGraphs(final int direction) {
+		final LayoutManager layoutMgr = new GraphLayoutManager(this, direction);
 		layoutMgr.layout(getFigure());
 
 		getFigure().setLayoutManager(new FreeformLayout());
@@ -155,8 +154,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new RootComponentEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new LayoutPolicy());
 	}
 
@@ -164,13 +162,12 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	protected IFigure createFigure() {
 		// The figure associated with this graph edit part is only a
 		// free form layer
-		Figure f = new FreeformLayer();
+		final Figure f = new FreeformLayer();
 		f.setLayoutManager(new FreeformLayout());
 
 		// Create the static router for the connection layer
-		ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-		ShortestPathConnectionRouter router = new ShortestPathConnectionRouter(
-				f);
+		final ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+		final ShortestPathConnectionRouter router = new ShortestPathConnectionRouter(f);
 		router.setSpacing(2);
 		// ManhattanConnectionRouter router = new ManhattanConnectionRouter();
 		connLayer.setConnectionRouter(router);
@@ -186,7 +183,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 
 	@Override
 	@SuppressWarnings("rawtypes")
-	public Object getAdapter(Class adapter) {
+	public Object getAdapter(final Class adapter) {
 		if (adapter == IPropertySource.class) {
 			return new ModelPropertySource((AbstractObject) getModel());
 		}
@@ -200,8 +197,8 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 
 	@Override
 	public List<Object> getModelChildren() {
-		Graph graph = (Graph) getModel();
-		List<Object> children = new ArrayList<Object>();
+		final Graph graph = (Graph) getModel();
+		final List<Object> children = new ArrayList<>();
 		children.addAll(graph.vertexSet());
 		return children;
 	}
@@ -212,7 +209,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	}
 
 	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
+	public void propertyChange(final PropertyChangeEvent evt) {
 		if (evt.getPropertyName().equals(Graph.PROPERTY_ADD)) {
 			refresh();
 		} else if (evt.getPropertyName().equals(Graph.PROPERTY_REMOVE)) {
@@ -226,9 +223,9 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements
 	 * different figures, by setting their bounds.
 	 */
 	void updateFigures() {
-		for (Object child : getChildren()) {
+		for (final Object child : getChildren()) {
 			if (child instanceof VertexEditPart) {
-				VertexEditPart part = (VertexEditPart) child;
+				final VertexEditPart part = (VertexEditPart) child;
 				part.updateFigures();
 			}
 		}

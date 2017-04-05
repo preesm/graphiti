@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -53,9 +53,9 @@ import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
 /**
  * This class provides a way to open a vertex refinement.
- * 
+ *
  * @author Matthieu Wipliez
- * 
+ *
  */
 public class OpenRefinementCommand extends Command {
 
@@ -65,30 +65,28 @@ public class OpenRefinementCommand extends Command {
 
 	@Override
 	public boolean canExecute() {
-		if (vertex == null) {
+		if (this.vertex == null) {
 			return false;
 		} else {
-			return policy.getRefinement(vertex) != null;
+			return this.policy.getRefinement(this.vertex) != null;
 		}
 	}
 
 	@Override
 	public void execute() {
-		IFile input = policy.getRefinementFile(vertex);
+		final IFile input = this.policy.getRefinementFile(this.vertex);
 		if (input == null) {
-			String message = "File not found or invalid: "
-					+ policy.getRefinement(vertex);
+			final String message = "File not found or invalid: " + this.policy.getRefinement(this.vertex);
 			MessageDialog.openError(null, "Could not open refinement", message);
 		} else {
-			IWorkbench workbench = PlatformUI.getWorkbench();
-			IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-			IWorkbenchPage page = window.getActivePage();
+			final IWorkbench workbench = PlatformUI.getWorkbench();
+			final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+			final IWorkbenchPage page = window.getActivePage();
 
 			try {
 				IDE.openEditor(page, input);
-			} catch (PartInitException e) {
-				MessageDialog.openError(null, "Could not open refinement",
-						e.getLocalizedMessage());
+			} catch (final PartInitException e) {
+				MessageDialog.openError(null, "Could not open refinement", e.getLocalizedMessage());
 			}
 		}
 	}
@@ -101,14 +99,14 @@ public class OpenRefinementCommand extends Command {
 	/**
 	 * @see RefinementManager#setSelection(ISelection)
 	 */
-	public void setSelection(ISelection selection) {
-		vertex = null;
+	public void setSelection(final ISelection selection) {
+		this.vertex = null;
 		if (selection instanceof IStructuredSelection) {
-			Object obj = ((IStructuredSelection) selection).getFirstElement();
+			final Object obj = ((IStructuredSelection) selection).getFirstElement();
 			if (obj instanceof VertexEditPart) {
-				VertexEditPart part = (VertexEditPart) obj;
-				vertex = (Vertex) part.getModel();
-				policy = vertex.getConfiguration().getRefinementPolicy();
+				final VertexEditPart part = (VertexEditPart) obj;
+				this.vertex = (Vertex) part.getModel();
+				this.policy = this.vertex.getConfiguration().getRefinementPolicy();
 			}
 		}
 	}

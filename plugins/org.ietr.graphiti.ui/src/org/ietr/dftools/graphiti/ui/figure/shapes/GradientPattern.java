@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -48,7 +48,7 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * @author mwipliez
- * 
+ *
  */
 public class GradientPattern {
 
@@ -58,29 +58,27 @@ public class GradientPattern {
 	 * the graphics do not have advanced capabilities (such as printer or zoom
 	 * manager), the function will try to use the current display to draw the
 	 * {@link IShape} as an image.
-	 * 
+	 *
 	 * @param shape
 	 * @param backgroundColor
 	 * @param bounds
 	 * @param graphics
 	 */
-	public static void paintFigure(IShape shape, Color backgroundColor,
-			Rectangle bounds, Graphics graphics) {
+	public static void paintFigure(final IShape shape, final Color backgroundColor, final Rectangle bounds, final Graphics graphics) {
 		if (graphics instanceof SWTGraphics) {
 			// advanced graphics
-			Color fg = new Color(null, 224, 224, 224);
+			final Color fg = new Color(null, 224, 224, 224);
 
 			// square gradient, from left-bottom to right-top
-			int max = Math.max(bounds.width, bounds.height);
-			Pattern pattern = new Pattern(backgroundColor.getDevice(), 0, max,
-					max, 0, backgroundColor, 192, fg, 192);
+			final int max = Math.max(bounds.width, bounds.height);
+			final Pattern pattern = new Pattern(backgroundColor.getDevice(), 0, max, max, 0, backgroundColor, 192, fg, 192);
 
 			graphics.pushState();
 			try {
 				// Needs advanced capabilities or throws SWTException
 				graphics.setAntialias(SWT.ON);
 				graphics.setBackgroundPattern(pattern);
-			} catch (RuntimeException e) {
+			} catch (final RuntimeException e) {
 				// No anti alias, not pattern, less pretty but it will work!
 			}
 
@@ -94,13 +92,12 @@ public class GradientPattern {
 			// capabilities... so we try with SWTGraphics
 
 			// Creates a new image of width x height on the current display
-			Image image = new Image(Display.getCurrent(), bounds.width,
-					bounds.height);
+			final Image image = new Image(Display.getCurrent(), bounds.width, bounds.height);
 
 			// Paints the figure on it using SWT graphics
-			GC gc = new GC(image);
-			Graphics swtGraphics = new SWTGraphics(gc);
-			paintFigure(shape, backgroundColor, bounds, swtGraphics);
+			final GC gc = new GC(image);
+			final Graphics swtGraphics = new SWTGraphics(gc);
+			GradientPattern.paintFigure(shape, backgroundColor, bounds, swtGraphics);
 
 			// Draws the image on the original graphics
 			graphics.drawImage(image, 0, 0);

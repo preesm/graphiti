@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -48,7 +48,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.URIResolver;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -69,9 +68,9 @@ import org.w3c.dom.Element;
  * <li>a new document</li>
  * <li>a child of an existing element</li>
  * </ul>
- * 
+ *
  * @author Matthieu Wipliez
- * 
+ *
  */
 public class XsltTransformer {
 
@@ -80,7 +79,7 @@ public class XsltTransformer {
 	/**
 	 * Creates a new {@link XsltTransformer} with an XSLT stylesheet contained
 	 * in the file whose name is <code>fileName</code>.
-	 * 
+	 *
 	 * @param contributorId
 	 *            the identifier of the contributor of the XSLT transformation
 	 * @param fileName
@@ -91,62 +90,53 @@ public class XsltTransformer {
 	 * @throws IOException
 	 * @throws URISyntaxException
 	 */
-	public XsltTransformer(String contributorId, String fileName)
-			throws TransformerConfigurationException, IOException,
-			URISyntaxException {
-		IPath path = new Path(fileName);
+	public XsltTransformer(final String contributorId, final String fileName) throws TransformerConfigurationException, IOException, URISyntaxException {
+		final IPath path = new Path(fileName);
 		final Bundle bundle = Platform.getBundle(contributorId);
 		final IPath folder = path.removeLastSegments(1);
 
-		TransformerFactory factory = TransformerFactory.newInstance(
-				"net.sf.saxon.TransformerFactoryImpl", null);
-		factory.setURIResolver(new URIResolver() {
+		final TransformerFactory factory = TransformerFactory.newInstance("net.sf.saxon.TransformerFactoryImpl", null);
+		factory.setURIResolver((href, base) -> {
+			try {
+				// What we are doing here is solving the "href" URI and get
+				// an InputStream from it.
+				IPath path1 = new Path(href);
+				InputStream is;
 
-			@Override
-			public Source resolve(String href, String base)
-					throws TransformerException {
-				try {
-					// What we are doing here is solving the "href" URI and get
-					// an InputStream from it.
-					IPath path = new Path(href);
-					InputStream is;
-
-					if (path.isAbsolute()) {
-						// absolute path, just opens it
-						is = new FileInputStream(path.toOSString());
-					} else {
-						// relative path, a file that is relative to the
-						// "folder" path in this bundle.
-						path = folder.append(path);
-						is = FileLocator.openStream(bundle, path, false);
-					}
-
-					return new StreamSource(is);
-				} catch (IOException e) {
-					throw new TransformerException(e);
+				if (path1.isAbsolute()) {
+					// absolute path, just opens it
+					is = new FileInputStream(path1.toOSString());
+				} else {
+					// relative path, a file that is relative to the
+					// "folder" path in this bundle.
+					path1 = folder.append(path1);
+					is = FileLocator.openStream(bundle, path1, false);
 				}
-			}
 
+				return new StreamSource(is);
+			} catch (final IOException e) {
+				throw new TransformerException(e);
+			}
 		});
 
-		InputStream is = FileLocator.openStream(bundle, path, false);
-		StreamSource xsltSource = new StreamSource(is);
-		transformer = factory.newTransformer(xsltSource);
+		final InputStream is = FileLocator.openStream(bundle, path, false);
+		final StreamSource xsltSource = new StreamSource(is);
+		this.transformer = factory.newTransformer(xsltSource);
 	}
 
 	/**
 	 * Calls {@link Transformer#setParameter(String, Object)} on the underlying
 	 * {@link #transformer}.
 	 */
-	public void setParameter(String name, Object value) {
-		transformer.setParameter(name, value);
+	public void setParameter(final String name, final Object value) {
+		this.transformer.setParameter(name, value);
 	}
 
 	/**
 	 * Transforms the given DOM element (and its children) and returns the
 	 * result. The result element is in a different document than the source's
 	 * owner document.
-	 * 
+	 *
 	 * @param source
 	 *            The source element to transform.
 	 * @return The document element (and its children) resulting from the
@@ -155,15 +145,14 @@ public class XsltTransformer {
 	 *             If an unrecoverable error occurs during the course of the
 	 *             transformation.
 	 */
-	public Element transformDomToDom(Element source)
-			throws TransformerException {
+	public Element transformDomToDom(final Element source) throws TransformerException {
 		// create document
-		Document document = DomHelper.createDocument("", "dummy");
+		final Document document = DomHelper.createDocument("", "dummy");
 		document.removeChild(document.getDocumentElement());
 
-		Source xmlSource = new DOMSource(source);
-		Result outputTarget = new DOMResult(document);
-		transformer.transform(xmlSource, outputTarget);
+		final Source xmlSource = new DOMSource(source);
+		final Result outputTarget = new DOMResult(document);
+		this.transformer.transform(xmlSource, outputTarget);
 
 		return document.getDocumentElement();
 	}
@@ -171,7 +160,7 @@ public class XsltTransformer {
 	/**
 	 * Transforms the given DOM element (and its children) and returns the
 	 * result as a string. The string may contain text or XML.
-	 * 
+	 *
 	 * @param element
 	 *            The source element to transform.
 	 * @return The string resulting from the transformation.
@@ -179,19 +168,18 @@ public class XsltTransformer {
 	 *             If an unrecoverable error occurs during the course of the
 	 *             transformation.
 	 */
-	public String transformDomToString(Element element)
-			throws TransformerException {
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		DOMSource source = new DOMSource(element);
-		StreamResult result = new StreamResult(os);
-		transformer.transform(source, result);
+	public String transformDomToString(final Element element) throws TransformerException {
+		final ByteArrayOutputStream os = new ByteArrayOutputStream();
+		final DOMSource source = new DOMSource(element);
+		final StreamResult result = new StreamResult(os);
+		this.transformer.transform(source, result);
 		try {
 			os.close();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// never happens on a byte array output stream
 		}
 
-		String value = os.toString();
+		final String value = os.toString();
 		return value;
 	}
 

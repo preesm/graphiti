@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -59,7 +59,7 @@ import org.ietr.dftools.graphiti.model.ObjectType;
 
 /**
  * This class provides a page for the new graph wizard.
- * 
+ *
  * @author Matthieu Wipliez
  */
 public class WizardGraphTypePage extends WizardPage {
@@ -72,10 +72,10 @@ public class WizardGraphTypePage extends WizardPage {
 
 	/**
 	 * Constructor for SampleNewWizardPage.
-	 * 
+	 *
 	 * @param selection
 	 */
-	public WizardGraphTypePage(IStructuredSelection selection) {
+	public WizardGraphTypePage(final IStructuredSelection selection) {
 		super("graphType");
 
 		setTitle("Choose graph type");
@@ -83,9 +83,9 @@ public class WizardGraphTypePage extends WizardPage {
 	}
 
 	@Override
-	public void createControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+	public void createControl(final Composite parent) {
+		final Composite container = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout();
 		container.setLayout(layout);
 
 		layout.numColumns = 2;
@@ -100,31 +100,30 @@ public class WizardGraphTypePage extends WizardPage {
 	/**
 	 * Creates the {@link #listGraphTypes} component from the graph types in
 	 * {@link #graphTypes}.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent Composite.
 	 */
-	private void createGraphTypes(Composite parent) {
-		Label label = new Label(parent, SWT.NULL);
+	private void createGraphTypes(final Composite parent) {
+		final Label label = new Label(parent, SWT.NULL);
 		label.setText("&Graph type:");
 
-		listGraphTypes = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY
-				| SWT.SIMPLE);
-		Set<String> typeNames = new TreeSet<String>();
-		typeNames.addAll(graphTypeNames.keySet());
+		this.listGraphTypes = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.SIMPLE);
+		final Set<String> typeNames = new TreeSet<>();
+		typeNames.addAll(this.graphTypeNames.keySet());
 
-		String[] items = typeNames.toArray(new String[] {});
-		listGraphTypes.setItems(items);
-		listGraphTypes.select(-1);
+		final String[] items = typeNames.toArray(new String[] {});
+		this.listGraphTypes.setItems(items);
+		this.listGraphTypes.select(-1);
 
-		listGraphTypes.addSelectionListener(new SelectionAdapter() {
+		this.listGraphTypes.addSelectionListener(new SelectionAdapter() {
 
 			@Override
-			public void widgetSelected(SelectionEvent e) {
+			public void widgetSelected(final SelectionEvent e) {
 				setPageComplete(true);
 
-				IWizard wizard = getWizard();
-				IWizardPage page = wizard.getNextPage(WizardGraphTypePage.this);
+				final IWizard wizard = getWizard();
+				final IWizardPage page = wizard.getNextPage(WizardGraphTypePage.this);
 				updateSelection((IGraphTypeSettable) page);
 			}
 
@@ -135,23 +134,19 @@ public class WizardGraphTypePage extends WizardPage {
 	 * Fills the {@link #graphTypes} attribute using the default configuration.
 	 */
 	private void fillGraphTypes() {
-		Collection<Configuration> configurations = GraphitiModelPlugin
-				.getDefault().getConfigurations();
-		graphTypeConfigurations = new HashMap<ObjectType, Configuration>();
-		graphTypeNames = new HashMap<String, ObjectType>();
+		final Collection<Configuration> configurations = GraphitiModelPlugin.getDefault().getConfigurations();
+		this.graphTypeConfigurations = new HashMap<>();
+		this.graphTypeNames = new HashMap<>();
 
-		for (Configuration configuration : configurations) {
-			Set<ObjectType> graphTypes = configuration.getGraphTypes();
-			for (ObjectType type : graphTypes) {
-				if (!configuration.getFileFormat().getExportTransformations()
-						.isEmpty()) {
+		for (final Configuration configuration : configurations) {
+			final Set<ObjectType> graphTypes = configuration.getGraphTypes();
+			for (final ObjectType type : graphTypes) {
+				if (!configuration.getFileFormat().getExportTransformations().isEmpty()) {
 					// only add graph types that can be exported
 
-					graphTypeConfigurations.put(type, configuration);
-					String fileExt = configuration.getFileFormat()
-							.getFileExtension();
-					graphTypeNames.put(type.getName() + " (*." + fileExt + ")",
-							type);
+					this.graphTypeConfigurations.put(type, configuration);
+					final String fileExt = configuration.getFileFormat().getFileExtension();
+					this.graphTypeNames.put(type.getName() + " (*." + fileExt + ")", type);
 				}
 			}
 		}
@@ -161,16 +156,16 @@ public class WizardGraphTypePage extends WizardPage {
 	 * Calls {@link IGraphTypeSettable#setGraphType(Configuration, GraphType)}
 	 * on the given page with the selected graph type and associated
 	 * configuration.
-	 * 
+	 *
 	 * @param page
 	 *            An {@link IGraphTypeSettable} page.
 	 */
-	private void updateSelection(IGraphTypeSettable page) {
-		int index = listGraphTypes.getSelectionIndex();
-		String graphType = listGraphTypes.getItem(index);
+	private void updateSelection(final IGraphTypeSettable page) {
+		final int index = this.listGraphTypes.getSelectionIndex();
+		final String graphType = this.listGraphTypes.getItem(index);
 
-		ObjectType type = graphTypeNames.get(graphType);
-		Configuration configuration = graphTypeConfigurations.get(type);
+		final ObjectType type = this.graphTypeNames.get(graphType);
+		final Configuration configuration = this.graphTypeConfigurations.get(type);
 		page.setGraphType(configuration, type);
 	}
 

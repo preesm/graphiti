@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -57,67 +57,64 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * 
+ *
  * @author Matthieu Wipliez
- * 
+ *
  */
 public class GenericGraphWriter {
 
-	private Graph graph;
+	private final Graph graph;
 
 	/**
 	 * Creates a writer for the given graph.
-	 * 
+	 *
 	 * @param graph
 	 *            The {@link Graph} to write.
 	 */
-	public GenericGraphWriter(Graph graph) {
+	public GenericGraphWriter(final Graph graph) {
 		this.graph = graph;
 	}
 
 	/**
 	 * Writes the graph associated with this writer to the given output stream.
 	 * The output file absolute path is passed to the underlying stylesheet(s).
-	 * 
+	 *
 	 * @param path
 	 *            The file absolute path.
 	 * @param byteStream
 	 *            The {@link OutputStream} to write to.
 	 */
-	public void write(String path, OutputStream byteStream) {
+	public void write(final String path, final OutputStream byteStream) {
 		Element element = null;
-		Configuration configuration = graph.getConfiguration();
-		FileFormat format = configuration.getFileFormat();
+		final Configuration configuration = this.graph.getConfiguration();
+		final FileFormat format = configuration.getFileFormat();
 
-		List<Transformation> transformations = format
-				.getExportTransformations();
+		final List<Transformation> transformations = format.getExportTransformations();
 		try {
-			for (Transformation transformation : transformations) {
+			for (final Transformation transformation : transformations) {
 				if (transformation.isXslt()) {
 					if (element == null) {
 						// writes graph
 						element = writeGraph();
 					}
-					
-					XsltTransformer transformer = new XsltTransformer(
-							configuration.getContributorId(),
-							transformation.getFileName());
+
+					final XsltTransformer transformer = new XsltTransformer(configuration.getContributorId(), transformation.getFileName());
 					transformer.setParameter("path", path);
 					element = transformer.transformDomToDom(element);
 				} else {
-					transformation.getInstance().transform(graph, byteStream);
+					transformation.getInstance().transform(this.graph, byteStream);
 					return;
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
 
 		if (format.getContentType().equals("text")) {
-			String content = element.getTextContent();
+			final String content = element.getTextContent();
 			try {
 				byteStream.write(content.getBytes());
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				// byte stream is a byte array output stream
 			}
 		} else {
@@ -125,18 +122,16 @@ public class GenericGraphWriter {
 		}
 	}
 
-	private void writeEdges(Element edgesElement) {
-		Document document = edgesElement.getOwnerDocument();
-		Set<Edge> edges = graph.edgeSet();
-		for (Edge edge : edges) {
-			Element edgeElement = document.createElement("edge");
-			edgeElement.setAttribute("source", (String) edge.getSource()
-					.getValue(ObjectType.PARAMETER_ID));
-			edgeElement.setAttribute("target", (String) edge.getTarget()
-					.getValue(ObjectType.PARAMETER_ID));
+	private void writeEdges(final Element edgesElement) {
+		final Document document = edgesElement.getOwnerDocument();
+		final Set<Edge> edges = this.graph.edgeSet();
+		for (final Edge edge : edges) {
+			final Element edgeElement = document.createElement("edge");
+			edgeElement.setAttribute("source", (String) edge.getSource().getValue(ObjectType.PARAMETER_ID));
+			edgeElement.setAttribute("target", (String) edge.getTarget().getValue(ObjectType.PARAMETER_ID));
 			edgeElement.setAttribute("type", edge.getType().getName());
 
-			Element parameters = document.createElement("parameters");
+			final Element parameters = document.createElement("parameters");
 			edgeElement.appendChild(parameters);
 			writeParameters(edge, edge.getType(), parameters);
 
@@ -146,45 +141,44 @@ public class GenericGraphWriter {
 
 	/**
 	 * Writes the graph.
-	 * 
+	 *
 	 * @return A &lt;graph&gt; element.
 	 */
 	private Element writeGraph() {
-		Document document = DomHelper.createDocument("", "graph");
-		Element graphElement = document.getDocumentElement();
-		graphElement.setAttribute("type", graph.getType().getName());
+		final Document document = DomHelper.createDocument("", "graph");
+		final Element graphElement = document.getDocumentElement();
+		graphElement.setAttribute("type", this.graph.getType().getName());
 
-		Element parameters = document.createElement("parameters");
+		final Element parameters = document.createElement("parameters");
 		graphElement.appendChild(parameters);
-		writeParameters(graph, graph.getType(), parameters);
+		writeParameters(this.graph, this.graph.getType(), parameters);
 
-		Element vertices = document.createElement("vertices");
+		final Element vertices = document.createElement("vertices");
 		graphElement.appendChild(vertices);
 		writeVertices(vertices);
 
-		Element edges = document.createElement("edges");
+		final Element edges = document.createElement("edges");
 		graphElement.appendChild(edges);
 		writeEdges(edges);
 
 		return graphElement;
 	}
 
-	private void writeParameters(AbstractObject abstractObject,
-			ObjectType type, Element parametersElement) {
-		Document document = parametersElement.getOwnerDocument();
-		List<Parameter> parameters = type.getParameters();
-		for (Parameter parameter : parameters) {
-			Element parameterElement = document.createElement("parameter");
-			String parameterName = parameter.getName();
+	private void writeParameters(final AbstractObject abstractObject, final ObjectType type, final Element parametersElement) {
+		final Document document = parametersElement.getOwnerDocument();
+		final List<Parameter> parameters = type.getParameters();
+		for (final Parameter parameter : parameters) {
+			final Element parameterElement = document.createElement("parameter");
+			final String parameterName = parameter.getName();
 			parameterElement.setAttribute("name", parameterName);
 
-			Class<?> parameterType = parameter.getType();
+			final Class<?> parameterType = parameter.getType();
 			if (parameterType == List.class) {
-				List<?> list = (List<?>) abstractObject.getValue(parameterName);
+				final List<?> list = (List<?>) abstractObject.getValue(parameterName);
 				if (list != null) {
-					for (Object obj : list) {
+					for (final Object obj : list) {
 						if (obj != null) {
-							Element element = document.createElement("element");
+							final Element element = document.createElement("element");
 							element.setAttribute("value", obj.toString());
 							parameterElement.appendChild(element);
 						}
@@ -192,14 +186,13 @@ public class GenericGraphWriter {
 					parametersElement.appendChild(parameterElement);
 				}
 			} else if (parameterType == Map.class) {
-				Map<?, ?> map = (Map<?, ?>) abstractObject
-						.getValue(parameterName);
+				final Map<?, ?> map = (Map<?, ?>) abstractObject.getValue(parameterName);
 				if (map != null) {
-					for (Entry<?, ?> entry : map.entrySet()) {
-						Object key = entry.getKey();
-						Object value = entry.getValue();
-						if (key != null && value != null) {
-							Element entryElt = document.createElement("entry");
+					for (final Entry<?, ?> entry : map.entrySet()) {
+						final Object key = entry.getKey();
+						final Object value = entry.getValue();
+						if ((key != null) && (value != null)) {
+							final Element entryElt = document.createElement("entry");
 							entryElt.setAttribute("key", key.toString());
 							entryElt.setAttribute("value", value.toString());
 							parameterElement.appendChild(entryElt);
@@ -208,7 +201,7 @@ public class GenericGraphWriter {
 					parametersElement.appendChild(parameterElement);
 				}
 			} else {
-				Object value = abstractObject.getValue(parameterName);
+				final Object value = abstractObject.getValue(parameterName);
 				if (value != null) {
 					parameterElement.setAttribute("value", value.toString());
 					parametersElement.appendChild(parameterElement);
@@ -217,21 +210,20 @@ public class GenericGraphWriter {
 		}
 	}
 
-	private void writeVertices(Element verticesElement) {
-		Document document = verticesElement.getOwnerDocument();
-		Set<Vertex> vertices = graph.vertexSet();
-		for (Vertex vertex : vertices) {
-			Element vertexElement = document.createElement("vertex");
+	private void writeVertices(final Element verticesElement) {
+		final Document document = verticesElement.getOwnerDocument();
+		final Set<Vertex> vertices = this.graph.vertexSet();
+		for (final Vertex vertex : vertices) {
+			final Element vertexElement = document.createElement("vertex");
 			vertexElement.setAttribute("type", vertex.getType().getName());
 
 			// add layout information
-			Rectangle bounds = (Rectangle) vertex
-					.getValue(Vertex.PROPERTY_SIZE);
+			final Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
 			vertexElement.setAttribute("x", String.valueOf(bounds.x));
 			vertexElement.setAttribute("y", String.valueOf(bounds.y));
 
 			// and parameters
-			Element parameters = document.createElement("parameters");
+			final Element parameters = document.createElement("parameters");
 			vertexElement.appendChild(parameters);
 			writeParameters(vertex, vertex.getType(), parameters);
 

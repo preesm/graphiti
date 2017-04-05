@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -46,7 +46,7 @@ import org.ietr.dftools.graphiti.ui.commands.refinement.PortChooser;
 /**
  * This class provides a Command that creates a dependency. ComplexSource and
  * target are set when they are connected.
- * 
+ *
  * @author Samuel Beaussier
  * @author Nicolas Isch
  * @author Matthieu Wipliez
@@ -57,7 +57,7 @@ public class EdgeCreateCommand extends Command {
 	 * The edge is stored as an attribute so it can be used both in the
 	 * <code>execute</code> and <code>undo</code> methods.
 	 */
-	private Edge edge;
+	private final Edge edge;
 
 	/**
 	 * The parentGraph is stored as an attribute so it can be used both in the
@@ -71,44 +71,41 @@ public class EdgeCreateCommand extends Command {
 
 	/**
 	 * Creates a new command using the given newly created edge.
-	 * 
+	 *
 	 * @param edge
 	 *            The newly created edge.
 	 */
-	public EdgeCreateCommand(Edge edge) {
+	public EdgeCreateCommand(final Edge edge) {
 		this.edge = edge;
 	}
 
 	@Override
 	public void execute() {
 		// parent graph
-		parentGraph = source.getParent();
+		this.parentGraph = this.source.getParent();
 
 		// edge has been set in the constructor.
-		edge.setSource(source);
-		edge.setTarget(target);
+		this.edge.setSource(this.source);
+		this.edge.setTarget(this.target);
 
-		String connection = source.getValue(ObjectType.PARAMETER_ID) + " - "
-				+ target.getValue(ObjectType.PARAMETER_ID);
+		final String connection = this.source.getValue(ObjectType.PARAMETER_ID) + " - " + this.target.getValue(ObjectType.PARAMETER_ID);
 
-		PortChooser portChooser = new PortChooser(connection);
-		if (edge.getParameter(ObjectType.PARAMETER_SOURCE_PORT) != null) {
-			edge.setValue(ObjectType.PARAMETER_SOURCE_PORT, portChooser
-					.getSourcePort(source));
+		final PortChooser portChooser = new PortChooser(connection);
+		if (this.edge.getParameter(ObjectType.PARAMETER_SOURCE_PORT) != null) {
+			this.edge.setValue(ObjectType.PARAMETER_SOURCE_PORT, portChooser.getSourcePort(this.source));
 		}
 
-		if (edge.getParameter(ObjectType.PARAMETER_TARGET_PORT) != null) {
-			edge.setValue(ObjectType.PARAMETER_TARGET_PORT, portChooser
-					.getTargetPort(target));
+		if (this.edge.getParameter(ObjectType.PARAMETER_TARGET_PORT) != null) {
+			this.edge.setValue(ObjectType.PARAMETER_TARGET_PORT, portChooser.getTargetPort(this.target));
 		}
 
-		parentGraph.addEdge(edge);
+		this.parentGraph.addEdge(this.edge);
 	}
 
 	@Override
 	public String getLabel() {
-		if (edge != null) {
-			String type = edge.getType().getName();
+		if (this.edge != null) {
+			final String type = this.edge.getType().getName();
 			return "Create " + type;
 		} else {
 			return "Create edge";
@@ -117,26 +114,26 @@ public class EdgeCreateCommand extends Command {
 
 	/**
 	 * Sets the source of the dependency to create/reconnect.
-	 * 
+	 *
 	 * @param source
 	 *            The dependency source as a Port.
 	 */
-	public void setSource(Vertex source) {
+	public void setSource(final Vertex source) {
 		this.source = source;
 	}
 
 	/**
 	 * Sets the target of the dependency to create/reconnect.
-	 * 
+	 *
 	 * @param target
 	 *            The dependency target as a Port.
 	 */
-	public void setTarget(Vertex target) {
+	public void setTarget(final Vertex target) {
 		this.target = target;
 	}
 
 	@Override
 	public void undo() {
-		parentGraph.removeEdge(edge);
+		this.parentGraph.removeEdge(this.edge);
 	}
 }

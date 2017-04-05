@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -59,24 +59,26 @@ public class ManualGraphLayoutManager extends StackLayout {
 	 * Returns the minimum size required by the input container. This is the
 	 * size of the largest child of the container, as all other children fit
 	 * into this size.
-	 * 
+	 *
 	 * @see AbstractHintLayout#calculateMinimumSize(IFigure, int, int)
 	 */
 	@Override
 	@SuppressWarnings("rawtypes")
-	protected Dimension calculateMinimumSize(IFigure figure, int wHint,
-			int hHint) {
-		if (wHint > -1)
+	protected Dimension calculateMinimumSize(final IFigure figure, int wHint, int hHint) {
+		if (wHint > -1) {
 			wHint = Math.max(0, wHint - figure.getInsets().getWidth());
-		if (hHint > -1)
+		}
+		if (hHint > -1) {
 			hHint = Math.max(0, hHint - figure.getInsets().getHeight());
-		Dimension d = new Dimension();
-		List children = figure.getChildren();
+		}
+		final Dimension d = new Dimension();
+		final List children = figure.getChildren();
 		IFigure child;
 		for (int i = 0; i < children.size(); i++) {
 			child = (IFigure) children.get(i);
-			if (!isObservingVisibility() || child.isVisible())
+			if (!isObservingVisibility() || child.isVisible()) {
 				d.union(child.getMinimumSize(wHint, hHint));
+			}
 		}
 
 		d.expand(figure.getInsets().getWidth(), figure.getInsets().getHeight());
@@ -89,24 +91,26 @@ public class ManualGraphLayoutManager extends StackLayout {
 	 * Calculates and returns the preferred size of the given figure. This is
 	 * the union of the preferred sizes of the widest and the tallest of all its
 	 * children.
-	 * 
+	 *
 	 * @see AbstractLayout#calculatePreferredSize(IFigure, int, int)
 	 */
 	@Override
 	@SuppressWarnings("rawtypes")
-	protected Dimension calculatePreferredSize(IFigure figure, int wHint,
-			int hHint) {
-		if (wHint > -1)
+	protected Dimension calculatePreferredSize(final IFigure figure, int wHint, int hHint) {
+		if (wHint > -1) {
 			wHint = Math.max(0, wHint - figure.getInsets().getWidth());
-		if (hHint > -1)
+		}
+		if (hHint > -1) {
 			hHint = Math.max(0, hHint - figure.getInsets().getHeight());
-		Dimension d = new Dimension();
-		List children = figure.getChildren();
+		}
+		final Dimension d = new Dimension();
+		final List children = figure.getChildren();
 		IFigure child;
 		for (int i = 0; i < children.size(); i++) {
 			child = (IFigure) children.get(i);
-			if (!isObservingVisibility() || child.isVisible())
+			if (!isObservingVisibility() || child.isVisible()) {
 				d.union(child.getPreferredSize(wHint, hHint));
+			}
 		}
 
 		d.expand(figure.getInsets().getWidth(), figure.getInsets().getHeight());
@@ -116,12 +120,12 @@ public class ManualGraphLayoutManager extends StackLayout {
 
 	/**
 	 * Returns the origin for the given figure.
-	 * 
+	 *
 	 * @param parent
 	 *            the figure whose origin is requested
 	 * @return the origin
 	 */
-	public Point getOrigin(IFigure parent) {
+	public Point getOrigin(final IFigure parent) {
 		return parent.getClientArea().getLocation();
 	}
 
@@ -130,9 +134,9 @@ public class ManualGraphLayoutManager extends StackLayout {
 	 */
 	@Override
 	@SuppressWarnings("rawtypes")
-	public void layout(IFigure parent) {
-		Rectangle r = parent.getClientArea();
-		List children = parent.getChildren();
+	public void layout(final IFigure parent) {
+		final Rectangle r = parent.getClientArea();
+		final List children = parent.getChildren();
 		IFigure child;
 		for (int i = 0; i < children.size(); i++) {
 			child = (IFigure) children.get(i);
@@ -141,23 +145,25 @@ public class ManualGraphLayoutManager extends StackLayout {
 			}
 		}
 
-		Iterator it = children.iterator();
-		Point offset = getOrigin(parent);
+		final Iterator it = children.iterator();
+		final Point offset = getOrigin(parent);
 		IFigure f;
 		while (it.hasNext()) {
 			f = (IFigure) it.next();
 			Rectangle bounds = (Rectangle) getConstraint(f);
-			if (bounds == null)
+			if (bounds == null) {
 				continue;
+			}
 
-			if (bounds.width == -1 || bounds.height == -1) {
-				Dimension preferredSize = f.getPreferredSize(bounds.width,
-						bounds.height);
+			if ((bounds.width == -1) || (bounds.height == -1)) {
+				final Dimension preferredSize = f.getPreferredSize(bounds.width, bounds.height);
 				bounds = bounds.getCopy();
-				if (bounds.width == -1)
+				if (bounds.width == -1) {
 					bounds.width = preferredSize.width;
-				if (bounds.height == -1)
+				}
+				if (bounds.height == -1) {
 					bounds.height = preferredSize.height;
+				}
 			}
 			bounds = bounds.getTranslated(offset);
 			f.setBounds(bounds);

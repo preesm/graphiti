@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -44,24 +44,24 @@ import java.util.TreeMap;
 /**
  * This class provides a parameter associated with an object (vertex, graph,
  * edge). It has a name, a type, and a position.
- * 
+ *
  * @author Jonathan Piat
  * @author Matthieu Wipliez
- * 
+ *
  */
 public class Parameter {
 
-	private Object defaultValue;
+	private final Object defaultValue;
 
-	private String name;
+	private final String name;
 
-	private ParameterPosition position;
+	private final ParameterPosition position;
 
-	private Class<?> type;
+	private final Class<?> type;
 
 	/**
 	 * Creates a new parameter.
-	 * 
+	 *
 	 * @param name
 	 *            The parameter name.
 	 * @param value
@@ -71,8 +71,7 @@ public class Parameter {
 	 * @param type
 	 *            The parameter type, as a Java {@link Class}&lt;?&gt;.
 	 */
-	public Parameter(String name, Object value, ParameterPosition position,
-			Class<?> type) {
+	public Parameter(final String name, final Object value, final ParameterPosition position, final Class<?> type) {
 		this.defaultValue = value;
 		this.name = name;
 		this.position = position;
@@ -81,57 +80,57 @@ public class Parameter {
 
 	/**
 	 * Returns this parameter's default value.
-	 * 
+	 *
 	 * @return This parameter's default value.
 	 */
 	public Object getDefault() {
-		if (defaultValue instanceof Boolean) {
-			return new Boolean((Boolean) defaultValue);
-		} else if (defaultValue instanceof Float) {
-			return new Float((Float) defaultValue);
-		} else if (defaultValue instanceof Integer) {
-			return new Integer((Integer) defaultValue);
-		} else if (defaultValue instanceof List<?>) {
-			return new ArrayList<Object>((List<?>) defaultValue);
-		} else if (defaultValue instanceof Map<?, ?>) {
-			return new TreeMap<Object, Object>((Map<?, ?>) defaultValue);
-		} else if (defaultValue instanceof String) {
-			return new String((String) defaultValue);
+		if (this.defaultValue instanceof Boolean) {
+			return new Boolean((Boolean) this.defaultValue);
+		} else if (this.defaultValue instanceof Float) {
+			return new Float((Float) this.defaultValue);
+		} else if (this.defaultValue instanceof Integer) {
+			return new Integer((Integer) this.defaultValue);
+		} else if (this.defaultValue instanceof List<?>) {
+			return new ArrayList<Object>((List<?>) this.defaultValue);
+		} else if (this.defaultValue instanceof Map<?, ?>) {
+			return new TreeMap<Object, Object>((Map<?, ?>) this.defaultValue);
+		} else if (this.defaultValue instanceof String) {
+			return new String((String) this.defaultValue);
 		} else {
-			return defaultValue;
+			return this.defaultValue;
 		}
 	}
 
 	/**
 	 * Returns this parameter's name.
-	 * 
+	 *
 	 * @return This parameter's name.
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	/**
 	 * Returns this parameter's position.
-	 * 
+	 *
 	 * @return This parameter's position.
 	 */
 	public ParameterPosition getPosition() {
-		return position;
+		return this.position;
 	}
 
 	/**
 	 * Returns this parameter's type.
-	 * 
+	 *
 	 * @return This parameter's type.
 	 */
 	public Class<?> getType() {
-		return type;
+		return this.type;
 	}
 
 	@Override
 	public String toString() {
-		return name;
+		return this.name;
 	}
 
 }

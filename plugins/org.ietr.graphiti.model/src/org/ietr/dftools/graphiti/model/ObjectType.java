@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -43,9 +43,9 @@ import java.util.Map;
 
 /**
  * This class provides an object type.
- * 
+ *
  * @author Matthieu Wipliez
- * 
+ *
  */
 public class ObjectType implements Comparable<ObjectType> {
 
@@ -97,54 +97,54 @@ public class ObjectType implements Comparable<ObjectType> {
 	 */
 	public static final String PARAMETER_TARGET_PORT = "target port";
 
-	private Map<String, Object> attributes;
+	private final Map<String, Object> attributes;
 
-	private String name;
+	private final String name;
 
-	private Map<String, Parameter> parameters;
+	private final Map<String, Parameter> parameters;
 
 	/**
 	 * Creates a new abstract type with the given name.
-	 * 
+	 *
 	 * @param name
 	 *            The type name.
 	 */
-	public ObjectType(String name) {
+	public ObjectType(final String name) {
 		this.name = name;
-		attributes = new HashMap<String, Object>();
-		parameters = new HashMap<String, Parameter>();
+		this.attributes = new HashMap<>();
+		this.parameters = new HashMap<>();
 	}
 
 	/**
 	 * Adds the given attribute to this type.
-	 * 
+	 *
 	 * @param attributeName
 	 *            The attribute name.
 	 */
-	public void addAttribute(String attributeName, Object value) {
-		attributes.put(attributeName, value);
+	public void addAttribute(final String attributeName, final Object value) {
+		this.attributes.put(attributeName, value);
 	}
 
 	/**
 	 * Adds the given parameter to this type.
-	 * 
+	 *
 	 * @param parameter
 	 *            A parameter.
 	 */
-	public void addParameter(Parameter parameter) {
-		parameters.put(parameter.getName(), parameter);
+	public void addParameter(final Parameter parameter) {
+		this.parameters.put(parameter.getName(), parameter);
 	}
 
 	@Override
-	public int compareTo(ObjectType type) {
-		return name.compareTo(type.name);
+	public int compareTo(final ObjectType type) {
+		return this.name.compareTo(type.name);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (obj instanceof ObjectType) {
-			ObjectType type = (ObjectType) obj;
-			return name.equals(type.name);
+			final ObjectType type = (ObjectType) obj;
+			return this.name.equals(type.name);
 		} else {
 			return false;
 		}
@@ -152,42 +152,42 @@ public class ObjectType implements Comparable<ObjectType> {
 
 	/**
 	 * Returns the type's attribute that has the given name.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the attribute we're looking for.
 	 * @return The relevant attribute.
 	 */
-	public Object getAttribute(String name) {
-		return attributes.get(name);
+	public Object getAttribute(final String name) {
+		return this.attributes.get(name);
 	}
 
 	/**
 	 * Returns this type's name.
-	 * 
+	 *
 	 * @return This type's name.
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	/**
 	 * Returns this type's parameter that has the given name.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the parameter we're looking for.
 	 * @return The relevant parameter.
 	 */
-	public Parameter getParameter(String name) {
-		return parameters.get(name);
+	public Parameter getParameter(final String name) {
+		return this.parameters.get(name);
 	}
 
 	/**
 	 * Returns a copy of this type's parameters.
-	 * 
+	 *
 	 * @return A {@link List} containing a copy of this type's parameters.
 	 */
 	public List<Parameter> getParameters() {
-		return new ArrayList<Parameter>(parameters.values());
+		return new ArrayList<>(this.parameters.values());
 	}
 
 	@Override

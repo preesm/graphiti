@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -59,7 +59,7 @@ import org.ietr.dftools.graphiti.ui.editors.GraphEditor;
 
 /**
  * This class provides a convert page for the save as wizard.
- * 
+ *
  * @author Matthieu Wipliez
  */
 public class WizardConvertPage extends WizardPage implements IGraphTypeSettable {
@@ -80,41 +80,38 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 
 	/**
 	 * Constructor for SampleNewWizardPage.
-	 * 
+	 *
 	 * @param selection
 	 */
-	public WizardConvertPage(IStructuredSelection selection) {
+	public WizardConvertPage(final IStructuredSelection selection) {
 		super("convertGraph");
 
 		setTitle("Convert types");
 
-		Object obj = selection.getFirstElement();
+		final Object obj = selection.getFirstElement();
 		if (obj instanceof GraphEditor) {
-			GraphEditor editor = (GraphEditor) obj;
-			originalGraph = editor.getContents();
+			final GraphEditor editor = (GraphEditor) obj;
+			this.originalGraph = editor.getContents();
 
 			// fills the original graph, vertex and edge types
-			Configuration configuration = originalGraph.getConfiguration();
-			originalEdgeTypes = configuration.getEdgeTypes();
-			originalVertexTypes = configuration.getVertexTypes();
+			final Configuration configuration = this.originalGraph.getConfiguration();
+			this.originalEdgeTypes = configuration.getEdgeTypes();
+			this.originalVertexTypes = configuration.getVertexTypes();
 		}
 	}
 
-	private void convertEdgeTypes(Graph graph,
-			Map<ObjectType, ObjectType> edgeTypes) {
-		Set<Edge> edges = originalGraph.edgeSet();
+	private void convertEdgeTypes(final Graph graph, final Map<ObjectType, ObjectType> edgeTypes) {
+		final Set<Edge> edges = this.originalGraph.edgeSet();
 		for (Edge edge : edges) {
-			ObjectType newType = edgeTypes.get(edge.getType());
+			final ObjectType newType = edgeTypes.get(edge.getType());
 			if (newType != null) {
 				edge = new Edge(edge);
-				String sourceId = (String) edge.getSource().getValue(
-						ObjectType.PARAMETER_ID);
-				String targetId = (String) edge.getTarget().getValue(
-						ObjectType.PARAMETER_ID);
-				Vertex source = graph.findVertex(sourceId);
-				Vertex target = graph.findVertex(targetId);
+				final String sourceId = (String) edge.getSource().getValue(ObjectType.PARAMETER_ID);
+				final String targetId = (String) edge.getTarget().getValue(ObjectType.PARAMETER_ID);
+				final Vertex source = graph.findVertex(sourceId);
+				final Vertex target = graph.findVertex(targetId);
 
-				if (source != null && target != null) {
+				if ((source != null) && (target != null)) {
 					edge.setSource(source);
 					edge.setTarget(target);
 					edge.setType(newType);
@@ -124,11 +121,10 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 		}
 	}
 
-	private void convertVertexTypes(Graph graph,
-			Map<ObjectType, ObjectType> vertexTypes) {
-		Set<Vertex> vertices = originalGraph.vertexSet();
+	private void convertVertexTypes(final Graph graph, final Map<ObjectType, ObjectType> vertexTypes) {
+		final Set<Vertex> vertices = this.originalGraph.vertexSet();
 		for (Vertex vertex : vertices) {
-			ObjectType newType = vertexTypes.get(vertex.getType());
+			final ObjectType newType = vertexTypes.get(vertex.getType());
 			if (newType != null) {
 				vertex = new Vertex(vertex);
 				vertex.setType(newType);
@@ -138,9 +134,9 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 	}
 
 	@Override
-	public void createControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+	public void createControl(final Composite parent) {
+		final Composite container = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout();
 		container.setLayout(layout);
 
 		layout.numColumns = 2;
@@ -156,33 +152,31 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 
 	/**
 	 * Creates a {@link Combo} for each edge type in the original configuration.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent {@link Composite}.
 	 */
-	private void createEdgeTypes(Composite parent) {
-		edgeComboList = new ArrayList<Combo>();
-		for (ObjectType type : originalEdgeTypes) {
-			Label label = new Label(parent, SWT.NULL);
+	private void createEdgeTypes(final Composite parent) {
+		this.edgeComboList = new ArrayList<>();
+		for (final ObjectType type : this.originalEdgeTypes) {
+			final Label label = new Label(parent, SWT.NULL);
 			label.setText("Convert \"" + type.getName() + "\" to:");
 
-			Combo edgeCombo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY
-					| SWT.SIMPLE);
-			edgeComboList.add(edgeCombo);
+			final Combo edgeCombo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.SIMPLE);
+			this.edgeComboList.add(edgeCombo);
 		}
 	}
 
 	/**
 	 * Creates a {@link Label} to tell the user what to do.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent {@link Composite}.
 	 */
-	private void createExplanationLabel(Composite parent) {
-		Label label = new Label(parent, SWT.NULL);
-		label.setText("Please choose how the following vertices and edges "
-				+ "shall be converted:");
-		GridData data = new GridData();
+	private void createExplanationLabel(final Composite parent) {
+		final Label label = new Label(parent, SWT.NULL);
+		label.setText("Please choose how the following vertices and edges " + "shall be converted:");
+		final GridData data = new GridData();
 		data.horizontalSpan = 2;
 		label.setLayoutData(data);
 	}
@@ -190,19 +184,18 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 	/**
 	 * Creates a {@link Combo} for each vertex type in the original
 	 * configuration.
-	 * 
+	 *
 	 * @param parent
 	 *            The parent {@link Composite}.
 	 */
-	private void createVertexTypes(Composite parent) {
-		vertexComboList = new ArrayList<Combo>();
-		for (ObjectType type : originalVertexTypes) {
-			Label label = new Label(parent, SWT.NULL);
+	private void createVertexTypes(final Composite parent) {
+		this.vertexComboList = new ArrayList<>();
+		for (final ObjectType type : this.originalVertexTypes) {
+			final Label label = new Label(parent, SWT.NULL);
 			label.setText("Convert \"" + type.getName() + "\" to:");
 
-			Combo vertexCombo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY
-					| SWT.SIMPLE);
-			vertexComboList.add(vertexCombo);
+			final Combo vertexCombo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.SIMPLE);
+			this.vertexComboList.add(vertexCombo);
 		}
 	}
 
@@ -210,20 +203,20 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 	 * Returns a {@link Map} that maps an existing {@link EdgeType} to a new
 	 * one. If the new type is not specified (i.e. left blank by the user), no
 	 * mapping is inserted.
-	 * 
+	 *
 	 * @return A {@link Map} that maps an existing {@link EdgeType} to a new
 	 *         one.
 	 */
 	private Map<ObjectType, ObjectType> fillEdgeTypes() {
-		Map<ObjectType, ObjectType> edgeTypes = new HashMap<ObjectType, ObjectType>();
+		final Map<ObjectType, ObjectType> edgeTypes = new HashMap<>();
 		int i = 0;
-		for (ObjectType type : originalEdgeTypes) {
-			Combo combo = edgeComboList.get(i);
+		for (final ObjectType type : this.originalEdgeTypes) {
+			final Combo combo = this.edgeComboList.get(i);
 			i++;
-			int index = combo.getSelectionIndex();
+			final int index = combo.getSelectionIndex();
 			if (index != -1) {
-				String name = combo.getItem(index);
-				ObjectType newType = newConfiguration.getEdgeType(name);
+				final String name = combo.getItem(index);
+				final ObjectType newType = this.newConfiguration.getEdgeType(name);
 				edgeTypes.put(type, newType);
 			}
 		}
@@ -235,20 +228,20 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 	 * Returns a {@link Map} that maps an existing {@link VertexType} to a new
 	 * one. If the new type is not specified (i.e. left blank by the user), no
 	 * mapping is inserted.
-	 * 
+	 *
 	 * @return A {@link Map} that maps an existing {@link VertexType} to a new
 	 *         one.
 	 */
 	private Map<ObjectType, ObjectType> fillVertexTypes() {
-		Map<ObjectType, ObjectType> vertexTypes = new HashMap<ObjectType, ObjectType>();
+		final Map<ObjectType, ObjectType> vertexTypes = new HashMap<>();
 		int i = 0;
-		for (ObjectType type : originalVertexTypes) {
-			Combo combo = vertexComboList.get(i);
+		for (final ObjectType type : this.originalVertexTypes) {
+			final Combo combo = this.vertexComboList.get(i);
 			i++;
-			int index = combo.getSelectionIndex();
+			final int index = combo.getSelectionIndex();
 			if (index != -1) {
-				String name = combo.getItem(index);
-				ObjectType newType = newConfiguration.getVertexType(name);
+				final String name = combo.getItem(index);
+				final ObjectType newType = this.newConfiguration.getVertexType(name);
 				vertexTypes.put(type, newType);
 			}
 		}
@@ -258,18 +251,18 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 
 	/**
 	 * Returns the converted graph.
-	 * 
+	 *
 	 * @return The converted graph.
 	 */
 	public Graph getGraph() {
 		// creates a new empty graph with the same properties as originalGraph
 		// but configuration and type, that are overridden by newConfiguration
 		// and newGraphType
-		Graph graph = new Graph(originalGraph, newConfiguration, newGraphType);
+		final Graph graph = new Graph(this.originalGraph, this.newConfiguration, this.newGraphType);
 
 		// change vertex and edge types
-		Map<ObjectType, ObjectType> vertexTypes = fillVertexTypes();
-		Map<ObjectType, ObjectType> edgeTypes = fillEdgeTypes();
+		final Map<ObjectType, ObjectType> vertexTypes = fillVertexTypes();
+		final Map<ObjectType, ObjectType> edgeTypes = fillEdgeTypes();
 		convertVertexTypes(graph, vertexTypes);
 		convertEdgeTypes(graph, edgeTypes);
 
@@ -277,9 +270,9 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 	}
 
 	@Override
-	public void setGraphType(Configuration configuration, ObjectType type) {
-		newConfiguration = configuration;
-		newGraphType = type;
+	public void setGraphType(final Configuration configuration, final ObjectType type) {
+		this.newConfiguration = configuration;
+		this.newGraphType = type;
 		((IGraphTypeSettable) getNextPage()).setGraphType(configuration, type);
 
 		updateDescription();
@@ -293,19 +286,18 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 	 * Updates the description of this page.
 	 */
 	private void updateDescription() {
-		setDescription("Convert \"" + originalGraph.getType().getName()
-				+ "\" to \"" + newGraphType.getName() + "\".");
+		setDescription("Convert \"" + this.originalGraph.getType().getName() + "\" to \"" + this.newGraphType.getName() + "\".");
 	}
 
 	/**
 	 * Updates each edge combo list using the new configuration's edge types.
 	 */
 	private void updateEdgeTypes() {
-		for (Combo edgeCombo : edgeComboList) {
-			Set<ObjectType> newEdges = newConfiguration.getEdgeTypes();
-			String[] items = new String[newEdges.size()];
+		for (final Combo edgeCombo : this.edgeComboList) {
+			final Set<ObjectType> newEdges = this.newConfiguration.getEdgeTypes();
+			final String[] items = new String[newEdges.size()];
 			int i = 0;
-			for (ObjectType edgeType : newEdges) {
+			for (final ObjectType edgeType : newEdges) {
 				items[i] = edgeType.getName();
 				i++;
 			}
@@ -319,11 +311,11 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 	 * types.
 	 */
 	private void updateVertexTypes() {
-		for (Combo vertexCombo : vertexComboList) {
-			Set<ObjectType> newVertices = newConfiguration.getVertexTypes();
-			String[] items = new String[newVertices.size()];
+		for (final Combo vertexCombo : this.vertexComboList) {
+			final Set<ObjectType> newVertices = this.newConfiguration.getVertexTypes();
+			final String[] items = new String[newVertices.size()];
 			int i = 0;
-			for (ObjectType vertexType : newVertices) {
+			for (final ObjectType vertexType : newVertices) {
 				items[i] = vertexType.getName();
 				i++;
 			}

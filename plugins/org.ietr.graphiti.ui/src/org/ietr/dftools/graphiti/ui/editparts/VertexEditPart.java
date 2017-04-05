@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -59,6 +59,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.DirectEditManager;
@@ -84,15 +85,13 @@ import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
 /**
  * The EditPart associated to the Graph gives methods to refresh the view when a
  * property has changed.
- * 
+ *
  * @author Samuel Beaussier
  * @author Nicolas Isch
  * @author Matthieu Wipliez
- * 
+ *
  */
-public class VertexEditPart extends AbstractGraphicalEditPart implements
-		PropertyChangeListener, NodeEditPart,
-		ITabbedPropertySheetPageContributor {
+public class VertexEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, NodeEditPart, ITabbedPropertySheetPageContributor {
 
 	private DirectEditManager directEditManager;
 
@@ -109,24 +108,23 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 	/**
 	 * Adds edges of this EditPart to the {@link EdgeList} of the parent.
-	 * 
+	 *
 	 * @param edges
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	void addEdges(EdgeList edges) {
-		List connections = new ArrayList<EdgeEditPart>();
+	void addEdges(final EdgeList edges) {
+		final List connections = new ArrayList<EdgeEditPart>();
 		connections.addAll(getSourceConnections());
 		// connections.addAll(getTargetConnections());
 
-		for (Object connection : connections) {
+		for (final Object connection : connections) {
 			if (connection instanceof EdgeEditPart) {
-				EdgeEditPart dependency = (EdgeEditPart) connection;
-				VertexEditPart source = (VertexEditPart) dependency.getSource();
-				VertexEditPart target = (VertexEditPart) dependency.getTarget();
+				final EdgeEditPart dependency = (EdgeEditPart) connection;
+				final VertexEditPart source = (VertexEditPart) dependency.getSource();
+				final VertexEditPart target = (VertexEditPart) dependency.getTarget();
 
-				if ((source != null && target != null) && (source != target)) {
-					org.eclipse.draw2d.graph.Edge edge = new org.eclipse.draw2d.graph.Edge(
-							source.node, target.node);
+				if (((source != null) && (target != null)) && (source != target)) {
+					final org.eclipse.draw2d.graph.Edge edge = new org.eclipse.draw2d.graph.Edge(source.node, target.node);
 					edges.add(edge);
 				}
 			}
@@ -136,58 +134,54 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	/**
 	 * Adds this node to its parent. In the future will also add its children if
 	 * it has any.
-	 * 
+	 *
 	 * @param nodes
 	 *            The list of {@link Node} in the Draw2D Graph.
 	 * @param parent
 	 *            Its parent subgraph.
 	 */
 	@SuppressWarnings("unchecked")
-	void addNodes(NodeList nodes, Subgraph parent) {
-		node = new Node(this, parent);
-		nodes.add(node);
+	void addNodes(final NodeList nodes, final Subgraph parent) {
+		this.node = new Node(this, parent);
+		nodes.add(this.node);
 
 		// Graphical stuff
-		Figure figure = (Figure) getFigure();
-		node.setSize(figure.getPreferredSize());
-		node.setPadding(new Insets(35, 35, 35, 35));
+		final Figure figure = (Figure) getFigure();
+		this.node.setSize(figure.getPreferredSize());
+		this.node.setPadding(new Insets(35, 35, 35, 35));
 	}
 
 	@Override
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE,
-				new DeleteComponentEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new DeleteComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new LayoutPolicy());
-		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE,
-				new EdgeGraphicalNodeEditPolicy());
-		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
-				new VertexDirectEditPolicy());
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new EdgeGraphicalNodeEditPolicy());
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new VertexDirectEditPolicy());
 	}
 
 	@Override
 	protected IFigure createFigure() {
-		Vertex vertex = (Vertex) getModel();
+		final Vertex vertex = (Vertex) getModel();
 
 		// Get default width and height
-		int width = (Integer) vertex.getAttribute(ObjectType.ATTRIBUTE_WIDTH);
-		int height = (Integer) vertex.getAttribute(ObjectType.ATTRIBUTE_HEIGHT);
+		final int width = (Integer) vertex.getAttribute(ObjectType.ATTRIBUTE_WIDTH);
+		final int height = (Integer) vertex.getAttribute(ObjectType.ATTRIBUTE_HEIGHT);
 
 		// Get dimension, color, shape
-		Dimension dimension = new Dimension(width, height);
-		Color color = (Color) vertex.getAttribute(ObjectType.ATTRIBUTE_COLOR);
-		String name = (String) vertex.getAttribute(ObjectType.ATTRIBUTE_SHAPE);
-		IShape shape = ShapeFactory.createShape(name);
+		final Dimension dimension = new Dimension(width, height);
+		final Color color = (Color) vertex.getAttribute(ObjectType.ATTRIBUTE_COLOR);
+		final String name = (String) vertex.getAttribute(ObjectType.ATTRIBUTE_SHAPE);
+		final IShape shape = ShapeFactory.createShape(name);
 
 		// Creates the figure with the specified properties, sets its id
-		Font font = ((GraphicalEditPart) getParent()).getFigure().getFont();
-		VertexFigure figure = new VertexFigure(font, dimension, color, shape);
-		String id = (String) vertex.getValue(ObjectType.PARAMETER_ID);
+		final Font font = ((GraphicalEditPart) getParent()).getFigure().getFont();
+		final VertexFigure figure = new VertexFigure(font, dimension, color, shape);
+		final String id = (String) vertex.getValue(ObjectType.PARAMETER_ID);
 		figure.setId(id);
 
 		// update the figure position (if the graph has layout information)
 		if ((Boolean) vertex.getParent().getValue(Graph.PROPERTY_HAS_LAYOUT)) {
-			Rectangle bounds = (Rectangle) vertex
-					.getValue(Vertex.PROPERTY_SIZE);
+			final Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
 			if (bounds != null) {
 				figure.setBounds(bounds);
 			}
@@ -207,7 +201,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 
 	@Override
 	@SuppressWarnings("rawtypes")
-	public Object getAdapter(Class adapter) {
+	public Object getAdapter(final Class adapter) {
 		if (adapter == IPropertySource.class) {
 			return new ModelPropertySource((AbstractObject) getModel());
 		}
@@ -223,14 +217,14 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected List getModelSourceConnections() {
 		if (getModel() instanceof Vertex) {
-			Vertex vertex = (Vertex) getModel();
-			Graph parent = vertex.getParent();
+			final Vertex vertex = (Vertex) getModel();
+			final Graph parent = vertex.getParent();
 
 			// we get the *output* dependencies of vertex
-			Set<Edge> edges = parent.outgoingEdgesOf(vertex);
+			final Set<Edge> edges = parent.outgoingEdgesOf(vertex);
 
 			// return the dependencies
-			List dependencies = new ArrayList(edges);
+			final List dependencies = new ArrayList(edges);
 			return dependencies;
 		}
 
@@ -241,14 +235,14 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected List getModelTargetConnections() {
 		if (getModel() instanceof Vertex) {
-			Vertex vertex = (Vertex) getModel();
-			Graph parent = vertex.getParent();
+			final Vertex vertex = (Vertex) getModel();
+			final Graph parent = vertex.getParent();
 
 			// we get the *input* dependencies of vertex
-			Set<Edge> edges = parent.incomingEdgesOf(vertex);
+			final Set<Edge> edges = parent.incomingEdgesOf(vertex);
 
 			// dependencies
-			List dependencies = new ArrayList(edges);
+			final List dependencies = new ArrayList(edges);
 			return dependencies;
 		}
 
@@ -256,56 +250,54 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	}
 
 	@Override
-	public ConnectionAnchor getSourceConnectionAnchor(
-			ConnectionEditPart connection) {
-		VertexFigure figure = (VertexFigure) getFigure();
-		Edge edge = (Edge) connection.getModel();
-		Connection conn = (Connection) connection.getFigure();
+	public ConnectionAnchor getSourceConnectionAnchor(final ConnectionEditPart connection) {
+		final VertexFigure figure = (VertexFigure) getFigure();
+		final Edge edge = (Edge) connection.getModel();
+		final Connection conn = (Connection) connection.getFigure();
 		return figure.getSourceAnchor(edge, conn);
 	}
 
 	@Override
-	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-		VertexFigure figure = (VertexFigure) getFigure();
+	public ConnectionAnchor getSourceConnectionAnchor(final Request request) {
+		final VertexFigure figure = (VertexFigure) getFigure();
 		return figure.getSourceAnchor();
 	}
 
 	@Override
-	public ConnectionAnchor getTargetConnectionAnchor(
-			ConnectionEditPart connection) {
-		VertexFigure figure = (VertexFigure) getFigure();
-		Edge edge = (Edge) connection.getModel();
-		Connection conn = (Connection) connection.getFigure();
+	public ConnectionAnchor getTargetConnectionAnchor(final ConnectionEditPart connection) {
+		final VertexFigure figure = (VertexFigure) getFigure();
+		final Edge edge = (Edge) connection.getModel();
+		final Connection conn = (Connection) connection.getFigure();
 		return figure.getTargetAnchor(edge, conn);
 	}
 
 	@Override
-	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-		VertexFigure figure = (VertexFigure) getFigure();
+	public ConnectionAnchor getTargetConnectionAnchor(final Request request) {
+		final VertexFigure figure = (VertexFigure) getFigure();
 		return figure.getTargetAnchor();
 	}
 
 	@Override
-	public void performRequest(Request request) {
-		if (request.getType() == REQ_DIRECT_EDIT) {
-			if (directEditManager == null) {
-				VertexFigure figure = (VertexFigure) getFigure();
-				directEditManager = new VertexDirectEditManager(this, figure);
+	public void performRequest(final Request request) {
+		if (request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
+			if (this.directEditManager == null) {
+				final VertexFigure figure = (VertexFigure) getFigure();
+				this.directEditManager = new VertexDirectEditManager(this, figure);
 			}
-			directEditManager.show();
-		} else if (request.getType() == REQ_OPEN) {
-			Command command = getCommand(request);
-			if (command != null && command.canExecute()) {
+			this.directEditManager.show();
+		} else if (request.getType() == RequestConstants.REQ_OPEN) {
+			final Command command = getCommand(request);
+			if ((command != null) && command.canExecute()) {
 				command.execute();
 			}
 		}
 	}
 
 	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		String propertyName = evt.getPropertyName();
+	public void propertyChange(final PropertyChangeEvent evt) {
+		final String propertyName = evt.getPropertyName();
 		if (propertyName.equals(Vertex.PROPERTY_SIZE)) {
-			VertexFigure vertexFigure = (VertexFigure) getFigure();
+			final VertexFigure vertexFigure = (VertexFigure) getFigure();
 			vertexFigure.setBounds((Rectangle) evt.getNewValue());
 			refresh();
 		} else if (propertyName.equals(Vertex.PROPERTY_SRC_VERTEX)) {
@@ -323,18 +315,18 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 			}
 
 			// updates the figure size
-			Vertex vertex = (Vertex) getModel();
+			final Vertex vertex = (Vertex) getModel();
 			((VertexFigure) getFigure()).adjustSize();
-			Rectangle bounds = getFigure().getBounds().getCopy();
+			final Rectangle bounds = getFigure().getBounds().getCopy();
 			vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
 		}
 	}
 
 	@Override
 	protected void refreshVisuals() {
-		Vertex vertex = (Vertex) getModel();
+		final Vertex vertex = (Vertex) getModel();
 
-		VertexFigure figure = (VertexFigure) getFigure();
+		final VertexFigure figure = (VertexFigure) getFigure();
 		figure.setId((String) vertex.getValue(ObjectType.PARAMETER_ID));
 	}
 
@@ -344,28 +336,28 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	 * different figures, by setting their bounds.
 	 */
 	void updateFigures() {
-		Vertex vertex = (Vertex) getModel();
+		final Vertex vertex = (Vertex) getModel();
 		Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
 		if (bounds == null) {
 			bounds = getFigure().getBounds();
 		}
 
-		Rectangle newBounds = bounds.getCopy();
-		newBounds.x = node.x;
-		newBounds.y = node.y;
+		final Rectangle newBounds = bounds.getCopy();
+		newBounds.x = this.node.x;
+		newBounds.y = this.node.y;
 		vertex.setValue(Vertex.PROPERTY_SIZE, newBounds);
 
 		// Updates edges
-		for (Object connection : getSourceConnections()) {
+		for (final Object connection : getSourceConnections()) {
 			if (connection instanceof EdgeEditPart) {
-				EdgeEditPart part = (EdgeEditPart) connection;
+				final EdgeEditPart part = (EdgeEditPart) connection;
 				part.updateFigures();
 			}
 		}
 
-		for (Object connection : getTargetConnections()) {
+		for (final Object connection : getTargetConnections()) {
 			if (connection instanceof EdgeEditPart) {
-				EdgeEditPart part = (EdgeEditPart) connection;
+				final EdgeEditPart part = (EdgeEditPart) connection;
 				part.updateFigures();
 			}
 		}
@@ -375,25 +367,23 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements
 	 * Update the ports of the given figure. The figure has to be passed to the
 	 * function because updatePorts can be called by createFigure, and
 	 * getFigure() at this time returns null.
-	 * 
+	 *
 	 * @param fig
 	 */
-	private void updatePorts(IFigure fig) {
-		Vertex vertex = (Vertex) getModel();
-		VertexFigure figure = (VertexFigure) fig;
-		Graph parent = vertex.getParent();
+	private void updatePorts(final IFigure fig) {
+		final Vertex vertex = (Vertex) getModel();
+		final VertexFigure figure = (VertexFigure) fig;
+		final Graph parent = vertex.getParent();
 
 		figure.resetPorts();
 
-		for (Edge edge : parent.incomingEdgesOf(vertex)) {
-			String port = (String) edge
-					.getValue(ObjectType.PARAMETER_TARGET_PORT);
+		for (final Edge edge : parent.incomingEdgesOf(vertex)) {
+			final String port = (String) edge.getValue(ObjectType.PARAMETER_TARGET_PORT);
 			figure.addInputPort(port);
 		}
 
-		for (Edge edge : parent.outgoingEdgesOf(vertex)) {
-			String port = (String) edge
-					.getValue(ObjectType.PARAMETER_SOURCE_PORT);
+		for (final Edge edge : parent.outgoingEdgesOf(vertex)) {
+			final String port = (String) edge.getValue(ObjectType.PARAMETER_SOURCE_PORT);
 			figure.addOutputPort(port);
 		}
 

@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -47,21 +47,21 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * method, getReferencePoint, which clients call to get a reference point for
  * their connection anchor. There is one reference manager for each connection
  * anchor.
- * 
+ *
  * @author Matthieu Wipliez
- * 
+ *
  */
 public class PortAnchorReferenceManager {
 
-	private VertexFigure figure;
+	private final VertexFigure figure;
 
-	private boolean isOutput;
+	private final boolean isOutput;
 
-	private String portName;
+	private final String portName;
 
 	/**
 	 * Creates a new port anchor reference manager.
-	 * 
+	 *
 	 * @param figure
 	 *            The owning vertex figure.
 	 * @param portName
@@ -69,8 +69,7 @@ public class PortAnchorReferenceManager {
 	 * @param isOutput
 	 *            Whether the connection is input (false) or output (true).
 	 */
-	public PortAnchorReferenceManager(VertexFigure figure, String portName,
-			boolean isOutput) {
+	public PortAnchorReferenceManager(final VertexFigure figure, final String portName, final boolean isOutput) {
 		this.figure = figure;
 		this.portName = portName;
 		this.isOutput = isOutput;
@@ -80,41 +79,41 @@ public class PortAnchorReferenceManager {
 	 * Returns a reference point for the given connection anchor. It uses the
 	 * underlying vertex figure to retrieve the label associated with the port
 	 * name given at creation time.
-	 * 
+	 *
 	 * @param anchor
 	 *            An abstract {@link ConnectionAnchor}.
 	 * @return A reference {@link Point}.
 	 */
-	public Point getReferencePoint(AbstractConnectionAnchor anchor) {
-		if (portName == null || portName.isEmpty()) {
+	public Point getReferencePoint(final AbstractConnectionAnchor anchor) {
+		if ((this.portName == null) || this.portName.isEmpty()) {
 			return null;
 		} else {
 			Label label;
-			if (isOutput) {
-				label = figure.getOutputPortLabel(portName);
+			if (this.isOutput) {
+				label = this.figure.getOutputPortLabel(this.portName);
 				if (label == null) {
 					return null;
 				}
 
-				Rectangle bounds = label.getBounds();
-				int x = bounds.x + bounds.width + 5;
-				int y = bounds.y + bounds.height / 2;
+				final Rectangle bounds = label.getBounds();
+				final int x = bounds.x + bounds.width + 5;
+				final int y = bounds.y + (bounds.height / 2);
 
-				Point ref = new Point(x, y);
+				final Point ref = new Point(x, y);
 				label.translateToAbsolute(ref);
 
 				return ref;
 			} else {
-				label = figure.getInputPortLabel(portName);
+				label = this.figure.getInputPortLabel(this.portName);
 				if (label == null) {
 					return null;
 				}
 
-				Rectangle bounds = label.getBounds();
-				int x = bounds.x - 5;
-				int y = bounds.y + bounds.height / 2;
+				final Rectangle bounds = label.getBounds();
+				final int x = bounds.x - 5;
+				final int y = bounds.y + (bounds.height / 2);
 
-				Point ref = new Point(x, y);
+				final Point ref = new Point(x, y);
 				label.translateToAbsolute(ref);
 
 				return ref;

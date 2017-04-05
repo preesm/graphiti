@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -58,7 +58,7 @@ import org.ietr.dftools.graphiti.ui.editors.GraphEditor;
 
 /**
  * This class provides a save as graph wizard.
- * 
+ *
  * @author Matthieu Wipliez
  */
 public class SaveAsWizard extends Wizard implements INewWizard {
@@ -78,20 +78,20 @@ public class SaveAsWizard extends Wizard implements INewWizard {
 
 	@Override
 	public void addPages() {
-		IWizardPage page = new WizardGraphTypePage(selection);
+		IWizardPage page = new WizardGraphTypePage(this.selection);
 		page.setDescription("Save the graph with the chosen type.");
 		addPage(page);
 
-		addPage(new WizardConvertPage(selection));
+		addPage(new WizardConvertPage(this.selection));
 
 		// To improve user experience, the selection is the editor's input file.
 		IStructuredSelection selection = this.selection;
-		Object obj = selection.getFirstElement();
+		final Object obj = selection.getFirstElement();
 		if (obj instanceof GraphEditor) {
-			GraphEditor editor = (GraphEditor) obj;
-			IEditorInput input = editor.getEditorInput();
+			final GraphEditor editor = (GraphEditor) obj;
+			final IEditorInput input = editor.getEditorInput();
 			if (input instanceof IFileEditorInput) {
-				IFile file = ((IFileEditorInput) input).getFile();
+				final IFile file = ((IFileEditorInput) input).getFile();
 				selection = new StructuredSelection(file);
 			}
 		}
@@ -103,15 +103,15 @@ public class SaveAsWizard extends Wizard implements INewWizard {
 
 	/**
 	 * Returns the workbench which was passed to <code>init</code>.
-	 * 
+	 *
 	 * @return the workbench
 	 */
 	public IWorkbench getWorkbench() {
-		return workbench;
+		return this.workbench;
 	}
 
 	@Override
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
+	public void init(final IWorkbench workbench, final IStructuredSelection selection) {
 		this.selection = selection;
 		this.workbench = workbench;
 	}
@@ -122,34 +122,33 @@ public class SaveAsWizard extends Wizard implements INewWizard {
 		final WizardSaveGraphPage page = (WizardSaveGraphPage) getPage("saveGraph");
 		page.setGraph(convertPage.getGraph());
 
-		InputStream in = page.getInitialContents();
+		final InputStream in = page.getInitialContents();
 		if (in == null) {
 			return false;
 		}
 		try {
 			in.close();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// don't care because in is a byte array input stream
 		}
 
-		IFile file = page.createNewFile();
+		final IFile file = page.createNewFile();
 		if (file == null) {
 			return false;
 		}
 
 		// Open editor on new file.
-		IWorkbenchWindow dw = getWorkbench().getActiveWorkbenchWindow();
+		final IWorkbenchWindow dw = getWorkbench().getActiveWorkbenchWindow();
 		try {
 			if (dw != null) {
 				BasicNewResourceWizard.selectAndReveal(file, dw);
-				IWorkbenchPage activePage = dw.getActivePage();
+				final IWorkbenchPage activePage = dw.getActivePage();
 				if (activePage != null) {
 					IDE.openEditor(activePage, file, true);
 				}
 			}
-		} catch (PartInitException e) {
-			MessageDialog.openError(dw.getShell(), "Problem opening editor", e
-					.getMessage());
+		} catch (final PartInitException e) {
+			MessageDialog.openError(dw.getShell(), "Problem opening editor", e.getMessage());
 		}
 
 		return true;

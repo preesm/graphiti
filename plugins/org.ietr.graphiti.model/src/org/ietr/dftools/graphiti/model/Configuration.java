@@ -9,16 +9,16 @@
  * functionalities and technical features of your software].
  *
  * This software is governed by the CeCILL  license under French law and
- * abiding by the rules of distribution of free software.  You can  use, 
+ * abiding by the rules of distribution of free software.  You can  use,
  * modify and/ or redistribute the software under the terms of the CeCILL
  * license as circulated by CEA, CNRS and INRIA at the following URL
- * "http://www.cecill.info". 
+ * "http://www.cecill.info".
  *
  * As a counterpart to the access to the source code and  rights to copy,
  * modify and redistribute granted by the license, users are provided only
  * with a limited warranty  and the software's author,  the holder of the
  * economic rights,  and the successive licensors  have only  limited
- * liability. 
+ * liability.
  *
  * In this respect, the user's attention is drawn to the risks associated
  * with loading,  using,  modifying and/or developing or reproducing the
@@ -27,9 +27,9 @@
  * therefore means  that it is reserved for developers  and  experienced
  * professionals having in-depth computer knowledge. Users are therefore
  * encouraged to load and test the software's suitability as regards their
- * requirements in conditions enabling the security of their systems and/or 
- * data to be ensured and,  more generally, to use and operate it in the 
- * same conditions as regards security. 
+ * requirements in conditions enabling the security of their systems and/or
+ * data to be ensured and,  more generally, to use and operate it in the
+ * same conditions as regards security.
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
@@ -53,33 +53,33 @@ import java.util.TreeSet;
  * Parameters are specified for each instance of graph/vertex/edge. Examples of
  * parameters are position or id.
  * </p>
- * 
+ *
  * @author Matthieu Wipliez
- * 
+ *
  */
 public class Configuration {
 
-	private String contributorId;
+	private final String contributorId;
 
 	/**
 	 * A edge type name -> edge type object map.
 	 */
-	private Map<String, ObjectType> edgeTypes;
+	private final Map<String, ObjectType> edgeTypes;
 
 	/**
 	 * The file format associated with this configuration.
 	 */
-	private FileFormat fileFormat;
+	private final FileFormat fileFormat;
 
 	/**
 	 * A graph type name -> graph type object map.
 	 */
-	private Map<String, ObjectType> graphTypes;
+	private final Map<String, ObjectType> graphTypes;
 
 	/**
 	 * The configuration absolute file name.
 	 */
-	private String name;
+	private final String name;
 
 	/**
 	 * The refinement policy.
@@ -89,16 +89,16 @@ public class Configuration {
 	/**
 	 * The validator called when the graph is about to be saved.
 	 */
-	private IValidator validator;
+	private final IValidator validator;
 
 	/**
 	 * A vertex type name -> vertex type object map.
 	 */
-	private Map<String, ObjectType> vertexTypes;
+	private final Map<String, ObjectType> vertexTypes;
 
 	/**
 	 * Creates a new document configuration.
-	 * 
+	 *
 	 * @param name
 	 *            the name of this configuration
 	 * @param contributorId
@@ -116,18 +116,15 @@ public class Configuration {
 	 * @param validator
 	 *            the validator
 	 */
-	public Configuration(String name, String contributorId,
-			FileFormat fileFormat, Map<String, ObjectType> graphTypes,
-			Map<String, ObjectType> vertexTypes,
-			Map<String, ObjectType> edgeTypes, IValidator validator,
-			IRefinementPolicy policy) {
+	public Configuration(final String name, final String contributorId, final FileFormat fileFormat, final Map<String, ObjectType> graphTypes,
+			final Map<String, ObjectType> vertexTypes, final Map<String, ObjectType> edgeTypes, final IValidator validator, final IRefinementPolicy policy) {
 		this.contributorId = contributorId;
 		this.edgeTypes = edgeTypes;
 		this.fileFormat = fileFormat;
 		this.name = name;
 		this.graphTypes = graphTypes;
 		if (policy == null) {
-			refinementPolicy = new DefaultRefinementPolicy();
+			this.refinementPolicy = new DefaultRefinementPolicy();
 		} else {
 			this.refinementPolicy = policy;
 		}
@@ -137,112 +134,112 @@ public class Configuration {
 
 	/**
 	 * Returns the identifier of the contributor of this configuration.
-	 * 
+	 *
 	 * @return the identifier of the contributor of this configuration
 	 */
 	public String getContributorId() {
-		return contributorId;
+		return this.contributorId;
 	}
 
 	/**
 	 * Returns the edge type whose name matches the given name.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the edge type we're looking for.
 	 * @return The relevant edge type.
 	 */
-	public ObjectType getEdgeType(String name) {
-		return edgeTypes.get(name);
+	public ObjectType getEdgeType(final String name) {
+		return this.edgeTypes.get(name);
 	}
 
 	/**
 	 * Returns the edge types.
-	 * 
+	 *
 	 * @return A set of edge types.
 	 */
 	public Set<ObjectType> getEdgeTypes() {
-		return new TreeSet<ObjectType>(edgeTypes.values());
+		return new TreeSet<>(this.edgeTypes.values());
 	}
 
 	/**
 	 * Returns the file format associated with this configuration.
-	 * 
+	 *
 	 * @return A {@link FileFormat} associated with this configuration.
 	 */
 	public FileFormat getFileFormat() {
-		return fileFormat;
+		return this.fileFormat;
 	}
 
 	/**
 	 * Returns the graph type whose name matches the given name.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the graph type we're looking for.
 	 * @return The relevant graph type.
 	 */
-	public ObjectType getGraphType(String name) {
-		return graphTypes.get(name);
+	public ObjectType getGraphType(final String name) {
+		return this.graphTypes.get(name);
 	}
 
 	/**
 	 * Returns the graph types.
-	 * 
+	 *
 	 * @return A set of graph types.
 	 */
 	public Set<ObjectType> getGraphTypes() {
-		return new TreeSet<ObjectType>(graphTypes.values());
+		return new TreeSet<>(this.graphTypes.values());
 	}
 
 	/**
 	 * Returns the name of this configuration.
-	 * 
+	 *
 	 * @return the name of this configuration
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	/**
 	 * Returns the refinement policy for this configuration.
-	 * 
+	 *
 	 * @return the refinement policy for this configuration.
 	 */
 	public IRefinementPolicy getRefinementPolicy() {
-		return refinementPolicy;
+		return this.refinementPolicy;
 	}
 
 	/**
 	 * Returns the validator for this configuration.
-	 * 
+	 *
 	 * @return the validator for this configuration.
 	 */
 	public IValidator getValidator() {
-		return validator;
+		return this.validator;
 	}
 
 	/**
 	 * Returns the vertex type whose name matches the given name.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the vertex type we're looking for.
 	 * @return The relevant vertex type.
 	 */
-	public ObjectType getVertexType(String name) {
-		return vertexTypes.get(name);
+	public ObjectType getVertexType(final String name) {
+		return this.vertexTypes.get(name);
 	}
 
 	/**
 	 * Returns the vertex types.
-	 * 
+	 *
 	 * @return A set of vertex types.
 	 */
 	public Set<ObjectType> getVertexTypes() {
-		return new TreeSet<ObjectType>(vertexTypes.values());
+		return new TreeSet<>(this.vertexTypes.values());
 	}
 
 	@Override
 	public String toString() {
-		return "[" + name + "] " + fileFormat;
+		return "[" + this.name + "] " + this.fileFormat;
 	}
 
 }
