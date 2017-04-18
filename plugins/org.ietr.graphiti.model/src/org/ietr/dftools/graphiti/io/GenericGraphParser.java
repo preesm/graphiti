@@ -44,7 +44,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.ietr.dftools.graphiti.model.AbstractObject;
@@ -59,350 +58,345 @@ import org.ietr.dftools.graphiti.model.Vertex;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class provides a generic graph parser. Generic means that it can parse
- * any format (text-based or XML-based) that contains a graph.
+ * This class provides a generic graph parser. Generic means that it can parse any format (text-based or XML-based) that contains a graph.
  *
  * @author Matthieu Wipliez
  *
  */
 public class GenericGraphParser {
 
-	private final Collection<Configuration> configurations;
+  /** The configurations. */
+  private final Collection<Configuration> configurations;
 
-	/**
-	 * Creates a new parser using the given configuration list.
-	 *
-	 * @param configurations
-	 *            A {@link List} of {@link Configuration}s.
-	 */
-	public GenericGraphParser(final Collection<Configuration> configurations) {
-		this.configurations = configurations;
-	}
+  /**
+   * Creates a new parser using the given configuration list.
+   *
+   * @param configurations
+   *          A {@link List} of {@link Configuration}s.
+   */
+  public GenericGraphParser(final Collection<Configuration> configurations) {
+    this.configurations = configurations;
+  }
 
-	/**
-	 * Checks that every vertex in <code>graph</code> has layout information. If
-	 * it is the case, the {@link Graph#PROPERTY_HAS_LAYOUT} is set to
-	 * <code>true</code>. Otherwise it is set to false.
-	 *
-	 * @param graph
-	 */
-	private void checkLayout(final Graph graph) {
-		final Set<Vertex> vertices = graph.vertexSet();
-		for (final Vertex vertex : vertices) {
-			if (vertex.getValue(Vertex.PROPERTY_SIZE) == null) {
-				graph.setValue(Graph.PROPERTY_HAS_LAYOUT, Boolean.FALSE);
-				return;
-			}
-		}
+  /**
+   * Checks that every vertex in <code>graph</code> has layout information. If it is the case, the {@link Graph#PROPERTY_HAS_LAYOUT} is set to
+   * <code>true</code>. Otherwise it is set to false.
+   *
+   * @param graph
+   *          the graph
+   */
+  private void checkLayout(final Graph graph) {
+    final Set<Vertex> vertices = graph.vertexSet();
+    for (final Vertex vertex : vertices) {
+      if (vertex.getValue(Vertex.PROPERTY_SIZE) == null) {
+        graph.setValue(Graph.PROPERTY_HAS_LAYOUT, Boolean.FALSE);
+        return;
+      }
+    }
 
-		graph.setValue(Graph.PROPERTY_HAS_LAYOUT, Boolean.TRUE);
-	}
+    graph.setValue(Graph.PROPERTY_HAS_LAYOUT, Boolean.TRUE);
+  }
 
-	/**
-	 * With a given configuration and file format, try to parse the file
-	 * contents given as a byte input stream.
-	 *
-	 * @param configuration
-	 *            A supposedly valid configuration for the given contents.
-	 * @param path
-	 *            The file absolute path.
-	 * @param in
-	 *            The contents.
-	 * @return A {@link Graph} if successful.
-	 * @throws Exception
-	 */
-	private Graph parse(final Configuration configuration, final IFile file) throws Exception {
-		final FileFormat format = configuration.getFileFormat();
-		final List<Transformation> transformations = format.getImportTransformations();
-		Element element = null;
-		if (transformations.isEmpty()) {
-			final InputStream in = file.getContents();
-			element = DomHelper.parse(in).getDocumentElement();
-		} else {
-			for (final Transformation transformation : transformations) {
-				if (transformation.isXslt()) {
-					// fills the element from the input stream
-					if (element == null) {
-						final InputStream in = file.getContents();
-						element = DomHelper.parse(in).getDocumentElement();
-					}
+  /**
+   * With a given configuration and file format, try to parse the file contents given as a byte input stream.
+   *
+   * @param configuration
+   *          A supposedly valid configuration for the given contents.
+   * @param file
+   *          the file
+   * @return A {@link Graph} if successful.
+   * @throws Exception
+   *           the exception
+   */
+  private Graph parse(final Configuration configuration, final IFile file) throws Exception {
+    final FileFormat format = configuration.getFileFormat();
+    final List<Transformation> transformations = format.getImportTransformations();
+    Element element = null;
+    if (transformations.isEmpty()) {
+      final InputStream in = file.getContents();
+      element = DomHelper.parse(in).getDocumentElement();
+    } else {
+      for (final Transformation transformation : transformations) {
+        if (transformation.isXslt()) {
+          // fills the element from the input stream
+          if (element == null) {
+            final InputStream in = file.getContents();
+            element = DomHelper.parse(in).getDocumentElement();
+          }
 
-					final XsltTransformer transformer = new XsltTransformer(configuration.getContributorId(), transformation.getFileName());
-					transformer.setParameter("path", file.getLocation().toString());
-					element = transformer.transformDomToDom(element);
-				} else {
-					final ITransformation tr = transformation.getInstance();
-					return tr.transform(file);
-				}
-			}
-		}
+          final XsltTransformer transformer = new XsltTransformer(configuration.getContributorId(), transformation.getFileName());
+          transformer.setParameter("path", file.getLocation().toString());
+          element = transformer.transformDomToDom(element);
+        } else {
+          final ITransformation tr = transformation.getInstance();
+          return tr.transform(file);
+        }
+      }
+    }
 
-		return parseGraph(configuration, element);
-	}
+    return parseGraph(configuration, element);
+  }
 
-	/**
-	 * Parses the given {@link IFile} and returns a graph. The file is parsed as
-	 * follows:
-	 * <ol>
-	 * <li>Iterate through the configurations.</li>
-	 * <li>In each configuration, for each file format matching the file
-	 * extension, try to parse the file with the given configuration.</li>
-	 * <li>If parsing fails, go to step 2.</li>
-	 * </ol>
-	 *
-	 * @param file
-	 * @return
-	 * @throws IncompatibleConfigurationFile
-	 */
-	public Graph parse(final IFile file) throws IncompatibleConfigurationFile {
-		// finds all suitable configurations
-		final String fileExt = file.getFileExtension();
-		final List<Configuration> configurations = new ArrayList<>();
-		for (final Configuration configuration : this.configurations) {
-			final FileFormat format = configuration.getFileFormat();
-			if (format.getFileExtension().equals(fileExt)) {
-				configurations.add(configuration);
-			}
-		}
+  /**
+   * Parses the given {@link IFile} and returns a graph. The file is parsed as follows:
+   * <ol>
+   * <li>Iterate through the configurations.</li>
+   * <li>In each configuration, for each file format matching the file extension, try to parse the file with the given configuration.</li>
+   * <li>If parsing fails, go to step 2.</li>
+   * </ol>
+   *
+   * @param file
+   *          the file
+   * @return the graph
+   * @throws IncompatibleConfigurationFile
+   *           the incompatible configuration file
+   */
+  public Graph parse(final IFile file) throws IncompatibleConfigurationFile {
+    // finds all suitable configurations
+    final String fileExt = file.getFileExtension();
+    final List<Configuration> configurations = new ArrayList<>();
+    for (final Configuration configuration : this.configurations) {
+      final FileFormat format = configuration.getFileFormat();
+      if (format.getFileExtension().equals(fileExt)) {
+        configurations.add(configuration);
+      }
+    }
 
-		Configuration configuration;
-		if (configurations.isEmpty()) {
-			throw new IncompatibleConfigurationFile("No configuration could parse the file" + file.getFullPath());
-		} else if (configurations.size() == 1) {
-			configuration = configurations.get(0);
-		} else {
-			throw new IncompatibleConfigurationFile("Many configurations could parse the file");
-		}
+    Configuration configuration;
+    if (configurations.isEmpty()) {
+      throw new IncompatibleConfigurationFile("No configuration could parse the file" + file.getFullPath());
+    } else if (configurations.size() == 1) {
+      configuration = configurations.get(0);
+    } else {
+      throw new IncompatibleConfigurationFile("Many configurations could parse the file");
+    }
 
-		// parse with the configuration
-		try {
-			final Graph graph = parse(configuration, file);
-			graph.setFileName(file.getFullPath());
-			return graph;
-		} catch (final Throwable e) {
-			throw new IncompatibleConfigurationFile("The file could not be parsed with the matching configuration", e);
-		}
-	}
+    // parse with the configuration
+    try {
+      final Graph graph = parse(configuration, file);
+      graph.setFileName(file.getFullPath());
+      return graph;
+    } catch (final Throwable e) {
+      throw new IncompatibleConfigurationFile("The file could not be parsed with the matching configuration", e);
+    }
+  }
 
-	/**
-	 * Parses the edges.
-	 *
-	 * @param graph
-	 *            The graph to add edges to.
-	 * @param node
-	 *            A child node of &lt;graph&gt;.
-	 * @return The node following &lt;edges&gt;.
-	 * @throws TransformedDocumentParseError
-	 *             If the edges could not be parsed.
-	 */
-	private Node parseEdges(final Graph graph, Node node) throws TransformedDocumentParseError {
-		final Configuration configuration = graph.getConfiguration();
-		node = DomHelper.getFirstSiblingNamed(node, "edges");
-		Node child = node.getFirstChild();
-		while (child != null) {
-			if (child.getNodeName().equals("edge")) {
-				final Element element = (Element) child;
+  /**
+   * Parses the edges.
+   *
+   * @param graph
+   *          The graph to add edges to.
+   * @param node
+   *          A child node of &lt;graph&gt;.
+   * @return The node following &lt;edges&gt;.
+   * @throws TransformedDocumentParseError
+   *           If the edges could not be parsed.
+   */
+  private Node parseEdges(final Graph graph, Node node) throws TransformedDocumentParseError {
+    final Configuration configuration = graph.getConfiguration();
+    node = DomHelper.getFirstSiblingNamed(node, "edges");
+    Node child = node.getFirstChild();
+    while (child != null) {
+      if (child.getNodeName().equals("edge")) {
+        final Element element = (Element) child;
 
-				final String typeName = element.getAttribute("type");
-				final ObjectType type = configuration.getEdgeType(typeName);
+        final String typeName = element.getAttribute("type");
+        final ObjectType type = configuration.getEdgeType(typeName);
 
-				final String sourceId = element.getAttribute("source");
-				final Vertex source = graph.findVertex(sourceId);
+        final String sourceId = element.getAttribute("source");
+        final Vertex source = graph.findVertex(sourceId);
 
-				final String targetId = element.getAttribute("target");
-				final Vertex target = graph.findVertex(targetId);
+        final String targetId = element.getAttribute("target");
+        final Vertex target = graph.findVertex(targetId);
 
-				if ((source == null) && (target == null)) {
-					throw new TransformedDocumentParseError(
-							"In the edge \"" + sourceId + "\" -> \"" + targetId + "\", \"" + sourceId + "\" nor \"" + targetId + "\" could not be found.");
-				} else if (source == null) {
-					throw new TransformedDocumentParseError(
-							"In the edge \"" + sourceId + "\" -> \"" + targetId + "\", the source vertex \"" + sourceId + "\" could not be found.");
-				} else if (target == null) {
-					throw new TransformedDocumentParseError(
-							"In the edge \"" + sourceId + "\" -> \"" + targetId + "\", the target vertex \"" + targetId + "\" could not be found.");
-				}
+        if ((source == null) && (target == null)) {
+          throw new TransformedDocumentParseError(
+              "In the edge \"" + sourceId + "\" -> \"" + targetId + "\", \"" + sourceId + "\" nor \"" + targetId + "\" could not be found.");
+        } else if (source == null) {
+          throw new TransformedDocumentParseError(
+              "In the edge \"" + sourceId + "\" -> \"" + targetId + "\", the source vertex \"" + sourceId + "\" could not be found.");
+        } else if (target == null) {
+          throw new TransformedDocumentParseError(
+              "In the edge \"" + sourceId + "\" -> \"" + targetId + "\", the target vertex \"" + targetId + "\" could not be found.");
+        }
 
-				final Edge edge = new Edge(type, source, target);
-				parseParameters(edge, type, child.getFirstChild());
-				graph.addEdge(edge);
-			}
+        final Edge edge = new Edge(type, source, target);
+        parseParameters(edge, type, child.getFirstChild());
+        graph.addEdge(edge);
+      }
 
-			child = child.getNextSibling();
-		}
+      child = child.getNextSibling();
+    }
 
-		return node.getNextSibling();
-	}
+    return node.getNextSibling();
+  }
 
-	/**
-	 * Parses the graph.
-	 *
-	 * @param configuration
-	 *            The configuration to create a graph with.
-	 * @param element
-	 *            The &lt;graph&gt; element.
-	 * @return A newly-created graph with the given configuration.
-	 * @throws TransformedDocumentParseError
-	 *             If <code>element</code> cannot be parsed.
-	 */
-	private Graph parseGraph(final Configuration configuration, final Element element) throws TransformedDocumentParseError {
-		final String typeName = element.getAttribute("type");
-		final ObjectType type = configuration.getGraphType(typeName);
-		final Graph graph = new Graph(configuration, type, true);
+  /**
+   * Parses the graph.
+   *
+   * @param configuration
+   *          The configuration to create a graph with.
+   * @param element
+   *          The &lt;graph&gt; element.
+   * @return A newly-created graph with the given configuration.
+   * @throws TransformedDocumentParseError
+   *           If <code>element</code> cannot be parsed.
+   */
+  private Graph parseGraph(final Configuration configuration, final Element element) throws TransformedDocumentParseError {
+    final String typeName = element.getAttribute("type");
+    final ObjectType type = configuration.getGraphType(typeName);
+    final Graph graph = new Graph(configuration, type, true);
 
-		// parse different sections
-		Node node = element.getFirstChild();
-		node = parseParameters(graph, type, node);
-		node = parseVertices(graph, node);
-		node = parseEdges(graph, node);
+    // parse different sections
+    Node node = element.getFirstChild();
+    node = parseParameters(graph, type, node);
+    node = parseVertices(graph, node);
+    node = parseEdges(graph, node);
 
-		checkLayout(graph);
+    checkLayout(graph);
 
-		return graph;
-	}
+    return graph;
+  }
 
-	/**
-	 * Parses a parameter.
-	 *
-	 * @param parameter
-	 *            The parameter we got from the configuration.
-	 * @param child
-	 *            The &lt;parameter&gt; element.
-	 * @return An object, either a {@link List}, a {@link Map}, an
-	 *         {@link Integer}, a {@link Float}, a {@link Boolean}, or a
-	 *         {@link String}. May be <code>null</code> if there are no
-	 *         elements/entries and the parameter is a list/map, or if the value
-	 *         field is absent or empty, and the parameter is a scalar.
-	 */
-	private Object parseParameter(final Parameter parameter, final Element child) {
-		final Class<?> parameterType = parameter.getType();
-		if (parameterType == List.class) {
-			final List<String> list = new ArrayList<>();
-			Node element = child.getFirstChild();
-			if (element == null) {
-				return null;
-			}
+  /**
+   * Parses a parameter.
+   *
+   * @param parameter
+   *          The parameter we got from the configuration.
+   * @param child
+   *          The &lt;parameter&gt; element.
+   * @return An object, either a {@link List}, a {@link Map}, an {@link Integer}, a {@link Float}, a {@link Boolean}, or a {@link String}. May be
+   *         <code>null</code> if there are no elements/entries and the parameter is a list/map, or if the value field is absent or empty, and the parameter is
+   *         a scalar.
+   */
+  private Object parseParameter(final Parameter parameter, final Element child) {
+    final Class<?> parameterType = parameter.getType();
+    if (parameterType == List.class) {
+      final List<String> list = new ArrayList<>();
+      Node element = child.getFirstChild();
+      if (element == null) {
+        return null;
+      }
 
-			while (element != null) {
-				if (element.getNodeName().equals("element")) {
-					final String eltValue = ((Element) element).getAttribute("value");
-					list.add(eltValue);
-				}
+      while (element != null) {
+        if (element.getNodeName().equals("element")) {
+          final String eltValue = ((Element) element).getAttribute("value");
+          list.add(eltValue);
+        }
 
-				element = element.getNextSibling();
-			}
+        element = element.getNextSibling();
+      }
 
-			return list;
-		} else if (parameterType == Map.class) {
-			final Map<String, String> map = new TreeMap<>();
-			Node element = child.getFirstChild();
-			if (element == null) {
-				return null;
-			}
+      return list;
+    } else if (parameterType == Map.class) {
+      final Map<String, String> map = new TreeMap<>();
+      Node element = child.getFirstChild();
+      if (element == null) {
+        return null;
+      }
 
-			while (element != null) {
-				if (element.getNodeName().equals("entry")) {
-					final String key = ((Element) element).getAttribute("key");
-					final String value = ((Element) element).getAttribute("value");
-					map.put(key, value);
-				}
+      while (element != null) {
+        if (element.getNodeName().equals("entry")) {
+          final String key = ((Element) element).getAttribute("key");
+          final String value = ((Element) element).getAttribute("value");
+          map.put(key, value);
+        }
 
-				element = element.getNextSibling();
-			}
+        element = element.getNextSibling();
+      }
 
-			return map;
-		} else {
-			final Element element = child;
-			final String value = element.getAttribute("value");
-			if (!element.hasAttribute("value") || value.isEmpty()) {
-				return null;
-			} else {
-				if (parameterType == Integer.class) {
-					return Integer.valueOf(value);
-				} else if (parameterType == Float.class) {
-					return Float.valueOf(value);
-				} else if (parameterType == Boolean.class) {
-					return Boolean.valueOf(value);
-				} else if (parameterType == String.class) {
-					return value;
-				} else {
-					return value;
-				}
-			}
-		}
-	}
+      return map;
+    } else {
+      final Element element = child;
+      final String value = element.getAttribute("value");
+      if (!element.hasAttribute("value") || value.isEmpty()) {
+        return null;
+      } else {
+        if (parameterType == Integer.class) {
+          return Integer.valueOf(value);
+        } else if (parameterType == Float.class) {
+          return Float.valueOf(value);
+        } else if (parameterType == Boolean.class) {
+          return Boolean.valueOf(value);
+        } else if (parameterType == String.class) {
+          return value;
+        } else {
+          return value;
+        }
+      }
+    }
+  }
 
-	/**
-	 * Parses the parameters and set the properties of the given
-	 * <code>propertyBean</code>, that has the given type.
-	 *
-	 * @param abstractObject
-	 *            The target property bean.
-	 * @param type
-	 *            The type of <code>propertyBean</code>.
-	 * @param node
-	 *            A previous sibling of &lt;parameters&gt;, or
-	 *            &lt;parameters&gt; itself.
-	 * @return The node following &lt;parameters&gt;.
-	 */
-	private Node parseParameters(final AbstractObject abstractObject, final ObjectType type, Node node) {
-		node = DomHelper.getFirstSiblingNamed(node, "parameters");
+  /**
+   * Parses the parameters and set the properties of the given <code>propertyBean</code>, that has the given type.
+   *
+   * @param abstractObject
+   *          The target property bean.
+   * @param type
+   *          The type of <code>propertyBean</code>.
+   * @param node
+   *          A previous sibling of &lt;parameters&gt;, or &lt;parameters&gt; itself.
+   * @return The node following &lt;parameters&gt;.
+   */
+  private Node parseParameters(final AbstractObject abstractObject, final ObjectType type, Node node) {
+    node = DomHelper.getFirstSiblingNamed(node, "parameters");
 
-		Node child = node.getFirstChild();
-		while (child != null) {
-			if (child.getNodeName().equals("parameter")) {
-				final Element element = ((Element) child);
-				final String parameterName = element.getAttribute("name");
-				final Parameter parameter = type.getParameter(parameterName);
-				final Object value = parseParameter(parameter, element);
-				if (value != null) {
-					abstractObject.setValue(parameterName, value);
-				}
-			}
+    Node child = node.getFirstChild();
+    while (child != null) {
+      if (child.getNodeName().equals("parameter")) {
+        final Element element = ((Element) child);
+        final String parameterName = element.getAttribute("name");
+        final Parameter parameter = type.getParameter(parameterName);
+        final Object value = parseParameter(parameter, element);
+        if (value != null) {
+          abstractObject.setValue(parameterName, value);
+        }
+      }
 
-			child = child.getNextSibling();
-		}
+      child = child.getNextSibling();
+    }
 
-		return node.getNextSibling();
-	}
+    return node.getNextSibling();
+  }
 
-	/**
-	 * Parses the vertices.
-	 *
-	 * @param graph
-	 *            The graph to add vertices to.
-	 * @param node
-	 *            A child node of &lt;graph&gt;.
-	 * @return The node following &lt;vertices&gt;.
-	 */
-	private Node parseVertices(final Graph graph, Node node) {
-		final Configuration configuration = graph.getConfiguration();
-		node = DomHelper.getFirstSiblingNamed(node, "vertices");
-		Node child = node.getFirstChild();
-		while (child != null) {
-			if (child.getNodeName().equals("vertex")) {
-				final String typeName = ((Element) child).getAttribute("type");
-				final ObjectType type = configuration.getVertexType(typeName);
-				final Vertex vertex = new Vertex(type);
+  /**
+   * Parses the vertices.
+   *
+   * @param graph
+   *          The graph to add vertices to.
+   * @param node
+   *          A child node of &lt;graph&gt;.
+   * @return The node following &lt;vertices&gt;.
+   */
+  private Node parseVertices(final Graph graph, Node node) {
+    final Configuration configuration = graph.getConfiguration();
+    node = DomHelper.getFirstSiblingNamed(node, "vertices");
+    Node child = node.getFirstChild();
+    while (child != null) {
+      if (child.getNodeName().equals("vertex")) {
+        final String typeName = ((Element) child).getAttribute("type");
+        final ObjectType type = configuration.getVertexType(typeName);
+        final Vertex vertex = new Vertex(type);
 
-				// set layout information if present
-				final String xAttr = ((Element) child).getAttribute("x");
-				final String yAttr = ((Element) child).getAttribute("y");
-				if (!xAttr.isEmpty() && !yAttr.isEmpty()) {
-					final int x = Integer.parseInt(xAttr);
-					final int y = Integer.parseInt(yAttr);
-					vertex.setValue(Vertex.PROPERTY_SIZE, new Rectangle(x, y, 0, 0));
-				}
+        // set layout information if present
+        final String xAttr = ((Element) child).getAttribute("x");
+        final String yAttr = ((Element) child).getAttribute("y");
+        if (!xAttr.isEmpty() && !yAttr.isEmpty()) {
+          final int x = Integer.parseInt(xAttr);
+          final int y = Integer.parseInt(yAttr);
+          vertex.setValue(Vertex.PROPERTY_SIZE, new Rectangle(x, y, 0, 0));
+        }
 
-				parseParameters(vertex, type, child.getFirstChild());
-				graph.addVertex(vertex);
-			}
+        parseParameters(vertex, type, child.getFirstChild());
+        graph.addVertex(vertex);
+      }
 
-			child = child.getNextSibling();
-		}
+      child = child.getNextSibling();
+    }
 
-		return node.getNextSibling();
-	}
+    return node.getNextSibling();
+  }
 
 }

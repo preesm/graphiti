@@ -49,15 +49,13 @@ import org.ietr.dftools.graphiti.ui.commands.EdgeReconnectCommand;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 import org.ietr.dftools.graphiti.ui.figure.EdgeFigure;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class provides methods that deal with creations and connections of
- * dependencies. When the user clicks a source port, the method
- * <code>getConnectionCreateCommand</code> is first called. When they click the
- * destination port, <code>getConnectionCompleteCommand</code> is called.
+ * This class provides methods that deal with creations and connections of dependencies. When the user clicks a source port, the method
+ * <code>getConnectionCreateCommand</code> is first called. When they click the destination port, <code>getConnectionCompleteCommand</code> is called.
  *
- * <code>getReconnectSourceCommand</code> and
- * <code>getReconnectTargetCommand</code> are called when the user reconnects
- * one end of a dependency (they have previously disconnected).
+ * <code>getReconnectSourceCommand</code> and <code>getReconnectTargetCommand</code> are called when the user reconnects one end of a dependency (they have
+ * previously disconnected).
  *
  * @author Samuel Beaussier
  * @author Nicolas Isch
@@ -65,45 +63,70 @@ import org.ietr.dftools.graphiti.ui.figure.EdgeFigure;
  */
 public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
-	@Override
-	protected Connection createDummyConnection(final Request req) {
-		final Object obj = ((CreateConnectionRequest) req).getNewObject();
-		final EdgeFigure conn = new EdgeFigure((Edge) obj);
-		return conn;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#createDummyConnection(org.eclipse.gef.Request)
+   */
+  @Override
+  protected Connection createDummyConnection(final Request req) {
+    final Object obj = ((CreateConnectionRequest) req).getNewObject();
+    final EdgeFigure conn = new EdgeFigure((Edge) obj);
+    return conn;
+  }
 
-	@Override
-	protected Command getConnectionCompleteCommand(final CreateConnectionRequest request) {
-		final EdgeCreateCommand command = (EdgeCreateCommand) request.getStartCommand();
-		final VertexEditPart vertexEditPart = (VertexEditPart) request.getTargetEditPart();
-		command.setTarget((Vertex) (vertexEditPart.getModel()));
-		return command;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCompleteCommand(org.eclipse.gef.requests.CreateConnectionRequest)
+   */
+  @Override
+  protected Command getConnectionCompleteCommand(final CreateConnectionRequest request) {
+    final EdgeCreateCommand command = (EdgeCreateCommand) request.getStartCommand();
+    final VertexEditPart vertexEditPart = (VertexEditPart) request.getTargetEditPart();
+    command.setTarget((Vertex) (vertexEditPart.getModel()));
+    return command;
+  }
 
-	@Override
-	protected Command getConnectionCreateCommand(final CreateConnectionRequest request) {
-		final EdgeCreateCommand command = new EdgeCreateCommand((Edge) request.getNewObject());
-		final VertexEditPart vertexEditPart = (VertexEditPart) request.getTargetEditPart();
-		command.setSource((Vertex) (vertexEditPart.getModel()));
-		request.setStartCommand(command);
-		return command;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.CreateConnectionRequest)
+   */
+  @Override
+  protected Command getConnectionCreateCommand(final CreateConnectionRequest request) {
+    final EdgeCreateCommand command = new EdgeCreateCommand((Edge) request.getNewObject());
+    final VertexEditPart vertexEditPart = (VertexEditPart) request.getTargetEditPart();
+    command.setSource((Vertex) (vertexEditPart.getModel()));
+    request.setStartCommand(command);
+    return command;
+  }
 
-	@Override
-	protected Command getReconnectSourceCommand(final ReconnectRequest request) {
-		final EdgeReconnectCommand command = new EdgeReconnectCommand();
-		command.setOriginalEdge((Edge) request.getConnectionEditPart().getModel());
-		final VertexEditPart vertexEditPart = (VertexEditPart) getHost();
-		command.setSource((Vertex) vertexEditPart.getModel());
-		return command;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectSourceCommand(org.eclipse.gef.requests.ReconnectRequest)
+   */
+  @Override
+  protected Command getReconnectSourceCommand(final ReconnectRequest request) {
+    final EdgeReconnectCommand command = new EdgeReconnectCommand();
+    command.setOriginalEdge((Edge) request.getConnectionEditPart().getModel());
+    final VertexEditPart vertexEditPart = (VertexEditPart) getHost();
+    command.setSource((Vertex) vertexEditPart.getModel());
+    return command;
+  }
 
-	@Override
-	protected Command getReconnectTargetCommand(final ReconnectRequest request) {
-		final EdgeReconnectCommand command = new EdgeReconnectCommand();
-		command.setOriginalEdge((Edge) request.getConnectionEditPart().getModel());
-		final VertexEditPart vertexEditPart = (VertexEditPart) getHost();
-		command.setTarget((Vertex) vertexEditPart.getModel());
-		return command;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectTargetCommand(org.eclipse.gef.requests.ReconnectRequest)
+   */
+  @Override
+  protected Command getReconnectTargetCommand(final ReconnectRequest request) {
+    final EdgeReconnectCommand command = new EdgeReconnectCommand();
+    command.setOriginalEdge((Edge) request.getConnectionEditPart().getModel());
+    final VertexEditPart vertexEditPart = (VertexEditPart) getHost();
+    command.setTarget((Vertex) vertexEditPart.getModel());
+    return command;
+  }
 }

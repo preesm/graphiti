@@ -38,7 +38,6 @@ package org.ietr.dftools.graphiti.ui.editparts;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
@@ -55,11 +54,10 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.ietr.dftools.graphiti.ui.editpolicies.LayoutPolicy;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class extends {@link AbstractGraphicalEditPart} by setting its figure
- * layout manager to {@link GraphLayoutManager}. It also extends the
- * {@link EditPart#isSelectable()} method to return false, causing the selection
- * tool to act like the marquee tool when no particular children has been
+ * This class extends {@link AbstractGraphicalEditPart} by setting its figure layout manager to {@link GraphLayoutManager}. It also extends the
+ * {@link EditPart#isSelectable()} method to return false, causing the selection tool to act like the marquee tool when no particular children has been
  * selected.
  *
  * @author Matthieu Wipliez
@@ -67,42 +65,57 @@ import org.ietr.dftools.graphiti.ui.editpolicies.LayoutPolicy;
  */
 public class StatusEditPart extends AbstractGraphicalEditPart {
 
-	@Override
-	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new LayoutPolicy());
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+   */
+  @Override
+  protected void createEditPolicies() {
+    installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
+    installEditPolicy(EditPolicy.LAYOUT_ROLE, new LayoutPolicy());
+  }
 
-	@Override
-	protected IFigure createFigure() {
-		// The figure associated with this graph edit part is only a
-		// free form layer
-		final Figure root = new FreeformLayer();
-		root.setLayoutManager(new FreeformLayout());
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+   */
+  @Override
+  protected IFigure createFigure() {
+    // The figure associated with this graph edit part is only a
+    // free form layer
+    final Figure root = new FreeformLayer();
+    root.setLayoutManager(new FreeformLayout());
 
-		final IStatus status = (IStatus) getModel();
-		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		final Throwable exc = status.getException();
-		final Throwable cause = exc.getCause();
-		if (cause == null) {
-			exc.printStackTrace(new PrintStream(bos));
-		} else {
-			cause.printStackTrace(new PrintStream(bos));
-		}
+    final IStatus status = (IStatus) getModel();
+    final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    final Throwable exc = status.getException();
+    final Throwable cause = exc.getCause();
+    if (cause == null) {
+      exc.printStackTrace(new PrintStream(bos));
+    } else {
+      cause.printStackTrace(new PrintStream(bos));
+    }
 
-		final Display d = Display.getCurrent();
-		final Image image = d.getSystemImage(SWT.ICON_ERROR);
-		final Label labelImage = new Label(image);
-		root.add(labelImage, new Rectangle(5, 5, -1, -1));
+    final Display d = Display.getCurrent();
+    final Image image = d.getSystemImage(SWT.ICON_ERROR);
+    final Label labelImage = new Label(image);
+    root.add(labelImage, new Rectangle(5, 5, -1, -1));
 
-		final Label label = new Label(status.getMessage() + ": " + exc.getMessage() + "\n" + bos.toString());
-		root.add(label, new Rectangle(10 + image.getBounds().width, 5, -1, -1));
+    final Label label = new Label(status.getMessage() + ": " + exc.getMessage() + "\n" + bos.toString());
+    root.add(label, new Rectangle(10 + image.getBounds().width, 5, -1, -1));
 
-		return root;
-	}
+    return root;
+  }
 
-	@Override
-	public boolean isSelectable() {
-		return false;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#isSelectable()
+   */
+  @Override
+  public boolean isSelectable() {
+    return false;
+  }
 }

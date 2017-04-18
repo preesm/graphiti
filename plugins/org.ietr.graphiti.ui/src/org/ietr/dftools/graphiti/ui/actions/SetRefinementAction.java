@@ -40,6 +40,7 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 import org.ietr.dftools.graphiti.ui.commands.refinement.SetRefinementCommand;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a way to create a vertex refinement.
  *
@@ -48,51 +49,74 @@ import org.ietr.dftools.graphiti.ui.commands.refinement.SetRefinementCommand;
  */
 public class SetRefinementAction extends SelectionAction {
 
-	private static final String ID = "org.ietr.dftools.graphiti.ui.actions.SetRefinementAction";
+  /** The Constant ID. */
+  private static final String ID = "org.ietr.dftools.graphiti.ui.actions.SetRefinementAction";
 
-	/**
-	 * Returns this action identifier.
-	 *
-	 * @return This action identifier.
-	 */
-	public static String getActionId() {
-		return SetRefinementAction.ID;
-	}
+  /**
+   * Returns this action identifier.
+   *
+   * @return This action identifier.
+   */
+  public static String getActionId() {
+    return SetRefinementAction.ID;
+  }
 
-	private final SetRefinementCommand command;
+  /** The command. */
+  private final SetRefinementCommand command;
 
-	/**
-	 * Creates a {@link SetRefinementCommand} action.
-	 *
-	 * @param part
-	 */
-	public SetRefinementAction(final IWorkbenchPart part) {
-		super(part);
-		this.command = new SetRefinementCommand();
-	}
+  /**
+   * Creates a {@link SetRefinementCommand} action.
+   *
+   * @param part
+   *          the part
+   */
+  public SetRefinementAction(final IWorkbenchPart part) {
+    super(part);
+    this.command = new SetRefinementCommand();
+  }
 
-	@Override
-	public boolean calculateEnabled() {
-		this.command.setSelection(getSelection());
-		return this.command.canExecute();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+   */
+  @Override
+  public boolean calculateEnabled() {
+    this.command.setSelection(getSelection());
+    return this.command.canExecute();
+  }
 
-	@Override
-	public String getId() {
-		return SetRefinementAction.ID;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.jface.action.Action#getId()
+   */
+  @Override
+  public String getId() {
+    return SetRefinementAction.ID;
+  }
 
-	@Override
-	protected void init() {
-		setId(getId());
-		setText("Set/Update Refinement");
-		setToolTipText("Set/Update Refinement");
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#init()
+   */
+  @Override
+  protected void init() {
+    setId(getId());
+    setText("Set/Update Refinement");
+    setToolTipText("Set/Update Refinement");
+  }
 
-	@Override
-	public void run() {
-		if (this.command.run()) {
-			execute(this.command);
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.jface.action.Action#run()
+   */
+  @Override
+  public void run() {
+    if (this.command.run()) {
+      execute(this.command);
+    }
+  }
 }

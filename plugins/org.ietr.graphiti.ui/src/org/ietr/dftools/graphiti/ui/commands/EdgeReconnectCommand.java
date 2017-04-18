@@ -43,103 +43,113 @@ import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.commands.refinement.PortChooser;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class provides a Command that reconnects a dependency. Reconnection is a
- * bit trickier than creation, since we must remember the previous dependency.
- * We inherit from EdgeCreateCommand so we just need to store the previous
- * dependency and parent graph, while keeping most of the original behavior.
+ * This class provides a Command that reconnects a dependency. Reconnection is a bit trickier than creation, since we must remember the previous dependency. We
+ * inherit from EdgeCreateCommand so we just need to store the previous dependency and parent graph, while keeping most of the original behavior.
  *
  * @author Matthieu Wipliez
  */
 public class EdgeReconnectCommand extends Command {
 
-	/**
-	 * The edge is stored as an attribute so it can be used both in the
-	 * <code>execute</code> and <code>undo</code> methods.
-	 */
-	private Edge edge;
+  /**
+   * The edge is stored as an attribute so it can be used both in the <code>execute</code> and <code>undo</code> methods.
+   */
+  private Edge edge;
 
-	/**
-	 * The parentGraph is stored as an attribute so it can be used both in the
-	 * <code>execute</code> and <code>undo</code> methods.
-	 */
-	private Graph parentGraph;
+  /**
+   * The parentGraph is stored as an attribute so it can be used both in the <code>execute</code> and <code>undo</code> methods.
+   */
+  private Graph parentGraph;
 
-	private Edge previousEdge;
+  /** The previous edge. */
+  private Edge previousEdge;
 
-	private Vertex source;
+  /** The source. */
+  private Vertex source;
 
-	private Vertex target;
+  /** The target. */
+  private Vertex target;
 
-	@Override
-	public void execute() {
-		// Disconnect
-		this.parentGraph = this.source.getParent();
-		this.parentGraph.removeEdge(this.previousEdge);
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#execute()
+   */
+  @Override
+  public void execute() {
+    // Disconnect
+    this.parentGraph = this.source.getParent();
+    this.parentGraph.removeEdge(this.previousEdge);
 
-		// Clone edge and assign ports
-		this.edge = new Edge(this.previousEdge);
+    // Clone edge and assign ports
+    this.edge = new Edge(this.previousEdge);
 
-		if (this.edge.getSource() != this.source) {
-			this.edge.setSource(this.source);
+    if (this.edge.getSource() != this.source) {
+      this.edge.setSource(this.source);
 
-			final String connection = this.edge.getSource().getValue(ObjectType.PARAMETER_ID) + " - " + this.edge.getTarget().getValue(ObjectType.PARAMETER_ID);
-			final PortChooser portChooser = new PortChooser(connection);
-			if (this.edge.getParameter(ObjectType.PARAMETER_SOURCE_PORT) != null) {
-				this.edge.setValue(ObjectType.PARAMETER_SOURCE_PORT, portChooser.getSourcePort(this.source));
-			}
-		} else if (this.edge.getTarget() != this.target) {
-			this.edge.setTarget(this.target);
+      final String connection = this.edge.getSource().getValue(ObjectType.PARAMETER_ID) + " - " + this.edge.getTarget().getValue(ObjectType.PARAMETER_ID);
+      final PortChooser portChooser = new PortChooser(connection);
+      if (this.edge.getParameter(ObjectType.PARAMETER_SOURCE_PORT) != null) {
+        this.edge.setValue(ObjectType.PARAMETER_SOURCE_PORT, portChooser.getSourcePort(this.source));
+      }
+    } else if (this.edge.getTarget() != this.target) {
+      this.edge.setTarget(this.target);
 
-			final String connection = this.edge.getSource().getValue(ObjectType.PARAMETER_ID) + " - " + this.edge.getTarget().getValue(ObjectType.PARAMETER_ID);
-			final PortChooser portChooser = new PortChooser(connection);
-			if (this.edge.getParameter(ObjectType.PARAMETER_TARGET_PORT) != null) {
-				this.edge.setValue(ObjectType.PARAMETER_TARGET_PORT, portChooser.getTargetPort(this.target));
-			}
-		}
+      final String connection = this.edge.getSource().getValue(ObjectType.PARAMETER_ID) + " - " + this.edge.getTarget().getValue(ObjectType.PARAMETER_ID);
+      final PortChooser portChooser = new PortChooser(connection);
+      if (this.edge.getParameter(ObjectType.PARAMETER_TARGET_PORT) != null) {
+        this.edge.setValue(ObjectType.PARAMETER_TARGET_PORT, portChooser.getTargetPort(this.target));
+      }
+    }
 
-		this.parentGraph.addEdge(this.edge);
-	}
+    this.parentGraph.addEdge(this.edge);
+  }
 
-	/**
-	 * Sets the original dependency (before it is reconnected).
-	 *
-	 * @param edge
-	 *            The edge.
-	 */
-	public void setOriginalEdge(final Edge edge) {
-		this.previousEdge = edge;
+  /**
+   * Sets the original dependency (before it is reconnected).
+   *
+   * @param edge
+   *          The edge.
+   */
+  public void setOriginalEdge(final Edge edge) {
+    this.previousEdge = edge;
 
-		// We also set these because we do not know which one will be set by the
-		// EdgeGraphicalNodeEditPolicy (ie if getReconnectSourceCommand or
-		// getReconnectTargetCommand is called)
-		this.source = edge.getSource();
-		this.target = edge.getTarget();
-	}
+    // We also set these because we do not know which one will be set by the
+    // EdgeGraphicalNodeEditPolicy (ie if getReconnectSourceCommand or
+    // getReconnectTargetCommand is called)
+    this.source = edge.getSource();
+    this.target = edge.getTarget();
+  }
 
-	/**
-	 * Sets the source of the dependency to create/reconnect.
-	 *
-	 * @param source
-	 *            The dependency source as a Port.
-	 */
-	public void setSource(final Vertex source) {
-		this.source = source;
-	}
+  /**
+   * Sets the source of the dependency to create/reconnect.
+   *
+   * @param source
+   *          The dependency source as a Port.
+   */
+  public void setSource(final Vertex source) {
+    this.source = source;
+  }
 
-	/**
-	 * Sets the target of the dependency to create/reconnect.
-	 *
-	 * @param target
-	 *            The dependency target as a Port.
-	 */
-	public void setTarget(final Vertex target) {
-		this.target = target;
-	}
+  /**
+   * Sets the target of the dependency to create/reconnect.
+   *
+   * @param target
+   *          The dependency target as a Port.
+   */
+  public void setTarget(final Vertex target) {
+    this.target = target;
+  }
 
-	@Override
-	public void undo() {
-		this.parentGraph.removeEdge(this.edge);
-		this.parentGraph.addEdge(this.previousEdge);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#undo()
+   */
+  @Override
+  public void undo() {
+    this.parentGraph.removeEdge(this.edge);
+    this.parentGraph.addEdge(this.previousEdge);
+  }
 }

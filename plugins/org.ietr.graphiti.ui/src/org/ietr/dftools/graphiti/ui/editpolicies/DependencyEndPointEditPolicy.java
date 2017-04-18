@@ -42,45 +42,56 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class provides facilities to change dependencies appearance when they
- * are selected.
+ * This class provides facilities to change dependencies appearance when they are selected.
  *
  * @author Samuel Beaussier
  * @author Nicolas Isch
  */
 public class DependencyEndPointEditPolicy extends ConnectionEndpointEditPolicy {
 
-	private Color color;
+  /** The color. */
+  private Color color;
 
-	@Override
-	protected void addSelectionHandles() {
-		super.addSelectionHandles();
-		final PolylineConnection connection = getConnectionFigure();
-		this.color = connection.getForegroundColor();
-		final Device device = this.color.getDevice();
-		final int red = (255 - this.color.getRed()) / 2;
-		final int green = (255 - this.color.getGreen()) / 2;
-		final int blue = (255 - this.color.getBlue()) / 2;
-		connection.setForegroundColor(new Color(device, red, green, blue));
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.SelectionHandlesEditPolicy#addSelectionHandles()
+   */
+  @Override
+  protected void addSelectionHandles() {
+    super.addSelectionHandles();
+    final PolylineConnection connection = getConnectionFigure();
+    this.color = connection.getForegroundColor();
+    final Device device = this.color.getDevice();
+    final int red = (255 - this.color.getRed()) / 2;
+    final int green = (255 - this.color.getGreen()) / 2;
+    final int blue = (255 - this.color.getBlue()) / 2;
+    connection.setForegroundColor(new Color(device, red, green, blue));
+  }
 
-	/**
-	 * Gives the figure that correspond to the connection
-	 *
-	 * @return a PolylineConnection
-	 */
-	protected PolylineConnection getConnectionFigure() {
-		return (PolylineConnection) ((GraphicalEditPart) getHost()).getFigure();
-	}
+  /**
+   * Gives the figure that correspond to the connection.
+   *
+   * @return a PolylineConnection
+   */
+  protected PolylineConnection getConnectionFigure() {
+    return (PolylineConnection) ((GraphicalEditPart) getHost()).getFigure();
+  }
 
-	@Override
-	protected void removeSelectionHandles() {
-		super.removeSelectionHandles();
-		final PolylineConnection connection = getConnectionFigure();
-		if (this.color != null) {
-			connection.setForegroundColor(this.color);
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.SelectionHandlesEditPolicy#removeSelectionHandles()
+   */
+  @Override
+  protected void removeSelectionHandles() {
+    super.removeSelectionHandles();
+    final PolylineConnection connection = getConnectionFigure();
+    if (this.color != null) {
+      connection.setForegroundColor(this.color);
+    }
+  }
 
 }

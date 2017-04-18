@@ -40,6 +40,7 @@ import org.eclipse.gef.requests.CreationFactory;
 import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 
+// TODO: Auto-generated Javadoc
 /**
  * Gives methods to create new vertices.
  *
@@ -48,27 +49,36 @@ import org.ietr.dftools.graphiti.model.Vertex;
  */
 public class VertexCreationFactory implements CreationFactory {
 
-	private final ObjectType type;
+  /** The type. */
+  private final ObjectType type;
 
-	/**
-	 * Create a new vertex creation factory.
-	 *
-	 * @param configuration
-	 *            The configuration.
-	 * @param type
-	 *            The vertex type.
-	 */
-	public VertexCreationFactory(final ObjectType type) {
-		this.type = type;
-	}
+  /**
+   * Create a new vertex creation factory.
+   *
+   * @param type
+   *          The vertex type.
+   */
+  public VertexCreationFactory(final ObjectType type) {
+    this.type = type;
+  }
 
-	@Override
-	public Object getNewObject() {
-		return new Vertex(this.type);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.requests.CreationFactory#getNewObject()
+   */
+  @Override
+  public Object getNewObject() {
+    return new Vertex(this.type);
+  }
 
-	@Override
-	public Object getObjectType() {
-		return Vertex.class;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.requests.CreationFactory#getObjectType()
+   */
+  @Override
+  public Object getObjectType() {
+    return Vertex.class;
+  }
 }

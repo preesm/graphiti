@@ -52,11 +52,10 @@ import org.ietr.dftools.graphiti.ui.commands.VertexMoveCommand;
 import org.ietr.dftools.graphiti.ui.commands.refinement.OpenRefinementCommand;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class provides the policy of the layout used in the editor view. Namely
- * it implements the <code>createChangeConstraintCommand</code> and
- * <code>getCreateCommand</code> methods to move and create a graph
- * respectively.
+ * This class provides the policy of the layout used in the editor view. Namely it implements the <code>createChangeConstraintCommand</code> and
+ * <code>getCreateCommand</code> methods to move and create a graph respectively.
  *
  * @author Samuel Beaussier
  * @author Nicolas Isch
@@ -64,45 +63,65 @@ import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
  */
 public class LayoutPolicy extends XYLayoutEditPolicy {
 
-	@Override
-	protected Command createChangeConstraintCommand(final EditPart child, final Object constraint) {
-		VertexMoveCommand command = null;
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
+   */
+  @Override
+  protected Command createChangeConstraintCommand(final EditPart child, final Object constraint) {
+    VertexMoveCommand command = null;
 
-		if (child instanceof VertexEditPart) {
-			final VertexEditPart editPart = (VertexEditPart) child;
-			final Vertex vertex = (Vertex) editPart.getModel();
+    if (child instanceof VertexEditPart) {
+      final VertexEditPart editPart = (VertexEditPart) child;
+      final Vertex vertex = (Vertex) editPart.getModel();
 
-			command = new VertexMoveCommand(vertex, (Rectangle) constraint);
-		}
+      command = new VertexMoveCommand(vertex, (Rectangle) constraint);
+    }
 
-		return command;
-	}
+    return command;
+  }
 
-	@Override
-	protected EditPolicy createChildEditPolicy(final EditPart child) {
-		return new NonResizableEditPolicy();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChildEditPolicy(org.eclipse.gef.EditPart)
+   */
+  @Override
+  protected EditPolicy createChildEditPolicy(final EditPart child) {
+    return new NonResizableEditPolicy();
+  }
 
-	@Override
-	public Command getCommand(final Request request) {
-		if (RequestConstants.REQ_OPEN.equals(request.getType())) {
-			final OpenRefinementCommand command = new OpenRefinementCommand();
-			command.setSelection(new StructuredSelection(getHost()));
-			return command;
-		} else {
-			return super.getCommand(request);
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#getCommand(org.eclipse.gef.Request)
+   */
+  @Override
+  public Command getCommand(final Request request) {
+    if (RequestConstants.REQ_OPEN.equals(request.getType())) {
+      final OpenRefinementCommand command = new OpenRefinementCommand();
+      command.setSelection(new StructuredSelection(getHost()));
+      return command;
+    } else {
+      return super.getCommand(request);
+    }
+  }
 
-	@Override
-	protected Command getCreateCommand(final CreateRequest request) {
-		final Object newObject = request.getNewObject();
-		final VertexCreateCommand command = new VertexCreateCommand();
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
+   */
+  @Override
+  protected Command getCreateCommand(final CreateRequest request) {
+    final Object newObject = request.getNewObject();
+    final VertexCreateCommand command = new VertexCreateCommand();
 
-		command.setNewObject(newObject);
-		command.setModel(getHost().getModel());
-		command.setBounds((Rectangle) getConstraintFor(request));
+    command.setNewObject(newObject);
+    command.setModel(getHost().getModel());
+    command.setBounds((Rectangle) getConstraintFor(request));
 
-		return command;
-	}
+    return command;
+  }
 }

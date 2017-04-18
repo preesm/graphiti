@@ -40,7 +40,6 @@ package org.ietr.dftools.graphiti.ui.wizards;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
@@ -60,6 +59,7 @@ import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.ui.GraphitiUiPlugin;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a page for the save as graph wizard.
  *
@@ -67,110 +67,123 @@ import org.ietr.dftools.graphiti.ui.GraphitiUiPlugin;
  */
 public class WizardSaveGraphPage extends WizardNewFileCreationPage implements IGraphTypeSettable {
 
-	private String fileName;
+  /** The file name. */
+  private String fileName;
 
-	private Graph graph;
+  /** The graph. */
+  private Graph graph;
 
-	/**
-	 * Constructor for {@link WizardSaveGraphPage}.
-	 *
-	 * @param selection
-	 *            The current resource selection.
-	 */
-	public WizardSaveGraphPage(final IStructuredSelection selection) {
-		super("saveGraph", selection);
+  /**
+   * Constructor for {@link WizardSaveGraphPage}.
+   *
+   * @param selection
+   *          The current resource selection.
+   */
+  public WizardSaveGraphPage(final IStructuredSelection selection) {
+    super("saveGraph", selection);
 
-		// if the selection is a file, gets its file name and removes its
-		// extension. Otherwise, let fileName be null.
-		final Object obj = selection.getFirstElement();
-		if (obj instanceof IFile) {
-			final IFile file = (IFile) obj;
-			final String ext = file.getFileExtension();
-			this.fileName = file.getName();
-			final int idx = this.fileName.indexOf(ext);
-			if (idx != -1) {
-				this.fileName = this.fileName.substring(0, idx - 1);
-			}
-		}
+    // if the selection is a file, gets its file name and removes its
+    // extension. Otherwise, let fileName be null.
+    final Object obj = selection.getFirstElement();
+    if (obj instanceof IFile) {
+      final IFile file = (IFile) obj;
+      final String ext = file.getFileExtension();
+      this.fileName = file.getName();
+      final int idx = this.fileName.indexOf(ext);
+      if (idx != -1) {
+        this.fileName = this.fileName.substring(0, idx - 1);
+      }
+    }
 
-		setTitle("Choose file name and parent folder");
-	}
+    setTitle("Choose file name and parent folder");
+  }
 
-	/**
-	 * Displays an error message with the given exception.
-	 *
-	 * @param message
-	 *            A description of the error.
-	 * @param exception
-	 *            An exception.
-	 */
-	private void errorMessage(final String message, final Throwable exception) {
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		final Shell shell = window.getShell();
+  /**
+   * Displays an error message with the given exception.
+   *
+   * @param message
+   *          A description of the error.
+   * @param exception
+   *          An exception.
+   */
+  private void errorMessage(final String message, final Throwable exception) {
+    final IWorkbench workbench = PlatformUI.getWorkbench();
+    final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+    final Shell shell = window.getShell();
 
-		final IStatus status = new Status(IStatus.ERROR, GraphitiUiPlugin.PLUGIN_ID, message, exception);
-		ErrorDialog.openError(shell, "Save error", "The file could not be saved.", status, IStatus.ERROR);
-	}
+    final IStatus status = new Status(IStatus.ERROR, GraphitiUiPlugin.PLUGIN_ID, message, exception);
+    ErrorDialog.openError(shell, "Save error", "The file could not be saved.", status, IStatus.ERROR);
+  }
 
-	@Override
-	public InputStream getInitialContents() {
-		// set graph name
-		final String fileName = getFileName();
-		if (fileName != null) {
-			final IPath filePath = new Path(fileName).removeFileExtension();
-			this.graph.setValue(ObjectType.PARAMETER_ID, filePath.toString());
-		}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getInitialContents()
+   */
+  @Override
+  public InputStream getInitialContents() {
+    // set graph name
+    final String fileName = getFileName();
+    if (fileName != null) {
+      final IPath filePath = new Path(fileName).removeFileExtension();
+      this.graph.setValue(ObjectType.PARAMETER_ID, filePath.toString());
+    }
 
-		// retrieve the IFile so we can get its location
-		final IPath containerPath = getContainerFullPath();
-		final IPath filePath = containerPath.append(getFileName());
-		final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
-		this.graph.setFileName(filePath);
+    // retrieve the IFile so we can get its location
+    final IPath containerPath = getContainerFullPath();
+    final IPath filePath = containerPath.append(getFileName());
+    final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
+    this.graph.setFileName(filePath);
 
-		// writes graph
-		final ByteArrayOutputStream out = new ByteArrayOutputStream();
-		final GenericGraphWriter writer = new GenericGraphWriter(this.graph);
-		try {
-			writer.write(file.getLocation().toString(), out);
-			return new ByteArrayInputStream(out.toByteArray());
-		} catch (final RuntimeException e) {
-			errorMessage("Exception", e);
-		}
+    // writes graph
+    final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    final GenericGraphWriter writer = new GenericGraphWriter(this.graph);
+    try {
+      writer.write(file.getLocation().toString(), out);
+      return new ByteArrayInputStream(out.toByteArray());
+    } catch (final RuntimeException e) {
+      errorMessage("Exception", e);
+    }
 
-		return null;
-	}
+    return null;
+  }
 
-	/**
-	 * Sets a new graph for this page.
-	 *
-	 * @param graph
-	 *            A {@link Graph}.
-	 */
-	public void setGraph(final Graph graph) {
-		this.graph = graph;
-		final Configuration configuration = graph.getConfiguration();
-		final ObjectType type = graph.getType();
-		final String fileExt = configuration.getFileFormat().getFileExtension();
-		setFileExtension(fileExt);
-		if (this.fileName == null) {
-			setFileName("New " + type.getName() + "." + fileExt);
-		} else {
-			setFileName(this.fileName + "." + fileExt);
-		}
-	}
+  /**
+   * Sets a new graph for this page.
+   *
+   * @param graph
+   *          A {@link Graph}.
+   */
+  public void setGraph(final Graph graph) {
+    this.graph = graph;
+    final Configuration configuration = graph.getConfiguration();
+    final ObjectType type = graph.getType();
+    final String fileExt = configuration.getFileFormat().getFileExtension();
+    setFileExtension(fileExt);
+    if (this.fileName == null) {
+      setFileName("New " + type.getName() + "." + fileExt);
+    } else {
+      setFileName(this.fileName + "." + fileExt);
+    }
+  }
 
-	@Override
-	public void setGraphType(final Configuration configuration, final ObjectType type) {
-		// create an empty graph, may be overridden
-		this.graph = new Graph(configuration, type, true);
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.ietr.dftools.graphiti.ui.wizards.IGraphTypeSettable#setGraphType(org.ietr.dftools.graphiti.model.Configuration,
+   * org.ietr.dftools.graphiti.model.ObjectType)
+   */
+  @Override
+  public void setGraphType(final Configuration configuration, final ObjectType type) {
+    // create an empty graph, may be overridden
+    this.graph = new Graph(configuration, type, true);
 
-		final String fileExt = configuration.getFileFormat().getFileExtension();
-		if (this.fileName == null) {
-			setFileName("New " + type.getName() + "." + fileExt);
-		} else {
-			setFileName(this.fileName + "." + fileExt);
-		}
-	}
+    final String fileExt = configuration.getFileFormat().getFileExtension();
+    if (this.fileName == null) {
+      setFileName("New " + type.getName() + "." + fileExt);
+    } else {
+      setFileName(this.fileName + "." + fileExt);
+    }
+  }
 
 }

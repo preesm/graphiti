@@ -42,7 +42,6 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.EventObject;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -107,6 +106,7 @@ import org.ietr.dftools.graphiti.ui.editparts.GraphEditPart;
 import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
 import org.ietr.dftools.graphiti.ui.wizards.SaveAsWizard;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides the graph editor.
  *
@@ -115,340 +115,418 @@ import org.ietr.dftools.graphiti.ui.wizards.SaveAsWizard;
  */
 public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITabbedPropertySheetPageContributor {
 
-	/**
-	 * The editor ID
-	 */
-	public static final String ID = "org.ietr.dftools.graphiti.ui.editors.GraphEditor";
+  /** The editor ID. */
+  public static final String ID = "org.ietr.dftools.graphiti.ui.editors.GraphEditor";
 
-	private Graph graph;
+  /** The graph. */
+  private Graph graph;
 
-	private ZoomManager manager;
+  /** The manager. */
+  private ZoomManager manager;
 
-	private ThumbnailOutlinePage outlinePage;
+  /** The outline page. */
+  private ThumbnailOutlinePage outlinePage;
 
-	private PaletteRoot paletteRoot;
+  /** The palette root. */
+  private PaletteRoot paletteRoot;
 
-	private IStatus status;
+  /** The status. */
+  private IStatus status;
 
-	private TabbedPropertySheetPage tabbedPropertySheetPage;
+  /** The tabbed property sheet page. */
+  private TabbedPropertySheetPage tabbedPropertySheetPage;
 
-	/**
-	 * Create an editor
-	 */
-	public GraphEditor() {
-		setEditDomain(new DefaultEditDomain(this));
-		getPalettePreferences().setPaletteState(FlyoutPaletteComposite.STATE_PINNED_OPEN);
-	}
+  /**
+   * Create an editor.
+   */
+  public GraphEditor() {
+    setEditDomain(new DefaultEditDomain(this));
+    getPalettePreferences().setPaletteState(FlyoutPaletteComposite.STATE_PINNED_OPEN);
+  }
 
-	/**
-	 * Automatically layout the graph edited with the given direction.
-	 *
-	 * @param direction
-	 *            The direction, one of:
-	 *            <UL>
-	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#EAST}
-	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#SOUTH}
-	 *            </UL>
-	 */
-	public void automaticallyLayout(final int direction) {
-		final GraphEditPart doc = (GraphEditPart) getGraphicalViewer().getRootEditPart().getContents();
-		doc.automaticallyLayoutGraphs(direction);
-	}
+  /**
+   * Automatically layout the graph edited with the given direction.
+   *
+   * @param direction
+   *          The direction, one of:
+   *          <UL>
+   *          <LI>{@link org.eclipse.draw2d.PositionConstants#EAST}
+   *          <LI>{@link org.eclipse.draw2d.PositionConstants#SOUTH}
+   *          </UL>
+   */
+  public void automaticallyLayout(final int direction) {
+    final GraphEditPart doc = (GraphEditPart) getGraphicalViewer().getRootEditPart().getContents();
+    doc.automaticallyLayoutGraphs(direction);
+  }
 
-	@Override
-	public void commandStackChanged(final EventObject event) {
-		firePropertyChange(IEditorPart.PROP_DIRTY);
-		super.commandStackChanged(event);
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.ui.parts.GraphicalEditor#commandStackChanged(java.util.EventObject)
+   */
+  @Override
+  public void commandStackChanged(final EventObject event) {
+    firePropertyChange(IEditorPart.PROP_DIRTY);
+    super.commandStackChanged(event);
+  }
 
-	@Override
-	protected void configureGraphicalViewer() {
-		double[] zoomLevels;
-		ArrayList<String> zoomContributions;
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
+   */
+  @Override
+  protected void configureGraphicalViewer() {
 
-		super.configureGraphicalViewer();
-		final GraphicalViewer viewer = getGraphicalViewer();
-		viewer.setEditPartFactory(new EditPartFactoryImpl());
+    super.configureGraphicalViewer();
+    final GraphicalViewer viewer = getGraphicalViewer();
+    viewer.setEditPartFactory(new EditPartFactoryImpl());
 
-		final ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();
-		viewer.setRootEditPart(rootEditPart);
+    final ScalableFreeformRootEditPart rootEditPart = new ScalableFreeformRootEditPart();
+    viewer.setRootEditPart(rootEditPart);
 
-		this.manager = rootEditPart.getZoomManager();
-		getActionRegistry().registerAction(new ZoomInAction(this.manager));
-		getActionRegistry().registerAction(new ZoomOutAction(this.manager));
+    this.manager = rootEditPart.getZoomManager();
+    getActionRegistry().registerAction(new ZoomInAction(this.manager));
+    getActionRegistry().registerAction(new ZoomOutAction(this.manager));
 
-		// List of possible zoom levels. 1 = 100%
-		zoomLevels = new double[] { 0.1, 0.15, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0 };
-		this.manager.setZoomLevels(zoomLevels);
+    double[] zoomLevels = new double[] { 0.1, 0.15, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0 };
+    this.manager.setZoomLevels(zoomLevels);
 
-		// Predefined zoom levels
-		zoomContributions = new ArrayList<>();
-		zoomContributions.add(ZoomManager.FIT_ALL);
-		zoomContributions.add(ZoomManager.FIT_HEIGHT);
-		zoomContributions.add(ZoomManager.FIT_WIDTH);
-		this.manager.setZoomLevelContributions(zoomContributions);
+    // Predefined zoom levels
+    ArrayList<String> zoomContributions = new ArrayList<>();
+    zoomContributions.add(ZoomManager.FIT_ALL);
+    zoomContributions.add(ZoomManager.FIT_HEIGHT);
+    zoomContributions.add(ZoomManager.FIT_WIDTH);
+    this.manager.setZoomLevelContributions(zoomContributions);
 
-		viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.CTRL), MouseWheelZoomHandler.SINGLETON);
+    viewer.setProperty(MouseWheelHandler.KeyGenerator.getKey(SWT.CTRL), MouseWheelZoomHandler.SINGLETON);
 
-		// Context menu
-		final ContextMenuProvider provider = new GraphEditorContextMenuProvider(viewer, getActionRegistry());
-		viewer.setContextMenu(provider);
-	}
+    // Context menu
+    final ContextMenuProvider provider = new GraphEditorContextMenuProvider(viewer, getActionRegistry());
+    viewer.setContextMenu(provider);
+  }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	protected void createActions() {
-		// create actions that will be used inside the editor, for instance in a
-		// contextual menu
-		super.createActions();
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
+   */
+  @Override
+  @SuppressWarnings("unchecked")
+  protected void createActions() {
+    // create actions that will be used inside the editor, for instance in a
+    // contextual menu
+    super.createActions();
 
-		final ActionRegistry registry = getActionRegistry();
-		final Class<?> actions[] = { CopyAction.class, CutAction.class, PasteAction.class, PrintAction.class, SelectAllAction.class,
-				SetRefinementAction.class };
+    final ActionRegistry registry = getActionRegistry();
+    final Class<?>[] actions = { CopyAction.class, CutAction.class, PasteAction.class, PrintAction.class, SelectAllAction.class, SetRefinementAction.class };
 
-		// Constructs all actions
-		for (final Class<?> clz : actions) {
-			try {
-				final Constructor<?> ctor = clz.getConstructor(IWorkbenchPart.class);
+    // Constructs all actions
+    for (final Class<?> clz : actions) {
+      try {
+        final Constructor<?> ctor = clz.getConstructor(IWorkbenchPart.class);
 
-				final IAction action = (IAction) ctor.newInstance(this);
-				registry.registerAction(action);
-				getSelectionActions().add(action.getId());
-			} catch (final Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+        final IAction action = (IAction) ctor.newInstance(this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+      } catch (final Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
 
-	@Override
-	protected PaletteViewerProvider createPaletteViewerProvider() {
-		return new PaletteViewerProvider(getEditDomain()) {
-			@Override
-			protected void configurePaletteViewer(final PaletteViewer viewer) {
-				super.configurePaletteViewer(viewer);
-				viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
-			}
-		};
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
+   */
+  @Override
+  protected PaletteViewerProvider createPaletteViewerProvider() {
+    return new PaletteViewerProvider(getEditDomain()) {
+      @Override
+      protected void configurePaletteViewer(final PaletteViewer viewer) {
+        super.configurePaletteViewer(viewer);
+        viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
+      }
+    };
+  }
 
-	@Override
-	public void dispose() {
-		removeMarkers();
-		super.dispose();
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.ui.parts.GraphicalEditor#dispose()
+   */
+  @Override
+  public void dispose() {
+    removeMarkers();
+    super.dispose();
+  }
 
-	@Override
-	public void doSave(final IProgressMonitor monitor) {
-		// validate and then save
-		validate();
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
+   */
+  @Override
+  public void doSave(final IProgressMonitor monitor) {
+    // validate and then save
+    validate();
 
-		final IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-		final ByteArrayOutputStream out = new ByteArrayOutputStream();
-		final GenericGraphWriter writer = new GenericGraphWriter(this.graph);
-		try {
-			writer.write(file.getLocation().toString(), out);
-			file.setContents(new ByteArrayInputStream(out.toByteArray()), true, false, monitor);
-			try {
-				out.close();
-			} catch (final IOException e) {
-				// Can never occur on a ByteArrayOutputStream
-			}
-			getCommandStack().markSaveLocation();
+    final IFile file = ((IFileEditorInput) getEditorInput()).getFile();
+    final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    final GenericGraphWriter writer = new GenericGraphWriter(this.graph);
+    try {
+      writer.write(file.getLocation().toString(), out);
+      file.setContents(new ByteArrayInputStream(out.toByteArray()), true, false, monitor);
+      try {
+        out.close();
+      } catch (final IOException e) {
+        // Can never occur on a ByteArrayOutputStream
+      }
+      getCommandStack().markSaveLocation();
 
-			// refresh folder if we have written layout
-			file.getParent().refreshLocal(IResource.DEPTH_ONE, null);
-		} catch (final Exception e) {
-			errorMessage(e.getMessage(), e);
-			monitor.setCanceled(true);
-		}
-	}
+      // refresh folder if we have written layout
+      file.getParent().refreshLocal(IResource.DEPTH_ONE, null);
+    } catch (final Exception e) {
+      errorMessage(e.getMessage(), e);
+      monitor.setCanceled(true);
+    }
+  }
 
-	@Override
-	public void doSaveAs() {
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		final IWorkbenchPage page = window.getActivePage();
-		final IEditorPart editor = page.getActiveEditor();
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.ui.parts.GraphicalEditor#doSaveAs()
+   */
+  @Override
+  public void doSaveAs() {
+    final IWorkbench workbench = PlatformUI.getWorkbench();
+    final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+    final IWorkbenchPage page = window.getActivePage();
+    final IEditorPart editor = page.getActiveEditor();
 
-		final SaveAsWizard wizard = new SaveAsWizard();
-		wizard.init(workbench, new StructuredSelection(editor));
+    final SaveAsWizard wizard = new SaveAsWizard();
+    wizard.init(workbench, new StructuredSelection(editor));
 
-		final WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
-		dialog.open();
-	}
+    final WizardDialog dialog = new WizardDialog(window.getShell(), wizard);
+    dialog.open();
+  }
 
-	/**
-	 * Displays an error message with the given exception.
-	 *
-	 * @param message
-	 *            A description of the error.
-	 * @param exception
-	 *            An exception.
-	 */
-	private void errorMessage(final String message, final Throwable exception) {
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		final Shell shell = window.getShell();
+  /**
+   * Displays an error message with the given exception.
+   *
+   * @param message
+   *          A description of the error.
+   * @param exception
+   *          An exception.
+   */
+  private void errorMessage(final String message, final Throwable exception) {
+    final IWorkbench workbench = PlatformUI.getWorkbench();
+    final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+    final Shell shell = window.getShell();
 
-		final IStatus status = new Status(IStatus.ERROR, GraphitiUiPlugin.PLUGIN_ID, message, exception);
-		ErrorDialog.openError(shell, "Save error", "The file could not be saved.", status, IStatus.ERROR);
-	}
+    final IStatus status = new Status(IStatus.ERROR, GraphitiUiPlugin.PLUGIN_ID, message, exception);
+    ErrorDialog.openError(shell, "Save error", "The file could not be saved.", status, IStatus.ERROR);
+  }
 
-	/**
-	 * Executes the given command.
-	 *
-	 * @param command
-	 */
-	public void executeCommand(final Command command) {
-		final CommandStack stack = getEditDomain().getCommandStack();
-		stack.execute(command);
-	}
+  /**
+   * Executes the given command.
+   *
+   * @param command
+   *          the command
+   */
+  public void executeCommand(final Command command) {
+    final CommandStack stack = getEditDomain().getCommandStack();
+    stack.execute(command);
+  }
 
-	@Override
-	@SuppressWarnings("rawtypes")
-	public Object getAdapter(final Class type) {
-		if (type == ZoomManager.class) {
-			return ((ScalableFreeformRootEditPart) getGraphicalViewer().getRootEditPart()).getZoomManager();
-		} else if (type == IContentOutlinePage.class) {
-			this.outlinePage = new ThumbnailOutlinePage(this);
-			return this.outlinePage;
-		} else if (type == IPropertySheetPage.class) {
-			return this.tabbedPropertySheetPage;
-		} else {
-			return super.getAdapter(type);
-		}
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
+   */
+  @Override
+  @SuppressWarnings("rawtypes")
+  public Object getAdapter(final Class type) {
+    if (type == ZoomManager.class) {
+      return ((ScalableFreeformRootEditPart) getGraphicalViewer().getRootEditPart()).getZoomManager();
+    } else if (type == IContentOutlinePage.class) {
+      this.outlinePage = new ThumbnailOutlinePage(this);
+      return this.outlinePage;
+    } else if (type == IPropertySheetPage.class) {
+      return this.tabbedPropertySheetPage;
+    } else {
+      return super.getAdapter(type);
+    }
+  }
 
-	/**
-	 * Returns the contents of this editor.
-	 *
-	 * @return The contents of this editor.
-	 */
-	public Graph getContents() {
-		return this.graph;
-	}
+  /**
+   * Returns the contents of this editor.
+   *
+   * @return The contents of this editor.
+   */
+  public Graph getContents() {
+    return this.graph;
+  }
 
-	@Override
-	public String getContributorId() {
-		return PropertiesConstants.CONTRIBUTOR_ID;
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor#getContributorId()
+   */
+  @Override
+  public String getContributorId() {
+    return PropertiesConstants.CONTRIBUTOR_ID;
+  }
 
-	@Override
-	public GraphicalViewer getGraphicalViewer() {
-		return super.getGraphicalViewer();
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.ui.parts.GraphicalEditor#getGraphicalViewer()
+   */
+  @Override
+  public GraphicalViewer getGraphicalViewer() {
+    return super.getGraphicalViewer();
+  }
 
-	@Override
-	protected PaletteRoot getPaletteRoot() {
-		if (this.paletteRoot == null) {
-			this.paletteRoot = GraphitiPalette.getPaletteRoot(this.graph);
-		}
-		return this.paletteRoot;
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPaletteRoot()
+   */
+  @Override
+  protected PaletteRoot getPaletteRoot() {
+    if (this.paletteRoot == null) {
+      this.paletteRoot = GraphitiPalette.getPaletteRoot(this.graph);
+    }
+    return this.paletteRoot;
+  }
 
-	@Override
-	public SelectionSynchronizer getSelectionSynchronizer() {
-		return super.getSelectionSynchronizer();
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.ui.parts.GraphicalEditor#getSelectionSynchronizer()
+   */
+  @Override
+  public SelectionSynchronizer getSelectionSynchronizer() {
+    return super.getSelectionSynchronizer();
+  }
 
-	/**
-	 * Gives the current zoom factor
-	 *
-	 * @return double
-	 */
-	public double getZoom() {
-		return this.manager.getZoom();
-	}
+  /**
+   * Gives the current zoom factor.
+   *
+   * @return double
+   */
+  public double getZoom() {
+    return this.manager.getZoom();
+  }
 
-	@Override
-	protected void initializeGraphicalViewer() {
-		final GraphicalViewer viewer = getGraphicalViewer();
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#initializeGraphicalViewer()
+   */
+  @Override
+  protected void initializeGraphicalViewer() {
+    final GraphicalViewer viewer = getGraphicalViewer();
 
-		if (this.graph == null) {
-			viewer.setContents(this.status);
-		} else {
-			viewer.setContents(this.graph);
-			if (!(Boolean) this.graph.getValue(Graph.PROPERTY_HAS_LAYOUT)) {
-				automaticallyLayout(PositionConstants.EAST);
-			}
-		}
+    if (this.graph == null) {
+      viewer.setContents(this.status);
+    } else {
+      viewer.setContents(this.graph);
+      if (!(Boolean) this.graph.getValue(Graph.PROPERTY_HAS_LAYOUT)) {
+        automaticallyLayout(PositionConstants.EAST);
+      }
+    }
 
-		this.tabbedPropertySheetPage = new TabbedPropertySheetPage(this);
-	}
+    this.tabbedPropertySheetPage = new TabbedPropertySheetPage(this);
+  }
 
-	@Override
-	public boolean isSaveAsAllowed() {
-		return true;
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
+   */
+  @Override
+  public boolean isSaveAsAllowed() {
+    return true;
+  }
 
-	/**
-	 * Remove existing markers.
-	 */
-	private void removeMarkers() {
-		// remove existing markers
-		final IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-		try {
-			file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
-		} catch (final CoreException e) {
-		}
-	}
+  /**
+   * Remove existing markers.
+   */
+  private void removeMarkers() {
+    // remove existing markers
+    final IFile file = ((IFileEditorInput) getEditorInput()).getFile();
+    try {
+      file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+    } catch (final CoreException e) {
+      e.printStackTrace();
+    }
+  }
 
-	@Override
-	protected void setInput(final IEditorInput input) {
-		super.setInput(input);
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
+   */
+  @Override
+  protected void setInput(final IEditorInput input) {
+    super.setInput(input);
 
-		final IFile file = ((IFileEditorInput) input).getFile();
-		setPartName(file.getName());
-		try {
-			final GenericGraphParser parser = new GenericGraphParser(GraphitiModelPlugin.getDefault().getConfigurations());
-			this.graph = parser.parse(file);
+    final IFile file = ((IFileEditorInput) input).getFile();
+    setPartName(file.getName());
+    try {
+      final GenericGraphParser parser = new GenericGraphParser(GraphitiModelPlugin.getDefault().getConfigurations());
+      this.graph = parser.parse(file);
 
-			// Updates the palette
-			getEditDomain().setPaletteRoot(getPaletteRoot());
+      // Updates the palette
+      getEditDomain().setPaletteRoot(getPaletteRoot());
 
-			// show properties
-			final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			try {
-				if (page != null) {
-					page.showView(IPageLayout.ID_PROP_SHEET);
-				}
-			} catch (final PartInitException e) {
-				e.printStackTrace();
-			}
+      // show properties
+      final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+      try {
+        if (page != null) {
+          page.showView(IPageLayout.ID_PROP_SHEET);
+        }
+      } catch (final PartInitException e) {
+        e.printStackTrace();
+      }
 
-			// initial validation
-			validate();
+      // initial validation
+      validate();
 
-			firePropertyChange(IEditorPart.PROP_INPUT);
-		} catch (final Throwable e) {
-			this.status = new Status(IStatus.ERROR, GraphitiUiPlugin.PLUGIN_ID, "An error occurred while parsing the file", e);
-		}
-	}
+      firePropertyChange(IEditorPart.PROP_INPUT);
+    } catch (final Throwable e) {
+      this.status = new Status(IStatus.ERROR, GraphitiUiPlugin.PLUGIN_ID, "An error occurred while parsing the file", e);
+    }
+  }
 
-	/**
-	 * Sets the zoom to see the entire width of the graph in editor
-	 */
-	public void setWidthZoom() {
-		this.manager.setZoomAsText(ZoomManager.FIT_WIDTH);
-	}
+  /**
+   * Sets the zoom to see the entire width of the graph in editor.
+   */
+  public void setWidthZoom() {
+    this.manager.setZoomAsText(ZoomManager.FIT_WIDTH);
+  }
 
-	/**
-	 * Validate the graph.
-	 *
-	 * @return True if the graph is valid, false otherwise.
-	 */
-	private void validate() {
-		removeMarkers();
-		final IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-		final IValidator validator = this.graph.getConfiguration().getValidator();
-		if (!validator.validate(this.graph, file)) {
-			// activate problems view
-			final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			try {
-				page.showView(IPageLayout.ID_PROBLEM_VIEW);
-			} catch (final PartInitException e) {
-			}
-		}
-	}
+  /**
+   * Validate the graph.
+   *
+   * @return True if the graph is valid, false otherwise.
+   */
+  private void validate() {
+    removeMarkers();
+    final IFile file = ((IFileEditorInput) getEditorInput()).getFile();
+    final IValidator validator = this.graph.getConfiguration().getValidator();
+    if (!validator.validate(this.graph, file)) {
+      // activate problems view
+      final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+      try {
+        page.showView(IPageLayout.ID_PROBLEM_VIEW);
+      } catch (final PartInitException e) {
+        e.printStackTrace();
+      }
+    }
+  }
 
 }

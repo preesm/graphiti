@@ -42,11 +42,10 @@ import org.ietr.dftools.graphiti.model.Edge;
 import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.Vertex;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class provides a command that deletes a vertex. NOTE: this command can
- * delete a vertex OR an edge. Also, if an edge has already been deleted and a
- * DeleteCommand is issued on it, execute() won't do anything because the edge
- * does not have a parent anymore at this point.
+ * This class provides a command that deletes a vertex. NOTE: this command can delete a vertex OR an edge. Also, if an edge has already been deleted and a
+ * DeleteCommand is issued on it, execute() won't do anything because the edge does not have a parent anymore at this point.
  *
  * @author Samuel Beaussier
  * @author Nicolas Isch
@@ -55,72 +54,95 @@ import org.ietr.dftools.graphiti.model.Vertex;
  */
 public class DeleteCommand extends Command {
 
-	private Edge edge;
+  /** The edge. */
+  private Edge edge;
 
-	private Graph parent;
+  /** The parent. */
+  private Graph parent;
 
-	private Vertex vertex;
+  /** The vertex. */
+  private Vertex vertex;
 
-	/**
-	 * Creates a new delete command with the selected object.
-	 *
-	 * @param obj
-	 *            An object to delete.
-	 */
-	public DeleteCommand(final Object obj) {
-		if (obj instanceof Vertex) {
-			this.vertex = (Vertex) obj;
-			this.parent = this.vertex.getParent();
-		} else if (obj instanceof Edge) {
-			this.edge = (Edge) obj;
-			this.parent = this.edge.getParent();
-		}
-	}
+  /**
+   * Creates a new delete command with the selected object.
+   *
+   * @param obj
+   *          An object to delete.
+   */
+  public DeleteCommand(final Object obj) {
+    if (obj instanceof Vertex) {
+      this.vertex = (Vertex) obj;
+      this.parent = this.vertex.getParent();
+    } else if (obj instanceof Edge) {
+      this.edge = (Edge) obj;
+      this.parent = this.edge.getParent();
+    }
+  }
 
-	/**
-	 * Adds a vertex to the parent graph and sets its size.
-	 *
-	 * @param vertex
-	 *            a vertex
-	 */
-	private void addVertex(final Vertex vertex) {
-		final Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
-		this.parent.addVertex(vertex);
-		vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
-	}
+  /**
+   * Adds a vertex to the parent graph and sets its size.
+   *
+   * @param vertex
+   *          a vertex
+   */
+  private void addVertex(final Vertex vertex) {
+    final Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
+    this.parent.addVertex(vertex);
+    vertex.setValue(Vertex.PROPERTY_SIZE, bounds);
+  }
 
-	@Override
-	public boolean canExecute() {
-		return ((this.parent != null) && ((this.vertex != null) || (this.edge != null)));
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#canExecute()
+   */
+  @Override
+  public boolean canExecute() {
+    return ((this.parent != null) && ((this.vertex != null) || (this.edge != null)));
+  }
 
-	@Override
-	public void execute() {
-		if (this.parent != null) {
-			if (this.vertex != null) {
-				this.parent.removeVertex(this.vertex);
-			} else if (this.edge != null) {
-				this.parent.removeEdge(this.edge);
-			}
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#execute()
+   */
+  @Override
+  public void execute() {
+    if (this.parent != null) {
+      if (this.vertex != null) {
+        this.parent.removeVertex(this.vertex);
+      } else if (this.edge != null) {
+        this.parent.removeEdge(this.edge);
+      }
+    }
+  }
 
-	@Override
-	public String getLabel() {
-		return "Delete";
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#getLabel()
+   */
+  @Override
+  public String getLabel() {
+    return "Delete";
+  }
 
-	@Override
-	public void undo() {
-		if (this.parent != null) {
-			if (this.vertex != null) {
-				addVertex(this.vertex);
-			} else if (this.edge != null) {
-				addVertex(this.edge.getSource());
-				addVertex(this.edge.getTarget());
-				this.parent.addEdge(this.edge);
-			}
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#undo()
+   */
+  @Override
+  public void undo() {
+    if (this.parent != null) {
+      if (this.vertex != null) {
+        addVertex(this.vertex);
+      } else if (this.edge != null) {
+        addVertex(this.edge.getSource());
+        addVertex(this.edge.getTarget());
+        this.parent.addEdge(this.edge);
+      }
+    }
+  }
 
 }

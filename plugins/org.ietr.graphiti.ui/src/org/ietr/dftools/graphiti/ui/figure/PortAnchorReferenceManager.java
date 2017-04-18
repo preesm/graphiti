@@ -42,83 +42,84 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class provides a reference manager for port anchors. It contains a main
- * method, getReferencePoint, which clients call to get a reference point for
- * their connection anchor. There is one reference manager for each connection
- * anchor.
+ * This class provides a reference manager for port anchors. It contains a main method, getReferencePoint, which clients call to get a reference point for their
+ * connection anchor. There is one reference manager for each connection anchor.
  *
  * @author Matthieu Wipliez
  *
  */
 public class PortAnchorReferenceManager {
 
-	private final VertexFigure figure;
+  /** The figure. */
+  private final VertexFigure figure;
 
-	private final boolean isOutput;
+  /** The is output. */
+  private final boolean isOutput;
 
-	private final String portName;
+  /** The port name. */
+  private final String portName;
 
-	/**
-	 * Creates a new port anchor reference manager.
-	 *
-	 * @param figure
-	 *            The owning vertex figure.
-	 * @param portName
-	 *            The port name associated with this connection anchor.
-	 * @param isOutput
-	 *            Whether the connection is input (false) or output (true).
-	 */
-	public PortAnchorReferenceManager(final VertexFigure figure, final String portName, final boolean isOutput) {
-		this.figure = figure;
-		this.portName = portName;
-		this.isOutput = isOutput;
-	}
+  /**
+   * Creates a new port anchor reference manager.
+   *
+   * @param figure
+   *          The owning vertex figure.
+   * @param portName
+   *          The port name associated with this connection anchor.
+   * @param isOutput
+   *          Whether the connection is input (false) or output (true).
+   */
+  public PortAnchorReferenceManager(final VertexFigure figure, final String portName, final boolean isOutput) {
+    this.figure = figure;
+    this.portName = portName;
+    this.isOutput = isOutput;
+  }
 
-	/**
-	 * Returns a reference point for the given connection anchor. It uses the
-	 * underlying vertex figure to retrieve the label associated with the port
-	 * name given at creation time.
-	 *
-	 * @param anchor
-	 *            An abstract {@link ConnectionAnchor}.
-	 * @return A reference {@link Point}.
-	 */
-	public Point getReferencePoint(final AbstractConnectionAnchor anchor) {
-		if ((this.portName == null) || this.portName.isEmpty()) {
-			return null;
-		} else {
-			Label label;
-			if (this.isOutput) {
-				label = this.figure.getOutputPortLabel(this.portName);
-				if (label == null) {
-					return null;
-				}
+  /**
+   * Returns a reference point for the given connection anchor. It uses the underlying vertex figure to retrieve the label associated with the port name given
+   * at creation time.
+   *
+   * @param anchor
+   *          An abstract {@link ConnectionAnchor}.
+   * @return A reference {@link Point}.
+   */
+  public Point getReferencePoint(final AbstractConnectionAnchor anchor) {
+    if ((this.portName == null) || this.portName.isEmpty()) {
+      return null;
+    } else {
+      Label label;
+      if (this.isOutput) {
+        label = this.figure.getOutputPortLabel(this.portName);
+        if (label == null) {
+          return null;
+        }
 
-				final Rectangle bounds = label.getBounds();
-				final int x = bounds.x + bounds.width + 5;
-				final int y = bounds.y + (bounds.height / 2);
+        final Rectangle bounds = label.getBounds();
+        final int x = bounds.x + bounds.width + 5;
+        final int y = bounds.y + (bounds.height / 2);
 
-				final Point ref = new Point(x, y);
-				label.translateToAbsolute(ref);
+        final Point ref = new Point(x, y);
+        label.translateToAbsolute(ref);
 
-				return ref;
-			} else {
-				label = this.figure.getInputPortLabel(this.portName);
-				if (label == null) {
-					return null;
-				}
+        return ref;
+      } else {
+        label = this.figure.getInputPortLabel(this.portName);
+        if (label == null) {
+          return null;
+        }
 
-				final Rectangle bounds = label.getBounds();
-				final int x = bounds.x - 5;
-				final int y = bounds.y + (bounds.height / 2);
+        final Rectangle bounds = label.getBounds();
+        final int x = bounds.x - 5;
+        final int y = bounds.y + (bounds.height / 2);
 
-				final Point ref = new Point(x, y);
-				label.translateToAbsolute(ref);
+        final Point ref = new Point(x, y);
+        label.translateToAbsolute(ref);
 
-				return ref;
-			}
-		}
-	}
+        return ref;
+      }
+    }
+  }
 
 }

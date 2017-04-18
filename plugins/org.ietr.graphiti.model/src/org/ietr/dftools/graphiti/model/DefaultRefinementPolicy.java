@@ -38,7 +38,6 @@
 package org.ietr.dftools.graphiti.model;
 
 import java.util.List;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -63,6 +62,7 @@ import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class defines a default refinement policy.
  *
@@ -71,254 +71,299 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
  */
 public class DefaultRefinementPolicy implements IRefinementPolicy {
 
-	/**
-	 * This class provides a listener for the
-	 * {@link IResourceChangeEvent#POST_BUILD} event.
-	 *
-	 * @author Matthieu Wipliez
-	 *
-	 */
-	private final class NewFileListener implements IResourceChangeListener {
+  /**
+   * This class provides a listener for the {@link IResourceChangeEvent#POST_BUILD} event.
+   *
+   * @author Matthieu Wipliez
+   *
+   */
+  private final class NewFileListener implements IResourceChangeListener {
 
-		private IPath refinement;
+    /** The refinement. */
+    private IPath refinement;
 
-		private final Vertex vertex;
+    /** The vertex. */
+    private final Vertex vertex;
 
-		public NewFileListener(final Vertex vertex) {
-			this.vertex = vertex;
-		}
+    /**
+     * Instantiates a new new file listener.
+     *
+     * @param vertex
+     *          the vertex
+     */
+    public NewFileListener(final Vertex vertex) {
+      this.vertex = vertex;
+    }
 
-		/**
-		 * Returns the first {@link IResource} added to the workspace.
-		 *
-		 * @param delta
-		 *            The {@link IResourceDelta} obtained from an
-		 *            {@link IResourceChangeEvent}.
-		 * @return The first {@link IResource} added to the workspace.
-		 */
-		private IResource findAddedFile(final IResourceDelta delta) {
-			IResourceDelta[] deltas = delta.getAffectedChildren(IResourceDelta.CHANGED);
-			if (deltas.length == 0) {
-				deltas = delta.getAffectedChildren(IResourceDelta.ADDED);
-				return deltas[0].getResource();
-			} else {
-				return findAddedFile(deltas[0]);
-			}
-		}
+    /**
+     * Returns the first {@link IResource} added to the workspace.
+     *
+     * @param delta
+     *          The {@link IResourceDelta} obtained from an {@link IResourceChangeEvent}.
+     * @return The first {@link IResource} added to the workspace.
+     */
+    private IResource findAddedFile(final IResourceDelta delta) {
+      IResourceDelta[] deltas = delta.getAffectedChildren(IResourceDelta.CHANGED);
+      if (deltas.length == 0) {
+        deltas = delta.getAffectedChildren(IResourceDelta.ADDED);
+        return deltas[0].getResource();
+      } else {
+        return findAddedFile(deltas[0]);
+      }
+    }
 
-		public IPath getRefinement() {
-			return this.refinement;
-		}
+    /**
+     * Gets the refinement.
+     *
+     * @return the refinement
+     */
+    public IPath getRefinement() {
+      return this.refinement;
+    }
 
-		@Override
-		public void resourceChanged(final IResourceChangeEvent event) {
-			final IResource resource = findAddedFile(event.getDelta());
-			if (resource instanceof IFile) {
-				this.refinement = getRefinementValue(this.vertex, (IFile) resource);
-			}
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent)
+     */
+    @Override
+    public void resourceChanged(final IResourceChangeEvent event) {
+      final IResource resource = findAddedFile(event.getDelta());
+      if (resource instanceof IFile) {
+        this.refinement = getRefinementValue(this.vertex, (IFile) resource);
+      }
+    }
+  }
 
-	private static final String PLUGIN_ID = "org.ietr.dftools.graphiti.model";
+  /** The Constant PLUGIN_ID. */
+  private static final String PLUGIN_ID = "org.ietr.dftools.graphiti.model";
 
-	/**
-	 * Execute the {@link NewWizardAction}, and listens for resource change in
-	 * the workspace to find out the file added before calling
-	 * {@link #setRefinement(IWorkbenchPage, IFile)} on it.
-	 *
-	 * @param shell
-	 *            The active window's {@link Shell}.
-	 * @param page
-	 *            The current {@link IWorkbenchPage}.
-	 */
-	protected IPath createNewFile(final Vertex vertex, final Shell shell) {
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final NewWizardAction action = new NewWizardAction(workbench.getActiveWorkbenchWindow());
+  /**
+   * Execute the {@link NewWizardAction}, and listens for resource change in the workspace to find out the file added before calling
+   * {@link #setRefinement(IWorkbenchPage, IFile)} on it.
+   *
+   * @param vertex
+   *          the vertex
+   * @param shell
+   *          The active window's {@link Shell}.
+   * @return the i path
+   */
+  protected IPath createNewFile(final Vertex vertex, final Shell shell) {
+    final IWorkbench workbench = PlatformUI.getWorkbench();
+    final NewWizardAction action = new NewWizardAction(workbench.getActiveWorkbenchWindow());
 
-		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		final NewFileListener listener = new NewFileListener(vertex);
-		workspace.addResourceChangeListener(listener, IResourceChangeEvent.POST_BUILD);
-		action.run();
-		workspace.removeResourceChangeListener(listener);
+    final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+    final NewFileListener listener = new NewFileListener(vertex);
+    workspace.addResourceChangeListener(listener, IResourceChangeEvent.POST_BUILD);
+    action.run();
+    workspace.removeResourceChangeListener(listener);
 
-		return listener.getRefinement();
-	}
+    return listener.getRefinement();
+  }
 
-	/**
-	 * Returns the absolute path of the given refinement using the given parent
-	 * filename.
-	 *
-	 * @param parent
-	 *            parent file name
-	 * @param refinement
-	 *            a refinement
-	 * @return the absolute path of the refinement of the given vertex
-	 */
-	protected IPath getAbsolutePath(final IPath parent, final String refinement) {
-		// get the path from the refinement
-		IPath path = new Path(refinement);
-		if (path.isAbsolute() == false) {
-			final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-			final IFile file = root.getFile(parent);
-			path = file.getParent().getFullPath().append(path);
-		}
+  /**
+   * Returns the absolute path of the given refinement using the given parent filename.
+   *
+   * @param parent
+   *          parent file name
+   * @param refinement
+   *          a refinement
+   * @return the absolute path of the refinement of the given vertex
+   */
+  protected IPath getAbsolutePath(final IPath parent, final String refinement) {
+    // get the path from the refinement
+    IPath path = new Path(refinement);
+    if (path.isAbsolute() == false) {
+      final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+      final IFile file = root.getFile(parent);
+      path = file.getParent().getFullPath().append(path);
+    }
 
-		return path;
-	}
+    return path;
+  }
 
-	@Override
-	public IPath getNewRefinement(final Vertex vertex) {
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		final Shell shell = window.getShell();
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.ietr.dftools.graphiti.model.IRefinementPolicy#getNewRefinement(org.ietr.dftools.graphiti.model.Vertex)
+   */
+  @Override
+  public IPath getNewRefinement(final Vertex vertex) {
+    final IWorkbench workbench = PlatformUI.getWorkbench();
+    final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+    final Shell shell = window.getShell();
 
-		// prompts the user to choose a file
-		final String message = "The selected vertex can be refined by an existing " + "file, or by a new file you can create.";
-		final MessageDialog dialog = new MessageDialog(shell, "Set/Update Refinement", null, message, MessageDialog.QUESTION,
-				new String[] { "Use an existing file", "Create a new file" }, 0);
-		final int index = dialog.open();
-		if (index == 0) {
-			return useExistingFile(vertex, shell);
-		} else if (index == 1) {
-			return createNewFile(vertex, shell);
-		} else {
-			return null;
-		}
-	}
+    // prompts the user to choose a file
+    final String message = "The selected vertex can be refined by an existing " + "file, or by a new file you can create.";
+    final MessageDialog dialog = new MessageDialog(shell, "Set/Update Refinement", null, message, MessageDialog.QUESTION,
+        new String[] { "Use an existing file", "Create a new file" }, 0);
+    final int index = dialog.open();
+    if (index == 0) {
+      return useExistingFile(vertex, shell);
+    } else if (index == 1) {
+      return createNewFile(vertex, shell);
+    } else {
+      return null;
+    }
+  }
 
-	@Override
-	public IPath getRefinement(final Vertex vertex) {
-		if (vertex != null) {
-			final Object refinement = vertex.getValue(ObjectType.PARAMETER_REFINEMENT);
-			if (refinement instanceof IPath) {
-				return (IPath) refinement;
-			}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.ietr.dftools.graphiti.model.IRefinementPolicy#getRefinement(org.ietr.dftools.graphiti.model.Vertex)
+   */
+  @Override
+  public IPath getRefinement(final Vertex vertex) {
+    if (vertex != null) {
+      final Object refinement = vertex.getValue(ObjectType.PARAMETER_REFINEMENT);
+      if (refinement instanceof IPath) {
+        return (IPath) refinement;
+      }
 
-			if (refinement instanceof String) {
-				return getAbsolutePath(vertex.getParent().getFileName(), (String) refinement);
-			}
-		}
+      if (refinement instanceof String) {
+        return getAbsolutePath(vertex.getParent().getFileName(), (String) refinement);
+      }
+    }
 
-		return null;
-	}
+    return null;
+  }
 
-	@Override
-	public IFile getRefinementFile(final Vertex vertex) {
-		final IPath refinement = getRefinement(vertex);
-		if (refinement == null) {
-			return null;
-		}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.ietr.dftools.graphiti.model.IRefinementPolicy#getRefinementFile(org.ietr.dftools.graphiti.model.Vertex)
+   */
+  @Override
+  public IFile getRefinementFile(final Vertex vertex) {
+    final IPath refinement = getRefinement(vertex);
+    if (refinement == null) {
+      return null;
+    }
 
-		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		final IFile file = root.getFile(refinement);
-		return file;
-	}
+    final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+    final IFile file = root.getFile(refinement);
+    return file;
+  }
 
-	/**
-	 * Returns the refinement value corresponding to the given file. This method
-	 * automatically uses relative or absolute form depending on the location of
-	 * file compared to {@link #editedFile}.
-	 *
-	 * @param file
-	 *            The file refinining the selected vertex.
-	 * @return A {@link String} with the refinement value.
-	 */
-	protected IPath getRefinementValue(final Vertex vertex, final IFile file) {
-		// IPath editedFilePath = vertex.getParent().getFile().getParent()
-		// .getFullPath();
-		// IPath createdFilePath = file.getParent().getFullPath();
+  /**
+   * Returns the refinement value corresponding to the given file. This method automatically uses relative or absolute form depending on the location of file
+   * compared to {@link #editedFile}.
+   *
+   * @param vertex
+   *          the vertex
+   * @param file
+   *          The file refinining the selected vertex.
+   * @return A {@link String} with the refinement value.
+   */
+  protected IPath getRefinementValue(final Vertex vertex, final IFile file) {
+    // IPath editedFilePath = vertex.getParent().getFile().getParent()
+    // .getFullPath();
+    // IPath createdFilePath = file.getParent().getFullPath();
 
-		final IPath fileFullPath = file.getFullPath();
-		return fileFullPath;
+    final IPath fileFullPath = file.getFullPath();
+    return fileFullPath;
 
-		// int n = editedFilePath.matchingFirstSegments(createdFilePath);
-		// IPath refinement = null;
-		// if (n == 0) {
-		// // no common path segments: absolute path
-		// refinement = createdFilePath;
-		// } else {
-		// // common path segments: using a relative path
-		// if (editedFilePath.isPrefixOf(createdFilePath)) {
-		// // just remove the common segments
-		// refinement = createdFilePath.removeFirstSegments(n);
-		// } else {
-		// // go up
-		// int max = editedFilePath.segmentCount();
-		// String path = "";
-		// for (int i = 0; i < max - n; i++) {
-		// path += "../";
-		// }
-		// // and then down
-		// path += createdFilePath.removeFirstSegments(n);
-		// refinement = new Path(path);
-		// }
-		// }
-		//
-		// String fileName = file.getName();
-		// refinement = refinement.append(fileName);
-		// return refinement.toString();
-	}
+    // int n = editedFilePath.matchingFirstSegments(createdFilePath);
+    // IPath refinement = null;
+    // if (n == 0) {
+    // // no common path segments: absolute path
+    // refinement = createdFilePath;
+    // } else {
+    // // common path segments: using a relative path
+    // if (editedFilePath.isPrefixOf(createdFilePath)) {
+    // // just remove the common segments
+    // refinement = createdFilePath.removeFirstSegments(n);
+    // } else {
+    // // go up
+    // int max = editedFilePath.segmentCount();
+    // String path = "";
+    // for (int i = 0; i < max - n; i++) {
+    // path += "../";
+    // }
+    // // and then down
+    // path += createdFilePath.removeFirstSegments(n);
+    // refinement = new Path(path);
+    // }
+    // }
+    //
+    // String fileName = file.getName();
+    // refinement = refinement.append(fileName);
+    // return refinement.toString();
+  }
 
-	@Override
-	public boolean isRefinable(final Vertex vertex) {
-		if (vertex != null) {
-			final List<Parameter> parameters = vertex.getParameters();
-			for (final Parameter parameter : parameters) {
-				if (parameter.getName().equals(ObjectType.PARAMETER_REFINEMENT)) {
-					return true;
-				}
-			}
-		}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.ietr.dftools.graphiti.model.IRefinementPolicy#isRefinable(org.ietr.dftools.graphiti.model.Vertex)
+   */
+  @Override
+  public boolean isRefinable(final Vertex vertex) {
+    if (vertex != null) {
+      final List<Parameter> parameters = vertex.getParameters();
+      for (final Parameter parameter : parameters) {
+        if (parameter.getName().equals(ObjectType.PARAMETER_REFINEMENT)) {
+          return true;
+        }
+      }
+    }
 
-		return false;
-	}
+    return false;
+  }
 
-	@Override
-	public IPath setRefinement(final Vertex vertex, final IPath refinement) {
-		return (IPath) vertex.setValue(ObjectType.PARAMETER_REFINEMENT, refinement);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.ietr.dftools.graphiti.model.IRefinementPolicy#setRefinement(org.ietr.dftools.graphiti.model.Vertex, org.eclipse.core.runtime.IPath)
+   */
+  @Override
+  public IPath setRefinement(final Vertex vertex, final IPath refinement) {
+    return (IPath) vertex.setValue(ObjectType.PARAMETER_REFINEMENT, refinement);
+  }
 
-	/**
-	 * Ask the user to choose an existing file to refine the selected vertex.
-	 *
-	 * @param shell
-	 *            The active window's {@link Shell}.
-	 */
-	protected IPath useExistingFile(final Vertex vertex, final Shell shell) {
-		final ElementTreeSelectionDialog tree = new ElementTreeSelectionDialog(shell, WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider(),
-				new WorkbenchContentProvider());
-		tree.setAllowMultiple(false);
-		tree.setInput(ResourcesPlugin.getWorkspace().getRoot());
-		tree.setMessage("Please select an existing file:");
-		tree.setTitle("Choose an existing file");
-		tree.setValidator(selection -> {
-			if (selection.length == 1) {
-				if (selection[0] instanceof IFile) {
-					final IFile file = (IFile) selection[0];
-					final String message = "Vertex refinement: " + getRefinementValue(vertex, file);
-					return new Status(IStatus.OK, DefaultRefinementPolicy.PLUGIN_ID, message);
-				}
-			}
+  /**
+   * Ask the user to choose an existing file to refine the selected vertex.
+   *
+   * @param vertex
+   *          the vertex
+   * @param shell
+   *          The active window's {@link Shell}.
+   * @return the i path
+   */
+  protected IPath useExistingFile(final Vertex vertex, final Shell shell) {
+    final ElementTreeSelectionDialog tree = new ElementTreeSelectionDialog(shell, WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider(),
+        new WorkbenchContentProvider());
+    tree.setAllowMultiple(false);
+    tree.setInput(ResourcesPlugin.getWorkspace().getRoot());
+    tree.setMessage("Please select an existing file:");
+    tree.setTitle("Choose an existing file");
+    tree.setValidator(selection -> {
+      if (selection.length == 1) {
+        if (selection[0] instanceof IFile) {
+          final IFile file = (IFile) selection[0];
+          final String message = "Vertex refinement: " + getRefinementValue(vertex, file);
+          return new Status(IStatus.OK, DefaultRefinementPolicy.PLUGIN_ID, message);
+        }
+      }
 
-			return new Status(IStatus.ERROR, DefaultRefinementPolicy.PLUGIN_ID, "Only files can be selected, not folders nor projects");
-		});
+      return new Status(IStatus.ERROR, DefaultRefinementPolicy.PLUGIN_ID, "Only files can be selected, not folders nor projects");
+    });
 
-		// initial selection
-		IResource resource = getRefinementFile(vertex);
-		if (resource == null) {
-			resource = vertex.getParent().getFile().getParent();
-		}
-		tree.setInitialSelection(resource);
+    // initial selection
+    IResource resource = getRefinementFile(vertex);
+    if (resource == null) {
+      resource = vertex.getParent().getFile().getParent();
+    }
+    tree.setInitialSelection(resource);
 
-		// opens the dialog
-		if (tree.open() == Window.OK) {
-			final IFile file = (IFile) tree.getFirstResult();
-			if (file != null) {
-				return getRefinementValue(vertex, file);
-			}
-		}
+    // opens the dialog
+    if (tree.open() == Window.OK) {
+      final IFile file = (IFile) tree.getFirstResult();
+      if (file != null) {
+        return getRefinementValue(vertex, file);
+      }
+    }
 
-		return null;
-	}
+    return null;
+  }
 
 }

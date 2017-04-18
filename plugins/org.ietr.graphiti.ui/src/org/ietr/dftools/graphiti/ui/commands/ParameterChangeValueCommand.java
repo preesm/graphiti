@@ -39,74 +39,92 @@ package org.ietr.dftools.graphiti.ui.commands;
 import org.eclipse.gef.commands.Command;
 import org.ietr.dftools.graphiti.model.AbstractObject;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class provides a command that changes the value of the currently
- * selected parameter.
+ * This class provides a command that changes the value of the currently selected parameter.
  *
  * @author Matthieu Wipliez
  *
  */
 public class ParameterChangeValueCommand extends Command {
 
-	final private String label;
+  /** The label. */
+  private final String label;
 
-	/**
-	 * Set by {@link #setValue(String, Object)}.
-	 */
-	private String name;
+  /**
+   * Set by {@link #setValue(String, Object)}.
+   */
+  private String name;
 
-	/**
-	 * The new value.
-	 */
-	private Object newValue;
+  /**
+   * The new value.
+   */
+  private Object newValue;
 
-	/**
-	 * The old value.
-	 */
-	private Object oldValue;
+  /**
+   * The old value.
+   */
+  private Object oldValue;
 
-	/**
-	 * The property bean we're modifying.
-	 */
-	private final AbstractObject source;
+  /**
+   * The property bean we're modifying.
+   */
+  private final AbstractObject source;
 
-	/**
-	 * Creates a new add parameter command.
-	 *
-	 * @param newValue
-	 *            The value.
-	 */
-	public ParameterChangeValueCommand(final AbstractObject source, final String label) {
-		this.source = source;
-		this.label = label;
-	}
+  /**
+   * Creates a new add parameter command.
+   *
+   * @param source
+   *          the source
+   * @param label
+   *          the label
+   */
+  public ParameterChangeValueCommand(final AbstractObject source, final String label) {
+    this.source = source;
+    this.label = label;
+  }
 
-	@Override
-	public void execute() {
-		this.oldValue = this.source.setValue(this.name, this.newValue);
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.commands.Command#execute()
+   */
+  @Override
+  public void execute() {
+    this.oldValue = this.source.setValue(this.name, this.newValue);
+  }
 
-	@Override
-	public String getLabel() {
-		return this.label;
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.commands.Command#getLabel()
+   */
+  @Override
+  public String getLabel() {
+    return this.label;
+  }
 
-	/**
-	 * Sets the value of the parameter whose name is given to the given value.
-	 *
-	 * @param name
-	 *            The parameter name.
-	 * @param value
-	 *            Its new value.
-	 */
-	public void setValue(final String name, final Object value) {
-		this.name = name;
-		this.newValue = value;
-	}
+  /**
+   * Sets the value of the parameter whose name is given to the given value.
+   *
+   * @param name
+   *          The parameter name.
+   * @param value
+   *          Its new value.
+   */
+  public void setValue(final String name, final Object value) {
+    this.name = name;
+    this.newValue = value;
+  }
 
-	@Override
-	public void undo() {
-		this.source.setValue(this.name, this.oldValue);
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.commands.Command#undo()
+   */
+  @Override
+  public void undo() {
+    this.source.setValue(this.name, this.oldValue);
+  }
 
 }

@@ -38,7 +38,6 @@ package org.ietr.dftools.graphiti.ui.commands.copyPaste;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -47,6 +46,7 @@ import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.actions.GraphitiClipboard;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a command that copies vertices.
  *
@@ -57,46 +57,57 @@ import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
  */
 public class CopyCommand extends Command {
 
-	private final List<?> list;
+  /** The list. */
+  private final List<?> list;
 
-	/**
-	 * Creates a new cut command with the selected objects.
-	 *
-	 * @param objects
-	 *            A list of objects to cut.
-	 */
-	public CopyCommand(final List<?> objects) {
-		this.list = objects;
-	}
+  /**
+   * Creates a new cut command with the selected objects.
+   *
+   * @param objects
+   *          A list of objects to cut.
+   */
+  public CopyCommand(final List<?> objects) {
+    this.list = objects;
+  }
 
-	@Override
-	public void execute() {
-		// copy vertices
-		final List<Vertex> vertices = new ArrayList<>();
-		for (final Object obj : this.list) {
-			if (obj instanceof VertexEditPart) {
-				final VertexEditPart vertexEditPart = (VertexEditPart) obj;
-				Vertex vertex = (Vertex) vertexEditPart.getModel();
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#execute()
+   */
+  @Override
+  public void execute() {
+    // copy vertices
+    final List<Vertex> vertices = new ArrayList<>();
+    for (final Object obj : this.list) {
+      if (obj instanceof VertexEditPart) {
+        final VertexEditPart vertexEditPart = (VertexEditPart) obj;
+        Vertex vertex = (Vertex) vertexEditPart.getModel();
 
-				// copy vertex and add to list
-				vertex = new Vertex(vertex);
-				vertices.add(vertex);
-			}
-		}
+        // copy vertex and add to list
+        vertex = new Vertex(vertex);
+        vertices.add(vertex);
+      }
+    }
 
-		// prepare transfer
-		final LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
-		final Object[] verticesArray = vertices.toArray();
-		transfer.setSelection(new StructuredSelection(verticesArray));
+    // prepare transfer
+    final LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
+    final Object[] verticesArray = vertices.toArray();
+    transfer.setSelection(new StructuredSelection(verticesArray));
 
-		// put in clipboard
-		final Object[] data = new Object[] { verticesArray };
-		final Transfer[] transfers = new Transfer[] { transfer };
-		GraphitiClipboard.getInstance().setContents(data, transfers);
-	}
+    // put in clipboard
+    final Object[] data = new Object[] { verticesArray };
+    final Transfer[] transfers = new Transfer[] { transfer };
+    GraphitiClipboard.getInstance().setContents(data, transfers);
+  }
 
-	@Override
-	public String getLabel() {
-		return "Copy";
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#getLabel()
+   */
+  @Override
+  public String getLabel() {
+    return "Copy";
+  }
 }

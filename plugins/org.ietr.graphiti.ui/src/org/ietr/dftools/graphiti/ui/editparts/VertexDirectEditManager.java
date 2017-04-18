@@ -48,87 +48,96 @@ import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.figure.VertexCellEditorLocator;
 import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class extends {@link DirectEditManager} to edit a {@link Vertex}'s id.
- * It is based on Daniel Lee's implementation for the flow example.
+ * This class extends {@link DirectEditManager} to edit a {@link Vertex}'s id. It is based on Daniel Lee's implementation for the flow example.
  *
  * @author Daniel Lee
  * @author Matthieu Wipliez
  */
 public class VertexDirectEditManager extends DirectEditManager {
 
-	private VerifyListener verifyListener;
+  /** The verify listener. */
+  private VerifyListener verifyListener;
 
-	private final Label vertexLabel;
+  /** The vertex label. */
+  private final Label vertexLabel;
 
-	/**
-	 * Creates a new VertexDirectEditManager with the given attributes.
-	 *
-	 * @param source
-	 *            the source EditPart
-	 * @param editorType
-	 *            type of editor
-	 * @param locator
-	 *            the CellEditorLocator
-	 */
-	public VertexDirectEditManager(final VertexEditPart source, final VertexFigure vertexFigure) {
-		super(source, TextCellEditor.class, new VertexCellEditorLocator(vertexFigure));
-		this.vertexLabel = vertexFigure.getLabelId();
-	}
+  /**
+   * Creates a new VertexDirectEditManager with the given attributes.
+   *
+   * @param source
+   *          the source EditPart
+   * @param vertexFigure
+   *          the vertex figure
+   */
+  public VertexDirectEditManager(final VertexEditPart source, final VertexFigure vertexFigure) {
+    super(source, TextCellEditor.class, new VertexCellEditorLocator(vertexFigure));
+    this.vertexLabel = vertexFigure.getLabelId();
+  }
 
-	/**
-	 * @see org.eclipse.gef.tools.DirectEditManager#initCellEditor()
-	 */
-	@Override
-	protected void initCellEditor() {
-		final CellEditor editor = getCellEditor();
+  /**
+   * Inits the cell editor.
+   *
+   * @see org.eclipse.gef.tools.DirectEditManager#initCellEditor()
+   */
+  @Override
+  protected void initCellEditor() {
+    final CellEditor editor = getCellEditor();
 
-		final Text text = (Text) editor.getControl();
+    final Text text = (Text) editor.getControl();
 
-		this.verifyListener = event -> {
-			final Text text1 = (Text) getCellEditor().getControl();
-			final String oldText = text1.getText();
-			final String newText = oldText.substring(0, event.start) + event.text + oldText.substring(event.end, oldText.length());
+    this.verifyListener = event -> {
+      final Text text1 = (Text) getCellEditor().getControl();
+      final String oldText = text1.getText();
+      final String newText = oldText.substring(0, event.start) + event.text + oldText.substring(event.end, oldText.length());
 
-			final GC gc = new GC(text1);
-			Point size = gc.textExtent(newText);
-			gc.dispose();
-			if (size.x == 0) {
-				size.x = size.y;
-			} else {
-				size = text1.computeSize(size.x, size.y);
-			}
+      final GC gc = new GC(text1);
+      Point size = gc.textExtent(newText);
+      gc.dispose();
+      if (size.x == 0) {
+        size.x = size.y;
+      } else {
+        size = text1.computeSize(size.x, size.y);
+      }
 
-			// String error =
-			// getCellEditor().getValidator().isValid(newText);
-			// if (error == null || error.isEmpty()) {
-			// text.setBackground(text.getParent().getBackground());
-			// } else {
-			// text.setBackground(ColorConstants.red);
-			// }
+      // String error =
+      // getCellEditor().getValidator().isValid(newText);
+      // if (error == null || error.isEmpty()) {
+      // text.setBackground(text.getParent().getBackground());
+      // } else {
+      // text.setBackground(ColorConstants.red);
+      // }
 
-			text1.setSize(size.x, size.y);
-		};
-		text.addVerifyListener(this.verifyListener);
+      text1.setSize(size.x, size.y);
+    };
+    text.addVerifyListener(this.verifyListener);
 
-		final String initialLabelText = this.vertexLabel.getText();
-		editor.setValue(initialLabelText);
-	}
+    final String initialLabelText = this.vertexLabel.getText();
+    editor.setValue(initialLabelText);
+  }
 
-	@Override
-	public void showFeedback() {
-		// this is to remove the shadow around the Text component
-		getEditPart().showSourceFeedback(getDirectEditRequest());
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.tools.DirectEditManager#showFeedback()
+   */
+  @Override
+  public void showFeedback() {
+    // this is to remove the shadow around the Text component
+    getEditPart().showSourceFeedback(getDirectEditRequest());
+  }
 
-	/**
-	 * @see org.eclipse.gef.tools.DirectEditManager#unhookListeners()
-	 */
-	@Override
-	protected void unhookListeners() {
-		super.unhookListeners();
-		final Text text = (Text) getCellEditor().getControl();
-		text.removeVerifyListener(this.verifyListener);
-		this.verifyListener = null;
-	}
+  /**
+   * Unhook listeners.
+   *
+   * @see org.eclipse.gef.tools.DirectEditManager#unhookListeners()
+   */
+  @Override
+  protected void unhookListeners() {
+    super.unhookListeners();
+    final Text text = (Text) getCellEditor().getControl();
+    text.removeVerifyListener(this.verifyListener);
+    this.verifyListener = null;
+  }
 }

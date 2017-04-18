@@ -36,6 +36,7 @@
  *******************************************************************************/
 package org.ietr.dftools.graphiti.ui.figure.shapes;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a circle shape.
  *
@@ -45,23 +46,30 @@ package org.ietr.dftools.graphiti.ui.figure.shapes;
  */
 public class ShapeFactory {
 
-	public static IShape createShape(final String name) {
-		IShape shape = null;
-		if ("circle".equals(name)) {
-			shape = new ShapeCircle();
-		} else if ("hexagon".equals(name)) {
-			shape = new ShapeHexagon();
-		} else if ("lozenge".equals(name)) {
-			shape = new ShapeLozenge();
-		} else if ("roundedBox".equals(name)) {
-			shape = new ShapeRoundedBox();
-		} else if ("triangle".equals(name)) {
-			shape = new ShapeTriangle();
-		} else {
-			throw new IllegalArgumentException("Invalid shape name: " + name);
-		}
+  /**
+   * Creates a new Shape object.
+   *
+   * @param name
+   *          the name
+   * @return the i shape
+   */
+  public static IShape createShape(final String name) {
+    IShape shape = null;
+    if ("circle".equals(name)) {
+      shape = new ShapeCircle();
+    } else if ("hexagon".equals(name)) {
+      shape = new ShapeHexagon();
+    } else if ("lozenge".equals(name)) {
+      shape = new ShapeLozenge();
+    } else if ("roundedBox".equals(name)) {
+      shape = new ShapeRoundedBox();
+    } else if ("triangle".equals(name)) {
+      shape = new ShapeTriangle();
+    } else {
+      throw new IllegalArgumentException("Invalid shape name: " + name);
+    }
 
-		return shape;
-	}
+    return shape;
+  }
 
 }

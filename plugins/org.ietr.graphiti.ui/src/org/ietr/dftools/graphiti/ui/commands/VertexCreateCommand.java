@@ -48,6 +48,7 @@ import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class allows the creation of vertices.
  *
@@ -58,122 +59,144 @@ import org.ietr.dftools.graphiti.model.Vertex;
  */
 public class VertexCreateCommand extends Command {
 
-	private Rectangle bounds;
+  /** The bounds. */
+  private Rectangle bounds;
 
-	private Graph graph;
+  /** The graph. */
+  private Graph graph;
 
-	private Vertex vertex;
+  /** The vertex. */
+  private Vertex vertex;
 
-	public VertexCreateCommand() {
-	}
+  /**
+   * Instantiates a new vertex create command.
+   */
+  public VertexCreateCommand() {
+  }
 
-	@Override
-	public void execute() {
-		if ((this.graph != null) && (this.vertex != null)) {
-			String id;
-			if (this.vertex.getType().getName().equals("Scenario source")) {
-				id = "scenario";
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#execute()
+   */
+  @Override
+  public void execute() {
+    if ((this.graph != null) && (this.vertex != null)) {
+      String id;
+      if (this.vertex.getType().getName().equals("Scenario source")) {
+        id = "scenario";
 
-			} else {
-				id = getVertexId();
-			}
-			if (id != null) {
-				this.vertex.setValue(ObjectType.PARAMETER_ID, id);
-				this.graph.addVertex(this.vertex);
+      } else {
+        id = getVertexId();
+      }
+      if (id != null) {
+        this.vertex.setValue(ObjectType.PARAMETER_ID, id);
+        this.graph.addVertex(this.vertex);
 
-				// retrieve the vertex bounds (they have been set by the edit
-				// part)
-				// and set the location
-				final Rectangle vertexBounds = (Rectangle) this.vertex.getValue(Vertex.PROPERTY_SIZE);
-				final Rectangle newBounds = vertexBounds.getCopy();
-				newBounds.x = this.bounds.x;
-				newBounds.y = this.bounds.y;
-				this.vertex.setValue(Vertex.PROPERTY_SIZE, newBounds);
-			}
-		}
-	}
+        // retrieve the vertex bounds (they have been set by the edit
+        // part)
+        // and set the location
+        final Rectangle vertexBounds = (Rectangle) this.vertex.getValue(Vertex.PROPERTY_SIZE);
+        final Rectangle newBounds = vertexBounds.getCopy();
+        newBounds.x = this.bounds.x;
+        newBounds.y = this.bounds.y;
+        this.vertex.setValue(Vertex.PROPERTY_SIZE, newBounds);
+      }
+    }
+  }
 
-	@Override
-	public String getLabel() {
-		if (this.vertex != null) {
-			final String type = this.vertex.getType().getName();
-			return "Create " + type;
-		} else {
-			return "Create vertex";
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#getLabel()
+   */
+  @Override
+  public String getLabel() {
+    if (this.vertex != null) {
+      final String type = this.vertex.getType().getName();
+      return "Create " + type;
+    } else {
+      return "Create vertex";
+    }
+  }
 
-	/**
-	 * Returns a vertex identifier.
-	 *
-	 * @return A unique vertex identifier, or <code>null</code>.
-	 */
-	private String getVertexId() {
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		final Shell shell = window.getShell();
+  /**
+   * Returns a vertex identifier.
+   *
+   * @return A unique vertex identifier, or <code>null</code>.
+   */
+  private String getVertexId() {
+    final IWorkbench workbench = PlatformUI.getWorkbench();
+    final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+    final Shell shell = window.getShell();
 
-		final InputDialog dialog = new InputDialog(shell, "New vertex", "Please enter a vertex identifier", "", vertexId -> {
-			if (vertexId.isEmpty()) {
-				return "";
-			}
+    final InputDialog dialog = new InputDialog(shell, "New vertex", "Please enter a vertex identifier", "", vertexId -> {
+      if (vertexId.isEmpty()) {
+        return "";
+      }
 
-			if (VertexCreateCommand.this.graph != null) {
-				final Vertex vertex = VertexCreateCommand.this.graph.findVertex(vertexId);
-				if (vertex != null) {
-					return "A vertex already exists with the same identifier";
-				}
-			}
+      if (VertexCreateCommand.this.graph != null) {
+        final Vertex vertex = VertexCreateCommand.this.graph.findVertex(vertexId);
+        if (vertex != null) {
+          return "A vertex already exists with the same identifier";
+        }
+      }
 
-			return null;
-		});
-		dialog.open();
+      return null;
+    });
+    dialog.open();
 
-		final String value = dialog.getValue();
-		if ((value == null) || value.isEmpty()) {
-			return null;
-		} else {
-			return value;
-		}
-	}
+    final String value = dialog.getValue();
+    if ((value == null) || value.isEmpty()) {
+      return null;
+    } else {
+      return value;
+    }
+  }
 
-	/**
-	 * Sets the initial bounds of this vertex.
-	 *
-	 * @param bounds
-	 */
-	public void setBounds(final Rectangle bounds) {
-		this.bounds = bounds;
-	}
+  /**
+   * Sets the initial bounds of this vertex.
+   *
+   * @param bounds
+   *          the new bounds
+   */
+  public void setBounds(final Rectangle bounds) {
+    this.bounds = bounds;
+  }
 
-	/**
-	 * Sets this command model.
-	 *
-	 * @param model
-	 *            The model to use.
-	 */
-	public void setModel(final Object model) {
-		if (model instanceof Graph) {
-			this.graph = (Graph) model;
-		}
-	}
+  /**
+   * Sets this command model.
+   *
+   * @param model
+   *          The model to use.
+   */
+  public void setModel(final Object model) {
+    if (model instanceof Graph) {
+      this.graph = (Graph) model;
+    }
+  }
 
-	/**
-	 * Sets the new object that should be added to the model.
-	 *
-	 * @param newObject
-	 *            the newly created object.
-	 */
-	public void setNewObject(final Object newObject) {
-		if (newObject instanceof Vertex) {
-			this.vertex = (Vertex) newObject;
-		}
-	}
+  /**
+   * Sets the new object that should be added to the model.
+   *
+   * @param newObject
+   *          the newly created object.
+   */
+  public void setNewObject(final Object newObject) {
+    if (newObject instanceof Vertex) {
+      this.vertex = (Vertex) newObject;
+    }
+  }
 
-	@Override
-	public void undo() {
-		if ((this.graph != null) && (this.vertex != null)) {
-			this.graph.removeVertex(this.vertex);
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#undo()
+   */
+  @Override
+  public void undo() {
+    if ((this.graph != null) && (this.vertex != null)) {
+      this.graph.removeVertex(this.vertex);
+    }
+  }
 }

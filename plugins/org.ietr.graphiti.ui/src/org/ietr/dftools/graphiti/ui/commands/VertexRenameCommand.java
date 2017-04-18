@@ -40,6 +40,7 @@ import org.eclipse.gef.commands.Command;
 import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 
+// TODO: Auto-generated Javadoc
 /**
  * Command to rename Activities.
  *
@@ -47,46 +48,64 @@ import org.ietr.dftools.graphiti.model.Vertex;
  */
 public class VertexRenameCommand extends Command {
 
-	private String id;
+  /** The id. */
+  private String id;
 
-	private final String previousId;
+  /** The previous id. */
+  private final String previousId;
 
-	private final Vertex vertex;
+  /** The vertex. */
+  private final Vertex vertex;
 
-	/**
-	 * Creates a new VertexRenameCommand for the given vertex.
-	 *
-	 * @param vertex
-	 *            The {@link Vertex}.
-	 */
-	public VertexRenameCommand(final Vertex vertex) {
-		this.vertex = vertex;
-		this.previousId = (String) vertex.getValue(ObjectType.PARAMETER_ID);
-	}
+  /**
+   * Creates a new VertexRenameCommand for the given vertex.
+   *
+   * @param vertex
+   *          The {@link Vertex}.
+   */
+  public VertexRenameCommand(final Vertex vertex) {
+    this.vertex = vertex;
+    this.previousId = (String) vertex.getValue(ObjectType.PARAMETER_ID);
+  }
 
-	@Override
-	public void execute() {
-		this.vertex.setValue(ObjectType.PARAMETER_ID, this.id);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#execute()
+   */
+  @Override
+  public void execute() {
+    this.vertex.setValue(ObjectType.PARAMETER_ID, this.id);
+  }
 
-	@Override
-	public String getLabel() {
-		return "Rename";
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#getLabel()
+   */
+  @Override
+  public String getLabel() {
+    return "Rename";
+  }
 
-	/**
-	 * Sets the new Activity name
-	 *
-	 * @param string
-	 *            the new name
-	 */
-	public void setName(final String string) {
-		this.id = string;
-	}
+  /**
+   * Sets the new Activity name.
+   *
+   * @param string
+   *          the new name
+   */
+  public void setName(final String string) {
+    this.id = string;
+  }
 
-	@Override
-	public void undo() {
-		this.vertex.setValue(ObjectType.PARAMETER_ID, this.previousId);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#undo()
+   */
+  @Override
+  public void undo() {
+    this.vertex.setValue(ObjectType.PARAMETER_ID, this.previousId);
+  }
 
 }

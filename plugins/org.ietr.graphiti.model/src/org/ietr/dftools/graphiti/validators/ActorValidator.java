@@ -40,6 +40,7 @@ import org.eclipse.core.resources.IFile;
 import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.IValidator;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class implements a model validator.
  *
@@ -48,9 +49,14 @@ import org.ietr.dftools.graphiti.model.IValidator;
  */
 public class ActorValidator implements IValidator {
 
-	@Override
-	public boolean validate(final Graph graph, final IFile file) {
-		return true;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.ietr.dftools.graphiti.model.IValidator#validate(org.ietr.dftools.graphiti.model.Graph, org.eclipse.core.resources.IFile)
+   */
+  @Override
+  public boolean validate(final Graph graph, final IFile file) {
+    return true;
+  }
 
 }

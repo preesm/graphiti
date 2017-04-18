@@ -45,76 +45,99 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 import org.ietr.dftools.graphiti.ui.actions.SetRefinementAction;
 
+// TODO: Auto-generated Javadoc
 /**
- * Build the context menu which is opened when right click with mouse
+ * Build the context menu which is opened when right click with mouse.
  *
  * @author Samuel Beaussier & Nicolas Isch
  */
 public class GraphEditorContextMenuProvider extends ContextMenuProvider {
 
-	private ActionRegistry actionRegistry;
+  /** The action registry. */
+  private ActionRegistry actionRegistry;
 
-	/**
-	 * Create context menu associating a viewer and a register
-	 *
-	 * @param viewer
-	 * @param registry
-	 */
-	public GraphEditorContextMenuProvider(final EditPartViewer viewer, final ActionRegistry registry) {
-		super(viewer);
-		setActionRegistry(registry);
-	}
+  /**
+   * Create context menu associating a viewer and a register.
+   *
+   * @param viewer
+   *          the viewer
+   * @param registry
+   *          the registry
+   */
+  public GraphEditorContextMenuProvider(final EditPartViewer viewer, final ActionRegistry registry) {
+    super(viewer);
+    setActionRegistry(registry);
+  }
 
-	private void addIfEnabled(final ActionRegistry registry, final IMenuManager menu, final String actionId) {
-		final IAction action = registry.getAction(actionId);
-		if (action.isEnabled()) {
-			menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
-		}
-	}
+  /**
+   * Adds the if enabled.
+   *
+   * @param registry
+   *          the registry
+   * @param menu
+   *          the menu
+   * @param actionId
+   *          the action id
+   */
+  private void addIfEnabled(final ActionRegistry registry, final IMenuManager menu, final String actionId) {
+    final IAction action = registry.getAction(actionId);
+    if (action.isEnabled()) {
+      menu.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
+    }
+  }
 
-	@Override
-	public void buildContextMenu(final IMenuManager menu) {
-		IAction action;
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
+   */
+  @Override
+  public void buildContextMenu(final IMenuManager menu) {
+    IAction action;
 
-		GEFActionConstants.addStandardActionGroups(menu);
-		final ActionRegistry registry = getActionRegistry();
+    GEFActionConstants.addStandardActionGroups(menu);
+    final ActionRegistry registry = getActionRegistry();
 
-		addIfEnabled(registry, menu, SetRefinementAction.getActionId());
+    addIfEnabled(registry, menu, SetRefinementAction.getActionId());
 
-		action = registry.getAction(ActionFactory.UNDO.getId());
-		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
+    action = registry.getAction(ActionFactory.UNDO.getId());
+    menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
 
-		action = registry.getAction(ActionFactory.REDO.getId());
-		menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
+    action = registry.getAction(ActionFactory.REDO.getId());
+    menu.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
 
-		action = registry.getAction(ActionFactory.CUT.getId());
-		menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);
+    action = registry.getAction(ActionFactory.CUT.getId());
+    menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);
 
-		action = registry.getAction(ActionFactory.COPY.getId());
-		menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);
+    action = registry.getAction(ActionFactory.COPY.getId());
+    menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);
 
-		action = registry.getAction(ActionFactory.PASTE.getId());
-		menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);
+    action = registry.getAction(ActionFactory.PASTE.getId());
+    menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);
 
-		action = registry.getAction(ActionFactory.DELETE.getId());
-		menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
-	}
+    action = registry.getAction(ActionFactory.DELETE.getId());
+    menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+  }
 
-	/**
-	 * @return the actionRegistry
-	 * @uml.property name="actionRegistry"
-	 */
-	private ActionRegistry getActionRegistry() {
-		return this.actionRegistry;
-	}
+  /**
+   * Gets the action registry.
+   *
+   * @return the actionRegistry
+   * @uml.property name="actionRegistry"
+   */
+  private ActionRegistry getActionRegistry() {
+    return this.actionRegistry;
+  }
 
-	/**
-	 * @param actionRegistry
-	 *            the actionRegistry to set
-	 * @uml.property name="actionRegistry"
-	 */
-	private void setActionRegistry(final ActionRegistry registry) {
-		this.actionRegistry = registry;
-	}
+  /**
+   * Sets the action registry.
+   *
+   * @param registry
+   *          the new action registry
+   * @uml.property name="actionRegistry"
+   */
+  private void setActionRegistry(final ActionRegistry registry) {
+    this.actionRegistry = registry;
+  }
 
 }

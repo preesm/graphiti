@@ -44,6 +44,7 @@ import org.ietr.dftools.graphiti.model.IRefinementPolicy;
 import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a way to create a vertex refinement.
  *
@@ -52,65 +53,93 @@ import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
  */
 public class SetRefinementCommand extends Command {
 
-	private IPath refinement;
+  /** The refinement. */
+  private IPath refinement;
 
-	private Vertex vertex;
+  /** The vertex. */
+  private Vertex vertex;
 
-	private IRefinementPolicy policy;
+  /** The policy. */
+  private IRefinementPolicy policy;
 
-	@Override
-	public boolean canExecute() {
-		if (this.vertex == null) {
-			return false;
-		} else {
-			return this.policy.isRefinable(this.vertex);
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#canExecute()
+   */
+  @Override
+  public boolean canExecute() {
+    if (this.vertex == null) {
+      return false;
+    } else {
+      return this.policy.isRefinable(this.vertex);
+    }
+  }
 
-	@Override
-	public void execute() {
-		// save old value of refinement in refinement
-		// allows execute() to be executed by undo()
-		this.refinement = this.policy.setRefinement(this.vertex, this.refinement);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#execute()
+   */
+  @Override
+  public void execute() {
+    // save old value of refinement in refinement
+    // allows execute() to be executed by undo()
+    this.refinement = this.policy.setRefinement(this.vertex, this.refinement);
+  }
 
-	@Override
-	public String getLabel() {
-		return "Set refinement";
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#getLabel()
+   */
+  @Override
+  public String getLabel() {
+    return "Set refinement";
+  }
 
-	/**
-	 * Runs this command, but do not actually change the refinement. This will
-	 * be done by execute.
-	 */
-	public boolean run() {
-		final IPath refinement = this.policy.getRefinement(this.vertex);
-		final IPath newRefinement = this.policy.getNewRefinement(this.vertex);
-		if ((newRefinement != null) && !newRefinement.equals(refinement)) {
-			this.refinement = newRefinement;
-			return true;
-		}
+  /**
+   * Runs this command, but do not actually change the refinement. This will be done by execute.
+   *
+   * @return true, if successful
+   */
+  public boolean run() {
+    final IPath refinement = this.policy.getRefinement(this.vertex);
+    final IPath newRefinement = this.policy.getNewRefinement(this.vertex);
+    if ((newRefinement != null) && !newRefinement.equals(refinement)) {
+      this.refinement = newRefinement;
+      return true;
+    }
 
-		return false;
-	}
+    return false;
+  }
 
-	/**
-	 * @see RefinementManager#setSelection(ISelection)
-	 */
-	public void setSelection(final ISelection selection) {
-		if (selection instanceof IStructuredSelection) {
-			final Object obj = ((IStructuredSelection) selection).getFirstElement();
-			if (obj instanceof VertexEditPart) {
-				// we are dealing with a vertex edit part
-				this.vertex = (Vertex) ((VertexEditPart) obj).getModel();
-				this.policy = this.vertex.getConfiguration().getRefinementPolicy();
-			}
-		}
-	}
+  /**
+   * Sets the selection.
+   *
+   * @param selection
+   *          the new selection
+   * @see RefinementManager#setSelection(ISelection)
+   */
+  public void setSelection(final ISelection selection) {
+    if (selection instanceof IStructuredSelection) {
+      final Object obj = ((IStructuredSelection) selection).getFirstElement();
+      if (obj instanceof VertexEditPart) {
+        // we are dealing with a vertex edit part
+        this.vertex = (Vertex) ((VertexEditPart) obj).getModel();
+        this.policy = this.vertex.getConfiguration().getRefinementPolicy();
+      }
+    }
+  }
 
-	@Override
-	public void undo() {
-		execute();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#undo()
+   */
+  @Override
+  public void undo() {
+    execute();
+  }
 
 }

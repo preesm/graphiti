@@ -38,6 +38,7 @@ package org.ietr.dftools.graphiti.model;
 
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class represents a vertex.
  *
@@ -46,102 +47,109 @@ import java.util.List;
  */
 public class Vertex extends AbstractObject {
 
-	/**
-	 * String for the "destination vertex" property. Set when a vertex becomes
-	 * the destination of a dependency.
-	 */
-	public static final String PROPERTY_DST_VERTEX = "destination vertex";
+  /**
+   * String for the "destination vertex" property. Set when a vertex becomes the destination of a dependency.
+   */
+  public static final String PROPERTY_DST_VERTEX = "destination vertex";
 
-	/**
-	 * String for the "size" property. Set when the location/size of a vertex
-	 * changes.
-	 */
-	public static final String PROPERTY_SIZE = "size";
+  /**
+   * String for the "size" property. Set when the location/size of a vertex changes.
+   */
+  public static final String PROPERTY_SIZE = "size";
 
-	/**
-	 * String for the "source vertex" property. Set when a vertex becomes the
-	 * source of a dependency.
-	 */
-	public static final String PROPERTY_SRC_VERTEX = "source vertex";
+  /**
+   * String for the "source vertex" property. Set when a vertex becomes the source of a dependency.
+   */
+  public static final String PROPERTY_SRC_VERTEX = "source vertex";
 
-	/**
-	 * String for the "Input port" type.
-	 */
-	public static final String TYPE_INPUT_PORT = "Input port";
+  /**
+   * String for the "Input port" type.
+   */
+  public static final String TYPE_INPUT_PORT = "Input port";
 
-	/**
-	 * String for the "Output port" type.
-	 */
-	public static final String TYPE_OUTPUT_PORT = "Output port";
+  /**
+   * String for the "Output port" type.
+   */
+  public static final String TYPE_OUTPUT_PORT = "Output port";
 
-	/**
-	 * String for the "Port" type.
-	 */
-	public static final String TYPE_PORT = "Port";
+  /**
+   * String for the "Port" type.
+   */
+  public static final String TYPE_PORT = "Port";
 
-	/**
-	 * The parent graph of this vertex.
-	 */
-	Graph parent;
+  /**
+   * The parent graph of this vertex.
+   */
+  Graph parent;
 
-	/**
-	 * Creates a vertex with the given type.
-	 *
-	 * @param type
-	 *            The vertex type.
-	 */
-	public Vertex(final ObjectType type) {
-		super(type);
+  /**
+   * Creates a vertex with the given type.
+   *
+   * @param type
+   *          The vertex type.
+   */
+  public Vertex(final ObjectType type) {
+    super(type);
 
-		// set default values
-		final List<Parameter> parameters = type.getParameters();
-		for (final Parameter parameter : parameters) {
-			setValue(parameter.getName(), parameter.getDefault());
-		}
-	}
+    // set default values
+    final List<Parameter> parameters = type.getParameters();
+    for (final Parameter parameter : parameters) {
+      setValue(parameter.getName(), parameter.getDefault());
+    }
+  }
 
-	/**
-	 * Creates a new vertex which is a copy of the given vertex.
-	 *
-	 * @param vertex
-	 *            The source vertex.
-	 */
-	public Vertex(final Vertex vertex) {
-		super(vertex);
-		this.parent = vertex.parent;
-	}
+  /**
+   * Creates a new vertex which is a copy of the given vertex.
+   *
+   * @param vertex
+   *          The source vertex.
+   */
+  public Vertex(final Vertex vertex) {
+    super(vertex);
+    this.parent = vertex.parent;
+  }
 
-	/**
-	 * Returns the configuration associated with this Vertex.
-	 *
-	 * @return The configuration associated with this Vertex.
-	 */
-	public Configuration getConfiguration() {
-		return this.parent.getConfiguration();
-	}
+  /**
+   * Returns the configuration associated with this Vertex.
+   *
+   * @return The configuration associated with this Vertex.
+   */
+  public Configuration getConfiguration() {
+    return this.parent.getConfiguration();
+  }
 
-	/**
-	 * Returns the parent {@link Graph} of this Vertex.
-	 *
-	 * @return The parent {@link Graph} of this Vertex.
-	 */
-	public Graph getParent() {
-		return this.parent;
-	}
+  /**
+   * Returns the parent {@link Graph} of this Vertex.
+   *
+   * @return The parent {@link Graph} of this Vertex.
+   */
+  public Graph getParent() {
+    return this.parent;
+  }
 
-	@Override
-	public Object setValue(final String propertyName, final Object newValue) {
-		if (ObjectType.PARAMETER_ID.equals(propertyName)) {
-			if (this.parent != null) {
-				this.parent.changeVertexId(this, (String) newValue);
-			}
-		}
-		return super.setValue(propertyName, newValue);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.ietr.dftools.graphiti.model.AbstractObject#setValue(java.lang.String, java.lang.Object)
+   */
+  @Override
+  public Object setValue(final String propertyName, final Object newValue) {
+    if (ObjectType.PARAMETER_ID.equals(propertyName)) {
+      if (this.parent != null) {
+        this.parent.changeVertexId(this, (String) newValue);
+      }
+    }
+    return super.setValue(propertyName, newValue);
+  }
 
-	@Override
-	public String toString() {
-		return getType() + ": " + getValue(ObjectType.PARAMETER_ID);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return getType() + ": " + getValue(ObjectType.PARAMETER_ID);
+  }
 
 }

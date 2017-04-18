@@ -38,7 +38,6 @@ package org.ietr.dftools.graphiti.ui.figure;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.Graphics;
@@ -53,6 +52,7 @@ import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Parameter;
 import org.ietr.dftools.graphiti.model.ParameterPosition;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides drawing for a dependency.
  *
@@ -62,81 +62,96 @@ import org.ietr.dftools.graphiti.model.ParameterPosition;
  */
 public class EdgeFigure extends PolylineConnection {
 
-	private final Edge edge;
+  /** The edge. */
+  private final Edge edge;
 
-	private final Map<String, Label> parameterFigures;
+  /** The parameter figures. */
+  private final Map<String, Label> parameterFigures;
 
-	/**
-	 * Creates the Figure associated to the connection
-	 *
-	 * @param edge
-	 *            The Edge model associated with this figure.
-	 */
-	public EdgeFigure(final Edge edge) {
-		// Sets Layout Manager
-		setLayoutManager(new DelegatingLayout());
-		this.edge = edge;
+  /**
+   * Creates the Figure associated to the connection.
+   *
+   * @param edge
+   *          The Edge model associated with this figure.
+   */
+  public EdgeFigure(final Edge edge) {
+    // Sets Layout Manager
+    setLayoutManager(new DelegatingLayout());
+    this.edge = edge;
 
-		this.parameterFigures = new HashMap<>();
+    this.parameterFigures = new HashMap<>();
 
-		// update parameters
-		for (final Parameter parameter : edge.getParameters()) {
-			refresh(parameter.getName(), edge.getValue(parameter.getName()));
-		}
+    // update parameters
+    for (final Parameter parameter : edge.getParameters()) {
+      refresh(parameter.getName(), edge.getValue(parameter.getName()));
+    }
 
-		final Boolean directed = (Boolean) edge.getType().getAttribute(ObjectType.ATTRIBUTE_DIRECTED);
-		if ((directed == null) || directed) {
-			// we consider the edge directed by default.
-			setTargetDecoration(new PolygonDecoration());
-		}
+    final Boolean directed = (Boolean) edge.getType().getAttribute(ObjectType.ATTRIBUTE_DIRECTED);
+    if ((directed == null) || directed) {
+      // we consider the edge directed by default.
+      setTargetDecoration(new PolygonDecoration());
+    }
 
-		Color color = (Color) edge.getType().getAttribute(ObjectType.ATTRIBUTE_COLOR);
-		if (color == null) {
-			color = ColorConstants.black;
-		}
+    Color color = (Color) edge.getType().getAttribute(ObjectType.ATTRIBUTE_COLOR);
+    if (color == null) {
+      color = ColorConstants.black;
+    }
 
-		setForegroundColor(color);
-		setLineWidth(1);
-	}
+    setForegroundColor(color);
+    setLineWidth(1);
+  }
 
-	@Override
-	public void paintFigure(final Graphics graphics) {
-		if (graphics instanceof SWTGraphics) {
-			graphics.pushState();
-			try {
-				// Needs advanced capabilities or throws SWTException
-				graphics.setAntialias(SWT.ON);
-			} catch (final RuntimeException e) {
-				// No anti alias, less pretty but it will work!
-			}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.draw2d.Shape#paintFigure(org.eclipse.draw2d.Graphics)
+   */
+  @Override
+  public void paintFigure(final Graphics graphics) {
+    if (graphics instanceof SWTGraphics) {
+      graphics.pushState();
+      try {
+        // Needs advanced capabilities or throws SWTException
+        graphics.setAntialias(SWT.ON);
+      } catch (final RuntimeException e) {
+        // No anti alias, less pretty but it will work!
+      }
 
-			super.paintFigure(graphics);
-			graphics.popState();
-		} else {
-			// ScaledGraphics and PrinterGraphics do not have advanced
-			// capabilities... so we try with SWTGraphics
-			super.paintFigure(graphics);
-		}
-	}
+      super.paintFigure(graphics);
+      graphics.popState();
+    } else {
+      // ScaledGraphics and PrinterGraphics do not have advanced
+      // capabilities... so we try with SWTGraphics
+      super.paintFigure(graphics);
+    }
+  }
 
-	public void refresh(final String parameterName, Object value) {
-		final Label label = this.parameterFigures.get(parameterName);
-		if (label == null) {
-			value = this.edge.getValue(parameterName);
-			if (value != null) {
-				final Parameter parameter = this.edge.getParameter(parameterName);
-				final ParameterPosition position = parameter.getPosition();
+  /**
+   * Refresh.
+   *
+   * @param parameterName
+   *          the parameter name
+   * @param value
+   *          the value
+   */
+  public void refresh(final String parameterName, Object value) {
+    final Label label = this.parameterFigures.get(parameterName);
+    if (label == null) {
+      value = this.edge.getValue(parameterName);
+      if (value != null) {
+        final Parameter parameter = this.edge.getParameter(parameterName);
+        final ParameterPosition position = parameter.getPosition();
 
-				if (position != null) {
-					final Label parameterLabel = new Label(value.toString());
-					parameterLabel.setForegroundColor(new Color(null, 224, 0, 0));
-					final Object locator = new PropertyLocator(this, position);
-					add(parameterLabel, locator);
-					this.parameterFigures.put(parameterName, parameterLabel);
-				}
-			}
-		} else {
-			label.setText(value.toString());
-		}
-	}
+        if (position != null) {
+          final Label parameterLabel = new Label(value.toString());
+          parameterLabel.setForegroundColor(new Color(null, 224, 0, 0));
+          final Object locator = new PropertyLocator(this, position);
+          add(parameterLabel, locator);
+          this.parameterFigures.put(parameterName, parameterLabel);
+        }
+      }
+    } else {
+      label.setText(value.toString());
+    }
+  }
 }

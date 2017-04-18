@@ -43,9 +43,9 @@ import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.commands.refinement.PortChooser;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class provides a Command that creates a dependency. ComplexSource and
- * target are set when they are connected.
+ * This class provides a Command that creates a dependency. ComplexSource and target are set when they are connected.
  *
  * @author Samuel Beaussier
  * @author Nicolas Isch
@@ -53,87 +53,102 @@ import org.ietr.dftools.graphiti.ui.commands.refinement.PortChooser;
  */
 public class EdgeCreateCommand extends Command {
 
-	/**
-	 * The edge is stored as an attribute so it can be used both in the
-	 * <code>execute</code> and <code>undo</code> methods.
-	 */
-	private final Edge edge;
+  /**
+   * The edge is stored as an attribute so it can be used both in the <code>execute</code> and <code>undo</code> methods.
+   */
+  private final Edge edge;
 
-	/**
-	 * The parentGraph is stored as an attribute so it can be used both in the
-	 * <code>execute</code> and <code>undo</code> methods.
-	 */
-	private Graph parentGraph;
+  /**
+   * The parentGraph is stored as an attribute so it can be used both in the <code>execute</code> and <code>undo</code> methods.
+   */
+  private Graph parentGraph;
 
-	private Vertex source;
+  /** The source. */
+  private Vertex source;
 
-	private Vertex target;
+  /** The target. */
+  private Vertex target;
 
-	/**
-	 * Creates a new command using the given newly created edge.
-	 *
-	 * @param edge
-	 *            The newly created edge.
-	 */
-	public EdgeCreateCommand(final Edge edge) {
-		this.edge = edge;
-	}
+  /**
+   * Creates a new command using the given newly created edge.
+   *
+   * @param edge
+   *          The newly created edge.
+   */
+  public EdgeCreateCommand(final Edge edge) {
+    this.edge = edge;
+  }
 
-	@Override
-	public void execute() {
-		// parent graph
-		this.parentGraph = this.source.getParent();
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#execute()
+   */
+  @Override
+  public void execute() {
+    // parent graph
+    this.parentGraph = this.source.getParent();
 
-		// edge has been set in the constructor.
-		this.edge.setSource(this.source);
-		this.edge.setTarget(this.target);
+    // edge has been set in the constructor.
+    this.edge.setSource(this.source);
+    this.edge.setTarget(this.target);
 
-		final String connection = this.source.getValue(ObjectType.PARAMETER_ID) + " - " + this.target.getValue(ObjectType.PARAMETER_ID);
+    final String connection = this.source.getValue(ObjectType.PARAMETER_ID) + " - " + this.target.getValue(ObjectType.PARAMETER_ID);
 
-		final PortChooser portChooser = new PortChooser(connection);
-		if (this.edge.getParameter(ObjectType.PARAMETER_SOURCE_PORT) != null) {
-			this.edge.setValue(ObjectType.PARAMETER_SOURCE_PORT, portChooser.getSourcePort(this.source));
-		}
+    final PortChooser portChooser = new PortChooser(connection);
+    if (this.edge.getParameter(ObjectType.PARAMETER_SOURCE_PORT) != null) {
+      this.edge.setValue(ObjectType.PARAMETER_SOURCE_PORT, portChooser.getSourcePort(this.source));
+    }
 
-		if (this.edge.getParameter(ObjectType.PARAMETER_TARGET_PORT) != null) {
-			this.edge.setValue(ObjectType.PARAMETER_TARGET_PORT, portChooser.getTargetPort(this.target));
-		}
+    if (this.edge.getParameter(ObjectType.PARAMETER_TARGET_PORT) != null) {
+      this.edge.setValue(ObjectType.PARAMETER_TARGET_PORT, portChooser.getTargetPort(this.target));
+    }
 
-		this.parentGraph.addEdge(this.edge);
-	}
+    this.parentGraph.addEdge(this.edge);
+  }
 
-	@Override
-	public String getLabel() {
-		if (this.edge != null) {
-			final String type = this.edge.getType().getName();
-			return "Create " + type;
-		} else {
-			return "Create edge";
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#getLabel()
+   */
+  @Override
+  public String getLabel() {
+    if (this.edge != null) {
+      final String type = this.edge.getType().getName();
+      return "Create " + type;
+    } else {
+      return "Create edge";
+    }
+  }
 
-	/**
-	 * Sets the source of the dependency to create/reconnect.
-	 *
-	 * @param source
-	 *            The dependency source as a Port.
-	 */
-	public void setSource(final Vertex source) {
-		this.source = source;
-	}
+  /**
+   * Sets the source of the dependency to create/reconnect.
+   *
+   * @param source
+   *          The dependency source as a Port.
+   */
+  public void setSource(final Vertex source) {
+    this.source = source;
+  }
 
-	/**
-	 * Sets the target of the dependency to create/reconnect.
-	 *
-	 * @param target
-	 *            The dependency target as a Port.
-	 */
-	public void setTarget(final Vertex target) {
-		this.target = target;
-	}
+  /**
+   * Sets the target of the dependency to create/reconnect.
+   *
+   * @param target
+   *          The dependency target as a Port.
+   */
+  public void setTarget(final Vertex target) {
+    this.target = target;
+  }
 
-	@Override
-	public void undo() {
-		this.parentGraph.removeEdge(this.edge);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#undo()
+   */
+  @Override
+  public void undo() {
+    this.parentGraph.removeEdge(this.edge);
+  }
 }

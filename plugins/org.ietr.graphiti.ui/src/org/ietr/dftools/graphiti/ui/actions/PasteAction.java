@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.ui.actions;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
-
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -52,6 +51,7 @@ import org.ietr.dftools.graphiti.ui.commands.copyPaste.PasteCommand;
 import org.ietr.dftools.graphiti.ui.editparts.GraphEditPart;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides an implementation of the paste action.
  *
@@ -62,77 +62,95 @@ import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
  */
 public class PasteAction extends SelectionAction implements PropertyChangeListener {
 
-	/**
-	 * Constructor for PasteAction.
-	 *
-	 * @param editor
-	 */
-	public PasteAction(final IWorkbenchPart editor) {
-		super(editor);
-	}
+  /**
+   * Constructor for PasteAction.
+   *
+   * @param editor
+   *          the editor
+   */
+  public PasteAction(final IWorkbenchPart editor) {
+    super(editor);
+  }
 
-	@Override
-	protected boolean calculateEnabled() {
-		// Enabled if the clipboard is not empty and we know where to paste:
-		// either the selected object is a GraphEditPart or a VertexEditPart
-		final List<?> selection = getSelectedObjects();
-		final List<?> vertices = getClipboardContents();
-		return ((vertices != null) && (vertices.isEmpty() == false) && (vertices.get(0) instanceof Vertex) && (selection != null) && (selection.size() == 1)
-				&& ((selection.get(0) instanceof GraphEditPart) || (selection.get(0) instanceof VertexEditPart)));
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+   */
+  @Override
+  protected boolean calculateEnabled() {
+    // Enabled if the clipboard is not empty and we know where to paste:
+    // either the selected object is a GraphEditPart or a VertexEditPart
+    final List<?> selection = getSelectedObjects();
+    final List<?> vertices = getClipboardContents();
+    return ((vertices != null) && (vertices.isEmpty() == false) && (vertices.get(0) instanceof Vertex) && (selection != null) && (selection.size() == 1)
+        && ((selection.get(0) instanceof GraphEditPart) || (selection.get(0) instanceof VertexEditPart)));
+  }
 
-	protected List<?> getClipboardContents() {
-		final LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
-		final Object data = GraphitiClipboard.getInstance().getContents(transfer);
-		if (data instanceof IStructuredSelection) {
-			return ((IStructuredSelection) data).toList();
-		} else {
-			return null;
-		}
-	}
+  /**
+   * Gets the clipboard contents.
+   *
+   * @return the clipboard contents
+   */
+  protected List<?> getClipboardContents() {
+    final LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
+    final Object data = GraphitiClipboard.getInstance().getContents(transfer);
+    if (data instanceof IStructuredSelection) {
+      return ((IStructuredSelection) data).toList();
+    } else {
+      return null;
+    }
+  }
 
-	/**
-	 * @see org.eclipse.gef.ui.actions.EditorPartAction#init()
-	 */
-	@Override
-	protected void init() {
-		setId(ActionFactory.PASTE.getId());
-		setText("Paste");
-		setToolTipText("Paste");
+  /**
+   * Inits the.
+   *
+   * @see org.eclipse.gef.ui.actions.EditorPartAction#init()
+   */
+  @Override
+  protected void init() {
+    setId(ActionFactory.PASTE.getId());
+    setText("Paste");
+    setToolTipText("Paste");
 
-		final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
-		setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
-		setEnabled(false);
-	}
+    final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+    setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
+    setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
+    setEnabled(false);
+  }
 
-	@Override
-	public void propertyChange(final PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(GraphitiClipboard.CONTENTS_SET_EVENT)) {
-			setEnabled(calculateEnabled());
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+   */
+  @Override
+  public void propertyChange(final PropertyChangeEvent evt) {
+    if (evt.getPropertyName().equals(GraphitiClipboard.CONTENTS_SET_EVENT)) {
+      setEnabled(calculateEnabled());
+    }
+  }
 
-	/**
-	 * Executes a new {@link PasteCommand}.
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public void run() {
-		final Object obj = getSelectedObjects().get(0);
-		GraphEditPart part = null;
-		if (obj instanceof GraphEditPart) {
-			part = (GraphEditPart) obj;
-		} else if (obj instanceof VertexEditPart) {
-			part = (GraphEditPart) ((VertexEditPart) obj).getParent();
-		}
+  /**
+   * Executes a new {@link PasteCommand}.
+   */
+  @Override
+  @SuppressWarnings("unchecked")
+  public void run() {
+    final Object obj = getSelectedObjects().get(0);
+    GraphEditPart part = null;
+    if (obj instanceof GraphEditPart) {
+      part = (GraphEditPart) obj;
+    } else if (obj instanceof VertexEditPart) {
+      part = (GraphEditPart) ((VertexEditPart) obj).getParent();
+    }
 
-		// execute the paste command
-		final List<Vertex> contents = (List<Vertex>) getClipboardContents();
-		final PasteCommand command = new PasteCommand(part, contents);
-		command.run();
-		if (command.isDirty()) {
-			execute(command);
-		}
-	}
+    // execute the paste command
+    final List<Vertex> contents = (List<Vertex>) getClipboardContents();
+    final PasteCommand command = new PasteCommand(part, contents);
+    command.run();
+    if (command.isDirty()) {
+      execute(command);
+    }
+  }
 }

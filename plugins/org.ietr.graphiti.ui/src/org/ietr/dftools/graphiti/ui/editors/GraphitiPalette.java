@@ -38,7 +38,6 @@
 package org.ietr.dftools.graphiti.ui.editors;
 
 import java.util.Set;
-
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.SWTGraphics;
@@ -70,180 +69,178 @@ import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 import org.ietr.dftools.graphiti.ui.figure.shapes.IShape;
 import org.ietr.dftools.graphiti.ui.figure.shapes.ShapeFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * Creates the Palette on the GUI with all the tools and the appropriate icons
- * icons have to be in the same directory as the Model
+ * Creates the Palette on the GUI with all the tools and the appropriate icons icons have to be in the same directory as the Model.
  *
  * @author Samuel Beaussier & Nicolas Isch
- *
  */
 public class GraphitiPalette {
 
-	/**
-	 * Add the different edge types.
-	 *
-	 * @param graph
-	 *            The graph used to configure this palette.
-	 * @param paletteGroup
-	 *            The palette group.
-	 */
-	private static void addEdgeTypes(final Graph graph, final PaletteContainer container) {
-		if (graph != null) {
-			final PaletteDrawer edgeDrawer = new PaletteDrawer("Connections");
+  /**
+   * Add the different edge types.
+   *
+   * @param graph
+   *          The graph used to configure this palette.
+   * @param container
+   *          the container
+   */
+  private static void addEdgeTypes(final Graph graph, final PaletteContainer container) {
+    if (graph != null) {
+      final PaletteDrawer edgeDrawer = new PaletteDrawer("Connections");
 
-			final Configuration config = graph.getConfiguration();
-			final Set<ObjectType> edgeTypes = config.getEdgeTypes();
-			for (final ObjectType type : edgeTypes) {
-				final String typeStr = type.getName();
+      final Configuration config = graph.getConfiguration();
+      final Set<ObjectType> edgeTypes = config.getEdgeTypes();
+      for (final ObjectType type : edgeTypes) {
+        final String typeStr = type.getName();
 
-				final ImageDescriptor id = GraphitiPalette.getImgDescEdge(type);
+        final ImageDescriptor id = GraphitiPalette.getImgDescEdge(type);
 
-				final ToolEntry tool = new ConnectionCreationToolEntry(typeStr, "Create a new " + typeStr, new EdgeCreationFactory(type), id,
-						ImageDescriptor.getMissingImageDescriptor());
+        final ToolEntry tool = new ConnectionCreationToolEntry(typeStr, "Create a new " + typeStr, new EdgeCreationFactory(type), id,
+            ImageDescriptor.getMissingImageDescriptor());
 
-				edgeDrawer.add(tool);
-			}
+        edgeDrawer.add(tool);
+      }
 
-			// Add connection tool
-			container.add(edgeDrawer);
-		}
-	}
+      // Add connection tool
+      container.add(edgeDrawer);
+    }
+  }
 
-	/**
-	 * Add the different vertex types.
-	 *
-	 * @param graph
-	 *            The graph used to configure this palette.
-	 * @param paletteGroup
-	 *            The palette group.
-	 */
-	private static void addVertexTypes(final Graph graph, final PaletteContainer container) {
-		if (graph != null) {
-			final PaletteDrawer toolDrawer = new PaletteDrawer("Vertices");
+  /**
+   * Add the different vertex types.
+   *
+   * @param graph
+   *          The graph used to configure this palette.
+   * @param container
+   *          the container
+   */
+  private static void addVertexTypes(final Graph graph, final PaletteContainer container) {
+    if (graph != null) {
+      final PaletteDrawer toolDrawer = new PaletteDrawer("Vertices");
 
-			final Configuration config = graph.getConfiguration();
-			final Set<ObjectType> vertexTypes = config.getVertexTypes();
-			for (final ObjectType type : vertexTypes) {
-				final String typeStr = type.getName();
+      final Configuration config = graph.getConfiguration();
+      final Set<ObjectType> vertexTypes = config.getVertexTypes();
+      for (final ObjectType type : vertexTypes) {
+        final String typeStr = type.getName();
 
-				final ImageDescriptor id = GraphitiPalette.getImgDescVertex(type);
+        final ImageDescriptor id = GraphitiPalette.getImgDescVertex(type);
 
-				final ToolEntry tool = new CreationToolEntry(typeStr, "Create a new " + typeStr, new VertexCreationFactory(type), id, null);
+        final ToolEntry tool = new CreationToolEntry(typeStr, "Create a new " + typeStr, new VertexCreationFactory(type), id, null);
 
-				toolDrawer.add(tool);
-			}
+        toolDrawer.add(tool);
+      }
 
-			container.add(toolDrawer);
-		}
-	}
+      container.add(toolDrawer);
+    }
+  }
 
-	/**
-	 * Returns a new image descriptor from the given edge type.
-	 *
-	 * @param type
-	 *            A string representation of the edge type.
-	 * @return A new {@link ImageDescriptor}.
-	 */
-	private static ImageDescriptor getImgDescEdge(final ObjectType type) {
-		ImageDescriptor id;
-		final Boolean directed = (Boolean) type.getAttribute(ObjectType.ATTRIBUTE_DIRECTED);
-		if ((directed == null) || directed) {
-			id = ImageDescriptor.createFromImage(GraphitiUiPlugin.getImage("icons/directed_edge.gif"));
-		} else {
-			id = ImageDescriptor.createFromImage(GraphitiUiPlugin.getImage("icons/undirected_edge.gif"));
-		}
+  /**
+   * Returns a new image descriptor from the given edge type.
+   *
+   * @param type
+   *          A string representation of the edge type.
+   * @return A new {@link ImageDescriptor}.
+   */
+  private static ImageDescriptor getImgDescEdge(final ObjectType type) {
+    ImageDescriptor id;
+    final Boolean directed = (Boolean) type.getAttribute(ObjectType.ATTRIBUTE_DIRECTED);
+    if ((directed == null) || directed) {
+      id = ImageDescriptor.createFromImage(GraphitiUiPlugin.getImage("icons/directed_edge.gif"));
+    } else {
+      id = ImageDescriptor.createFromImage(GraphitiUiPlugin.getImage("icons/undirected_edge.gif"));
+    }
 
-		// retrieve the color
-		Color color = (Color) type.getAttribute(ObjectType.ATTRIBUTE_COLOR);
-		if (color == null) {
-			color = ColorConstants.black;
-		}
+    // retrieve the color
+    Color color = (Color) type.getAttribute(ObjectType.ATTRIBUTE_COLOR);
+    if (color == null) {
+      color = ColorConstants.black;
+    }
 
-		// replace the "black" palette entry with the color.
-		final ImageData data = id.getImageData();
-		if (data.palette.colors != null) {
-			final RGB rgb = data.palette.colors[0];
-			rgb.red = color.getRed();
-			rgb.green = color.getGreen();
-			rgb.blue = color.getBlue();
-		}
+    // replace the "black" palette entry with the color.
+    final ImageData data = id.getImageData();
+    if (data.palette.colors != null) {
+      final RGB rgb = data.palette.colors[0];
+      rgb.red = color.getRed();
+      rgb.green = color.getGreen();
+      rgb.blue = color.getBlue();
+    }
 
-		// returns an image descriptor on the modified image data.
-		id = ImageDescriptor.createFromImageData(data);
-		return id;
-	}
+    // returns an image descriptor on the modified image data.
+    id = ImageDescriptor.createFromImageData(data);
+    return id;
+  }
 
-	/**
-	 * Returns a new image descriptor from the given vertex type.
-	 *
-	 * @param type
-	 *            A string representation of the vertex type.
-	 * @return A new {@link ImageDescriptor}.
-	 */
-	private static ImageDescriptor getImgDescVertex(final ObjectType type) {
-		// attributes
-		int width = (Integer) type.getAttribute(ObjectType.ATTRIBUTE_WIDTH);
-		int height = (Integer) type.getAttribute(ObjectType.ATTRIBUTE_HEIGHT);
-		final Color color = (Color) type.getAttribute(ObjectType.ATTRIBUTE_COLOR);
-		final String name = (String) type.getAttribute(ObjectType.ATTRIBUTE_SHAPE);
-		final IShape shape = ShapeFactory.createShape(name);
+  /**
+   * Returns a new image descriptor from the given vertex type.
+   *
+   * @param type
+   *          A string representation of the vertex type.
+   * @return A new {@link ImageDescriptor}.
+   */
+  private static ImageDescriptor getImgDescVertex(final ObjectType type) {
+    // attributes
+    int width = (Integer) type.getAttribute(ObjectType.ATTRIBUTE_WIDTH);
+    int height = (Integer) type.getAttribute(ObjectType.ATTRIBUTE_HEIGHT);
+    final Color color = (Color) type.getAttribute(ObjectType.ATTRIBUTE_COLOR);
+    final String name = (String) type.getAttribute(ObjectType.ATTRIBUTE_SHAPE);
+    final IShape shape = ShapeFactory.createShape(name);
 
-		// adjust width and height
-		final double ratio = (double) width / (double) height;
-		width = 16;
-		height = (int) (width / ratio);
+    // adjust width and height
+    final double ratio = (double) width / (double) height;
+    width = 16;
+    height = (int) (width / ratio);
 
-		// Creates a new vertex figure
-		final Font font = Display.getDefault().getSystemFont();
-		final VertexFigure figure = new VertexFigure(font, new Dimension(width, height), color, shape);
+    // Creates a new vertex figure
+    final Font font = Display.getDefault().getSystemFont();
+    final VertexFigure figure = new VertexFigure(font, new Dimension(width, height), color, shape);
 
-		// Creates a new image of width x height on the current display
-		final Image image = new Image(Display.getCurrent(), width, height);
+    // Creates a new image of width x height on the current display
+    final Image image = new Image(Display.getCurrent(), width, height);
 
-		// Paints the figure on it
-		final GC gc = new GC(image);
-		final Graphics graphics = new SWTGraphics(gc);
-		figure.paint(graphics);
+    // Paints the figure on it
+    final GC gc = new GC(image);
+    final Graphics graphics = new SWTGraphics(gc);
+    figure.paint(graphics);
 
-		// Get the image data back
-		final ImageData data = image.getImageData();
-		final ImageDescriptor id = ImageDescriptor.createFromImageData(data);
+    // Get the image data back
+    final ImageData data = image.getImageData();
+    final ImageDescriptor id = ImageDescriptor.createFromImageData(data);
 
-		// Disposes image (and GC btw) and SWT graphics
-		image.dispose();
-		graphics.dispose();
+    // Disposes image (and GC btw) and SWT graphics
+    image.dispose();
+    graphics.dispose();
 
-		return id;
-	}
+    return id;
+  }
 
-	/**
-	 * Gets a palette root which is configured by the given {@link Graph}. If
-	 * <code>graph == null</code>, <code>null</code> is returned.
-	 *
-	 * @param graph
-	 *            The graph used to configure this palette.
-	 * @return A {@link PaletteRoot} or <code>null</code>.
-	 */
-	public static PaletteRoot getPaletteRoot(final Graph graph) {
-		if (graph == null) {
-			return null;
-		}
+  /**
+   * Gets a palette root which is configured by the given {@link Graph}. If <code>graph == null</code>, <code>null</code> is returned.
+   *
+   * @param graph
+   *          The graph used to configure this palette.
+   * @return A {@link PaletteRoot} or <code>null</code>.
+   */
+  public static PaletteRoot getPaletteRoot(final Graph graph) {
+    if (graph == null) {
+      return null;
+    }
 
-		final PaletteRoot paletteModel = new PaletteRoot();
-		final PaletteGroup toolGroup = new PaletteGroup("Tools");
-		paletteModel.add(toolGroup);
+    final PaletteRoot paletteModel = new PaletteRoot();
+    final PaletteGroup toolGroup = new PaletteGroup("Tools");
+    paletteModel.add(toolGroup);
 
-		// Add a selection tool to the group
-		final ToolEntry tool = new SelectionToolEntry();
-		toolGroup.add(tool);
-		paletteModel.setDefaultEntry(tool);
+    // Add a selection tool to the group
+    final ToolEntry tool = new SelectionToolEntry();
+    toolGroup.add(tool);
+    paletteModel.setDefaultEntry(tool);
 
-		// Add a marquee tool to the group
-		toolGroup.add(new MarqueeToolEntry());
+    // Add a marquee tool to the group
+    toolGroup.add(new MarqueeToolEntry());
 
-		GraphitiPalette.addVertexTypes(graph, paletteModel);
-		GraphitiPalette.addEdgeTypes(graph, paletteModel);
+    GraphitiPalette.addVertexTypes(graph, paletteModel);
+    GraphitiPalette.addEdgeTypes(graph, paletteModel);
 
-		return paletteModel;
-	}
+    return paletteModel;
+  }
 }

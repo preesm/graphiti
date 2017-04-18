@@ -36,14 +36,15 @@
  *******************************************************************************/
 package org.ietr.dftools.graphiti.ui.properties;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class defines constants for tabbed properties
+ * This class defines constants for tabbed properties.
  *
  * @author Matthieu Wipliez
- *
  */
 public interface PropertiesConstants {
 
-	String CONTRIBUTOR_ID = "org.ietr.dftools.graphiti.ui.properties.contributor";
+  /** The contributor id. */
+  String CONTRIBUTOR_ID = "org.ietr.dftools.graphiti.ui.properties.contributor";
 
 }

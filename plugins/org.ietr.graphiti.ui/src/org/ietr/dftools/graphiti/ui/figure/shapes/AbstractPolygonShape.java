@@ -44,57 +44,87 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.ietr.dftools.graphiti.ui.figure.PolygonPortAnchor;
 import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class provides an abstract polygon shape for hexagon, losange and
- * triangle shapes.
+ * This class provides an abstract polygon shape for hexagon, losange and triangle shapes.
  *
  * @author Matthieu Wipliez
  *
  */
-abstract public class AbstractPolygonShape extends Polygon implements IShape {
+public abstract class AbstractPolygonShape extends Polygon implements IShape {
 
-	/**
-	 * Creates a new abstract polygon shape.
-	 */
-	public AbstractPolygonShape() {
-		setLayoutManager(new GridLayout(2, false));
-		setFill(true);
-	}
+  /**
+   * Creates a new abstract polygon shape.
+   */
+  public AbstractPolygonShape() {
+    setLayoutManager(new GridLayout(2, false));
+    setFill(true);
+  }
 
-	@Override
-	public ConnectionAnchor getConnectionAnchor(final VertexFigure figure, final String portName, final boolean isOutput) {
-		return new PolygonPortAnchor(figure, portName, isOutput);
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.ietr.dftools.graphiti.ui.figure.shapes.IShape#getConnectionAnchor(org.ietr.dftools.graphiti.ui.figure.VertexFigure, java.lang.String, boolean)
+   */
+  @Override
+  public ConnectionAnchor getConnectionAnchor(final VertexFigure figure, final String portName, final boolean isOutput) {
+    return new PolygonPortAnchor(figure, portName, isOutput);
+  }
 
-	@Override
-	public IShape newShape() {
-		try {
-			return getClass().newInstance();
-		} catch (final InstantiationException e) {
-			e.printStackTrace();
-		} catch (final IllegalAccessException e) {
-			e.printStackTrace();
-		}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.ietr.dftools.graphiti.ui.figure.shapes.IShape#newShape()
+   */
+  @Override
+  public IShape newShape() {
+    try {
+      return getClass().newInstance();
+    } catch (final InstantiationException e) {
+      e.printStackTrace();
+    } catch (final IllegalAccessException e) {
+      e.printStackTrace();
+    }
 
-		return this;
-	}
+    return this;
+  }
 
-	@Override
-	public void paintFigure(final Graphics graphics) {
-		GradientPattern.paintFigure(this, getBackgroundColor(), getBounds(), graphics);
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.draw2d.Shape#paintFigure(org.eclipse.draw2d.Graphics)
+   */
+  @Override
+  public void paintFigure(final Graphics graphics) {
+    GradientPattern.paintFigure(this, getBackgroundColor(), getBounds(), graphics);
+  }
 
-	@Override
-	public void paintSuperFigure(final Graphics graphics) {
-		super.paintFigure(graphics);
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.ietr.dftools.graphiti.ui.figure.shapes.IShape#paintSuperFigure(org.eclipse.draw2d.Graphics)
+   */
+  @Override
+  public void paintSuperFigure(final Graphics graphics) {
+    super.paintFigure(graphics);
+  }
 
-	@Override
-	abstract public void setDimension(Dimension dim);
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.ietr.dftools.graphiti.ui.figure.shapes.IShape#setDimension(org.eclipse.draw2d.geometry.Dimension)
+   */
+  @Override
+  public abstract void setDimension(Dimension dim);
 
-	@Override
-	protected boolean useLocalCoordinates() {
-		return true;
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.draw2d.Figure#useLocalCoordinates()
+   */
+  @Override
+  protected boolean useLocalCoordinates() {
+    return true;
+  }
 
 }

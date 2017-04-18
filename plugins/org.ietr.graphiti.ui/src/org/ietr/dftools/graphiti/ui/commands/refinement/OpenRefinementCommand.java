@@ -51,6 +51,7 @@ import org.ietr.dftools.graphiti.model.IRefinementPolicy;
 import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a way to open a vertex refinement.
  *
@@ -59,56 +60,77 @@ import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
  */
 public class OpenRefinementCommand extends Command {
 
-	private IRefinementPolicy policy;
+  /** The policy. */
+  private IRefinementPolicy policy;
 
-	private Vertex vertex;
+  /** The vertex. */
+  private Vertex vertex;
 
-	@Override
-	public boolean canExecute() {
-		if (this.vertex == null) {
-			return false;
-		} else {
-			return this.policy.getRefinement(this.vertex) != null;
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#canExecute()
+   */
+  @Override
+  public boolean canExecute() {
+    if (this.vertex == null) {
+      return false;
+    } else {
+      return this.policy.getRefinement(this.vertex) != null;
+    }
+  }
 
-	@Override
-	public void execute() {
-		final IFile input = this.policy.getRefinementFile(this.vertex);
-		if (input == null) {
-			final String message = "File not found or invalid: " + this.policy.getRefinement(this.vertex);
-			MessageDialog.openError(null, "Could not open refinement", message);
-		} else {
-			final IWorkbench workbench = PlatformUI.getWorkbench();
-			final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-			final IWorkbenchPage page = window.getActivePage();
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#execute()
+   */
+  @Override
+  public void execute() {
+    final IFile input = this.policy.getRefinementFile(this.vertex);
+    if (input == null) {
+      final String message = "File not found or invalid: " + this.policy.getRefinement(this.vertex);
+      MessageDialog.openError(null, "Could not open refinement", message);
+    } else {
+      final IWorkbench workbench = PlatformUI.getWorkbench();
+      final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+      final IWorkbenchPage page = window.getActivePage();
 
-			try {
-				IDE.openEditor(page, input);
-			} catch (final PartInitException e) {
-				MessageDialog.openError(null, "Could not open refinement", e.getLocalizedMessage());
-			}
-		}
-	}
+      try {
+        IDE.openEditor(page, input);
+      } catch (final PartInitException e) {
+        MessageDialog.openError(null, "Could not open refinement", e.getLocalizedMessage());
+      }
+    }
+  }
 
-	@Override
-	public String getLabel() {
-		return "Open refinement";
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#getLabel()
+   */
+  @Override
+  public String getLabel() {
+    return "Open refinement";
+  }
 
-	/**
-	 * @see RefinementManager#setSelection(ISelection)
-	 */
-	public void setSelection(final ISelection selection) {
-		this.vertex = null;
-		if (selection instanceof IStructuredSelection) {
-			final Object obj = ((IStructuredSelection) selection).getFirstElement();
-			if (obj instanceof VertexEditPart) {
-				final VertexEditPart part = (VertexEditPart) obj;
-				this.vertex = (Vertex) part.getModel();
-				this.policy = this.vertex.getConfiguration().getRefinementPolicy();
-			}
-		}
-	}
+  /**
+   * Sets the selection.
+   *
+   * @param selection
+   *          the new selection
+   * @see RefinementManager#setSelection(ISelection)
+   */
+  public void setSelection(final ISelection selection) {
+    this.vertex = null;
+    if (selection instanceof IStructuredSelection) {
+      final Object obj = ((IStructuredSelection) selection).getFirstElement();
+      if (obj instanceof VertexEditPart) {
+        final VertexEditPart part = (VertexEditPart) obj;
+        this.vertex = (Vertex) part.getModel();
+        this.policy = this.vertex.getConfiguration().getRefinementPolicy();
+      }
+    }
+  }
 
 }

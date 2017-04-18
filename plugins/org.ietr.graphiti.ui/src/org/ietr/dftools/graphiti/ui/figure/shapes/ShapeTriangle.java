@@ -39,6 +39,7 @@ package org.ietr.dftools.graphiti.ui.figure.shapes;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a triangle shape.
  *
@@ -48,19 +49,24 @@ import org.eclipse.draw2d.geometry.Point;
  */
 public class ShapeTriangle extends AbstractPolygonShape implements IShape {
 
-	/**
-	 * Creates a new triangle shape.
-	 */
-	public ShapeTriangle() {
-	}
+  /**
+   * Creates a new triangle shape.
+   */
+  public ShapeTriangle() {
+  }
 
-	@Override
-	public void setDimension(final Dimension dim) {
-		removeAllPoints();
-		setStart(new Point(0, dim.height));
-		addPoint(new Point(dim.width / 2, 0));
-		addPoint(new Point(dim.width, dim.height - 1));
-		addPoint(new Point(0, dim.height - 1));
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.ietr.dftools.graphiti.ui.figure.shapes.AbstractPolygonShape#setDimension(org.eclipse.draw2d.geometry.Dimension)
+   */
+  @Override
+  public void setDimension(final Dimension dim) {
+    removeAllPoints();
+    setStart(new Point(0, dim.height));
+    addPoint(new Point(dim.width / 2, 0));
+    addPoint(new Point(dim.width, dim.height - 1));
+    addPoint(new Point(0, dim.height - 1));
+  }
 
 }

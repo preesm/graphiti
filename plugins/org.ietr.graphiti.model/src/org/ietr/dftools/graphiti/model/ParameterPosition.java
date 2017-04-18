@@ -36,6 +36,7 @@
  *******************************************************************************/
 package org.ietr.dftools.graphiti.model;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class enumerates the position of a parameter.
  *
@@ -43,5 +44,23 @@ package org.ietr.dftools.graphiti.model;
  *
  */
 public enum ParameterPosition {
-	Center, East, North, NorthEast, NorthWest, South, SouthEast, SouthWest, West;
+
+  /** The Center. */
+  Center,
+  /** The East. */
+  East,
+  /** The North. */
+  North,
+  /** The North east. */
+  NorthEast,
+  /** The North west. */
+  NorthWest,
+  /** The South. */
+  South,
+  /** The South east. */
+  SouthEast,
+  /** The South west. */
+  SouthWest,
+  /** The West. */
+  West;
 }

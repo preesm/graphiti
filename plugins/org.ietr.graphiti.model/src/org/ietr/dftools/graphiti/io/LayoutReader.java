@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.io;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.ietr.dftools.graphiti.model.Graph;
@@ -49,6 +48,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class reads the .layout file associated with graphs.
  *
@@ -57,26 +57,34 @@ import org.w3c.dom.NodeList;
  */
 public class LayoutReader {
 
-	public void read(final Graph graph, final InputStream byteStream) {
-		final Map<String, Point> pointMap = new HashMap<>();
-		final Document document = DomHelper.parse(byteStream);
-		final Element layout = document.getDocumentElement();
-		final NodeList vertices = layout.getElementsByTagName("vertex");
-		for (int i = 0; i < vertices.getLength(); i++) {
-			final Element vertex = (Element) vertices.item(i);
-			final String id = vertex.getAttribute("id");
-			final String x = vertex.getAttribute("x");
-			final String y = vertex.getAttribute("y");
-			final Point point = new Point(Integer.parseInt(x), Integer.parseInt(y));
-			pointMap.put(id, point);
-		}
+  /**
+   * Read.
+   *
+   * @param graph
+   *          the graph
+   * @param byteStream
+   *          the byte stream
+   */
+  public void read(final Graph graph, final InputStream byteStream) {
+    final Map<String, Point> pointMap = new HashMap<>();
+    final Document document = DomHelper.parse(byteStream);
+    final Element layout = document.getDocumentElement();
+    final NodeList vertices = layout.getElementsByTagName("vertex");
+    for (int i = 0; i < vertices.getLength(); i++) {
+      final Element vertex = (Element) vertices.item(i);
+      final String id = vertex.getAttribute("id");
+      final String x = vertex.getAttribute("x");
+      final String y = vertex.getAttribute("y");
+      final Point point = new Point(Integer.parseInt(x), Integer.parseInt(y));
+      pointMap.put(id, point);
+    }
 
-		graph.setValue(Graph.PROPERTY_HAS_LAYOUT, true);
-		for (final Vertex vertex : graph.vertexSet()) {
-			final String id = (String) vertex.getValue(ObjectType.PARAMETER_ID);
-			final Point p = pointMap.get(id);
-			vertex.setValue(Vertex.PROPERTY_SIZE, new Rectangle(p.x, p.y, 0, 0));
-		}
-	}
+    graph.setValue(Graph.PROPERTY_HAS_LAYOUT, true);
+    for (final Vertex vertex : graph.vertexSet()) {
+      final String id = (String) vertex.getValue(ObjectType.PARAMETER_ID);
+      final Point p = pointMap.get(id);
+      vertex.setValue(Vertex.PROPERTY_SIZE, new Rectangle(p.x, p.y, 0, 0));
+    }
+  }
 
 }

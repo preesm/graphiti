@@ -40,7 +40,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -49,10 +48,9 @@ import org.jgrapht.graph.AbstractBaseGraph;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.Multigraph;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class is an attributed multigraph (allowing more than one connection
- * between any two vertices). It may be directed or not, as specified at
- * creation.
+ * This class is an attributed multigraph (allowing more than one connection between any two vertices). It may be directed or not, as specified at creation.
  *
  * @author Jonathan Piat
  * @author Matthieu Wipliez
@@ -60,268 +58,290 @@ import org.jgrapht.graph.Multigraph;
  */
 public class Graph extends AbstractObject {
 
-	/**
-	 * String for the "child added" property. Set when a vertex or a port is
-	 * added to a vertex.
-	 */
-	public static final String PROPERTY_ADD = "child added";
+  /**
+   * String for the "child added" property. Set when a vertex or a port is added to a vertex.
+   */
+  public static final String PROPERTY_ADD = "child added";
 
-	/**
-	 * String for the "hasLayout" property. This is a boolean property
-	 * indicating if the graph has layout information or not. If it has none,
-	 * the graph should be automatically laid out.
-	 */
-	public static final String PROPERTY_HAS_LAYOUT = "has layout";
+  /**
+   * String for the "hasLayout" property. This is a boolean property indicating if the graph has layout information or not. If it has none, the graph should be
+   * automatically laid out.
+   */
+  public static final String PROPERTY_HAS_LAYOUT = "has layout";
 
-	/**
-	 * String for the "child removed" property. Set when a vertex or a port is
-	 * removed from a vertex.
-	 */
-	public static final String PROPERTY_REMOVE = "child removed";
+  /**
+   * String for the "child removed" property. Set when a vertex or a port is removed from a vertex.
+   */
+  public static final String PROPERTY_REMOVE = "child removed";
 
-	/**
-	 * The configuration associated with this graph.
-	 */
-	private final Configuration configuration;
+  /**
+   * The configuration associated with this graph.
+   */
+  private final Configuration configuration;
 
-	private IPath fileName;
+  /** The file name. */
+  private IPath fileName;
 
-	private AbstractBaseGraph<Vertex, Edge> graph;
+  /** The graph. */
+  private AbstractBaseGraph<Vertex, Edge> graph;
 
-	private final Map<String, Vertex> vertices;
+  /** The vertices. */
+  private final Map<String, Vertex> vertices;
 
-	/**
-	 * Creates a new graph, directed or not.
-	 *
-	 * @param configuration
-	 *            The configuration to use with this graph.
-	 * @param type
-	 *            The graph type.
-	 * @param directed
-	 *            Specifies whether the graph should be directed or not.
-	 */
-	public Graph(final Configuration configuration, final ObjectType type, final boolean directed) {
-		super(type);
+  /**
+   * Creates a new graph, directed or not.
+   *
+   * @param configuration
+   *          The configuration to use with this graph.
+   * @param type
+   *          The graph type.
+   * @param directed
+   *          Specifies whether the graph should be directed or not.
+   */
+  public Graph(final Configuration configuration, final ObjectType type, final boolean directed) {
+    super(type);
 
-		this.configuration = configuration;
-		if (directed) {
-			this.graph = new DirectedMultigraph<>(Edge.class);
-		} else {
-			this.graph = new Multigraph<>(Edge.class);
-		}
-		this.vertices = new HashMap<>();
+    this.configuration = configuration;
+    if (directed) {
+      this.graph = new DirectedMultigraph<>(Edge.class);
+    } else {
+      this.graph = new Multigraph<>(Edge.class);
+    }
+    this.vertices = new HashMap<>();
 
-		// set default values
-		final List<Parameter> parameters = type.getParameters();
-		for (final Parameter parameter : parameters) {
-			setValue(parameter.getName(), parameter.getDefault());
-		}
+    // set default values
+    final List<Parameter> parameters = type.getParameters();
+    for (final Parameter parameter : parameters) {
+      setValue(parameter.getName(), parameter.getDefault());
+    }
 
-		// initially, no layout
-		setValue(Graph.PROPERTY_HAS_LAYOUT, false);
-	}
+    // initially, no layout
+    setValue(Graph.PROPERTY_HAS_LAYOUT, false);
+  }
 
-	/**
-	 * Creates a new empty graph with the same properties as the source graph
-	 * but configuration and type, that are overridden by the supplied
-	 * parameters.
-	 *
-	 * @param graph
-	 *            The source graph.
-	 * @param configuration
-	 *            The configuration to use with this graph.
-	 * @param type
-	 *            The graph type.
-	 */
-	public Graph(final Graph graph, final Configuration configuration, final ObjectType type) {
-		super(graph);
-		this.configuration = configuration;
-		if (graph.isDirected()) {
-			this.graph = new DirectedMultigraph<>(Edge.class);
-		} else {
-			this.graph = new Multigraph<>(Edge.class);
-		}
-		this.vertices = new HashMap<>();
-		this.type = type;
-	}
+  /**
+   * Creates a new empty graph with the same properties as the source graph but configuration and type, that are overridden by the supplied parameters.
+   *
+   * @param graph
+   *          The source graph.
+   * @param configuration
+   *          The configuration to use with this graph.
+   * @param type
+   *          The graph type.
+   */
+  public Graph(final Graph graph, final Configuration configuration, final ObjectType type) {
+    super(graph);
+    this.configuration = configuration;
+    if (graph.isDirected()) {
+      this.graph = new DirectedMultigraph<>(Edge.class);
+    } else {
+      this.graph = new Multigraph<>(Edge.class);
+    }
+    this.vertices = new HashMap<>();
+    this.type = type;
+  }
 
-	/**
-	 *
-	 * @param edge
-	 *            The edge to add
-	 * @return
-	 */
-	public boolean addEdge(final Edge edge) {
-		final Vertex source = edge.getSource();
-		final Vertex target = edge.getTarget();
-		final boolean res = this.graph.addEdge(source, target, edge);
-		source.firePropertyChange(Vertex.PROPERTY_SRC_VERTEX, null, source);
-		target.firePropertyChange(Vertex.PROPERTY_DST_VERTEX, null, target);
-		return res;
-	}
+  /**
+   * Adds the edge.
+   *
+   * @param edge
+   *          The edge to add
+   * @return true, if successful
+   */
+  public boolean addEdge(final Edge edge) {
+    final Vertex source = edge.getSource();
+    final Vertex target = edge.getTarget();
+    final boolean res = this.graph.addEdge(source, target, edge);
+    source.firePropertyChange(Vertex.PROPERTY_SRC_VERTEX, null, source);
+    target.firePropertyChange(Vertex.PROPERTY_DST_VERTEX, null, target);
+    return res;
+  }
 
-	/**
-	 * @see AbstractBaseGraph#addVertex(Vertex)
-	 * @param child
-	 *            The vertex to add
-	 * @return true if the vertex is added, false if command failed
-	 */
-	public boolean addVertex(final Vertex child) {
-		final boolean res = this.graph.addVertex(child);
-		if (res) {
-			// only updates this graph and fires property change if vertex not
-			// already present in the graph
+  /**
+   * Adds the vertex.
+   *
+   * @param child
+   *          The vertex to add
+   * @return true if the vertex is added, false if command failed
+   * @see AbstractBaseGraph#addVertex(Vertex)
+   */
+  public boolean addVertex(final Vertex child) {
+    final boolean res = this.graph.addVertex(child);
+    if (res) {
+      // only updates this graph and fires property change if vertex not
+      // already present in the graph
 
-			child.parent = this;
+      child.parent = this;
 
-			this.vertices.put((String) child.getValue(ObjectType.PARAMETER_ID), child);
+      this.vertices.put((String) child.getValue(ObjectType.PARAMETER_ID), child);
 
-			firePropertyChange(Graph.PROPERTY_ADD, null, child);
-		}
-		return res;
-	}
+      firePropertyChange(Graph.PROPERTY_ADD, null, child);
+    }
+    return res;
+  }
 
-	/**
-	 * Changes the identifier of the given vertex.
-	 *
-	 * @param vertex
-	 *            A vertex.
-	 * @param id
-	 *            Its new id.
-	 */
-	void changeVertexId(final Vertex vertex, final String id) {
-		final String oldId = (String) vertex.getValue(ObjectType.PARAMETER_ID);
-		if ((oldId != null) && (id != null) && !oldId.equals(id)) {
-			this.vertices.remove(oldId);
-			this.vertices.put(id, vertex);
-		}
-	}
+  /**
+   * Changes the identifier of the given vertex.
+   *
+   * @param vertex
+   *          A vertex.
+   * @param id
+   *          Its new id.
+   */
+  void changeVertexId(final Vertex vertex, final String id) {
+    final String oldId = (String) vertex.getValue(ObjectType.PARAMETER_ID);
+    if ((oldId != null) && (id != null) && !oldId.equals(id)) {
+      this.vertices.remove(oldId);
+      this.vertices.put(id, vertex);
+    }
+  }
 
-	/**
-	 * @see AbstractBaseGraph#edgeSet()
-	 * @return
-	 */
-	public Set<Edge> edgeSet() {
-		return this.graph.edgeSet();
-	}
+  /**
+   * Edge set.
+   *
+   * @return the sets the
+   * @see AbstractBaseGraph#edgeSet()
+   */
+  public Set<Edge> edgeSet() {
+    return this.graph.edgeSet();
+  }
 
-	/**
-	 * Finds and returns the vertex of the graph with the given vertex id.
-	 *
-	 * @param vertexId
-	 *            The vertex id.
-	 * @return The vertex with the given id, or <code>null</code> if not found.
-	 */
-	public Vertex findVertex(final String vertexId) {
-		return this.vertices.get(vertexId);
-	}
+  /**
+   * Finds and returns the vertex of the graph with the given vertex id.
+   *
+   * @param vertexId
+   *          The vertex id.
+   * @return The vertex with the given id, or <code>null</code> if not found.
+   */
+  public Vertex findVertex(final String vertexId) {
+    return this.vertices.get(vertexId);
+  }
 
-	/**
-	 * Returns the configuration associated with this Graph.
-	 *
-	 * @return The configuration associated with this Graph.
-	 */
-	public Configuration getConfiguration() {
-		return this.configuration;
-	}
+  /**
+   * Returns the configuration associated with this Graph.
+   *
+   * @return The configuration associated with this Graph.
+   */
+  public Configuration getConfiguration() {
+    return this.configuration;
+  }
 
-	/**
-	 * Returns the file in which this graph is defined.
-	 *
-	 * @return the file in which this graph is defined
-	 */
-	public IFile getFile() {
-		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		final IFile file = root.getFile(this.fileName);
-		return file;
-	}
+  /**
+   * Returns the file in which this graph is defined.
+   *
+   * @return the file in which this graph is defined
+   */
+  public IFile getFile() {
+    final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+    final IFile file = root.getFile(this.fileName);
+    return file;
+  }
 
-	/**
-	 * Returns the name of the file in which this graph is defined.
-	 *
-	 * @return the name of the file in which this graph is defined
-	 */
-	public IPath getFileName() {
-		return this.fileName;
-	}
+  /**
+   * Returns the name of the file in which this graph is defined.
+   *
+   * @return the name of the file in which this graph is defined
+   */
+  public IPath getFileName() {
+    return this.fileName;
+  }
 
-	/**
-	 * @see AbstractBaseGraph#incomingEdgesOf(Vertex)
-	 * @param vertex
-	 * @return
-	 */
-	public Set<Edge> incomingEdgesOf(final Vertex vertex) {
-		return this.graph.incomingEdgesOf(vertex);
-	}
+  /**
+   * Incoming edges of.
+   *
+   * @param vertex
+   *          the vertex
+   * @return the sets the
+   * @see AbstractBaseGraph#incomingEdgesOf(Vertex)
+   */
+  public Set<Edge> incomingEdgesOf(final Vertex vertex) {
+    return this.graph.incomingEdgesOf(vertex);
+  }
 
-	/**
-	 * Returns true if this graph is directed.
-	 *
-	 * @return True if this graph is directed, false otherwise.
-	 */
-	public boolean isDirected() {
-		return this.graph instanceof DirectedMultigraph<?, ?>;
-	}
+  /**
+   * Returns true if this graph is directed.
+   *
+   * @return True if this graph is directed, false otherwise.
+   */
+  public boolean isDirected() {
+    return this.graph instanceof DirectedMultigraph<?, ?>;
+  }
 
-	/**
-	 * @see AbstractBaseGraph#outgoingEdgesOf(Vertex)
-	 * @param vertex
-	 * @return
-	 */
-	public Set<Edge> outgoingEdgesOf(final Vertex vertex) {
-		return this.graph.outgoingEdgesOf(vertex);
-	}
+  /**
+   * Outgoing edges of.
+   *
+   * @param vertex
+   *          the vertex
+   * @return the sets the
+   * @see AbstractBaseGraph#outgoingEdgesOf(Vertex)
+   */
+  public Set<Edge> outgoingEdgesOf(final Vertex vertex) {
+    return this.graph.outgoingEdgesOf(vertex);
+  }
 
-	/**
-	 * @see AbstractBaseGraph#removeEdge(Edge)
-	 * @param edge
-	 * @return
-	 */
-	public boolean removeEdge(final Edge edge) {
-		final Vertex source = edge.getSource();
-		final Vertex target = edge.getTarget();
-		final boolean res = this.graph.removeEdge(edge);
-		source.firePropertyChange(Vertex.PROPERTY_SRC_VERTEX, source, null);
-		target.firePropertyChange(Vertex.PROPERTY_DST_VERTEX, target, null);
-		return res;
-	}
+  /**
+   * Removes the edge.
+   *
+   * @param edge
+   *          the edge
+   * @return true, if successful
+   * @see AbstractBaseGraph#removeEdge(Edge)
+   */
+  public boolean removeEdge(final Edge edge) {
+    final Vertex source = edge.getSource();
+    final Vertex target = edge.getTarget();
+    final boolean res = this.graph.removeEdge(edge);
+    source.firePropertyChange(Vertex.PROPERTY_SRC_VERTEX, source, null);
+    target.firePropertyChange(Vertex.PROPERTY_DST_VERTEX, target, null);
+    return res;
+  }
 
-	/**
-	 * @see AbstractBaseGraph#removeVertex(Graph)
-	 * @param child
-	 * @return
-	 */
-	public boolean removeVertex(final Vertex child) {
-		final boolean res = this.graph.removeVertex(child);
-		child.parent = null;
+  /**
+   * Removes the vertex.
+   *
+   * @param child
+   *          the child
+   * @return true, if successful
+   * @see AbstractBaseGraph#removeVertex(Graph)
+   */
+  public boolean removeVertex(final Vertex child) {
+    final boolean res = this.graph.removeVertex(child);
+    child.parent = null;
 
-		this.vertices.remove(child.getValue(ObjectType.PARAMETER_ID));
+    this.vertices.remove(child.getValue(ObjectType.PARAMETER_ID));
 
-		firePropertyChange(Graph.PROPERTY_REMOVE, null, child);
-		return res;
-	}
+    firePropertyChange(Graph.PROPERTY_REMOVE, null, child);
+    return res;
+  }
 
-	/**
-	 * Sets the name of the file in which this graph is defined.
-	 *
-	 * @param fileName
-	 *            a file name
-	 */
-	public void setFileName(final IPath fileName) {
-		this.fileName = fileName;
-	}
+  /**
+   * Sets the name of the file in which this graph is defined.
+   *
+   * @param fileName
+   *          a file name
+   */
+  public void setFileName(final IPath fileName) {
+    this.fileName = fileName;
+  }
 
-	@Override
-	public String toString() {
-		return this.type.getName();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return this.type.getName();
+  }
 
-	/**
-	 * @see AbstractBaseGraph#vertexSet()
-	 * @return
-	 */
-	public Set<Vertex> vertexSet() {
-		return this.graph.vertexSet();
-	}
+  /**
+   * Vertex set.
+   *
+   * @return the sets the
+   * @see AbstractBaseGraph#vertexSet()
+   */
+  public Set<Vertex> vertexSet() {
+    return this.graph.vertexSet();
+  }
 
 }
