@@ -54,8 +54,7 @@
 		<repository>
 			<id>Checkstyle</id>
 			<layout>p2</layout>
-			<url>http://eclipse-cs.sf.net/update
-			</url>
+			<url>http://eclipse-cs.sf.net/update/</url>
 		</repository>
 	</repositories>
 

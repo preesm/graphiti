@@ -43,9 +43,7 @@
 	<properties>
 		<tycho-version>1.0.0</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- can be changed to a local repo using an URI like file:///path/to/repo
-			 Note: plain paths like '/path/to/repo' without file:// will not work-->
-		<preesm.p2.repo>http://preesm.sourceforge.net/gensite/update-site/complete/</preesm.p2.repo>
+		<complete.p2.repo>http://preesm.sourceforge.net/gensite/update-site/complete/</complete.p2.repo>
 	</properties>
 
 	<repositories>
@@ -57,9 +55,9 @@
 		</repository>
 		<!-- add Preesm repository to resolve dependencies -->
 		<repository>
-			<id>Preesm</id>
+			<id>Complete Repo</id>
 			<layout>p2</layout>
-			<url>${preesm.p2.repo}</url>
+			<url>${complete.p2.repo}</url>
 		</repository>
 	</repositories>
 
