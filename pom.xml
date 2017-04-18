@@ -63,15 +63,6 @@
 		</repository>
 	</repositories>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.antlr</groupId>
-			<artifactId>antlr4-runtime</artifactId>
-			<version>4.3</version>
-		</dependency>
-	</dependencies>
-
-
 	<build>
 		<plugins>
 			<plugin>
@@ -150,6 +141,23 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<groupId>org.codehaus.mojo</groupId>
 				<version>1.6.0</version>
+			</plugin>
+			<!-- Enable checkstyle and specify custom configuration file -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.17</version>
+				<configuration>
+					<configLocation>${session.executionRootDirectory}/releng/hooks/VAADER_checkstyle.xml</configLocation>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<!-- Override checkstyle version -->
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>7.6.1</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<!--
 				Disable maven deploy plugin: since generated artifacts
@@ -235,6 +243,9 @@
 								<goals>
 									<goal>source-feature</goal>
 								</goals>
+								<configuration>
+									<labelSuffix> Sources</labelSuffix>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
