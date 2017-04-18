@@ -244,7 +244,7 @@
 									<goal>source-feature</goal>
 								</goals>
 								<configuration>
-									<labelSuffix> Sources</labelSuffix>
+									<labelSuffix>&nbsp;Sources</labelSuffix>
 								</configuration>
 							</execution>
 						</executions>

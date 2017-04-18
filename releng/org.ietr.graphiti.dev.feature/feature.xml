@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.ietr.graphiti.dev.feature"
-      label="All in One Graphiti Developper Requirements"
+      label="Graphiti Developper Requirements (Meta Feature)"
       version="1.3.16.qualifier">
 
    <description url="http://preesm.sourceforge.net/website/">
