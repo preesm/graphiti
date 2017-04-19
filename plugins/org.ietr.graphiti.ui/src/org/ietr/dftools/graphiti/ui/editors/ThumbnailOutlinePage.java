@@ -51,6 +51,7 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a thumbnail outline page.
  *
@@ -59,55 +60,80 @@ import org.eclipse.swt.widgets.Control;
  */
 public class ThumbnailOutlinePage extends ContentOutlinePage {
 
-	private Canvas canvas;
+  /** The canvas. */
+  private Canvas canvas;
 
-	private DisposeListener disposeListener;
+  /** The dispose listener. */
+  private DisposeListener disposeListener;
 
-	private final GraphEditor editor;
+  /** The editor. */
+  private final GraphEditor editor;
 
-	private Thumbnail thumbnail;
+  /** The thumbnail. */
+  private Thumbnail thumbnail;
 
-	public ThumbnailOutlinePage(final GraphEditor editor) {
-		super(new GraphicalViewerImpl());
-		this.editor = editor;
-	}
+  /**
+   * Instantiates a new thumbnail outline page.
+   *
+   * @param editor
+   *          the editor
+   */
+  public ThumbnailOutlinePage(final GraphEditor editor) {
+    super(new GraphicalViewerImpl());
+    this.editor = editor;
+  }
 
-	@Override
-	public void createControl(final Composite parent) {
-		this.canvas = new Canvas(parent, SWT.BORDER);
-		final LightweightSystem lws = new LightweightSystem(this.canvas);
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.ui.parts.ContentOutlinePage#createControl(org.eclipse.swt.widgets.Composite)
+   */
+  @Override
+  public void createControl(final Composite parent) {
+    this.canvas = new Canvas(parent, SWT.BORDER);
+    final LightweightSystem lws = new LightweightSystem(this.canvas);
 
-		final RootEditPart root = this.editor.getGraphicalViewer().getRootEditPart();
-		final ScalableFreeformRootEditPart scalable = (ScalableFreeformRootEditPart) root;
-		this.thumbnail = new ScrollableThumbnail((Viewport) scalable.getFigure());
-		this.thumbnail.setSource(scalable.getLayer(LayerConstants.PRINTABLE_LAYERS));
+    final RootEditPart root = this.editor.getGraphicalViewer().getRootEditPart();
+    final ScalableFreeformRootEditPart scalable = (ScalableFreeformRootEditPart) root;
+    this.thumbnail = new ScrollableThumbnail((Viewport) scalable.getFigure());
+    this.thumbnail.setSource(scalable.getLayer(LayerConstants.PRINTABLE_LAYERS));
 
-		lws.setContents(this.thumbnail);
+    lws.setContents(this.thumbnail);
 
-		this.disposeListener = e -> {
-			if (ThumbnailOutlinePage.this.thumbnail != null) {
-				ThumbnailOutlinePage.this.thumbnail.deactivate();
-				ThumbnailOutlinePage.this.thumbnail = null;
-			}
-		};
+    this.disposeListener = e -> {
+      if (ThumbnailOutlinePage.this.thumbnail != null) {
+        ThumbnailOutlinePage.this.thumbnail.deactivate();
+        ThumbnailOutlinePage.this.thumbnail = null;
+      }
+    };
 
-		final Control control = this.editor.getGraphicalViewer().getControl();
-		control.addDisposeListener(this.disposeListener);
-	}
+    final Control control = this.editor.getGraphicalViewer().getControl();
+    control.addDisposeListener(this.disposeListener);
+  }
 
-	@Override
-	public void dispose() {
-		this.editor.getSelectionSynchronizer().removeViewer(getViewer());
-		final Control control = this.editor.getGraphicalViewer().getControl();
-		if ((control != null) && !control.isDisposed()) {
-			control.removeDisposeListener(this.disposeListener);
-		}
-		super.dispose();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.part.Page#dispose()
+   */
+  @Override
+  public void dispose() {
+    this.editor.getSelectionSynchronizer().removeViewer(getViewer());
+    final Control control = this.editor.getGraphicalViewer().getControl();
+    if ((control != null) && !control.isDisposed()) {
+      control.removeDisposeListener(this.disposeListener);
+    }
+    super.dispose();
+  }
 
-	@Override
-	public Control getControl() {
-		return this.canvas;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.ui.parts.ContentOutlinePage#getControl()
+   */
+  @Override
+  public Control getControl() {
+    return this.canvas;
+  }
 
 }

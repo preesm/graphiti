@@ -46,65 +46,69 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.widgets.Display;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author mwipliez
+ * The Class GradientPattern.
  *
+ * @author mwipliez
  */
 public class GradientPattern {
 
-	/**
-	 * Paints this {@link IShape} with the given background {@link Color}, in
-	 * the specified {@link Rectangle} bounds, on the given {@link Graphics}. If
-	 * the graphics do not have advanced capabilities (such as printer or zoom
-	 * manager), the function will try to use the current display to draw the
-	 * {@link IShape} as an image.
-	 *
-	 * @param shape
-	 * @param backgroundColor
-	 * @param bounds
-	 * @param graphics
-	 */
-	public static void paintFigure(final IShape shape, final Color backgroundColor, final Rectangle bounds, final Graphics graphics) {
-		if (graphics instanceof SWTGraphics) {
-			// advanced graphics
-			final Color fg = new Color(null, 224, 224, 224);
+  /**
+   * Paints this {@link IShape} with the given background {@link Color}, in the specified {@link Rectangle} bounds, on the given {@link Graphics}. If the
+   * graphics do not have advanced capabilities (such as printer or zoom manager), the function will try to use the current display to draw the {@link IShape}
+   * as an image.
+   *
+   * @param shape
+   *          the shape
+   * @param backgroundColor
+   *          the background color
+   * @param bounds
+   *          the bounds
+   * @param graphics
+   *          the graphics
+   */
+  public static void paintFigure(final IShape shape, final Color backgroundColor, final Rectangle bounds, final Graphics graphics) {
+    if (graphics instanceof SWTGraphics) {
+      // advanced graphics
+      final Color fg = new Color(null, 224, 224, 224);
 
-			// square gradient, from left-bottom to right-top
-			final int max = Math.max(bounds.width, bounds.height);
-			final Pattern pattern = new Pattern(backgroundColor.getDevice(), 0, max, max, 0, backgroundColor, 192, fg, 192);
+      // square gradient, from left-bottom to right-top
+      final int max = Math.max(bounds.width, bounds.height);
+      final Pattern pattern = new Pattern(backgroundColor.getDevice(), 0, max, max, 0, backgroundColor, 192, fg, 192);
 
-			graphics.pushState();
-			try {
-				// Needs advanced capabilities or throws SWTException
-				graphics.setAntialias(SWT.ON);
-				graphics.setBackgroundPattern(pattern);
-			} catch (final RuntimeException e) {
-				// No anti alias, not pattern, less pretty but it will work!
-			}
+      graphics.pushState();
+      try {
+        // Needs advanced capabilities or throws SWTException
+        graphics.setAntialias(SWT.ON);
+        graphics.setBackgroundPattern(pattern);
+      } catch (final RuntimeException e) {
+        // No anti alias, not pattern, less pretty but it will work!
+      }
 
-			shape.paintSuperFigure(graphics);
-			graphics.popState();
+      shape.paintSuperFigure(graphics);
+      graphics.popState();
 
-			// pattern is not used anymore by graphics => dispose
-			pattern.dispose();
-		} else {
-			// ScaledGraphics and PrinterGraphics do not have advanced
-			// capabilities... so we try with SWTGraphics
+      // pattern is not used anymore by graphics => dispose
+      pattern.dispose();
+    } else {
+      // ScaledGraphics and PrinterGraphics do not have advanced
+      // capabilities... so we try with SWTGraphics
 
-			// Creates a new image of width x height on the current display
-			final Image image = new Image(Display.getCurrent(), bounds.width, bounds.height);
+      // Creates a new image of width x height on the current display
+      final Image image = new Image(Display.getCurrent(), bounds.width, bounds.height);
 
-			// Paints the figure on it using SWT graphics
-			final GC gc = new GC(image);
-			final Graphics swtGraphics = new SWTGraphics(gc);
-			GradientPattern.paintFigure(shape, backgroundColor, bounds, swtGraphics);
+      // Paints the figure on it using SWT graphics
+      final GC gc = new GC(image);
+      final Graphics swtGraphics = new SWTGraphics(gc);
+      GradientPattern.paintFigure(shape, backgroundColor, bounds, swtGraphics);
 
-			// Draws the image on the original graphics
-			graphics.drawImage(image, 0, 0);
+      // Draws the image on the original graphics
+      graphics.drawImage(image, 0, 0);
 
-			// Disposes image (and GC btw) and SWT graphics
-			image.dispose();
-			swtGraphics.dispose();
-		}
-	}
+      // Disposes image (and GC btw) and SWT graphics
+      image.dispose();
+      swtGraphics.dispose();
+    }
+  }
 }

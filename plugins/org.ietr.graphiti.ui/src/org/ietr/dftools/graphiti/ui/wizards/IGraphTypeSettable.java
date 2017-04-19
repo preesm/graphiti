@@ -39,6 +39,7 @@ package org.ietr.dftools.graphiti.ui.wizards;
 import org.ietr.dftools.graphiti.model.Configuration;
 import org.ietr.dftools.graphiti.model.ObjectType;
 
+// TODO: Auto-generated Javadoc
 /**
  * This interface defines how to set a graph type on a page.
  *
@@ -47,14 +48,14 @@ import org.ietr.dftools.graphiti.model.ObjectType;
  */
 public interface IGraphTypeSettable {
 
-	/**
-	 * Sets the configuration and graph type for this page.
-	 *
-	 * @param configuration
-	 *            The configuration to set.
-	 * @param type
-	 *            The graph type to set.
-	 */
-	public void setGraphType(Configuration configuration, ObjectType type);
+  /**
+   * Sets the configuration and graph type for this page.
+   *
+   * @param configuration
+   *          The configuration to set.
+   * @param type
+   *          The graph type to set.
+   */
+  public void setGraphType(Configuration configuration, ObjectType type);
 
 }

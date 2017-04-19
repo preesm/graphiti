@@ -39,6 +39,7 @@ package org.ietr.dftools.graphiti.ui.figure;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.geometry.Point;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a connection anchor for ellipses.
  *
@@ -48,40 +49,51 @@ import org.eclipse.draw2d.geometry.Point;
  */
 public class EllipsePortAnchor extends EllipseAnchor {
 
-	private final PortAnchorReferenceManager mgr;
+  /** The mgr. */
+  private final PortAnchorReferenceManager mgr;
 
-	/**
-	 * Creates a new ellipse port anchor.
-	 *
-	 * @param figure
-	 *            The owning vertex figure.
-	 * @param portName
-	 *            The port name associated with this connection anchor.
-	 * @param isOutput
-	 *            Whether the connection is input (false) or output (true).
-	 */
-	public EllipsePortAnchor(final VertexFigure figure, final String portName, final boolean isOutput) {
-		super(figure);
-		this.mgr = new PortAnchorReferenceManager(figure, portName, isOutput);
-	}
+  /**
+   * Creates a new ellipse port anchor.
+   *
+   * @param figure
+   *          The owning vertex figure.
+   * @param portName
+   *          The port name associated with this connection anchor.
+   * @param isOutput
+   *          Whether the connection is input (false) or output (true).
+   */
+  public EllipsePortAnchor(final VertexFigure figure, final String portName, final boolean isOutput) {
+    super(figure);
+    this.mgr = new PortAnchorReferenceManager(figure, portName, isOutput);
+  }
 
-	@Override
-	public Point getLocation(final Point reference) {
-		final Point mgrReference = this.mgr.getReferencePoint(this);
-		if (mgrReference == null) {
-			return super.getLocation(reference);
-		} else {
-			return mgrReference;
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.draw2d.EllipseAnchor#getLocation(org.eclipse.draw2d.geometry.Point)
+   */
+  @Override
+  public Point getLocation(final Point reference) {
+    final Point mgrReference = this.mgr.getReferencePoint(this);
+    if (mgrReference == null) {
+      return super.getLocation(reference);
+    } else {
+      return mgrReference;
+    }
+  }
 
-	@Override
-	public Point getReferencePoint() {
-		final Point reference = this.mgr.getReferencePoint(this);
-		if (reference == null) {
-			return super.getReferencePoint();
-		} else {
-			return reference;
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.draw2d.AbstractConnectionAnchor#getReferencePoint()
+   */
+  @Override
+  public Point getReferencePoint() {
+    final Point reference = this.mgr.getReferencePoint(this);
+    if (reference == null) {
+      return super.getReferencePoint();
+    } else {
+      return reference;
+    }
+  }
 }

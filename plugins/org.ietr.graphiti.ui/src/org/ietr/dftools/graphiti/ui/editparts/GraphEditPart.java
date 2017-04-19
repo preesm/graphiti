@@ -40,7 +40,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
@@ -66,11 +65,10 @@ import org.ietr.dftools.graphiti.ui.editpolicies.LayoutPolicy;
 import org.ietr.dftools.graphiti.ui.properties.ModelPropertySource;
 import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class extends {@link AbstractGraphicalEditPart} by setting its figure
- * layout manager to {@link GraphLayoutManager}. It also extends the
- * {@link EditPart#isSelectable()} method to return false, causing the selection
- * tool to act like the marquee tool when no particular children has been
+ * This class extends {@link AbstractGraphicalEditPart} by setting its figure layout manager to {@link GraphLayoutManager}. It also extends the
+ * {@link EditPart#isSelectable()} method to return false, causing the selection tool to act like the marquee tool when no particular children has been
  * selected.
  *
  * @author Matthieu Wipliez
@@ -78,157 +76,196 @@ import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
  */
 public class GraphEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, ITabbedPropertySheetPageContributor {
 
-	/**
-	 * The subgraph associated with this graph edit part. Set by
-	 * {@link GraphEditPart#addNodes}.
-	 */
-	private Subgraph subgraph;
+  /**
+   * The subgraph associated with this graph edit part. Set by {@link GraphEditPart#addNodes}.
+   */
+  private Subgraph subgraph;
 
-	@Override
-	public void activate() {
-		super.activate();
-		((Graph) getModel()).addPropertyChangeListener(this);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
+   */
+  @Override
+  public void activate() {
+    super.activate();
+    ((Graph) getModel()).addPropertyChangeListener(this);
+  }
 
-	/**
-	 * Adds edges of this EditPart to the {@link EdgeList} of the parent.
-	 *
-	 * @param edges
-	 *            A list of edges in the graph.
-	 */
-	void addEdges(final EdgeList edges) {
-		for (final Object child : getChildren()) {
-			if (child instanceof VertexEditPart) {
-				final VertexEditPart part = (VertexEditPart) child;
-				part.addEdges(edges);
-			}
-		}
-	}
+  /**
+   * Adds edges of this EditPart to the {@link EdgeList} of the parent.
+   *
+   * @param edges
+   *          A list of edges in the graph.
+   */
+  void addEdges(final EdgeList edges) {
+    for (final Object child : getChildren()) {
+      if (child instanceof VertexEditPart) {
+        final VertexEditPart part = (VertexEditPart) child;
+        part.addEdges(edges);
+      }
+    }
+  }
 
-	/**
-	 * Adds nodes of this EditPart to the {@link NodeList} of the parent. This
-	 * method sets size and padding for all nodes. Subgraph have insets equal to
-	 * 20 (top) and 0 otherwise.
-	 *
-	 * @param nodes
-	 *            A list of nodes in the graph.
-	 * @param parent
-	 *            If non-null, the parent subgraph.
-	 */
-	@SuppressWarnings("unchecked")
-	void addNodes(final NodeList nodes) {
-		this.subgraph = new Subgraph(this);
-		this.subgraph.innerPadding = new Insets(0, 0, 0, 0);
-		this.subgraph.insets = new Insets(20, 0, 0, 0);
-		final Figure figure = (Figure) getFigure();
-		this.subgraph.setSize(figure.getPreferredSize());
-		this.subgraph.setPadding(new Insets(2, 2, 2, 2));
-		nodes.add(this.subgraph);
+  /**
+   * Adds nodes of this EditPart to the {@link NodeList} of the parent. This method sets size and padding for all nodes. Subgraph have insets equal to 20 (top)
+   * and 0 otherwise.
+   *
+   * @param nodes
+   *          A list of nodes in the graph.
+   */
+  @SuppressWarnings("unchecked")
+  void addNodes(final NodeList nodes) {
+    this.subgraph = new Subgraph(this);
+    this.subgraph.innerPadding = new Insets(0, 0, 0, 0);
+    this.subgraph.insets = new Insets(20, 0, 0, 0);
+    final Figure figure = (Figure) getFigure();
+    this.subgraph.setSize(figure.getPreferredSize());
+    this.subgraph.setPadding(new Insets(2, 2, 2, 2));
+    nodes.add(this.subgraph);
 
-		for (final Object child : getChildren()) {
-			if (child instanceof VertexEditPart) {
-				final VertexEditPart part = (VertexEditPart) child;
-				part.addNodes(nodes, this.subgraph);
-			}
-		}
-	}
+    for (final Object child : getChildren()) {
+      if (child instanceof VertexEditPart) {
+        final VertexEditPart part = (VertexEditPart) child;
+        part.addNodes(nodes, this.subgraph);
+      }
+    }
+  }
 
-	/**
-	 * Automatically layouts the graphs, vertices and edges in this graphiti
-	 * document edit part.
-	 *
-	 * @param direction
-	 *            The direction, one of:
-	 *            <UL>
-	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#EAST}
-	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#SOUTH}
-	 *            </UL>
-	 */
-	public void automaticallyLayoutGraphs(final int direction) {
-		final LayoutManager layoutMgr = new GraphLayoutManager(this, direction);
-		layoutMgr.layout(getFigure());
+  /**
+   * Automatically layouts the graphs, vertices and edges in this graphiti document edit part.
+   *
+   * @param direction
+   *          The direction, one of:
+   *          <UL>
+   *          <LI>{@link org.eclipse.draw2d.PositionConstants#EAST}
+   *          <LI>{@link org.eclipse.draw2d.PositionConstants#SOUTH}
+   *          </UL>
+   */
+  public void automaticallyLayoutGraphs(final int direction) {
+    final LayoutManager layoutMgr = new GraphLayoutManager(this, direction);
+    layoutMgr.layout(getFigure());
 
-		getFigure().setLayoutManager(new FreeformLayout());
-		getFigure().revalidate();
-	}
+    getFigure().setLayoutManager(new FreeformLayout());
+    getFigure().revalidate();
+  }
 
-	@Override
-	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new LayoutPolicy());
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+   */
+  @Override
+  protected void createEditPolicies() {
+    installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
+    installEditPolicy(EditPolicy.LAYOUT_ROLE, new LayoutPolicy());
+  }
 
-	@Override
-	protected IFigure createFigure() {
-		// The figure associated with this graph edit part is only a
-		// free form layer
-		final Figure f = new FreeformLayer();
-		f.setLayoutManager(new FreeformLayout());
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+   */
+  @Override
+  protected IFigure createFigure() {
+    // The figure associated with this graph edit part is only a
+    // free form layer
+    final Figure f = new FreeformLayer();
+    f.setLayoutManager(new FreeformLayout());
 
-		// Create the static router for the connection layer
-		final ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-		final ShortestPathConnectionRouter router = new ShortestPathConnectionRouter(f);
-		router.setSpacing(2);
-		// ManhattanConnectionRouter router = new ManhattanConnectionRouter();
-		connLayer.setConnectionRouter(router);
+    // Create the static router for the connection layer
+    final ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+    final ShortestPathConnectionRouter router = new ShortestPathConnectionRouter(f);
+    router.setSpacing(2);
+    // ManhattanConnectionRouter router = new ManhattanConnectionRouter();
+    connLayer.setConnectionRouter(router);
 
-		return f;
-	}
+    return f;
+  }
 
-	@Override
-	public void deactivate() {
-		super.deactivate();
-		((Graph) getModel()).removePropertyChangeListener(this);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
+   */
+  @Override
+  public void deactivate() {
+    super.deactivate();
+    ((Graph) getModel()).removePropertyChangeListener(this);
+  }
 
-	@Override
-	@SuppressWarnings("rawtypes")
-	public Object getAdapter(final Class adapter) {
-		if (adapter == IPropertySource.class) {
-			return new ModelPropertySource((AbstractObject) getModel());
-		}
-		return super.getAdapter(adapter);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.Class)
+   */
+  @Override
+  @SuppressWarnings("rawtypes")
+  public Object getAdapter(final Class adapter) {
+    if (adapter == IPropertySource.class) {
+      return new ModelPropertySource((AbstractObject) getModel());
+    }
+    return super.getAdapter(adapter);
+  }
 
-	@Override
-	public String getContributorId() {
-		return PropertiesConstants.CONTRIBUTOR_ID;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor#getContributorId()
+   */
+  @Override
+  public String getContributorId() {
+    return PropertiesConstants.CONTRIBUTOR_ID;
+  }
 
-	@Override
-	public List<Object> getModelChildren() {
-		final Graph graph = (Graph) getModel();
-		final List<Object> children = new ArrayList<>();
-		children.addAll(graph.vertexSet());
-		return children;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
+   */
+  @Override
+  public List<Object> getModelChildren() {
+    final Graph graph = (Graph) getModel();
+    final List<Object> children = new ArrayList<>();
+    children.addAll(graph.vertexSet());
+    return children;
+  }
 
-	@Override
-	public boolean isSelectable() {
-		return false;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#isSelectable()
+   */
+  @Override
+  public boolean isSelectable() {
+    return false;
+  }
 
-	@Override
-	public void propertyChange(final PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(Graph.PROPERTY_ADD)) {
-			refresh();
-		} else if (evt.getPropertyName().equals(Graph.PROPERTY_REMOVE)) {
-			refresh();
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+   */
+  @Override
+  public void propertyChange(final PropertyChangeEvent evt) {
+    if (evt.getPropertyName().equals(Graph.PROPERTY_ADD)) {
+      refresh();
+    } else if (evt.getPropertyName().equals(Graph.PROPERTY_REMOVE)) {
+      refresh();
+    }
+  }
 
-	/**
-	 * This method is called by the {@link GraphLayoutManager}, and applies back
-	 * the changes of the {@link CompoundDirectedGraphLayout} algorithm to the
-	 * different figures, by setting their bounds.
-	 */
-	void updateFigures() {
-		for (final Object child : getChildren()) {
-			if (child instanceof VertexEditPart) {
-				final VertexEditPart part = (VertexEditPart) child;
-				part.updateFigures();
-			}
-		}
-	}
+  /**
+   * This method is called by the {@link GraphLayoutManager}, and applies back the changes of the {@link CompoundDirectedGraphLayout} algorithm to the different
+   * figures, by setting their bounds.
+   */
+  void updateFigures() {
+    for (final Object child : getChildren()) {
+      if (child instanceof VertexEditPart) {
+        final VertexEditPart part = (VertexEditPart) child;
+        part.updateFigures();
+      }
+    }
+  }
 
 }

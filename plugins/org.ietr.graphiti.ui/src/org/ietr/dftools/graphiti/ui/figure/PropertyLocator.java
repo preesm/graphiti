@@ -39,12 +39,12 @@ package org.ietr.dftools.graphiti.ui.figure;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.geometry.Point;
 import org.ietr.dftools.graphiti.model.ParameterPosition;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a connection locator.
  *
@@ -53,64 +53,79 @@ import org.ietr.dftools.graphiti.model.ParameterPosition;
  */
 public class PropertyLocator extends ConnectionLocator {
 
-	private final ParameterPosition pos;
+  /** The pos. */
+  private final ParameterPosition pos;
 
-	private final HashMap<Connection, List<PropertyLocator>> positions = new HashMap<>();
+  /** The positions. */
+  private final HashMap<Connection, List<PropertyLocator>> positions = new HashMap<>();
 
-	public PropertyLocator(final Connection c, final ParameterPosition p) {
-		super(c);
-		if (this.positions.get(c) == null) {
-			final List<PropertyLocator> list = new ArrayList<>();
-			this.positions.put(c, list);
-		}
-		this.pos = p;
-		this.positions.get(c).add(this);
-	}
+  /**
+   * Instantiates a new property locator.
+   *
+   * @param c
+   *          the c
+   * @param p
+   *          the p
+   */
+  public PropertyLocator(final Connection c, final ParameterPosition p) {
+    super(c);
+    if (this.positions.get(c) == null) {
+      final List<PropertyLocator> list = new ArrayList<>();
+      this.positions.put(c, list);
+    }
+    this.pos = p;
+    this.positions.get(c).add(this);
+  }
 
-	@Override
-	protected Point getReferencePoint() {
-		final Connection conn = getConnection();
-		final List<PropertyLocator> listOfProperties = this.positions.get(conn);
-		final int maxIndex = listOfProperties.indexOf(this);
-		int dec = 5;
-		for (int i = 0; i < maxIndex; i++) {
-			if (listOfProperties.get(i).pos == this.pos) {
-				dec += 10;
-			}
-		}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.draw2d.ConnectionLocator#getReferencePoint()
+   */
+  @Override
+  protected Point getReferencePoint() {
+    final Connection conn = getConnection();
+    final List<PropertyLocator> listOfProperties = this.positions.get(conn);
+    final int maxIndex = listOfProperties.indexOf(this);
+    int dec = 5;
+    for (int i = 0; i < maxIndex; i++) {
+      if (listOfProperties.get(i).pos == this.pos) {
+        dec += 10;
+      }
+    }
 
-		int xdirec = 0;
-		int ydirec = 0;
-		final Point p = Point.SINGLETON;
-		final Point f = conn.getPoints().getFirstPoint();
-		final Point l = conn.getPoints().getLastPoint();
+    int xdirec = 0;
+    int ydirec = 0;
+    final Point p = Point.SINGLETON;
+    final Point f = conn.getPoints().getFirstPoint();
+    final Point l = conn.getPoints().getLastPoint();
 
-		if (l.x > f.x) {
-			xdirec = 1;
-		} else {
-			xdirec = -1;
-		}
+    if (l.x > f.x) {
+      xdirec = 1;
+    } else {
+      xdirec = -1;
+    }
 
-		if (l.y > f.y) {
-			ydirec = 1;
-		} else {
-			ydirec = -1;
-		}
-		if (this.pos.equals(ParameterPosition.West) || this.pos.equals(ParameterPosition.NorthWest) || this.pos.equals(ParameterPosition.SouthWest)) {
-			final Point refP = conn.getPoints().getFirstPoint().getCopy();
-			conn.getParent().translateToAbsolute(refP);
-			p.setLocation(refP.x + (dec * xdirec), refP.y + (dec * ydirec));
-		} else if (this.pos.equals(ParameterPosition.East) || this.pos.equals(ParameterPosition.NorthEast) || this.pos.equals(ParameterPosition.SouthEast)) {
-			final Point refP = conn.getPoints().getLastPoint().getCopy();
-			conn.getParent().translateToAbsolute(refP);
-			p.setLocation(refP.x - (dec * xdirec), refP.y - (dec * ydirec));
-		} else {
-			final Point refP = conn.getPoints().getMidpoint().getCopy();
-			conn.getParent().translateToAbsolute(refP);
-			p.setLocation(refP.x - (dec * xdirec), refP.y - (dec * ydirec));
-		}
+    if (l.y > f.y) {
+      ydirec = 1;
+    } else {
+      ydirec = -1;
+    }
+    if (this.pos.equals(ParameterPosition.West) || this.pos.equals(ParameterPosition.NorthWest) || this.pos.equals(ParameterPosition.SouthWest)) {
+      final Point refP = conn.getPoints().getFirstPoint().getCopy();
+      conn.getParent().translateToAbsolute(refP);
+      p.setLocation(refP.x + (dec * xdirec), refP.y + (dec * ydirec));
+    } else if (this.pos.equals(ParameterPosition.East) || this.pos.equals(ParameterPosition.NorthEast) || this.pos.equals(ParameterPosition.SouthEast)) {
+      final Point refP = conn.getPoints().getLastPoint().getCopy();
+      conn.getParent().translateToAbsolute(refP);
+      p.setLocation(refP.x - (dec * xdirec), refP.y - (dec * ydirec));
+    } else {
+      final Point refP = conn.getPoints().getMidpoint().getCopy();
+      conn.getParent().translateToAbsolute(refP);
+      p.setLocation(refP.x - (dec * xdirec), refP.y - (dec * ydirec));
+    }
 
-		return p;
-	}
+    return p;
+  }
 
 }

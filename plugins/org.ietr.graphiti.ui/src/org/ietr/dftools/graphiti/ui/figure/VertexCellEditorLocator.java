@@ -44,49 +44,54 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Text;
 import org.ietr.dftools.graphiti.model.Vertex;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class implements {@link CellEditorLocator} to edit a {@link Vertex}'s
- * id. It is based on Daniel Lee's implementation for the flow example.
+ * This class implements {@link CellEditorLocator} to edit a {@link Vertex}'s id. It is based on Daniel Lee's implementation for the flow example.
  *
  * @author Daniel Lee
  * @author Matthieu Wipliez
  */
 public class VertexCellEditorLocator implements CellEditorLocator {
 
-	private final VertexFigure vertexFigure;
+  /** The vertex figure. */
+  private final VertexFigure vertexFigure;
 
-	/**
-	 * Creates a new VertexCellEditorLocator for the given vertexFigure
-	 *
-	 * @param figure
-	 *            the figure
-	 */
-	public VertexCellEditorLocator(final VertexFigure figure) {
-		this.vertexFigure = figure;
-	}
+  /**
+   * Creates a new VertexCellEditorLocator for the given vertexFigure.
+   *
+   * @param figure
+   *          the figure
+   */
+  public VertexCellEditorLocator(final VertexFigure figure) {
+    this.vertexFigure = figure;
+  }
 
-	/**
-	 * @see CellEditorLocator#relocate(org.eclipse.jface.viewers.CellEditor)
-	 */
-	@Override
-	public void relocate(final CellEditor celleditor) {
-		final Text text = (Text) celleditor.getControl();
-		Point pref;
-		if (text.getText().isEmpty()) {
-			pref = new Point(13, 13);
-		} else {
-			pref = text.computeSize(-1, -1);
-		}
+  /**
+   * Relocate.
+   *
+   * @param celleditor
+   *          the celleditor
+   * @see CellEditorLocator#relocate(org.eclipse.jface.viewers.CellEditor)
+   */
+  @Override
+  public void relocate(final CellEditor celleditor) {
+    final Text text = (Text) celleditor.getControl();
+    Point pref;
+    if (text.getText().isEmpty()) {
+      pref = new Point(13, 13);
+    } else {
+      pref = text.computeSize(-1, -1);
+    }
 
-		final Label label = this.vertexFigure.getLabelId();
-		final Rectangle labelBounds = label.getBounds().getCopy();
-		label.translateToAbsolute(labelBounds);
+    final Label label = this.vertexFigure.getLabelId();
+    final Rectangle labelBounds = label.getBounds().getCopy();
+    label.translateToAbsolute(labelBounds);
 
-		final Rectangle figureBounds = this.vertexFigure.getBounds().getCopy();
-		this.vertexFigure.translateToAbsolute(figureBounds);
-		final int start = (figureBounds.width - pref.x) / 2;
+    final Rectangle figureBounds = this.vertexFigure.getBounds().getCopy();
+    this.vertexFigure.translateToAbsolute(figureBounds);
+    final int start = (figureBounds.width - pref.x) / 2;
 
-		text.setBounds(figureBounds.x + start, labelBounds.y, pref.x, pref.y);
-	}
+    text.setBounds(figureBounds.x + start, labelBounds.y, pref.x, pref.y);
+  }
 
 }

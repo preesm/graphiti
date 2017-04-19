@@ -38,36 +38,37 @@ package org.ietr.dftools.graphiti.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
-
 import org.eclipse.core.resources.IFile;
 import org.ietr.dftools.graphiti.model.Graph;
 
+// TODO: Auto-generated Javadoc
 /**
- * This interface defines a transformation from a file to a Graph and/or the
- * inverse transformation.
+ * This interface defines a transformation from a file to a Graph and/or the inverse transformation.
  *
  * @author Matthieu Wipliez
  *
  */
 public interface ITransformation {
 
-	/**
-	 * Writes the given graph to the given output stream.
-	 *
-	 * @param graph
-	 *            a graph
-	 * @param out
-	 *            an output stream
-	 */
-	public void transform(Graph graph, OutputStream out) throws IOException;
+  /**
+   * Writes the given graph to the given output stream.
+   *
+   * @param graph
+   *          a graph
+   * @param out
+   *          an output stream
+   * @throws IOException
+   *           Signals that an I/O exception has occurred.
+   */
+  public void transform(Graph graph, OutputStream out) throws IOException;
 
-	/**
-	 * Transforms the given file to a Graphiti graph.
-	 *
-	 * @param file
-	 *            a file
-	 * @return a graph
-	 */
-	public Graph transform(IFile file);
+  /**
+   * Transforms the given file to a Graphiti graph.
+   *
+   * @param file
+   *          a file
+   * @return a graph
+   */
+  public Graph transform(IFile file);
 
 }

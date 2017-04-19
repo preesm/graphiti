@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides an object type.
  *
@@ -49,150 +50,167 @@ import java.util.Map;
  */
 public class ObjectType implements Comparable<ObjectType> {
 
-	/**
-	 * String for the "color" attribute. Defines the color of a graph, a vertex,
-	 * an edge.
-	 */
-	public static final String ATTRIBUTE_COLOR = "color";
+  /**
+   * String for the "color" attribute. Defines the color of a graph, a vertex, an edge.
+   */
+  public static final String ATTRIBUTE_COLOR = "color";
 
-	/**
-	 * String for the "directed" attribute.
-	 */
-	public static final String ATTRIBUTE_DIRECTED = "directed";
+  /**
+   * String for the "directed" attribute.
+   */
+  public static final String ATTRIBUTE_DIRECTED = "directed";
 
-	/**
-	 * String for the "height" attribute. Defines the vertex height.
-	 */
-	public static final String ATTRIBUTE_HEIGHT = "height";
+  /**
+   * String for the "height" attribute. Defines the vertex height.
+   */
+  public static final String ATTRIBUTE_HEIGHT = "height";
 
-	/**
-	 * String for the "shape" attribute. Defines the vertex shape.
-	 */
-	public static final String ATTRIBUTE_SHAPE = "shape";
+  /**
+   * String for the "shape" attribute. Defines the vertex shape.
+   */
+  public static final String ATTRIBUTE_SHAPE = "shape";
 
-	/**
-	 * String for the "width" attribute. Defines the vertex width.
-	 */
-	public static final String ATTRIBUTE_WIDTH = "width";
+  /**
+   * String for the "width" attribute. Defines the vertex width.
+   */
+  public static final String ATTRIBUTE_WIDTH = "width";
 
-	/**
-	 * String for the "id" parameter. Defines the vertex id.
-	 */
-	public static final String PARAMETER_ID = "id";
+  /**
+   * String for the "id" parameter. Defines the vertex id.
+   */
+  public static final String PARAMETER_ID = "id";
 
-	/**
-	 * String for the "refinement" parameter. Defines the vertex refinement.
-	 */
-	public static final String PARAMETER_REFINEMENT = "refinement";
+  /**
+   * String for the "refinement" parameter. Defines the vertex refinement.
+   */
+  public static final String PARAMETER_REFINEMENT = "refinement";
 
-	/**
-	 * String for the "source port" parameter. Defines the edge source port (if
-	 * any).
-	 */
-	public static final String PARAMETER_SOURCE_PORT = "source port";
+  /**
+   * String for the "source port" parameter. Defines the edge source port (if any).
+   */
+  public static final String PARAMETER_SOURCE_PORT = "source port";
 
-	/**
-	 * String for the "target port" parameter. Defines the edge target port (if
-	 * any).
-	 */
-	public static final String PARAMETER_TARGET_PORT = "target port";
+  /**
+   * String for the "target port" parameter. Defines the edge target port (if any).
+   */
+  public static final String PARAMETER_TARGET_PORT = "target port";
 
-	private final Map<String, Object> attributes;
+  /** The attributes. */
+  private final Map<String, Object> attributes;
 
-	private final String name;
+  /** The name. */
+  private final String name;
 
-	private final Map<String, Parameter> parameters;
+  /** The parameters. */
+  private final Map<String, Parameter> parameters;
 
-	/**
-	 * Creates a new abstract type with the given name.
-	 *
-	 * @param name
-	 *            The type name.
-	 */
-	public ObjectType(final String name) {
-		this.name = name;
-		this.attributes = new HashMap<>();
-		this.parameters = new HashMap<>();
-	}
+  /**
+   * Creates a new abstract type with the given name.
+   *
+   * @param name
+   *          The type name.
+   */
+  public ObjectType(final String name) {
+    this.name = name;
+    this.attributes = new HashMap<>();
+    this.parameters = new HashMap<>();
+  }
 
-	/**
-	 * Adds the given attribute to this type.
-	 *
-	 * @param attributeName
-	 *            The attribute name.
-	 */
-	public void addAttribute(final String attributeName, final Object value) {
-		this.attributes.put(attributeName, value);
-	}
+  /**
+   * Adds the given attribute to this type.
+   *
+   * @param attributeName
+   *          The attribute name.
+   * @param value
+   *          the value
+   */
+  public void addAttribute(final String attributeName, final Object value) {
+    this.attributes.put(attributeName, value);
+  }
 
-	/**
-	 * Adds the given parameter to this type.
-	 *
-	 * @param parameter
-	 *            A parameter.
-	 */
-	public void addParameter(final Parameter parameter) {
-		this.parameters.put(parameter.getName(), parameter);
-	}
+  /**
+   * Adds the given parameter to this type.
+   *
+   * @param parameter
+   *          A parameter.
+   */
+  public void addParameter(final Parameter parameter) {
+    this.parameters.put(parameter.getName(), parameter);
+  }
 
-	@Override
-	public int compareTo(final ObjectType type) {
-		return this.name.compareTo(type.name);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Comparable#compareTo(java.lang.Object)
+   */
+  @Override
+  public int compareTo(final ObjectType type) {
+    return this.name.compareTo(type.name);
+  }
 
-	@Override
-	public boolean equals(final Object obj) {
-		if (obj instanceof ObjectType) {
-			final ObjectType type = (ObjectType) obj;
-			return this.name.equals(type.name);
-		} else {
-			return false;
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj instanceof ObjectType) {
+      final ObjectType type = (ObjectType) obj;
+      return this.name.equals(type.name);
+    } else {
+      return false;
+    }
+  }
 
-	/**
-	 * Returns the type's attribute that has the given name.
-	 *
-	 * @param name
-	 *            The name of the attribute we're looking for.
-	 * @return The relevant attribute.
-	 */
-	public Object getAttribute(final String name) {
-		return this.attributes.get(name);
-	}
+  /**
+   * Returns the type's attribute that has the given name.
+   *
+   * @param name
+   *          The name of the attribute we're looking for.
+   * @return The relevant attribute.
+   */
+  public Object getAttribute(final String name) {
+    return this.attributes.get(name);
+  }
 
-	/**
-	 * Returns this type's name.
-	 *
-	 * @return This type's name.
-	 */
-	public String getName() {
-		return this.name;
-	}
+  /**
+   * Returns this type's name.
+   *
+   * @return This type's name.
+   */
+  public String getName() {
+    return this.name;
+  }
 
-	/**
-	 * Returns this type's parameter that has the given name.
-	 *
-	 * @param name
-	 *            The name of the parameter we're looking for.
-	 * @return The relevant parameter.
-	 */
-	public Parameter getParameter(final String name) {
-		return this.parameters.get(name);
-	}
+  /**
+   * Returns this type's parameter that has the given name.
+   *
+   * @param name
+   *          The name of the parameter we're looking for.
+   * @return The relevant parameter.
+   */
+  public Parameter getParameter(final String name) {
+    return this.parameters.get(name);
+  }
 
-	/**
-	 * Returns a copy of this type's parameters.
-	 *
-	 * @return A {@link List} containing a copy of this type's parameters.
-	 */
-	public List<Parameter> getParameters() {
-		return new ArrayList<>(this.parameters.values());
-	}
+  /**
+   * Returns a copy of this type's parameters.
+   *
+   * @return A {@link List} containing a copy of this type's parameters.
+   */
+  public List<Parameter> getParameters() {
+    return new ArrayList<>(this.parameters.values());
+  }
 
-	@Override
-	public String toString() {
-		return getName();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return getName();
+  }
 
 }

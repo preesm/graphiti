@@ -38,6 +38,7 @@ package org.ietr.dftools.graphiti.model;
 
 import org.eclipse.core.resources.IFile;
 
+// TODO: Auto-generated Javadoc
 /**
  * This interface defines a model validator.
  *
@@ -46,16 +47,15 @@ import org.eclipse.core.resources.IFile;
  */
 public interface IValidator {
 
-	/**
-	 * Validates the graph that is about to be saved to the given file. The file
-	 * parameter is used to put markers.
-	 *
-	 * @param file
-	 *            The target file.
-	 * @param graph
-	 *            The source graph.
-	 * @return True if graph is valid, false otherwise.
-	 */
-	public boolean validate(Graph graph, IFile file);
+  /**
+   * Validates the graph that is about to be saved to the given file. The file parameter is used to put markers.
+   *
+   * @param graph
+   *          The source graph.
+   * @param file
+   *          The target file.
+   * @return True if graph is valid, false otherwise.
+   */
+  public boolean validate(Graph graph, IFile file);
 
 }

@@ -41,19 +41,24 @@ import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.ietr.dftools.graphiti.ui.commands.DeleteCommand;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class provides the <code>getDeleteCommand</code> method to create a
- * DeleteCommand for a dependency.
+ * This class provides the <code>getDeleteCommand</code> method to create a DeleteCommand for a dependency.
  *
  * @author Samuel Beaussier
  * @author Nicolas Isch
  */
 public class DependencyEditPolicy extends ConnectionEditPolicy {
 
-	@Override
-	protected Command getDeleteCommand(final GroupRequest request) {
-		final DeleteCommand command = new DeleteCommand(getHost().getModel());
-		return command;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.ConnectionEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)
+   */
+  @Override
+  protected Command getDeleteCommand(final GroupRequest request) {
+    final DeleteCommand command = new DeleteCommand(getHost().getModel());
+    return command;
+  }
 
 }

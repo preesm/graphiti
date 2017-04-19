@@ -38,6 +38,7 @@ package org.ietr.dftools.graphiti.model;
 
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class represents an edge.
  *
@@ -47,130 +48,135 @@ import java.util.List;
  */
 public class Edge extends AbstractObject {
 
-	/**
-	 * This edge's source.
-	 */
-	private Vertex source;
+  /**
+   * This edge's source.
+   */
+  private Vertex source;
 
-	/**
-	 * This edge's target.
-	 */
-	private Vertex target;
+  /**
+   * This edge's target.
+   */
+  private Vertex target;
 
-	/**
-	 * Creates a new edge which is a copy of the given edge.
-	 *
-	 * @param edge
-	 *            The source edge.
-	 */
-	public Edge(final Edge edge) {
-		super(edge);
-		this.source = edge.source;
-		this.target = edge.target;
-		this.type = edge.type;
-	}
+  /**
+   * Creates a new edge which is a copy of the given edge.
+   *
+   * @param edge
+   *          The source edge.
+   */
+  public Edge(final Edge edge) {
+    super(edge);
+    this.source = edge.source;
+    this.target = edge.target;
+    this.type = edge.type;
+  }
 
-	/**
-	 * Creates a new unconnected edge with the given type.
-	 *
-	 * @param type
-	 *            The edge type.
-	 */
-	public Edge(final ObjectType type) {
-		super(type);
+  /**
+   * Creates a new unconnected edge with the given type.
+   *
+   * @param type
+   *          The edge type.
+   */
+  public Edge(final ObjectType type) {
+    super(type);
 
-		// set default values
-		final List<Parameter> parameters = type.getParameters();
-		for (final Parameter parameter : parameters) {
-			setValue(parameter.getName(), parameter.getDefault());
-		}
-	}
+    // set default values
+    final List<Parameter> parameters = type.getParameters();
+    for (final Parameter parameter : parameters) {
+      setValue(parameter.getName(), parameter.getDefault());
+    }
+  }
 
-	/**
-	 * Creates an edge with the given type and the specified source and target.
-	 *
-	 * @param type
-	 *            The edge type.
-	 * @param source
-	 *            The source vertex.
-	 * @param target
-	 *            The target vertex.
-	 */
-	public Edge(final ObjectType type, final Vertex source, final Vertex target) {
-		super(type);
-		this.source = source;
-		this.target = target;
-	}
+  /**
+   * Creates an edge with the given type and the specified source and target.
+   *
+   * @param type
+   *          The edge type.
+   * @param source
+   *          The source vertex.
+   * @param target
+   *          The target vertex.
+   */
+  public Edge(final ObjectType type, final Vertex source, final Vertex target) {
+    super(type);
+    this.source = source;
+    this.target = target;
+  }
 
-	/**
-	 * Returns the configuration associated with this edge.
-	 *
-	 * @return A {@link Configuration}.
-	 */
-	public Configuration getConfiguration() {
-		if (this.source != null) {
-			return this.source.getConfiguration();
-		} else if (this.target != null) {
-			return this.target.getConfiguration();
-		} else {
-			return null;
-		}
-	}
+  /**
+   * Returns the configuration associated with this edge.
+   *
+   * @return A {@link Configuration}.
+   */
+  public Configuration getConfiguration() {
+    if (this.source != null) {
+      return this.source.getConfiguration();
+    } else if (this.target != null) {
+      return this.target.getConfiguration();
+    } else {
+      return null;
+    }
+  }
 
-	/**
-	 * Returns the graph that contains this edge.
-	 *
-	 * @return the graph that contains this edge
-	 */
-	public Graph getParent() {
-		Graph parent = this.source.getParent();
-		if (parent == null) {
-			parent = this.target.getParent();
-		}
+  /**
+   * Returns the graph that contains this edge.
+   *
+   * @return the graph that contains this edge
+   */
+  public Graph getParent() {
+    Graph parent = this.source.getParent();
+    if (parent == null) {
+      parent = this.target.getParent();
+    }
 
-		return parent;
-	}
+    return parent;
+  }
 
-	/**
-	 * Returns this edge's source.
-	 *
-	 * @return This edge's source.
-	 */
-	public Vertex getSource() {
-		return this.source;
-	}
+  /**
+   * Returns this edge's source.
+   *
+   * @return This edge's source.
+   */
+  public Vertex getSource() {
+    return this.source;
+  }
 
-	/**
-	 * Returns this edge's target.
-	 *
-	 * @return This edge's target.
-	 */
-	public Vertex getTarget() {
-		return this.target;
-	}
+  /**
+   * Returns this edge's target.
+   *
+   * @return This edge's target.
+   */
+  public Vertex getTarget() {
+    return this.target;
+  }
 
-	/**
-	 * Sets this edge's source.
-	 *
-	 * @param source
-	 *            A {@link Vertex}.
-	 */
-	public void setSource(final Vertex source) {
-		this.source = source;
-	}
+  /**
+   * Sets this edge's source.
+   *
+   * @param source
+   *          A {@link Vertex}.
+   */
+  public void setSource(final Vertex source) {
+    this.source = source;
+  }
 
-	/**
-	 * Sets this edge's target.
-	 *
-	 * @param target
-	 *            A {@link Vertex}.
-	 */
-	public void setTarget(final Vertex target) {
-		this.target = target;
-	}
+  /**
+   * Sets this edge's target.
+   *
+   * @param target
+   *          A {@link Vertex}.
+   */
+  public void setTarget(final Vertex target) {
+    this.target = target;
+  }
 
-	@Override
-	public String toString() {
-		return getType() + ": " + getSource() + " - " + getTarget() + " " + super.hashCode();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return getType() + ": " + getSource() + " - " + getTarget() + " " + super.hashCode();
+  }
 }

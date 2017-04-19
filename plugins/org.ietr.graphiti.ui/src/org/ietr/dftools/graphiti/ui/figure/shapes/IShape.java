@@ -42,6 +42,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 
+// TODO: Auto-generated Javadoc
 /**
  * This interface defines an IShape.
  *
@@ -51,34 +52,40 @@ import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
  */
 public interface IShape extends IFigure {
 
-	/**
-	 * Returns the connection anchor associated with this shape. The connection
-	 * anchor may be a predefined eclipse implementation or a custom one.
-	 *
-	 * @return A ConnectionAnchor object.
-	 */
-	public ConnectionAnchor getConnectionAnchor(VertexFigure figure, String portName, boolean isOutput);
+  /**
+   * Returns the connection anchor associated with this shape. The connection anchor may be a predefined eclipse implementation or a custom one.
+   *
+   * @param figure
+   *          the figure
+   * @param portName
+   *          the port name
+   * @param isOutput
+   *          the is output
+   * @return A ConnectionAnchor object.
+   */
+  public ConnectionAnchor getConnectionAnchor(VertexFigure figure, String portName, boolean isOutput);
 
-	/**
-	 * Returns a new shape of the same class as this shape.
-	 *
-	 * @return An implementation of {@link IShape}.
-	 */
-	public IShape newShape();
+  /**
+   * Returns a new shape of the same class as this shape.
+   *
+   * @return An implementation of {@link IShape}.
+   */
+  public IShape newShape();
 
-	/**
-	 * Equivalent to <code>super.paintFigure(graphics)</code>.
-	 *
-	 * @param graphics
-	 */
-	public void paintSuperFigure(Graphics graphics);
+  /**
+   * Equivalent to <code>super.paintFigure(graphics)</code>.
+   *
+   * @param graphics
+   *          the graphics
+   */
+  public void paintSuperFigure(Graphics graphics);
 
-	/**
-	 * Sets the size of this shape.
-	 *
-	 * @param dim
-	 *            The {@link Dimension}.
-	 */
-	public void setDimension(Dimension dim);
+  /**
+   * Sets the size of this shape.
+   *
+   * @param dim
+   *          The {@link Dimension}.
+   */
+  public void setDimension(Dimension dim);
 
 }

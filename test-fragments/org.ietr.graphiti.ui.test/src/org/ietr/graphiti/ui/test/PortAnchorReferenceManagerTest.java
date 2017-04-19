@@ -38,11 +38,18 @@ import org.ietr.dftools.graphiti.ui.figure.PortAnchorReferenceManager;
 import org.junit.Assert;
 import org.junit.Test;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PortAnchorReferenceManagerTest.
+ */
 public class PortAnchorReferenceManagerTest {
 
-	@Test
-	public void testPortAnchorReferenceManager() {
-		final PortAnchorReferenceManager portAnchorReferenceManager = new PortAnchorReferenceManager(null, null, false);
-		Assert.assertNotNull(portAnchorReferenceManager);
-	}
+  /**
+   * Test port anchor reference manager.
+   */
+  @Test
+  public void testPortAnchorReferenceManager() {
+    final PortAnchorReferenceManager portAnchorReferenceManager = new PortAnchorReferenceManager(null, null, false);
+    Assert.assertNotNull(portAnchorReferenceManager);
+  }
 }

@@ -41,7 +41,6 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IViewPart;
@@ -66,154 +65,199 @@ import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.commands.ParameterChangeValueCommand;
 import org.ietr.dftools.graphiti.ui.editors.GraphEditor;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class implements a property source for the different objects of our
- * model.
+ * This class implements a property source for the different objects of our model.
  *
  * @author Matthieu Wipliez
  *
  */
 public class ModelPropertySource implements IPropertySource, PropertyChangeListener {
 
-	private final IPropertyDescriptor[] descs;
+  /** The descs. */
+  private final IPropertyDescriptor[] descs;
 
-	private boolean doRefresh;
+  /** The do refresh. */
+  private boolean doRefresh;
 
-	private final AbstractObject model;
+  /** The model. */
+  private final AbstractObject model;
 
-	private final ObjectType type;
+  /** The type. */
+  private final ObjectType type;
 
-	public ModelPropertySource(final AbstractObject model) {
-		this.model = model;
-		model.addPropertyChangeListener(this);
-		this.type = model.getType();
+  /**
+   * Instantiates a new model property source.
+   *
+   * @param model
+   *          the model
+   */
+  public ModelPropertySource(final AbstractObject model) {
+    this.model = model;
+    model.addPropertyChangeListener(this);
+    this.type = model.getType();
 
-		final List<IPropertyDescriptor> descs = new ArrayList<>();
-		for (final Parameter parameter : this.type.getParameters()) {
-			if (!((parameter.getType() == List.class) || (parameter.getType() == Map.class))) {
-				final String name = parameter.getName();
-				final TextPropertyDescriptor desc = new TextPropertyDescriptor(name, name);
-				descs.add(desc);
-			}
-		}
+    final List<IPropertyDescriptor> descs = new ArrayList<>();
+    for (final Parameter parameter : this.type.getParameters()) {
+      if (!((parameter.getType() == List.class) || (parameter.getType() == Map.class))) {
+        final String name = parameter.getName();
+        final TextPropertyDescriptor desc = new TextPropertyDescriptor(name, name);
+        descs.add(desc);
+      }
+    }
 
-		this.descs = descs.toArray(new IPropertyDescriptor[0]);
-	}
+    this.descs = descs.toArray(new IPropertyDescriptor[0]);
+  }
 
-	@Override
-	public Object getEditableValue() {
-		return null;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.views.properties.IPropertySource#getEditableValue()
+   */
+  @Override
+  public Object getEditableValue() {
+    return null;
+  }
 
-	@Override
-	public IPropertyDescriptor[] getPropertyDescriptors() {
-		return this.descs;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyDescriptors()
+   */
+  @Override
+  public IPropertyDescriptor[] getPropertyDescriptors() {
+    return this.descs;
+  }
 
-	@Override
-	public Object getPropertyValue(final Object id) {
-		final Object value = this.model.getValue((String) id);
-		if (value == null) {
-			return "";
-		}
-		return String.valueOf(value);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyValue(java.lang.Object)
+   */
+  @Override
+  public Object getPropertyValue(final Object id) {
+    final Object value = this.model.getValue((String) id);
+    if (value == null) {
+      return "";
+    }
+    return String.valueOf(value);
+  }
 
-	@Override
-	public boolean isPropertySet(final Object id) {
-		final Object value = this.model.getValue((String) id);
-		final Object defaultValue = this.model.getParameter((String) id).getDefault();
-		return value != defaultValue;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.views.properties.IPropertySource#isPropertySet(java.lang.Object)
+   */
+  @Override
+  public boolean isPropertySet(final Object id) {
+    final Object value = this.model.getValue((String) id);
+    final Object defaultValue = this.model.getParameter((String) id).getDefault();
+    return value != defaultValue;
+  }
 
-	@Override
-	public void propertyChange(final PropertyChangeEvent evt) {
-		if (!this.doRefresh) {
-			return;
-		}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+   */
+  @Override
+  public void propertyChange(final PropertyChangeEvent evt) {
+    if (!this.doRefresh) {
+      return;
+    }
 
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
+    final IWorkbench workbench = PlatformUI.getWorkbench();
+    final IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
 
-		// show properties
-		try {
-			final IViewPart part = page.showView(IPageLayout.ID_PROP_SHEET);
-			if (part instanceof PropertySheet) {
-				final IPropertySheetPage propPage = (IPropertySheetPage) ((PropertySheet) part).getCurrentPage();
-				if (propPage instanceof PropertySheetPage) {
-					((PropertySheetPage) propPage).refresh();
-				} else if (propPage instanceof TabbedPropertySheetPage) {
-					((TabbedPropertySheetPage) propPage).refresh();
-				}
-			}
-		} catch (final PartInitException e) {
-			e.printStackTrace();
-		}
-	}
+    // show properties
+    try {
+      final IViewPart part = page.showView(IPageLayout.ID_PROP_SHEET);
+      if (part instanceof PropertySheet) {
+        final IPropertySheetPage propPage = (IPropertySheetPage) ((PropertySheet) part).getCurrentPage();
+        if (propPage instanceof PropertySheetPage) {
+          ((PropertySheetPage) propPage).refresh();
+        } else if (propPage instanceof TabbedPropertySheetPage) {
+          ((TabbedPropertySheetPage) propPage).refresh();
+        }
+      }
+    } catch (final PartInitException e) {
+      e.printStackTrace();
+    }
+  }
 
-	@Override
-	public void resetPropertyValue(final Object id) {
-		Object defaultValue = this.model.getParameter((String) id).getDefault();
-		if (defaultValue == null) {
-			defaultValue = "";
-		}
-		this.model.setValue((String) id, defaultValue);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.views.properties.IPropertySource#resetPropertyValue(java.lang.Object)
+   */
+  @Override
+  public void resetPropertyValue(final Object id) {
+    Object defaultValue = this.model.getParameter((String) id).getDefault();
+    if (defaultValue == null) {
+      defaultValue = "";
+    }
+    this.model.setValue((String) id, defaultValue);
+  }
 
-	@Override
-	public void setPropertyValue(final Object id, Object value) {
-		Graph graph;
-		if (this.model instanceof Vertex) {
-			graph = ((Vertex) this.model).getParent();
-		} else if (this.model instanceof Edge) {
-			graph = ((Edge) this.model).getParent();
-		} else {
-			graph = (Graph) this.model;
-		}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.views.properties.IPropertySource#setPropertyValue(java.lang.Object, java.lang.Object)
+   */
+  @Override
+  public void setPropertyValue(final Object id, Object value) {
+    Graph graph;
+    if (this.model instanceof Vertex) {
+      graph = ((Vertex) this.model).getParent();
+    } else if (this.model instanceof Edge) {
+      graph = ((Edge) this.model).getParent();
+    } else {
+      graph = (Graph) this.model;
+    }
 
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
-		try {
-			final IEditorPart part = IDE.openEditor(page, graph.getFile());
-			if (part instanceof GraphEditor) {
-				final String parameterName = (String) id;
+    final IWorkbench workbench = PlatformUI.getWorkbench();
+    final IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
+    try {
+      final IEditorPart part = IDE.openEditor(page, graph.getFile());
+      if (part instanceof GraphEditor) {
+        final String parameterName = (String) id;
 
-				// only update value if it is different than before
-				final Object oldValue = this.model.getValue(parameterName);
-				final String str = (String) value;
-				if (((oldValue == null) && str.isEmpty()) || String.valueOf(oldValue).equals(value)) {
-					return;
-				}
+        // only update value if it is different than before
+        final Object oldValue = this.model.getValue(parameterName);
+        final String str = (String) value;
+        if (((oldValue == null) && str.isEmpty()) || String.valueOf(oldValue).equals(value)) {
+          return;
+        }
 
-				final ParameterChangeValueCommand command = new ParameterChangeValueCommand(this.model, "Change value");
-				final Class<?> parameterType = this.model.getParameter((String) id).getType();
-				if (str.isEmpty()) {
-					// get default value
-					value = this.model.getParameter(parameterName).getDefault();
-				} else {
-					try {
-						if (parameterType == Integer.class) {
-							value = Integer.valueOf(str);
-						} else if (parameterType == Float.class) {
-							value = Float.valueOf(str);
-						} else if (parameterType == Boolean.class) {
-							if (!"true".equals(value) && !"false".equals(value)) {
-								throw new IllegalArgumentException();
-							}
-							value = Boolean.valueOf(str);
-						}
-					} catch (final RuntimeException e) {
-						value = "invalid \"" + value + "\" value for " + parameterType.getSimpleName();
-					}
-				}
-				command.setValue(parameterName, value);
-				this.doRefresh = false;
-				((GraphEditor) part).executeCommand(command);
-				this.doRefresh = true;
-			}
-		} catch (final PartInitException e) {
-			e.printStackTrace();
-		}
-	}
+        final ParameterChangeValueCommand command = new ParameterChangeValueCommand(this.model, "Change value");
+        final Class<?> parameterType = this.model.getParameter((String) id).getType();
+        if (str.isEmpty()) {
+          // get default value
+          value = this.model.getParameter(parameterName).getDefault();
+        } else {
+          try {
+            if (parameterType == Integer.class) {
+              value = Integer.valueOf(str);
+            } else if (parameterType == Float.class) {
+              value = Float.valueOf(str);
+            } else if (parameterType == Boolean.class) {
+              if (!"true".equals(value) && !"false".equals(value)) {
+                throw new IllegalArgumentException();
+              }
+              value = Boolean.valueOf(str);
+            }
+          } catch (final RuntimeException e) {
+            value = "invalid \"" + value + "\" value for " + parameterType.getSimpleName();
+          }
+        }
+        command.setValue(parameterName, value);
+        this.doRefresh = false;
+        ((GraphEditor) part).executeCommand(command);
+        this.doRefresh = true;
+      }
+    } catch (final PartInitException e) {
+      e.printStackTrace();
+    }
+  }
 
 }

@@ -39,16 +39,25 @@ package org.ietr.dftools.graphiti.ui.properties;
 import org.eclipse.gef.EditPart;
 import org.eclipse.ui.views.properties.tabbed.ITypeMapper;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ModelTypeMapper.
+ */
 public class ModelTypeMapper implements ITypeMapper {
 
-	@Override
-	@SuppressWarnings("rawtypes")
-	public Class mapType(final Object object) {
-		Class type = object.getClass();
-		if (object instanceof EditPart) {
-			type = ((EditPart) object).getModel().getClass();
-		}
-		return type;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.views.properties.tabbed.ITypeMapper#mapType(java.lang.Object)
+   */
+  @Override
+  @SuppressWarnings("rawtypes")
+  public Class mapType(final Object object) {
+    Class type = object.getClass();
+    if (object instanceof EditPart) {
+      type = ((EditPart) object).getModel().getClass();
+    }
+    return type;
+  }
 
 }

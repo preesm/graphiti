@@ -38,7 +38,6 @@ package org.ietr.dftools.graphiti.ui.commands.copyPaste;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.InputDialog;
@@ -52,6 +51,7 @@ import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.editparts.GraphEditPart;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a command that pastes vertices from the clipboard.
  *
@@ -62,118 +62,148 @@ import org.ietr.dftools.graphiti.ui.editparts.GraphEditPart;
  */
 public class PasteCommand extends Command {
 
-	private List<Object> added;
+  /** The added. */
+  private List<Object> added;
 
-	private boolean dirty;
+  /** The dirty. */
+  private boolean dirty;
 
-	/**
-	 * The target EditPart.
-	 */
-	private final Graph graph;
+  /**
+   * The target EditPart.
+   */
+  private final Graph graph;
 
-	private final List<Vertex> vertices;
+  /** The vertices. */
+  private final List<Vertex> vertices;
 
-	/**
-	 * Creates a new paste command with the given target part and vertices.
-	 *
-	 * @param target
-	 *            The target part.
-	 * @param vertices
-	 *            A list of vertices to cut.
-	 */
-	public PasteCommand(final GraphEditPart target, final List<Vertex> vertices) {
-		this.graph = (Graph) target.getModel();
-		this.vertices = vertices;
-	}
+  /**
+   * Creates a new paste command with the given target part and vertices.
+   *
+   * @param target
+   *          The target part.
+   * @param vertices
+   *          A list of vertices to cut.
+   */
+  public PasteCommand(final GraphEditPart target, final List<Vertex> vertices) {
+    this.graph = (Graph) target.getModel();
+    this.vertices = vertices;
+  }
 
-	private String checkVertexId(final Graph graph, final Vertex vertex) {
-		String id = (String) vertex.getValue(ObjectType.PARAMETER_ID);
-		final Vertex existing = graph.findVertex(id);
-		if (existing != vertex) {
-			id = getVertexId(id);
-			if (id != null) {
-				vertex.setValue(ObjectType.PARAMETER_ID, id);
-			}
-		}
+  /**
+   * Check vertex id.
+   *
+   * @param graph
+   *          the graph
+   * @param vertex
+   *          the vertex
+   * @return the string
+   */
+  private String checkVertexId(final Graph graph, final Vertex vertex) {
+    String id = (String) vertex.getValue(ObjectType.PARAMETER_ID);
+    final Vertex existing = graph.findVertex(id);
+    if (existing != vertex) {
+      id = getVertexId(id);
+      if (id != null) {
+        vertex.setValue(ObjectType.PARAMETER_ID, id);
+      }
+    }
 
-		return id;
-	}
+    return id;
+  }
 
-	@Override
-	public void execute() {
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#execute()
+   */
+  @Override
+  public void execute() {
 
-	}
+  }
 
-	/**
-	 * Returns a vertex identifier.
-	 *
-	 * @param initialValue
-	 *            The initial id.
-	 * @return A unique vertex identifier, or <code>null</code>.
-	 */
-	private String getVertexId(final String initialValue) {
-		final IWorkbench workbench = PlatformUI.getWorkbench();
-		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		final Shell shell = window.getShell();
+  /**
+   * Returns a vertex identifier.
+   *
+   * @param initialValue
+   *          The initial id.
+   * @return A unique vertex identifier, or <code>null</code>.
+   */
+  private String getVertexId(final String initialValue) {
+    final IWorkbench workbench = PlatformUI.getWorkbench();
+    final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+    final Shell shell = window.getShell();
 
-		final InputDialog dialog = new InputDialog(shell, "New vertex", "Please enter a vertex identifier", initialValue, vertexId -> {
-			if (vertexId.isEmpty()) {
-				return "";
-			}
+    final InputDialog dialog = new InputDialog(shell, "New vertex", "Please enter a vertex identifier", initialValue, vertexId -> {
+      if (vertexId.isEmpty()) {
+        return "";
+      }
 
-			if (PasteCommand.this.graph != null) {
-				final Vertex vertex = PasteCommand.this.graph.findVertex(vertexId);
-				if (vertex != null) {
-					return "A vertex already exists with the same identifier";
-				}
-			}
+      if (PasteCommand.this.graph != null) {
+        final Vertex vertex = PasteCommand.this.graph.findVertex(vertexId);
+        if (vertex != null) {
+          return "A vertex already exists with the same identifier";
+        }
+      }
 
-			return null;
-		});
-		final int res = dialog.open();
-		if (res == Window.OK) {
-			final String value = dialog.getValue();
-			if ((value == null) || value.isEmpty()) {
-				return null;
-			} else {
-				return value;
-			}
-		} else {
-			return null;
-		}
-	}
+      return null;
+    });
+    final int res = dialog.open();
+    if (res == Window.OK) {
+      final String value = dialog.getValue();
+      if ((value == null) || value.isEmpty()) {
+        return null;
+      } else {
+        return value;
+      }
+    } else {
+      return null;
+    }
+  }
 
-	public boolean isDirty() {
-		return this.dirty;
-	}
+  /**
+   * Checks if is dirty.
+   *
+   * @return true, if is dirty
+   */
+  public boolean isDirty() {
+    return this.dirty;
+  }
 
-	public void run() {
-		this.added = new ArrayList<>();
+  /**
+   * Run.
+   */
+  public void run() {
+    this.added = new ArrayList<>();
 
-		for (final Vertex vertex : this.vertices) {
-			// check id
-			if (checkVertexId(this.graph, vertex) != null) {
-				// Adds the cloned graph to the parent graph and the added list
-				this.added.add(vertex);
-				final Rectangle previousBounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
-				this.graph.addVertex(vertex);
-				final Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
+    for (final Vertex vertex : this.vertices) {
+      // check id
+      if (checkVertexId(this.graph, vertex) != null) {
+        // Adds the cloned graph to the parent graph and the added list
+        this.added.add(vertex);
+        final Rectangle previousBounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
+        this.graph.addVertex(vertex);
+        final Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
 
-				final Rectangle newBounds = new Rectangle(previousBounds.x + previousBounds.width + 10, previousBounds.y + previousBounds.height + 10,
-						bounds.width, bounds.height);
-				vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, newBounds);
+        final Rectangle newBounds = new Rectangle(previousBounds.x + previousBounds.width + 10, previousBounds.y + previousBounds.height + 10, bounds.width,
+            bounds.height);
+        vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, newBounds);
 
-				this.dirty = true;
-			}
-		}
-	}
+        this.dirty = true;
+      }
+    }
+  }
 
-	@Override
-	public void undo() {
-		for (final Object model : this.added) {
-			if (model instanceof Vertex) {
-				this.graph.removeVertex((Vertex) model);
-			}
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#undo()
+   */
+  @Override
+  public void undo() {
+    for (final Object model : this.added) {
+      if (model instanceof Vertex) {
+        this.graph.removeVertex((Vertex) model);
+      }
+    }
+  }
 }

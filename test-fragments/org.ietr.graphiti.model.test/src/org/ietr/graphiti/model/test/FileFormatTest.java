@@ -38,12 +38,19 @@ import org.ietr.dftools.graphiti.model.FileFormat;
 import org.junit.Assert;
 import org.junit.Test;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FileFormatTest.
+ */
 public class FileFormatTest {
 
-	@Test
-	public void testConstruct() {
-		final FileFormat fileFormat = new FileFormat("txt", "Text");
-		Assert.assertTrue("Text".equals(fileFormat.getContentType()));
-	}
+  /**
+   * Test construct.
+   */
+  @Test
+  public void testConstruct() {
+    final FileFormat fileFormat = new FileFormat("txt", "Text");
+    Assert.assertTrue("Text".equals(fileFormat.getContentType()));
+  }
 
 }

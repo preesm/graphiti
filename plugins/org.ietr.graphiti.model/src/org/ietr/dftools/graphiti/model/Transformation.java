@@ -38,6 +38,7 @@ package org.ietr.dftools.graphiti.model;
 
 import org.ietr.dftools.graphiti.io.ITransformation;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class defines a transformation described with XSLT or with a Java class.
  *
@@ -46,32 +47,62 @@ import org.ietr.dftools.graphiti.io.ITransformation;
  */
 public class Transformation {
 
-	private String fileName;
+  /** The file name. */
+  private String fileName;
 
-	private ITransformation instance;
+  /** The instance. */
+  private ITransformation instance;
 
-	private final boolean xslt;
+  /** The xslt. */
+  private final boolean xslt;
 
-	public Transformation(final String fileName) {
-		this.xslt = true;
-		this.fileName = fileName;
-	}
+  /**
+   * Instantiates a new transformation.
+   *
+   * @param fileName
+   *          the file name
+   */
+  public Transformation(final String fileName) {
+    this.xslt = true;
+    this.fileName = fileName;
+  }
 
-	public Transformation(final ITransformation instance) {
-		this.xslt = false;
-		this.instance = instance;
-	}
+  /**
+   * Instantiates a new transformation.
+   *
+   * @param instance
+   *          the instance
+   */
+  public Transformation(final ITransformation instance) {
+    this.xslt = false;
+    this.instance = instance;
+  }
 
-	public String getFileName() {
-		return this.fileName;
-	}
+  /**
+   * Gets the file name.
+   *
+   * @return the file name
+   */
+  public String getFileName() {
+    return this.fileName;
+  }
 
-	public ITransformation getInstance() {
-		return this.instance;
-	}
+  /**
+   * Gets the single instance of Transformation.
+   *
+   * @return single instance of Transformation
+   */
+  public ITransformation getInstance() {
+    return this.instance;
+  }
 
-	public boolean isXslt() {
-		return this.xslt;
-	}
+  /**
+   * Checks if is xslt.
+   *
+   * @return true, if is xslt
+   */
+  public boolean isXslt() {
+    return this.xslt;
+  }
 
 }

@@ -40,6 +40,7 @@ import org.eclipse.gef.requests.CreationFactory;
 import org.ietr.dftools.graphiti.model.Edge;
 import org.ietr.dftools.graphiti.model.ObjectType;
 
+// TODO: Auto-generated Javadoc
 /**
  * Gives methods to create new edges.
  *
@@ -48,25 +49,36 @@ import org.ietr.dftools.graphiti.model.ObjectType;
  */
 public class EdgeCreationFactory implements CreationFactory {
 
-	private final ObjectType type;
+  /** The type. */
+  private final ObjectType type;
 
-	/**
-	 * Create a new edge creation factory.
-	 *
-	 * @param type
-	 *            The edge type.
-	 */
-	public EdgeCreationFactory(final ObjectType type) {
-		this.type = type;
-	}
+  /**
+   * Create a new edge creation factory.
+   *
+   * @param type
+   *          The edge type.
+   */
+  public EdgeCreationFactory(final ObjectType type) {
+    this.type = type;
+  }
 
-	@Override
-	public Object getNewObject() {
-		return new Edge(this.type);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.requests.CreationFactory#getNewObject()
+   */
+  @Override
+  public Object getNewObject() {
+    return new Edge(this.type);
+  }
 
-	@Override
-	public Object getObjectType() {
-		return Edge.class;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.requests.CreationFactory#getObjectType()
+   */
+  @Override
+  public Object getObjectType() {
+    return Edge.class;
+  }
 }

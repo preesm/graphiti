@@ -41,9 +41,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class provides a parameter associated with an object (vertex, graph,
- * edge). It has a name, a type, and a position.
+ * This class provides a parameter associated with an object (vertex, graph, edge). It has a name, a type, and a position.
  *
  * @author Jonathan Piat
  * @author Matthieu Wipliez
@@ -51,86 +51,95 @@ import java.util.TreeMap;
  */
 public class Parameter {
 
-	private final Object defaultValue;
+  /** The default value. */
+  private final Object defaultValue;
 
-	private final String name;
+  /** The name. */
+  private final String name;
 
-	private final ParameterPosition position;
+  /** The position. */
+  private final ParameterPosition position;
 
-	private final Class<?> type;
+  /** The type. */
+  private final Class<?> type;
 
-	/**
-	 * Creates a new parameter.
-	 *
-	 * @param name
-	 *            The parameter name.
-	 * @param value
-	 *            The parameter default value.
-	 * @param position
-	 *            Its position, may be <code>null</code>.
-	 * @param type
-	 *            The parameter type, as a Java {@link Class}&lt;?&gt;.
-	 */
-	public Parameter(final String name, final Object value, final ParameterPosition position, final Class<?> type) {
-		this.defaultValue = value;
-		this.name = name;
-		this.position = position;
-		this.type = type;
-	}
+  /**
+   * Creates a new parameter.
+   *
+   * @param name
+   *          The parameter name.
+   * @param value
+   *          The parameter default value.
+   * @param position
+   *          Its position, may be <code>null</code>.
+   * @param type
+   *          The parameter type, as a Java {@link Class}&lt;?&gt;.
+   */
+  public Parameter(final String name, final Object value, final ParameterPosition position, final Class<?> type) {
+    this.defaultValue = value;
+    this.name = name;
+    this.position = position;
+    this.type = type;
+  }
 
-	/**
-	 * Returns this parameter's default value.
-	 *
-	 * @return This parameter's default value.
-	 */
-	public Object getDefault() {
-		if (this.defaultValue instanceof Boolean) {
-			return new Boolean((Boolean) this.defaultValue);
-		} else if (this.defaultValue instanceof Float) {
-			return new Float((Float) this.defaultValue);
-		} else if (this.defaultValue instanceof Integer) {
-			return new Integer((Integer) this.defaultValue);
-		} else if (this.defaultValue instanceof List<?>) {
-			return new ArrayList<Object>((List<?>) this.defaultValue);
-		} else if (this.defaultValue instanceof Map<?, ?>) {
-			return new TreeMap<Object, Object>((Map<?, ?>) this.defaultValue);
-		} else if (this.defaultValue instanceof String) {
-			return new String((String) this.defaultValue);
-		} else {
-			return this.defaultValue;
-		}
-	}
+  /**
+   * Returns this parameter's default value.
+   *
+   * @return This parameter's default value.
+   */
+  public Object getDefault() {
+    if (this.defaultValue instanceof Boolean) {
+      return new Boolean((Boolean) this.defaultValue);
+    } else if (this.defaultValue instanceof Float) {
+      return new Float((Float) this.defaultValue);
+    } else if (this.defaultValue instanceof Integer) {
+      return new Integer((Integer) this.defaultValue);
+    } else if (this.defaultValue instanceof List<?>) {
+      return new ArrayList<Object>((List<?>) this.defaultValue);
+    } else if (this.defaultValue instanceof Map<?, ?>) {
+      return new TreeMap<Object, Object>((Map<?, ?>) this.defaultValue);
+    } else if (this.defaultValue instanceof String) {
+      return new String((String) this.defaultValue);
+    } else {
+      return this.defaultValue;
+    }
+  }
 
-	/**
-	 * Returns this parameter's name.
-	 *
-	 * @return This parameter's name.
-	 */
-	public String getName() {
-		return this.name;
-	}
+  /**
+   * Returns this parameter's name.
+   *
+   * @return This parameter's name.
+   */
+  public String getName() {
+    return this.name;
+  }
 
-	/**
-	 * Returns this parameter's position.
-	 *
-	 * @return This parameter's position.
-	 */
-	public ParameterPosition getPosition() {
-		return this.position;
-	}
+  /**
+   * Returns this parameter's position.
+   *
+   * @return This parameter's position.
+   */
+  public ParameterPosition getPosition() {
+    return this.position;
+  }
 
-	/**
-	 * Returns this parameter's type.
-	 *
-	 * @return This parameter's type.
-	 */
-	public Class<?> getType() {
-		return this.type;
-	}
+  /**
+   * Returns this parameter's type.
+   *
+   * @return This parameter's type.
+   */
+  public Class<?> getType() {
+    return this.type;
+  }
 
-	@Override
-	public String toString() {
-		return this.name;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return this.name;
+  }
 
 }

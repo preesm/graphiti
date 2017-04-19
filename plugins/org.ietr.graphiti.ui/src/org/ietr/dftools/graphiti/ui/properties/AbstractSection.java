@@ -38,7 +38,6 @@ package org.ietr.dftools.graphiti.ui.properties;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.ISelection;
@@ -59,6 +58,7 @@ import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ietr.dftools.graphiti.model.AbstractObject;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class defines an abstract section.
  *
@@ -67,265 +67,311 @@ import org.ietr.dftools.graphiti.model.AbstractObject;
  */
 public abstract class AbstractSection extends AbstractPropertySection implements PropertyChangeListener {
 
-	/**
-	 * This class provides a command that changes the value of the currently
-	 * selected parameter.
-	 *
-	 * @author Matthieu Wipliez
-	 *
-	 */
-	protected class ParameterChangeValueCommand extends Command {
+  /**
+   * This class provides a command that changes the value of the currently selected parameter.
+   *
+   * @author Matthieu Wipliez
+   *
+   */
+  protected class ParameterChangeValueCommand extends Command {
 
-		final private String label;
+    /** The label. */
+    private final String label;
 
-		/**
-		 * Set by {@link #setValue(String, Object)}.
-		 */
-		private String name;
+    /**
+     * Set by {@link #setValue(String, Object)}.
+     */
+    private String name;
 
-		/**
-		 * The new value.
-		 */
-		private Object newValue;
+    /**
+     * The new value.
+     */
+    private Object newValue;
 
-		/**
-		 * The old value.
-		 */
-		private Object oldValue;
+    /**
+     * The old value.
+     */
+    private Object oldValue;
 
-		/**
-		 * The property bean we're modifying.
-		 */
-		private final AbstractObject source;
+    /**
+     * The property bean we're modifying.
+     */
+    private final AbstractObject source;
 
-		/**
-		 * Creates a new add parameter command.
-		 *
-		 * @param newValue
-		 *            The value.
-		 */
-		public ParameterChangeValueCommand(final AbstractObject source, final String label) {
-			this.source = source;
-			this.label = label;
-		}
+    /**
+     * Creates a new add parameter command.
+     *
+     * @param source
+     *          the source
+     * @param label
+     *          the label
+     */
+    public ParameterChangeValueCommand(final AbstractObject source, final String label) {
+      this.source = source;
+      this.label = label;
+    }
 
-		@Override
-		public void execute() {
-			this.oldValue = this.source.setValue(this.name, this.newValue);
-		}
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
+    @Override
+    public void execute() {
+      this.oldValue = this.source.setValue(this.name, this.newValue);
+    }
 
-		@Override
-		public String getLabel() {
-			return this.label;
-		}
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.eclipse.gef.commands.Command#getLabel()
+     */
+    @Override
+    public String getLabel() {
+      return this.label;
+    }
 
-		/**
-		 * Sets the value of the parameter whose name is given to the given
-		 * value.
-		 *
-		 * @param name
-		 *            The parameter name.
-		 * @param value
-		 *            Its new value.
-		 */
-		public void setValue(final String name, final Object value) {
-			this.name = name;
-			this.newValue = value;
-		}
+    /**
+     * Sets the value of the parameter whose name is given to the given value.
+     *
+     * @param name
+     *          The parameter name.
+     * @param value
+     *          Its new value.
+     */
+    public void setValue(final String name, final Object value) {
+      this.name = name;
+      this.newValue = value;
+    }
 
-		@Override
-		public void undo() {
-			this.source.setValue(this.name, this.oldValue);
-		}
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
+    @Override
+    public void undo() {
+      this.source.setValue(this.name, this.oldValue);
+    }
 
-	}
+  }
 
-	private Button buttonAdd;
+  /** The button add. */
+  private Button buttonAdd;
 
-	private Button buttonRemove;
+  /** The button remove. */
+  private Button buttonRemove;
 
-	private Form form;
+  /** The form. */
+  private Form form;
 
-	protected String parameterName;
+  /** The parameter name. */
+  protected String parameterName;
 
-	private TableViewer tableViewer;
+  /** The table viewer. */
+  private TableViewer tableViewer;
 
-	/**
-	 * Called when "Add..." is pressed.
-	 */
-	abstract protected void buttonAddSelected();
+  /**
+   * Called when "Add..." is pressed.
+   */
+  protected abstract void buttonAddSelected();
 
-	/**
-	 * Called when "Remove" is pressed.
-	 */
-	abstract protected void buttonRemoveSelected();
+  /**
+   * Called when "Remove" is pressed.
+   */
+  protected abstract void buttonRemoveSelected();
 
-	@Override
-	public void createControls(final Composite parent, final TabbedPropertySheetPage aTabbedPropertySheetPage) {
-		super.createControls(parent, aTabbedPropertySheetPage);
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite,
+   * org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
+   */
+  @Override
+  public void createControls(final Composite parent, final TabbedPropertySheetPage aTabbedPropertySheetPage) {
+    super.createControls(parent, aTabbedPropertySheetPage);
 
-		this.form = getWidgetFactory().createForm(parent);
-		getWidgetFactory().decorateFormHeading(this.form);
+    this.form = getWidgetFactory().createForm(parent);
+    getWidgetFactory().decorateFormHeading(this.form);
 
-		final Composite composite = this.form.getBody();
-		composite.setLayout(new GridLayout(2, false));
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-	}
+    final Composite composite = this.form.getBody();
+    composite.setLayout(new GridLayout(2, false));
+    composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+  }
 
-	/**
-	 * Creates the table component from the <code>parent</code> composite.
-	 *
-	 * @param parent
-	 *            The parent composite.
-	 * @return The table created.
-	 */
-	final protected Table createTable(final Composite parent) {
-		// create table
-		final int style = SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION | SWT.HIDE_SELECTION;
+  /**
+   * Creates the table component from the <code>parent</code> composite.
+   *
+   * @param parent
+   *          The parent composite.
+   * @return The table created.
+   */
+  protected final Table createTable(final Composite parent) {
+    // create table
+    final int style = SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION | SWT.HIDE_SELECTION;
 
-		final Table table = getWidgetFactory().createTable(parent, style);
-		this.tableViewer = new TableViewer(table);
+    final Table table = getWidgetFactory().createTable(parent, style);
+    this.tableViewer = new TableViewer(table);
 
-		// create buttons
-		this.buttonAdd = getWidgetFactory().createButton(parent, "Add...", SWT.NONE);
-		this.buttonAdd.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
-		this.buttonAdd.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				buttonAddSelected();
-			}
-		});
+    // create buttons
+    this.buttonAdd = getWidgetFactory().createButton(parent, "Add...", SWT.NONE);
+    this.buttonAdd.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
+    this.buttonAdd.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(final SelectionEvent e) {
+        buttonAddSelected();
+      }
+    });
 
-		// create buttons
-		this.buttonRemove = getWidgetFactory().createButton(parent, "Remove", SWT.NONE);
-		this.buttonRemove.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
-		this.buttonRemove.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				buttonRemoveSelected();
-			}
-		});
+    // create buttons
+    this.buttonRemove = getWidgetFactory().createButton(parent, "Remove", SWT.NONE);
+    this.buttonRemove.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
+    this.buttonRemove.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(final SelectionEvent e) {
+        buttonRemoveSelected();
+      }
+    });
 
-		return table;
-	}
+    return table;
+  }
 
-	@Override
-	public void dispose() {
-		final AbstractObject model = getModel();
-		if (model != null) {
-			model.removePropertyChangeListener(this);
-		}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#dispose()
+   */
+  @Override
+  public void dispose() {
+    final AbstractObject model = getModel();
+    if (model != null) {
+      model.removePropertyChangeListener(this);
+    }
 
-		if (this.form != null) {
-			this.form.dispose();
-		}
-	}
+    if (this.form != null) {
+      this.form.dispose();
+    }
+  }
 
-	/**
-	 * Returns the form of this section.
-	 *
-	 * @return the form of this section
-	 */
-	public Form getForm() {
-		return this.form;
-	}
+  /**
+   * Returns the form of this section.
+   *
+   * @return the form of this section
+   */
+  public Form getForm() {
+    return this.form;
+  }
 
-	/**
-	 * Returns the model associated with this section. May be <code>null</code>.
-	 *
-	 * @return the model associated with this section
-	 */
-	public AbstractObject getModel() {
-		if (this.tableViewer == null) {
-			return null;
-		}
-		return (AbstractObject) this.tableViewer.getInput();
-	}
+  /**
+   * Returns the model associated with this section. May be <code>null</code>.
+   *
+   * @return the model associated with this section
+   */
+  public AbstractObject getModel() {
+    if (this.tableViewer == null) {
+      return null;
+    }
+    return (AbstractObject) this.tableViewer.getInput();
+  }
 
-	/**
-	 * Returns the shell associated with the form of this section.
-	 *
-	 * @return the shell associated with the form of this section
-	 */
-	public Shell getShell() {
-		return this.form.getShell();
-	}
+  /**
+   * Returns the shell associated with the form of this section.
+   *
+   * @return the shell associated with the form of this section
+   */
+  public Shell getShell() {
+    return this.form.getShell();
+  }
 
-	/**
-	 * Returns the current selection on the table of this section. May be
-	 * <code>null</code>.
-	 *
-	 * @return the current selection on the table of this section
-	 */
-	public IStructuredSelection getTableSelection() {
-		final ISelection sel = this.tableViewer.getSelection();
-		if (sel instanceof IStructuredSelection) {
-			return (IStructuredSelection) sel;
-		}
-		return null;
-	}
+  /**
+   * Returns the current selection on the table of this section. May be <code>null</code>.
+   *
+   * @return the current selection on the table of this section
+   */
+  public IStructuredSelection getTableSelection() {
+    final ISelection sel = this.tableViewer.getSelection();
+    if (sel instanceof IStructuredSelection) {
+      return (IStructuredSelection) sel;
+    }
+    return null;
+  }
 
-	/**
-	 * Returns the viewer of the table of this section.
-	 *
-	 * @return the viewer of the table of this section
-	 */
-	public TableViewer getViewer() {
-		return this.tableViewer;
-	}
+  /**
+   * Returns the viewer of the table of this section.
+   *
+   * @return the viewer of the table of this section
+   */
+  public TableViewer getViewer() {
+    return this.tableViewer;
+  }
 
-	@Override
-	public void propertyChange(final PropertyChangeEvent evt) {
-		refresh();
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+   */
+  @Override
+  public void propertyChange(final PropertyChangeEvent evt) {
+    refresh();
+  }
 
-	@Override
-	public void refresh() {
-		this.tableViewer.refresh();
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#refresh()
+   */
+  @Override
+  public void refresh() {
+    this.tableViewer.refresh();
+  }
 
-	@Override
-	public void setInput(final IWorkbenchPart part, final ISelection selection) {
-		super.setInput(part, selection);
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#setInput(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+   */
+  @Override
+  public void setInput(final IWorkbenchPart part, final ISelection selection) {
+    super.setInput(part, selection);
 
-		// remove property listener on old model
-		final AbstractObject oldModel = getModel();
-		if (oldModel != null) {
-			oldModel.removePropertyChangeListener(this);
-		}
+    // remove property listener on old model
+    final AbstractObject oldModel = getModel();
+    if (oldModel != null) {
+      oldModel.removePropertyChangeListener(this);
+    }
 
-		if (selection instanceof IStructuredSelection) {
-			final Object object = ((IStructuredSelection) selection).getFirstElement();
-			if (object instanceof EditPart) {
-				final Object editPartModel = ((EditPart) object).getModel();
-				if (editPartModel instanceof AbstractObject) {
-					final AbstractObject model = (AbstractObject) editPartModel;
+    if (selection instanceof IStructuredSelection) {
+      final Object object = ((IStructuredSelection) selection).getFirstElement();
+      if (object instanceof EditPart) {
+        final Object editPartModel = ((EditPart) object).getModel();
+        if (editPartModel instanceof AbstractObject) {
+          final AbstractObject model = (AbstractObject) editPartModel;
 
-					if (model.getParameter(this.parameterName) == null) {
-						this.tableViewer.getTable().setEnabled(false);
-						this.buttonAdd.setEnabled(false);
-						this.buttonRemove.setEnabled(false);
-					} else {
-						this.tableViewer.getTable().setEnabled(true);
-						this.buttonAdd.setEnabled(true);
-						this.buttonRemove.setEnabled(true);
+          if (model.getParameter(this.parameterName) == null) {
+            this.tableViewer.getTable().setEnabled(false);
+            this.buttonAdd.setEnabled(false);
+            this.buttonRemove.setEnabled(false);
+          } else {
+            this.tableViewer.getTable().setEnabled(true);
+            this.buttonAdd.setEnabled(true);
+            this.buttonRemove.setEnabled(true);
 
-						model.addPropertyChangeListener(this);
-						this.tableViewer.setInput(model);
-					}
-				}
-			}
-		}
-	}
+            model.addPropertyChangeListener(this);
+            this.tableViewer.setInput(model);
+          }
+        }
+      }
+    }
+  }
 
-	/**
-	 * Sets the name of the parameter that this section uses.
-	 *
-	 * @param parameterName
-	 *            name of a parameter
-	 */
-	public void setParameterName(final String parameterName) {
-		this.parameterName = parameterName;
-	}
+  /**
+   * Sets the name of the parameter that this section uses.
+   *
+   * @param parameterName
+   *          name of a parameter
+   */
+  public void setParameterName(final String parameterName) {
+    this.parameterName = parameterName;
+  }
 
 }

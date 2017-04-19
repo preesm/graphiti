@@ -38,7 +38,6 @@ package org.ietr.dftools.graphiti.ui.wizards;
 
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -56,6 +55,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 import org.ietr.dftools.graphiti.ui.editors.GraphEditor;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a save as graph wizard.
  *
@@ -63,94 +63,111 @@ import org.ietr.dftools.graphiti.ui.editors.GraphEditor;
  */
 public class SaveAsWizard extends Wizard implements INewWizard {
 
-	private IStructuredSelection selection;
+  /** The selection. */
+  private IStructuredSelection selection;
 
-	private IWorkbench workbench;
+  /** The workbench. */
+  private IWorkbench workbench;
 
-	/**
-	 * Constructor for {@link SaveAsWizard}.
-	 */
-	public SaveAsWizard() {
-		super();
-		setNeedsProgressMonitor(true);
-		setWindowTitle("Save As...");
-	}
+  /**
+   * Constructor for {@link SaveAsWizard}.
+   */
+  public SaveAsWizard() {
+    super();
+    setNeedsProgressMonitor(true);
+    setWindowTitle("Save As...");
+  }
 
-	@Override
-	public void addPages() {
-		IWizardPage page = new WizardGraphTypePage(this.selection);
-		page.setDescription("Save the graph with the chosen type.");
-		addPage(page);
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.jface.wizard.Wizard#addPages()
+   */
+  @Override
+  public void addPages() {
+    IWizardPage page = new WizardGraphTypePage(this.selection);
+    page.setDescription("Save the graph with the chosen type.");
+    addPage(page);
 
-		addPage(new WizardConvertPage(this.selection));
+    addPage(new WizardConvertPage(this.selection));
 
-		// To improve user experience, the selection is the editor's input file.
-		IStructuredSelection selection = this.selection;
-		final Object obj = selection.getFirstElement();
-		if (obj instanceof GraphEditor) {
-			final GraphEditor editor = (GraphEditor) obj;
-			final IEditorInput input = editor.getEditorInput();
-			if (input instanceof IFileEditorInput) {
-				final IFile file = ((IFileEditorInput) input).getFile();
-				selection = new StructuredSelection(file);
-			}
-		}
+    // To improve user experience, the selection is the editor's input file.
+    IStructuredSelection selection = this.selection;
+    final Object obj = selection.getFirstElement();
+    if (obj instanceof GraphEditor) {
+      final GraphEditor editor = (GraphEditor) obj;
+      final IEditorInput input = editor.getEditorInput();
+      if (input instanceof IFileEditorInput) {
+        final IFile file = ((IFileEditorInput) input).getFile();
+        selection = new StructuredSelection(file);
+      }
+    }
 
-		page = new WizardSaveGraphPage(selection);
-		page.setDescription("Save graph as.");
-		addPage(page);
-	}
+    page = new WizardSaveGraphPage(selection);
+    page.setDescription("Save graph as.");
+    addPage(page);
+  }
 
-	/**
-	 * Returns the workbench which was passed to <code>init</code>.
-	 *
-	 * @return the workbench
-	 */
-	public IWorkbench getWorkbench() {
-		return this.workbench;
-	}
+  /**
+   * Returns the workbench which was passed to <code>init</code>.
+   *
+   * @return the workbench
+   */
+  public IWorkbench getWorkbench() {
+    return this.workbench;
+  }
 
-	@Override
-	public void init(final IWorkbench workbench, final IStructuredSelection selection) {
-		this.selection = selection;
-		this.workbench = workbench;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
+   */
+  @Override
+  public void init(final IWorkbench workbench, final IStructuredSelection selection) {
+    this.selection = selection;
+    this.workbench = workbench;
+  }
 
-	@Override
-	public boolean performFinish() {
-		final WizardConvertPage convertPage = (WizardConvertPage) getPage("convertGraph");
-		final WizardSaveGraphPage page = (WizardSaveGraphPage) getPage("saveGraph");
-		page.setGraph(convertPage.getGraph());
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.jface.wizard.Wizard#performFinish()
+   */
+  @Override
+  public boolean performFinish() {
+    final WizardConvertPage convertPage = (WizardConvertPage) getPage("convertGraph");
+    final WizardSaveGraphPage page = (WizardSaveGraphPage) getPage("saveGraph");
+    page.setGraph(convertPage.getGraph());
 
-		final InputStream in = page.getInitialContents();
-		if (in == null) {
-			return false;
-		}
-		try {
-			in.close();
-		} catch (final IOException e) {
-			// don't care because in is a byte array input stream
-		}
+    final InputStream in = page.getInitialContents();
+    if (in == null) {
+      return false;
+    }
+    try {
+      in.close();
+    } catch (final IOException e) {
+      // don't care because in is a byte array input stream
+    }
 
-		final IFile file = page.createNewFile();
-		if (file == null) {
-			return false;
-		}
+    final IFile file = page.createNewFile();
+    if (file == null) {
+      return false;
+    }
 
-		// Open editor on new file.
-		final IWorkbenchWindow dw = getWorkbench().getActiveWorkbenchWindow();
-		try {
-			if (dw != null) {
-				BasicNewResourceWizard.selectAndReveal(file, dw);
-				final IWorkbenchPage activePage = dw.getActivePage();
-				if (activePage != null) {
-					IDE.openEditor(activePage, file, true);
-				}
-			}
-		} catch (final PartInitException e) {
-			MessageDialog.openError(dw.getShell(), "Problem opening editor", e.getMessage());
-		}
+    // Open editor on new file.
+    final IWorkbenchWindow dw = getWorkbench().getActiveWorkbenchWindow();
+    try {
+      if (dw != null) {
+        BasicNewResourceWizard.selectAndReveal(file, dw);
+        final IWorkbenchPage activePage = dw.getActivePage();
+        if (activePage != null) {
+          IDE.openEditor(activePage, file, true);
+        }
+      }
+    } catch (final PartInitException e) {
+      MessageDialog.openError(dw.getShell(), "Problem opening editor", e.getMessage());
+    }
 
-		return true;
-	}
+    return true;
+  }
 }

@@ -38,7 +38,6 @@ package org.ietr.dftools.graphiti.ui.editparts;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
@@ -56,9 +55,9 @@ import org.ietr.dftools.graphiti.ui.figure.EdgeFigure;
 import org.ietr.dftools.graphiti.ui.properties.ModelPropertySource;
 import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
 
+// TODO: Auto-generated Javadoc
 /**
- * The EditPart associated to the Dependency gives methods to refresh the view
- * when a property has changed.
+ * The EditPart associated to the Dependency gives methods to refresh the view when a property has changed.
  *
  * @author Samuel Beaussier
  * @author Nicolas Isch
@@ -66,71 +65,106 @@ import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
  */
 public class EdgeEditPart extends AbstractConnectionEditPart implements PropertyChangeListener, ITabbedPropertySheetPageContributor {
 
-	@Override
-	public void activate() {
-		super.activate();
-		((Edge) getModel()).addPropertyChangeListener(this);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
+   */
+  @Override
+  public void activate() {
+    super.activate();
+    ((Edge) getModel()).addPropertyChangeListener(this);
+  }
 
-	@Override
-	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new DependencyEndPointEditPolicy());
-		installEditPolicy(EditPolicy.CONNECTION_ROLE, new DependencyEditPolicy());
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+   */
+  @Override
+  protected void createEditPolicies() {
+    installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new DependencyEndPointEditPolicy());
+    installEditPolicy(EditPolicy.CONNECTION_ROLE, new DependencyEditPolicy());
+  }
 
-	/**
-	 * Creates a new DependencyGef figure
-	 */
-	@Override
-	protected IFigure createFigure() {
-		final Edge edge = (Edge) getModel();
-		return new EdgeFigure(edge);
-	}
+  /**
+   * Creates a new DependencyGef figure.
+   *
+   * @return the i figure
+   */
+  @Override
+  protected IFigure createFigure() {
+    final Edge edge = (Edge) getModel();
+    return new EdgeFigure(edge);
+  }
 
-	@Override
-	public void deactivate() {
-		super.deactivate();
-		((Edge) getModel()).removePropertyChangeListener(this);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
+   */
+  @Override
+  public void deactivate() {
+    super.deactivate();
+    ((Edge) getModel()).removePropertyChangeListener(this);
+  }
 
-	@Override
-	@SuppressWarnings("rawtypes")
-	public Object getAdapter(final Class adapter) {
-		if (adapter == IPropertySource.class) {
-			return new ModelPropertySource((AbstractObject) getModel());
-		}
-		if (adapter == IPropertySheetPage.class) {
-			return new TabbedPropertySheetPage(this);
-		}
-		return super.getAdapter(adapter);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editparts.AbstractConnectionEditPart#getAdapter(java.lang.Class)
+   */
+  @Override
+  @SuppressWarnings("rawtypes")
+  public Object getAdapter(final Class adapter) {
+    if (adapter == IPropertySource.class) {
+      return new ModelPropertySource((AbstractObject) getModel());
+    }
+    if (adapter == IPropertySheetPage.class) {
+      return new TabbedPropertySheetPage(this);
+    }
+    return super.getAdapter(adapter);
+  }
 
-	@Override
-	public String getContributorId() {
-		return PropertiesConstants.CONTRIBUTOR_ID;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor#getContributorId()
+   */
+  @Override
+  public String getContributorId() {
+    return PropertiesConstants.CONTRIBUTOR_ID;
+  }
 
-	@Override
-	public void propertyChange(final PropertyChangeEvent evt) {
-		final String propertyName = evt.getPropertyName();
-		if (propertyName.equals(ObjectType.PARAMETER_SOURCE_PORT)) {
-			final VertexEditPart vertexEP = (VertexEditPart) getSource();
-			vertexEP.propertyChange(new PropertyChangeEvent(this, Vertex.PROPERTY_SRC_VERTEX, null, null));
-			// update anchors
-			refresh();
-		} else if (propertyName.equals(ObjectType.PARAMETER_TARGET_PORT)) {
-			final VertexEditPart vertexEP = (VertexEditPart) getTarget();
-			vertexEP.propertyChange(new PropertyChangeEvent(this, Vertex.PROPERTY_DST_VERTEX, null, null));
-			// update anchors
-			refresh();
-		}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+   */
+  @Override
+  public void propertyChange(final PropertyChangeEvent evt) {
+    final String propertyName = evt.getPropertyName();
+    if (propertyName.equals(ObjectType.PARAMETER_SOURCE_PORT)) {
+      final VertexEditPart vertexEP = (VertexEditPart) getSource();
+      vertexEP.propertyChange(new PropertyChangeEvent(this, Vertex.PROPERTY_SRC_VERTEX, null, null));
+      // update anchors
+      refresh();
+    } else if (propertyName.equals(ObjectType.PARAMETER_TARGET_PORT)) {
+      final VertexEditPart vertexEP = (VertexEditPart) getTarget();
+      vertexEP.propertyChange(new PropertyChangeEvent(this, Vertex.PROPERTY_DST_VERTEX, null, null));
+      // update anchors
+      refresh();
+    }
 
-		// any parameter
-		// (including ports in case they are also displayed on the edge)
-		final EdgeFigure figure = (EdgeFigure) getFigure();
-		figure.refresh(evt.getPropertyName(), evt.getNewValue());
-	}
+    // any parameter
+    // (including ports in case they are also displayed on the edge)
+    final EdgeFigure figure = (EdgeFigure) getFigure();
+    figure.refresh(evt.getPropertyName(), evt.getNewValue());
+  }
 
-	void updateFigures() {
-	}
+  /**
+   * Update figures.
+   */
+  void updateFigures() {
+  }
 }

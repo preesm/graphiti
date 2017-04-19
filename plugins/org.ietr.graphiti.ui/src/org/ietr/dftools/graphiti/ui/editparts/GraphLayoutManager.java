@@ -37,7 +37,6 @@
 package org.ietr.dftools.graphiti.ui.editparts;
 
 import java.util.List;
-
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -45,6 +44,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.graph.CompoundDirectedGraph;
 import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a basic graph layout.
  *
@@ -52,61 +52,67 @@ import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
  */
 public class GraphLayoutManager extends XYLayout {
 
-	private final int direction;
+  /** The direction. */
+  private final int direction;
 
-	private final GraphEditPart part;
+  /** The part. */
+  private final GraphEditPart part;
 
-	/**
-	 * Creates a new graph layout manager on the given document and with the
-	 * given direction.
-	 *
-	 * @param part
-	 *            The document to layout.
-	 * @param direction
-	 *            The direction, one of:
-	 *            <UL>
-	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#EAST}
-	 *            <LI>{@link org.eclipse.draw2d.PositionConstants#SOUTH}
-	 *            </UL>
-	 */
-	public GraphLayoutManager(final GraphEditPart part, final int direction) {
-		this.part = part;
-		this.direction = direction;
-	}
+  /**
+   * Creates a new graph layout manager on the given document and with the given direction.
+   *
+   * @param part
+   *          The document to layout.
+   * @param direction
+   *          The direction, one of:
+   *          <UL>
+   *          <LI>{@link org.eclipse.draw2d.PositionConstants#EAST}
+   *          <LI>{@link org.eclipse.draw2d.PositionConstants#SOUTH}
+   *          </UL>
+   */
+  public GraphLayoutManager(final GraphEditPart part, final int direction) {
+    this.part = part;
+    this.direction = direction;
+  }
 
-	@Override
-	@SuppressWarnings("rawtypes")
-	protected Dimension calculatePreferredSize(final IFigure container, final int wHint, final int hHint) {
-		container.validate();
-		final List children = container.getChildren();
-		final Rectangle result = new Rectangle().setLocation(container.getClientArea().getLocation());
-		for (int i = 0; i < children.size(); i++) {
-			result.union(((IFigure) children.get(i)).getBounds());
-		}
-		result.resize(container.getInsets().getWidth(), container.getInsets().getHeight());
-		return result.getSize();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.draw2d.XYLayout#calculatePreferredSize(org.eclipse.draw2d.IFigure, int, int)
+   */
+  @Override
+  @SuppressWarnings("rawtypes")
+  protected Dimension calculatePreferredSize(final IFigure container, final int wHint, final int hHint) {
+    container.validate();
+    final List children = container.getChildren();
+    final Rectangle result = new Rectangle().setLocation(container.getClientArea().getLocation());
+    for (int i = 0; i < children.size(); i++) {
+      result.union(((IFigure) children.get(i)).getBounds());
+    }
+    result.resize(container.getInsets().getWidth(), container.getInsets().getHeight());
+    return result.getSize();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.eclipse.draw2d.LayoutManager#layout(org.eclipse.draw2d.IFigure)
-	 */
-	@Override
-	public void layout(final IFigure container) {
-		try {
-			final CompoundDirectedGraph graph = new CompoundDirectedGraph();
-			graph.setDirection(this.direction);
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.draw2d.LayoutManager#layout(org.eclipse.draw2d.IFigure)
+   */
+  @Override
+  public void layout(final IFigure container) {
+    try {
+      final CompoundDirectedGraph graph = new CompoundDirectedGraph();
+      graph.setDirection(this.direction);
 
-			this.part.addNodes(graph.nodes);
-			this.part.addEdges(graph.edges);
+      this.part.addNodes(graph.nodes);
+      this.part.addEdges(graph.edges);
 
-			final CompoundDirectedGraphLayout layout = new CompoundDirectedGraphLayout();
-			layout.visit(graph);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
+      final CompoundDirectedGraphLayout layout = new CompoundDirectedGraphLayout();
+      layout.visit(graph);
+    } catch (final Exception e) {
+      e.printStackTrace();
+    }
 
-		this.part.updateFigures();
-	}
+    this.part.updateFigures();
+  }
 }

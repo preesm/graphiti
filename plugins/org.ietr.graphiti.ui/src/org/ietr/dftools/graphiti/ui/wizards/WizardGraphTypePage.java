@@ -41,7 +41,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -57,6 +56,7 @@ import org.ietr.dftools.graphiti.GraphitiModelPlugin;
 import org.ietr.dftools.graphiti.model.Configuration;
 import org.ietr.dftools.graphiti.model.ObjectType;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a page for the new graph wizard.
  *
@@ -64,109 +64,115 @@ import org.ietr.dftools.graphiti.model.ObjectType;
  */
 public class WizardGraphTypePage extends WizardPage {
 
-	private Map<ObjectType, Configuration> graphTypeConfigurations;
+  /** The graph type configurations. */
+  private Map<ObjectType, Configuration> graphTypeConfigurations;
 
-	private Map<String, ObjectType> graphTypeNames;
+  /** The graph type names. */
+  private Map<String, ObjectType> graphTypeNames;
 
-	private Combo listGraphTypes;
+  /** The list graph types. */
+  private Combo listGraphTypes;
 
-	/**
-	 * Constructor for SampleNewWizardPage.
-	 *
-	 * @param selection
-	 */
-	public WizardGraphTypePage(final IStructuredSelection selection) {
-		super("graphType");
+  /**
+   * Constructor for SampleNewWizardPage.
+   *
+   * @param selection
+   *          the selection
+   */
+  public WizardGraphTypePage(final IStructuredSelection selection) {
+    super("graphType");
 
-		setTitle("Choose graph type");
-		fillGraphTypes();
-	}
+    setTitle("Choose graph type");
+    fillGraphTypes();
+  }
 
-	@Override
-	public void createControl(final Composite parent) {
-		final Composite container = new Composite(parent, SWT.NONE);
-		final GridLayout layout = new GridLayout();
-		container.setLayout(layout);
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+   */
+  @Override
+  public void createControl(final Composite parent) {
+    final Composite container = new Composite(parent, SWT.NONE);
+    final GridLayout layout = new GridLayout();
+    container.setLayout(layout);
 
-		layout.numColumns = 2;
-		layout.verticalSpacing = 9;
+    layout.numColumns = 2;
+    layout.verticalSpacing = 9;
 
-		createGraphTypes(container);
+    createGraphTypes(container);
 
-		setControl(container);
-		setPageComplete(false);
-	}
+    setControl(container);
+    setPageComplete(false);
+  }
 
-	/**
-	 * Creates the {@link #listGraphTypes} component from the graph types in
-	 * {@link #graphTypes}.
-	 *
-	 * @param parent
-	 *            The parent Composite.
-	 */
-	private void createGraphTypes(final Composite parent) {
-		final Label label = new Label(parent, SWT.NULL);
-		label.setText("&Graph type:");
+  /**
+   * Creates the {@link #listGraphTypes} component from the graph types in {@link #graphTypes}.
+   *
+   * @param parent
+   *          The parent Composite.
+   */
+  private void createGraphTypes(final Composite parent) {
+    final Label label = new Label(parent, SWT.NULL);
+    label.setText("&Graph type:");
 
-		this.listGraphTypes = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.SIMPLE);
-		final Set<String> typeNames = new TreeSet<>();
-		typeNames.addAll(this.graphTypeNames.keySet());
+    this.listGraphTypes = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.SIMPLE);
+    final Set<String> typeNames = new TreeSet<>();
+    typeNames.addAll(this.graphTypeNames.keySet());
 
-		final String[] items = typeNames.toArray(new String[] {});
-		this.listGraphTypes.setItems(items);
-		this.listGraphTypes.select(-1);
+    final String[] items = typeNames.toArray(new String[] {});
+    this.listGraphTypes.setItems(items);
+    this.listGraphTypes.select(-1);
 
-		this.listGraphTypes.addSelectionListener(new SelectionAdapter() {
+    this.listGraphTypes.addSelectionListener(new SelectionAdapter() {
 
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				setPageComplete(true);
+      @Override
+      public void widgetSelected(final SelectionEvent e) {
+        setPageComplete(true);
 
-				final IWizard wizard = getWizard();
-				final IWizardPage page = wizard.getNextPage(WizardGraphTypePage.this);
-				updateSelection((IGraphTypeSettable) page);
-			}
+        final IWizard wizard = getWizard();
+        final IWizardPage page = wizard.getNextPage(WizardGraphTypePage.this);
+        updateSelection((IGraphTypeSettable) page);
+      }
 
-		});
-	}
+    });
+  }
 
-	/**
-	 * Fills the {@link #graphTypes} attribute using the default configuration.
-	 */
-	private void fillGraphTypes() {
-		final Collection<Configuration> configurations = GraphitiModelPlugin.getDefault().getConfigurations();
-		this.graphTypeConfigurations = new HashMap<>();
-		this.graphTypeNames = new HashMap<>();
+  /**
+   * Fills the {@link #graphTypes} attribute using the default configuration.
+   */
+  private void fillGraphTypes() {
+    final Collection<Configuration> configurations = GraphitiModelPlugin.getDefault().getConfigurations();
+    this.graphTypeConfigurations = new HashMap<>();
+    this.graphTypeNames = new HashMap<>();
 
-		for (final Configuration configuration : configurations) {
-			final Set<ObjectType> graphTypes = configuration.getGraphTypes();
-			for (final ObjectType type : graphTypes) {
-				if (!configuration.getFileFormat().getExportTransformations().isEmpty()) {
-					// only add graph types that can be exported
+    for (final Configuration configuration : configurations) {
+      final Set<ObjectType> graphTypes = configuration.getGraphTypes();
+      for (final ObjectType type : graphTypes) {
+        if (!configuration.getFileFormat().getExportTransformations().isEmpty()) {
+          // only add graph types that can be exported
 
-					this.graphTypeConfigurations.put(type, configuration);
-					final String fileExt = configuration.getFileFormat().getFileExtension();
-					this.graphTypeNames.put(type.getName() + " (*." + fileExt + ")", type);
-				}
-			}
-		}
-	}
+          this.graphTypeConfigurations.put(type, configuration);
+          final String fileExt = configuration.getFileFormat().getFileExtension();
+          this.graphTypeNames.put(type.getName() + " (*." + fileExt + ")", type);
+        }
+      }
+    }
+  }
 
-	/**
-	 * Calls {@link IGraphTypeSettable#setGraphType(Configuration, GraphType)}
-	 * on the given page with the selected graph type and associated
-	 * configuration.
-	 *
-	 * @param page
-	 *            An {@link IGraphTypeSettable} page.
-	 */
-	private void updateSelection(final IGraphTypeSettable page) {
-		final int index = this.listGraphTypes.getSelectionIndex();
-		final String graphType = this.listGraphTypes.getItem(index);
+  /**
+   * Calls {@link IGraphTypeSettable#setGraphType(Configuration, GraphType)} on the given page with the selected graph type and associated configuration.
+   *
+   * @param page
+   *          An {@link IGraphTypeSettable} page.
+   */
+  private void updateSelection(final IGraphTypeSettable page) {
+    final int index = this.listGraphTypes.getSelectionIndex();
+    final String graphType = this.listGraphTypes.getItem(index);
 
-		final ObjectType type = this.graphTypeNames.get(graphType);
-		final Configuration configuration = this.graphTypeConfigurations.get(type);
-		page.setGraphType(configuration, type);
-	}
+    final ObjectType type = this.graphTypeNames.get(graphType);
+    final Configuration configuration = this.graphTypeConfigurations.get(type);
+    page.setGraphType(configuration, type);
+  }
 
 }

@@ -39,6 +39,7 @@ package org.ietr.dftools.graphiti.model;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 
+// TODO: Auto-generated Javadoc
 /**
  * This interface defines the policy for refining vertices.
  *
@@ -47,58 +48,51 @@ import org.eclipse.core.runtime.IPath;
  */
 public interface IRefinementPolicy {
 
-	/**
-	 * Returns the value of the refinement parameter associated with the given
-	 * vertex.
-	 *
-	 * @param vertex
-	 *            a vertex
-	 * @return the value of the refinement parameter associated with the given
-	 *         vertex, or <code>null</code>
-	 */
-	IPath getRefinement(Vertex vertex);
+  /**
+   * Returns the value of the refinement parameter associated with the given vertex.
+   *
+   * @param vertex
+   *          a vertex
+   * @return the value of the refinement parameter associated with the given vertex, or <code>null</code>
+   */
+  IPath getRefinement(Vertex vertex);
 
-	/**
-	 * Returns the file that corresponds to the refinement associated with the
-	 * given vertex.
-	 *
-	 * @param vertex
-	 *            a vertex
-	 * @return the file that corresponds to the refinement associated with the
-	 *         given vertex, or <code>null</code>
-	 */
-	IFile getRefinementFile(Vertex vertex);
+  /**
+   * Returns the file that corresponds to the refinement associated with the given vertex.
+   *
+   * @param vertex
+   *          a vertex
+   * @return the file that corresponds to the refinement associated with the given vertex, or <code>null</code>
+   */
+  IFile getRefinementFile(Vertex vertex);
 
-	/**
-	 * Returns <code>true</code> if the given vertex accepts a refinement
-	 * parameter.
-	 *
-	 * @param vertex
-	 *            a vertex
-	 * @return <code>true</code> if the given vertex accepts a refinement
-	 *         parameter.
-	 */
-	boolean isRefinable(Vertex vertex);
+  /**
+   * Returns <code>true</code> if the given vertex accepts a refinement parameter.
+   *
+   * @param vertex
+   *          a vertex
+   * @return <code>true</code> if the given vertex accepts a refinement parameter.
+   */
+  boolean isRefinable(Vertex vertex);
 
-	/**
-	 * Gets a new refinement by asking the user.
-	 *
-	 * @param vertex
-	 *            a vertex
-	 * @return <code>true</code> if the refinement changed, <code>false</code>
-	 *         otherwise
-	 */
-	IPath getNewRefinement(Vertex vertex);
+  /**
+   * Gets a new refinement by asking the user.
+   *
+   * @param vertex
+   *          a vertex
+   * @return <code>true</code> if the refinement changed, <code>false</code> otherwise
+   */
+  IPath getNewRefinement(Vertex vertex);
 
-	/**
-	 * Sets the refinement of this vertex to the given value.
-	 *
-	 * @param vertex
-	 *            a vertex
-	 * @param refinement
-	 *            a refinement
-	 * @return the previous value of the refinement
-	 */
-	IPath setRefinement(Vertex vertex, IPath refinement);
+  /**
+   * Sets the refinement of this vertex to the given value.
+   *
+   * @param vertex
+   *          a vertex
+   * @param refinement
+   *          a refinement
+   * @return the previous value of the refinement
+   */
+  IPath setRefinement(Vertex vertex, IPath refinement);
 
 }

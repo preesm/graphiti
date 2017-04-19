@@ -46,6 +46,7 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.ietr.dftools.graphiti.ui.commands.copyPaste.CutCommand;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides an implementation of the cut action.
  *
@@ -56,44 +57,59 @@ import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
  */
 public class CutAction extends SelectionAction {
 
-	/**
-	 * Constructs a CutAction and associates it with the given workbench part.
-	 *
-	 * @param part
-	 *            The workbench part.
-	 */
-	public CutAction(final IWorkbenchPart part) {
-		super(part);
-	}
+  /**
+   * Constructs a CutAction and associates it with the given workbench part.
+   *
+   * @param part
+   *          The workbench part.
+   */
+  public CutAction(final IWorkbenchPart part) {
+    super(part);
+  }
 
-	@Override
-	protected boolean calculateEnabled() {
-		// enabled when at least one object is selected
-		final ISelection selection = getSelection();
-		if (selection instanceof IStructuredSelection) {
-			final IStructuredSelection ssel = (IStructuredSelection) selection;
-			return ((ssel.isEmpty() == false) && (ssel.getFirstElement() instanceof VertexEditPart));
-		} else {
-			return false;
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+   */
+  @Override
+  protected boolean calculateEnabled() {
+    // enabled when at least one object is selected
+    final ISelection selection = getSelection();
+    if (selection instanceof IStructuredSelection) {
+      final IStructuredSelection ssel = (IStructuredSelection) selection;
+      return ((ssel.isEmpty() == false) && (ssel.getFirstElement() instanceof VertexEditPart));
+    } else {
+      return false;
+    }
+  }
 
-	@Override
-	protected void init() {
-		setId(ActionFactory.CUT.getId());
-		setText("Cut");
-		setToolTipText("Cut");
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#init()
+   */
+  @Override
+  protected void init() {
+    setId(ActionFactory.CUT.getId());
+    setText("Cut");
+    setToolTipText("Cut");
 
-		final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-		setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
-		setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT_DISABLED));
-		setEnabled(false);
-	}
+    final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+    setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
+    setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT_DISABLED));
+    setEnabled(false);
+  }
 
-	@Override
-	public void run() {
-		// execute the cut command
-		final CutCommand command = new CutCommand(getSelectedObjects());
-		execute(command);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.jface.action.Action#run()
+   */
+  @Override
+  public void run() {
+    // execute the cut command
+    final CutCommand command = new CutCommand(getSelectedObjects());
+    execute(command);
+  }
 }

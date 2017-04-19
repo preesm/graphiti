@@ -42,6 +42,7 @@ import org.eclipse.draw2d.geometry.Geometry;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a connection anchor for polygons.
  *
@@ -51,95 +52,100 @@ import org.eclipse.draw2d.geometry.PointList;
  */
 public class PolygonPortAnchor extends AbstractConnectionAnchor {
 
-	private final PortAnchorReferenceManager mgr;
+  /** The mgr. */
+  private final PortAnchorReferenceManager mgr;
 
-	/**
-	 * Creates a new polygon port anchor.
-	 *
-	 * @param figure
-	 *            The owning vertex figure.
-	 * @param portName
-	 *            The port name associated with this connection anchor.
-	 * @param isOutput
-	 *            Whether the connection is input (false) or output (true).
-	 */
-	public PolygonPortAnchor(final VertexFigure figure, final String portName, final boolean isOutput) {
-		super(figure);
-		this.mgr = new PortAnchorReferenceManager(figure, portName, isOutput);
-	}
+  /**
+   * Creates a new polygon port anchor.
+   *
+   * @param figure
+   *          The owning vertex figure.
+   * @param portName
+   *          The port name associated with this connection anchor.
+   * @param isOutput
+   *          Whether the connection is input (false) or output (true).
+   */
+  public PolygonPortAnchor(final VertexFigure figure, final String portName, final boolean isOutput) {
+    super(figure);
+    this.mgr = new PortAnchorReferenceManager(figure, portName, isOutput);
+  }
 
-	/**
-	 * Gets a Rectangle from {@link #getBox()} and returns the Point where a
-	 * line from the center of the Rectangle to the Point <i>reference</i>
-	 * intersects the Rectangle.
-	 *
-	 * @param reference
-	 *            The reference point
-	 * @return The anchor location
-	 */
-	@Override
-	public Point getLocation(final Point reference) {
-		Polygon owner;
-		if (getOwner() instanceof VertexFigure) {
-			owner = (Polygon) getOwner().getChildren().get(0);
-		} else {
-			throw new NullPointerException();
-		}
+  /**
+   * Gets a Rectangle from {@link #getBox()} and returns the Point where a line from the center of the Rectangle to the Point <i>reference</i> intersects the
+   * Rectangle.
+   *
+   * @param reference
+   *          The reference point
+   * @return The anchor location
+   */
+  @Override
+  public Point getLocation(final Point reference) {
+    Polygon owner;
+    if (getOwner() instanceof VertexFigure) {
+      owner = (Polygon) getOwner().getChildren().get(0);
+    } else {
+      throw new NullPointerException();
+    }
 
-		final Point center = getReferencePoint();
-		if ((reference.x == center.x) && (reference.y == center.y)) {
-			return center;
-		}
+    final Point center = getReferencePoint();
+    if ((reference.x == center.x) && (reference.y == center.y)) {
+      return center;
+    }
 
-		// The line run
-		final float run = (reference.x - center.x);
+    // The line run
+    final float run = (reference.x - center.x);
 
-		final PointList pointList = owner.getPoints();
-		for (int i = 0; i < (pointList.size() - 1); i++) {
-			final Point start = pointList.getPoint(i);
-			final Point end = pointList.getPoint(i + 1);
+    final PointList pointList = owner.getPoints();
+    for (int i = 0; i < (pointList.size() - 1); i++) {
+      final Point start = pointList.getPoint(i);
+      final Point end = pointList.getPoint(i + 1);
 
-			// Translate from relative to absolute coordinates
-			owner.translateToAbsolute(start);
-			owner.translateToAbsolute(end);
+      // Translate from relative to absolute coordinates
+      owner.translateToAbsolute(start);
+      owner.translateToAbsolute(end);
 
-			// Check intersection
-			if (Geometry.linesIntersect(center.x, center.y, reference.x, reference.y, start.x, start.y, end.x, end.y)) {
-				final float p = ((float) (start.y - end.y)) / ((float) (start.x - end.x));
-				final float d = start.y - (p * start.x);
+      // Check intersection
+      if (Geometry.linesIntersect(center.x, center.y, reference.x, reference.y, start.x, start.y, end.x, end.y)) {
+        final float p = ((float) (start.y - end.y)) / ((float) (start.x - end.x));
+        final float d = start.y - (p * start.x);
 
-				// Compute xAnchor
-				int xAnchor;
-				if (run == 0) {
-					// Line equation: x = center.x
-					xAnchor = center.x;
-				} else {
-					// Line equation: y = ax + b = px + d =>
-					// x = (d - b) / (a - p)
-					final float rise = (reference.y - center.y);
-					final float a = rise / run;
-					final float b = center.y - (a * center.x);
-					xAnchor = (int) ((d - b) / (a - p));
-				}
+        // Compute xAnchor
+        int xAnchor;
+        if (run == 0) {
+          // Line equation: x = center.x
+          xAnchor = center.x;
+        } else {
+          // Line equation: y = ax + b = px + d =>
+          // x = (d - b) / (a - p)
+          final float rise = (reference.y - center.y);
+          final float a = rise / run;
+          final float b = center.y - (a * center.x);
+          xAnchor = (int) ((d - b) / (a - p));
+        }
 
-				// yAnchor is just y = px + d
-				final int yAnchor = (int) ((p * xAnchor) + d);
-				return new Point(xAnchor, yAnchor);
-			}
-		}
+        // yAnchor is just y = px + d
+        final int yAnchor = (int) ((p * xAnchor) + d);
+        return new Point(xAnchor, yAnchor);
+      }
+    }
 
-		// Should never happen
-		return center;
-	}
+    // Should never happen
+    return center;
+  }
 
-	@Override
-	public Point getReferencePoint() {
-		final Point reference = this.mgr.getReferencePoint(this);
-		if (reference == null) {
-			return super.getReferencePoint();
-		} else {
-			return reference;
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.draw2d.AbstractConnectionAnchor#getReferencePoint()
+   */
+  @Override
+  public Point getReferencePoint() {
+    final Point reference = this.mgr.getReferencePoint(this);
+    if (reference == null) {
+      return super.getReferencePoint();
+    } else {
+      return reference;
+    }
+  }
 
 }

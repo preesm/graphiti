@@ -44,9 +44,9 @@ import org.ietr.dftools.graphiti.model.Edge;
 import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.Vertex;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class is an implementation of an {@link EditPartFactory}. It creates an
- * EditPart associated with a context and model given.
+ * This class is an implementation of an {@link EditPartFactory}. It creates an EditPart associated with a context and model given.
  *
  * @author Samuel Beaussier
  * @author Nicolas Isch
@@ -55,24 +55,29 @@ import org.ietr.dftools.graphiti.model.Vertex;
  */
 public class EditPartFactoryImpl implements EditPartFactory {
 
-	@Override
-	public EditPart createEditPart(final EditPart context, final Object model) {
-		AbstractGraphicalEditPart child = null;
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
+   */
+  @Override
+  public EditPart createEditPart(final EditPart context, final Object model) {
+    AbstractGraphicalEditPart child = null;
 
-		if (model instanceof Graph) {
-			child = new GraphEditPart();
-		} else if (model instanceof Vertex) {
-			child = new VertexEditPart();
-		} else if (model instanceof Edge) {
-			child = new EdgeEditPart();
-		} else if (model instanceof IStatus) {
-			child = new StatusEditPart();
-		}
+    if (model instanceof Graph) {
+      child = new GraphEditPart();
+    } else if (model instanceof Vertex) {
+      child = new VertexEditPart();
+    } else if (model instanceof Edge) {
+      child = new EdgeEditPart();
+    } else if (model instanceof IStatus) {
+      child = new StatusEditPart();
+    }
 
-		if (child != null) {
-			child.setModel(model);
-		}
+    if (child != null) {
+      child.setModel(model);
+    }
 
-		return child;
-	}
+    return child;
+  }
 }

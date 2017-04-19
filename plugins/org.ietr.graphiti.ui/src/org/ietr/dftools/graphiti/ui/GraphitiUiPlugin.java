@@ -47,118 +47,137 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
+// TODO: Auto-generated Javadoc
 /**
- * The activator class controls the plug-in life cycle
+ * The activator class controls the plug-in life cycle.
  */
 public class GraphitiUiPlugin extends AbstractUIPlugin {
 
-	/**
-	 * The shared instance.
-	 */
-	private static GraphitiUiPlugin plugin;
+  /**
+   * The shared instance.
+   */
+  private static GraphitiUiPlugin plugin;
 
-	/**
-	 * The plug-in ID.
-	 */
-	public static final String PLUGIN_ID = "org.ietr.dftools.graphiti.ui";
+  /**
+   * The plug-in ID.
+   */
+  public static final String PLUGIN_ID = "org.ietr.dftools.graphiti.ui";
 
-	/**
-	 * Returns the shared instance
-	 *
-	 * @return the shared instance
-	 */
-	public static GraphitiUiPlugin getDefault() {
-		return GraphitiUiPlugin.plugin;
-	}
+  /**
+   * Returns the shared instance.
+   *
+   * @return the shared instance
+   */
+  public static GraphitiUiPlugin getDefault() {
+    return GraphitiUiPlugin.plugin;
+  }
 
-	/**
-	 * Returns an image for the image file at the given plug-in relative path.
-	 *
-	 * @param path
-	 *            the path
-	 * @return the image
-	 */
-	public static Image getImage(final String path) {
-		final ImageRegistry ir = GraphitiUiPlugin.plugin.getImageRegistry();
-		Image image = ir.get(path);
-		if (image == null) {
-			final ImageDescriptor id = AbstractUIPlugin.imageDescriptorFromPlugin(GraphitiUiPlugin.PLUGIN_ID, path);
-			image = id.createImage();
-			ir.put(path, image);
-		}
+  /**
+   * Returns an image for the image file at the given plug-in relative path.
+   *
+   * @param path
+   *          the path
+   * @return the image
+   */
+  public static Image getImage(final String path) {
+    final ImageRegistry ir = GraphitiUiPlugin.plugin.getImageRegistry();
+    Image image = ir.get(path);
+    if (image == null) {
+      final ImageDescriptor id = AbstractUIPlugin.imageDescriptorFromPlugin(GraphitiUiPlugin.PLUGIN_ID, path);
+      image = id.createImage();
+      ir.put(path, image);
+    }
 
-		return image;
-	}
+    return image;
+  }
 
-	/**
-	 * Returns an image descriptor for the image file at the given plug-in
-	 * relative path
-	 *
-	 * @param path
-	 *            the path
-	 * @return the image descriptor
-	 */
-	public static ImageDescriptor getImageDescriptor(final String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin(GraphitiUiPlugin.PLUGIN_ID, path);
-	}
+  /**
+   * Returns an image descriptor for the image file at the given plug-in relative path.
+   *
+   * @param path
+   *          the path
+   * @return the image descriptor
+   */
+  public static ImageDescriptor getImageDescriptor(final String path) {
+    return AbstractUIPlugin.imageDescriptorFromPlugin(GraphitiUiPlugin.PLUGIN_ID, path);
+  }
 
-	/**
-	 * The constructor
-	 */
-	public GraphitiUiPlugin() {
-		GraphitiUiPlugin.plugin = this;
-	}
+  /**
+   * The constructor.
+   */
+  public GraphitiUiPlugin() {
+    GraphitiUiPlugin.plugin = this;
+  }
 
-	/**
-	 * Returns an {@link IStatus} with the ERROR level.
-	 *
-	 * @param message
-	 *            A message associated with the status.
-	 * @return An {@link IStatus} with the ERROR level.
-	 */
-	public IStatus getErrorStatus(final String message) {
-		return getStatus(IStatus.ERROR, message);
-	}
+  /**
+   * Returns an {@link IStatus} with the ERROR level.
+   *
+   * @param message
+   *          A message associated with the status.
+   * @return An {@link IStatus} with the ERROR level.
+   */
+  public IStatus getErrorStatus(final String message) {
+    return getStatus(IStatus.ERROR, message);
+  }
 
-	private IStatus getStatus(final int severity, final String message) {
-		final Bundle bundle = getBundle();
-		final String pluginId = Long.toString(bundle.getBundleId());
-		final IStatus status = new Status(severity, pluginId, message);
-		return status;
-	}
+  /**
+   * Gets the status.
+   *
+   * @param severity
+   *          the severity
+   * @param message
+   *          the message
+   * @return the status
+   */
+  private IStatus getStatus(final int severity, final String message) {
+    final Bundle bundle = getBundle();
+    final String pluginId = Long.toString(bundle.getBundleId());
+    final IStatus status = new Status(severity, pluginId, message);
+    return status;
+  }
 
-	/**
-	 * Returns an {@link IStatus} with the WARNING level.
-	 *
-	 * @param message
-	 *            A message associated with the status.
-	 * @return An {@link IStatus} with the WARNING level.
-	 */
-	public IStatus getWarningStatus(final String message) {
-		return getStatus(IStatus.WARNING, message);
-	}
+  /**
+   * Returns an {@link IStatus} with the WARNING level.
+   *
+   * @param message
+   *          A message associated with the status.
+   * @return An {@link IStatus} with the WARNING level.
+   */
+  public IStatus getWarningStatus(final String message) {
+    return getStatus(IStatus.WARNING, message);
+  }
 
-	/**
-	 * Logs the given <code>message</code> with the INFO status.
-	 *
-	 * @param message
-	 *            A {@link String} to be logged.
-	 */
-	public void logInfoStatus(final String message) {
-		final ILog log = Platform.getLog(getBundle());
-		log.log(getStatus(IStatus.INFO, message));
-	}
+  /**
+   * Logs the given <code>message</code> with the INFO status.
+   *
+   * @param message
+   *          A {@link String} to be logged.
+   */
+  public void logInfoStatus(final String message) {
+    final ILog log = Platform.getLog(getBundle());
+    log.log(getStatus(IStatus.INFO, message));
+  }
 
-	@Override
-	public void start(final BundleContext context) throws Exception {
-		super.start(context);
-		GraphitiUiPlugin.plugin = this;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+   */
+  @Override
+  public void start(final BundleContext context) throws Exception {
+    super.start(context);
+    GraphitiUiPlugin.plugin = this;
+  }
 
-	@Override
-	public void stop(final BundleContext context) throws Exception {
-		GraphitiUiPlugin.plugin = null;
-		super.stop(context);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+   */
+  @Override
+  public void stop(final BundleContext context) throws Exception {
+    GraphitiUiPlugin.plugin = null;
+    super.stop(context);
+  }
 
 }

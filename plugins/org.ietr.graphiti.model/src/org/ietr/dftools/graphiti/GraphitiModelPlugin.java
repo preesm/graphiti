@@ -39,91 +39,99 @@ package org.ietr.dftools.graphiti;
 
 import java.util.Collection;
 import java.util.Map;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.ietr.dftools.graphiti.io.ConfigurationParser;
 import org.ietr.dftools.graphiti.model.Configuration;
 import org.osgi.framework.BundleContext;
 
+// TODO: Auto-generated Javadoc
 /**
- * The activator class controls the plug-in life cycle
+ * The activator class controls the plug-in life cycle.
  */
 public class GraphitiModelPlugin extends AbstractUIPlugin {
 
-	/**
-	 * The shared instance.
-	 */
-	private static GraphitiModelPlugin plugin;
+  /**
+   * The shared instance.
+   */
+  private static GraphitiModelPlugin plugin;
 
-	/**
-	 * The plug-in ID.
-	 */
-	public static final String PLUGIN_ID = "org.ietr.dftools.graphiti.model";
+  /**
+   * The plug-in ID.
+   */
+  public static final String PLUGIN_ID = "org.ietr.dftools.graphiti.model";
 
-	/**
-	 * Returns the shared instance
-	 *
-	 * @return the shared instance
-	 */
-	public static GraphitiModelPlugin getDefault() {
-		return GraphitiModelPlugin.plugin;
-	}
+  /**
+   * Returns the shared instance.
+   *
+   * @return the shared instance
+   */
+  public static GraphitiModelPlugin getDefault() {
+    return GraphitiModelPlugin.plugin;
+  }
 
-	/**
-	 * map of configuration name to configuration
-	 */
-	private Map<String, Configuration> configurations;
+  /** map of configuration name to configuration. */
+  private Map<String, Configuration> configurations;
 
-	/**
-	 * The constructor
-	 */
-	public GraphitiModelPlugin() {
-		GraphitiModelPlugin.plugin = this;
-	}
+  /**
+   * The constructor.
+   */
+  public GraphitiModelPlugin() {
+    GraphitiModelPlugin.plugin = this;
+  }
 
-	/**
-	 * Returns the configuration with the given name.
-	 *
-	 * @param name
-	 *            configuration name
-	 */
-	public Configuration getConfiguration(final String name) {
-		return this.configurations.get(name);
-	}
+  /**
+   * Returns the configuration with the given name.
+   *
+   * @param name
+   *          configuration name
+   * @return the configuration
+   */
+  public Configuration getConfiguration(final String name) {
+    return this.configurations.get(name);
+  }
 
-	/**
-	 * Returns the list of configurations.
-	 *
-	 * @return A reference to the {@link Configuration} list.
-	 */
-	public Collection<Configuration> getConfigurations() {
-		return this.configurations.values();
-	}
+  /**
+   * Returns the list of configurations.
+   *
+   * @return A reference to the {@link Configuration} list.
+   */
+  public Collection<Configuration> getConfigurations() {
+    return this.configurations.values();
+  }
 
-	/**
-	 * Parses the configurations available and (re)loads them.
-	 *
-	 * @throws CoreException
-	 *             If the file formats cannot be added to Eclipse content type
-	 *             system.
-	 */
-	public void loadConfigurations() throws CoreException {
-		final ConfigurationParser parser = new ConfigurationParser();
-		this.configurations = parser.getConfigurations();
-	}
+  /**
+   * Parses the configurations available and (re)loads them.
+   *
+   * @throws CoreException
+   *           If the file formats cannot be added to Eclipse content type system.
+   */
+  public void loadConfigurations() throws CoreException {
+    final ConfigurationParser parser = new ConfigurationParser();
+    this.configurations = parser.getConfigurations();
+  }
 
-	@Override
-	public void start(final BundleContext context) throws Exception {
-		super.start(context);
-		GraphitiModelPlugin.plugin = this;
-		loadConfigurations();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+   */
+  @Override
+  public void start(final BundleContext context) throws Exception {
+    super.start(context);
+    GraphitiModelPlugin.plugin = this;
+    loadConfigurations();
+  }
 
-	@Override
-	public void stop(final BundleContext context) throws Exception {
-		GraphitiModelPlugin.plugin = null;
-		super.stop(context);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+   */
+  @Override
+  public void stop(final BundleContext context) throws Exception {
+    GraphitiModelPlugin.plugin = null;
+    super.stop(context);
+  }
 
 }

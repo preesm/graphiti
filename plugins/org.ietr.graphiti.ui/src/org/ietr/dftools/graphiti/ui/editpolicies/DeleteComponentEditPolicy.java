@@ -37,7 +37,6 @@
 package org.ietr.dftools.graphiti.ui.editpolicies;
 
 import java.util.List;
-
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
@@ -46,9 +45,9 @@ import org.ietr.dftools.graphiti.ui.commands.DeleteCommand;
 import org.ietr.dftools.graphiti.ui.editparts.EdgeEditPart;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class overrides the createDeleteCommand to return a command that can
- * delete a vertex.
+ * This class overrides the createDeleteCommand to return a command that can delete a vertex.
  *
  * @author Samuel Beaussier
  * @author Nicolas Isch
@@ -56,33 +55,38 @@ import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
  */
 public class DeleteComponentEditPolicy extends ComponentEditPolicy {
 
-	@Override
-	protected Command createDeleteCommand(final GroupRequest deleteRequest) {
-		if (getHost() instanceof VertexEditPart) {
-			final VertexEditPart part = (VertexEditPart) getHost();
-			final List<?> incoming = part.getSourceConnections();
-			final List<?> outgoing = part.getTargetConnections();
-			if (!incoming.isEmpty() || !outgoing.isEmpty()) {
-				final CompoundCommand compound = new CompoundCommand();
-				for (final Object obj : incoming) {
-					final DeleteCommand command = new DeleteCommand(((EdgeEditPart) obj).getModel());
-					compound.add(command);
-				}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
+   */
+  @Override
+  protected Command createDeleteCommand(final GroupRequest deleteRequest) {
+    if (getHost() instanceof VertexEditPart) {
+      final VertexEditPart part = (VertexEditPart) getHost();
+      final List<?> incoming = part.getSourceConnections();
+      final List<?> outgoing = part.getTargetConnections();
+      if (!incoming.isEmpty() || !outgoing.isEmpty()) {
+        final CompoundCommand compound = new CompoundCommand();
+        for (final Object obj : incoming) {
+          final DeleteCommand command = new DeleteCommand(((EdgeEditPart) obj).getModel());
+          compound.add(command);
+        }
 
-				for (final Object obj : outgoing) {
-					final DeleteCommand command = new DeleteCommand(((EdgeEditPart) obj).getModel());
-					compound.add(command);
-				}
+        for (final Object obj : outgoing) {
+          final DeleteCommand command = new DeleteCommand(((EdgeEditPart) obj).getModel());
+          compound.add(command);
+        }
 
-				final DeleteCommand command = new DeleteCommand(getHost().getModel());
-				compound.add(command);
+        final DeleteCommand command = new DeleteCommand(getHost().getModel());
+        compound.add(command);
 
-				return compound;
-			}
-		}
+        return compound;
+      }
+    }
 
-		final DeleteCommand command = new DeleteCommand(getHost().getModel());
-		return command;
-	}
+    final DeleteCommand command = new DeleteCommand(getHost().getModel());
+    return command;
+  }
 
 }

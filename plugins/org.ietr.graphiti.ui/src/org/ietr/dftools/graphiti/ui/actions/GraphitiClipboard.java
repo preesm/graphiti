@@ -39,6 +39,7 @@ package org.ietr.dftools.graphiti.ui.actions;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.widgets.Display;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class is a tailor-made {@link Clipboard}.
  *
@@ -46,22 +47,21 @@ import org.eclipse.swt.widgets.Display;
  */
 public class GraphitiClipboard {
 
-	/**
-	 * The event name used for {@link GraphitiClipboard#fireContentsSet()}
-	 */
-	public static final String CONTENTS_SET_EVENT = "ContentsSet";
+  /** The event name used for {@link GraphitiClipboard#fireContentsSet()}. */
+  public static final String CONTENTS_SET_EVENT = "ContentsSet";
 
-	private static Clipboard instance;
+  /** The instance. */
+  private static Clipboard instance;
 
-	/**
-	 * Returns the default Clipboard.
-	 *
-	 * @return The default Clipboard.
-	 */
-	public static Clipboard getInstance() {
-		if (GraphitiClipboard.instance == null) {
-			GraphitiClipboard.instance = new Clipboard(Display.getCurrent());
-		}
-		return GraphitiClipboard.instance;
-	}
+  /**
+   * Returns the default Clipboard.
+   *
+   * @return The default Clipboard.
+   */
+  public static Clipboard getInstance() {
+    if (GraphitiClipboard.instance == null) {
+      GraphitiClipboard.instance = new Clipboard(Display.getCurrent());
+    }
+    return GraphitiClipboard.instance;
+  }
 }

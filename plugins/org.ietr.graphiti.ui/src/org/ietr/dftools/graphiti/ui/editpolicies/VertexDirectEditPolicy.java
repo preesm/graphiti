@@ -47,6 +47,7 @@ import org.ietr.dftools.graphiti.ui.commands.VertexRenameCommand;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a {@link DirectEditPolicy} for a vertex id.
  *
@@ -55,47 +56,57 @@ import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
  */
 public class VertexDirectEditPolicy extends DirectEditPolicy {
 
-	@Override
-	protected Command getDirectEditCommand(final DirectEditRequest request) {
-		final CellEditor editor = request.getCellEditor();
-		editor.setValidator(value -> {
-			final VertexEditPart part = (VertexEditPart) getHost();
-			Vertex vertex = (Vertex) part.getModel();
-			final Graph graph = vertex.getParent();
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.DirectEditPolicy#getDirectEditCommand(org.eclipse.gef.requests.DirectEditRequest)
+   */
+  @Override
+  protected Command getDirectEditCommand(final DirectEditRequest request) {
+    final CellEditor editor = request.getCellEditor();
+    editor.setValidator(value -> {
+      final VertexEditPart part = (VertexEditPart) getHost();
+      Vertex vertex = (Vertex) part.getModel();
+      final Graph graph = vertex.getParent();
 
-			final String vertexId = (String) value;
-			if (vertexId.isEmpty()) {
-				return "";
-			}
+      final String vertexId = (String) value;
+      if (vertexId.isEmpty()) {
+        return "";
+      }
 
-			vertex = graph.findVertex(vertexId);
-			if ((vertex != null) && !vertex.equals(getHost().getModel())) {
-				return "A vertex already exists with the same identifier";
-			}
+      vertex = graph.findVertex(vertexId);
+      if ((vertex != null) && !vertex.equals(getHost().getModel())) {
+        return "A vertex already exists with the same identifier";
+      }
 
-			return null;
-		});
+      return null;
+    });
 
-		final Vertex vertex = (Vertex) getHost().getModel();
-		if (editor.getValidator().isValid(editor.getValue()) == null) {
-			final VertexRenameCommand cmd = new VertexRenameCommand(vertex);
-			cmd.setName((String) editor.getValue());
-			return cmd;
-		} else {
-			final String id = (String) vertex.getValue(ObjectType.PARAMETER_ID);
-			final VertexFigure figure = (VertexFigure) getHostFigure();
-			figure.getLabelId().setText(id);
-			figure.adjustSize();
-			return null;
-		}
-	}
+    final Vertex vertex = (Vertex) getHost().getModel();
+    if (editor.getValidator().isValid(editor.getValue()) == null) {
+      final VertexRenameCommand cmd = new VertexRenameCommand(vertex);
+      cmd.setName((String) editor.getValue());
+      return cmd;
+    } else {
+      final String id = (String) vertex.getValue(ObjectType.PARAMETER_ID);
+      final VertexFigure figure = (VertexFigure) getHostFigure();
+      figure.getLabelId().setText(id);
+      figure.adjustSize();
+      return null;
+    }
+  }
 
-	@Override
-	protected void showCurrentEditValue(final DirectEditRequest request) {
-		final String value = (String) request.getCellEditor().getValue();
-		final VertexFigure figure = (VertexFigure) getHostFigure();
-		figure.getLabelId().setText(value);
-		figure.adjustSize();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.editpolicies.DirectEditPolicy#showCurrentEditValue(org.eclipse.gef.requests.DirectEditRequest)
+   */
+  @Override
+  protected void showCurrentEditValue(final DirectEditRequest request) {
+    final String value = (String) request.getCellEditor().getValue();
+    final VertexFigure figure = (VertexFigure) getHostFigure();
+    figure.getLabelId().setText(value);
+    figure.adjustSize();
+  }
 
 }

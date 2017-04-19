@@ -39,6 +39,7 @@ package org.ietr.dftools.graphiti.model;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class defines a file format.
  *
@@ -47,40 +48,77 @@ import java.util.List;
  */
 public class FileFormat {
 
-	private final List<Transformation> exports;
+  /** The exports. */
+  private final List<Transformation> exports;
 
-	private final String extension;
+  /** The extension. */
+  private final String extension;
 
-	private final List<Transformation> imports;
+  /** The imports. */
+  private final List<Transformation> imports;
 
-	private final String type;
+  /** The type. */
+  private final String type;
 
-	public FileFormat(final String extension, final String type) {
-		this.extension = extension;
-		this.type = type;
-		this.exports = new ArrayList<>();
-		this.imports = new ArrayList<>();
-	}
+  /**
+   * Instantiates a new file format.
+   *
+   * @param extension
+   *          the extension
+   * @param type
+   *          the type
+   */
+  public FileFormat(final String extension, final String type) {
+    this.extension = extension;
+    this.type = type;
+    this.exports = new ArrayList<>();
+    this.imports = new ArrayList<>();
+  }
 
-	public String getContentType() {
-		return this.type;
-	}
+  /**
+   * Gets the content type.
+   *
+   * @return the content type
+   */
+  public String getContentType() {
+    return this.type;
+  }
 
-	public List<Transformation> getExportTransformations() {
-		return this.exports;
-	}
+  /**
+   * Gets the export transformations.
+   *
+   * @return the export transformations
+   */
+  public List<Transformation> getExportTransformations() {
+    return this.exports;
+  }
 
-	public String getFileExtension() {
-		return this.extension;
-	}
+  /**
+   * Gets the file extension.
+   *
+   * @return the file extension
+   */
+  public String getFileExtension() {
+    return this.extension;
+  }
 
-	public List<Transformation> getImportTransformations() {
-		return this.imports;
-	}
+  /**
+   * Gets the import transformations.
+   *
+   * @return the import transformations
+   */
+  public List<Transformation> getImportTransformations() {
+    return this.imports;
+  }
 
-	@Override
-	public String toString() {
-		return "*." + this.extension + ": " + this.type;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "*." + this.extension + ": " + this.type;
+  }
 
 }

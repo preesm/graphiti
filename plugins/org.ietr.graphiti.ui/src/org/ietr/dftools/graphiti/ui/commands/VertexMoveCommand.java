@@ -40,6 +40,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.ietr.dftools.graphiti.model.Vertex;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class executes a command that moves a vertex.
  *
@@ -49,36 +50,62 @@ import org.ietr.dftools.graphiti.model.Vertex;
  */
 public class VertexMoveCommand extends Command {
 
-	private final Rectangle newBounds;
+  /** The new bounds. */
+  private final Rectangle newBounds;
 
-	private final Rectangle oldBounds;
+  /** The old bounds. */
+  private final Rectangle oldBounds;
 
-	private final Vertex vertex;
+  /** The vertex. */
+  private final Vertex vertex;
 
-	public VertexMoveCommand(final Vertex vertex, final Rectangle newBounds) {
-		this.newBounds = newBounds;
-		this.vertex = vertex;
-		final Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
-		this.oldBounds = bounds.getCopy();
-	}
+  /**
+   * Instantiates a new vertex move command.
+   *
+   * @param vertex
+   *          the vertex
+   * @param newBounds
+   *          the new bounds
+   */
+  public VertexMoveCommand(final Vertex vertex, final Rectangle newBounds) {
+    this.newBounds = newBounds;
+    this.vertex = vertex;
+    final Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
+    this.oldBounds = bounds.getCopy();
+  }
 
-	@Override
-	public void execute() {
-		this.vertex.setValue(Vertex.PROPERTY_SIZE, this.newBounds);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#execute()
+   */
+  @Override
+  public void execute() {
+    this.vertex.setValue(Vertex.PROPERTY_SIZE, this.newBounds);
+  }
 
-	@Override
-	public String getLabel() {
-		if (this.vertex != null) {
-			final String type = this.vertex.getType().getName();
-			return "Move " + type;
-		} else {
-			return "Move vertex";
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#getLabel()
+   */
+  @Override
+  public String getLabel() {
+    if (this.vertex != null) {
+      final String type = this.vertex.getType().getName();
+      return "Move " + type;
+    } else {
+      return "Move vertex";
+    }
+  }
 
-	@Override
-	public void undo() {
-		this.vertex.setValue(Vertex.PROPERTY_SIZE, this.oldBounds);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#undo()
+   */
+  @Override
+  public void undo() {
+    this.vertex.setValue(Vertex.PROPERTY_SIZE, this.oldBounds);
+  }
 }

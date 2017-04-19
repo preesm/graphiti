@@ -40,7 +40,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -50,6 +49,7 @@ import org.ietr.dftools.graphiti.model.IValidator;
 import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class implements a model validator.
  *
@@ -58,49 +58,72 @@ import org.ietr.dftools.graphiti.model.Vertex;
  */
 public class DataflowValidator implements IValidator {
 
-	private boolean checkInputPorts(final Graph graph, final IFile file) {
-		boolean res = true;
-		for (final Vertex vertex : graph.vertexSet()) {
-			final Set<Edge> edges = graph.incomingEdgesOf(vertex);
-			final Map<String, Integer> countMap = new HashMap<>();
-			for (final Edge edge : edges) {
-				final Object value = edge.getValue(ObjectType.PARAMETER_TARGET_PORT);
-				if (value != null) {
-					final String tgt = (String) value;
-					Integer inCount = countMap.get(tgt);
-					if (inCount == null) {
-						inCount = 0;
-					}
+  /**
+   * Check input ports.
+   *
+   * @param graph
+   *          the graph
+   * @param file
+   *          the file
+   * @return true, if successful
+   */
+  private boolean checkInputPorts(final Graph graph, final IFile file) {
+    boolean res = true;
+    for (final Vertex vertex : graph.vertexSet()) {
+      final Set<Edge> edges = graph.incomingEdgesOf(vertex);
+      final Map<String, Integer> countMap = new HashMap<>();
+      for (final Edge edge : edges) {
+        final Object value = edge.getValue(ObjectType.PARAMETER_TARGET_PORT);
+        if (value != null) {
+          final String tgt = (String) value;
+          Integer inCount = countMap.get(tgt);
+          if (inCount == null) {
+            inCount = 0;
+          }
 
-					countMap.put(tgt, inCount + 1);
-				}
-			}
+          countMap.put(tgt, inCount + 1);
+        }
+      }
 
-			for (final Entry<String, Integer> count : countMap.entrySet()) {
-				if (count.getValue() > 1) {
-					res = false;
-					final String message = "The input port " + count.getKey() + " of vertex " + vertex.getValue(ObjectType.PARAMETER_ID) + " has "
-							+ count.getValue() + " connections " + "but should not have more than one connection";
-					createMarker(file, message);
-				}
-			}
-		}
+      for (final Entry<String, Integer> count : countMap.entrySet()) {
+        if (count.getValue() > 1) {
+          res = false;
+          final String message = "The input port " + count.getKey() + " of vertex " + vertex.getValue(ObjectType.PARAMETER_ID) + " has " + count.getValue()
+              + " connections " + "but should not have more than one connection";
+          createMarker(file, message);
+        }
+      }
+    }
 
-		return res;
-	}
+    return res;
+  }
 
-	protected void createMarker(final IFile file, final String message) {
-		try {
-			final IMarker marker = file.createMarker(IMarker.PROBLEM);
-			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-			marker.setAttribute(IMarker.MESSAGE, message);
-		} catch (final CoreException e) {
-		}
-	}
+  /**
+   * Creates the marker.
+   *
+   * @param file
+   *          the file
+   * @param message
+   *          the message
+   */
+  protected void createMarker(final IFile file, final String message) {
+    try {
+      final IMarker marker = file.createMarker(IMarker.PROBLEM);
+      marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+      marker.setAttribute(IMarker.MESSAGE, message);
+    } catch (final CoreException e) {
+      e.printStackTrace();
+    }
+  }
 
-	@Override
-	public boolean validate(final Graph graph, final IFile file) {
-		return checkInputPorts(graph, file);
-	}
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.ietr.dftools.graphiti.model.IValidator#validate(org.ietr.dftools.graphiti.model.Graph, org.eclipse.core.resources.IFile)
+   */
+  @Override
+  public boolean validate(final Graph graph, final IFile file) {
+    return checkInputPorts(graph, file);
+  }
 
 }

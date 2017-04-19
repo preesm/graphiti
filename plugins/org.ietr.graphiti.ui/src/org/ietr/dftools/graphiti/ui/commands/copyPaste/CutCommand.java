@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.ui.commands.copyPaste;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.util.LocalSelectionTransfer;
@@ -50,6 +49,7 @@ import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.actions.GraphitiClipboard;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides a command that removes vertices from their parent.
  *
@@ -60,78 +60,94 @@ import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
  */
 public class CutCommand extends Command {
 
-	private final List<?> list;
+  /** The list. */
+  private final List<?> list;
 
-	/**
-	 * Contains the parents of each port/graph.
-	 */
-	private List<Graph> parents;
+  /**
+   * Contains the parents of each port/graph.
+   */
+  private List<Graph> parents;
 
-	/**
-	 * Creates a new cut command with the selected objects.
-	 *
-	 * @param objects
-	 *            A list of objects to cut.
-	 */
-	public CutCommand(final List<?> objects) {
-		this.list = objects;
-	}
+  /**
+   * Creates a new cut command with the selected objects.
+   *
+   * @param objects
+   *          A list of objects to cut.
+   */
+  public CutCommand(final List<?> objects) {
+    this.list = objects;
+  }
 
-	@Override
-	public void execute() {
-		this.parents = new ArrayList<>();
-		final List<Vertex> vertices = new ArrayList<>();
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#execute()
+   */
+  @Override
+  public void execute() {
+    this.parents = new ArrayList<>();
+    final List<Vertex> vertices = new ArrayList<>();
 
-		for (final Object obj : this.list) {
-			if (obj instanceof VertexEditPart) {
-				final VertexEditPart part = (VertexEditPart) obj;
-				Vertex vertex = (Vertex) part.getModel();
+    for (final Object obj : this.list) {
+      if (obj instanceof VertexEditPart) {
+        final VertexEditPart part = (VertexEditPart) obj;
+        Vertex vertex = (Vertex) part.getModel();
 
-				// remove from parent
-				final Graph parent = vertex.getParent();
-				parent.removeVertex(vertex);
+        // remove from parent
+        final Graph parent = vertex.getParent();
+        parent.removeVertex(vertex);
 
-				// copy and add to cut list
-				vertex = new Vertex(vertex);
-				vertices.add(vertex);
+        // copy and add to cut list
+        vertex = new Vertex(vertex);
+        vertices.add(vertex);
 
-				// for undo
-				this.parents.add(parent);
-			}
-		}
+        // for undo
+        this.parents.add(parent);
+      }
+    }
 
-		// prepare transfer
-		final LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
-		final Object[] verticesArray = vertices.toArray();
-		transfer.setSelection(new StructuredSelection(verticesArray));
+    // prepare transfer
+    final LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
+    final Object[] verticesArray = vertices.toArray();
+    transfer.setSelection(new StructuredSelection(verticesArray));
 
-		// put in clipboard
-		final Object[] data = new Object[] { verticesArray };
-		final Transfer[] transfers = new Transfer[] { transfer };
-		GraphitiClipboard.getInstance().setContents(data, transfers);
-	}
+    // put in clipboard
+    final Object[] data = new Object[] { verticesArray };
+    final Transfer[] transfers = new Transfer[] { transfer };
+    GraphitiClipboard.getInstance().setContents(data, transfers);
+  }
 
-	@Override
-	public String getLabel() {
-		return "Cut";
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#getLabel()
+   */
+  @Override
+  public String getLabel() {
+    return "Cut";
+  }
 
-	@Override
-	public void undo() {
-		final Iterator<Graph> it = this.parents.iterator();
-		for (final Object obj : this.list) {
-			if (obj instanceof VertexEditPart) {
-				final VertexEditPart part = (VertexEditPart) obj;
-				final Vertex vertex = (Vertex) part.getModel();
-				final Graph parent = it.next();
-				parent.addVertex(vertex);
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.eclipse.gef.commands.Command#undo()
+   */
+  @Override
+  public void undo() {
+    final Iterator<Graph> it = this.parents.iterator();
+    for (final Object obj : this.list) {
+      if (obj instanceof VertexEditPart) {
+        final VertexEditPart part = (VertexEditPart) obj;
+        final Vertex vertex = (Vertex) part.getModel();
+        final Graph parent = it.next();
+        parent.addVertex(vertex);
 
-				// update bounds
-				final Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
-				vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, bounds);
-			}
-		}
+        // update bounds
+        final Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
+        vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, bounds);
+      }
+    }
 
-		this.parents = null;
-	}
+    this.parents = null;
+  }
 }
