@@ -5,9 +5,11 @@ Graphiti Changelog
 *2017.04.19*
 
 ### New Feature
-* Build process now produces a source feature (include source code)
-* Build process now produces a 'meta' feature including all development requirements for Graphiti
 * Add test plug-in fragments for future test campaigns
+* Build process now produces 
+  * a source feature (include source code)
+  * a 'meta' feature including all development requirements for Graphiti
+  * The aggregated Javadoc
 * Maven build process allows to automatically deploy on SourceForge server (needs Unix OS)
   * On windows, it still builds the complete site, but stops before the upload
 
