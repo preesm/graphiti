@@ -61,7 +61,7 @@ public class GraphitiUiPlugin extends AbstractUIPlugin {
   /**
    * The plug-in ID.
    */
-  public static final String PLUGIN_ID = "org.ietr.dftools.graphiti.ui";
+  public static final String PLUGIN_ID = "org.ietr.graphiti.ui";
 
   /**
    * Returns the shared instance.
@@ -160,7 +160,7 @@ public class GraphitiUiPlugin extends AbstractUIPlugin {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
    */
   @Override
@@ -171,7 +171,7 @@ public class GraphitiUiPlugin extends AbstractUIPlugin {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
    */
   @Override
