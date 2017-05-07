@@ -41,6 +41,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EventObject;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -94,6 +95,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ietr.dftools.graphiti.GraphitiModelPlugin;
 import org.ietr.dftools.graphiti.io.GenericGraphParser;
 import org.ietr.dftools.graphiti.io.GenericGraphWriter;
+import org.ietr.dftools.graphiti.model.Configuration;
 import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.IValidator;
 import org.ietr.dftools.graphiti.ui.GraphitiUiPlugin;
@@ -114,9 +116,6 @@ import org.ietr.dftools.graphiti.ui.wizards.SaveAsWizard;
  *
  */
 public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITabbedPropertySheetPageContributor {
-
-  /** The editor ID. */
-  public static final String ID = "org.ietr.dftools.graphiti.ui.editors.GraphEditor";
 
   /** The graph. */
   private Graph graph;
@@ -189,11 +188,11 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     getActionRegistry().registerAction(new ZoomInAction(this.manager));
     getActionRegistry().registerAction(new ZoomOutAction(this.manager));
 
-    double[] zoomLevels = new double[] { 0.1, 0.15, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0 };
+    final double[] zoomLevels = new double[] { 0.1, 0.15, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0 };
     this.manager.setZoomLevels(zoomLevels);
 
     // Predefined zoom levels
-    ArrayList<String> zoomContributions = new ArrayList<>();
+    final ArrayList<String> zoomContributions = new ArrayList<>();
     zoomContributions.add(ZoomManager.FIT_ALL);
     zoomContributions.add(ZoomManager.FIT_HEIGHT);
     zoomContributions.add(ZoomManager.FIT_WIDTH);
@@ -477,8 +476,10 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     final IFile file = ((IFileEditorInput) input).getFile();
     setPartName(file.getName());
     try {
-      final GenericGraphParser parser = new GenericGraphParser(GraphitiModelPlugin.getDefault().getConfigurations());
-      this.graph = parser.parse(file);
+      final GraphitiModelPlugin modelPlugin = GraphitiModelPlugin.getDefault();
+      final Collection<Configuration> pluginConfigurations = modelPlugin.getConfigurations();
+      final GenericGraphParser graphParser = new GenericGraphParser(pluginConfigurations);
+      this.graph = graphParser.parse(file);
 
       // Updates the palette
       getEditDomain().setPaletteRoot(getPaletteRoot());
