@@ -1,6 +1,18 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.3.17
+*2017.05.08*
+
+### New Feature
+
+### Changes
+
+### Bug fix
+* Fix plugin ID references from source
+* Fix saxon reference and dependecy
+
+
 ## Release version 1.3.16
 *2017.04.19*
 
