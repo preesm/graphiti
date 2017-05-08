@@ -95,7 +95,7 @@ public class XsltTransformer {
     final Bundle bundle = Platform.getBundle(contributorId);
     final IPath folder = path.removeLastSegments(1);
 
-    final TransformerFactory factory = TransformerFactory.newInstance("net.sf.saxon.TransformerFactoryImpl", null);
+    final TransformerFactory factory = TransformerFactory.newInstance(net.sf.saxon.TransformerFactoryImpl.class.getCanonicalName(), null);
     factory.setURIResolver((href, base) -> {
       try {
         // What we are doing here is solving the "href" URI and get

@@ -61,6 +61,7 @@ import org.eclipse.ui.actions.NewWizardAction;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
+import org.ietr.dftools.graphiti.GraphitiModelPlugin;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -123,7 +124,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent)
      */
     @Override
@@ -134,9 +135,6 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
       }
     }
   }
-
-  /** The Constant PLUGIN_ID. */
-  private static final String PLUGIN_ID = "org.ietr.dftools.graphiti.model";
 
   /**
    * Execute the {@link NewWizardAction}, and listens for resource change in the workspace to find out the file added before calling
@@ -184,7 +182,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.model.IRefinementPolicy#getNewRefinement(org.ietr.dftools.graphiti.model.Vertex)
    */
   @Override
@@ -209,7 +207,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.model.IRefinementPolicy#getRefinement(org.ietr.dftools.graphiti.model.Vertex)
    */
   @Override
@@ -230,7 +228,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.model.IRefinementPolicy#getRefinementFile(org.ietr.dftools.graphiti.model.Vertex)
    */
   @Override
@@ -293,7 +291,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.model.IRefinementPolicy#isRefinable(org.ietr.dftools.graphiti.model.Vertex)
    */
   @Override
@@ -312,7 +310,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.model.IRefinementPolicy#setRefinement(org.ietr.dftools.graphiti.model.Vertex, org.eclipse.core.runtime.IPath)
    */
   @Override
@@ -341,11 +339,11 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
         if (selection[0] instanceof IFile) {
           final IFile file = (IFile) selection[0];
           final String message = "Vertex refinement: " + getRefinementValue(vertex, file);
-          return new Status(IStatus.OK, DefaultRefinementPolicy.PLUGIN_ID, message);
+          return new Status(IStatus.OK, GraphitiModelPlugin.PLUGIN_ID, message);
         }
       }
 
-      return new Status(IStatus.ERROR, DefaultRefinementPolicy.PLUGIN_ID, "Only files can be selected, not folders nor projects");
+      return new Status(IStatus.ERROR, GraphitiModelPlugin.PLUGIN_ID, "Only files can be selected, not folders nor projects");
     });
 
     // initial selection
