@@ -22,5 +22,8 @@
          Graphiti is a generic graph editor under BSD license created by IETR/INSA Rennes shipped as an Eclipse plug-in.
       </description>
    </category-def>
-   <repository-reference location="http://download.eclipse.org/releases/neon/" enabled="true" />
+   <repository-reference location="http://mirror.ibcp.fr/pub/eclipse/releases/neon/" enabled="true" />
+   <repository-reference location="http://mirror.ibcp.fr/pub/eclipse/eclipse/updates/4.6" enabled="true" />
+   <repository-reference location="http://mirror.ibcp.fr/pub/eclipse/modeling/tmf/xtext/updates/composite/releases/" enabled="true" />
+   <repository-reference location="http://preesm.sourceforge.net/gensite/update-site/complete/" enabled="true" />
 </site>

@@ -27,8 +27,8 @@
         <artifactId>tycho-p2-repository-plugin</artifactId>
         <version>${tycho-version}</version>
         <configuration>
-          <includeAllDependencies>true</includeAllDependencies>
-          <compress>false</compress>
+          <includeAllDependencies>false</includeAllDependencies>
+          <compress>true</compress>
           <repositoryName>IETR/INSA - Rennes Graphiti Update Site</repositoryName>
           <skipArchive>true</skipArchive>
         </configuration>
