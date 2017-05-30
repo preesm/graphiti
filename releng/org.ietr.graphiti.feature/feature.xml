@@ -44,7 +44,7 @@
 <feature
       id="org.ietr.graphiti.feature"
       label="Graphiti Editor"
-      version="1.3.18"
+      version="1.3.19.qualifier"
       provider-name="IETR/INSA Rennes">
 
    <description url="http://preesm.sourceforge.net/website/">
@@ -89,14 +89,14 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
          id="org.ietr.graphiti.model"
          download-size="0"
          install-size="0"
-         version="1.3.18"
+         version="1.3.19.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.ietr.graphiti.ui"
          download-size="0"
          install-size="0"
-         version="1.3.18"
+         version="1.3.19.qualifier"
          unpack="false"/>
 
 </feature>
