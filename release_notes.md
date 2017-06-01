@@ -1,8 +1,29 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.3.19
+*XXXX.XX.XX*
+
+### New Feature
+
+### Changes
+* Use feature import instead of inclusion
+* Add discovery sites in dev feature
+* Remove unsupported target environments
+* Update Checkstyle config file path in parent POM
+* Add missing checkstyle jar
+* Add Eclipse profile in parent POM to disable m2e configuration outside Eclipse
+* Update wrapper scripts
+* Cleanup releng files
+* Update licensing
+* Update headers
+* Remove use of composite P2 repositories
+* Add Jenkinsfile for Multibranch Pipeline projects
+
+### Bug fix
+
 ## Release version 1.3.18
-*2017.05.XX*
+*2017.05.09*
 
 ### New Feature
 
@@ -30,7 +51,7 @@ Graphiti Changelog
 
 ### New Feature
 * Add test plug-in fragments for future test campaigns
-* Build process now produces 
+* Build process now produces
   * a source feature (include source code)
   * a 'meta' feature including all development requirements for Graphiti
   * The aggregated Javadoc
@@ -61,7 +82,7 @@ Graphiti Changelog
 * Fix few warnings that raised after Eclipse cleanup
 
 ## Release version 1.3.15
-* 2015.09.14 - See PREESM 2.2.1 release notes 
+* 2015.09.14 - See PREESM 2.2.1 release notes
 Graphiti Changelog
 ==================
 
@@ -82,7 +103,7 @@ Graphiti Changelog
 
 ### New Feature
 * Add test plug-in fragments for future test campaigns
-* Build process now produces 
+* Build process now produces
   * a source feature (include source code)
   * a 'meta' feature including all development requirements for Graphiti
   * The aggregated Javadoc
@@ -113,4 +134,4 @@ Graphiti Changelog
 * Fix few warnings that raised after Eclipse cleanup
 
 ## Release version 1.3.15
-* 2015.09.14 - See PREESM 2.2.1 release notes 
+* 2015.09.14 - See PREESM 2.2.1 release notes
