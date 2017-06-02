@@ -117,6 +117,8 @@ import org.ietr.dftools.graphiti.ui.wizards.SaveAsWizard;
  */
 public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITabbedPropertySheetPageContributor {
 
+  private static final String GRAPHITI_CONTEXT_MENU_ID = "net.sf.graphiti.GraphitiContextMenu";
+
   /** The graph. */
   private Graph graph;
 
@@ -203,6 +205,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     // Context menu
     final ContextMenuProvider provider = new GraphEditorContextMenuProvider(viewer, getActionRegistry());
     viewer.setContextMenu(provider);
+    getSite().registerContextMenu(GraphEditor.GRAPHITI_CONTEXT_MENU_ID, provider, viewer);
   }
 
   /*
