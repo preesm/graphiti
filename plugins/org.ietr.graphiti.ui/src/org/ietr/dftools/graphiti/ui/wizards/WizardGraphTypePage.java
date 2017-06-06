@@ -37,7 +37,7 @@
 package org.ietr.dftools.graphiti.ui.wizards;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -88,7 +88,7 @@ public class WizardGraphTypePage extends WizardPage {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
    */
   @Override
@@ -143,8 +143,8 @@ public class WizardGraphTypePage extends WizardPage {
    */
   private void fillGraphTypes() {
     final Collection<Configuration> configurations = GraphitiModelPlugin.getDefault().getConfigurations();
-    this.graphTypeConfigurations = new HashMap<>();
-    this.graphTypeNames = new HashMap<>();
+    this.graphTypeConfigurations = new LinkedHashMap<>();
+    this.graphTypeNames = new LinkedHashMap<>();
 
     for (final Configuration configuration : configurations) {
       final Set<ObjectType> graphTypes = configuration.getGraphTypes();

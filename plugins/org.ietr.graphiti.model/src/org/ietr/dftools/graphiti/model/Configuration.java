@@ -238,7 +238,7 @@ public class Configuration {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Object#toString()
    */
   @Override

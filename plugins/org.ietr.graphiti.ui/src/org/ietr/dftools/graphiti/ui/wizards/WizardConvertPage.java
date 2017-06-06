@@ -37,7 +37,7 @@
 package org.ietr.dftools.graphiti.ui.wizards;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -159,7 +159,7 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
    */
   @Override
@@ -234,7 +234,7 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
    * @return A {@link Map} that maps an existing {@link EdgeType} to a new one.
    */
   private Map<ObjectType, ObjectType> fillEdgeTypes() {
-    final Map<ObjectType, ObjectType> edgeTypes = new HashMap<>();
+    final Map<ObjectType, ObjectType> edgeTypes = new LinkedHashMap<>();
     int i = 0;
     for (final ObjectType type : this.originalEdgeTypes) {
       final Combo combo = this.edgeComboList.get(i);
@@ -257,7 +257,7 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
    * @return A {@link Map} that maps an existing {@link VertexType} to a new one.
    */
   private Map<ObjectType, ObjectType> fillVertexTypes() {
-    final Map<ObjectType, ObjectType> vertexTypes = new HashMap<>();
+    final Map<ObjectType, ObjectType> vertexTypes = new LinkedHashMap<>();
     int i = 0;
     for (final ObjectType type : this.originalVertexTypes) {
       final Combo combo = this.vertexComboList.get(i);
@@ -295,7 +295,7 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.ui.wizards.IGraphTypeSettable#setGraphType(org.ietr.dftools.graphiti.model.Configuration,
    * org.ietr.dftools.graphiti.model.ObjectType)
    */

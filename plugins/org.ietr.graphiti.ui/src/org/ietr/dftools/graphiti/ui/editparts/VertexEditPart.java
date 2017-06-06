@@ -102,7 +102,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
    */
   @Override
@@ -158,7 +158,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
    */
   @Override
@@ -171,7 +171,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
    */
   @Override
@@ -210,7 +210,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
    */
   @Override
@@ -221,7 +221,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.Class)
    */
   @Override
@@ -235,7 +235,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor#getContributorId()
    */
   @Override
@@ -245,7 +245,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
    */
   @Override
@@ -268,7 +268,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
    */
   @Override
@@ -291,7 +291,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
    */
   @Override
@@ -304,7 +304,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
    */
   @Override
@@ -315,7 +315,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
    */
   @Override
@@ -328,7 +328,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
    */
   @Override
@@ -339,7 +339,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractEditPart#performRequest(org.eclipse.gef.Request)
    */
   @Override
@@ -360,7 +360,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
    */
   @Override
@@ -394,7 +394,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
    */
   @Override

@@ -60,7 +60,7 @@ public class GraphActionBarContributor extends ActionBarContributor {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
    */
   @Override
@@ -81,7 +81,7 @@ public class GraphActionBarContributor extends ActionBarContributor {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(org.eclipse.jface.action.IToolBarManager)
    */
   @Override
@@ -105,7 +105,7 @@ public class GraphActionBarContributor extends ActionBarContributor {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
    */
   @Override

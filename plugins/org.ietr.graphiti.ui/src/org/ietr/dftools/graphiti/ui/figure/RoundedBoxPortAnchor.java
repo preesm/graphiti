@@ -69,7 +69,7 @@ public class RoundedBoxPortAnchor extends ChopboxAnchor {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.draw2d.ChopboxAnchor#getLocation(org.eclipse.draw2d.geometry.Point)
    */
   @Override
@@ -84,7 +84,7 @@ public class RoundedBoxPortAnchor extends ChopboxAnchor {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.draw2d.ChopboxAnchor#getReferencePoint()
    */
   @Override

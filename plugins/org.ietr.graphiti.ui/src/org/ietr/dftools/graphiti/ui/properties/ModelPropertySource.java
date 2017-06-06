@@ -111,7 +111,7 @@ public class ModelPropertySource implements IPropertySource, PropertyChangeListe
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.views.properties.IPropertySource#getEditableValue()
    */
   @Override
@@ -121,7 +121,7 @@ public class ModelPropertySource implements IPropertySource, PropertyChangeListe
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyDescriptors()
    */
   @Override
@@ -131,7 +131,7 @@ public class ModelPropertySource implements IPropertySource, PropertyChangeListe
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyValue(java.lang.Object)
    */
   @Override
@@ -145,7 +145,7 @@ public class ModelPropertySource implements IPropertySource, PropertyChangeListe
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.views.properties.IPropertySource#isPropertySet(java.lang.Object)
    */
   @Override
@@ -157,7 +157,7 @@ public class ModelPropertySource implements IPropertySource, PropertyChangeListe
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
    */
   @Override
@@ -187,7 +187,7 @@ public class ModelPropertySource implements IPropertySource, PropertyChangeListe
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.views.properties.IPropertySource#resetPropertyValue(java.lang.Object)
    */
   @Override
@@ -201,7 +201,7 @@ public class ModelPropertySource implements IPropertySource, PropertyChangeListe
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.views.properties.IPropertySource#setPropertyValue(java.lang.Object, java.lang.Object)
    */
   @Override

@@ -85,7 +85,7 @@ public class ThumbnailOutlinePage extends ContentOutlinePage {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.ui.parts.ContentOutlinePage#createControl(org.eclipse.swt.widgets.Composite)
    */
   @Override
@@ -113,7 +113,7 @@ public class ThumbnailOutlinePage extends ContentOutlinePage {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.part.Page#dispose()
    */
   @Override
@@ -128,7 +128,7 @@ public class ThumbnailOutlinePage extends ContentOutlinePage {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.ui.parts.ContentOutlinePage#getControl()
    */
   @Override

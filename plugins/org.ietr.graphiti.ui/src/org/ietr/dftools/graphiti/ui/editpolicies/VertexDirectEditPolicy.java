@@ -58,7 +58,7 @@ public class VertexDirectEditPolicy extends DirectEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.DirectEditPolicy#getDirectEditCommand(org.eclipse.gef.requests.DirectEditRequest)
    */
   @Override
@@ -98,7 +98,7 @@ public class VertexDirectEditPolicy extends DirectEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.DirectEditPolicy#showCurrentEditValue(org.eclipse.gef.requests.DirectEditRequest)
    */
   @Override

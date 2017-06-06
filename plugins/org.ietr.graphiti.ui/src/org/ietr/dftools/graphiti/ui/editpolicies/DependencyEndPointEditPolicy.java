@@ -56,7 +56,7 @@ public class DependencyEndPointEditPolicy extends ConnectionEndpointEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.SelectionHandlesEditPolicy#addSelectionHandles()
    */
   @Override
@@ -82,7 +82,7 @@ public class DependencyEndPointEditPolicy extends ConnectionEndpointEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.SelectionHandlesEditPolicy#removeSelectionHandles()
    */
   @Override

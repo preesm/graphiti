@@ -36,7 +36,7 @@
  */
 package org.ietr.dftools.graphiti.model;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -107,7 +107,7 @@ public class Graph extends AbstractObject {
     } else {
       this.graph = new Multigraph<>(Edge.class);
     }
-    this.vertices = new HashMap<>();
+    this.vertices = new LinkedHashMap<>();
 
     // set default values
     final List<Parameter> parameters = type.getParameters();
@@ -137,7 +137,7 @@ public class Graph extends AbstractObject {
     } else {
       this.graph = new Multigraph<>(Edge.class);
     }
-    this.vertices = new HashMap<>();
+    this.vertices = new LinkedHashMap<>();
     this.type = type;
   }
 
@@ -326,7 +326,7 @@ public class Graph extends AbstractObject {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Object#toString()
    */
   @Override

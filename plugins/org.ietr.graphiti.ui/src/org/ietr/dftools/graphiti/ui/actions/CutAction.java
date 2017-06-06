@@ -69,7 +69,7 @@ public class CutAction extends SelectionAction {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
    */
   @Override
@@ -86,7 +86,7 @@ public class CutAction extends SelectionAction {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#init()
    */
   @Override
@@ -103,7 +103,7 @@ public class CutAction extends SelectionAction {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.jface.action.Action#run()
    */
   @Override

@@ -64,7 +64,7 @@ public class SetRefinementCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#canExecute()
    */
   @Override
@@ -78,7 +78,7 @@ public class SetRefinementCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#execute()
    */
   @Override
@@ -90,7 +90,7 @@ public class SetRefinementCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#getLabel()
    */
   @Override
@@ -134,7 +134,7 @@ public class SetRefinementCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#undo()
    */
   @Override

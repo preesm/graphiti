@@ -77,7 +77,7 @@ public class GraphLayoutManager extends XYLayout {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.draw2d.XYLayout#calculatePreferredSize(org.eclipse.draw2d.IFigure, int, int)
    */
   @Override

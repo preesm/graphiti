@@ -36,7 +36,7 @@
  */
 package org.ietr.dftools.graphiti.validators;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -71,7 +71,7 @@ public class DataflowValidator implements IValidator {
     boolean res = true;
     for (final Vertex vertex : graph.vertexSet()) {
       final Set<Edge> edges = graph.incomingEdgesOf(vertex);
-      final Map<String, Integer> countMap = new HashMap<>();
+      final Map<String, Integer> countMap = new LinkedHashMap<>();
       for (final Edge edge : edges) {
         final Object value = edge.getValue(ObjectType.PARAMETER_TARGET_PORT);
         if (value != null) {

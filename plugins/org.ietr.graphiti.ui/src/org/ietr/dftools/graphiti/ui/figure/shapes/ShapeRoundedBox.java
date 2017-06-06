@@ -64,7 +64,7 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.ui.figure.shapes.IShape#getConnectionAnchor(org.ietr.dftools.graphiti.ui.figure.VertexFigure, java.lang.String, boolean)
    */
   @Override
@@ -74,7 +74,7 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.ui.figure.shapes.IShape#newShape()
    */
   @Override
@@ -92,7 +92,7 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.draw2d.Shape#paintFigure(org.eclipse.draw2d.Graphics)
    */
   @Override
@@ -102,7 +102,7 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.ui.figure.shapes.IShape#paintSuperFigure(org.eclipse.draw2d.Graphics)
    */
   @Override
@@ -112,7 +112,7 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.ui.figure.shapes.IShape#setDimension(org.eclipse.draw2d.geometry.Dimension)
    */
   @Override
@@ -122,7 +122,7 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.draw2d.Figure#useLocalCoordinates()
    */
   @Override

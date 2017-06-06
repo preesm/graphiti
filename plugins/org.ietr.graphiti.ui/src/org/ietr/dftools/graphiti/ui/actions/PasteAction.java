@@ -74,7 +74,7 @@ public class PasteAction extends SelectionAction implements PropertyChangeListen
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
    */
   @Override
@@ -121,7 +121,7 @@ public class PasteAction extends SelectionAction implements PropertyChangeListen
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
    */
   @Override

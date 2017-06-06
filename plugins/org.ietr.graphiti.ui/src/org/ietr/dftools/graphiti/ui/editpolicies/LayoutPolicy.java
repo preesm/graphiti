@@ -65,7 +65,7 @@ public class LayoutPolicy extends XYLayoutEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
    */
   @Override
@@ -84,7 +84,7 @@ public class LayoutPolicy extends XYLayoutEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChildEditPolicy(org.eclipse.gef.EditPart)
    */
   @Override
@@ -94,7 +94,7 @@ public class LayoutPolicy extends XYLayoutEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#getCommand(org.eclipse.gef.Request)
    */
   @Override
@@ -110,7 +110,7 @@ public class LayoutPolicy extends XYLayoutEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
    */
   @Override

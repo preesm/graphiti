@@ -67,7 +67,7 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
    */
   @Override
@@ -78,7 +78,7 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
    */
   @Override
@@ -100,7 +100,7 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
    */
   @Override
@@ -111,7 +111,7 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractConnectionEditPart#getAdapter(java.lang.Class)
    */
   @Override
@@ -128,7 +128,7 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor#getContributorId()
    */
   @Override
@@ -138,7 +138,7 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
    */
   @Override

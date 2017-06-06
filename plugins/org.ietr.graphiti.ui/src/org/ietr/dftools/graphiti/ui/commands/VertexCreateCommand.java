@@ -76,7 +76,7 @@ public class VertexCreateCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#execute()
    */
   @Override
@@ -107,7 +107,7 @@ public class VertexCreateCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#getLabel()
    */
   @Override
@@ -190,7 +190,7 @@ public class VertexCreateCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#undo()
    */
   @Override

@@ -83,7 +83,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
    */
   @Override
@@ -152,7 +152,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
    */
   @Override
@@ -163,7 +163,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
    */
   @Override
@@ -185,7 +185,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
    */
   @Override
@@ -196,7 +196,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.Class)
    */
   @Override
@@ -210,7 +210,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor#getContributorId()
    */
   @Override
@@ -220,7 +220,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
    */
   @Override
@@ -233,7 +233,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#isSelectable()
    */
   @Override
@@ -243,7 +243,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
    */
   @Override

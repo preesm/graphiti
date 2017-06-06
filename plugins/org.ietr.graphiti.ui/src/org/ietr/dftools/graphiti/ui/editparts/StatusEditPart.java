@@ -67,7 +67,7 @@ public class StatusEditPart extends AbstractGraphicalEditPart {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
    */
   @Override
@@ -78,7 +78,7 @@ public class StatusEditPart extends AbstractGraphicalEditPart {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
    */
   @Override
@@ -111,7 +111,7 @@ public class StatusEditPart extends AbstractGraphicalEditPart {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#isSelectable()
    */
   @Override

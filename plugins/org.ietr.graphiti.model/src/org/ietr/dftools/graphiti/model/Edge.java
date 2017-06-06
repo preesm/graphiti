@@ -172,7 +172,7 @@ public class Edge extends AbstractObject {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Object#toString()
    */
   @Override

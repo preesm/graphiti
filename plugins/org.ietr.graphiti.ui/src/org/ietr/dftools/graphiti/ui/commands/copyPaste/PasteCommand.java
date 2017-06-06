@@ -113,7 +113,7 @@ public class PasteCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#execute()
    */
   @Override
@@ -195,7 +195,7 @@ public class PasteCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#undo()
    */
   @Override

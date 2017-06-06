@@ -57,7 +57,7 @@ public class DeleteComponentEditPolicy extends ComponentEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
    */
   @Override

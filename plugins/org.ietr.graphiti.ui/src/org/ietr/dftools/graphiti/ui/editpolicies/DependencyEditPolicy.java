@@ -52,7 +52,7 @@ public class DependencyEditPolicy extends ConnectionEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.ConnectionEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)
    */
   @Override

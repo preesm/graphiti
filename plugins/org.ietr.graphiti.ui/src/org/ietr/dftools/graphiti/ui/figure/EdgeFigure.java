@@ -36,7 +36,7 @@
  */
 package org.ietr.dftools.graphiti.ui.figure;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.DelegatingLayout;
@@ -79,7 +79,7 @@ public class EdgeFigure extends PolylineConnection {
     setLayoutManager(new DelegatingLayout());
     this.edge = edge;
 
-    this.parameterFigures = new HashMap<>();
+    this.parameterFigures = new LinkedHashMap<>();
 
     // update parameters
     for (final Parameter parameter : edge.getParameters()) {
@@ -103,7 +103,7 @@ public class EdgeFigure extends PolylineConnection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.draw2d.Shape#paintFigure(org.eclipse.draw2d.Graphics)
    */
   @Override

@@ -129,7 +129,7 @@ public class Vertex extends AbstractObject {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.model.AbstractObject#setValue(java.lang.String, java.lang.Object)
    */
   @Override
@@ -144,7 +144,7 @@ public class Vertex extends AbstractObject {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Object#toString()
    */
   @Override

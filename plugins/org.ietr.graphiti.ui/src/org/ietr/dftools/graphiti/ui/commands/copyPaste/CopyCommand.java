@@ -72,7 +72,7 @@ public class CopyCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#execute()
    */
   @Override
@@ -103,7 +103,7 @@ public class CopyCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#getLabel()
    */
   @Override

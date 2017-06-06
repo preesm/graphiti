@@ -57,7 +57,7 @@ public class EditPartFactoryImpl implements EditPartFactory {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
    */
   @Override

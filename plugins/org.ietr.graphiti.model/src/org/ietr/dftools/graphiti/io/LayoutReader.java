@@ -37,7 +37,7 @@
 package org.ietr.dftools.graphiti.io;
 
 import java.io.InputStream;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -66,7 +66,7 @@ public class LayoutReader {
    *          the byte stream
    */
   public void read(final Graph graph, final InputStream byteStream) {
-    final Map<String, Point> pointMap = new HashMap<>();
+    final Map<String, Point> pointMap = new LinkedHashMap<>();
     final Document document = DomHelper.parse(byteStream);
     final Element layout = document.getDocumentElement();
     final NodeList vertices = layout.getElementsByTagName("vertex");

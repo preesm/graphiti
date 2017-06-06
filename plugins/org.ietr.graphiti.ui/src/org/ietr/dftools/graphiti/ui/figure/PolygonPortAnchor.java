@@ -135,7 +135,7 @@ public class PolygonPortAnchor extends AbstractConnectionAnchor {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.draw2d.AbstractConnectionAnchor#getReferencePoint()
    */
   @Override

@@ -65,7 +65,7 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#createDummyConnection(org.eclipse.gef.Request)
    */
   @Override
@@ -77,7 +77,7 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCompleteCommand(org.eclipse.gef.requests.CreateConnectionRequest)
    */
   @Override
@@ -90,7 +90,7 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.CreateConnectionRequest)
    */
   @Override
@@ -104,7 +104,7 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectSourceCommand(org.eclipse.gef.requests.ReconnectRequest)
    */
   @Override
@@ -118,7 +118,7 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectTargetCommand(org.eclipse.gef.requests.ReconnectRequest)
    */
   @Override

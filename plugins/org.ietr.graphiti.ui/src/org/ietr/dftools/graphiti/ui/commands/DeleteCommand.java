@@ -93,7 +93,7 @@ public class DeleteCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#canExecute()
    */
   @Override
@@ -103,7 +103,7 @@ public class DeleteCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#execute()
    */
   @Override
@@ -119,7 +119,7 @@ public class DeleteCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#getLabel()
    */
   @Override
@@ -129,7 +129,7 @@ public class DeleteCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#undo()
    */
   @Override

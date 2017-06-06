@@ -117,7 +117,7 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements IG
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getInitialContents()
    */
   @Override
@@ -169,7 +169,7 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements IG
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.ui.wizards.IGraphTypeSettable#setGraphType(org.ietr.dftools.graphiti.model.Configuration,
    * org.ietr.dftools.graphiti.model.ObjectType)
    */

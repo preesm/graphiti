@@ -88,7 +88,7 @@ public class GraphEditorContextMenuProvider extends ContextMenuProvider {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
    */
   @Override

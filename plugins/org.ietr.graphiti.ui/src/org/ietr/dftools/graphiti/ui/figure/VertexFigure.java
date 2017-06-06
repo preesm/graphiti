@@ -37,7 +37,6 @@
 package org.ietr.dftools.graphiti.ui.figure;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -116,7 +115,7 @@ public class VertexFigure extends Figure {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -185,7 +184,7 @@ public class VertexFigure extends Figure {
    *          the shape
    */
   public VertexFigure(final Font font, final Dimension dimension, final Color color, final IShape shape) {
-    this.bendpoints = new HashMap<>();
+    this.bendpoints = new LinkedHashMap<>();
     this.inputPorts = new LinkedHashMap<>();
     this.outputPorts = new LinkedHashMap<>();
 
@@ -537,7 +536,7 @@ public class VertexFigure extends Figure {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.draw2d.Figure#useLocalCoordinates()
    */
   @Override

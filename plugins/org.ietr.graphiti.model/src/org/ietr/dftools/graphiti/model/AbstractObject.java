@@ -39,7 +39,7 @@ package org.ietr.dftools.graphiti.model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -83,7 +83,7 @@ public abstract class AbstractObject {
   @SuppressWarnings("unchecked")
   protected AbstractObject(final AbstractObject bean) {
     this.propertyChange = new PropertyChangeSupport(this);
-    this.properties = new HashMap<>();
+    this.properties = new LinkedHashMap<>();
     this.type = bean.type;
 
     final Set<Entry<String, Object>> entries = bean.properties.entrySet();
@@ -113,7 +113,7 @@ public abstract class AbstractObject {
    */
   public AbstractObject(final ObjectType type) {
     this.propertyChange = new PropertyChangeSupport(this);
-    this.properties = new HashMap<>();
+    this.properties = new LinkedHashMap<>();
     this.type = type;
   }
 

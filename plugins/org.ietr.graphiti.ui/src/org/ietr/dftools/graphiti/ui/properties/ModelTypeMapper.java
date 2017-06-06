@@ -47,7 +47,7 @@ public class ModelTypeMapper implements ITypeMapper {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.ui.views.properties.tabbed.ITypeMapper#mapType(java.lang.Object)
    */
   @Override

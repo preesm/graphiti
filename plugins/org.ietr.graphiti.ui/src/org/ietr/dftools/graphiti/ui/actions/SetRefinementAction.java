@@ -77,7 +77,7 @@ public class SetRefinementAction extends SelectionAction {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
    */
   @Override
@@ -88,7 +88,7 @@ public class SetRefinementAction extends SelectionAction {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.jface.action.Action#getId()
    */
   @Override
@@ -98,7 +98,7 @@ public class SetRefinementAction extends SelectionAction {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#init()
    */
   @Override
@@ -110,7 +110,7 @@ public class SetRefinementAction extends SelectionAction {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.jface.action.Action#run()
    */
   @Override

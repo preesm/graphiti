@@ -69,7 +69,7 @@ public class EllipsePortAnchor extends EllipseAnchor {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.draw2d.EllipseAnchor#getLocation(org.eclipse.draw2d.geometry.Point)
    */
   @Override
@@ -84,7 +84,7 @@ public class EllipsePortAnchor extends EllipseAnchor {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.draw2d.AbstractConnectionAnchor#getReferencePoint()
    */
   @Override

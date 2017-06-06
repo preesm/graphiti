@@ -37,8 +37,9 @@
 package org.ietr.dftools.graphiti.ui.figure;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.geometry.Point;
@@ -57,7 +58,7 @@ public class PropertyLocator extends ConnectionLocator {
   private final ParameterPosition pos;
 
   /** The positions. */
-  private final HashMap<Connection, List<PropertyLocator>> positions = new HashMap<>();
+  private final Map<Connection, List<PropertyLocator>> positions = new LinkedHashMap<>();
 
   /**
    * Instantiates a new property locator.
@@ -79,7 +80,7 @@ public class PropertyLocator extends ConnectionLocator {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.draw2d.ConnectionLocator#getReferencePoint()
    */
   @Override

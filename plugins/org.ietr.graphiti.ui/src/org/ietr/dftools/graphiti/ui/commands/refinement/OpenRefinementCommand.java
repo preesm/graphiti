@@ -68,7 +68,7 @@ public class OpenRefinementCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#canExecute()
    */
   @Override
@@ -82,7 +82,7 @@ public class OpenRefinementCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#execute()
    */
   @Override
@@ -106,7 +106,7 @@ public class OpenRefinementCommand extends Command {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.commands.Command#getLabel()
    */
   @Override

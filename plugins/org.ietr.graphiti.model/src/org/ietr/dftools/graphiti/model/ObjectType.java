@@ -37,7 +37,7 @@
 package org.ietr.dftools.graphiti.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -112,8 +112,8 @@ public class ObjectType implements Comparable<ObjectType> {
    */
   public ObjectType(final String name) {
     this.name = name;
-    this.attributes = new HashMap<>();
-    this.parameters = new HashMap<>();
+    this.attributes = new LinkedHashMap<>();
+    this.parameters = new LinkedHashMap<>();
   }
 
   /**
@@ -140,7 +140,7 @@ public class ObjectType implements Comparable<ObjectType> {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Comparable#compareTo(java.lang.Object)
    */
   @Override
@@ -150,7 +150,7 @@ public class ObjectType implements Comparable<ObjectType> {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -205,7 +205,7 @@ public class ObjectType implements Comparable<ObjectType> {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see java.lang.Object#toString()
    */
   @Override

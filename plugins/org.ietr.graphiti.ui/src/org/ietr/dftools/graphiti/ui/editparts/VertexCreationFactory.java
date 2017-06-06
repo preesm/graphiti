@@ -64,7 +64,7 @@ public class VertexCreationFactory implements CreationFactory {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.requests.CreationFactory#getNewObject()
    */
   @Override
@@ -74,7 +74,7 @@ public class VertexCreationFactory implements CreationFactory {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.requests.CreationFactory#getObjectType()
    */
   @Override

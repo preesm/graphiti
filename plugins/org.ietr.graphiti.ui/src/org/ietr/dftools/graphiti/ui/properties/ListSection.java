@@ -82,7 +82,7 @@ public class ListSection extends AbstractSection {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.CellLabelProvider#update(org.eclipse.jface.viewers.ViewerCell)
      */
     @Override
@@ -103,7 +103,7 @@ public class ListSection extends AbstractSection {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.IContentProvider#dispose()
      */
     @Override
@@ -112,7 +112,7 @@ public class ListSection extends AbstractSection {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
      */
     @Override
@@ -124,7 +124,7 @@ public class ListSection extends AbstractSection {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
      */
     @Override
@@ -159,7 +159,7 @@ public class ListSection extends AbstractSection {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.EditingSupport#canEdit(java.lang.Object)
      */
     @Override
@@ -169,7 +169,7 @@ public class ListSection extends AbstractSection {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.EditingSupport#getCellEditor(java.lang.Object)
      */
     @Override
@@ -179,7 +179,7 @@ public class ListSection extends AbstractSection {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.EditingSupport#getValue(java.lang.Object)
      */
     @Override
@@ -189,7 +189,7 @@ public class ListSection extends AbstractSection {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.eclipse.jface.viewers.EditingSupport#setValue(java.lang.Object, java.lang.Object)
      */
     @Override
@@ -217,7 +217,7 @@ public class ListSection extends AbstractSection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.ui.properties.AbstractSection#buttonAddSelected()
    */
   @Override
@@ -246,7 +246,7 @@ public class ListSection extends AbstractSection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.ui.properties.AbstractSection#buttonRemoveSelected()
    */
   @Override
@@ -272,7 +272,7 @@ public class ListSection extends AbstractSection {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.ietr.dftools.graphiti.ui.properties.AbstractSection#createControls(org.eclipse.swt.widgets.Composite,
    * org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
    */

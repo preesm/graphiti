@@ -119,7 +119,7 @@ public class VertexDirectEditManager extends DirectEditManager {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.gef.tools.DirectEditManager#showFeedback()
    */
   @Override
