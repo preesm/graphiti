@@ -19,6 +19,7 @@ Graphiti Changelog
 * Update headers
 * Remove use of composite P2 repositories
 * Add Jenkinsfile for Multibranch Pipeline projects
+* Replace HashMap/Sets with LinkedHashMap/Sets
 
 ### Bug fix
 
