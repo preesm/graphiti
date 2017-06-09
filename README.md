@@ -27,4 +27,4 @@ This project is maintained by the Preesm maintainers. Contact us using one of th
 
 ## License
 
-This project is distributed under the CeCILL-C license (see [LICENSE
+This project is distributed under the CeCILL-C license (see [LICENSE file](LICENSE)).
