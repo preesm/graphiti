@@ -463,6 +463,37 @@
         </property>
       </activation>
       <build>
+        <plugins>
+          <plugin>
+            <groupId>org.ietr.maven</groupId>
+            <artifactId>m2e-settings-maven-plugin</artifactId>
+            <version>1.0.1</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.ietr.preesm</groupId>
+                <artifactId>coding-policy</artifactId>
+                <version>${preesm.coding.policy.version}</version>
+              </dependency>
+            </dependencies>
+            <executions>
+              <execution>
+                <id>load-eclipse-settings</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>m2e-settings</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <additionalConfig>
+                <file>
+                  <name>.settings/org.eclipse.jdt.core.prefs</name>
+                  <location>/org.eclipse.jdt.core.prefs</location>
+                </file>
+              </additionalConfig>
+ 	           </configuration>
+          </plugin>
+       </plugins>
         <!-- Disable m2e lifecycle mapping to avoid errors showing in Eclipse -->
         <pluginManagement>
           <plugins>
