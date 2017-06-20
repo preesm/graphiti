@@ -97,7 +97,7 @@
     <repository>
       <id>Preesm Complete Repo</id>
       <layout>p2</layout>
-      <url>${complete.p2.repo}</url>
+      <url>${preesm.p2.repo}</url>
     </repository>
     <repository>
       <id>Preesm Maven Repo</id>
@@ -487,8 +487,24 @@
             <configuration>
               <additionalConfig>
                 <file>
+                  <name>.settings/org.eclipse.core.resources.prefs</name>
+                  <location>/org.eclipse.core.resources.prefs</location>
+                </file>
+                <file>
+                  <name>.settings/org.eclipse.core.runtime.prefs</name>
+                  <location>/org.eclipse.core.runtime.prefs</location>
+                </file>
+                <file>
                   <name>.settings/org.eclipse.jdt.core.prefs</name>
                   <location>/org.eclipse.jdt.core.prefs</location>
+                </file>
+                <file>
+                  <name>.settings/org.eclipse.jdt.ui.prefs</name>
+                  <location>/org.eclipse.jdt.ui.prefs</location>
+                </file>
+                <file>
+                  <name>.settings/org.eclipse.xtend.core.Xtend.prefs</name>
+                  <location>/org.eclipse.xtend.core.Xtend.prefs</location>
                 </file>
               </additionalConfig>
  	           </configuration>
