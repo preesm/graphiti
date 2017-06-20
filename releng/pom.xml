@@ -72,13 +72,6 @@
     </repository>
   </repositories>
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>preesm</id>
-      <url>http://preesm.sourceforge.net/maven/</url>
-    </pluginRepository>
-  </pluginRepositories>
-
   <modules>
     <module>org.ietr.graphiti.feature</module>
     <module>org.ietr.graphiti.dev.feature</module>
