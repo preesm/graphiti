@@ -108,7 +108,8 @@
   <!-- Preesm Repo hosts both Maven dependencies and Maven plugins -->
   <pluginRepositories>
     <pluginRepository>
-      <id>preesm-plugins</id>
+      <!-- Give same ID for safe offline mode -->
+      <id>Preesm Maven Repo</id>
       <name>Preesm Maven Plugin Repo</name>
       <url>${preesm.maven.repo}</url>
     </pluginRepository>
