@@ -65,6 +65,11 @@
       <layout>p2</layout>
       <url>http://m2e-code-quality.github.io/m2e-code-quality/site/latest/</url>
     </repository>
+    <repository>
+      <id>Settings M2E extension</id>
+      <layout>p2</layout>
+      <url>https://antoine-morvan.github.io/m2e-settings/site/</url>
+    </repository>
   </repositories>
 
   <pluginRepositories>
