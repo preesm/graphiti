@@ -1,6 +1,16 @@
 Graphiti Changelog
 ==================
 
+## Release version X.Y.Z
+*XXXX.XX.XX*
+
+### New Feature
+
+### Changes
+* Cleanup releng files
+
+### Bug fix
+
 ## Release version 1.4.0
 *2017.06.26*
 
