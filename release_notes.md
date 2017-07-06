@@ -8,6 +8,7 @@ Graphiti Changelog
 
 ### Changes
 * Cleanup releng files
+* Normalize feature licenses
 
 ### Bug fix
 
