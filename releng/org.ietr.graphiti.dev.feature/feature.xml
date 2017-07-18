@@ -38,7 +38,7 @@
 <feature
       id="org.ietr.graphiti.dev.feature"
       label="Graphiti Developper Requirements (Meta Feature)"
-      version="1.4.1">
+      version="1.4.1.qualifier">
 
    <description url="http://preesm.sourceforge.net/website/">
       This feature embeds all required Eclipse plugins for developping Graphiti. That includes XTend, GEF, EMF, Graphiti (Eclipse) Plus SDKs, along with Checkstyle integration for Eclipse, Maven integration for Eclipse (and appropriate extension), and third party libraries.
