@@ -57,6 +57,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageDataProvider;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.ietr.dftools.graphiti.model.Configuration;
@@ -69,13 +70,16 @@ import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 import org.ietr.dftools.graphiti.ui.figure.shapes.IShape;
 import org.ietr.dftools.graphiti.ui.figure.shapes.ShapeFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * Creates the Palette on the GUI with all the tools and the appropriate icons icons have to be in the same directory as the Model.
  *
  * @author Samuel Beaussier & Nicolas Isch
  */
 public class GraphitiPalette {
+
+  private GraphitiPalette() {
+
+  }
 
   /**
    * Add the different edge types.
@@ -143,13 +147,15 @@ public class GraphitiPalette {
    * @return A new {@link ImageDescriptor}.
    */
   private static ImageDescriptor getImgDescEdge(final ObjectType type) {
-    ImageDescriptor id;
+    final String imagePath;
     final Boolean directed = (Boolean) type.getAttribute(ObjectType.ATTRIBUTE_DIRECTED);
     if ((directed == null) || directed) {
-      id = ImageDescriptor.createFromImage(GraphitiUiPlugin.getImage("icons/directed_edge.gif"));
+      imagePath = "icons/directed_edge.gif";
     } else {
-      id = ImageDescriptor.createFromImage(GraphitiUiPlugin.getImage("icons/undirected_edge.gif"));
+      imagePath = "icons/undirected_edge.gif";
     }
+
+    final Image image = GraphitiUiPlugin.getImage(imagePath);
 
     // retrieve the color
     Color color = (Color) type.getAttribute(ObjectType.ATTRIBUTE_COLOR);
@@ -158,17 +164,37 @@ public class GraphitiPalette {
     }
 
     // replace the "black" palette entry with the color.
-    final ImageData data = id.getImageData();
-    if (data.palette.colors != null) {
-      final RGB rgb = data.palette.colors[0];
-      rgb.red = color.getRed();
-      rgb.green = color.getGreen();
-      rgb.blue = color.getBlue();
+    // returns an image descriptor on the modified image data.
+    return ImageDescriptor.createFromImageDataProvider(new RecoloredImageDataProvider(image, color));
+  }
+
+  /**
+   *
+   */
+  private static final class RecoloredImageDataProvider implements ImageDataProvider {
+
+    private ImageData image;
+    private Color     color;
+
+    public RecoloredImageDataProvider(Image image, Color color) {
+      this.image = image.getImageData();
+      this.color = color;
     }
 
-    // returns an image descriptor on the modified image data.
-    id = ImageDescriptor.createFromImageData(data);
-    return id;
+    @Override
+    public ImageData getImageData(int zoom) {
+
+      final ImageData data = image;
+      if (data.palette.colors != null) {
+        final RGB rgb = data.palette.colors[0];
+        rgb.red = color.getRed();
+        rgb.green = color.getGreen();
+        rgb.blue = color.getBlue();
+      }
+
+      return data;
+    }
+
   }
 
   /**
@@ -204,8 +230,7 @@ public class GraphitiPalette {
     figure.paint(graphics);
 
     // Get the image data back
-    final ImageData data = image.getImageData();
-    final ImageDescriptor id = ImageDescriptor.createFromImageData(data);
+    final ImageDescriptor id = ImageDescriptor.createFromImageDataProvider(new RecoloredImageDataProvider(image, color));
 
     // Disposes image (and GC btw) and SWT graphics
     image.dispose();
