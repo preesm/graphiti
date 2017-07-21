@@ -8,6 +8,7 @@ Graphiti Changelog
 
 ### Changes
 * Upgrade to Eclipse Oxygen;
+* Rename extension point;
 
 ### Bug fix
 
