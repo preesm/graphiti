@@ -39,6 +39,7 @@ package org.ietr.dftools.graphiti.ui.editparts;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.draw2d.Connection;
@@ -81,7 +82,6 @@ import org.ietr.dftools.graphiti.ui.figure.shapes.ShapeFactory;
 import org.ietr.dftools.graphiti.ui.properties.ModelPropertySource;
 import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
 
-// TODO: Auto-generated Javadoc
 /**
  * The EditPart associated to the Graph gives methods to refresh the view when a property has changed.
  *
@@ -117,11 +117,11 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
    * @param edges
    *          the edges
    */
-  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @SuppressWarnings("unchecked")
   void addEdges(final EdgeList edges) {
-    final List connections = new ArrayList<EdgeEditPart>();
-    connections.addAll(getSourceConnections());
-    // connections.addAll(getTargetConnections());
+    final List<EdgeEditPart> connections = new ArrayList<>();
+    final List<EdgeEditPart> sourceConnections2 = getSourceConnections();
+    connections.addAll(sourceConnections2);
 
     for (final Object connection : connections) {
       if (connection instanceof EdgeEditPart) {
@@ -249,8 +249,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
    */
   @Override
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  protected List getModelSourceConnections() {
+  protected List<Edge> getModelSourceConnections() {
     if (getModel() instanceof Vertex) {
       final Vertex vertex = (Vertex) getModel();
       final Graph parent = vertex.getParent();
@@ -259,11 +258,10 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
       final Set<Edge> edges = parent.outgoingEdgesOf(vertex);
 
       // return the dependencies
-      final List dependencies = new ArrayList(edges);
-      return dependencies;
+      return new ArrayList<>(edges);
     }
 
-    return null;
+    return Collections.emptyList();
   }
 
   /*
@@ -272,8 +270,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
    * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
    */
   @Override
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  protected List getModelTargetConnections() {
+  protected List<Edge> getModelTargetConnections() {
     if (getModel() instanceof Vertex) {
       final Vertex vertex = (Vertex) getModel();
       final Graph parent = vertex.getParent();
@@ -282,11 +279,10 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
       final Set<Edge> edges = parent.incomingEdgesOf(vertex);
 
       // dependencies
-      final List dependencies = new ArrayList(edges);
-      return dependencies;
+      return new ArrayList<>(edges);
     }
 
-    return null;
+    return Collections.emptyList();
   }
 
   /*
@@ -322,8 +318,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
   public ConnectionAnchor getTargetConnectionAnchor(final ConnectionEditPart connection) {
     final VertexFigure figure = (VertexFigure) getFigure();
     final Edge edge = (Edge) connection.getModel();
-    final Connection conn = (Connection) connection.getFigure();
-    return figure.getTargetAnchor(edge, conn);
+    return figure.getTargetAnchor(edge);
   }
 
   /*
@@ -370,11 +365,7 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
       final VertexFigure vertexFigure = (VertexFigure) getFigure();
       vertexFigure.setBounds((Rectangle) evt.getNewValue());
       refresh();
-    } else if (propertyName.equals(Vertex.PROPERTY_SRC_VERTEX)) {
-      updatePorts(getFigure());
-      // refresh will cause target anchor to be rightly put
-      refresh();
-    } else if (propertyName.equals(Vertex.PROPERTY_DST_VERTEX)) {
+    } else if (propertyName.equals(Vertex.PROPERTY_SRC_VERTEX) || propertyName.equals(Vertex.PROPERTY_DST_VERTEX)) {
       updatePorts(getFigure());
       // refresh will cause source anchor to be rightly put
       refresh();
@@ -420,21 +411,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
     newBounds.x = this.node.x;
     newBounds.y = this.node.y;
     vertex.setValue(Vertex.PROPERTY_SIZE, newBounds);
-
-    // Updates edges
-    for (final Object connection : getSourceConnections()) {
-      if (connection instanceof EdgeEditPart) {
-        final EdgeEditPart part = (EdgeEditPart) connection;
-        part.updateFigures();
-      }
-    }
-
-    for (final Object connection : getTargetConnections()) {
-      if (connection instanceof EdgeEditPart) {
-        final EdgeEditPart part = (EdgeEditPart) connection;
-        part.updateFigures();
-      }
-    }
   }
 
   /**

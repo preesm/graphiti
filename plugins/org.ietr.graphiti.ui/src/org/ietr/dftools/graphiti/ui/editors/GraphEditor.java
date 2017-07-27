@@ -43,6 +43,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EventObject;
+import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -108,7 +109,6 @@ import org.ietr.dftools.graphiti.ui.editparts.GraphEditPart;
 import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
 import org.ietr.dftools.graphiti.ui.wizards.SaveAsWizard;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides the graph editor.
  *
@@ -214,7 +214,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
    * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
    */
   @Override
-  @SuppressWarnings("unchecked")
   protected void createActions() {
     // create actions that will be used inside the editor, for instance in a
     // contextual menu
@@ -230,7 +229,10 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
 
         final IAction action = (IAction) ctor.newInstance(this);
         registry.registerAction(action);
-        getSelectionActions().add(action.getId());
+        @SuppressWarnings("unchecked")
+        final List<String> selectionActions = getSelectionActions();
+        final String id = action.getId();
+        selectionActions.add(id);
       } catch (final Exception e) {
         e.printStackTrace();
       }

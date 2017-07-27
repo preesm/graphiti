@@ -47,7 +47,6 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-// TODO: Auto-generated Javadoc
 /**
  * Figures using the StackLayout as their layout manager have their children placed on top of one another. Order of placement is determined by the order in
  * which the children were added, first child added placed on the bottom.
@@ -67,21 +66,27 @@ public class ManualGraphLayoutManager extends StackLayout {
    * @see AbstractHintLayout#calculateMinimumSize(IFigure, int, int)
    */
   @Override
-  @SuppressWarnings("rawtypes")
-  protected Dimension calculateMinimumSize(final IFigure figure, int wHint, int hHint) {
+  protected Dimension calculateMinimumSize(final IFigure figure, final int wHint, final int hHint) {
+    final int widthHint;
+    final int heightHint;
     if (wHint > -1) {
-      wHint = Math.max(0, wHint - figure.getInsets().getWidth());
+      widthHint = Math.max(0, wHint - figure.getInsets().getWidth());
+    } else {
+      widthHint = wHint;
     }
     if (hHint > -1) {
-      hHint = Math.max(0, hHint - figure.getInsets().getHeight());
+      heightHint = Math.max(0, hHint - figure.getInsets().getHeight());
+    } else {
+      heightHint = hHint;
     }
     final Dimension d = new Dimension();
-    final List children = figure.getChildren();
+    @SuppressWarnings("unchecked")
+    final List<IFigure> children = figure.getChildren();
     IFigure child;
     for (int i = 0; i < children.size(); i++) {
-      child = (IFigure) children.get(i);
+      child = children.get(i);
       if (!isObservingVisibility() || child.isVisible()) {
-        d.union(child.getMinimumSize(wHint, hHint));
+        d.union(child.getMinimumSize(widthHint, heightHint));
       }
     }
 
@@ -104,21 +109,28 @@ public class ManualGraphLayoutManager extends StackLayout {
    * @see AbstractLayout#calculatePreferredSize(IFigure, int, int)
    */
   @Override
-  @SuppressWarnings("rawtypes")
-  protected Dimension calculatePreferredSize(final IFigure figure, int wHint, int hHint) {
+  protected Dimension calculatePreferredSize(final IFigure figure, final int wHint, final int hHint) {
+    final int widthHint;
+    final int heightHint;
     if (wHint > -1) {
-      wHint = Math.max(0, wHint - figure.getInsets().getWidth());
+      widthHint = Math.max(0, wHint - figure.getInsets().getWidth());
+    } else {
+      widthHint = wHint;
     }
     if (hHint > -1) {
-      hHint = Math.max(0, hHint - figure.getInsets().getHeight());
+      heightHint = Math.max(0, hHint - figure.getInsets().getHeight());
+    } else {
+      heightHint = hHint;
     }
+
     final Dimension d = new Dimension();
-    final List children = figure.getChildren();
+    @SuppressWarnings("unchecked")
+    final List<IFigure> children = figure.getChildren();
     IFigure child;
     for (int i = 0; i < children.size(); i++) {
-      child = (IFigure) children.get(i);
+      child = children.get(i);
       if (!isObservingVisibility() || child.isVisible()) {
-        d.union(child.getPreferredSize(wHint, hHint));
+        d.union(child.getPreferredSize(widthHint, heightHint));
       }
     }
 
@@ -146,23 +158,23 @@ public class ManualGraphLayoutManager extends StackLayout {
    * @see org.eclipse.draw2d.LayoutManager#layout(IFigure)
    */
   @Override
-  @SuppressWarnings("rawtypes")
   public void layout(final IFigure parent) {
     final Rectangle r = parent.getClientArea();
-    final List children = parent.getChildren();
+    @SuppressWarnings("unchecked")
+    final List<IFigure> children = parent.getChildren();
     IFigure child;
     for (int i = 0; i < children.size(); i++) {
-      child = (IFigure) children.get(i);
+      child = children.get(i);
       if (child instanceof ScrollPane) {
         child.setBounds(r);
       }
     }
 
-    final Iterator it = children.iterator();
+    final Iterator<IFigure> it = children.iterator();
     final Point offset = getOrigin(parent);
     IFigure f;
     while (it.hasNext()) {
-      f = (IFigure) it.next();
+      f = it.next();
       Rectangle bounds = (Rectangle) getConstraint(f);
       if (bounds == null) {
         continue;
@@ -182,28 +194,4 @@ public class ManualGraphLayoutManager extends StackLayout {
       f.setBounds(bounds);
     }
   }
-
-  // public void layout(IFigure parent) {
-  // Iterator children = parent.getChildren().iterator();
-  // Point offset = getOrigin(parent);
-  // IFigure f;
-  // while (children.hasNext()) {
-  // f = (IFigure)children.next();
-  // Rectangle bounds = (Rectangle)getConstraint(f);
-  // if (bounds == null) continue;
-  //
-  // if (bounds.width == -1 || bounds.height == -1) {
-  // Dimension preferredSize = f.getPreferredSize(bounds.width,
-  // bounds.height);
-  // bounds = bounds.getCopy();
-  // if (bounds.width == -1)
-  // bounds.width = preferredSize.width;
-  // if (bounds.height == -1)
-  // bounds.height = preferredSize.height;
-  // }
-  // bounds = bounds.getTranslated(offset);
-  // f.setBounds(bounds);
-  // }
-  // }
-
 }

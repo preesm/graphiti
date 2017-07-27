@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.ui.properties;
 import org.eclipse.gef.EditPart;
 import org.eclipse.ui.views.properties.tabbed.ITypeMapper;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ModelTypeMapper.
  */

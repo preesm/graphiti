@@ -61,7 +61,6 @@ import org.ietr.dftools.graphiti.model.Edge;
 import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.ui.figure.shapes.IShape;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a figure for vertices.
  *
@@ -231,7 +230,6 @@ public class VertexFigure extends Figure {
    * @param offset
    *          The offset.
    */
-  @SuppressWarnings("unchecked")
   public void addToList(final Connection conn, final boolean end, final int offset) {
     // get the concrete list
     List<ConcreteBendpoint> list = this.bendpoints.get(conn);
@@ -245,6 +243,7 @@ public class VertexFigure extends Figure {
     // check we do not already have this bendpoint
     if (!list.contains(cbp)) {
       // ok we're fine, let's get the routing list
+      @SuppressWarnings("unchecked")
       List<RelativeBendpoint> cstList = (List<RelativeBendpoint>) conn.getRoutingConstraint();
       if (cstList == null) {
         // oops! it's not here, we create it and set it
@@ -262,9 +261,9 @@ public class VertexFigure extends Figure {
   /**
    * Adjusts the size of this figure according to its id and ports.
    */
-  @SuppressWarnings("unchecked")
   public void adjustSize() {
-    final List<IFigure> children = new ArrayList<IFigure>(this.shape.getChildren());
+    @SuppressWarnings("unchecked")
+    final List<IFigure> children = new ArrayList<>(this.shape.getChildren());
     children.remove(this.labelId);
     for (final IFigure child : children) {
       this.shape.remove(child);
@@ -382,15 +381,11 @@ public class VertexFigure extends Figure {
    *
    * @param edge
    *          The edge model of the connection. Allows the figure to retrieve the target port.
-   * @param conn
-   *          The connection figure.
    * @return The {@link ConnectionAnchor} of the underlying shape.
    */
-  public ConnectionAnchor getTargetAnchor(final Edge edge, final Connection conn) {
+  public ConnectionAnchor getTargetAnchor(final Edge edge) {
     final String portName = (String) edge.getValue(ObjectType.PARAMETER_TARGET_PORT);
-    final ConnectionAnchor anchor = this.shape.getConnectionAnchor(this, portName, false);
-
-    return anchor;
+    return this.shape.getConnectionAnchor(this, portName, false);
   }
 
   /**

@@ -44,7 +44,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.graph.CompoundDirectedGraph;
 import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a basic graph layout.
  *
@@ -81,13 +80,13 @@ public class GraphLayoutManager extends XYLayout {
    * @see org.eclipse.draw2d.XYLayout#calculatePreferredSize(org.eclipse.draw2d.IFigure, int, int)
    */
   @Override
-  @SuppressWarnings("rawtypes")
   protected Dimension calculatePreferredSize(final IFigure container, final int wHint, final int hHint) {
     container.validate();
-    final List children = container.getChildren();
+    @SuppressWarnings("unchecked")
+    final List<IFigure> children = container.getChildren();
     final Rectangle result = new Rectangle().setLocation(container.getClientArea().getLocation());
     for (int i = 0; i < children.size(); i++) {
-      result.union(((IFigure) children.get(i)).getBounds());
+      result.union(children.get(i).getBounds());
     }
     result.resize(container.getInsets().getWidth(), container.getInsets().getHeight());
     return result.getSize();
