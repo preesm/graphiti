@@ -48,7 +48,6 @@ import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.Color;
-import org.ietr.dftools.graphiti.GraphitiModelPlugin;
 import org.ietr.dftools.graphiti.model.Configuration;
 import org.ietr.dftools.graphiti.model.FileFormat;
 import org.ietr.dftools.graphiti.model.IRefinementPolicy;
@@ -81,7 +80,7 @@ public class ConfigurationParser {
     this.configurations = new LinkedHashMap<>();
 
     final IExtensionRegistry registry = Platform.getExtensionRegistry();
-    final IConfigurationElement[] elements = registry.getConfigurationElementsFor(GraphitiModelPlugin.PLUGIN_ID + ".definition");
+    final IConfigurationElement[] elements = registry.getConfigurationElementsFor("graphiti.definition");
     for (final IConfigurationElement element : elements) {
       final Configuration configuration = parseConfiguration(element);
       this.configurations.put(configuration.getName(), configuration);

@@ -55,7 +55,6 @@ import org.ietr.dftools.graphiti.ui.figure.EdgeFigure;
 import org.ietr.dftools.graphiti.ui.properties.ModelPropertySource;
 import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
 
-// TODO: Auto-generated Javadoc
 /**
  * The EditPart associated to the Dependency gives methods to refresh the view when a property has changed.
  *
@@ -160,11 +159,5 @@ public class EdgeEditPart extends AbstractConnectionEditPart implements Property
     // (including ports in case they are also displayed on the edge)
     final EdgeFigure figure = (EdgeFigure) getFigure();
     figure.refresh(evt.getPropertyName(), evt.getNewValue());
-  }
-
-  /**
-   * Update figures.
-   */
-  void updateFigures() {
   }
 }

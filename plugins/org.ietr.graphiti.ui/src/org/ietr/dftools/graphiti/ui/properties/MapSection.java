@@ -50,7 +50,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -63,7 +62,6 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ietr.dftools.graphiti.model.AbstractObject;
 import org.ietr.dftools.graphiti.ui.editors.GraphEditor;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class defines a map section.
  *
@@ -85,9 +83,9 @@ public class MapSection extends AbstractSection {
      * @see org.eclipse.jface.viewers.CellLabelProvider#update(org.eclipse.jface.viewers.ViewerCell)
      */
     @Override
-    @SuppressWarnings("unchecked")
     public void update(final ViewerCell cell) {
       final Object element = cell.getElement();
+      @SuppressWarnings("unchecked")
       final Entry<Object, Object> entry = (Entry<Object, Object>) element;
       if (cell.getColumnIndex() == 0) {
         cell.setText(entry.getKey().toString());
@@ -112,15 +110,6 @@ public class MapSection extends AbstractSection {
     /*
      * (non-Javadoc)
      *
-     * @see org.eclipse.jface.viewers.IContentProvider#dispose()
-     */
-    @Override
-    public void dispose() {
-    }
-
-    /*
-     * (non-Javadoc)
-     *
      * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
      */
     @Override
@@ -128,15 +117,6 @@ public class MapSection extends AbstractSection {
       final AbstractObject model = (AbstractObject) inputElement;
       final Map<?, ?> map = (Map<?, ?>) model.getValue(MapSection.this.parameterName);
       return map.entrySet().toArray();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
-     */
-    @Override
-    public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
     }
 
   }
@@ -197,8 +177,8 @@ public class MapSection extends AbstractSection {
      * @see org.eclipse.jface.viewers.EditingSupport#getValue(java.lang.Object)
      */
     @Override
-    @SuppressWarnings("unchecked")
     protected Object getValue(final Object element) {
+      @SuppressWarnings("unchecked")
       final Entry<Object, Object> entry = (Entry<Object, Object>) element;
       Object value = this.key ? entry.getKey() : entry.getValue();
       if (value == null) {
@@ -214,7 +194,6 @@ public class MapSection extends AbstractSection {
      * @see org.eclipse.jface.viewers.EditingSupport#setValue(java.lang.Object, java.lang.Object)
      */
     @Override
-    @SuppressWarnings("unchecked")
     protected void setValue(final Object element, final Object value) {
       // if key, value is a new key; otherwise it is a new value
       // if value only contains spaces, ignore it
@@ -223,8 +202,10 @@ public class MapSection extends AbstractSection {
       }
 
       final AbstractObject model = (AbstractObject) getViewer().getInput();
+      @SuppressWarnings("unchecked")
       final Map<Object, Object> oldMap = (Map<Object, Object>) model.getValue(MapSection.this.parameterName);
 
+      @SuppressWarnings("unchecked")
       final Entry<Object, Object> entry = (Entry<Object, Object>) element;
       if (value.equals(this.key ? entry.getKey() : entry.getValue())) {
         return;
@@ -254,7 +235,6 @@ public class MapSection extends AbstractSection {
    * @see org.ietr.dftools.graphiti.ui.properties.AbstractSection#buttonAddSelected()
    */
   @Override
-  @SuppressWarnings("unchecked")
   protected void buttonAddSelected() {
     final String dialogTitle = "New value";
     final String dialogMessage = "Please enter a value:";
@@ -263,6 +243,7 @@ public class MapSection extends AbstractSection {
 
     if (dialog.open() == Window.OK) {
       final AbstractObject model = getModel();
+      @SuppressWarnings("unchecked")
       final Map<Object, Object> oldMap = (Map<Object, Object>) model.getValue(this.parameterName);
       final Map<Object, Object> newMap = new TreeMap<>(oldMap);
       newMap.put(dialog.getValue(), "");
@@ -282,16 +263,18 @@ public class MapSection extends AbstractSection {
    * @see org.ietr.dftools.graphiti.ui.properties.AbstractSection#buttonRemoveSelected()
    */
   @Override
-  @SuppressWarnings("unchecked")
   protected void buttonRemoveSelected() {
     final IStructuredSelection ssel = getTableSelection();
     if ((ssel != null) && !ssel.isEmpty()) {
       final Object obj = ssel.getFirstElement();
 
       final AbstractObject model = getModel();
+      @SuppressWarnings("unchecked")
       final Map<Object, Object> oldMap = (Map<Object, Object>) model.getValue(this.parameterName);
       final Map<Object, Object> newMap = new TreeMap<>(oldMap);
-      newMap.remove(((Entry<Object, Object>) obj).getKey());
+      @SuppressWarnings("unchecked")
+      final Entry<Object, Object> entry = (Entry<Object, Object>) obj;
+      newMap.remove(entry.getKey());
 
       final IWorkbenchPart part = getPart();
       if (part instanceof GraphEditor) {

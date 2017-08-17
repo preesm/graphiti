@@ -44,6 +44,7 @@
 <?eclipse version="3.4"?>
 
 <plugin>
-   <extension-point id="definition" name="definition" schema="schema/definition.exsd"/>
+   <extension-point id="graphiti.definition" name="Graphiti Definitition" schema="schema/definition.exsd"/>
+
 
 </plugin>

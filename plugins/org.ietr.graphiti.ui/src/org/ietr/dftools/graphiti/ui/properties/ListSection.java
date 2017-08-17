@@ -48,7 +48,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -64,7 +63,6 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ietr.dftools.graphiti.model.AbstractObject;
 import org.ietr.dftools.graphiti.ui.editors.GraphEditor;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class defines a list section.
  *
@@ -104,15 +102,6 @@ public class ListSection extends AbstractSection {
     /*
      * (non-Javadoc)
      *
-     * @see org.eclipse.jface.viewers.IContentProvider#dispose()
-     */
-    @Override
-    public void dispose() {
-    }
-
-    /*
-     * (non-Javadoc)
-     *
      * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
      */
     @Override
@@ -120,15 +109,6 @@ public class ListSection extends AbstractSection {
       final AbstractObject model = (AbstractObject) inputElement;
       final java.util.List<?> list = (java.util.List<?>) model.getValue(ListSection.this.parameterName);
       return list.toArray();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
-     */
-    @Override
-    public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
     }
 
   }
@@ -193,9 +173,9 @@ public class ListSection extends AbstractSection {
      * @see org.eclipse.jface.viewers.EditingSupport#setValue(java.lang.Object, java.lang.Object)
      */
     @Override
-    @SuppressWarnings("unchecked")
     protected void setValue(final Object element, final Object value) {
       final AbstractObject model = (AbstractObject) getViewer().getInput();
+      @SuppressWarnings("unchecked")
       final java.util.List<Object> oldList = (java.util.List<Object>) model.getValue(ListSection.this.parameterName);
       final int index = oldList.indexOf(element);
       if ((index == -1) || oldList.get(index).equals(value)) {
@@ -221,7 +201,6 @@ public class ListSection extends AbstractSection {
    * @see org.ietr.dftools.graphiti.ui.properties.AbstractSection#buttonAddSelected()
    */
   @Override
-  @SuppressWarnings("unchecked")
   protected void buttonAddSelected() {
     final AbstractObject model = getModel();
 
@@ -231,6 +210,7 @@ public class ListSection extends AbstractSection {
     final InputDialog dialog = new InputDialog(getShell(), dialogTitle, dialogMessage, initialValue, newText -> newText.isEmpty() ? "" : null);
 
     if (dialog.open() == Window.OK) {
+      @SuppressWarnings("unchecked")
       final List<Object> oldList = (List<Object>) model.getValue(this.parameterName);
       final List<Object> newList = new ArrayList<>(oldList);
       newList.add(dialog.getValue());
@@ -250,13 +230,13 @@ public class ListSection extends AbstractSection {
    * @see org.ietr.dftools.graphiti.ui.properties.AbstractSection#buttonRemoveSelected()
    */
   @Override
-  @SuppressWarnings("unchecked")
   protected void buttonRemoveSelected() {
     final IStructuredSelection ssel = getTableSelection();
     if ((ssel != null) && !ssel.isEmpty()) {
       final Object obj = ssel.getFirstElement();
 
       final AbstractObject model = getModel();
+      @SuppressWarnings("unchecked")
       final List<Object> oldList = (List<Object>) model.getValue(this.parameterName);
       final List<Object> newList = new ArrayList<>(oldList);
       newList.remove(obj);
@@ -368,13 +348,13 @@ public class ListSection extends AbstractSection {
    * @param offset
    *          the offset
    */
-  @SuppressWarnings("unchecked")
   private void shiftValue(final int offset) {
     final IStructuredSelection ssel = getTableSelection();
     if ((ssel != null) && !ssel.isEmpty()) {
       final Object obj = ssel.getFirstElement();
 
       final AbstractObject model = getModel();
+      @SuppressWarnings("unchecked")
       final List<Object> oldList = (List<Object>) model.getValue(this.parameterName);
       final List<Object> newList = new ArrayList<>(oldList);
 

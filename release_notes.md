@@ -1,6 +1,17 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.4.2
+*2017.08.17*
+
+### New Feature
+
+### Changes
+* Upgrade to Eclipse Oxygen;
+* Rename extension point;
+
+### Bug fix
+
 ## Release version 1.4.1
 *2017.07.18*
 

@@ -3,7 +3,7 @@
 <schema targetNamespace="org.ietr.dftools.graphiti.model" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.ietr.dftools.graphiti.model" id="definition" name="definition"/>
+         <meta.schema plugin="org.ietr.dftools.graphiti.model" id="graphiti.definition" name="Graphiti Definitition"/>
       </appinfo>
       <documentation>
          Definition of a configuration.
@@ -23,21 +23,21 @@
          <attribute name="point" type="string" use="required">
             <annotation>
                <documentation>
-                  
+
                </documentation>
             </annotation>
          </attribute>
          <attribute name="id" type="string">
             <annotation>
                <documentation>
-                  
+
                </documentation>
             </annotation>
          </attribute>
          <attribute name="name" type="string">
             <annotation>
                <documentation>
-                  
+
                </documentation>
                <appinfo>
                   <meta.attribute translatable="true"/>
@@ -177,7 +177,7 @@
          <attribute name="directed" type="boolean" use="required">
             <annotation>
                <documentation>
-                  
+
                </documentation>
             </annotation>
          </attribute>
@@ -228,21 +228,21 @@
          <attribute name="red" type="string" use="required">
             <annotation>
                <documentation>
-                  
+
                </documentation>
             </annotation>
          </attribute>
          <attribute name="green" type="string" use="required">
             <annotation>
                <documentation>
-                  
+
                </documentation>
             </annotation>
          </attribute>
          <attribute name="blue" type="string" use="required">
             <annotation>
                <documentation>
-                  
+
                </documentation>
             </annotation>
          </attribute>
@@ -286,14 +286,14 @@
          <attribute name="width" type="string" use="required">
             <annotation>
                <documentation>
-                  
+
                </documentation>
             </annotation>
          </attribute>
          <attribute name="height" type="string" use="required">
             <annotation>
                <documentation>
-                  
+
                </documentation>
             </annotation>
          </attribute>
@@ -333,7 +333,7 @@
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  
+
                </documentation>
                <appinfo>
                   <meta.attribute kind="resource"/>
@@ -348,7 +348,7 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  
+
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn=":org.ietr.dftools.graphiti.io.ITransformation"/>

@@ -65,7 +65,6 @@ import org.ietr.dftools.graphiti.ui.editpolicies.LayoutPolicy;
 import org.ietr.dftools.graphiti.ui.properties.ModelPropertySource;
 import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class extends {@link AbstractGraphicalEditPart} by setting its figure layout manager to {@link GraphLayoutManager}. It also extends the
  * {@link EditPart#isSelectable()} method to return false, causing the selection tool to act like the marquee tool when no particular children has been
@@ -75,11 +74,6 @@ import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
  *
  */
 public class GraphEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, ITabbedPropertySheetPageContributor {
-
-  /**
-   * The subgraph associated with this graph edit part. Set by {@link GraphEditPart#addNodes}.
-   */
-  private Subgraph subgraph;
 
   /*
    * (non-Javadoc)
@@ -116,18 +110,19 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
    */
   @SuppressWarnings("unchecked")
   void addNodes(final NodeList nodes) {
-    this.subgraph = new Subgraph(this);
-    this.subgraph.innerPadding = new Insets(0, 0, 0, 0);
-    this.subgraph.insets = new Insets(20, 0, 0, 0);
+    final Subgraph subgraph = new Subgraph(this);
+    subgraph.innerPadding = new Insets(0, 0, 0, 0);
+    subgraph.insets = new Insets(20, 0, 0, 0);
     final Figure figure = (Figure) getFigure();
-    this.subgraph.setSize(figure.getPreferredSize());
-    this.subgraph.setPadding(new Insets(2, 2, 2, 2));
-    nodes.add(this.subgraph);
+    subgraph.setSize(figure.getPreferredSize());
+    subgraph.setPadding(new Insets(2, 2, 2, 2));
+
+    nodes.add(subgraph);
 
     for (final Object child : getChildren()) {
       if (child instanceof VertexEditPart) {
         final VertexEditPart part = (VertexEditPart) child;
-        part.addNodes(nodes, this.subgraph);
+        part.addNodes(nodes, subgraph);
       }
     }
   }
@@ -177,7 +172,6 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
     final ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
     final ShortestPathConnectionRouter router = new ShortestPathConnectionRouter(f);
     router.setSpacing(2);
-    // ManhattanConnectionRouter router = new ManhattanConnectionRouter();
     connLayer.setConnectionRouter(router);
 
     return f;
@@ -248,9 +242,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
    */
   @Override
   public void propertyChange(final PropertyChangeEvent evt) {
-    if (evt.getPropertyName().equals(Graph.PROPERTY_ADD)) {
-      refresh();
-    } else if (evt.getPropertyName().equals(Graph.PROPERTY_REMOVE)) {
+    if (evt.getPropertyName().equals(Graph.PROPERTY_ADD) || evt.getPropertyName().equals(Graph.PROPERTY_REMOVE)) {
       refresh();
     }
   }

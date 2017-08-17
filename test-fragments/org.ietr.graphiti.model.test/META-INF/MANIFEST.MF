@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Graphiti model plug-in Test
 Bundle-SymbolicName: org.ietr.graphiti.model.test
-Bundle-Version: 1.4.1
+Bundle-Version: 1.4.2
 Bundle-Vendor: IETR/INSA Rennes
 Fragment-Host: org.ietr.graphiti.model
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

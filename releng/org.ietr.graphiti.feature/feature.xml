@@ -45,7 +45,7 @@
 <feature
       id="org.ietr.graphiti.feature"
       label="Graphiti Editor"
-      version="1.4.1"
+      version="1.4.2"
       provider-name="IETR/INSA Rennes">
 
    <description url="http://preesm.sourceforge.net/website/">
@@ -578,8 +578,8 @@ Version 1.0 dated 2006-09-05.]]>
    <!-- The following section tells where to lookup missing imported features -->
    <url>
       <!-- Eclipse main repos -->
-      <discovery label="Neon" url="http://mirror.ibcp.fr/pub/eclipse/releases/neon/"/>
-      <discovery label="Neon Updates" url="http://mirror.ibcp.fr/pub/eclipse/eclipse/updates/4.6"/>
+      <discovery label="Oxygen" url="http://mirror.ibcp.fr/pub/eclipse/releases/oxygen/"/>
+      <discovery label="Oxygen Updates" url="http://mirror.ibcp.fr/pub/eclipse/eclipse/updates/4.7"/>
 
       <!-- Preesm Repo -->
       <discovery label="Preesm" url="http://preesm.sourceforge.net/gensite/update-site/complete/"/>
@@ -589,14 +589,14 @@ Version 1.0 dated 2006-09-05.]]>
          id="org.ietr.graphiti.model"
          download-size="0"
          install-size="0"
-         version="1.4.1"
+         version="1.4.2"
          unpack="false"/>
 
    <plugin
          id="org.ietr.graphiti.ui"
          download-size="0"
          install-size="0"
-         version="1.4.1"
+         version="1.4.2"
          unpack="false"/>
 
 </feature>

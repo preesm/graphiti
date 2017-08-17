@@ -46,7 +46,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class is the base class for any object in the model. It has the ability to store properties. Classes may listen to property change events by registering
  * themselves using {@link #addPropertyChangeListener(PropertyChangeListener)}.
@@ -80,7 +79,6 @@ public abstract class AbstractObject {
    * @param bean
    *          The source bean.
    */
-  @SuppressWarnings("unchecked")
   protected AbstractObject(final AbstractObject bean) {
     this.propertyChange = new PropertyChangeSupport(this);
     this.properties = new LinkedHashMap<>();
@@ -89,18 +87,13 @@ public abstract class AbstractObject {
     final Set<Entry<String, Object>> entries = bean.properties.entrySet();
     for (final Entry<String, Object> entry : entries) {
       Object value = entry.getValue();
-      if (value instanceof String) {
-        value = new String((String) value);
-      } else if (value instanceof Integer) {
-        value = new Integer((Integer) value);
-      } else if (value instanceof Float) {
-        value = new Float((Float) value);
+      if (value instanceof String || value instanceof Integer || value instanceof Float) {
+        // Primitive types are immutable, no need to copy them
       } else if (value instanceof List<?>) {
         value = new ArrayList<Object>((List<?>) value);
       } else if (value instanceof Map<?, ?>) {
-        value = new TreeMap<>((Map<String, Object>) value);
+        value = new TreeMap<>((Map<?, ?>) value);
       }
-
       this.properties.put(entry.getKey(), value);
     }
   }

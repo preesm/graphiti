@@ -38,6 +38,7 @@ package org.ietr.dftools.graphiti.ui.actions;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Collections;
 import java.util.List;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.util.LocalSelectionTransfer;
@@ -51,7 +52,6 @@ import org.ietr.dftools.graphiti.ui.commands.copyPaste.PasteCommand;
 import org.ietr.dftools.graphiti.ui.editparts.GraphEditPart;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides an implementation of the paste action.
  *
@@ -83,7 +83,7 @@ public class PasteAction extends SelectionAction implements PropertyChangeListen
     // either the selected object is a GraphEditPart or a VertexEditPart
     final List<?> selection = getSelectedObjects();
     final List<?> vertices = getClipboardContents();
-    return ((vertices != null) && (vertices.isEmpty() == false) && (vertices.get(0) instanceof Vertex) && (selection != null) && (selection.size() == 1)
+    return ((vertices != null) && (!vertices.isEmpty()) && (vertices.get(0) instanceof Vertex) && (selection != null) && (selection.size() == 1)
         && ((selection.get(0) instanceof GraphEditPart) || (selection.get(0) instanceof VertexEditPart)));
   }
 
@@ -98,7 +98,7 @@ public class PasteAction extends SelectionAction implements PropertyChangeListen
     if (data instanceof IStructuredSelection) {
       return ((IStructuredSelection) data).toList();
     } else {
-      return null;
+      return Collections.emptyList();
     }
   }
 
