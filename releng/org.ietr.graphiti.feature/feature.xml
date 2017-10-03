@@ -585,6 +585,11 @@ Version 1.0 dated 2006-09-05.]]>
       <discovery label="Preesm" url="http://preesm.sourceforge.net/gensite/update-site/complete/"/>
    </url>
 
+   <requires>
+      <!-- TM Terminal -->
+      <import feature="org.eclipse.tm.terminal.feature"/>
+   </requires>
+
    <plugin
          id="org.ietr.graphiti.model"
          download-size="0"
