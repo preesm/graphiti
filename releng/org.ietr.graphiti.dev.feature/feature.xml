@@ -38,7 +38,7 @@
 <feature
       id="org.ietr.graphiti.dev.feature"
       label="Graphiti Developper Requirements (Meta Feature)"
-      version="1.4.2">
+      version="1.4.3">
 
    <description url="http://preesm.sourceforge.net/website/">
       This feature embeds all required Eclipse plugins for developping Graphiti. That includes XTend, GEF, EMF, Graphiti (Eclipse) Plus SDKs, along with Checkstyle integration for Eclipse, Maven integration for Eclipse (and appropriate extension), and third party libraries.
@@ -599,6 +599,7 @@ Version 1.0 dated 2006-09-05.]]>
       <import feature="org.eclipse.gef.sdk"/>
       <import feature="org.eclipse.emf.sdk"/>
       <import feature="org.eclipse.graphiti.sdk.plus.feature"/>
+      <import feature="org.eclipse.graphiti.sdk.plus.feature.source"/>
 
       <!-- Git & Checkstyle -->
       <import feature="org.eclipse.egit"/>
@@ -610,6 +611,8 @@ Version 1.0 dated 2006-09-05.]]>
       <import feature="org.sonatype.tycho.m2e.feature"/>
       <import feature="nl.topicus.m2e.settings.feature"/>
 
+      <!-- TM Terminal -->
+      <import feature="org.eclipse.tm.terminal.feature"/>
 
 	  <!-- IETR dependencies -->
       <import feature="org.ietr.externaldeps.aio.deps"/>
