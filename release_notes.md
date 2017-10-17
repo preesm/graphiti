@@ -11,6 +11,8 @@ Graphiti Changelog
 ### Changes
 
 ### Bug fix
+* Fix Palette rendering: use deprecated method for compatibility with pre-Oxygen based distros;
+
 
 ## Release version 1.4.2
 *2017.08.17*
