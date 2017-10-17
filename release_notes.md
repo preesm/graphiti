@@ -1,18 +1,15 @@
 Graphiti Changelog
 ==================
 
-## Release version X.Y.Z
-*XXXX.XX.XX*
+## Release version 1.4.3
+*2017.10.17*
 
 ### New Feature
 * Add feature dependency to TM Terminal to have easy terminal access;
 * Add feature dependency to Graphiti SDK Plus source;
 
-### Changes
-
 ### Bug fix
 * Fix Palette rendering: use deprecated method for compatibility with pre-Oxygen based distros;
-
 
 ## Release version 1.4.2
 *2017.08.17*
