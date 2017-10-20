@@ -7,8 +7,8 @@ Graphiti is a generic graph editor created by IETR/INSA - Rennes shipped as an E
 
 | branch  | build status | Codacy | SonarCloud |
 | ------------- | ------------- |  ------------- | ------------- |
-| master  | [![Build Status](https://travis-ci.org/preesm/graphiti.svg?branch=master)](https://travis-ci.org/preesm/graphiti/branches)  | todo | todo |
-| develop  | [![Build Status](https://travis-ci.org/preesm/graphiti.svg?branch=develop)](https://travis-ci.org/preesm/graphiti/branches)  | todo | todo |
+| master  | [![Build Status](https://travis-ci.org/preesm/graphiti.svg?branch=master)](https://travis-ci.org/preesm/graphiti/branches)  | todo | [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.ietr.graphiti:org.ietr.graphiti.parent)](https://sonarcloud.io/dashboard/index/org.ietr.graphiti:org.ietr.graphiti.parent) |
+| develop  | [![Build Status](https://travis-ci.org/preesm/graphiti.svg?branch=develop)](https://travis-ci.org/preesm/graphiti/branches)  | todo | [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.ietr.graphiti:org.ietr.graphiti.parent:develop)](https://sonarcloud.io/dashboard/index/org.ietr.graphiti:org.ietr.graphiti.parent:develop) |
 
 ## Documentation
 
