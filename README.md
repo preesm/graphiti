@@ -1,6 +1,8 @@
 Graphiti
 ========
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/32ca349e47bb4d4384492cc758d2fe50)](https://www.codacy.com/app/preesm/graphiti_2?utm_source=github.com&utm_medium=referral&utm_content=preesm/graphiti&utm_campaign=badger)
+
 Graphiti is a generic graph editor created by IETR/INSA - Rennes shipped as an Eclipse plug-in.
 
 ## Documentation
