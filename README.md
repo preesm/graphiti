@@ -5,10 +5,10 @@ Graphiti is a generic graph editor created by IETR/INSA - Rennes shipped as an E
 
 ## Build Status
 
-| branch  | build status | Codacy | SonarCloud |
-| ------------- | ------------- |  ------------- | ------------- |
-| master  | [![Build Status](https://travis-ci.org/preesm/graphiti.svg?branch=master)](https://travis-ci.org/preesm/graphiti/branches)  | todo | [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.ietr.graphiti:org.ietr.graphiti.parent)](https://sonarcloud.io/dashboard/index/org.ietr.graphiti:org.ietr.graphiti.parent) |
-| develop  | [![Build Status](https://travis-ci.org/preesm/graphiti.svg?branch=develop)](https://travis-ci.org/preesm/graphiti/branches)  | todo | [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.ietr.graphiti:org.ietr.graphiti.parent:develop)](https://sonarcloud.io/dashboard/index/org.ietr.graphiti:org.ietr.graphiti.parent:develop) |
+| branch  | build status | SonarCloud |
+| ------------- | ------------- |  ------------- |
+| master  | [![Build Status](https://travis-ci.org/preesm/graphiti.svg?branch=master)](https://travis-ci.org/preesm/graphiti/branches)  | [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.ietr.graphiti:org.ietr.graphiti.parent)](https://sonarcloud.io/dashboard/index/org.ietr.graphiti:org.ietr.graphiti.parent) [![nbloc](https://sonarcloud.io/api/badges/measure?key=org.ietr.graphiti:org.ietr.graphiti.parent&metric=ncloc)](https://sonarcloud.io/dashboard/index/org.ietr.graphiti:org.ietr.graphiti.parent) [![Coverage](https://sonarcloud.io/api/badges/measure?key=org.ietr.graphiti:org.ietr.graphiti.parent&metric=coverage)](https://sonarcloud.io/dashboard/index/org.ietr.graphiti:org.ietr.graphiti.parent) |
+| develop  | [![Build Status](https://travis-ci.org/preesm/graphiti.svg?branch=develop)](https://travis-ci.org/preesm/graphiti/branches)  | [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.ietr.graphiti:org.ietr.graphiti.parent:develop)](https://sonarcloud.io/dashboard/index/org.ietr.graphiti:org.ietr.graphiti.parent:develop) [![nbloc](https://sonarcloud.io/api/badges/measure?key=org.ietr.graphiti:org.ietr.graphiti.parent:develop&metric=ncloc)](https://sonarcloud.io/dashboard/index/org.ietr.graphiti:org.ietr.graphiti.parent:develop) [![Coverage](https://sonarcloud.io/api/badges/measure?key=org.ietr.graphiti:org.ietr.graphiti.parent:develop&metric=coverage)](https://sonarcloud.io/dashboard/index/org.ietr.graphiti:org.ietr.graphiti.parent:develop) |
 
 ## Documentation
 
