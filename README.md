@@ -3,6 +3,15 @@ Graphiti
 
 Graphiti is a generic graph editor created by IETR/INSA - Rennes shipped as an Eclipse plug-in.
 
+## Build Status
+
+| branch  | build status | Codacy | SonarCloud |
+| ------------- | ------------- |  ------------- | ------------- |
+| master  | [![Build Status](https://travis-ci.org/preesm/graphiti.svg?branch=master)](https://travis-ci.org/preesm/graphiti/branches)  | todo | todo |
+| develop  | [![Build Status](https://travis-ci.org/preesm/graphiti.svg?branch=develop)](https://travis-ci.org/preesm/graphiti/branches)  | todo | todo |
+
+
+
 ## Documentation
 
 Documentation is available online at http://preesm.sourceforge.net/website/
