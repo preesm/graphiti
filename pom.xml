@@ -41,6 +41,7 @@
   <artifactId>org.ietr.graphiti.parent</artifactId>
   <version>1.4.3-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <name>Graphiti</name>
 
   <properties>
     <jacoco-version>0.7.9</jacoco-version>
