@@ -1,6 +1,17 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.4.4
+*2017.10.31*
+
+### New Feature
+
+### Changes
+* Add travis file;
+* Update project info in POM file;
+
+### Bug fix
+
 ## Release version 1.4.3
 *2017.10.17*
 
