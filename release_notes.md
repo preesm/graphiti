@@ -7,6 +7,7 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Add dependencies to Ecore Diagram Tools, Xcore and Sonarlint (dev feature), and CDT (dev + normal feature);
 
 ### Bug fix
 

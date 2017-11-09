@@ -586,8 +586,11 @@ Version 1.0 dated 2006-09-05.]]>
    </url>
 
    <requires>
-      <!-- TM Terminal -->
+      <!-- TM Terminal (from Eclipse repos) -->
       <import feature="org.eclipse.tm.terminal.feature"/>
+
+      <!-- C Editor within Eclipse (from Eclipse repos)  -->
+      <import plugin="org.eclipse.cdt"/>
    </requires>
 
    <plugin
