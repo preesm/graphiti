@@ -1,6 +1,17 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.4.5
+*2017.11.14*
+
+### New Feature
+
+### Changes
+* Add dependencies to Ecore Diagram Tools, Xcore and Sonarlint (dev feature), and CDT (dev + normal feature);
+* Force externaldeps to 1.3.0+
+
+### Bug fix
+
 ## Release version 1.4.4
 *2017.10.31*
 

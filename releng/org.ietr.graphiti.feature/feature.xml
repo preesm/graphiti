@@ -45,7 +45,7 @@
 <feature
       id="org.ietr.graphiti.feature"
       label="Graphiti Editor"
-      version="1.4.4"
+      version="1.4.5"
       provider-name="IETR/INSA Rennes">
 
    <description url="http://preesm.sourceforge.net/website/">
@@ -586,22 +586,25 @@ Version 1.0 dated 2006-09-05.]]>
    </url>
 
    <requires>
-      <!-- TM Terminal -->
+      <!-- TM Terminal (from Eclipse repos) -->
       <import feature="org.eclipse.tm.terminal.feature"/>
+
+      <!-- C Editor within Eclipse (from Eclipse repos)  -->
+      <import feature="org.eclipse.cdt"/>
    </requires>
 
    <plugin
          id="org.ietr.graphiti.model"
          download-size="0"
          install-size="0"
-         version="1.4.4"
+         version="1.4.5"
          unpack="false"/>
 
    <plugin
          id="org.ietr.graphiti.ui"
          download-size="0"
          install-size="0"
-         version="1.4.4"
+         version="1.4.5"
          unpack="false"/>
 
 </feature>

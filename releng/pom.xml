@@ -43,7 +43,7 @@
   <parent>
     <groupId>org.ietr.graphiti</groupId>
     <artifactId>org.ietr.graphiti.parent</artifactId>
-    <version>1.4.4</version>
+    <version>1.4.5</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -53,6 +53,11 @@
       <id>Checkstyle</id>
       <layout>p2</layout>
       <url>http://eclipse-cs.sf.net/update/</url>
+    </repository>
+    <repository>
+      <id>Sonarlint</id>
+      <layout>p2</layout>
+      <url>http://eclipse.sonarlint.org/</url>
     </repository>
 
     <repository>

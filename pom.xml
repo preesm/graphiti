@@ -39,7 +39,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.ietr.graphiti</groupId>
   <artifactId>org.ietr.graphiti.parent</artifactId>
-  <version>1.4.4</version>
+  <version>1.4.5</version>
   <packaging>pom</packaging>
 
   <!-- More Project Information -->
@@ -260,6 +260,7 @@
           <configLocation>/VAADER_checkstyle.xml</configLocation>
           <failsOnError>true</failsOnError>
           <includes>**/*.java</includes>
+          <consoleOutput>true</consoleOutput>
         </configuration>
         <dependencies>
           <!-- get settings -->
