@@ -86,16 +86,31 @@ git checkout $DEV_BRANCH
 git reset --hard
 git clean -xdf
 
-./releng/fix_header_copyright_and_authors.sh
-#update version in code and create commit
+#update version in code and stash
 ./releng/update-version.sh $NEW_VERSION
 sed -i -e "s/X\.Y\.Z/$NEW_VERSION/g" release_notes.md
 sed -i -e "s/XXXX\.XX\.XX/$TODAY_DATE/g" release_notes.md
+git stash
+
+# Fix headers
+./releng/fix_header_copyright_and_authors.sh
+
+# make sure integration works before deploying and pushing
+git stash apply
+./releng/build_and_test.sh
+
+# commit fixed headers (if any)
+git reset --hard
+NBCHANGES=`git status --porcelain | wc -l`
+if [ $NBCHANGES -ne 0 ]; then
+  git add -A
+  git commit -m "[RELENG] Fix headers"
+fi
+
+# pop version update
+git stash pop
 git add -A
 git commit -m "[RELENG] Prepare version $NEW_VERSION"
-
-# make sure integration works before deplying and pushing
-#TODO
 
 #merge in master, add tag
 git checkout $MAIN_BRANCH
@@ -131,10 +146,3 @@ git checkout master
 git push
 git push --tags
 ./releng/deploy.sh
-
-#get back to original branch and restore work
-git checkout $CURRENT_BRANCH
-STASH_COUNT=`git stash list | wc -l`
-[ "$STASH_COUNT" != "0" ] && git stash pop
-#get back to original dir
-cd $ORIG_DIR
