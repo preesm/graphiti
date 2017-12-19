@@ -4,6 +4,9 @@
 DEV_BRANCH=develop
 MAIN_BRANCH=master
 
+CURRENT_VERSION=`mvn -B -Dtycho.mode=maven help:evaluate -Dexpression=project.version | grep -v 'INFO'`
+[ "$#" -ne "1" ] && echo -e "usage: $0 <new version>\nNote: current version = ${CURRENT_VERSION}" && exit 1
+
 # First check access on git (will exit on error)
 echo "Testing Github permission"
 git ls-remote git@github.com:preesm/graphiti.git > /dev/null
@@ -62,8 +65,6 @@ echo "Testing SourceForge permission using Maven Sftp plugin"
 (cd $TMPDIR && mvn -q verify)
 rm -rf $TMPDIR
 
-### Commands
-[ "$#" -ne "1" ] && echo "usage: $0 <new version>" && exit 1
 
 #warning
 echo "Warning: this script will delete ignored files and remove all changes in $DEV_BRANCH and $MAIN_BRANCH"
