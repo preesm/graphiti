@@ -342,7 +342,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.0.1</version>
+        <version>3.0.2</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -390,6 +390,7 @@
     <module>plugins/org.ietr.graphiti.ui</module>
 
     <module>test-fragments</module>
+    <module>releng</module>
   </modules>
 
   <profiles>
@@ -418,10 +419,7 @@
       - generate source plugin - attach meta-data - enable feature and complete
       site modules * complete site includes p2 repo and aggregated javadoc -->
     <profile>
-      <id>releng</id>
-      <modules>
-        <module>releng</module>
-      </modules>
+      <id>doUpdateSite</id>
       <build>
         <plugins>
           <plugin>
