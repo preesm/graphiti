@@ -87,7 +87,7 @@ git checkout $DEV_BRANCH
 git reset --hard
 git clean -xdf
 
-#update version in code and stash
+#update version in code and stash changes
 ./releng/update-version.sh $NEW_VERSION
 sed -i -e "s/X\.Y\.Z/$NEW_VERSION/g" release_notes.md
 sed -i -e "s/XXXX\.XX\.XX/$TODAY_DATE/g" release_notes.md
@@ -95,21 +95,18 @@ git stash
 
 # Fix headers
 ./releng/fix_header_copyright_and_authors.sh
-
-# make sure integration works before deploying and pushing
-git stash apply
-./releng/build_and_test.sh
-
 # commit fixed headers (if any)
-git reset --hard
 NBCHANGES=`git status --porcelain | wc -l`
 if [ $NBCHANGES -ne 0 ]; then
   git add -A
   git commit -m "[RELENG] Fix headers"
 fi
 
-# pop version update
-git stash pop
+# make sure integration works before deploying and pushing
+git stash apply
+./releng/build_and_test.sh
+
+#commit new version in develop
 git add -A
 git commit -m "[RELENG] Prepare version $NEW_VERSION"
 
@@ -140,10 +137,13 @@ cat tmp >> release_notes.md
 rm tmp
 git add -A
 git commit -m "[RELENG] Move to snapshot version"
-git push
 
-#deploy and push master (that is new version)
-git checkout master
+#deploy from master
+git checkout $MAIN_BRANCH
+./releng/deploy.sh
+
+#push if everything went fine
 git push
 git push --tags
-./releng/deploy.sh
+git checkout $DEV_BRANCH
+git push
