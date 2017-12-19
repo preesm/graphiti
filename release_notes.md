@@ -8,6 +8,7 @@ Graphiti Changelog
 
 ### Changes
 * Update releng scripts;
+* Add dependency to RCPTT in the dev feature;
 
 ### Bug fix
 
