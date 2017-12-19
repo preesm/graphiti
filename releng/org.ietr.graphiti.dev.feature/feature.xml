@@ -38,7 +38,7 @@
 <feature
       id="org.ietr.graphiti.dev.feature"
       label="Graphiti Developper Requirements (Meta Feature)"
-      version="1.4.5">
+      version="1.4.6">
 
    <description url="http://preesm.sourceforge.net/website/">
       This feature embeds all required Eclipse plugins for developping Graphiti. That includes XTend, GEF, EMF, Graphiti (Eclipse) Plus SDKs, along with Checkstyle integration for Eclipse, Maven integration for Eclipse (and appropriate extension), and third party libraries.
@@ -576,6 +576,9 @@ Version 1.0 dated 2006-09-05.]]>
 	  <!-- TMF Repo for latest xtend -->
       <discovery label="TMF Releases" url="http://mirror.ibcp.fr/pub/eclipse/modeling/tmf/xtext/updates/releases/"/>
 
+	  <!-- RCPTT -->
+      <discovery label="RCPTT" url="http://download.eclipse.org/rcptt/release/2.2.0/repository/"/>
+
 	  <!-- M2E extension -->
       <discovery label="M2E Tycho" url="http://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/0.9.0/N/LATEST/"/>
       <discovery label="M2E Code Quality Connectors" url="http://m2e-code-quality.github.io/m2e-code-quality/site/latest/"/>
@@ -604,6 +607,9 @@ Version 1.0 dated 2006-09-05.]]>
       <import feature="org.eclipse.graphiti.sdk.plus.feature.source"/>
       <import feature="org.eclipse.emf.ecore.xcore.sdk"/>
 
+      <!-- UI Testing -->
+      <import feature="org.eclipse.rcptt.platform"/>
+
       <!-- Git & Checkstyle -->
       <import feature="org.eclipse.egit"/>
       <import feature="net.sf.eclipsecs"/>
@@ -621,7 +627,7 @@ Version 1.0 dated 2006-09-05.]]>
       <import feature="org.eclipse.cdt"/>
 
 	  <!-- IETR dependencies -->
-      <import feature="org.ietr.externaldeps.aio.deps" version="1.3.0" match="greaterOrEqual"/>
+      <import feature="org.ietr.externaldeps.aio.deps" version="1.4.0" match="greaterOrEqual"/>
    </requires>
 
 </feature>

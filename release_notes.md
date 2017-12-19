@@ -1,6 +1,18 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.4.6
+*2017.12.19*
+
+### New Feature
+
+### Changes
+* Update releng scripts;
+* Add dependency to RCPTT in the dev feature;
+* disable javadoc generation (source is available via the Dev Features and source plugins);
+
+### Bug fix
+
 ## Release version 1.4.5
 *2017.11.14*
 

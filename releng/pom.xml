@@ -43,12 +43,18 @@
   <parent>
     <groupId>org.ietr.graphiti</groupId>
     <artifactId>org.ietr.graphiti.parent</artifactId>
-    <version>1.4.5</version>
+    <version>1.4.6</version>
     <relativePath>..</relativePath>
   </parent>
 
   <!-- Extra repositories for building the all-in-one dev feature -->
   <repositories>
+    <repository>
+      <id>RCPTT</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/rcptt/release/2.2.0/repository/</url>
+    </repository>
+
     <repository>
       <id>Checkstyle</id>
       <layout>p2</layout>
