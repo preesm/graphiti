@@ -7,6 +7,7 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* update release scripts (including travis and jenkins files)
 
 ### Bug fix
 
