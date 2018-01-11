@@ -62,7 +62,8 @@ import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
  * @author Nicolas Isch
  *
  */
-public class EdgeEditPart extends AbstractConnectionEditPart implements PropertyChangeListener, ITabbedPropertySheetPageContributor {
+public class EdgeEditPart extends AbstractConnectionEditPart
+    implements PropertyChangeListener, ITabbedPropertySheetPageContributor {
 
   /*
    * (non-Javadoc)

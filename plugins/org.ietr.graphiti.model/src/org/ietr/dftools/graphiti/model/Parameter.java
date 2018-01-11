@@ -43,7 +43,8 @@ import java.util.TreeMap;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class provides a parameter associated with an object (vertex, graph, edge). It has a name, a type, and a position.
+ * This class provides a parameter associated with an object (vertex, graph, edge). It has a name, a type, and a
+ * position.
  *
  * @author Jonathan Piat
  * @author Matthieu Wipliez

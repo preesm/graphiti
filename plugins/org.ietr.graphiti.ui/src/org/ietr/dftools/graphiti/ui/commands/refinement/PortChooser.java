@@ -60,8 +60,8 @@ import org.ietr.dftools.graphiti.model.Vertex;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class provides facilities to prompt the user for a source port or target port by parsing the refinement (if any), or by asking the user to enter a port
- * name.
+ * This class provides facilities to prompt the user for a source port or target port by parsing the refinement (if
+ * any), or by asking the user to enter a port name.
  *
  * @author Matthieu Wipliez
  *
@@ -95,7 +95,8 @@ public class PortChooser {
     /*
      * (non-Javadoc)
      *
-     * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+     * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object,
+     * java.lang.Object)
      */
     @Override
     public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
@@ -116,8 +117,8 @@ public class PortChooser {
   }
 
   /**
-   * Displays a {@link ListDialog} filled with the given port list, asking the user to choose one. The <code>edgePort</code> string is used to identify the port
-   * (ie source or target) to choose.
+   * Displays a {@link ListDialog} filled with the given port list, asking the user to choose one. The
+   * <code>edgePort</code> string is used to identify the port (ie source or target) to choose.
    *
    * @param ports
    *          A list of port names.
@@ -161,8 +162,8 @@ public class PortChooser {
    * @param edgePort
    *          The label to use when prompting the user to choose ("source port" or "target port").
    * @param portTypes
-   *          An array where each entry is a valid port type in this context, either {@link Vertex#TYPE_INPUT_PORT}, {@link Vertex#TYPE_OUTPUT_PORT} or
-   *          {@link Vertex#TYPE_PORT}.
+   *          An array where each entry is a valid port type in this context, either {@link Vertex#TYPE_INPUT_PORT},
+   *          {@link Vertex#TYPE_OUTPUT_PORT} or {@link Vertex#TYPE_PORT}.
    * @return A port name if found, <code>null</code> otherwise.
    */
   private String getPort(final Vertex vertex, final String edgePort, final String[] portTypes) {
@@ -181,7 +182,8 @@ public class PortChooser {
   }
 
   /**
-   * Prompts the user for an arbitrary port name using a simple {@link InputDialog}. The <code>portName</code> parameter indicates the role of the given port.
+   * Prompts the user for an arbitrary port name using a simple {@link InputDialog}. The <code>portName</code> parameter
+   * indicates the role of the given port.
    *
    * @param portName
    *          "source port" or "target port".
@@ -192,7 +194,8 @@ public class PortChooser {
     final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
     final Shell shell = window.getShell();
 
-    final InputDialog dialog = new InputDialog(shell, "Connection: " + this.connection, "Please enter a " + portName + " name:", "", null);
+    final InputDialog dialog = new InputDialog(shell, "Connection: " + this.connection,
+        "Please enter a " + portName + " name:", "", null);
     dialog.open();
     final String value = dialog.getValue();
     if (value.isEmpty()) {
@@ -208,8 +211,8 @@ public class PortChooser {
    * @param sourceFile
    *          The source file as an {@link IFile}.
    * @param portTypes
-   *          An array where each entry is a valid port type in this context, either {@link Vertex#TYPE_INPUT_PORT}, {@link Vertex#TYPE_OUTPUT_PORT} or
-   *          {@link Vertex#TYPE_PORT}.
+   *          An array where each entry is a valid port type in this context, either {@link Vertex#TYPE_INPUT_PORT},
+   *          {@link Vertex#TYPE_OUTPUT_PORT} or {@link Vertex#TYPE_PORT}.
    * @return A list of port names.
    */
   private List<String> getPorts(final IFile sourceFile, final String[] portTypes) {

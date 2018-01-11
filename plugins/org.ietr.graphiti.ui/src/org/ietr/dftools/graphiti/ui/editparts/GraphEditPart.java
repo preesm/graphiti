@@ -66,14 +66,15 @@ import org.ietr.dftools.graphiti.ui.properties.ModelPropertySource;
 import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
 
 /**
- * This class extends {@link AbstractGraphicalEditPart} by setting its figure layout manager to {@link GraphLayoutManager}. It also extends the
- * {@link EditPart#isSelectable()} method to return false, causing the selection tool to act like the marquee tool when no particular children has been
- * selected.
+ * This class extends {@link AbstractGraphicalEditPart} by setting its figure layout manager to
+ * {@link GraphLayoutManager}. It also extends the {@link EditPart#isSelectable()} method to return false, causing the
+ * selection tool to act like the marquee tool when no particular children has been selected.
  *
  * @author Matthieu Wipliez
  *
  */
-public class GraphEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, ITabbedPropertySheetPageContributor {
+public class GraphEditPart extends AbstractGraphicalEditPart
+    implements PropertyChangeListener, ITabbedPropertySheetPageContributor {
 
   /*
    * (non-Javadoc)
@@ -102,8 +103,8 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
   }
 
   /**
-   * Adds nodes of this EditPart to the {@link NodeList} of the parent. This method sets size and padding for all nodes. Subgraph have insets equal to 20 (top)
-   * and 0 otherwise.
+   * Adds nodes of this EditPart to the {@link NodeList} of the parent. This method sets size and padding for all nodes.
+   * Subgraph have insets equal to 20 (top) and 0 otherwise.
    *
    * @param nodes
    *          A list of nodes in the graph.
@@ -248,8 +249,8 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements Property
   }
 
   /**
-   * This method is called by the {@link GraphLayoutManager}, and applies back the changes of the {@link CompoundDirectedGraphLayout} algorithm to the different
-   * figures, by setting their bounds.
+   * This method is called by the {@link GraphLayoutManager}, and applies back the changes of the
+   * {@link CompoundDirectedGraphLayout} algorithm to the different figures, by setting their bounds.
    */
   void updateFigures() {
     for (final Object child : getChildren()) {

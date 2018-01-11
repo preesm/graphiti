@@ -112,11 +112,13 @@ public class PropertyLocator extends ConnectionLocator {
     } else {
       ydirec = -1;
     }
-    if (this.pos.equals(ParameterPosition.West) || this.pos.equals(ParameterPosition.NorthWest) || this.pos.equals(ParameterPosition.SouthWest)) {
+    if (this.pos.equals(ParameterPosition.West) || this.pos.equals(ParameterPosition.NorthWest)
+        || this.pos.equals(ParameterPosition.SouthWest)) {
       final Point refP = conn.getPoints().getFirstPoint().getCopy();
       conn.getParent().translateToAbsolute(refP);
       p.setLocation(refP.x + (dec * xdirec), refP.y + (dec * ydirec));
-    } else if (this.pos.equals(ParameterPosition.East) || this.pos.equals(ParameterPosition.NorthEast) || this.pos.equals(ParameterPosition.SouthEast)) {
+    } else if (this.pos.equals(ParameterPosition.East) || this.pos.equals(ParameterPosition.NorthEast)
+        || this.pos.equals(ParameterPosition.SouthEast)) {
       final Point refP = conn.getPoints().getLastPoint().getCopy();
       conn.getParent().translateToAbsolute(refP);
       p.setLocation(refP.x - (dec * xdirec), refP.y - (dec * ydirec));

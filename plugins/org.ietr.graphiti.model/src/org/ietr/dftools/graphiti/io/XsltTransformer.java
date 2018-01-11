@@ -77,25 +77,29 @@ public class XsltTransformer {
   private Transformer transformer;
 
   /**
-   * Creates a new {@link XsltTransformer} with an XSLT stylesheet contained in the file whose name is <code>fileName</code>.
+   * Creates a new {@link XsltTransformer} with an XSLT stylesheet contained in the file whose name is
+   * <code>fileName</code>.
    *
    * @param contributorId
    *          the identifier of the contributor of the XSLT transformation
    * @param fileName
    *          The XSLT stylesheet file name.
    * @throws TransformerConfigurationException
-   *           Thrown if there are errors when parsing the Source or it is not possible to create a {@link Transformer} instance.
+   *           Thrown if there are errors when parsing the Source or it is not possible to create a {@link Transformer}
+   *           instance.
    * @throws IOException
    *           Signals that an I/O exception has occurred.
    * @throws URISyntaxException
    *           the URI syntax exception
    */
-  public XsltTransformer(final String contributorId, final String fileName) throws TransformerConfigurationException, IOException, URISyntaxException {
+  public XsltTransformer(final String contributorId, final String fileName)
+      throws TransformerConfigurationException, IOException, URISyntaxException {
     final IPath path = new Path(fileName);
     final Bundle bundle = Platform.getBundle(contributorId);
     final IPath folder = path.removeLastSegments(1);
 
-    final TransformerFactory factory = TransformerFactory.newInstance(net.sf.saxon.TransformerFactoryImpl.class.getCanonicalName(), null);
+    final TransformerFactory factory = TransformerFactory
+        .newInstance(net.sf.saxon.TransformerFactoryImpl.class.getCanonicalName(), null);
     factory.setURIResolver((href, base) -> {
       try {
         // What we are doing here is solving the "href" URI and get
@@ -137,7 +141,8 @@ public class XsltTransformer {
   }
 
   /**
-   * Transforms the given DOM element (and its children) and returns the result. The result element is in a different document than the source's owner document.
+   * Transforms the given DOM element (and its children) and returns the result. The result element is in a different
+   * document than the source's owner document.
    *
    * @param source
    *          The source element to transform.
@@ -158,7 +163,8 @@ public class XsltTransformer {
   }
 
   /**
-   * Transforms the given DOM element (and its children) and returns the result as a string. The string may contain text or XML.
+   * Transforms the given DOM element (and its children) and returns the result as a string. The string may contain text
+   * or XML.
    *
    * @param element
    *          The source element to transform.

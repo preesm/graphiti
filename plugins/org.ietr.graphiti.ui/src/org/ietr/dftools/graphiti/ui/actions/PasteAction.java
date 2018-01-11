@@ -83,7 +83,8 @@ public class PasteAction extends SelectionAction implements PropertyChangeListen
     // either the selected object is a GraphEditPart or a VertexEditPart
     final List<?> selection = getSelectedObjects();
     final List<?> vertices = getClipboardContents();
-    return ((vertices != null) && (!vertices.isEmpty()) && (vertices.get(0) instanceof Vertex) && (selection != null) && (selection.size() == 1)
+    return ((vertices != null) && (!vertices.isEmpty()) && (vertices.get(0) instanceof Vertex) && (selection != null)
+        && (selection.size() == 1)
         && ((selection.get(0) instanceof GraphEditPart) || (selection.get(0) instanceof VertexEditPart)));
   }
 

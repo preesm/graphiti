@@ -54,8 +54,9 @@ import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class provides the policy of the layout used in the editor view. Namely it implements the <code>createChangeConstraintCommand</code> and
- * <code>getCreateCommand</code> methods to move and create a graph respectively.
+ * This class provides the policy of the layout used in the editor view. Namely it implements the
+ * <code>createChangeConstraintCommand</code> and <code>getCreateCommand</code> methods to move and create a graph
+ * respectively.
  *
  * @author Samuel Beaussier
  * @author Nicolas Isch
@@ -66,7 +67,9 @@ public class LayoutPolicy extends XYLayoutEditPolicy {
   /*
    * (non-Javadoc)
    *
-   * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
+   * @see
+   * org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart,
+   * java.lang.Object)
    */
   @Override
   protected Command createChangeConstraintCommand(final EditPart child, final Object constraint) {

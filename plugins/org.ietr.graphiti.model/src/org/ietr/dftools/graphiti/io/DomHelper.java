@@ -105,8 +105,8 @@ public class DomHelper {
   }
 
   /**
-   * Returns the first sibling of <code>node</code>, or <code>node</code> itself, which has the given name. If none is found, the function returns
-   * <code>null</code>.
+   * Returns the first sibling of <code>node</code>, or <code>node</code> itself, which has the given name. If none is
+   * found, the function returns <code>null</code>.
    *
    * @param node
    *          A node.

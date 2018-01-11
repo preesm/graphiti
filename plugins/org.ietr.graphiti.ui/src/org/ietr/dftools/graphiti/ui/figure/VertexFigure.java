@@ -73,20 +73,22 @@ public class VertexFigure extends Figure {
   /**
    * This class is here because it is necessary to circumvent a missing feature in GEF.
    * <p>
-   * Most objects in Draw2D are compared by reference. Granted, this is a lot faster, but in some cases unwanted. For some reason
-   * {@link VertexFigure#getSourceAnchor(Edge, Connection)} is called several times per connection. We want to set bendpoints on a connection only once, because
-   * otherwise Draw2D messes up if the same bendpoints occur several times.
+   * Most objects in Draw2D are compared by reference. Granted, this is a lot faster, but in some cases unwanted. For
+   * some reason {@link VertexFigure#getSourceAnchor(Edge, Connection)} is called several times per connection. We want
+   * to set bendpoints on a connection only once, because otherwise Draw2D messes up if the same bendpoints occur
+   * several times.
    * </p>
    *
    * <p>
-   * So basically this class holds all the information we need (we want bendpoint after the start or before the end and not both) and it has an
-   * {@link Object#equals(Object)} method which allows us to check whether a connection constraint list contains this. We have to store the association
-   * connection -> list of concrete bendpoints in a map, namely the {@link VertexFigure#bendpoints} field.
+   * So basically this class holds all the information we need (we want bendpoint after the start or before the end and
+   * not both) and it has an {@link Object#equals(Object)} method which allows us to check whether a connection
+   * constraint list contains this. We have to store the association connection -> list of concrete bendpoints in a map,
+   * namely the {@link VertexFigure#bendpoints} field.
    * </p>
    *
    * <p>
-   * TODO: I suppose that if guys use the editor for a long time adding and removing a lot of connections, there might be a problem with this bendpoints
-   * thing...
+   * TODO: I suppose that if guys use the editor for a long time adding and removing a lot of connections, there might
+   * be a problem with this bendpoints thing...
    * </p>
    *
    * @author Matthieu Wipliez
@@ -220,8 +222,8 @@ public class VertexFigure extends Figure {
   }
 
   /**
-   * Adds a bendpoint to the bendpoint list that is the routing constraint of the <code>conn</code> connection. For additional information, see
-   * {@link ConcreteBendpoint}.
+   * Adds a bendpoint to the bendpoint list that is the routing constraint of the <code>conn</code> connection. For
+   * additional information, see {@link ConcreteBendpoint}.
    *
    * @param conn
    *          The connection.
@@ -445,7 +447,8 @@ public class VertexFigure extends Figure {
   }
 
   /**
-   * Adds a label for the given entry. The entry key is a port name used in the label, and the entry value is updated to the newly-created label.
+   * Adds a label for the given entry. The entry key is a port name used in the label, and the entry value is updated to
+   * the newly-created label.
    *
    * @param entry
    *          An entry of {@link #inputPorts} or {@link #outputPorts}.
@@ -454,7 +457,8 @@ public class VertexFigure extends Figure {
    * @param horizontalSpan
    *          The horizontal span, <code>1</code> or <code>2</code>.
    */
-  private void updatePortLabel(final Entry<String, Label> entry, final int horizontalAlignment, final int horizontalSpan) {
+  private void updatePortLabel(final Entry<String, Label> entry, final int horizontalAlignment,
+      final int horizontalSpan) {
     final Label label = new Label(entry.getKey());
     entry.setValue(label);
     final GridData data = new GridData(horizontalAlignment, SWT.CENTER, false, false);
@@ -495,8 +499,8 @@ public class VertexFigure extends Figure {
    * @param portList
    *          The list of undirected ports/ports having the same name.
    */
-  private void updatePortsFromLists(final List<Entry<String, Label>> inputPortList, final List<Entry<String, Label>> outputPortList,
-      final List<Entry<String, Label>> portList) {
+  private void updatePortsFromLists(final List<Entry<String, Label>> inputPortList,
+      final List<Entry<String, Label>> outputPortList, final List<Entry<String, Label>> portList) {
     final Iterator<Entry<String, Label>> itInput = inputPortList.iterator();
     final Iterator<Entry<String, Label>> itOutput = outputPortList.iterator();
 

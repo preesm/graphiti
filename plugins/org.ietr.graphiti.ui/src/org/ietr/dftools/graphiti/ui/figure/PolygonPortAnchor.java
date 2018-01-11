@@ -71,8 +71,8 @@ public class PolygonPortAnchor extends AbstractConnectionAnchor {
   }
 
   /**
-   * Gets a Rectangle from {@link #getBox()} and returns the Point where a line from the center of the Rectangle to the Point <i>reference</i> intersects the
-   * Rectangle.
+   * Gets a Rectangle from {@link #getBox()} and returns the Point where a line from the center of the Rectangle to the
+   * Point <i>reference</i> intersects the Rectangle.
    *
    * @param reference
    *          The reference point

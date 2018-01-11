@@ -207,7 +207,8 @@ public class ListSection extends AbstractSection {
     final String dialogTitle = "New value";
     final String dialogMessage = "Please enter a value:";
     final String initialValue = "";
-    final InputDialog dialog = new InputDialog(getShell(), dialogTitle, dialogMessage, initialValue, newText -> newText.isEmpty() ? "" : null);
+    final InputDialog dialog = new InputDialog(getShell(), dialogTitle, dialogMessage, initialValue,
+        newText -> newText.isEmpty() ? "" : null);
 
     if (dialog.open() == Window.OK) {
       @SuppressWarnings("unchecked")

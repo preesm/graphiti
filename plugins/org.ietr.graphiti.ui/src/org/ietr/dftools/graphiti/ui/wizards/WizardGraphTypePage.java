@@ -161,7 +161,8 @@ public class WizardGraphTypePage extends WizardPage {
   }
 
   /**
-   * Calls {@link IGraphTypeSettable#setGraphType(Configuration, GraphType)} on the given page with the selected graph type and associated configuration.
+   * Calls {@link IGraphTypeSettable#setGraphType(Configuration, GraphType)} on the given page with the selected graph
+   * type and associated configuration.
    *
    * @param page
    *          An {@link IGraphTypeSettable} page.

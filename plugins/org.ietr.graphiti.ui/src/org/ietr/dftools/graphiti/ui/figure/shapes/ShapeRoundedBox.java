@@ -65,10 +65,12 @@ public class ShapeRoundedBox extends RoundedRectangle implements IShape {
   /*
    * (non-Javadoc)
    *
-   * @see org.ietr.dftools.graphiti.ui.figure.shapes.IShape#getConnectionAnchor(org.ietr.dftools.graphiti.ui.figure.VertexFigure, java.lang.String, boolean)
+   * @see org.ietr.dftools.graphiti.ui.figure.shapes.IShape#getConnectionAnchor(org.ietr.dftools.graphiti.ui.figure.
+   * VertexFigure, java.lang.String, boolean)
    */
   @Override
-  public ConnectionAnchor getConnectionAnchor(final VertexFigure figure, final String portName, final boolean isOutput) {
+  public ConnectionAnchor getConnectionAnchor(final VertexFigure figure, final String portName,
+      final boolean isOutput) {
     return new RoundedBoxPortAnchor(figure, portName, isOutput);
   }
 

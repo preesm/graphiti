@@ -71,7 +71,8 @@ import org.ietr.dftools.graphiti.ui.figure.shapes.IShape;
 import org.ietr.dftools.graphiti.ui.figure.shapes.ShapeFactory;
 
 /**
- * Creates the Palette on the GUI with all the tools and the appropriate icons icons have to be in the same directory as the Model.
+ * Creates the Palette on the GUI with all the tools and the appropriate icons icons have to be in the same directory as
+ * the Model.
  *
  * @author Samuel Beaussier & Nicolas Isch
  */
@@ -100,8 +101,8 @@ public class GraphitiPalette {
 
         final ImageDescriptor id = GraphitiPalette.getImgDescEdge(type);
 
-        final ToolEntry tool = new ConnectionCreationToolEntry(typeStr, "Create a new " + typeStr, new EdgeCreationFactory(type), id,
-            ImageDescriptor.getMissingImageDescriptor());
+        final ToolEntry tool = new ConnectionCreationToolEntry(typeStr, "Create a new " + typeStr,
+            new EdgeCreationFactory(type), id, ImageDescriptor.getMissingImageDescriptor());
 
         edgeDrawer.add(tool);
       }
@@ -130,7 +131,8 @@ public class GraphitiPalette {
 
         final ImageDescriptor id = GraphitiPalette.getImgDescVertex(type);
 
-        final ToolEntry tool = new CreationToolEntry(typeStr, "Create a new " + typeStr, new VertexCreationFactory(type), id, null);
+        final ToolEntry tool = new CreationToolEntry(typeStr, "Create a new " + typeStr,
+            new VertexCreationFactory(type), id, null);
 
         toolDrawer.add(tool);
       }
@@ -237,7 +239,8 @@ public class GraphitiPalette {
     final RecoloredImageDataProvider recoloredImageDataProvider = new RecoloredImageDataProvider(image, color);
     final ImageDescriptor id = ImageDescriptor.createFromImageData(recoloredImageDataProvider.getImageData(100));
     // TODO: Code to use when Neon is not supported anymore instead of the deprecated call right above
-    // final ImageDescriptor id = ImageDescriptor.createFromImageDataProvider(new RecoloredImageDataProvider(image, color));
+    // final ImageDescriptor id = ImageDescriptor.createFromImageDataProvider(new RecoloredImageDataProvider(image,
+    // color));
 
     // Disposes image (and GC btw) and SWT graphics
     image.dispose();
@@ -247,7 +250,8 @@ public class GraphitiPalette {
   }
 
   /**
-   * Gets a palette root which is configured by the given {@link Graph}. If <code>graph == null</code>, <code>null</code> is returned.
+   * Gets a palette root which is configured by the given {@link Graph}. If <code>graph == null</code>,
+   * <code>null</code> is returned.
    *
    * @param graph
    *          The graph used to configure this palette.

@@ -58,7 +58,8 @@ public class ShapeHexagon extends AbstractPolygonShape implements IShape {
   /*
    * (non-Javadoc)
    *
-   * @see org.ietr.dftools.graphiti.ui.figure.shapes.AbstractPolygonShape#setDimension(org.eclipse.draw2d.geometry.Dimension)
+   * @see
+   * org.ietr.dftools.graphiti.ui.figure.shapes.AbstractPolygonShape#setDimension(org.eclipse.draw2d.geometry.Dimension)
    */
   @Override
   public void setDimension(final Dimension dim) {

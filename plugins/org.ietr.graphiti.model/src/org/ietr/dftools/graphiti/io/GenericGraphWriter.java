@@ -77,7 +77,8 @@ public class GenericGraphWriter {
   }
 
   /**
-   * Writes the graph associated with this writer to the given output stream. The output file absolute path is passed to the underlying stylesheet(s).
+   * Writes the graph associated with this writer to the given output stream. The output file absolute path is passed to
+   * the underlying stylesheet(s).
    *
    * @param path
    *          The file absolute path.
@@ -98,7 +99,8 @@ public class GenericGraphWriter {
             element = writeGraph();
           }
 
-          final XsltTransformer transformer = new XsltTransformer(configuration.getContributorId(), transformation.getFileName());
+          final XsltTransformer transformer = new XsltTransformer(configuration.getContributorId(),
+              transformation.getFileName());
           transformer.setParameter("path", path);
           element = transformer.transformDomToDom(element);
         } else {
@@ -180,7 +182,8 @@ public class GenericGraphWriter {
    * @param parametersElement
    *          the parameters element
    */
-  private void writeParameters(final AbstractObject abstractObject, final ObjectType type, final Element parametersElement) {
+  private void writeParameters(final AbstractObject abstractObject, final ObjectType type,
+      final Element parametersElement) {
     final Document document = parametersElement.getOwnerDocument();
     final List<Parameter> parameters = type.getParameters();
     for (final Parameter parameter : parameters) {

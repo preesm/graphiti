@@ -56,9 +56,9 @@ import org.ietr.dftools.graphiti.ui.editpolicies.LayoutPolicy;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class extends {@link AbstractGraphicalEditPart} by setting its figure layout manager to {@link GraphLayoutManager}. It also extends the
- * {@link EditPart#isSelectable()} method to return false, causing the selection tool to act like the marquee tool when no particular children has been
- * selected.
+ * This class extends {@link AbstractGraphicalEditPart} by setting its figure layout manager to
+ * {@link GraphLayoutManager}. It also extends the {@link EditPart#isSelectable()} method to return false, causing the
+ * selection tool to act like the marquee tool when no particular children has been selected.
  *
  * @author Matthieu Wipliez
  *

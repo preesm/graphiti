@@ -46,7 +46,8 @@ import org.ietr.dftools.graphiti.model.Vertex;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class is an implementation of an {@link EditPartFactory}. It creates an EditPart associated with a context and model given.
+ * This class is an implementation of an {@link EditPartFactory}. It creates an EditPart associated with a context and
+ * model given.
  *
  * @author Samuel Beaussier
  * @author Nicolas Isch

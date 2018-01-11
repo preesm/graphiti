@@ -53,7 +53,8 @@ import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 public interface IShape extends IFigure {
 
   /**
-   * Returns the connection anchor associated with this shape. The connection anchor may be a predefined eclipse implementation or a custom one.
+   * Returns the connection anchor associated with this shape. The connection anchor may be a predefined eclipse
+   * implementation or a custom one.
    *
    * @param figure
    *          the figure

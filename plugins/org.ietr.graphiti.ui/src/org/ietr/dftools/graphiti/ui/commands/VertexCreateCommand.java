@@ -130,20 +130,21 @@ public class VertexCreateCommand extends Command {
     final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
     final Shell shell = window.getShell();
 
-    final InputDialog dialog = new InputDialog(shell, "New vertex", "Please enter a vertex identifier", "", vertexId -> {
-      if (vertexId.isEmpty()) {
-        return "";
-      }
+    final InputDialog dialog = new InputDialog(shell, "New vertex", "Please enter a vertex identifier", "",
+        vertexId -> {
+          if (vertexId.isEmpty()) {
+            return "";
+          }
 
-      if (VertexCreateCommand.this.graph != null) {
-        final Vertex vertex = VertexCreateCommand.this.graph.findVertex(vertexId);
-        if (vertex != null) {
-          return "A vertex already exists with the same identifier";
-        }
-      }
+          if (VertexCreateCommand.this.graph != null) {
+            final Vertex vertex = VertexCreateCommand.this.graph.findVertex(vertexId);
+            if (vertex != null) {
+              return "A vertex already exists with the same identifier";
+            }
+          }
 
-      return null;
-    });
+          return null;
+        });
     dialog.open();
 
     final String value = dialog.getValue();

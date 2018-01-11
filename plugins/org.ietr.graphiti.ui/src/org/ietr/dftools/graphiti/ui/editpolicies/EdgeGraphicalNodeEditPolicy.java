@@ -51,11 +51,12 @@ import org.ietr.dftools.graphiti.ui.figure.EdgeFigure;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class provides methods that deal with creations and connections of dependencies. When the user clicks a source port, the method
- * <code>getConnectionCreateCommand</code> is first called. When they click the destination port, <code>getConnectionCompleteCommand</code> is called.
+ * This class provides methods that deal with creations and connections of dependencies. When the user clicks a source
+ * port, the method <code>getConnectionCreateCommand</code> is first called. When they click the destination port,
+ * <code>getConnectionCompleteCommand</code> is called.
  *
- * <code>getReconnectSourceCommand</code> and <code>getReconnectTargetCommand</code> are called when the user reconnects one end of a dependency (they have
- * previously disconnected).
+ * <code>getReconnectSourceCommand</code> and <code>getReconnectTargetCommand</code> are called when the user reconnects
+ * one end of a dependency (they have previously disconnected).
  *
  * @author Samuel Beaussier
  * @author Nicolas Isch
@@ -78,7 +79,8 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
   /*
    * (non-Javadoc)
    *
-   * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCompleteCommand(org.eclipse.gef.requests.CreateConnectionRequest)
+   * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCompleteCommand(org.eclipse.gef.requests.
+   * CreateConnectionRequest)
    */
   @Override
   protected Command getConnectionCompleteCommand(final CreateConnectionRequest request) {
@@ -91,7 +93,8 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
   /*
    * (non-Javadoc)
    *
-   * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.CreateConnectionRequest)
+   * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.
+   * CreateConnectionRequest)
    */
   @Override
   protected Command getConnectionCreateCommand(final CreateConnectionRequest request) {
@@ -105,7 +108,8 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
   /*
    * (non-Javadoc)
    *
-   * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectSourceCommand(org.eclipse.gef.requests.ReconnectRequest)
+   * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectSourceCommand(org.eclipse.gef.requests.
+   * ReconnectRequest)
    */
   @Override
   protected Command getReconnectSourceCommand(final ReconnectRequest request) {
@@ -119,7 +123,8 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
   /*
    * (non-Javadoc)
    *
-   * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectTargetCommand(org.eclipse.gef.requests.ReconnectRequest)
+   * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectTargetCommand(org.eclipse.gef.requests.
+   * ReconnectRequest)
    */
   @Override
   protected Command getReconnectTargetCommand(final ReconnectRequest request) {

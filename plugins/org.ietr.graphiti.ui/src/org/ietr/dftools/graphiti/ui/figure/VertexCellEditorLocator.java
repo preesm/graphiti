@@ -46,7 +46,8 @@ import org.ietr.dftools.graphiti.model.Vertex;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class implements {@link CellEditorLocator} to edit a {@link Vertex}'s id. It is based on Daniel Lee's implementation for the flow example.
+ * This class implements {@link CellEditorLocator} to edit a {@link Vertex}'s id. It is based on Daniel Lee's
+ * implementation for the flow example.
  *
  * @author Daniel Lee
  * @author Matthieu Wipliez

@@ -228,8 +228,8 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
   }
 
   /**
-   * Returns a {@link Map} that maps an existing {@link EdgeType} to a new one. If the new type is not specified (i.e. left blank by the user), no mapping is
-   * inserted.
+   * Returns a {@link Map} that maps an existing {@link EdgeType} to a new one. If the new type is not specified (i.e.
+   * left blank by the user), no mapping is inserted.
    *
    * @return A {@link Map} that maps an existing {@link EdgeType} to a new one.
    */
@@ -251,8 +251,8 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
   }
 
   /**
-   * Returns a {@link Map} that maps an existing {@link VertexType} to a new one. If the new type is not specified (i.e. left blank by the user), no mapping is
-   * inserted.
+   * Returns a {@link Map} that maps an existing {@link VertexType} to a new one. If the new type is not specified (i.e.
+   * left blank by the user), no mapping is inserted.
    *
    * @return A {@link Map} that maps an existing {@link VertexType} to a new one.
    */
@@ -296,7 +296,8 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
   /*
    * (non-Javadoc)
    *
-   * @see org.ietr.dftools.graphiti.ui.wizards.IGraphTypeSettable#setGraphType(org.ietr.dftools.graphiti.model.Configuration,
+   * @see
+   * org.ietr.dftools.graphiti.ui.wizards.IGraphTypeSettable#setGraphType(org.ietr.dftools.graphiti.model.Configuration,
    * org.ietr.dftools.graphiti.model.ObjectType)
    */
   @Override
@@ -316,7 +317,8 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
    * Updates the description of this page.
    */
   private void updateDescription() {
-    setDescription("Convert \"" + this.originalGraph.getType().getName() + "\" to \"" + this.newGraphType.getName() + "\".");
+    setDescription(
+        "Convert \"" + this.originalGraph.getType().getName() + "\" to \"" + this.newGraphType.getName() + "\".");
   }
 
   /**

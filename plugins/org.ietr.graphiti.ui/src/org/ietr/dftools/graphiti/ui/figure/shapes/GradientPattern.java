@@ -55,9 +55,9 @@ import org.eclipse.swt.widgets.Display;
 public class GradientPattern {
 
   /**
-   * Paints this {@link IShape} with the given background {@link Color}, in the specified {@link Rectangle} bounds, on the given {@link Graphics}. If the
-   * graphics do not have advanced capabilities (such as printer or zoom manager), the function will try to use the current display to draw the {@link IShape}
-   * as an image.
+   * Paints this {@link IShape} with the given background {@link Color}, in the specified {@link Rectangle} bounds, on
+   * the given {@link Graphics}. If the graphics do not have advanced capabilities (such as printer or zoom manager),
+   * the function will try to use the current display to draw the {@link IShape} as an image.
    *
    * @param shape
    *          the shape
@@ -68,7 +68,8 @@ public class GradientPattern {
    * @param graphics
    *          the graphics
    */
-  public static void paintFigure(final IShape shape, final Color backgroundColor, final Rectangle bounds, final Graphics graphics) {
+  public static void paintFigure(final IShape shape, final Color backgroundColor, final Rectangle bounds,
+      final Graphics graphics) {
     if (graphics instanceof SWTGraphics) {
       // advanced graphics
       final Color fg = new Color(null, 224, 224, 224);

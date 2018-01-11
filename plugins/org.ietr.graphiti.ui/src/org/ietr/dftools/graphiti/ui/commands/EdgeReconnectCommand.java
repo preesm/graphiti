@@ -45,20 +45,23 @@ import org.ietr.dftools.graphiti.ui.commands.refinement.PortChooser;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class provides a Command that reconnects a dependency. Reconnection is a bit trickier than creation, since we must remember the previous dependency. We
- * inherit from EdgeCreateCommand so we just need to store the previous dependency and parent graph, while keeping most of the original behavior.
+ * This class provides a Command that reconnects a dependency. Reconnection is a bit trickier than creation, since we
+ * must remember the previous dependency. We inherit from EdgeCreateCommand so we just need to store the previous
+ * dependency and parent graph, while keeping most of the original behavior.
  *
  * @author Matthieu Wipliez
  */
 public class EdgeReconnectCommand extends Command {
 
   /**
-   * The edge is stored as an attribute so it can be used both in the <code>execute</code> and <code>undo</code> methods.
+   * The edge is stored as an attribute so it can be used both in the <code>execute</code> and <code>undo</code>
+   * methods.
    */
   private Edge edge;
 
   /**
-   * The parentGraph is stored as an attribute so it can be used both in the <code>execute</code> and <code>undo</code> methods.
+   * The parentGraph is stored as an attribute so it can be used both in the <code>execute</code> and <code>undo</code>
+   * methods.
    */
   private Graph parentGraph;
 
@@ -88,7 +91,8 @@ public class EdgeReconnectCommand extends Command {
     if (this.edge.getSource() != this.source) {
       this.edge.setSource(this.source);
 
-      final String connection = this.edge.getSource().getValue(ObjectType.PARAMETER_ID) + " - " + this.edge.getTarget().getValue(ObjectType.PARAMETER_ID);
+      final String connection = this.edge.getSource().getValue(ObjectType.PARAMETER_ID) + " - "
+          + this.edge.getTarget().getValue(ObjectType.PARAMETER_ID);
       final PortChooser portChooser = new PortChooser(connection);
       if (this.edge.getParameter(ObjectType.PARAMETER_SOURCE_PORT) != null) {
         this.edge.setValue(ObjectType.PARAMETER_SOURCE_PORT, portChooser.getSourcePort(this.source));
@@ -96,7 +100,8 @@ public class EdgeReconnectCommand extends Command {
     } else if (this.edge.getTarget() != this.target) {
       this.edge.setTarget(this.target);
 
-      final String connection = this.edge.getSource().getValue(ObjectType.PARAMETER_ID) + " - " + this.edge.getTarget().getValue(ObjectType.PARAMETER_ID);
+      final String connection = this.edge.getSource().getValue(ObjectType.PARAMETER_ID) + " - "
+          + this.edge.getTarget().getValue(ObjectType.PARAMETER_ID);
       final PortChooser portChooser = new PortChooser(connection);
       if (this.edge.getParameter(ObjectType.PARAMETER_TARGET_PORT) != null) {
         this.edge.setValue(ObjectType.PARAMETER_TARGET_PORT, portChooser.getTargetPort(this.target));

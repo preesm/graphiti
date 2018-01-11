@@ -48,13 +48,14 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
- * Figures using the StackLayout as their layout manager have their children placed on top of one another. Order of placement is determined by the order in
- * which the children were added, first child added placed on the bottom.
+ * Figures using the StackLayout as their layout manager have their children placed on top of one another. Order of
+ * placement is determined by the order in which the children were added, first child added placed on the bottom.
  */
 public class ManualGraphLayoutManager extends StackLayout {
 
   /**
-   * Returns the minimum size required by the input container. This is the size of the largest child of the container, as all other children fit into this size.
+   * Returns the minimum size required by the input container. This is the size of the largest child of the container,
+   * as all other children fit into this size.
    *
    * @param figure
    *          the figure
@@ -97,7 +98,8 @@ public class ManualGraphLayoutManager extends StackLayout {
   }
 
   /**
-   * Calculates and returns the preferred size of the given figure. This is the union of the preferred sizes of the widest and the tallest of all its children.
+   * Calculates and returns the preferred size of the given figure. This is the union of the preferred sizes of the
+   * widest and the tallest of all its children.
    *
    * @param figure
    *          the figure
