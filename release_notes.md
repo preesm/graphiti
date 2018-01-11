@@ -8,6 +8,8 @@ Graphiti Changelog
 
 ### Changes
 * update release scripts (including travis and jenkins files)
+* update checkstyle to 8.5
+* use Maven plugins and coding policies from Maven Central instead of Preesm own maven repo
 
 ### Bug fix
 

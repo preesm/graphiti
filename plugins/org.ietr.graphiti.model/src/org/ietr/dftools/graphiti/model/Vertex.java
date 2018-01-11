@@ -48,7 +48,8 @@ import java.util.List;
 public class Vertex extends AbstractObject {
 
   /**
-   * String for the "destination vertex" property. Set when a vertex becomes the destination of a dependency.
+   * String for the "destination vertex" property. Set when a vertex becomes the destination of a dependency. zef zef ze
+   * f fez fze fz
    */
   public static final String PROPERTY_DST_VERTEX = "destination vertex";
 
