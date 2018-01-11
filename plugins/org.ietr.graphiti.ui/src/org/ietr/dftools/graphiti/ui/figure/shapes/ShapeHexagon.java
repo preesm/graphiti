@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -58,7 +58,8 @@ public class ShapeHexagon extends AbstractPolygonShape implements IShape {
   /*
    * (non-Javadoc)
    *
-   * @see org.ietr.dftools.graphiti.ui.figure.shapes.AbstractPolygonShape#setDimension(org.eclipse.draw2d.geometry.Dimension)
+   * @see
+   * org.ietr.dftools.graphiti.ui.figure.shapes.AbstractPolygonShape#setDimension(org.eclipse.draw2d.geometry.Dimension)
    */
   @Override
   public void setDimension(final Dimension dim) {

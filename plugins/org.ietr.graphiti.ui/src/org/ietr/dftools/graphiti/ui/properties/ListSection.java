@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014 - 2015)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  *
@@ -207,7 +207,8 @@ public class ListSection extends AbstractSection {
     final String dialogTitle = "New value";
     final String dialogMessage = "Please enter a value:";
     final String initialValue = "";
-    final InputDialog dialog = new InputDialog(getShell(), dialogTitle, dialogMessage, initialValue, newText -> newText.isEmpty() ? "" : null);
+    final InputDialog dialog = new InputDialog(getShell(), dialogTitle, dialogMessage, initialValue,
+        newText -> newText.isEmpty() ? "" : null);
 
     if (dialog.open() == Window.OK) {
       @SuppressWarnings("unchecked")

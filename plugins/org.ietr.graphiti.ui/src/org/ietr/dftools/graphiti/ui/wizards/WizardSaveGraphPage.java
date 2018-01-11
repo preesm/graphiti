@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Alexandre Romana <a-romana@ti.com> (2008)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
@@ -170,7 +170,8 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements IG
   /*
    * (non-Javadoc)
    *
-   * @see org.ietr.dftools.graphiti.ui.wizards.IGraphTypeSettable#setGraphType(org.ietr.dftools.graphiti.model.Configuration,
+   * @see
+   * org.ietr.dftools.graphiti.ui.wizards.IGraphTypeSettable#setGraphType(org.ietr.dftools.graphiti.model.Configuration,
    * org.ietr.dftools.graphiti.model.ObjectType)
    */
   @Override

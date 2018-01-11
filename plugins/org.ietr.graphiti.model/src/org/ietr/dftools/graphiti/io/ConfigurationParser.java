@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  *
@@ -70,7 +70,8 @@ public class ConfigurationParser {
   private final Map<String, Configuration> configurations;
 
   /**
-   * Creates a new configuration parser that parses all configuration files located in the configuration folder (defined in the plug-in preferences).
+   * Creates a new configuration parser that parses all configuration files located in the configuration folder (defined
+   * in the plug-in preferences).
    *
    * @throws CoreException
    *           the core exception
@@ -135,7 +136,8 @@ public class ConfigurationParser {
     }
 
     final IContributor contributor = element.getContributor();
-    final Configuration configuration = new Configuration(name, contributor.getName(), format, graphTypes, vertexTypes, edgeTypes, validator, refinementPolicy);
+    final Configuration configuration = new Configuration(name, contributor.getName(), format, graphTypes, vertexTypes,
+        edgeTypes, validator, refinementPolicy);
     return configuration;
   }
 
@@ -146,7 +148,8 @@ public class ConfigurationParser {
    *          The class of the parameter.
    * @param element
    *          the element
-   * @return An object, either a {@link List}, a {@link Map}, an {@link Integer}, a {@link Float}, a {@link Boolean}, or a {@link String}.
+   * @return An object, either a {@link List}, a {@link Map}, an {@link Integer}, a {@link Float}, a {@link Boolean}, or
+   *         a {@link String}.
    */
   private Object parseParameter(final Class<?> parameterType, final IConfigurationElement element) {
     if (parameterType == List.class) {
@@ -215,7 +218,8 @@ public class ConfigurationParser {
    * @throws CoreException
    *           the core exception
    */
-  private void parseTransformations(final List<Transformation> transformations, final IConfigurationElement[] children) throws CoreException {
+  private void parseTransformations(final List<Transformation> transformations, final IConfigurationElement[] children)
+      throws CoreException {
     for (final IConfigurationElement element : children) {
       final String name = element.getAttribute("name");
       final String type = element.getName();

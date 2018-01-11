@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2009 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2009 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014 - 2015)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2009 - 2010)
  *
@@ -48,7 +48,8 @@ import java.util.List;
 public class Vertex extends AbstractObject {
 
   /**
-   * String for the "destination vertex" property. Set when a vertex becomes the destination of a dependency.
+   * String for the "destination vertex" property. Set when a vertex becomes the destination of a dependency. zef zef ze
+   * f fez fze fz
    */
   public static final String PROPERTY_DST_VERTEX = "destination vertex";
 

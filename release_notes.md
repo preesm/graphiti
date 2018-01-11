@@ -1,6 +1,19 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.4.7
+*2018.01.11*
+
+### New Feature
+
+### Changes
+* update release scripts (including travis and jenkins files)
+* update checkstyle to 8.5
+* use Maven plugins and coding policies from Maven Central instead of Preesm own maven repo
+
+### Bug fix
+
+
 ## Release version 1.4.6
 *2017.12.19*
 

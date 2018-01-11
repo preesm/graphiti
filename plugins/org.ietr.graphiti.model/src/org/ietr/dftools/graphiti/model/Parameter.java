@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2009 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2009 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2009 - 2010)
  *
@@ -43,7 +43,8 @@ import java.util.TreeMap;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class provides a parameter associated with an object (vertex, graph, edge). It has a name, a type, and a position.
+ * This class provides a parameter associated with an object (vertex, graph, edge). It has a name, a type, and a
+ * position.
  *
  * @author Jonathan Piat
  * @author Matthieu Wipliez

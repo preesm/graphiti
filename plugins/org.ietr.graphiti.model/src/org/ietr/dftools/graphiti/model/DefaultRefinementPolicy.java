@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2010 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2010 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014 - 2015)
  * Karol Desnos <karol.desnos@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2010 - 2011)
@@ -125,7 +125,8 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
     /*
      * (non-Javadoc)
      *
-     * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent)
+     * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.
+     * IResourceChangeEvent)
      */
     @Override
     public void resourceChanged(final IResourceChangeEvent event) {
@@ -137,8 +138,8 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
   }
 
   /**
-   * Execute the {@link NewWizardAction}, and listens for resource change in the workspace to find out the file added before calling
-   * {@link #setRefinement(IWorkbenchPage, IFile)} on it.
+   * Execute the {@link NewWizardAction}, and listens for resource change in the workspace to find out the file added
+   * before calling {@link #setRefinement(IWorkbenchPage, IFile)} on it.
    *
    * @param vertex
    *          the vertex
@@ -192,9 +193,10 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
     final Shell shell = window.getShell();
 
     // prompts the user to choose a file
-    final String message = "The selected vertex can be refined by an existing " + "file, or by a new file you can create.";
-    final MessageDialog dialog = new MessageDialog(shell, "Set/Update Refinement", null, message, MessageDialog.QUESTION,
-        new String[] { "Use an existing file", "Create a new file" }, 0);
+    final String message = "The selected vertex can be refined by an existing "
+        + "file, or by a new file you can create.";
+    final MessageDialog dialog = new MessageDialog(shell, "Set/Update Refinement", null, message,
+        MessageDialog.QUESTION, new String[] { "Use an existing file", "Create a new file" }, 0);
     final int index = dialog.open();
     if (index == 0) {
       return useExistingFile(vertex, shell);
@@ -244,8 +246,8 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
   }
 
   /**
-   * Returns the refinement value corresponding to the given file. This method automatically uses relative or absolute form depending on the location of file
-   * compared to {@link #editedFile}.
+   * Returns the refinement value corresponding to the given file. This method automatically uses relative or absolute
+   * form depending on the location of file compared to {@link #editedFile}.
    *
    * @param vertex
    *          the vertex
@@ -311,7 +313,8 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
   /*
    * (non-Javadoc)
    *
-   * @see org.ietr.dftools.graphiti.model.IRefinementPolicy#setRefinement(org.ietr.dftools.graphiti.model.Vertex, org.eclipse.core.runtime.IPath)
+   * @see org.ietr.dftools.graphiti.model.IRefinementPolicy#setRefinement(org.ietr.dftools.graphiti.model.Vertex,
+   * org.eclipse.core.runtime.IPath)
    */
   @Override
   public IPath setRefinement(final Vertex vertex, final IPath refinement) {
@@ -328,8 +331,8 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
    * @return the i path
    */
   protected IPath useExistingFile(final Vertex vertex, final Shell shell) {
-    final ElementTreeSelectionDialog tree = new ElementTreeSelectionDialog(shell, WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider(),
-        new WorkbenchContentProvider());
+    final ElementTreeSelectionDialog tree = new ElementTreeSelectionDialog(shell,
+        WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider(), new WorkbenchContentProvider());
     tree.setAllowMultiple(false);
     tree.setInput(ResourcesPlugin.getWorkspace().getRoot());
     tree.setMessage("Please select an existing file:");
@@ -343,7 +346,8 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
         }
       }
 
-      return new Status(IStatus.ERROR, GraphitiModelPlugin.PLUGIN_ID, "Only files can be selected, not folders nor projects");
+      return new Status(IStatus.ERROR, GraphitiModelPlugin.PLUGIN_ID,
+          "Only files can be selected, not folders nor projects");
     });
 
     // initial selection

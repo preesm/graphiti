@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -64,10 +64,12 @@ public abstract class AbstractPolygonShape extends Polygon implements IShape {
   /*
    * (non-Javadoc)
    *
-   * @see org.ietr.dftools.graphiti.ui.figure.shapes.IShape#getConnectionAnchor(org.ietr.dftools.graphiti.ui.figure.VertexFigure, java.lang.String, boolean)
+   * @see org.ietr.dftools.graphiti.ui.figure.shapes.IShape#getConnectionAnchor(org.ietr.dftools.graphiti.ui.figure.
+   * VertexFigure, java.lang.String, boolean)
    */
   @Override
-  public ConnectionAnchor getConnectionAnchor(final VertexFigure figure, final String portName, final boolean isOutput) {
+  public ConnectionAnchor getConnectionAnchor(final VertexFigure figure, final String portName,
+      final boolean isOutput) {
     return new PolygonPortAnchor(figure, portName, isOutput);
   }
 

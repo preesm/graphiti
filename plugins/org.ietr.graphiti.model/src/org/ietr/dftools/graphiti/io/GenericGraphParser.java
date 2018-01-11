@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  * Maxime Pelcat <maxime.pelcat@insa-rennes.fr> (2013)
@@ -60,7 +60,8 @@ import org.w3c.dom.Node;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class provides a generic graph parser. Generic means that it can parse any format (text-based or XML-based) that contains a graph.
+ * This class provides a generic graph parser. Generic means that it can parse any format (text-based or XML-based) that
+ * contains a graph.
  *
  * @author Matthieu Wipliez
  *
@@ -81,8 +82,8 @@ public class GenericGraphParser {
   }
 
   /**
-   * Checks that every vertex in <code>graph</code> has layout information. If it is the case, the {@link Graph#PROPERTY_HAS_LAYOUT} is set to
-   * <code>true</code>. Otherwise it is set to false.
+   * Checks that every vertex in <code>graph</code> has layout information. If it is the case, the
+   * {@link Graph#PROPERTY_HAS_LAYOUT} is set to <code>true</code>. Otherwise it is set to false.
    *
    * @param graph
    *          the graph
@@ -126,7 +127,8 @@ public class GenericGraphParser {
             element = DomHelper.parse(in).getDocumentElement();
           }
 
-          final XsltTransformer transformer = new XsltTransformer(configuration.getContributorId(), transformation.getFileName());
+          final XsltTransformer transformer = new XsltTransformer(configuration.getContributorId(),
+              transformation.getFileName());
           transformer.setParameter("path", file.getLocation().toString());
           element = transformer.transformDomToDom(element);
         } else {
@@ -143,7 +145,8 @@ public class GenericGraphParser {
    * Parses the given {@link IFile} and returns a graph. The file is parsed as follows:
    * <ol>
    * <li>Iterate through the configurations.</li>
-   * <li>In each configuration, for each file format matching the file extension, try to parse the file with the given configuration.</li>
+   * <li>In each configuration, for each file format matching the file extension, try to parse the file with the given
+   * configuration.</li>
    * <li>If parsing fails, go to step 2.</li>
    * </ol>
    *
@@ -212,14 +215,14 @@ public class GenericGraphParser {
         final Vertex target = graph.findVertex(targetId);
 
         if ((source == null) && (target == null)) {
-          throw new TransformedDocumentParseError(
-              "In the edge \"" + sourceId + "\" -> \"" + targetId + "\", \"" + sourceId + "\" nor \"" + targetId + "\" could not be found.");
+          throw new TransformedDocumentParseError("In the edge \"" + sourceId + "\" -> \"" + targetId + "\", \""
+              + sourceId + "\" nor \"" + targetId + "\" could not be found.");
         } else if (source == null) {
-          throw new TransformedDocumentParseError(
-              "In the edge \"" + sourceId + "\" -> \"" + targetId + "\", the source vertex \"" + sourceId + "\" could not be found.");
+          throw new TransformedDocumentParseError("In the edge \"" + sourceId + "\" -> \"" + targetId
+              + "\", the source vertex \"" + sourceId + "\" could not be found.");
         } else if (target == null) {
-          throw new TransformedDocumentParseError(
-              "In the edge \"" + sourceId + "\" -> \"" + targetId + "\", the target vertex \"" + targetId + "\" could not be found.");
+          throw new TransformedDocumentParseError("In the edge \"" + sourceId + "\" -> \"" + targetId
+              + "\", the target vertex \"" + targetId + "\" could not be found.");
         }
 
         final Edge edge = new Edge(type, source, target);
@@ -244,7 +247,8 @@ public class GenericGraphParser {
    * @throws TransformedDocumentParseError
    *           If <code>element</code> cannot be parsed.
    */
-  private Graph parseGraph(final Configuration configuration, final Element element) throws TransformedDocumentParseError {
+  private Graph parseGraph(final Configuration configuration, final Element element)
+      throws TransformedDocumentParseError {
     final String typeName = element.getAttribute("type");
     final ObjectType type = configuration.getGraphType(typeName);
     final Graph graph = new Graph(configuration, type, true);
@@ -267,9 +271,9 @@ public class GenericGraphParser {
    *          The parameter we got from the configuration.
    * @param child
    *          The &lt;parameter&gt; element.
-   * @return An object, either a {@link List}, a {@link Map}, an {@link Integer}, a {@link Float}, a {@link Boolean}, or a {@link String}. May be
-   *         <code>null</code> if there are no elements/entries and the parameter is a list/map, or if the value field is absent or empty, and the parameter is
-   *         a scalar.
+   * @return An object, either a {@link List}, a {@link Map}, an {@link Integer}, a {@link Float}, a {@link Boolean}, or
+   *         a {@link String}. May be <code>null</code> if there are no elements/entries and the parameter is a
+   *         list/map, or if the value field is absent or empty, and the parameter is a scalar.
    */
   private Object parseParameter(final Parameter parameter, final Element child) {
     final Class<?> parameterType = parameter.getType();

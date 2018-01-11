@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -88,8 +88,9 @@ public class DataflowValidator implements IValidator {
       for (final Entry<String, Integer> count : countMap.entrySet()) {
         if (count.getValue() > 1) {
           res = false;
-          final String message = "The input port " + count.getKey() + " of vertex " + vertex.getValue(ObjectType.PARAMETER_ID) + " has " + count.getValue()
-              + " connections " + "but should not have more than one connection";
+          final String message = "The input port " + count.getKey() + " of vertex "
+              + vertex.getValue(ObjectType.PARAMETER_ID) + " has " + count.getValue() + " connections "
+              + "but should not have more than one connection";
           createMarker(file, message);
         }
       }
@@ -119,7 +120,8 @@ public class DataflowValidator implements IValidator {
   /*
    * (non-Javadoc)
    *
-   * @see org.ietr.dftools.graphiti.model.IValidator#validate(org.ietr.dftools.graphiti.model.Graph, org.eclipse.core.resources.IFile)
+   * @see org.ietr.dftools.graphiti.model.IValidator#validate(org.ietr.dftools.graphiti.model.Graph,
+   * org.eclipse.core.resources.IFile)
    */
   @Override
   public boolean validate(final Graph graph, final IFile file) {

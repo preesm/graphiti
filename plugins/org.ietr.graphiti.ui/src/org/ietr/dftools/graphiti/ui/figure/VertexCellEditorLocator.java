@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014 - 2015)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -46,7 +46,8 @@ import org.ietr.dftools.graphiti.model.Vertex;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class implements {@link CellEditorLocator} to edit a {@link Vertex}'s id. It is based on Daniel Lee's implementation for the flow example.
+ * This class implements {@link CellEditorLocator} to edit a {@link Vertex}'s id. It is based on Daniel Lee's
+ * implementation for the flow example.
  *
  * @author Daniel Lee
  * @author Matthieu Wipliez

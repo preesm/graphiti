@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2011 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2011 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014 - 2015)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2011)
  * Maxime Pelcat <maxime.pelcat@insa-rennes.fr> (2011)
@@ -221,7 +221,8 @@ public class MapSection extends AbstractSection {
 
       final IWorkbenchPart part = getPart();
       if (part instanceof GraphEditor) {
-        final ParameterChangeValueCommand command = new ParameterChangeValueCommand(model, "Change " + (this.key ? "name of value" : "value"));
+        final ParameterChangeValueCommand command = new ParameterChangeValueCommand(model,
+            "Change " + (this.key ? "name of value" : "value"));
         command.setValue(MapSection.this.parameterName, newMap);
         ((GraphEditor) part).executeCommand(command);
       }
@@ -239,7 +240,8 @@ public class MapSection extends AbstractSection {
     final String dialogTitle = "New value";
     final String dialogMessage = "Please enter a value:";
     final String initialValue = "";
-    final InputDialog dialog = new InputDialog(getShell(), dialogTitle, dialogMessage, initialValue, newText -> newText.isEmpty() ? "" : null);
+    final InputDialog dialog = new InputDialog(getShell(), dialogTitle, dialogMessage, initialValue,
+        newText -> newText.isEmpty() ? "" : null);
 
     if (dialog.open() == Window.OK) {
       final AbstractObject model = getModel();

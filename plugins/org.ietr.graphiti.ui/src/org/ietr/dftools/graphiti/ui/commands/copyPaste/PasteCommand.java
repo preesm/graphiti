@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014 - 2015)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -133,20 +133,21 @@ public class PasteCommand extends Command {
     final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
     final Shell shell = window.getShell();
 
-    final InputDialog dialog = new InputDialog(shell, "New vertex", "Please enter a vertex identifier", initialValue, vertexId -> {
-      if (vertexId.isEmpty()) {
-        return "";
-      }
+    final InputDialog dialog = new InputDialog(shell, "New vertex", "Please enter a vertex identifier", initialValue,
+        vertexId -> {
+          if (vertexId.isEmpty()) {
+            return "";
+          }
 
-      if (PasteCommand.this.graph != null) {
-        final Vertex vertex = PasteCommand.this.graph.findVertex(vertexId);
-        if (vertex != null) {
-          return "A vertex already exists with the same identifier";
-        }
-      }
+          if (PasteCommand.this.graph != null) {
+            final Vertex vertex = PasteCommand.this.graph.findVertex(vertexId);
+            if (vertex != null) {
+              return "A vertex already exists with the same identifier";
+            }
+          }
 
-      return null;
-    });
+          return null;
+        });
     final int res = dialog.open();
     if (res == Window.OK) {
       final String value = dialog.getValue();
@@ -184,8 +185,8 @@ public class PasteCommand extends Command {
         this.graph.addVertex(vertex);
         final Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
 
-        final Rectangle newBounds = new Rectangle(previousBounds.x + previousBounds.width + 10, previousBounds.y + previousBounds.height + 10, bounds.width,
-            bounds.height);
+        final Rectangle newBounds = new Rectangle(previousBounds.x + previousBounds.width + 10,
+            previousBounds.y + previousBounds.height + 10, bounds.width, bounds.height);
         vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, newBounds);
 
         this.dirty = true;

@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  *
@@ -44,8 +44,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class provides a reference manager for port anchors. It contains a main method, getReferencePoint, which clients call to get a reference point for their
- * connection anchor. There is one reference manager for each connection anchor.
+ * This class provides a reference manager for port anchors. It contains a main method, getReferencePoint, which clients
+ * call to get a reference point for their connection anchor. There is one reference manager for each connection anchor.
  *
  * @author Matthieu Wipliez
  *
@@ -78,8 +78,8 @@ public class PortAnchorReferenceManager {
   }
 
   /**
-   * Returns a reference point for the given connection anchor. It uses the underlying vertex figure to retrieve the label associated with the port name given
-   * at creation time.
+   * Returns a reference point for the given connection anchor. It uses the underlying vertex figure to retrieve the
+   * label associated with the port name given at creation time.
    *
    * @param anchor
    *          An abstract {@link ConnectionAnchor}.

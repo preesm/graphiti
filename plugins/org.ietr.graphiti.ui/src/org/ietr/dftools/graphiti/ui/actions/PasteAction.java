@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014 - 2015)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -83,7 +83,8 @@ public class PasteAction extends SelectionAction implements PropertyChangeListen
     // either the selected object is a GraphEditPart or a VertexEditPart
     final List<?> selection = getSelectedObjects();
     final List<?> vertices = getClipboardContents();
-    return ((vertices != null) && (!vertices.isEmpty()) && (vertices.get(0) instanceof Vertex) && (selection != null) && (selection.size() == 1)
+    return ((vertices != null) && (!vertices.isEmpty()) && (vertices.get(0) instanceof Vertex) && (selection != null)
+        && (selection.size() == 1)
         && ((selection.get(0) instanceof GraphEditPart) || (selection.get(0) instanceof VertexEditPart)));
   }
 

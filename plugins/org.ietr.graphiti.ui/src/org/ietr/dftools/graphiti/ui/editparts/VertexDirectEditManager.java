@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014 - 2015)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -50,7 +50,8 @@ import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class extends {@link DirectEditManager} to edit a {@link Vertex}'s id. It is based on Daniel Lee's implementation for the flow example.
+ * This class extends {@link DirectEditManager} to edit a {@link Vertex}'s id. It is based on Daniel Lee's
+ * implementation for the flow example.
  *
  * @author Daniel Lee
  * @author Matthieu Wipliez
@@ -90,7 +91,8 @@ public class VertexDirectEditManager extends DirectEditManager {
     this.verifyListener = event -> {
       final Text text1 = (Text) getCellEditor().getControl();
       final String oldText = text1.getText();
-      final String newText = oldText.substring(0, event.start) + event.text + oldText.substring(event.end, oldText.length());
+      final String newText = oldText.substring(0, event.start) + event.text
+          + oldText.substring(event.end, oldText.length());
 
       final GC gc = new GC(text1);
       Point size = gc.textExtent(newText);

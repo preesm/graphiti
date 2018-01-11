@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  *
@@ -161,7 +161,8 @@ public class WizardGraphTypePage extends WizardPage {
   }
 
   /**
-   * Calls {@link IGraphTypeSettable#setGraphType(Configuration, GraphType)} on the given page with the selected graph type and associated configuration.
+   * Calls {@link IGraphTypeSettable#setGraphType(Configuration, GraphType)} on the given page with the selected graph
+   * type and associated configuration.
    *
    * @param page
    *          An {@link IGraphTypeSettable} page.

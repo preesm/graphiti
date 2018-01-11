@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  *
@@ -62,7 +62,8 @@ import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
  * @author Nicolas Isch
  *
  */
-public class EdgeEditPart extends AbstractConnectionEditPart implements PropertyChangeListener, ITabbedPropertySheetPageContributor {
+public class EdgeEditPart extends AbstractConnectionEditPart
+    implements PropertyChangeListener, ITabbedPropertySheetPageContributor {
 
   /*
    * (non-Javadoc)

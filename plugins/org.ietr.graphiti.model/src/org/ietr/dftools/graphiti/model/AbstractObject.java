@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2009 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2009 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2009 - 2010)
  *
@@ -47,8 +47,8 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * This class is the base class for any object in the model. It has the ability to store properties. Classes may listen to property change events by registering
- * themselves using {@link #addPropertyChangeListener(PropertyChangeListener)}.
+ * This class is the base class for any object in the model. It has the ability to store properties. Classes may listen
+ * to property change events by registering themselves using {@link #addPropertyChangeListener(PropertyChangeListener)}.
  *
  * @author Jonathan Piat
  * @author Matthieu Wipliez
@@ -121,9 +121,10 @@ public abstract class AbstractObject {
   }
 
   /**
-   * This methods calls {@link PropertyChangeSupport#firePropertyChange(String, Object, Object)} on the underlying {@link PropertyChangeSupport} without
-   * updating the value of the property <code>propertyName</code>. This method is particularly useful when a property should be fired regardless of the previous
-   * value (in case of undo/redo for example, when a same object is added, removed, and added again).
+   * This methods calls {@link PropertyChangeSupport#firePropertyChange(String, Object, Object)} on the underlying
+   * {@link PropertyChangeSupport} without updating the value of the property <code>propertyName</code>. This method is
+   * particularly useful when a property should be fired regardless of the previous value (in case of undo/redo for
+   * example, when a same object is added, removed, and added again).
    *
    * @param propertyName
    *          The name of the property concerned.
@@ -137,7 +138,8 @@ public abstract class AbstractObject {
   }
 
   /**
-   * Returns the value of an attribute associated with this object's type and the given attribute name <code>attributeName</code>.
+   * Returns the value of an attribute associated with this object's type and the given attribute name
+   * <code>attributeName</code>.
    *
    * @param attributeName
    *          The name of an attribute.
@@ -198,7 +200,8 @@ public abstract class AbstractObject {
   }
 
   /**
-   * Sets this object's type. This method should be called with caution, as a lot of things in the editor depend on this...
+   * Sets this object's type. This method should be called with caution, as a lot of things in the editor depend on
+   * this...
    *
    * @param type
    *          The new type.
@@ -208,8 +211,8 @@ public abstract class AbstractObject {
   }
 
   /**
-   * Sets the value of the property whose name is <code>propertyName</code> to value <code>newValue</code>, and report the property update to any registered
-   * listeners.
+   * Sets the value of the property whose name is <code>propertyName</code> to value <code>newValue</code>, and report
+   * the property update to any registered listeners.
    *
    * @param propertyName
    *          The name of the property to set.
@@ -224,8 +227,8 @@ public abstract class AbstractObject {
   }
 
   /**
-   * Sets the value of the property whose name is <code>propertyName</code> to value <code>newValue</code>, <b>without</b> reporting the property update to any
-   * registered listeners.
+   * Sets the value of the property whose name is <code>propertyName</code> to value <code>newValue</code>,
+   * <b>without</b> reporting the property update to any registered listeners.
    *
    * @param propertyName
    *          The name of the property to set.

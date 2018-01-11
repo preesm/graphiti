@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014 - 2015)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  *
@@ -90,7 +90,8 @@ import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
  * @author Matthieu Wipliez
  *
  */
-public class VertexEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, NodeEditPart, ITabbedPropertySheetPageContributor {
+public class VertexEditPart extends AbstractGraphicalEditPart
+    implements PropertyChangeListener, NodeEditPart, ITabbedPropertySheetPageContributor {
 
   /** The direct edit manager. */
   private DirectEditManager directEditManager;
@@ -397,8 +398,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
   }
 
   /**
-   * This method is called by the {@link GraphLayoutManager}, and applies back the changes of the {@link CompoundDirectedGraphLayout} algorithm to the different
-   * figures, by setting their bounds.
+   * This method is called by the {@link GraphLayoutManager}, and applies back the changes of the
+   * {@link CompoundDirectedGraphLayout} algorithm to the different figures, by setting their bounds.
    */
   void updateFigures() {
     final Vertex vertex = (Vertex) getModel();
@@ -414,8 +415,8 @@ public class VertexEditPart extends AbstractGraphicalEditPart implements Propert
   }
 
   /**
-   * Update the ports of the given figure. The figure has to be passed to the function because updatePorts can be called by createFigure, and getFigure() at
-   * this time returns null.
+   * Update the ports of the given figure. The figure has to be passed to the function because updatePorts can be called
+   * by createFigure, and getFigure() at this time returns null.
    *
    * @param fig
    *          the fig

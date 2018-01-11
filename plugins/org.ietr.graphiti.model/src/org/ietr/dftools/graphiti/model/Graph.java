@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2009 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2009 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2009 - 2011)
  *
@@ -50,7 +50,8 @@ import org.jgrapht.graph.Multigraph;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class is an attributed multigraph (allowing more than one connection between any two vertices). It may be directed or not, as specified at creation.
+ * This class is an attributed multigraph (allowing more than one connection between any two vertices). It may be
+ * directed or not, as specified at creation.
  *
  * @author Jonathan Piat
  * @author Matthieu Wipliez
@@ -64,8 +65,8 @@ public class Graph extends AbstractObject {
   public static final String PROPERTY_ADD = "child added";
 
   /**
-   * String for the "hasLayout" property. This is a boolean property indicating if the graph has layout information or not. If it has none, the graph should be
-   * automatically laid out.
+   * String for the "hasLayout" property. This is a boolean property indicating if the graph has layout information or
+   * not. If it has none, the graph should be automatically laid out.
    */
   public static final String PROPERTY_HAS_LAYOUT = "has layout";
 
@@ -120,7 +121,8 @@ public class Graph extends AbstractObject {
   }
 
   /**
-   * Creates a new empty graph with the same properties as the source graph but configuration and type, that are overridden by the supplied parameters.
+   * Creates a new empty graph with the same properties as the source graph but configuration and type, that are
+   * overridden by the supplied parameters.
    *
    * @param graph
    *          The source graph.

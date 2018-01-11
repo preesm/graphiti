@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -54,12 +54,14 @@ import org.ietr.dftools.graphiti.ui.commands.refinement.PortChooser;
 public class EdgeCreateCommand extends Command {
 
   /**
-   * The edge is stored as an attribute so it can be used both in the <code>execute</code> and <code>undo</code> methods.
+   * The edge is stored as an attribute so it can be used both in the <code>execute</code> and <code>undo</code>
+   * methods.
    */
   private final Edge edge;
 
   /**
-   * The parentGraph is stored as an attribute so it can be used both in the <code>execute</code> and <code>undo</code> methods.
+   * The parentGraph is stored as an attribute so it can be used both in the <code>execute</code> and <code>undo</code>
+   * methods.
    */
   private Graph parentGraph;
 
@@ -93,7 +95,8 @@ public class EdgeCreateCommand extends Command {
     this.edge.setSource(this.source);
     this.edge.setTarget(this.target);
 
-    final String connection = this.source.getValue(ObjectType.PARAMETER_ID) + " - " + this.target.getValue(ObjectType.PARAMETER_ID);
+    final String connection = this.source.getValue(ObjectType.PARAMETER_ID) + " - "
+        + this.target.getValue(ObjectType.PARAMETER_ID);
 
     final PortChooser portChooser = new PortChooser(connection);
     if (this.edge.getParameter(ObjectType.PARAMETER_SOURCE_PORT) != null) {

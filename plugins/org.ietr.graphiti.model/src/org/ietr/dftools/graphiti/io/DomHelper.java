@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  *
@@ -105,8 +105,8 @@ public class DomHelper {
   }
 
   /**
-   * Returns the first sibling of <code>node</code>, or <code>node</code> itself, which has the given name. If none is found, the function returns
-   * <code>null</code>.
+   * Returns the first sibling of <code>node</code>, or <code>node</code> itself, which has the given name. If none is
+   * found, the function returns <code>null</code>.
    *
    * @param node
    *          A node.

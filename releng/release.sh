@@ -20,24 +20,12 @@ cat > $TMPDIR/pom.xml << "EOF"
   <groupId>org.ietr</groupId>
   <version>1.0.0</version>
   <packaging>pom</packaging>
-  <properties>
-    <preesm.maven.repo>https://preesm.github.io/preesm-maven/mavenrepo/</preesm.maven.repo>
-  </properties>
-  <!-- Preesm Repo hosts both Maven dependencies and Maven plugins -->
-  <pluginRepositories>
-    <pluginRepository>
-      <!-- Give same ID for safe offline mode -->
-      <id>Preesm Maven Repo</id>
-      <name>Preesm Maven Plugin Repo</name>
-      <url>${preesm.maven.repo}</url>
-    </pluginRepository>
-  </pluginRepositories>
   <build>
     <plugins>
       <plugin>
-        <groupId>org.ietr.maven</groupId>
+        <groupId>org.preesm.maven</groupId>
         <artifactId>sftp-maven-plugin</artifactId>
-        <version>2.1.0</version>
+        <version>1.0.0</version>
         <executions>
           <execution>
             <id>upload-repo</id>
@@ -65,7 +53,6 @@ echo "Testing SourceForge permission using Maven Sftp plugin"
 (cd $TMPDIR && mvn -q verify)
 rm -rf $TMPDIR
 
-
 #warning
 echo "Warning: this script will delete ignored files and remove all changes in $DEV_BRANCH and $MAIN_BRANCH"
 read -p "Do you want to conitnue ? [NO/yes] " ANS
@@ -87,7 +74,7 @@ git checkout $DEV_BRANCH
 git reset --hard
 git clean -xdf
 
-#update version in code and stash
+#update version in code and stash changes
 ./releng/update-version.sh $NEW_VERSION
 sed -i -e "s/X\.Y\.Z/$NEW_VERSION/g" release_notes.md
 sed -i -e "s/XXXX\.XX\.XX/$TODAY_DATE/g" release_notes.md
@@ -95,21 +82,18 @@ git stash
 
 # Fix headers
 ./releng/fix_header_copyright_and_authors.sh
-
-# make sure integration works before deploying and pushing
-git stash apply
-./releng/build_and_test.sh
-
 # commit fixed headers (if any)
-git reset --hard
 NBCHANGES=`git status --porcelain | wc -l`
 if [ $NBCHANGES -ne 0 ]; then
   git add -A
   git commit -m "[RELENG] Fix headers"
 fi
 
-# pop version update
-git stash pop
+# make sure integration works before deploying and pushing
+git stash apply
+./releng/build_and_test.sh
+
+#commit new version in develop
 git add -A
 git commit -m "[RELENG] Prepare version $NEW_VERSION"
 
@@ -140,10 +124,13 @@ cat tmp >> release_notes.md
 rm tmp
 git add -A
 git commit -m "[RELENG] Move to snapshot version"
-git push
 
-#deploy and push master (that is new version)
-git checkout master
+#deploy from master
+git checkout $MAIN_BRANCH
+./releng/deploy.sh
+
+#push if everything went fine
 git push
 git push --tags
-./releng/deploy.sh
+git checkout $DEV_BRANCH
+git push

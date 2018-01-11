@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014 - 2015)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -112,11 +112,13 @@ public class PropertyLocator extends ConnectionLocator {
     } else {
       ydirec = -1;
     }
-    if (this.pos.equals(ParameterPosition.West) || this.pos.equals(ParameterPosition.NorthWest) || this.pos.equals(ParameterPosition.SouthWest)) {
+    if (this.pos.equals(ParameterPosition.West) || this.pos.equals(ParameterPosition.NorthWest)
+        || this.pos.equals(ParameterPosition.SouthWest)) {
       final Point refP = conn.getPoints().getFirstPoint().getCopy();
       conn.getParent().translateToAbsolute(refP);
       p.setLocation(refP.x + (dec * xdirec), refP.y + (dec * ydirec));
-    } else if (this.pos.equals(ParameterPosition.East) || this.pos.equals(ParameterPosition.NorthEast) || this.pos.equals(ParameterPosition.SouthEast)) {
+    } else if (this.pos.equals(ParameterPosition.East) || this.pos.equals(ParameterPosition.NorthEast)
+        || this.pos.equals(ParameterPosition.SouthEast)) {
       final Point refP = conn.getPoints().getLastPoint().getCopy();
       conn.getParent().translateToAbsolute(refP);
       p.setLocation(refP.x - (dec * xdirec), refP.y - (dec * ydirec));

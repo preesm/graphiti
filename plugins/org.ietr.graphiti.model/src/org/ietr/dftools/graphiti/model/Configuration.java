@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2009 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2009 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2009 - 2011)
  *
@@ -42,11 +42,11 @@ import java.util.TreeSet;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class provides the configuration for a {@link Graph}. A configuration is defined by an extension point, and contains attributes and parameters that are
- * defined for the graph, vertices and edges.
+ * This class provides the configuration for a {@link Graph}. A configuration is defined by an extension point, and
+ * contains attributes and parameters that are defined for the graph, vertices and edges.
  * <p>
- * Attributes are specified for classes of objects: for example, all vertices of type T will have an attribute A which has the value V. Examples of such
- * attributes for vertices are "shape" or "color".
+ * Attributes are specified for classes of objects: for example, all vertices of type T will have an attribute A which
+ * has the value V. Examples of such attributes for vertices are "shape" or "color".
  * </p>
  * <p>
  * Parameters are specified for each instance of graph/vertex/edge. Examples of parameters are position or id.
@@ -115,8 +115,9 @@ public class Configuration {
    * @param policy
    *          the policy
    */
-  public Configuration(final String name, final String contributorId, final FileFormat fileFormat, final Map<String, ObjectType> graphTypes,
-      final Map<String, ObjectType> vertexTypes, final Map<String, ObjectType> edgeTypes, final IValidator validator, final IRefinementPolicy policy) {
+  public Configuration(final String name, final String contributorId, final FileFormat fileFormat,
+      final Map<String, ObjectType> graphTypes, final Map<String, ObjectType> vertexTypes,
+      final Map<String, ObjectType> edgeTypes, final IValidator validator, final IRefinementPolicy policy) {
     this.contributorId = contributorId;
     this.edgeTypes = edgeTypes;
     this.fileFormat = fileFormat;
