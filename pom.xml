@@ -127,21 +127,7 @@
       <layout>p2</layout>
       <url>${preesm.p2.repo}</url>
     </repository>
-    <repository>
-      <id>Preesm Maven Repo</id>
-      <url>${preesm.maven.repo}</url>
-    </repository>
   </repositories>
-
-  <!-- Preesm Repo hosts both Maven dependencies and Maven plugins -->
-  <pluginRepositories>
-    <pluginRepository>
-      <!-- Give same ID for safe offline mode -->
-      <id>Preesm Maven Repo</id>
-      <name>Preesm Maven Plugin Repo</name>
-      <url>${preesm.maven.repo}</url>
-    </pluginRepository>
-  </pluginRepositories>
 
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -483,12 +469,12 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.ietr.maven</groupId>
+            <groupId>org.preesm.maven</groupId>
             <artifactId>m2e-settings-maven-plugin</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.0</version>
             <dependencies>
               <dependency>
-                <groupId>org.ietr.preesm</groupId>
+                <groupId>org.preesm.maven</groupId>
                 <artifactId>coding-policy</artifactId>
                 <version>${preesm.coding.policy.version}</version>
               </dependency>
