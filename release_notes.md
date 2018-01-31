@@ -7,6 +7,7 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Force externaldeps to 1.4.1+
 
 ### Bug fix
 

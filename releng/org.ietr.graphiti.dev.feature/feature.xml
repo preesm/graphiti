@@ -626,8 +626,8 @@ Version 1.0 dated 2006-09-05.]]>
       <!-- C Editor within Eclipse -->
       <import feature="org.eclipse.cdt"/>
 
-	  <!-- IETR dependencies -->
-      <import feature="org.ietr.externaldeps.aio.deps" version="1.4.0" match="greaterOrEqual"/>
+	    <!-- IETR dependencies -->
+      <import feature="org.ietr.externaldeps.aio.deps" version="1.4.1" match="greaterOrEqual"/>
    </requires>
 
 </feature>
