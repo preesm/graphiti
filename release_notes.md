@@ -1,6 +1,18 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.5.0
+*2018.02.05*
+
+### New Feature
+
+### Changes
+* Update JGrapht to 1.1.0
+* Force externaldeps to 2.0.0+
+
+### Bug fix
+
+
 ## Release version 1.4.7
 *2018.01.11*
 

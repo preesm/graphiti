@@ -87,7 +87,7 @@ public abstract class AbstractObject {
     final Set<Entry<String, Object>> entries = bean.properties.entrySet();
     for (final Entry<String, Object> entry : entries) {
       Object value = entry.getValue();
-      if (value instanceof String || value instanceof Integer || value instanceof Float) {
+      if ((value instanceof String) || (value instanceof Integer) || (value instanceof Float)) {
         // Primitive types are immutable, no need to copy them
       } else if (value instanceof List<?>) {
         value = new ArrayList<Object>((List<?>) value);

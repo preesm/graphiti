@@ -179,23 +179,23 @@ public class GraphitiPalette {
    */
   private static final class RecoloredImageDataProvider implements ImageDataProvider {
 
-    private ImageData image;
-    private Color     color;
+    private final ImageData image;
+    private final Color     color;
 
-    public RecoloredImageDataProvider(Image image, Color color) {
+    public RecoloredImageDataProvider(final Image image, final Color color) {
       this.image = image.getImageData();
       this.color = color;
     }
 
     @Override
-    public ImageData getImageData(int zoom) {
+    public ImageData getImageData(final int zoom) {
 
-      final ImageData data = image;
+      final ImageData data = this.image;
       if (data.palette.colors != null) {
         final RGB rgb = data.palette.colors[0];
-        rgb.red = color.getRed();
-        rgb.green = color.getGreen();
-        rgb.blue = color.getBlue();
+        rgb.red = this.color.getRed();
+        rgb.green = this.color.getGreen();
+        rgb.blue = this.color.getBlue();
       }
 
       return data;
