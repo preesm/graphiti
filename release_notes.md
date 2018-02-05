@@ -8,7 +8,7 @@ Graphiti Changelog
 
 ### Changes
 * Update JGrapht to 1.1.0
-* Force externaldeps to 1.4.1+
+* Force externaldeps to 2.0.0+
 
 ### Bug fix
 
