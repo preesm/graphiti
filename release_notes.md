@@ -7,6 +7,9 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* update mailmap file
+* force externaldeps to 2.1.0+
+* fix release script
 
 ### Bug fix
 
