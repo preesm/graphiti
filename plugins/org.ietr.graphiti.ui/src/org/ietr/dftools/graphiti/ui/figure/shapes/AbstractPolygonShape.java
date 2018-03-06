@@ -40,6 +40,7 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.Polygon;
+import org.ietr.dftools.graphiti.GraphitiException;
 import org.ietr.dftools.graphiti.ui.figure.PolygonPortAnchor;
 import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 
@@ -80,13 +81,9 @@ public abstract class AbstractPolygonShape extends Polygon implements IShape {
   public IShape newShape() {
     try {
       return getClass().newInstance();
-    } catch (final InstantiationException e) {
-      e.printStackTrace();
-    } catch (final IllegalAccessException e) {
-      e.printStackTrace();
+    } catch (final InstantiationException | IllegalAccessException e) {
+      throw new GraphitiException("", e);
     }
-
-    return this;
   }
 
   /*
