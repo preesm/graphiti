@@ -113,11 +113,12 @@ public class GenericGraphParser {
   private Graph parse(final Configuration configuration, final IFile file) throws Exception {
     final FileFormat format = configuration.getFileFormat();
     final List<Transformation> transformations = format.getImportTransformations();
-    Element element = null;
+    Element element;
     if (transformations.isEmpty()) {
       final InputStream in = file.getContents();
       element = DomHelper.parse(in).getDocumentElement();
     } else {
+      element = null;
       for (final Transformation transformation : transformations) {
         if (transformation.isXslt()) {
           // fills the element from the input stream
@@ -136,7 +137,9 @@ public class GenericGraphParser {
         }
       }
     }
-
+    if (element == null) {
+      throw new NullPointerException();
+    }
     return parseGraph(configuration, element);
   }
 
