@@ -7,9 +7,11 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
-* update mailmap file
-* force externaldeps to 2.1.0+
-* fix release script
+* Update mailmap file;
+* Force externaldeps to 2.1.0+;
+* Fix release script;
+* Refactor code (remove sonar code smells);
+* Throw exceptions instead of printing them in stderr;
 
 ### Bug fix
 

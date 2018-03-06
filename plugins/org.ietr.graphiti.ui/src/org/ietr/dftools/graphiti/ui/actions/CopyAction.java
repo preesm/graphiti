@@ -43,10 +43,9 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
-import org.ietr.dftools.graphiti.ui.commands.copyPaste.CopyCommand;
+import org.ietr.dftools.graphiti.ui.commands.copypaste.CopyCommand;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides an implementation of the copy action.
  *
@@ -78,7 +77,7 @@ public class CopyAction extends SelectionAction {
     final ISelection selection = getSelection();
     if (selection instanceof IStructuredSelection) {
       final IStructuredSelection ssel = (IStructuredSelection) selection;
-      return ((ssel.isEmpty() == false) && (ssel.getFirstElement() instanceof VertexEditPart));
+      return ((!ssel.isEmpty()) && (ssel.getFirstElement() instanceof VertexEditPart));
     } else {
       return false;
     }

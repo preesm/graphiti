@@ -48,7 +48,6 @@ import org.jgrapht.graph.AbstractBaseGraph;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.Multigraph;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class is an attributed multigraph (allowing more than one connection between any two vertices). It may be
  * directed or not, as specified at creation.
@@ -84,7 +83,7 @@ public class Graph extends AbstractObject {
   private IPath fileName;
 
   /** The graph. */
-  private AbstractBaseGraph<Vertex, Edge> graph;
+  private AbstractBaseGraph<Vertex, Edge> concreteGraph;
 
   /** The vertices. */
   private final Map<String, Vertex> vertices;
@@ -104,9 +103,9 @@ public class Graph extends AbstractObject {
 
     this.configuration = configuration;
     if (directed) {
-      this.graph = new DirectedMultigraph<>(Edge.class);
+      this.concreteGraph = new DirectedMultigraph<>(Edge.class);
     } else {
-      this.graph = new Multigraph<>(Edge.class);
+      this.concreteGraph = new Multigraph<>(Edge.class);
     }
     this.vertices = new LinkedHashMap<>();
 
@@ -135,9 +134,9 @@ public class Graph extends AbstractObject {
     super(graph);
     this.configuration = configuration;
     if (graph.isDirected()) {
-      this.graph = new DirectedMultigraph<>(Edge.class);
+      this.concreteGraph = new DirectedMultigraph<>(Edge.class);
     } else {
-      this.graph = new Multigraph<>(Edge.class);
+      this.concreteGraph = new Multigraph<>(Edge.class);
     }
     this.vertices = new LinkedHashMap<>();
     this.type = type;
@@ -153,7 +152,7 @@ public class Graph extends AbstractObject {
   public boolean addEdge(final Edge edge) {
     final Vertex source = edge.getSource();
     final Vertex target = edge.getTarget();
-    final boolean res = this.graph.addEdge(source, target, edge);
+    final boolean res = this.concreteGraph.addEdge(source, target, edge);
     source.firePropertyChange(Vertex.PROPERTY_SRC_VERTEX, null, source);
     target.firePropertyChange(Vertex.PROPERTY_DST_VERTEX, null, target);
     return res;
@@ -168,7 +167,7 @@ public class Graph extends AbstractObject {
    * @see AbstractBaseGraph#addVertex(Vertex)
    */
   public boolean addVertex(final Vertex child) {
-    final boolean res = this.graph.addVertex(child);
+    final boolean res = this.concreteGraph.addVertex(child);
     if (res) {
       // only updates this graph and fires property change if vertex not
       // already present in the graph
@@ -205,7 +204,7 @@ public class Graph extends AbstractObject {
    * @see AbstractBaseGraph#edgeSet()
    */
   public Set<Edge> edgeSet() {
-    return this.graph.edgeSet();
+    return this.concreteGraph.edgeSet();
   }
 
   /**
@@ -235,8 +234,7 @@ public class Graph extends AbstractObject {
    */
   public IFile getFile() {
     final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-    final IFile file = root.getFile(this.fileName);
-    return file;
+    return root.getFile(this.fileName);
   }
 
   /**
@@ -257,7 +255,7 @@ public class Graph extends AbstractObject {
    * @see AbstractBaseGraph#incomingEdgesOf(Vertex)
    */
   public Set<Edge> incomingEdgesOf(final Vertex vertex) {
-    return this.graph.incomingEdgesOf(vertex);
+    return this.concreteGraph.incomingEdgesOf(vertex);
   }
 
   /**
@@ -266,7 +264,7 @@ public class Graph extends AbstractObject {
    * @return True if this graph is directed, false otherwise.
    */
   public boolean isDirected() {
-    return this.graph instanceof DirectedMultigraph<?, ?>;
+    return this.concreteGraph instanceof DirectedMultigraph<?, ?>;
   }
 
   /**
@@ -278,7 +276,7 @@ public class Graph extends AbstractObject {
    * @see AbstractBaseGraph#outgoingEdgesOf(Vertex)
    */
   public Set<Edge> outgoingEdgesOf(final Vertex vertex) {
-    return this.graph.outgoingEdgesOf(vertex);
+    return this.concreteGraph.outgoingEdgesOf(vertex);
   }
 
   /**
@@ -292,7 +290,7 @@ public class Graph extends AbstractObject {
   public boolean removeEdge(final Edge edge) {
     final Vertex source = edge.getSource();
     final Vertex target = edge.getTarget();
-    final boolean res = this.graph.removeEdge(edge);
+    final boolean res = this.concreteGraph.removeEdge(edge);
     source.firePropertyChange(Vertex.PROPERTY_SRC_VERTEX, source, null);
     target.firePropertyChange(Vertex.PROPERTY_DST_VERTEX, target, null);
     return res;
@@ -307,7 +305,7 @@ public class Graph extends AbstractObject {
    * @see AbstractBaseGraph#removeVertex(Graph)
    */
   public boolean removeVertex(final Vertex child) {
-    final boolean res = this.graph.removeVertex(child);
+    final boolean res = this.concreteGraph.removeVertex(child);
     child.parent = null;
 
     this.vertices.remove(child.getValue(ObjectType.PARAMETER_ID));
@@ -343,7 +341,7 @@ public class Graph extends AbstractObject {
    * @see AbstractBaseGraph#vertexSet()
    */
   public Set<Vertex> vertexSet() {
-    return this.graph.vertexSet();
+    return this.concreteGraph.vertexSet();
   }
 
 }

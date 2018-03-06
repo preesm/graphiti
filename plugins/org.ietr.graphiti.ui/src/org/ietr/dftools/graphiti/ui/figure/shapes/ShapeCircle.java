@@ -41,10 +41,10 @@ import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.ietr.dftools.graphiti.GraphitiException;
 import org.ietr.dftools.graphiti.ui.figure.EllipsePortAnchor;
 import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a circle shape.
  *
@@ -83,13 +83,9 @@ public class ShapeCircle extends Ellipse implements IShape {
   public IShape newShape() {
     try {
       return getClass().newInstance();
-    } catch (final InstantiationException e) {
-      e.printStackTrace();
-    } catch (final IllegalAccessException e) {
-      e.printStackTrace();
+    } catch (final InstantiationException | IllegalAccessException e) {
+      throw new GraphitiException("", e);
     }
-
-    return this;
   }
 
   /*

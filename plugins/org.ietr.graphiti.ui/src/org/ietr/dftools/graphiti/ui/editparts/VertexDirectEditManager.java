@@ -48,7 +48,6 @@ import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.figure.VertexCellEditorLocator;
 import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class extends {@link DirectEditManager} to edit a {@link Vertex}'s id. It is based on Daniel Lee's
  * implementation for the flow example.
@@ -102,15 +101,6 @@ public class VertexDirectEditManager extends DirectEditManager {
       } else {
         size = text1.computeSize(size.x, size.y);
       }
-
-      // String error =
-      // getCellEditor().getValidator().isValid(newText);
-      // if (error == null || error.isEmpty()) {
-      // text.setBackground(text.getParent().getBackground());
-      // } else {
-      // text.setBackground(ColorConstants.red);
-      // }
-
       text1.setSize(size.x, size.y);
     };
     text.addVerifyListener(this.verifyListener);

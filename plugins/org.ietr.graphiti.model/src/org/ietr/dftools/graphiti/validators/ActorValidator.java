@@ -40,7 +40,6 @@ import org.eclipse.core.resources.IFile;
 import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.IValidator;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class implements a model validator.
  *

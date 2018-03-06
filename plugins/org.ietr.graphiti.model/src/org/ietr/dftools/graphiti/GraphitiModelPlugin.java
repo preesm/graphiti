@@ -44,7 +44,6 @@ import org.ietr.dftools.graphiti.io.ConfigurationParser;
 import org.ietr.dftools.graphiti.model.Configuration;
 import org.osgi.framework.BundleContext;
 
-// TODO: Auto-generated Javadoc
 /**
  * The activator class controls the plug-in life cycle.
  */
@@ -71,13 +70,6 @@ public class GraphitiModelPlugin extends AbstractUIPlugin {
 
   /** map of configuration name to configuration. */
   private Map<String, Configuration> configurations;
-
-  /**
-   * The constructor.
-   */
-  public GraphitiModelPlugin() {
-    GraphitiModelPlugin.plugin = this;
-  }
 
   /**
    * Returns the configuration with the given name.

@@ -52,7 +52,6 @@ import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Parameter;
 import org.ietr.dftools.graphiti.model.ParameterPosition;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides drawing for a dependency.
  *

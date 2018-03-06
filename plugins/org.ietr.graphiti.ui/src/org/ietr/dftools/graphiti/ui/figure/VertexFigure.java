@@ -96,10 +96,10 @@ public class VertexFigure extends Figure {
   private class ConcreteBendpoint {
 
     /** The end. */
-    public boolean end;
+    boolean end;
 
     /** The offset. */
-    public int offset;
+    int offset;
 
     /**
      * Instantiates a new concrete bendpoint.

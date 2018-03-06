@@ -45,7 +45,6 @@ import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.geometry.Point;
 import org.ietr.dftools.graphiti.model.ParameterPosition;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a connection locator.
  *
@@ -112,13 +111,13 @@ public class PropertyLocator extends ConnectionLocator {
     } else {
       ydirec = -1;
     }
-    if (this.pos.equals(ParameterPosition.West) || this.pos.equals(ParameterPosition.NorthWest)
-        || this.pos.equals(ParameterPosition.SouthWest)) {
+    if (this.pos.equals(ParameterPosition.WEST) || this.pos.equals(ParameterPosition.NORTHWEST)
+        || this.pos.equals(ParameterPosition.SOUTHWEST)) {
       final Point refP = conn.getPoints().getFirstPoint().getCopy();
       conn.getParent().translateToAbsolute(refP);
       p.setLocation(refP.x + (dec * xdirec), refP.y + (dec * ydirec));
-    } else if (this.pos.equals(ParameterPosition.East) || this.pos.equals(ParameterPosition.NorthEast)
-        || this.pos.equals(ParameterPosition.SouthEast)) {
+    } else if (this.pos.equals(ParameterPosition.EAST) || this.pos.equals(ParameterPosition.NORTHEAST)
+        || this.pos.equals(ParameterPosition.SOUTHEAST)) {
       final Point refP = conn.getPoints().getLastPoint().getCopy();
       conn.getParent().translateToAbsolute(refP);
       p.setLocation(refP.x - (dec * xdirec), refP.y - (dec * ydirec));

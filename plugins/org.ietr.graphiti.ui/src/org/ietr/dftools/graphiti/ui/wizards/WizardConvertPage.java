@@ -56,7 +56,6 @@ import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.editors.GraphEditor;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a convert page for the save as wizard.
  *

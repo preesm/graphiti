@@ -40,7 +40,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.ietr.dftools.graphiti.model.Vertex;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class executes a command that moves a vertex.
  *

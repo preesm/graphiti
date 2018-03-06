@@ -51,7 +51,6 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a thumbnail outline page.
  *

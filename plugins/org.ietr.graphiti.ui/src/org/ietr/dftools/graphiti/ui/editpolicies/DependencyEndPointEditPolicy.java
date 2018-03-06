@@ -42,7 +42,6 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides facilities to change dependencies appearance when they are selected.
  *

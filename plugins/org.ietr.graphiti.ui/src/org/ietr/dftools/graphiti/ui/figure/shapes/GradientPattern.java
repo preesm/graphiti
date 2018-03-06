@@ -46,7 +46,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.widgets.Display;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GradientPattern.
  *

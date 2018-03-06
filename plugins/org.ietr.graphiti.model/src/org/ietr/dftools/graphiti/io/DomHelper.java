@@ -38,6 +38,7 @@ package org.ietr.dftools.graphiti.io;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.ietr.dftools.graphiti.GraphitiException;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -49,7 +50,6 @@ import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSParser;
 import org.w3c.dom.ls.LSSerializer;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides various methods to reduce the amount of copy/paste when dealing with DOM.
  *
@@ -57,6 +57,10 @@ import org.w3c.dom.ls.LSSerializer;
  *
  */
 public class DomHelper {
+
+  private DomHelper() {
+    // disallow instantiation
+  }
 
   /**
    * Creates a new document with the given namespace and document element.
@@ -87,7 +91,7 @@ public class DomHelper {
       final DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
       return registry.getDOMImplementation("Core 3.0 XML 3.0 LS");
     } catch (final Exception e) {
-      throw new RuntimeException(e);
+      throw new GraphitiException("Could not get DOM Implementation", e);
     }
   }
 

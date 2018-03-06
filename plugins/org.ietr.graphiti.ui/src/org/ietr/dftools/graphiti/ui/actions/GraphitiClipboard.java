@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.ui.actions;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.widgets.Display;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class is a tailor-made {@link Clipboard}.
  *

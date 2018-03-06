@@ -47,7 +47,6 @@ import org.ietr.dftools.graphiti.ui.commands.VertexRenameCommand;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a {@link DirectEditPolicy} for a vertex id.
  *

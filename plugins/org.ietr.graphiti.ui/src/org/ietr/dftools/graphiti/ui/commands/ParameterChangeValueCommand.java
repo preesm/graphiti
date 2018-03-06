@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.ui.commands;
 import org.eclipse.gef.commands.Command;
 import org.ietr.dftools.graphiti.model.AbstractObject;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a command that changes the value of the currently selected parameter.
  *

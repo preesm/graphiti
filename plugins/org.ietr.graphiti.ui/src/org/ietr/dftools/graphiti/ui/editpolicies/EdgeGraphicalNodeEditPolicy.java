@@ -49,7 +49,6 @@ import org.ietr.dftools.graphiti.ui.commands.EdgeReconnectCommand;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 import org.ietr.dftools.graphiti.ui.figure.EdgeFigure;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides methods that deal with creations and connections of dependencies. When the user clicks a source
  * port, the method <code>getConnectionCreateCommand</code> is first called. When they click the destination port,
@@ -72,8 +71,7 @@ public class EdgeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
   @Override
   protected Connection createDummyConnection(final Request req) {
     final Object obj = ((CreateConnectionRequest) req).getNewObject();
-    final EdgeFigure conn = new EdgeFigure((Edge) obj);
-    return conn;
+    return new EdgeFigure((Edge) obj);
   }
 
   /*

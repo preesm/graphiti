@@ -63,7 +63,6 @@ import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.ietr.dftools.graphiti.GraphitiModelPlugin;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class defines a default refinement policy.
  *
@@ -172,7 +171,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
   protected IPath getAbsolutePath(final IPath parent, final String refinement) {
     // get the path from the refinement
     IPath path = new Path(refinement);
-    if (path.isAbsolute() == false) {
+    if (!path.isAbsolute()) {
       final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
       final IFile file = root.getFile(parent);
       path = file.getParent().getFullPath().append(path);
@@ -241,8 +240,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
     }
 
     final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-    final IFile file = root.getFile(refinement);
-    return file;
+    return root.getFile(refinement);
   }
 
   /**
@@ -256,39 +254,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
    * @return A {@link String} with the refinement value.
    */
   protected IPath getRefinementValue(final Vertex vertex, final IFile file) {
-    // IPath editedFilePath = vertex.getParent().getFile().getParent()
-    // .getFullPath();
-    // IPath createdFilePath = file.getParent().getFullPath();
-
-    final IPath fileFullPath = file.getFullPath();
-    return fileFullPath;
-
-    // int n = editedFilePath.matchingFirstSegments(createdFilePath);
-    // IPath refinement = null;
-    // if (n == 0) {
-    // // no common path segments: absolute path
-    // refinement = createdFilePath;
-    // } else {
-    // // common path segments: using a relative path
-    // if (editedFilePath.isPrefixOf(createdFilePath)) {
-    // // just remove the common segments
-    // refinement = createdFilePath.removeFirstSegments(n);
-    // } else {
-    // // go up
-    // int max = editedFilePath.segmentCount();
-    // String path = "";
-    // for (int i = 0; i < max - n; i++) {
-    // path += "../";
-    // }
-    // // and then down
-    // path += createdFilePath.removeFirstSegments(n);
-    // refinement = new Path(path);
-    // }
-    // }
-    //
-    // String fileName = file.getName();
-    // refinement = refinement.append(fileName);
-    // return refinement.toString();
+    return file.getFullPath();
   }
 
   /*
@@ -338,12 +304,10 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
     tree.setMessage("Please select an existing file:");
     tree.setTitle("Choose an existing file");
     tree.setValidator(selection -> {
-      if (selection.length == 1) {
-        if (selection[0] instanceof IFile) {
-          final IFile file = (IFile) selection[0];
-          final String message = "Vertex refinement: " + getRefinementValue(vertex, file);
-          return new Status(IStatus.OK, GraphitiModelPlugin.PLUGIN_ID, message);
-        }
+      if (selection.length == 1 && selection[0] instanceof IFile) {
+        final IFile file = (IFile) selection[0];
+        final String message = "Vertex refinement: " + getRefinementValue(vertex, file);
+        return new Status(IStatus.OK, GraphitiModelPlugin.PLUGIN_ID, message);
       }
 
       return new Status(IStatus.ERROR, GraphitiModelPlugin.PLUGIN_ID,

@@ -58,7 +58,6 @@ import org.ietr.dftools.graphiti.model.Vertex;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a generic graph parser. Generic means that it can parse any format (text-based or XML-based) that
  * contains a graph.
@@ -114,11 +113,12 @@ public class GenericGraphParser {
   private Graph parse(final Configuration configuration, final IFile file) throws Exception {
     final FileFormat format = configuration.getFileFormat();
     final List<Transformation> transformations = format.getImportTransformations();
-    Element element = null;
+    Element element;
     if (transformations.isEmpty()) {
       final InputStream in = file.getContents();
       element = DomHelper.parse(in).getDocumentElement();
     } else {
+      element = null;
       for (final Transformation transformation : transformations) {
         if (transformation.isXslt()) {
           // fills the element from the input stream
@@ -137,7 +137,9 @@ public class GenericGraphParser {
         }
       }
     }
-
+    if (element == null) {
+      throw new NullPointerException();
+    }
     return parseGraph(configuration, element);
   }
 
@@ -159,19 +161,19 @@ public class GenericGraphParser {
   public Graph parse(final IFile file) throws IncompatibleConfigurationFile {
     // finds all suitable configurations
     final String fileExt = file.getFileExtension();
-    final List<Configuration> configurations = new ArrayList<>();
+    final List<Configuration> suitableConfigs = new ArrayList<>();
     for (final Configuration configuration : this.configurations) {
       final FileFormat format = configuration.getFileFormat();
       if (format.getFileExtension().equals(fileExt)) {
-        configurations.add(configuration);
+        suitableConfigs.add(configuration);
       }
     }
 
     Configuration configuration;
-    if (configurations.isEmpty()) {
+    if (suitableConfigs.isEmpty()) {
       throw new IncompatibleConfigurationFile("No configuration could parse the file" + file.getFullPath());
-    } else if (configurations.size() == 1) {
-      configuration = configurations.get(0);
+    } else if (suitableConfigs.size() == 1) {
+      configuration = suitableConfigs.get(0);
     } else {
       throw new IncompatibleConfigurationFile("Many configurations could parse the file");
     }
@@ -197,7 +199,7 @@ public class GenericGraphParser {
    * @throws TransformedDocumentParseError
    *           If the edges could not be parsed.
    */
-  private Node parseEdges(final Graph graph, Node node) throws TransformedDocumentParseError {
+  private void parseEdges(final Graph graph, Node node) throws TransformedDocumentParseError {
     final Configuration configuration = graph.getConfiguration();
     node = DomHelper.getFirstSiblingNamed(node, "edges");
     Node child = node.getFirstChild();
@@ -232,8 +234,6 @@ public class GenericGraphParser {
 
       child = child.getNextSibling();
     }
-
-    return node.getNextSibling();
   }
 
   /**
@@ -257,7 +257,7 @@ public class GenericGraphParser {
     Node node = element.getFirstChild();
     node = parseParameters(graph, type, node);
     node = parseVertices(graph, node);
-    node = parseEdges(graph, node);
+    parseEdges(graph, node);
 
     checkLayout(graph);
 

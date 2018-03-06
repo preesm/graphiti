@@ -38,7 +38,6 @@ package org.ietr.dftools.graphiti.model;
 
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class represents an edge.
  *

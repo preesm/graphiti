@@ -36,7 +36,6 @@
  */
 package org.ietr.dftools.graphiti.io;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides an exception that is launched when the transformed document (after zero or one grammar
  * transformation and zero or more XSLT transformations) cannot be parsed.

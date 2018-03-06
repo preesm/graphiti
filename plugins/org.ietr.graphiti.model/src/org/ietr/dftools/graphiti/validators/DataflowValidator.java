@@ -43,13 +43,13 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.ietr.dftools.graphiti.GraphitiException;
 import org.ietr.dftools.graphiti.model.Edge;
 import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.IValidator;
 import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class implements a model validator.
  *
@@ -113,7 +113,7 @@ public class DataflowValidator implements IValidator {
       marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
       marker.setAttribute(IMarker.MESSAGE, message);
     } catch (final CoreException e) {
-      e.printStackTrace();
+      throw new GraphitiException("Could not create marker.", e);
     }
   }
 

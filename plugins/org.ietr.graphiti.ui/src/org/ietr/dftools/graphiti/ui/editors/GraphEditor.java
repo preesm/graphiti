@@ -38,7 +38,6 @@ package org.ietr.dftools.graphiti.ui.editors;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -93,9 +92,11 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.ietr.dftools.graphiti.GraphitiException;
 import org.ietr.dftools.graphiti.GraphitiModelPlugin;
 import org.ietr.dftools.graphiti.io.GenericGraphParser;
 import org.ietr.dftools.graphiti.io.GenericGraphWriter;
+import org.ietr.dftools.graphiti.io.IncompatibleConfigurationFile;
 import org.ietr.dftools.graphiti.model.Configuration;
 import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.IValidator;
@@ -124,9 +125,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
 
   /** The manager. */
   private ZoomManager manager;
-
-  /** The outline page. */
-  private ThumbnailOutlinePage outlinePage;
 
   /** The palette root. */
   private PaletteRoot paletteRoot;
@@ -235,7 +233,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
         final String id = action.getId();
         selectionActions.add(id);
       } catch (final Exception e) {
-        e.printStackTrace();
+        throw new GraphitiException("Could not create actions.", e);
       }
     }
   }
@@ -278,16 +276,11 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     validate();
 
     final IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-    final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
     final GenericGraphWriter writer = new GenericGraphWriter(this.graph);
-    try {
+    try (final ByteArrayOutputStream out = new ByteArrayOutputStream()) {
       writer.write(file.getLocation().toString(), out);
       file.setContents(new ByteArrayInputStream(out.toByteArray()), true, false, monitor);
-      try {
-        out.close();
-      } catch (final IOException e) {
-        // Can never occur on a ByteArrayOutputStream
-      }
       getCommandStack().markSaveLocation();
 
       // refresh folder if we have written layout
@@ -330,8 +323,8 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
     final Shell shell = window.getShell();
 
-    final IStatus status = new Status(IStatus.ERROR, GraphitiUiPlugin.PLUGIN_ID, message, exception);
-    ErrorDialog.openError(shell, "Save error", "The file could not be saved.", status, IStatus.ERROR);
+    final IStatus errorStatus = new Status(IStatus.ERROR, GraphitiUiPlugin.PLUGIN_ID, message, exception);
+    ErrorDialog.openError(shell, "Save error", "The file could not be saved.", errorStatus, IStatus.ERROR);
   }
 
   /**
@@ -356,8 +349,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     if (type == ZoomManager.class) {
       return ((ScalableFreeformRootEditPart) getGraphicalViewer().getRootEditPart()).getZoomManager();
     } else if (type == IContentOutlinePage.class) {
-      this.outlinePage = new ThumbnailOutlinePage(this);
-      return this.outlinePage;
+      return new ThumbnailOutlinePage(this);
     } else if (type == IPropertySheetPage.class) {
       return this.tabbedPropertySheetPage;
     } else {
@@ -466,7 +458,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     try {
       file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
     } catch (final CoreException e) {
-      e.printStackTrace();
+      throw new GraphitiException("Could not remove markers", e);
     }
   }
 
@@ -479,9 +471,9 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
   protected void setInput(final IEditorInput input) {
     super.setInput(input);
 
-    final IFile file = ((IFileEditorInput) input).getFile();
-    setPartName(file.getName());
     try {
+      final IFile file = ((IFileEditorInput) input).getFile();
+      setPartName(file.getName());
       final GraphitiModelPlugin modelPlugin = GraphitiModelPlugin.getDefault();
       final Collection<Configuration> pluginConfigurations = modelPlugin.getConfigurations();
       final GenericGraphParser graphParser = new GenericGraphParser(pluginConfigurations);
@@ -492,19 +484,15 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
 
       // show properties
       final IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-      try {
-        if (page != null) {
-          page.showView(IPageLayout.ID_PROP_SHEET);
-        }
-      } catch (final PartInitException e) {
-        e.printStackTrace();
+      if (page != null) {
+        page.showView(IPageLayout.ID_PROP_SHEET);
       }
 
       // initial validation
       validate();
 
       firePropertyChange(IEditorPart.PROP_INPUT);
-    } catch (final Throwable e) {
+    } catch (IncompatibleConfigurationFile | PartInitException e) {
       this.status = new Status(IStatus.ERROR, GraphitiUiPlugin.PLUGIN_ID, "An error occurred while parsing the file",
           e);
     }
@@ -532,7 +520,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
       try {
         page.showView(IPageLayout.ID_PROBLEM_VIEW);
       } catch (final PartInitException e) {
-        e.printStackTrace();
+        throw new GraphitiException("Could not validate input graph", e);
       }
     }
   }

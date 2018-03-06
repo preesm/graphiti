@@ -59,7 +59,6 @@ import org.osgi.framework.Bundle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides methods to transform an XML file or a DOM element to:
  * <ul>
@@ -183,8 +182,7 @@ public class XsltTransformer {
       // never happens on a byte array output stream
     }
 
-    final String value = os.toString();
-    return value;
+    return os.toString();
   }
 
 }

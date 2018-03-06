@@ -40,7 +40,6 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 import org.ietr.dftools.graphiti.ui.commands.refinement.SetRefinementCommand;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a way to create a vertex refinement.
  *

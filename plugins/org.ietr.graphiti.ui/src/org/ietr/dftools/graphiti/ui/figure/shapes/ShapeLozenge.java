@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.ui.figure.shapes;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a losange shape.
  *
@@ -48,12 +47,6 @@ import org.eclipse.draw2d.geometry.Point;
  *
  */
 public class ShapeLozenge extends AbstractPolygonShape implements IShape {
-
-  /**
-   * Creates a new losange shape.
-   */
-  public ShapeLozenge() {
-  }
 
   /*
    * (non-Javadoc)

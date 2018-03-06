@@ -52,7 +52,6 @@ import org.ietr.dftools.graphiti.ui.commands.VertexMoveCommand;
 import org.ietr.dftools.graphiti.ui.commands.refinement.OpenRefinementCommand;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides the policy of the layout used in the editor view. Namely it implements the
  * <code>createChangeConstraintCommand</code> and <code>getCreateCommand</code> methods to move and create a graph

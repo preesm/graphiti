@@ -55,7 +55,6 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 import org.ietr.dftools.graphiti.ui.editors.GraphEditor;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a save as graph wizard.
  *
@@ -92,18 +91,18 @@ public class SaveAsWizard extends Wizard implements INewWizard {
     addPage(new WizardConvertPage(this.selection));
 
     // To improve user experience, the selection is the editor's input file.
-    IStructuredSelection selection = this.selection;
-    final Object obj = selection.getFirstElement();
+    IStructuredSelection currentSelection = this.selection;
+    final Object obj = currentSelection.getFirstElement();
     if (obj instanceof GraphEditor) {
       final GraphEditor editor = (GraphEditor) obj;
       final IEditorInput input = editor.getEditorInput();
       if (input instanceof IFileEditorInput) {
         final IFile file = ((IFileEditorInput) input).getFile();
-        selection = new StructuredSelection(file);
+        currentSelection = new StructuredSelection(file);
       }
     }
 
-    page = new WizardSaveGraphPage(selection);
+    page = new WizardSaveGraphPage(currentSelection);
     page.setDescription("Save graph as.");
     addPage(page);
   }

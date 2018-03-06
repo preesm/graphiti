@@ -51,7 +51,6 @@ import org.ietr.dftools.graphiti.model.IRefinementPolicy;
 import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a way to open a vertex refinement.
  *

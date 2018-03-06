@@ -43,6 +43,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.graph.CompoundDirectedGraph;
 import org.eclipse.draw2d.graph.CompoundDirectedGraphLayout;
+import org.ietr.dftools.graphiti.GraphitiException;
 
 /**
  * This class provides a basic graph layout.
@@ -109,7 +110,7 @@ public class GraphLayoutManager extends XYLayout {
       final CompoundDirectedGraphLayout layout = new CompoundDirectedGraphLayout();
       layout.visit(graph);
     } catch (final Exception e) {
-      e.printStackTrace();
+      throw new GraphitiException("Could not layout graph", e);
     }
 
     this.part.updateFigures();

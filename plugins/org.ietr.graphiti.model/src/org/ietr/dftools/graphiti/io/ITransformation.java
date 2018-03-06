@@ -41,7 +41,6 @@ import java.io.OutputStream;
 import org.eclipse.core.resources.IFile;
 import org.ietr.dftools.graphiti.model.Graph;
 
-// TODO: Auto-generated Javadoc
 /**
  * This interface defines a transformation from a file to a Graph and/or the inverse transformation.
  *

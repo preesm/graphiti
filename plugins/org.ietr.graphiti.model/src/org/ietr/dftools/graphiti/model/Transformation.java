@@ -38,7 +38,6 @@ package org.ietr.dftools.graphiti.model;
 
 import org.ietr.dftools.graphiti.io.ITransformation;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class defines a transformation described with XSLT or with a Java class.
  *

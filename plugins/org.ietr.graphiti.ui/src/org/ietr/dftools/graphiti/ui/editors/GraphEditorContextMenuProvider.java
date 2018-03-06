@@ -45,7 +45,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 import org.ietr.dftools.graphiti.ui.actions.SetRefinementAction;
 
-// TODO: Auto-generated Javadoc
 /**
  * Build the context menu which is opened when right click with mouse.
  *

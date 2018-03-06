@@ -47,7 +47,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 
-// TODO: Auto-generated Javadoc
 /**
  * Fill the action tool bar. Retargets actions Print, undo/redo, delete, cut/copy/paste, and zoom in/out.
  *

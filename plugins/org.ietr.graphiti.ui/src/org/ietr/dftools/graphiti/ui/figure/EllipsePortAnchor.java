@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.ui.figure;
 import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.geometry.Point;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a connection anchor for ellipses.
  *

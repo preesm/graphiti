@@ -36,7 +36,6 @@
  */
 package org.ietr.dftools.graphiti.io;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides an exception that is launched when no configuration file is compatible with a given input.
  *

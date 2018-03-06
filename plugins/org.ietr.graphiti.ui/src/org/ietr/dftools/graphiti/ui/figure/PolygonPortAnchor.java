@@ -42,7 +42,6 @@ import org.eclipse.draw2d.geometry.Geometry;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a connection anchor for polygons.
  *
