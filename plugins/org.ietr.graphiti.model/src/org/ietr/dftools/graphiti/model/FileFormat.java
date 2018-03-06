@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.model;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class defines a file format.
  *

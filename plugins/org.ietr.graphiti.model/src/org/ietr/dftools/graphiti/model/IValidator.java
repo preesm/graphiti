@@ -38,7 +38,6 @@ package org.ietr.dftools.graphiti.model;
 
 import org.eclipse.core.resources.IFile;
 
-// TODO: Auto-generated Javadoc
 /**
  * This interface defines a model validator.
  *

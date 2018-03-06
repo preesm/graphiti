@@ -40,7 +40,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides the configuration for a {@link Graph}. A configuration is defined by an extension point, and
  * contains attributes and parameters that are defined for the graph, vertices and edges.

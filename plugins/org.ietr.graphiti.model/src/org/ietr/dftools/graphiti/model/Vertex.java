@@ -38,7 +38,6 @@ package org.ietr.dftools.graphiti.model;
 
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class represents a vertex.
  *
@@ -135,10 +134,8 @@ public class Vertex extends AbstractObject {
    */
   @Override
   public Object setValue(final String propertyName, final Object newValue) {
-    if (ObjectType.PARAMETER_ID.equals(propertyName)) {
-      if (this.parent != null) {
-        this.parent.changeVertexId(this, (String) newValue);
-      }
+    if (ObjectType.PARAMETER_ID.equals(propertyName) && this.parent != null) {
+      this.parent.changeVertexId(this, (String) newValue);
     }
     return super.setValue(propertyName, newValue);
   }

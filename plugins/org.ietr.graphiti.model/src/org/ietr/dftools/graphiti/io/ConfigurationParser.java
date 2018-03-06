@@ -48,6 +48,7 @@ import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.Color;
+import org.ietr.dftools.graphiti.GraphitiException;
 import org.ietr.dftools.graphiti.model.Configuration;
 import org.ietr.dftools.graphiti.model.FileFormat;
 import org.ietr.dftools.graphiti.model.IRefinementPolicy;
@@ -57,7 +58,6 @@ import org.ietr.dftools.graphiti.model.Parameter;
 import org.ietr.dftools.graphiti.model.ParameterPosition;
 import org.ietr.dftools.graphiti.model.Transformation;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class parses all configuration files located in the configuration folder (defined in the plug-in preferences).
  *
@@ -136,9 +136,8 @@ public class ConfigurationParser {
     }
 
     final IContributor contributor = element.getContributor();
-    final Configuration configuration = new Configuration(name, contributor.getName(), format, graphTypes, vertexTypes,
-        edgeTypes, validator, refinementPolicy);
-    return configuration;
+    return new Configuration(name, contributor.getName(), format, graphTypes, vertexTypes, edgeTypes, validator,
+        refinementPolicy);
   }
 
   /**
@@ -152,33 +151,30 @@ public class ConfigurationParser {
    *         a {@link String}.
    */
   private Object parseParameter(final Class<?> parameterType, final IConfigurationElement element) {
+    Object res = null;
     if (parameterType == List.class) {
-      final List<String> list = new ArrayList<>();
-      return list;
+      res = new ArrayList<>();
     } else if (parameterType == Map.class) {
-      final Map<String, String> map = new TreeMap<>();
-      return map;
+      res = new TreeMap<>();
     } else {
       final String value = element.getAttribute("default");
       try {
         if (parameterType == Integer.class) {
-          return Integer.valueOf(value);
-        }
-        if (parameterType == Float.class) {
-          return Float.valueOf(value);
+          res = Integer.valueOf(value);
+        } else if (parameterType == Float.class) {
+          res = Float.valueOf(value);
+        } else if (parameterType == Boolean.class) {
+          res = Boolean.valueOf(value);
+        } else if (parameterType == String.class) {
+          res = value;
+        } else {
+          res = value;
         }
       } catch (final NumberFormatException e) {
-        return null;
-      }
-
-      if (parameterType == Boolean.class) {
-        return Boolean.valueOf(value);
-      } else if (parameterType == String.class) {
-        return value;
-      } else {
-        return value;
+        res = null;
       }
     }
+    return res;
   }
 
   /**
@@ -196,7 +192,7 @@ public class ConfigurationParser {
     try {
       clz = Class.forName(typeName);
     } catch (final ClassNotFoundException e) {
-      e.printStackTrace();
+      throw new GraphitiException("Could not parse parameters: unknown type '" + typeName + "'.", e);
     }
 
     // creates the parameter

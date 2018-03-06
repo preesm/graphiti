@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.ietr.dftools.graphiti.GraphitiException;
 import org.ietr.dftools.graphiti.model.AbstractObject;
 import org.ietr.dftools.graphiti.model.Configuration;
 import org.ietr.dftools.graphiti.model.Edge;
@@ -55,7 +56,6 @@ import org.ietr.dftools.graphiti.model.Vertex;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GenericGraphWriter.
  *
@@ -109,9 +109,11 @@ public class GenericGraphWriter {
         }
       }
     } catch (final Exception e) {
-      throw new RuntimeException(e);
+      throw new GraphitiException("Could not write", e);
     }
-
+    if (element == null) {
+      throw new NullPointerException("Could not get element to write.");
+    }
     if (format.getContentType().equals("text")) {
       final String content = element.getTextContent();
       try {

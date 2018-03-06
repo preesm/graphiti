@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.model;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 
-// TODO: Auto-generated Javadoc
 /**
  * This interface defines the policy for refining vertices.
  *
