@@ -43,7 +43,6 @@ import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.commands.refinement.PortChooser;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a Command that reconnects a dependency. Reconnection is a bit trickier than creation, since we
  * must remember the previous dependency. We inherit from EdgeCreateCommand so we just need to store the previous

@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.ui.wizards;
 import org.ietr.dftools.graphiti.model.Configuration;
 import org.ietr.dftools.graphiti.model.ObjectType;
 
-// TODO: Auto-generated Javadoc
 /**
  * This interface defines how to set a graph type on a page.
  *

@@ -44,7 +44,6 @@ import org.ietr.dftools.graphiti.model.IRefinementPolicy;
 import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a way to create a vertex refinement.
  *
@@ -104,9 +103,9 @@ public class SetRefinementCommand extends Command {
    * @return true, if successful
    */
   public boolean run() {
-    final IPath refinement = this.policy.getRefinement(this.vertex);
+    final IPath vertexRefinement = this.policy.getRefinement(this.vertex);
     final IPath newRefinement = this.policy.getNewRefinement(this.vertex);
-    if ((newRefinement != null) && !newRefinement.equals(refinement)) {
+    if ((newRefinement != null) && !newRefinement.equals(vertexRefinement)) {
       this.refinement = newRefinement;
       return true;
     }

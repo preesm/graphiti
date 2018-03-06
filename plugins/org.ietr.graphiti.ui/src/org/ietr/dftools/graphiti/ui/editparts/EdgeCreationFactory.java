@@ -40,7 +40,6 @@ import org.eclipse.gef.requests.CreationFactory;
 import org.ietr.dftools.graphiti.model.Edge;
 import org.ietr.dftools.graphiti.model.ObjectType;
 
-// TODO: Auto-generated Javadoc
 /**
  * Gives methods to create new edges.
  *

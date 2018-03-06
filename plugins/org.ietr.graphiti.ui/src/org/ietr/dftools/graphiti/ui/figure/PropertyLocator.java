@@ -45,7 +45,6 @@ import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.geometry.Point;
 import org.ietr.dftools.graphiti.model.ParameterPosition;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a connection locator.
  *

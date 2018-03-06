@@ -36,7 +36,6 @@
  */
 package org.ietr.dftools.graphiti.ui.figure.shapes;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a circle shape.
  *
@@ -45,6 +44,10 @@ package org.ietr.dftools.graphiti.ui.figure.shapes;
  *
  */
 public class ShapeFactory {
+
+  private ShapeFactory() {
+    // disallow instantiation
+  }
 
   /**
    * Creates a new Shape object.

@@ -42,7 +42,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 
-// TODO: Auto-generated Javadoc
 /**
  * This interface defines an IShape.
  *

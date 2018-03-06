@@ -42,7 +42,6 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a reference manager for port anchors. It contains a main method, getReferencePoint, which clients
  * call to get a reference point for their connection anchor. There is one reference manager for each connection anchor.

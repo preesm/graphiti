@@ -40,11 +40,9 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.Polygon;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.ietr.dftools.graphiti.ui.figure.PolygonPortAnchor;
 import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides an abstract polygon shape for hexagon, losange and triangle shapes.
  *
@@ -110,14 +108,6 @@ public abstract class AbstractPolygonShape extends Polygon implements IShape {
   public void paintSuperFigure(final Graphics graphics) {
     super.paintFigure(graphics);
   }
-
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.ietr.dftools.graphiti.ui.figure.shapes.IShape#setDimension(org.eclipse.draw2d.geometry.Dimension)
-   */
-  @Override
-  public abstract void setDimension(Dimension dim);
 
   /*
    * (non-Javadoc)

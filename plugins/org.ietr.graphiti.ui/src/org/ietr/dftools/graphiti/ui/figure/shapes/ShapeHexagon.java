@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.ui.figure.shapes;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a hexagon shape.
  *
@@ -48,12 +47,6 @@ import org.eclipse.draw2d.geometry.Point;
  *
  */
 public class ShapeHexagon extends AbstractPolygonShape implements IShape {
-
-  /**
-   * Creates a new hexagon shape.
-   */
-  public ShapeHexagon() {
-  }
 
   /*
    * (non-Javadoc)
@@ -65,7 +58,6 @@ public class ShapeHexagon extends AbstractPolygonShape implements IShape {
   public void setDimension(final Dimension dim) {
     removeAllPoints();
     final int quantx = dim.width / 3;
-    // int quanty = height/3 ;
     setStart(new Point(0, dim.height / 2));
     addPoint(new Point(quantx, 0));
     addPoint(new Point(2 * quantx, 0));

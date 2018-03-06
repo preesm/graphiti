@@ -44,7 +44,6 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.ietr.dftools.graphiti.ui.figure.EllipsePortAnchor;
 import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a circle shape.
  *

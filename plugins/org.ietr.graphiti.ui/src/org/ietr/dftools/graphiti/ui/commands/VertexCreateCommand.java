@@ -48,7 +48,6 @@ import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class allows the creation of vertices.
  *
@@ -67,12 +66,6 @@ public class VertexCreateCommand extends Command {
 
   /** The vertex. */
   private Vertex vertex;
-
-  /**
-   * Instantiates a new vertex create command.
-   */
-  public VertexCreateCommand() {
-  }
 
   /*
    * (non-Javadoc)
@@ -137,8 +130,8 @@ public class VertexCreateCommand extends Command {
           }
 
           if (VertexCreateCommand.this.graph != null) {
-            final Vertex vertex = VertexCreateCommand.this.graph.findVertex(vertexId);
-            if (vertex != null) {
+            final Vertex foundVertex = VertexCreateCommand.this.graph.findVertex(vertexId);
+            if (foundVertex != null) {
               return "A vertex already exists with the same identifier";
             }
           }

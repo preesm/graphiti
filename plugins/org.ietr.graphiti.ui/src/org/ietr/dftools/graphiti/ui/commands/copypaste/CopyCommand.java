@@ -34,7 +34,7 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
-package org.ietr.dftools.graphiti.ui.commands.copyPaste;
+package org.ietr.dftools.graphiti.ui.commands.copypaste;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,6 @@ import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.actions.GraphitiClipboard;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a command that copies vertices.
  *

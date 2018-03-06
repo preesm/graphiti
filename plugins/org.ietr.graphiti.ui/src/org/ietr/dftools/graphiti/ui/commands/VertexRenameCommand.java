@@ -40,7 +40,6 @@ import org.eclipse.gef.commands.Command;
 import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 
-// TODO: Auto-generated Javadoc
 /**
  * Command to rename Activities.
  *

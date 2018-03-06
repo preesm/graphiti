@@ -44,7 +44,6 @@ import org.ietr.dftools.graphiti.model.Edge;
 import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.Vertex;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class is an implementation of an {@link EditPartFactory}. It creates an EditPart associated with a context and
  * model given.

@@ -43,7 +43,6 @@ import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.commands.refinement.PortChooser;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a Command that creates a dependency. ComplexSource and target are set when they are connected.
  *

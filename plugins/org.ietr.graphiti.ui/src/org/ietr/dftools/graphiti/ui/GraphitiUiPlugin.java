@@ -47,7 +47,6 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
-// TODO: Auto-generated Javadoc
 /**
  * The activator class controls the plug-in life cycle.
  */
@@ -103,13 +102,6 @@ public class GraphitiUiPlugin extends AbstractUIPlugin {
   }
 
   /**
-   * The constructor.
-   */
-  public GraphitiUiPlugin() {
-    GraphitiUiPlugin.plugin = this;
-  }
-
-  /**
    * Returns an {@link IStatus} with the ERROR level.
    *
    * @param message
@@ -132,8 +124,7 @@ public class GraphitiUiPlugin extends AbstractUIPlugin {
   private IStatus getStatus(final int severity, final String message) {
     final Bundle bundle = getBundle();
     final String pluginId = Long.toString(bundle.getBundleId());
-    final IStatus status = new Status(severity, pluginId, message);
-    return status;
+    return new Status(severity, pluginId, message);
   }
 
   /**

@@ -54,7 +54,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.ietr.dftools.graphiti.ui.editpolicies.LayoutPolicy;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class extends {@link AbstractGraphicalEditPart} by setting its figure layout manager to
  * {@link GraphLayoutManager}. It also extends the {@link EditPart#isSelectable()} method to return false, causing the

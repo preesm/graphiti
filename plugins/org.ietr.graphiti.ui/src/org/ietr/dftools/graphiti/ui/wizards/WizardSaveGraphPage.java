@@ -59,7 +59,6 @@ import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.ui.GraphitiUiPlugin;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a page for the save as graph wizard.
  *
@@ -123,9 +122,9 @@ public class WizardSaveGraphPage extends WizardNewFileCreationPage implements IG
   @Override
   public InputStream getInitialContents() {
     // set graph name
-    final String fileName = getFileName();
-    if (fileName != null) {
-      final IPath filePath = new Path(fileName).removeFileExtension();
+    final String currentFileName = getFileName();
+    if (currentFileName != null) {
+      final IPath filePath = new Path(currentFileName).removeFileExtension();
       this.graph.setValue(ObjectType.PARAMETER_ID, filePath.toString());
     }
 

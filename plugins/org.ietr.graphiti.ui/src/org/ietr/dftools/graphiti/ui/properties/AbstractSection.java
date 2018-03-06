@@ -58,7 +58,6 @@ import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ietr.dftools.graphiti.model.AbstractObject;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class defines an abstract section.
  *

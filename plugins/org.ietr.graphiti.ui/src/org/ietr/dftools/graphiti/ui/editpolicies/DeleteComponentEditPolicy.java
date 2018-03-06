@@ -45,7 +45,6 @@ import org.ietr.dftools.graphiti.ui.commands.DeleteCommand;
 import org.ietr.dftools.graphiti.ui.editparts.EdgeEditPart;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class overrides the createDeleteCommand to return a command that can delete a vertex.
  *
@@ -85,8 +84,7 @@ public class DeleteComponentEditPolicy extends ComponentEditPolicy {
       }
     }
 
-    final DeleteCommand command = new DeleteCommand(getHost().getModel());
-    return command;
+    return new DeleteCommand(getHost().getModel());
   }
 
 }
