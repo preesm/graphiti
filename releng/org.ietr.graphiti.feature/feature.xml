@@ -48,7 +48,7 @@
       version="1.5.0.qualifier"
       provider-name="IETR/INSA Rennes">
 
-   <description url="http://preesm.sourceforge.net/website/">
+   <description url="http://preesm.org/">
       Graphiti is a generic graph editor under BSD license created by IETR/INSA Rennes shipped as an Eclipse plug-in.
    </description>
 
@@ -582,7 +582,7 @@ Version 1.0 dated 2006-09-05.]]>
       <discovery label="Oxygen Updates" url="http://mirror.ibcp.fr/pub/eclipse/eclipse/updates/4.7"/>
 
       <!-- Preesm Repo -->
-      <discovery label="Preesm" url="http://preesm.sourceforge.net/gensite/update-site/complete/"/>
+      <discovery label="Preesm" url="http://preesm.insa-rennes.fr/repo/complete/"/>
    </url>
 
    <requires>

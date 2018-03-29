@@ -12,14 +12,13 @@ Graphiti is a generic graph editor created by IETR/INSA - Rennes shipped as an E
 
 ## Documentation
 
-Documentation is available online at http://preesm.sourceforge.net/website/
+Documentation is available online at http://preesm.org/website/
 
 ## Install
 
 This project is part of the Preesm project, available online:
 
-*   On the [SourceForge File Release Service](https://sourceforge.net/projects/preesm/files/Releases/) to get Eclipse products;
-*   From the [Eclipse update site](http://preesm.sourceforge.net/eclipse/update-site/) to complement an already setup Eclipse;
+*   From the [Eclipse update site](http://preesm.insa-rennes.fr/repo/complete/) to complement an already setup Eclipse;
 
 ## Changelog
 
