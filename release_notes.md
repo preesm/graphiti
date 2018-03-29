@@ -12,7 +12,7 @@ Graphiti Changelog
 * Fix release script;
 * Refactor code (remove sonar code smells);
 * Throw exceptions instead of printing them in stderr;
-* Move deploy server to prees.insa-rennes.fr;
+* Move deploy server to preesm.insa-rennes.fr;
 * Update project info (URL);
 
 ### Bug fix
