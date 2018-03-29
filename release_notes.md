@@ -8,10 +8,12 @@ Graphiti Changelog
 
 ### Changes
 * Update mailmap file;
-* Force externaldeps to 2.1.0+;
+* Force externaldeps to 3.0.0+;
 * Fix release script;
 * Refactor code (remove sonar code smells);
 * Throw exceptions instead of printing them in stderr;
+* Move deploy server to prees.insa-rennes.fr;
+* Update project info (URL);
 
 ### Bug fix
 
