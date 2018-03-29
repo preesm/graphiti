@@ -1,9 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
- * Clément Guy <clement.guy@insa-rennes.fr> (2014 - 2015)
- * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2018)
  *
  * This software is a computer program whose purpose is to help prototyping
  * parallel applications using dataflow formalism.
@@ -34,50 +32,21 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
-package org.ietr.dftools.graphiti.ui.editparts;
-
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.EditPartFactory;
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.ietr.dftools.graphiti.model.Edge;
-import org.ietr.dftools.graphiti.model.Graph;
-import org.ietr.dftools.graphiti.model.Vertex;
+package org.ietr.dftools.graphiti;
 
 /**
- * This class is an implementation of an {@link EditPartFactory}. It creates an EditPart associated with a context and
- * model given.
  *
- * @author Samuel Beaussier
- * @author Nicolas Isch
- * @author Matthieu Wipliez
+ * @author anmorvan
  *
  */
-public class EditPartFactoryImpl implements EditPartFactory {
+public class GraphitiException extends RuntimeException {
 
-  /*
-   * (non-Javadoc)
+  /**
    *
-   * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
    */
-  @Override
-  public EditPart createEditPart(final EditPart context, final Object model) {
-    AbstractGraphicalEditPart child = null;
+  private static final long serialVersionUID = 2796819822543145761L;
 
-    if (model instanceof Graph) {
-      child = new GraphEditPart();
-    } else if (model instanceof Vertex) {
-      child = new VertexEditPart();
-    } else if (model instanceof Edge) {
-      child = new EdgeEditPart();
-    } else if (model instanceof IStatus) {
-      child = new StatusEditPart();
-    }
-
-    if (child != null) {
-      child.setModel(model);
-    }
-
-    return child;
+  public GraphitiException(final String message, final Throwable cause) {
+    super(message, cause);
   }
 }

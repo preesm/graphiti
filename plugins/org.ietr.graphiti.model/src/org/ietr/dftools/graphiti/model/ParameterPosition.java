@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -36,7 +36,6 @@
  */
 package org.ietr.dftools.graphiti.model;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class enumerates the position of a parameter.
  *
@@ -46,21 +45,21 @@ package org.ietr.dftools.graphiti.model;
 public enum ParameterPosition {
 
   /** The Center. */
-  Center,
+  CENTER,
   /** The East. */
-  East,
+  EAST,
   /** The North. */
-  North,
+  NORTH,
   /** The North east. */
-  NorthEast,
+  NORTHEAST,
   /** The North west. */
-  NorthWest,
+  NORTHWEST,
   /** The South. */
-  South,
+  SOUTH,
   /** The South east. */
-  SouthEast,
+  SOUTHEAST,
   /** The South west. */
-  SouthWest,
+  SOUTHWEST,
   /** The West. */
-  West;
+  WEST;
 }

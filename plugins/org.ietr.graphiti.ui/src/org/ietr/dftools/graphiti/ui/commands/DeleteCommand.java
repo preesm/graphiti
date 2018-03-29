@@ -42,7 +42,6 @@ import org.ietr.dftools.graphiti.model.Edge;
 import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.Vertex;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a command that deletes a vertex. NOTE: this command can delete a vertex OR an edge. Also, if an
  * edge has already been deleted and a DeleteCommand is issued on it, execute() won't do anything because the edge does

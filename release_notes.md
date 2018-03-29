@@ -1,6 +1,23 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.6.0
+*2018.03.29*
+
+### New Feature
+
+### Changes
+* Update mailmap file;
+* Force externaldeps to 3.0.0+;
+* Fix release script;
+* Refactor code (remove sonar code smells);
+* Throw exceptions instead of printing them in stderr;
+* Move deploy server to preesm.insa-rennes.fr;
+* Update project info (URL);
+
+### Bug fix
+
+
 ## Release version 1.5.0
 *2018.02.05*
 

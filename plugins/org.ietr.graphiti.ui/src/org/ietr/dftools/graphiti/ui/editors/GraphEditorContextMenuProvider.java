@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  *
@@ -45,7 +45,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 import org.ietr.dftools.graphiti.ui.actions.SetRefinementAction;
 
-// TODO: Auto-generated Javadoc
 /**
  * Build the context menu which is opened when right click with mouse.
  *

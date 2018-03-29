@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  *
@@ -48,7 +48,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class reads the .layout file associated with graphs.
  *

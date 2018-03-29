@@ -48,7 +48,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.ietr.dftools.graphiti.model.Vertex;
-import org.ietr.dftools.graphiti.ui.commands.copyPaste.PasteCommand;
+import org.ietr.dftools.graphiti.ui.commands.copypaste.PasteCommand;
 import org.ietr.dftools.graphiti.ui.editparts.GraphEditPart;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 

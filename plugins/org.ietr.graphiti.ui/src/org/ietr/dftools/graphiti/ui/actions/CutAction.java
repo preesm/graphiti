@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -43,10 +43,9 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
-import org.ietr.dftools.graphiti.ui.commands.copyPaste.CutCommand;
+import org.ietr.dftools.graphiti.ui.commands.copypaste.CutCommand;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides an implementation of the cut action.
  *
@@ -78,7 +77,7 @@ public class CutAction extends SelectionAction {
     final ISelection selection = getSelection();
     if (selection instanceof IStructuredSelection) {
       final IStructuredSelection ssel = (IStructuredSelection) selection;
-      return ((ssel.isEmpty() == false) && (ssel.getFirstElement() instanceof VertexEditPart));
+      return ((!ssel.isEmpty()) && (ssel.getFirstElement() instanceof VertexEditPart));
     } else {
       return false;
     }

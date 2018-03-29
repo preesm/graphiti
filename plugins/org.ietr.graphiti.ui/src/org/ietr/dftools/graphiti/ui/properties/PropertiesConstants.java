@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  *
@@ -36,15 +36,18 @@
  */
 package org.ietr.dftools.graphiti.ui.properties;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class defines constants for tabbed properties.
  *
  * @author Matthieu Wipliez
  */
-public interface PropertiesConstants {
+public class PropertiesConstants {
+
+  private PropertiesConstants() {
+    // disallow instantiation
+  }
 
   /** The contributor id. */
-  String CONTRIBUTOR_ID = "org.ietr.dftools.graphiti.ui.properties.contributor";
+  public static final String CONTRIBUTOR_ID = "org.ietr.dftools.graphiti.ui.properties.contributor";
 
 }

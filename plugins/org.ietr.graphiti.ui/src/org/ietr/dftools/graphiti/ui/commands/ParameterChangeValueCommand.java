@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  *
@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.ui.commands;
 import org.eclipse.gef.commands.Command;
 import org.ietr.dftools.graphiti.model.AbstractObject;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a command that changes the value of the currently selected parameter.
  *

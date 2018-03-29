@@ -44,12 +44,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ListDialog;
+import org.ietr.dftools.graphiti.GraphitiException;
 import org.ietr.dftools.graphiti.GraphitiModelPlugin;
 import org.ietr.dftools.graphiti.io.GenericGraphParser;
 import org.ietr.dftools.graphiti.io.IncompatibleConfigurationFile;
@@ -58,7 +58,6 @@ import org.ietr.dftools.graphiti.model.IRefinementPolicy;
 import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides facilities to prompt the user for a source port or target port by parsing the refinement (if
  * any), or by asking the user to enter a port name.
@@ -76,15 +75,6 @@ public class PortChooser {
     /*
      * (non-Javadoc)
      *
-     * @see org.eclipse.jface.viewers.IContentProvider#dispose()
-     */
-    @Override
-    public void dispose() {
-    }
-
-    /*
-     * (non-Javadoc)
-     *
      * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
      */
     @Override
@@ -92,15 +82,6 @@ public class PortChooser {
       return ((List<?>) inputElement).toArray();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object,
-     * java.lang.Object)
-     */
-    @Override
-    public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
-    }
   }
 
   /** The connection. */
@@ -222,7 +203,7 @@ public class PortChooser {
     try {
       graph = parser.parse(sourceFile);
     } catch (final IncompatibleConfigurationFile e) {
-      System.out.println(e.getMessage());
+      throw new GraphitiException("Could not parse ports", e);
     }
 
     // get ports from graph

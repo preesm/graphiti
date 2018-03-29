@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -41,7 +41,6 @@ import org.eclipse.gef.editpolicies.ConnectionEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 import org.ietr.dftools.graphiti.ui.commands.DeleteCommand;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides the <code>getDeleteCommand</code> method to create a DeleteCommand for a dependency.
  *
@@ -57,8 +56,7 @@ public class DependencyEditPolicy extends ConnectionEditPolicy {
    */
   @Override
   protected Command getDeleteCommand(final GroupRequest request) {
-    final DeleteCommand command = new DeleteCommand(getHost().getModel());
-    return command;
+    return new DeleteCommand(getHost().getModel());
   }
 
 }

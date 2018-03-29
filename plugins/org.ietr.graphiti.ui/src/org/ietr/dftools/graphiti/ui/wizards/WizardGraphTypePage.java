@@ -56,7 +56,6 @@ import org.ietr.dftools.graphiti.GraphitiModelPlugin;
 import org.ietr.dftools.graphiti.model.Configuration;
 import org.ietr.dftools.graphiti.model.ObjectType;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a page for the new graph wizard.
  *

@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -34,31 +34,38 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
-package org.ietr.dftools.graphiti.ui.commands.copyPaste;
+package org.ietr.dftools.graphiti.ui.commands.copypaste;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.dnd.Transfer;
+import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.actions.GraphitiClipboard;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
-// TODO: Auto-generated Javadoc
 /**
- * This class provides a command that copies vertices.
+ * This class provides a command that removes vertices from their parent.
  *
  * @author Samuel Beaussier
  * @author Nicolas Isch
  * @author Matthieu Wipliez
  *
  */
-public class CopyCommand extends Command {
+public class CutCommand extends Command {
 
   /** The list. */
   private final List<?> list;
+
+  /**
+   * Contains the parents of each port/graph.
+   */
+  private List<Graph> parents;
 
   /**
    * Creates a new cut command with the selected objects.
@@ -66,7 +73,7 @@ public class CopyCommand extends Command {
    * @param objects
    *          A list of objects to cut.
    */
-  public CopyCommand(final List<?> objects) {
+  public CutCommand(final List<?> objects) {
     this.list = objects;
   }
 
@@ -77,16 +84,24 @@ public class CopyCommand extends Command {
    */
   @Override
   public void execute() {
-    // copy vertices
+    this.parents = new ArrayList<>();
     final List<Vertex> vertices = new ArrayList<>();
+
     for (final Object obj : this.list) {
       if (obj instanceof VertexEditPart) {
-        final VertexEditPart vertexEditPart = (VertexEditPart) obj;
-        Vertex vertex = (Vertex) vertexEditPart.getModel();
+        final VertexEditPart part = (VertexEditPart) obj;
+        Vertex vertex = (Vertex) part.getModel();
 
-        // copy vertex and add to list
+        // remove from parent
+        final Graph parent = vertex.getParent();
+        parent.removeVertex(vertex);
+
+        // copy and add to cut list
         vertex = new Vertex(vertex);
         vertices.add(vertex);
+
+        // for undo
+        this.parents.add(parent);
       }
     }
 
@@ -108,6 +123,30 @@ public class CopyCommand extends Command {
    */
   @Override
   public String getLabel() {
-    return "Copy";
+    return "Cut";
+  }
+
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.commands.Command#undo()
+   */
+  @Override
+  public void undo() {
+    final Iterator<Graph> it = this.parents.iterator();
+    for (final Object obj : this.list) {
+      if (obj instanceof VertexEditPart) {
+        final VertexEditPart part = (VertexEditPart) obj;
+        final Vertex vertex = (Vertex) part.getModel();
+        final Graph parent = it.next();
+        parent.addVertex(vertex);
+
+        // update bounds
+        final Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
+        vertex.firePropertyChange(Vertex.PROPERTY_SIZE, null, bounds);
+      }
+    }
+
+    this.parents = null;
   }
 }

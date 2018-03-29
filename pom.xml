@@ -39,13 +39,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.ietr.graphiti</groupId>
   <artifactId>org.ietr.graphiti.parent</artifactId>
-  <version>1.5.0</version>
+  <version>1.6.0</version>
   <packaging>pom</packaging>
 
   <!-- More Project Information -->
   <name>Graphiti</name>
   <description>Graphiti is a generic graph editor created by IETR/INSA - Rennes shipped as an Eclipse plug-in.</description>
-  <url>http://preesm.sourceforge.net/</url>
+  <url>http://preesm.org/</url>
 
   <licenses>
     <license>
@@ -79,7 +79,7 @@
     <preesm.coding.policy.version>1.1.0</preesm.coding.policy.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <preesm.p2.repo>http://preesm.sourceforge.net/gensite/update-site/complete/</preesm.p2.repo>
+    <preesm.p2.repo>http://preesm.insa-rennes.fr/repo/complete/</preesm.p2.repo>
 
     <!-- ############### -->
     <!-- ECLIPSE MIRRORS -->

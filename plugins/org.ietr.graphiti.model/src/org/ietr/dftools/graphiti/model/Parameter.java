@@ -41,7 +41,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class provides a parameter associated with an object (vertex, graph, edge). It has a name, a type, and a
  * position.
@@ -89,18 +88,10 @@ public class Parameter {
    * @return This parameter's default value.
    */
   public Object getDefault() {
-    if (this.defaultValue instanceof Boolean) {
-      return new Boolean((Boolean) this.defaultValue);
-    } else if (this.defaultValue instanceof Float) {
-      return new Float((Float) this.defaultValue);
-    } else if (this.defaultValue instanceof Integer) {
-      return new Integer((Integer) this.defaultValue);
-    } else if (this.defaultValue instanceof List<?>) {
+    if (this.defaultValue instanceof List<?>) {
       return new ArrayList<Object>((List<?>) this.defaultValue);
     } else if (this.defaultValue instanceof Map<?, ?>) {
       return new TreeMap<Object, Object>((Map<?, ?>) this.defaultValue);
-    } else if (this.defaultValue instanceof String) {
-      return new String((String) this.defaultValue);
     } else {
       return this.defaultValue;
     }

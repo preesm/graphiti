@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  *
@@ -41,11 +41,11 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.ietr.dftools.graphiti.GraphitiException;
 import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.ObjectType;
 import org.ietr.dftools.graphiti.model.Vertex;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class writes the .layout file associated with graphs.
  *
@@ -83,7 +83,7 @@ public class LayoutWriter {
       writer.println("</layout>");
       writer.close();
     } catch (final UnsupportedEncodingException e) {
-      throw new RuntimeException("UTF-8 encoding unsupported", e);
+      throw new GraphitiException("UTF-8 encoding unsupported", e);
     }
   }
 

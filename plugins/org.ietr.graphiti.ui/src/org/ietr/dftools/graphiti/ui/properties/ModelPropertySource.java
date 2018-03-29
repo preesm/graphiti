@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2011 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2011 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2011)
  *
@@ -56,6 +56,7 @@ import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.ietr.dftools.graphiti.GraphitiException;
 import org.ietr.dftools.graphiti.model.AbstractObject;
 import org.ietr.dftools.graphiti.model.Edge;
 import org.ietr.dftools.graphiti.model.Graph;
@@ -65,7 +66,6 @@ import org.ietr.dftools.graphiti.model.Vertex;
 import org.ietr.dftools.graphiti.ui.commands.ParameterChangeValueCommand;
 import org.ietr.dftools.graphiti.ui.editors.GraphEditor;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class implements a property source for the different objects of our model.
  *
@@ -97,16 +97,16 @@ public class ModelPropertySource implements IPropertySource, PropertyChangeListe
     model.addPropertyChangeListener(this);
     this.type = model.getType();
 
-    final List<IPropertyDescriptor> descs = new ArrayList<>();
+    final List<IPropertyDescriptor> descriptionList = new ArrayList<>();
     for (final Parameter parameter : this.type.getParameters()) {
       if (!((parameter.getType() == List.class) || (parameter.getType() == Map.class))) {
         final String name = parameter.getName();
         final TextPropertyDescriptor desc = new TextPropertyDescriptor(name, name);
-        descs.add(desc);
+        descriptionList.add(desc);
       }
     }
 
-    this.descs = descs.toArray(new IPropertyDescriptor[0]);
+    this.descs = descriptionList.toArray(new IPropertyDescriptor[0]);
   }
 
   /*
@@ -181,7 +181,7 @@ public class ModelPropertySource implements IPropertySource, PropertyChangeListe
         }
       }
     } catch (final PartInitException e) {
-      e.printStackTrace();
+      throw new GraphitiException("Could not change property", e);
     }
   }
 
@@ -256,7 +256,7 @@ public class ModelPropertySource implements IPropertySource, PropertyChangeListe
         this.doRefresh = true;
       }
     } catch (final PartInitException e) {
-      e.printStackTrace();
+      throw new GraphitiException("Could not set property", e);
     }
   }
 

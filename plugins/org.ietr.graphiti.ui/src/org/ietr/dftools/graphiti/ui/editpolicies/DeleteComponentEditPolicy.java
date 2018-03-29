@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -45,7 +45,6 @@ import org.ietr.dftools.graphiti.ui.commands.DeleteCommand;
 import org.ietr.dftools.graphiti.ui.editparts.EdgeEditPart;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class overrides the createDeleteCommand to return a command that can delete a vertex.
  *
@@ -85,8 +84,7 @@ public class DeleteComponentEditPolicy extends ComponentEditPolicy {
       }
     }
 
-    final DeleteCommand command = new DeleteCommand(getHost().getModel());
-    return command;
+    return new DeleteCommand(getHost().getModel());
   }
 
 }

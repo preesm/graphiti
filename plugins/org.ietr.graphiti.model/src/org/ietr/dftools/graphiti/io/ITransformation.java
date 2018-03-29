@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  *
@@ -41,7 +41,6 @@ import java.io.OutputStream;
 import org.eclipse.core.resources.IFile;
 import org.ietr.dftools.graphiti.model.Graph;
 
-// TODO: Auto-generated Javadoc
 /**
  * This interface defines a transformation from a file to a Graph and/or the inverse transformation.
  *

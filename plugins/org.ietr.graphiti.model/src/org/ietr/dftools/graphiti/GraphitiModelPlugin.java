@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2011)
  *
@@ -44,7 +44,6 @@ import org.ietr.dftools.graphiti.io.ConfigurationParser;
 import org.ietr.dftools.graphiti.model.Configuration;
 import org.osgi.framework.BundleContext;
 
-// TODO: Auto-generated Javadoc
 /**
  * The activator class controls the plug-in life cycle.
  */
@@ -71,13 +70,6 @@ public class GraphitiModelPlugin extends AbstractUIPlugin {
 
   /** map of configuration name to configuration. */
   private Map<String, Configuration> configurations;
-
-  /**
-   * The constructor.
-   */
-  public GraphitiModelPlugin() {
-    GraphitiModelPlugin.plugin = this;
-  }
 
   /**
    * Returns the configuration with the given name.

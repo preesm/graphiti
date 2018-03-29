@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  * Clément Guy <clement.guy@insa-rennes.fr> (2014)
  * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
  *
@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.ui.wizards;
 import org.ietr.dftools.graphiti.model.Configuration;
 import org.ietr.dftools.graphiti.model.ObjectType;
 
-// TODO: Auto-generated Javadoc
 /**
  * This interface defines how to set a graph type on a page.
  *
