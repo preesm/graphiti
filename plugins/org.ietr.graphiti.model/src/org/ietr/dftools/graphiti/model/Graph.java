@@ -45,8 +45,8 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.jgrapht.graph.AbstractBaseGraph;
-import org.jgrapht.graph.DirectedMultigraph;
-import org.jgrapht.graph.Multigraph;
+import org.jgrapht.graph.DirectedPseudograph;
+import org.jgrapht.graph.Pseudograph;
 
 /**
  * This class is an attributed multigraph (allowing more than one connection between any two vertices). It may be
@@ -103,9 +103,9 @@ public class Graph extends AbstractObject {
 
     this.configuration = configuration;
     if (directed) {
-      this.concreteGraph = new DirectedMultigraph<>(Edge.class);
+      this.concreteGraph = new DirectedPseudograph<>(Edge.class);
     } else {
-      this.concreteGraph = new Multigraph<>(Edge.class);
+      this.concreteGraph = new Pseudograph<>(Edge.class);
     }
     this.vertices = new LinkedHashMap<>();
 
@@ -117,6 +117,8 @@ public class Graph extends AbstractObject {
 
     // initially, no layout
     setValue(Graph.PROPERTY_HAS_LAYOUT, false);
+
+    this.type = type;
   }
 
   /**
@@ -131,15 +133,7 @@ public class Graph extends AbstractObject {
    *          The graph type.
    */
   public Graph(final Graph graph, final Configuration configuration, final ObjectType type) {
-    super(graph);
-    this.configuration = configuration;
-    if (graph.isDirected()) {
-      this.concreteGraph = new DirectedMultigraph<>(Edge.class);
-    } else {
-      this.concreteGraph = new Multigraph<>(Edge.class);
-    }
-    this.vertices = new LinkedHashMap<>();
-    this.type = type;
+    this(configuration, type, graph.isDirected());
   }
 
   /**
@@ -264,7 +258,7 @@ public class Graph extends AbstractObject {
    * @return True if this graph is directed, false otherwise.
    */
   public boolean isDirected() {
-    return this.concreteGraph instanceof DirectedMultigraph<?, ?>;
+    return this.concreteGraph instanceof DirectedPseudograph<?, ?>;
   }
 
   /**
