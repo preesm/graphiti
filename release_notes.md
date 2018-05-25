@@ -1,6 +1,16 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.7.0
+*2018.05.25*
+
+### New Feature
+
+### Changes
+
+### Bug fix
+
+
 ## Release version 1.6.0
 *2018.03.29*
 
