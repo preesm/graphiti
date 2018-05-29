@@ -7,6 +7,8 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Update manifest files;
+* Replace use of deprecated API;
 
 ### Bug fix
 
