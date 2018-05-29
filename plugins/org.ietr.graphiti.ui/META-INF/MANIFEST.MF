@@ -1,6 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Graphiti editor plug-in
+Automatic-Module-Name: org.ietr.graphiti.ui
 Bundle-SymbolicName: org.ietr.graphiti.ui;singleton:=true
 Bundle-Version: 1.7.0.qualifier
 Bundle-Activator: org.ietr.dftools.graphiti.ui.GraphitiUiPlugin

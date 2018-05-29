@@ -1,6 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Graphiti model plug-in Test
+Automatic-Module-Name: org.ietr.graphiti.model.test
 Bundle-SymbolicName: org.ietr.graphiti.model.test
 Bundle-Version: 1.7.0.qualifier
 Bundle-Vendor: IETR/INSA Rennes
