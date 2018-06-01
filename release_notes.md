@@ -9,6 +9,7 @@ Graphiti Changelog
 ### Changes
 * Update manifest files;
 * Replace use of deprecated API;
+* Force externaldeps to 3.1.0+;
 
 ### Bug fix
 
@@ -19,6 +20,7 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Change implementation PseudoGraph instead of MultiGraph;
 
 ### Bug fix
 
