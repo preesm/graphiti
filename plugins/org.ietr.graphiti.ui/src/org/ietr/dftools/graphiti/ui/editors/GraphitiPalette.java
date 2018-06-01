@@ -165,13 +165,7 @@ public class GraphitiPalette {
       color = ColorConstants.black;
     }
 
-    // replace the "black" palette entry with the color.
-    // returns an image descriptor on the modified image data.
-    final RecoloredImageDataProvider recoloredImageDataProvider = new RecoloredImageDataProvider(image, color);
-    final ImageDescriptor id = ImageDescriptor.createFromImageData(recoloredImageDataProvider.getImageData(100));
-    return id;
-    // TODO: Code to use when Neon is not supported anymore instead of the deprecated call right above
-    // return ImageDescriptor.createFromImageDataProvider(new RecoloredImageDataProvider(image, color));
+    return ImageDescriptor.createFromImageDataProvider(new RecoloredImageDataProvider(image, color));
   }
 
   /**
@@ -236,11 +230,8 @@ public class GraphitiPalette {
     figure.paint(graphics);
 
     // Get the image data back
-    final RecoloredImageDataProvider recoloredImageDataProvider = new RecoloredImageDataProvider(image, color);
-    final ImageDescriptor id = ImageDescriptor.createFromImageData(recoloredImageDataProvider.getImageData(100));
-    // TODO: Code to use when Neon is not supported anymore instead of the deprecated call right above
-    // final ImageDescriptor id = ImageDescriptor.createFromImageDataProvider(new RecoloredImageDataProvider(image,
-    // color));
+    final ImageDescriptor id = ImageDescriptor
+        .createFromImageDataProvider(new RecoloredImageDataProvider(image, color));
 
     // Disposes image (and GC btw) and SWT graphics
     image.dispose();

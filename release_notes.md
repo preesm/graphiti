@@ -1,12 +1,26 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.8.0
+*2018.06.01*
+
+### New Feature
+
+### Changes
+* Update manifest files;
+* Replace use of deprecated API;
+* Force externaldeps to 3.1.0+;
+
+### Bug fix
+
+
 ## Release version 1.7.0
 *2018.05.25*
 
 ### New Feature
 
 ### Changes
+* Change implementation PseudoGraph instead of MultiGraph;
 
 ### Bug fix
 
