@@ -1,6 +1,19 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.8.1
+*2018.06.13*
+
+### New Feature
+
+### Changes
+* Enable travis_retry when fetching dependencies;
+* Update Checkstyle and change update site URL to bintray;
+* Force externaldeps to [3.2.0,4.0.0);
+
+### Bug fix
+
+
 ## Release version 1.8.0
 *2018.06.01*
 
