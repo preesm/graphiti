@@ -9,6 +9,7 @@ Graphiti Changelog
 ### Changes
 * Enable travis_retry when fetching dependencies;
 * Update Checkstyle and change update site URL to bintray;
+* Force externaldeps to [3.2.0,4.0.0);
 
 ### Bug fix
 
