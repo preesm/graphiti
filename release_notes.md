@@ -7,6 +7,7 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Fix checkstyle configuration;
 
 ### Bug fix
 
