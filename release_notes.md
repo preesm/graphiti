@@ -8,6 +8,7 @@ Graphiti Changelog
 
 ### Changes
 * Enable travis_retry when fetching dependencies;
+* Update Checkstyle and change update site URL to bintray;
 
 ### Bug fix
 
