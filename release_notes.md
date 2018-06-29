@@ -1,6 +1,19 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.9.0
+*2018.06.29*
+
+### New Feature
+
+### Changes
+* Fix checkstyle configuration;
+* Update to Eclipse Photon;
+* Update Xtend/Xtext to 2.14.0+;
+
+### Bug fix
+
+
 ## Release version 1.8.1
 *2018.06.13*
 
