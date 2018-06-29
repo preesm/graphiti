@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Graphiti editor plug-in Test
 Automatic-Module-Name: org.ietr.graphiti.ui.test
 Bundle-SymbolicName: org.ietr.graphiti.ui.test
-Bundle-Version: 1.8.1.qualifier
+Bundle-Version: 1.9.0
 Bundle-Vendor: IETR/INSA Rennes
 Fragment-Host: org.ietr.graphiti.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
