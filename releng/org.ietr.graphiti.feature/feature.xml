@@ -578,8 +578,8 @@ Version 1.0 dated 2006-09-05.]]>
    <!-- The following section tells where to lookup missing imported features -->
    <url>
       <!-- Eclipse main repos -->
-      <discovery label="Oxygen" url="http://mirror.ibcp.fr/pub/eclipse/releases/oxygen/"/>
-      <discovery label="Oxygen Updates" url="http://mirror.ibcp.fr/pub/eclipse/eclipse/updates/4.7"/>
+      <discovery label="Photon" url="http://mirror.ibcp.fr/pub/eclipse/releases/photon/"/>
+      <discovery label="Photon Updates" url="http://mirror.ibcp.fr/pub/eclipse/eclipse/updates/4.8"/>
 
       <!-- Preesm Repo -->
       <discovery label="Preesm" url="http://preesm.insa-rennes.fr/repo/complete/"/>

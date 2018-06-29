@@ -75,6 +75,7 @@
     <tycho-version>1.0.0</tycho-version>
     <findbugs-version>3.0.4</findbugs-version>
     <sonar-version>3.3.0.603</sonar-version>
+    <rcptt-version>2.3.0</rcptt-version>
     <checkstyle-version>8.10</checkstyle-version>
     <preesm.coding.policy.version>1.1.0</preesm.coding.policy.version>
 
@@ -106,13 +107,13 @@
     <repository>
       <id>Eclipse</id>
       <layout>p2</layout>
-      <url>${eclipse.mirror}/releases/oxygen/</url>
+      <url>${eclipse.mirror}/releases/photon/</url>
     </repository>
     <!-- add Eclipse updates for latest releases -->
     <repository>
       <id>Eclipse Updates</id>
       <layout>p2</layout>
-      <url>${eclipse.mirror}/eclipse/updates/4.7</url>
+      <url>${eclipse.mirror}/eclipse/updates/4.8</url>
     </repository>
     <!-- add TMF repository for latest Xtend -->
     <repository>

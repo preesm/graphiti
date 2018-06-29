@@ -8,6 +8,8 @@ Graphiti Changelog
 
 ### Changes
 * Fix checkstyle configuration;
+* Update to Eclipse Photon;
+* Update Xtend/Xtext to 2.14.0+;
 
 ### Bug fix
 
