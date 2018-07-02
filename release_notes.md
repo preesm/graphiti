@@ -7,6 +7,7 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Update tycho to 1.2.0;
 
 ### Bug fix
 
