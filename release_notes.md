@@ -8,6 +8,8 @@ Graphiti Changelog
 
 ### Changes
 * Update tycho to 1.2.0;
+* Update to Java10 compatibility;
+* Update to JUnit 5
 
 ### Bug fix
 
