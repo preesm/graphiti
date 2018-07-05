@@ -1,7 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2017) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2017 - 2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
  *
  * This software is a computer program whose purpose is to help prototyping
  * parallel applications using dataflow formalism.
@@ -35,8 +35,8 @@
 package org.ietr.graphiti.ui.test;
 
 import org.ietr.dftools.graphiti.ui.figure.PortAnchorReferenceManager;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -50,6 +50,6 @@ public class PortAnchorReferenceManagerTest {
   @Test
   public void testPortAnchorReferenceManager() {
     final PortAnchorReferenceManager portAnchorReferenceManager = new PortAnchorReferenceManager(null, null, false);
-    Assert.assertNotNull(portAnchorReferenceManager);
+    Assertions.assertNotNull(portAnchorReferenceManager);
   }
 }

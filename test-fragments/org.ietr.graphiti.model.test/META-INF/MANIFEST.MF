@@ -3,8 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Graphiti model plug-in Test
 Automatic-Module-Name: org.ietr.graphiti.model.test
 Bundle-SymbolicName: org.ietr.graphiti.model.test
-Bundle-Version: 1.9.0
+Bundle-Version: 1.9.1
 Bundle-Vendor: IETR/INSA Rennes
 Fragment-Host: org.ietr.graphiti.model
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.junit;bundle-version="4.12.0"
+Require-Bundle: javax.annotation;bundle-version="1.2.0",
+ org.junit.jupiter.api;bundle-version="5.0.0"
