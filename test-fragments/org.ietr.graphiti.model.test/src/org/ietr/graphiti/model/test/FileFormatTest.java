@@ -35,8 +35,8 @@
 package org.ietr.graphiti.model.test;
 
 import org.ietr.dftools.graphiti.model.FileFormat;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -50,7 +50,7 @@ public class FileFormatTest {
   @Test
   public void testConstruct() {
     final FileFormat fileFormat = new FileFormat("txt", "Text");
-    Assertions.assertTrue("Text".equals(fileFormat.getContentType()));
+    Assert.assertTrue("Text".equals(fileFormat.getContentType()));
   }
 
 }
