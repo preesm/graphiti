@@ -37,10 +37,17 @@ time (
   echo ""
   (cd $DIR && mvn --offline -e -C -B -V package -fae -Dmaven.test.skip=true) || exit 6
   # build and run tests (offline)
-  echo ""
-  echo "Test all & Run Sonar (offline)"
-  echo ""
-  (cd $DIR && mvn --offline -e -C -B -V verify -fae) || exit 7
+  if [ "$TRAVIS" == "true" ]; then
+    echo ""
+    echo "Test all & Run Sonar (offline)"
+    echo ""
+    (cd $DIR && mvn --offline -e -C -B -V verify sonar:sonar -fae) || exit 7
+  else
+    echo ""
+    echo "Test all (offline)"
+    echo ""
+    (cd $DIR && mvn --offline -e -C -B -V verify -fae) || exit 7
+  fi
   #package update site (offline, no tests)
   echo ""
   echo "Package update site (offline)"
