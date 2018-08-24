@@ -40,7 +40,7 @@ PING_LOOP_PID=$!
 
 # My build is using maven, but you could build anything with this, E.g.
 
-"${DIR}/releng/build_and_test.sh --fast" >> "${BUILD_OUTPUT}" 2>&1
+"${DIR}/releng/build_and_test.sh"  --fast >> "${BUILD_OUTPUT}" 2>&1
 
 # The build finished without returning an error so dump a tail of the output
 dump_output
