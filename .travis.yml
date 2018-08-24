@@ -35,7 +35,7 @@ addons:
 # issue is comming from.
 #######################
 
-script: travis_wait 90 ./releng/travis_wrapper.sh
+script: ./releng/travis_wrapper.sh
 
 #skip install step before each stage by running the /bin/true command
 install: true

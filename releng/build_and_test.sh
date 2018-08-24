@@ -2,8 +2,25 @@
 
 DIR=$(cd `dirname $0` && echo `git rev-parse --show-toplevel`)
 
+FAST=NO
+if [ ! -z ${1+x} ]; then
+  if [ "$1" == "--fast" ]; then
+    FAST=YES
+  fi
+fi
+
+if [ ! -z ${TRAVIS+x} ]; then
+  SONAR="sonar:sonar"
+else
+  SONAR=
+fi
+
 #fast version:
-#(cd $DIR && mvn -U -e -C -B -V -P doUpdateSite clean verify sonar:sonar -fae)
+if [ "$FAST" == "YES" ]; then
+  echo "Fast build ..."
+  (cd $DIR && mvn -e -C -B -P doUpdateSite clean verify ${SONAR} -fae)
+  exit 0
+fi
 
 time (
   #validate POM
@@ -37,17 +54,10 @@ time (
   echo ""
   (cd $DIR && mvn -e -C -B -V package -fae -Dmaven.test.skip=true) || exit 6
   # build and run tests (offline)
-  if [ -z ${TRAVIS+x} ]; then
-    echo ""
-    echo "Test all & Run Sonar"
-    echo ""
-    (cd $DIR && mvn -e -C -B -V verify sonar:sonar -fae) || exit 7
-  else
-    echo ""
-    echo "Test all"
-    echo ""
-    (cd $DIR && mvn -e -C -B -V verify -fae) || exit 7
-  fi
+  echo ""
+  echo "Test all & Run Sonar"
+  echo ""
+ (cd $DIR && mvn -e -C -B -V verify ${SONAR} -fae) || exit 7
   #package update site (offline, no tests)
   echo ""
   echo "Package update site"
