@@ -18,7 +18,7 @@ fi
 #fast version:
 if [ "$FAST" == "YES" ]; then
   echo "Fast build ..."
-  (cd $DIR && mvn -e -C -B -P doUpdateSite clean verify ${SONAR} -fae)
+  time (cd $DIR && mvn -e -C -B -P doUpdateSite clean verify ${SONAR} -fae)
   exit 0
 fi
 
@@ -57,7 +57,7 @@ time (
   echo ""
   echo "Test all & Run Sonar"
   echo ""
- (cd $DIR && mvn -e -C -B -V verify ${SONAR} -fae) || exit 7
+  (cd $DIR && mvn -e -C -B -V verify ${SONAR} -fae) || exit 7
   #package update site (offline, no tests)
   echo ""
   echo "Package update site"

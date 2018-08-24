@@ -8,7 +8,7 @@ PING_SLEEP=30s
 LINES=5000
 BUILD_OUTPUT="${DIR}/build.log"
 
-touch "${BUILD_OUTPUT}"
+echo "" > "${BUILD_OUTPUT}"
 
 function dump_output() {
    echo "Tailing the last ${LINES} lines of output:"
@@ -30,7 +30,7 @@ echo "--"
 echo "--            Travis Wrapper"
 echo "--            --------------"
 echo "--"
-echo "-- Storing stdout & stderr in ${BUILD_OUTPUT}"
+echo "-- Logging stdout & stderr in ${BUILD_OUTPUT}"
 echo "-- Ping every '${PING_SLEEP}' to keep travis from failing"
 echo "-- Prints last ${LINES} lines when exiting"
 echo "--"

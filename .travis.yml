@@ -10,7 +10,8 @@ os:
   - linux
 dist: trusty
 
-install: true
+install:
+  - mvn -U -e -C -B -P doUpdateSite dependency:go-offline
 
 notifications:
   email:
