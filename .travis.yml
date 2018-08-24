@@ -1,4 +1,3 @@
-
 #######################
 # General Configuration
 #######################
@@ -10,13 +9,17 @@ os:
   - linux
 dist: trusty
 
-install:
-  - mvn -U -e -C -B -P doUpdateSite dependency:go-offline
+install: true
 
 notifications:
   email:
     on_success: change
     on_failure: always
+  slack:
+    on_success: change
+    on_failure: always
+    rooms:
+      - vaader-ietr:EEtUq0RrGRpHSXWZiEApSDwS#preesm
 
 addons:
   sonarcloud:
@@ -25,5 +28,6 @@ addons:
       secure: "7edfa331c5de80bf665aee04f0e9dbcbc3efa122"
     branches: .*
 
-script: ./releng/build_and_test.sh --fast
+script: 
+  - ./releng/build_and_test.sh --fast
 

@@ -2,17 +2,43 @@
 
 DIR=$(cd `dirname $0` && echo `git rev-parse --show-toplevel`)
 
+FETCH=NO
 FAST=NO
+CHECK=NO
 if [ ! -z ${1+x} ]; then
+  if [ "$1" == "--fetch" ]; then
+    FETCH=YES
+  fi
+  if [ "$1" == "--check" ]; then
+    CHECK=YES
+  fi
   if [ "$1" == "--fast" ]; then
     FAST=YES
   fi
 fi
 
+# enable Sonar on Travis
 if [ ! -z ${TRAVIS+x} ]; then
   SONAR="sonar:sonar"
 else
   SONAR=
+fi
+
+#fetch version:
+if [ "$FETCH" == "YES" ]; then
+  echo "Fetch dependencies ..."
+  time (
+    (cd $DIR && mvn -U -e -C -B -P doUpdateSite -Dtycho.mode=maven dependency:go-offline)
+    (cd $DIR && mvn -U -e -C -B -P doUpdateSite help:help)
+  )
+  exit 0
+fi
+
+#check version:
+if [ "$CHECK" == "YES" ]; then
+  echo "Check code ..."
+  time (cd $DIR && mvn  -e -C -B -P doUpdateSite -Dtycho.mode=maven checkstyle:check)
+  exit 0
 fi
 
 #fast version:
