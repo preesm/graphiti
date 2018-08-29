@@ -7,6 +7,7 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Update coding policies to 1.3.0;
 
 ### Bug fix
 
