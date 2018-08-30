@@ -8,6 +8,7 @@ Graphiti Changelog
 
 ### Changes
 * Update coding policies to 1.3.0;
+* Update external dependencies to 3.3.0;
 
 ### Bug fix
 
