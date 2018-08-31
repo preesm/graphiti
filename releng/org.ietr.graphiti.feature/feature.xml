@@ -45,7 +45,7 @@
 <feature
       id="org.ietr.graphiti.feature"
       label="Graphiti Editor"
-      version="1.9.1"
+      version="1.10.0"
       provider-name="IETR/INSA Rennes">
 
    <description url="http://preesm.org/">
@@ -597,14 +597,14 @@ Version 1.0 dated 2006-09-05.]]>
          id="org.ietr.graphiti.model"
          download-size="0"
          install-size="0"
-         version="1.9.1"
+         version="1.10.0"
          unpack="false"/>
 
    <plugin
          id="org.ietr.graphiti.ui"
          download-size="0"
          install-size="0"
-         version="1.9.1"
+         version="1.10.0"
          unpack="false"/>
 
 </feature>

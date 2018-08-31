@@ -38,7 +38,7 @@
 <feature
       id="org.ietr.graphiti.dev.feature"
       label="Graphiti Developper Requirements (Meta Feature)"
-      version="1.9.1">
+      version="1.10.0">
 
    <description url="http://preesm.org/">
       This feature embeds all required Eclipse plugins for developping Graphiti. That includes XTend, GEF, EMF, Graphiti (Eclipse) Plus SDKs, along with Checkstyle integration for Eclipse, Maven integration for Eclipse (and appropriate extension), and third party libraries.
@@ -627,7 +627,7 @@ Version 1.0 dated 2006-09-05.]]>
       <import feature="org.eclipse.cdt"/>
 
 	    <!-- IETR dependencies -->
-      <import feature="org.ietr.externaldeps.aio.deps" version="3.2.0" match="compatible"/>
+      <import feature="org.ietr.externaldeps.aio.deps" version="3.3.0" match="compatible"/>
    </requires>
 
 </feature>

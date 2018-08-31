@@ -1,6 +1,18 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.10.0
+*2018.08.31*
+
+### New Feature
+
+### Changes
+* Update coding policies to 1.3.0;
+* Update external dependencies to 3.3.0;
+
+### Bug fix
+
+
 ## Release version 1.9.1
 *2018.07.05*
 
