@@ -7,6 +7,7 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Use new M2E Code Quality P2 repo;
 
 ### Bug fix
 
