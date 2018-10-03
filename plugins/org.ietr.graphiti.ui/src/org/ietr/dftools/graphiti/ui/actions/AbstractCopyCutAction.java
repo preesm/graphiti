@@ -8,6 +8,11 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
+/**
+ *
+ * @author anmorvan
+ *
+ */
 public abstract class AbstractCopyCutAction extends SelectionAction {
 
   public AbstractCopyCutAction(IWorkbenchPart part) {
