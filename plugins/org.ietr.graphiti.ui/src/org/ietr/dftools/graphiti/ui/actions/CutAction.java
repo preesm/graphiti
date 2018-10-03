@@ -36,15 +36,10 @@
  */
 package org.ietr.dftools.graphiti.ui.actions;
 
-import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.ietr.dftools.graphiti.ui.commands.copypaste.CutCommand;
-import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
 /**
  * This class provides an implementation of the cut action.
@@ -54,7 +49,7 @@ import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
  * @author Matthieu Wipliez
  *
  */
-public class CutAction extends SelectionAction {
+public class CutAction extends AbstractCopyCutAction {
 
   /**
    * Constructs a CutAction and associates it with the given workbench part.
@@ -66,45 +61,26 @@ public class CutAction extends SelectionAction {
     super(part);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-   */
   @Override
-  protected boolean calculateEnabled() {
-    // enabled when at least one object is selected
-    final ISelection selection = getSelection();
-    if (selection instanceof IStructuredSelection) {
-      final IStructuredSelection ssel = (IStructuredSelection) selection;
-      return ((!ssel.isEmpty()) && (ssel.getFirstElement() instanceof VertexEditPart));
-    } else {
-      return false;
-    }
+  protected String getCopyCutText() {
+    return "Cut";
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#init()
-   */
   @Override
-  protected void init() {
-    setId(ActionFactory.CUT.getId());
-    setText("Cut");
-    setToolTipText("Cut");
-
-    final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-    setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
-    setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT_DISABLED));
-    setEnabled(false);
+  protected String getCopyCutActionId() {
+    return ActionFactory.CUT.getId();
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.jface.action.Action#run()
-   */
+  @Override
+  protected String getDisabledToolImageDesc() {
+    return ISharedImages.IMG_TOOL_CUT_DISABLED;
+  }
+
+  @Override
+  protected String getToolImageDesc() {
+    return ISharedImages.IMG_TOOL_CUT;
+  }
+
   @Override
   public void run() {
     // execute the cut command

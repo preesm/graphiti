@@ -36,15 +36,10 @@
  */
 package org.ietr.dftools.graphiti.ui.actions;
 
-import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.ietr.dftools.graphiti.ui.commands.copypaste.CopyCommand;
-import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
 /**
  * This class provides an implementation of the copy action.
@@ -54,7 +49,7 @@ import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
  * @author Matthieu Wipliez
  *
  */
-public class CopyAction extends SelectionAction {
+public class CopyAction extends AbstractCopyCutAction {
 
   /**
    * Constructs a CopyAction and associates it with the given workbench part.
@@ -66,45 +61,26 @@ public class CopyAction extends SelectionAction {
     super(part);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-   */
   @Override
-  protected boolean calculateEnabled() {
-    // enabled when at least one object is selected
-    final ISelection selection = getSelection();
-    if (selection instanceof IStructuredSelection) {
-      final IStructuredSelection ssel = (IStructuredSelection) selection;
-      return ((!ssel.isEmpty()) && (ssel.getFirstElement() instanceof VertexEditPart));
-    } else {
-      return false;
-    }
+  protected String getCopyCutText() {
+    return "Copy";
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#init()
-   */
   @Override
-  protected void init() {
-    setId(ActionFactory.COPY.getId());
-    setText("Copy");
-    setToolTipText("Copy");
-
-    final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
-    setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
-    setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY_DISABLED));
-    setEnabled(false);
+  protected String getCopyCutActionId() {
+    return ActionFactory.COPY.getId();
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.jface.action.Action#run()
-   */
+  @Override
+  protected String getDisabledToolImageDesc() {
+    return ISharedImages.IMG_TOOL_COPY_DISABLED;
+  }
+
+  @Override
+  protected String getToolImageDesc() {
+    return ISharedImages.IMG_TOOL_COPY;
+  }
+
   @Override
   public void run() {
     // execute the copy command
