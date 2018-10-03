@@ -129,6 +129,11 @@ public class VertexFigure extends Figure {
       }
     }
 
+    @Override
+    public int hashCode() {
+      return Integer.hashCode(offset) * 31 + Boolean.hashCode(end);
+    }
+
     /**
      * Returns a {@link RelativeBendpoint} with the same characteristics as this bendpoint.
      *
