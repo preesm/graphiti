@@ -63,6 +63,8 @@ import org.w3c.dom.Element;
  */
 public class GenericGraphWriter {
 
+  private static final String VALUE_ELEMENT_NAME = "value";
+  private static final String PARAMETERS_ELEMENT_NAME = "parameters";
   /** The graph. */
   private final Graph graph;
 
@@ -141,7 +143,7 @@ public class GenericGraphWriter {
       edgeElement.setAttribute("target", (String) edge.getTarget().getValue(ObjectType.PARAMETER_ID));
       edgeElement.setAttribute("type", edge.getType().getName());
 
-      final Element parameters = document.createElement("parameters");
+      final Element parameters = document.createElement(PARAMETERS_ELEMENT_NAME);
       edgeElement.appendChild(parameters);
       writeParameters(edge, edge.getType(), parameters);
 
@@ -159,7 +161,7 @@ public class GenericGraphWriter {
     final Element graphElement = document.getDocumentElement();
     graphElement.setAttribute("type", this.graph.getType().getName());
 
-    final Element parameters = document.createElement("parameters");
+    final Element parameters = document.createElement(PARAMETERS_ELEMENT_NAME);
     graphElement.appendChild(parameters);
     writeParameters(this.graph, this.graph.getType(), parameters);
 
@@ -195,39 +197,49 @@ public class GenericGraphWriter {
 
       final Class<?> parameterType = parameter.getType();
       if (parameterType == List.class) {
-        final List<?> list = (List<?>) abstractObject.getValue(parameterName);
-        if (list != null) {
-          for (final Object obj : list) {
-            if (obj != null) {
-              final Element element = document.createElement("element");
-              element.setAttribute("value", obj.toString());
-              parameterElement.appendChild(element);
-            }
-          }
-          parametersElement.appendChild(parameterElement);
-        }
+        writeListParameter(abstractObject, parametersElement, document, parameterElement, parameterName);
       } else if (parameterType == Map.class) {
-        final Map<?, ?> map = (Map<?, ?>) abstractObject.getValue(parameterName);
-        if (map != null) {
-          for (final Entry<?, ?> entry : map.entrySet()) {
-            final Object key = entry.getKey();
-            final Object value = entry.getValue();
-            if ((key != null) && (value != null)) {
-              final Element entryElt = document.createElement("entry");
-              entryElt.setAttribute("key", key.toString());
-              entryElt.setAttribute("value", value.toString());
-              parameterElement.appendChild(entryElt);
-            }
-          }
-          parametersElement.appendChild(parameterElement);
-        }
+        writeMapParameter(abstractObject, parametersElement, document, parameterElement, parameterName);
       } else {
         final Object value = abstractObject.getValue(parameterName);
         if (value != null) {
-          parameterElement.setAttribute("value", value.toString());
+          parameterElement.setAttribute(VALUE_ELEMENT_NAME, value.toString());
           parametersElement.appendChild(parameterElement);
         }
       }
+    }
+  }
+
+  private void writeMapParameter(final AbstractObject abstractObject, final Element parametersElement,
+      final Document document, final Element parameterElement, final String parameterName) {
+    final Map<?, ?> map = (Map<?, ?>) abstractObject.getValue(parameterName);
+    if (map != null) {
+      for (final Entry<?, ?> entry : map.entrySet()) {
+        final Object key = entry.getKey();
+        final Object value = entry.getValue();
+        if ((key != null) && (value != null)) {
+          final Element entryElt = document.createElement("entry");
+          entryElt.setAttribute("key", key.toString());
+          entryElt.setAttribute(VALUE_ELEMENT_NAME, value.toString());
+          parameterElement.appendChild(entryElt);
+        }
+      }
+      parametersElement.appendChild(parameterElement);
+    }
+  }
+
+  private void writeListParameter(final AbstractObject abstractObject, final Element parametersElement,
+      final Document document, final Element parameterElement, final String parameterName) {
+    final List<?> list = (List<?>) abstractObject.getValue(parameterName);
+    if (list != null) {
+      for (final Object obj : list) {
+        if (obj != null) {
+          final Element element = document.createElement("element");
+          element.setAttribute(VALUE_ELEMENT_NAME, obj.toString());
+          parameterElement.appendChild(element);
+        }
+      }
+      parametersElement.appendChild(parameterElement);
     }
   }
 
@@ -250,7 +262,7 @@ public class GenericGraphWriter {
       vertexElement.setAttribute("y", String.valueOf(bounds.y));
 
       // and parameters
-      final Element parameters = document.createElement("parameters");
+      final Element parameters = document.createElement(PARAMETERS_ELEMENT_NAME);
       vertexElement.appendChild(parameters);
       writeParameters(vertex, vertex.getType(), parameters);
 

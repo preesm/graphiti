@@ -45,7 +45,6 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -55,7 +54,7 @@ public class GraphitiUiPlugin extends AbstractUIPlugin {
   /**
    * The shared instance.
    */
-  private static GraphitiUiPlugin plugin;
+  private static final GraphitiUiPlugin plugin = new GraphitiUiPlugin();
 
   /**
    * The plug-in ID.
@@ -148,27 +147,4 @@ public class GraphitiUiPlugin extends AbstractUIPlugin {
     final ILog log = Platform.getLog(getBundle());
     log.log(getStatus(IStatus.INFO, message));
   }
-
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-   */
-  @Override
-  public void start(final BundleContext context) throws Exception {
-    super.start(context);
-    GraphitiUiPlugin.plugin = this;
-  }
-
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-   */
-  @Override
-  public void stop(final BundleContext context) throws Exception {
-    GraphitiUiPlugin.plugin = null;
-    super.stop(context);
-  }
-
 }
