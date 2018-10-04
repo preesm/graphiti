@@ -53,6 +53,10 @@ import org.eclipse.swt.widgets.Display;
  */
 public class GradientPattern {
 
+  private GradientPattern() {
+    // forbid instantiation
+  }
+
   /**
    * Paints this {@link IShape} with the given background {@link Color}, in the specified {@link Rectangle} bounds, on
    * the given {@link Graphics}. If the graphics do not have advanced capabilities (such as printer or zoom manager),

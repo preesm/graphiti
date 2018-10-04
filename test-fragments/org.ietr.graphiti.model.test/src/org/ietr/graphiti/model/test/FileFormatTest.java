@@ -38,7 +38,6 @@ import org.ietr.dftools.graphiti.model.FileFormat;
 import org.junit.Assert;
 import org.junit.Test;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FileFormatTest.
  */

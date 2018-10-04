@@ -235,20 +235,7 @@ public class ModelPropertySource implements IPropertySource, PropertyChangeListe
           // get default value
           value = this.model.getParameter(parameterName).getDefault();
         } else {
-          try {
-            if (parameterType == Integer.class) {
-              value = Integer.valueOf(str);
-            } else if (parameterType == Float.class) {
-              value = Float.valueOf(str);
-            } else if (parameterType == Boolean.class) {
-              if (!"true".equals(value) && !"false".equals(value)) {
-                throw new IllegalArgumentException();
-              }
-              value = Boolean.valueOf(str);
-            }
-          } catch (final RuntimeException e) {
-            value = "invalid \"" + value + "\" value for " + parameterType.getSimpleName();
-          }
+          value = parsePropertyValue(value, str, parameterType);
         }
         command.setValue(parameterName, value);
         this.doRefresh = false;
@@ -258,6 +245,24 @@ public class ModelPropertySource implements IPropertySource, PropertyChangeListe
     } catch (final PartInitException e) {
       throw new GraphitiException("Could not set property", e);
     }
+  }
+
+  private Object parsePropertyValue(Object value, final String str, final Class<?> parameterType) {
+    try {
+      if (parameterType == Integer.class) {
+        value = Integer.valueOf(str);
+      } else if (parameterType == Float.class) {
+        value = Float.valueOf(str);
+      } else if (parameterType == Boolean.class) {
+        if (!"true".equals(value) && !"false".equals(value)) {
+          throw new IllegalArgumentException();
+        }
+        value = Boolean.valueOf(str);
+      }
+    } catch (final RuntimeException e) {
+      value = "invalid \"" + value + "\" value for " + parameterType.getSimpleName();
+    }
+    return value;
   }
 
 }

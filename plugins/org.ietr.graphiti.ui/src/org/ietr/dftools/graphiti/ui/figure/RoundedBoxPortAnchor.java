@@ -96,4 +96,16 @@ public class RoundedBoxPortAnchor extends ChopboxAnchor {
     }
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof RoundedBoxPortAnchor) {
+      return super.equals(o) && ((RoundedBoxPortAnchor) o).mgr.equals(this.mgr);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode() * 31 + mgr.hashCode();
+  }
 }

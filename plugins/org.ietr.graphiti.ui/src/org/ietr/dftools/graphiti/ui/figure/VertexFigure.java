@@ -86,11 +86,6 @@ public class VertexFigure extends Figure {
    * namely the {@link VertexFigure#bendpoints} field.
    * </p>
    *
-   * <p>
-   * TODO: I suppose that if guys use the editor for a long time adding and removing a lot of connections, there might
-   * be a problem with this bendpoints thing...
-   * </p>
-   *
    * @author Matthieu Wipliez
    */
   private class ConcreteBendpoint {
@@ -239,11 +234,10 @@ public class VertexFigure extends Figure {
    */
   public void addToList(final Connection conn, final boolean end, final int offset) {
     // get the concrete list
-    List<ConcreteBendpoint> list = this.bendpoints.get(conn);
-    if (list == null) {
-      list = new ArrayList<>();
-      this.bendpoints.put(conn, list);
+    if (!this.bendpoints.containsKey(conn)) {
+      this.bendpoints.put(conn, new ArrayList<>());
     }
+    List<ConcreteBendpoint> list = this.bendpoints.get(conn);
 
     final ConcreteBendpoint cbp = new ConcreteBendpoint(end, offset);
 
