@@ -37,7 +37,6 @@
 package org.ietr.dftools.graphiti.ui.editparts;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,13 +60,9 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.ui.views.properties.IPropertySource;
-import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
-import org.ietr.dftools.graphiti.model.AbstractObject;
 import org.ietr.dftools.graphiti.model.Edge;
 import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.ObjectType;
@@ -79,8 +74,6 @@ import org.ietr.dftools.graphiti.ui.editpolicies.VertexDirectEditPolicy;
 import org.ietr.dftools.graphiti.ui.figure.VertexFigure;
 import org.ietr.dftools.graphiti.ui.figure.shapes.IShape;
 import org.ietr.dftools.graphiti.ui.figure.shapes.ShapeFactory;
-import org.ietr.dftools.graphiti.ui.properties.ModelPropertySource;
-import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
 
 /**
  * The EditPart associated to the Graph gives methods to refresh the view when a property has changed.
@@ -90,8 +83,7 @@ import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
  * @author Matthieu Wipliez
  *
  */
-public class VertexEditPart extends AbstractGraphicalEditPart
-    implements PropertyChangeListener, NodeEditPart, ITabbedPropertySheetPageContributor {
+public class VertexEditPart extends AbstractGraphitiEditPart implements NodeEditPart {
 
   /** The direct edit manager. */
   private DirectEditManager directEditManager;
@@ -207,41 +199,6 @@ public class VertexEditPart extends AbstractGraphicalEditPart
     updatePorts(figure);
 
     return figure;
-  }
-
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
-   */
-  @Override
-  public void deactivate() {
-    super.deactivate();
-    ((Vertex) getModel()).removePropertyChangeListener(this);
-  }
-
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.Class)
-   */
-  @Override
-  @SuppressWarnings("rawtypes")
-  public Object getAdapter(final Class adapter) {
-    if (adapter == IPropertySource.class) {
-      return new ModelPropertySource((AbstractObject) getModel());
-    }
-    return super.getAdapter(adapter);
-  }
-
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor#getContributorId()
-   */
-  @Override
-  public String getContributorId() {
-    return PropertiesConstants.CONTRIBUTOR_ID;
   }
 
   /*
