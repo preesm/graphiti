@@ -41,12 +41,8 @@ import java.util.Iterator;
 import java.util.List;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.util.LocalSelectionTransfer;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.dnd.Transfer;
 import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.model.Vertex;
-import org.ietr.dftools.graphiti.ui.actions.GraphitiClipboard;
 import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
 /**
@@ -105,15 +101,7 @@ public class CutCommand extends Command {
       }
     }
 
-    // prepare transfer
-    final LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
-    final Object[] verticesArray = vertices.toArray();
-    transfer.setSelection(new StructuredSelection(verticesArray));
-
-    // put in clipboard
-    final Object[] data = new Object[] { verticesArray };
-    final Transfer[] transfers = new Transfer[] { transfer };
-    GraphitiClipboard.getInstance().setContents(data, transfers);
+    ClipboardHelper.populateClipboard(vertices);
   }
 
   /*

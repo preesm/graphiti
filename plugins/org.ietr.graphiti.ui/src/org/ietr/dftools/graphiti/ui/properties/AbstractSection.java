@@ -39,7 +39,6 @@ package org.ietr.dftools.graphiti.ui.properties;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -65,95 +64,6 @@ import org.ietr.dftools.graphiti.model.AbstractObject;
  *
  */
 public abstract class AbstractSection extends AbstractPropertySection implements PropertyChangeListener {
-
-  /**
-   * This class provides a command that changes the value of the currently selected parameter.
-   *
-   * @author Matthieu Wipliez
-   *
-   */
-  protected class ParameterChangeValueCommand extends Command {
-
-    /** The label. */
-    private final String label;
-
-    /**
-     * Set by {@link #setValue(String, Object)}.
-     */
-    private String name;
-
-    /**
-     * The new value.
-     */
-    private Object newValue;
-
-    /**
-     * The old value.
-     */
-    private Object oldValue;
-
-    /**
-     * The property bean we're modifying.
-     */
-    private final AbstractObject source;
-
-    /**
-     * Creates a new add parameter command.
-     *
-     * @param source
-     *          the source
-     * @param label
-     *          the label
-     */
-    public ParameterChangeValueCommand(final AbstractObject source, final String label) {
-      this.source = source;
-      this.label = label;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.eclipse.gef.commands.Command#execute()
-     */
-    @Override
-    public void execute() {
-      this.oldValue = this.source.setValue(this.name, this.newValue);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.eclipse.gef.commands.Command#getLabel()
-     */
-    @Override
-    public String getLabel() {
-      return this.label;
-    }
-
-    /**
-     * Sets the value of the parameter whose name is given to the given value.
-     *
-     * @param name
-     *          The parameter name.
-     * @param value
-     *          Its new value.
-     */
-    public void setValue(final String name, final Object value) {
-      this.name = name;
-      this.newValue = value;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.eclipse.gef.commands.Command#undo()
-     */
-    @Override
-    public void undo() {
-      this.source.setValue(this.name, this.oldValue);
-    }
-
-  }
 
   /** The button add. */
   private Button buttonAdd;

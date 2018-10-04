@@ -60,6 +60,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ietr.dftools.graphiti.model.AbstractObject;
+import org.ietr.dftools.graphiti.ui.commands.ParameterChangeValueCommand;
 import org.ietr.dftools.graphiti.ui.editors.GraphEditor;
 
 /**
