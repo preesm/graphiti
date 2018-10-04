@@ -223,13 +223,13 @@ public class GenericGraphParser {
         final String edgeName = "In the edge \"" + sourceId + "\" -> \"" + targetId + "\"";
         final String errorMessageEnd = "\" could not be found.";
         if ((source == null) && (target == null)) {
-          String message = edgeName + ", \"" + sourceId + "\" nor \"" + targetId + errorMessageEnd;
+          final String message = edgeName + ", \"" + sourceId + "\" nor \"" + targetId + errorMessageEnd;
           throw new TransformedDocumentParseError(message);
         } else if (source == null) {
-          String message = edgeName + ", the source vertex \"" + sourceId + errorMessageEnd;
+          final String message = edgeName + ", the source vertex \"" + sourceId + errorMessageEnd;
           throw new TransformedDocumentParseError(message);
         } else if (target == null) {
-          String message = edgeName + ", the target vertex \"" + targetId + errorMessageEnd;
+          final String message = edgeName + ", the target vertex \"" + targetId + errorMessageEnd;
           throw new TransformedDocumentParseError(message);
         }
 

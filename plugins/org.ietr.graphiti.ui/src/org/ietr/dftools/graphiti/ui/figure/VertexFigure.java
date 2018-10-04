@@ -126,7 +126,7 @@ public class VertexFigure extends Figure {
 
     @Override
     public int hashCode() {
-      return Integer.hashCode(offset) * 31 + Boolean.hashCode(end);
+      return (Integer.hashCode(this.offset) * 31) + Boolean.hashCode(this.end);
     }
 
     /**
@@ -237,7 +237,7 @@ public class VertexFigure extends Figure {
     if (!this.bendpoints.containsKey(conn)) {
       this.bendpoints.put(conn, new ArrayList<>());
     }
-    List<ConcreteBendpoint> list = this.bendpoints.get(conn);
+    final List<ConcreteBendpoint> list = this.bendpoints.get(conn);
 
     final ConcreteBendpoint cbp = new ConcreteBendpoint(end, offset);
 

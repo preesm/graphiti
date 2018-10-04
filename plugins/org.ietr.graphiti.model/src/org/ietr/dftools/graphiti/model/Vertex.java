@@ -134,7 +134,7 @@ public class Vertex extends AbstractObject {
    */
   @Override
   public Object setValue(final String propertyName, final Object newValue) {
-    if (ObjectType.PARAMETER_ID.equals(propertyName) && this.parent != null) {
+    if (ObjectType.PARAMETER_ID.equals(propertyName) && (this.parent != null)) {
       this.parent.changeVertexId(this, (String) newValue);
     }
     return super.setValue(propertyName, newValue);

@@ -63,10 +63,10 @@ import org.w3c.dom.Element;
  */
 public class GenericGraphWriter {
 
-  private static final String VALUE_ELEMENT_NAME = "value";
+  private static final String VALUE_ELEMENT_NAME      = "value";
   private static final String PARAMETERS_ELEMENT_NAME = "parameters";
   /** The graph. */
-  private final Graph graph;
+  private final Graph         graph;
 
   /**
    * Creates a writer for the given graph.
@@ -143,7 +143,7 @@ public class GenericGraphWriter {
       edgeElement.setAttribute("target", (String) edge.getTarget().getValue(ObjectType.PARAMETER_ID));
       edgeElement.setAttribute("type", edge.getType().getName());
 
-      final Element parameters = document.createElement(PARAMETERS_ELEMENT_NAME);
+      final Element parameters = document.createElement(GenericGraphWriter.PARAMETERS_ELEMENT_NAME);
       edgeElement.appendChild(parameters);
       writeParameters(edge, edge.getType(), parameters);
 
@@ -161,7 +161,7 @@ public class GenericGraphWriter {
     final Element graphElement = document.getDocumentElement();
     graphElement.setAttribute("type", this.graph.getType().getName());
 
-    final Element parameters = document.createElement(PARAMETERS_ELEMENT_NAME);
+    final Element parameters = document.createElement(GenericGraphWriter.PARAMETERS_ELEMENT_NAME);
     graphElement.appendChild(parameters);
     writeParameters(this.graph, this.graph.getType(), parameters);
 
@@ -203,7 +203,7 @@ public class GenericGraphWriter {
       } else {
         final Object value = abstractObject.getValue(parameterName);
         if (value != null) {
-          parameterElement.setAttribute(VALUE_ELEMENT_NAME, value.toString());
+          parameterElement.setAttribute(GenericGraphWriter.VALUE_ELEMENT_NAME, value.toString());
           parametersElement.appendChild(parameterElement);
         }
       }
@@ -220,7 +220,7 @@ public class GenericGraphWriter {
         if ((key != null) && (value != null)) {
           final Element entryElt = document.createElement("entry");
           entryElt.setAttribute("key", key.toString());
-          entryElt.setAttribute(VALUE_ELEMENT_NAME, value.toString());
+          entryElt.setAttribute(GenericGraphWriter.VALUE_ELEMENT_NAME, value.toString());
           parameterElement.appendChild(entryElt);
         }
       }
@@ -235,7 +235,7 @@ public class GenericGraphWriter {
       for (final Object obj : list) {
         if (obj != null) {
           final Element element = document.createElement("element");
-          element.setAttribute(VALUE_ELEMENT_NAME, obj.toString());
+          element.setAttribute(GenericGraphWriter.VALUE_ELEMENT_NAME, obj.toString());
           parameterElement.appendChild(element);
         }
       }
@@ -262,7 +262,7 @@ public class GenericGraphWriter {
       vertexElement.setAttribute("y", String.valueOf(bounds.y));
 
       // and parameters
-      final Element parameters = document.createElement(PARAMETERS_ELEMENT_NAME);
+      final Element parameters = document.createElement(GenericGraphWriter.PARAMETERS_ELEMENT_NAME);
       vertexElement.appendChild(parameters);
       writeParameters(vertex, vertex.getType(), parameters);
 

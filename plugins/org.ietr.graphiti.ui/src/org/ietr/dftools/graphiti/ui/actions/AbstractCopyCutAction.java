@@ -15,7 +15,7 @@ import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
  */
 public abstract class AbstractCopyCutAction extends SelectionAction {
 
-  public AbstractCopyCutAction(IWorkbenchPart part) {
+  public AbstractCopyCutAction(final IWorkbenchPart part) {
     super(part);
   }
 
