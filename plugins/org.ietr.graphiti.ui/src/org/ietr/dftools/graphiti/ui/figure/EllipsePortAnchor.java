@@ -95,4 +95,17 @@ public class EllipsePortAnchor extends EllipseAnchor {
       return reference;
     }
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof EllipsePortAnchor) {
+      return super.equals(o) && ((EllipsePortAnchor) o).mgr.equals(this.mgr);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode() * 31 + mgr.hashCode();
+  }
 }
