@@ -38,7 +38,6 @@ import org.ietr.dftools.graphiti.ui.figure.PortAnchorReferenceManager;
 import org.junit.Assert;
 import org.junit.Test;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PortAnchorReferenceManagerTest.
  */
