@@ -93,11 +93,13 @@ public class PasteAction extends SelectionAction implements PropertyChangeListen
    *
    * @return the clipboard contents
    */
-  protected List<?> getClipboardContents() {
+  protected List<Vertex> getClipboardContents() {
     final LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
     final Object data = GraphitiClipboard.getInstance().getContents(transfer);
     if (data instanceof IStructuredSelection) {
-      return ((IStructuredSelection) data).toList();
+      @SuppressWarnings("unchecked")
+      final List<Vertex> list = ((IStructuredSelection) data).toList();
+      return list;
     } else {
       return Collections.emptyList();
     }
@@ -136,7 +138,6 @@ public class PasteAction extends SelectionAction implements PropertyChangeListen
    * Executes a new {@link PasteCommand}.
    */
   @Override
-  @SuppressWarnings("unchecked")
   public void run() {
     final Object obj = getSelectedObjects().get(0);
     GraphEditPart part = null;
@@ -147,7 +148,7 @@ public class PasteAction extends SelectionAction implements PropertyChangeListen
     }
 
     // execute the paste command
-    final List<Vertex> contents = (List<Vertex>) getClipboardContents();
+    final List<Vertex> contents = getClipboardContents();
     final PasteCommand command = new PasteCommand(part, contents);
     command.run();
     if (command.isDirty()) {

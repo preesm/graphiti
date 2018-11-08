@@ -37,14 +37,18 @@
  */
 package org.ietr.dftools.graphiti.io;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import javax.xml.transform.TransformerException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.ietr.dftools.graphiti.model.AbstractObject;
 import org.ietr.dftools.graphiti.model.Configuration;
@@ -67,6 +71,7 @@ import org.w3c.dom.Node;
  */
 public class GenericGraphParser {
 
+  private static final String             VALUE_ATTRIBUTE_NAME = "value";
   /** The configurations. */
   private final Collection<Configuration> configurations;
 
@@ -107,10 +112,9 @@ public class GenericGraphParser {
    * @param file
    *          the file
    * @return A {@link Graph} if successful.
-   * @throws Exception
-   *           the exception
    */
-  private Graph parse(final Configuration configuration, final IFile file) throws Exception {
+  private Graph parse(final Configuration configuration, final IFile file)
+      throws CoreException, IOException, URISyntaxException, TransformerException, TransformedDocumentParseError {
     final FileFormat format = configuration.getFileFormat();
     final List<Transformation> transformations = format.getImportTransformations();
     Element element;
@@ -183,7 +187,7 @@ public class GenericGraphParser {
       final Graph graph = parse(configuration, file);
       graph.setFileName(file.getFullPath());
       return graph;
-    } catch (final Throwable e) {
+    } catch (final Exception e) {
       throw new IncompatibleConfigurationFile("The file could not be parsed with the matching configuration", e);
     }
   }
@@ -216,15 +220,17 @@ public class GenericGraphParser {
         final String targetId = element.getAttribute("target");
         final Vertex target = graph.findVertex(targetId);
 
+        final String edgeName = "In the edge \"" + sourceId + "\" -> \"" + targetId + "\"";
+        final String errorMessageEnd = "\" could not be found.";
         if ((source == null) && (target == null)) {
-          throw new TransformedDocumentParseError("In the edge \"" + sourceId + "\" -> \"" + targetId + "\", \""
-              + sourceId + "\" nor \"" + targetId + "\" could not be found.");
+          final String message = edgeName + ", \"" + sourceId + "\" nor \"" + targetId + errorMessageEnd;
+          throw new TransformedDocumentParseError(message);
         } else if (source == null) {
-          throw new TransformedDocumentParseError("In the edge \"" + sourceId + "\" -> \"" + targetId
-              + "\", the source vertex \"" + sourceId + "\" could not be found.");
+          final String message = edgeName + ", the source vertex \"" + sourceId + errorMessageEnd;
+          throw new TransformedDocumentParseError(message);
         } else if (target == null) {
-          throw new TransformedDocumentParseError("In the edge \"" + sourceId + "\" -> \"" + targetId
-              + "\", the target vertex \"" + targetId + "\" could not be found.");
+          final String message = edgeName + ", the target vertex \"" + targetId + errorMessageEnd;
+          throw new TransformedDocumentParseError(message);
         }
 
         final Edge edge = new Edge(type, source, target);
@@ -278,44 +284,13 @@ public class GenericGraphParser {
   private Object parseParameter(final Parameter parameter, final Element child) {
     final Class<?> parameterType = parameter.getType();
     if (parameterType == List.class) {
-      final List<String> list = new ArrayList<>();
-      Node element = child.getFirstChild();
-      if (element == null) {
-        return null;
-      }
-
-      while (element != null) {
-        if (element.getNodeName().equals("element")) {
-          final String eltValue = ((Element) element).getAttribute("value");
-          list.add(eltValue);
-        }
-
-        element = element.getNextSibling();
-      }
-
-      return list;
+      return parseListParameter(child);
     } else if (parameterType == Map.class) {
-      final Map<String, String> map = new TreeMap<>();
-      Node element = child.getFirstChild();
-      if (element == null) {
-        return null;
-      }
-
-      while (element != null) {
-        if (element.getNodeName().equals("entry")) {
-          final String key = ((Element) element).getAttribute("key");
-          final String value = ((Element) element).getAttribute("value");
-          map.put(key, value);
-        }
-
-        element = element.getNextSibling();
-      }
-
-      return map;
+      return parseMapParameter(child);
     } else {
       final Element element = child;
-      final String value = element.getAttribute("value");
-      if (!element.hasAttribute("value") || value.isEmpty()) {
+      final String value = element.getAttribute(GenericGraphParser.VALUE_ATTRIBUTE_NAME);
+      if (!element.hasAttribute(GenericGraphParser.VALUE_ATTRIBUTE_NAME) || value.isEmpty()) {
         return null;
       } else {
         if (parameterType == Integer.class) {
@@ -331,6 +306,45 @@ public class GenericGraphParser {
         }
       }
     }
+  }
+
+  private Object parseMapParameter(final Element child) {
+    final Map<String, String> map = new TreeMap<>();
+    Node element = child.getFirstChild();
+    if (element == null) {
+      return null;
+    }
+
+    while (element != null) {
+      if (element.getNodeName().equals("entry")) {
+        final String key = ((Element) element).getAttribute("key");
+        final String value = ((Element) element).getAttribute(GenericGraphParser.VALUE_ATTRIBUTE_NAME);
+        map.put(key, value);
+      }
+
+      element = element.getNextSibling();
+    }
+
+    return map;
+  }
+
+  private Object parseListParameter(final Element child) {
+    final List<String> list = new ArrayList<>();
+    Node element = child.getFirstChild();
+    if (element == null) {
+      return null;
+    }
+
+    while (element != null) {
+      if (element.getNodeName().equals("element")) {
+        final String eltValue = ((Element) element).getAttribute(GenericGraphParser.VALUE_ATTRIBUTE_NAME);
+        list.add(eltValue);
+      }
+
+      element = element.getNextSibling();
+    }
+
+    return list;
   }
 
   /**

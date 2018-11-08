@@ -44,6 +44,7 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
+import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.ietr.dftools.graphiti.model.Vertex;
@@ -71,7 +72,8 @@ public class LayoutPolicy extends XYLayoutEditPolicy {
    * java.lang.Object)
    */
   @Override
-  protected Command createChangeConstraintCommand(final EditPart child, final Object constraint) {
+  protected Command createChangeConstraintCommand(final ChangeBoundsRequest request, final EditPart child,
+      final Object constraint) {
     VertexMoveCommand command = null;
 
     if (child instanceof VertexEditPart) {

@@ -43,7 +43,7 @@
   <parent>
     <groupId>org.ietr.graphiti</groupId>
     <artifactId>org.ietr.graphiti.parent</artifactId>
-    <version>1.10.0</version>
+    <version>1.11.0</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -74,7 +74,7 @@
     <repository>
       <id>Checkstyle M2E extension</id>
       <layout>p2</layout>
-      <url>http://preesm.github.io/m2e-code-quality/site/latest/</url>
+      <url>https://m2e-code-quality.github.io/m2e-code-quality-p2-site/</url>
     </repository>
     <repository>
       <id>Settings M2E extension</id>

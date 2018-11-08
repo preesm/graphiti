@@ -39,7 +39,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.ietr.graphiti</groupId>
   <artifactId>org.ietr.graphiti.parent</artifactId>
-  <version>1.10.0</version>
+  <version>1.11.0</version>
   <packaging>pom</packaging>
 
   <!-- More Project Information -->
@@ -103,6 +103,11 @@
   </properties>
 
   <repositories>
+    <!-- Official Maven Central repo hosted in UK -->
+    <repository>
+      <id>UK Central</id>
+      <url>http://uk.maven.org/maven2</url>
+    </repository>
     <!-- add Eclipse repository to resolve dependencies -->
     <repository>
       <id>Eclipse</id>

@@ -1,6 +1,20 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.11.0
+*2018.11.08*
+
+### New Feature
+
+### Changes
+* Use new M2E Code Quality P2 repo;
+* Refactoring;
+* Add java 10+ compatibility (missing javax.annotations);
+* Fix travis file;
+
+### Bug fix
+
+
 ## Release version 1.10.0
 *2018.08.31*
 

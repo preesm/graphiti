@@ -54,20 +54,17 @@ import org.eclipse.draw2d.geometry.Rectangle;
 public class ManualGraphLayoutManager extends StackLayout {
 
   /**
-   * Returns the minimum size required by the input container. This is the size of the largest child of the container,
-   * as all other children fit into this size.
    *
-   * @param figure
-   *          the figure
-   * @param wHint
-   *          the w hint
-   * @param hHint
-   *          the h hint
-   * @return the dimension
-   * @see AbstractHintLayout#calculateMinimumSize(IFigure, int, int)
+   * @author anmorvan
+   *
    */
-  @Override
-  protected Dimension calculateMinimumSize(final IFigure figure, final int wHint, final int hHint) {
+  @FunctionalInterface
+  interface SizeSelector {
+    Dimension getSize(IFigure child, int widthHint, int heightHint);
+  }
+
+  private Dimension calculateSize(final IFigure figure, final int wHint, final int hHint,
+      final SizeSelector sizeSelector) {
     final int widthHint;
     final int heightHint;
     if (wHint > -1) {
@@ -87,14 +84,31 @@ public class ManualGraphLayoutManager extends StackLayout {
     for (int i = 0; i < children.size(); i++) {
       child = children.get(i);
       if (!isObservingVisibility() || child.isVisible()) {
-        d.union(child.getMinimumSize(widthHint, heightHint));
+        d.union(sizeSelector.getSize(child, widthHint, heightHint));
       }
     }
 
     d.expand(figure.getInsets().getWidth(), figure.getInsets().getHeight());
     d.union(getBorderPreferredSize(figure));
     return d;
+  }
 
+  /**
+   * Returns the minimum size required by the input container. This is the size of the largest child of the container,
+   * as all other children fit into this size.
+   *
+   * @param figure
+   *          the figure
+   * @param wHint
+   *          the w hint
+   * @param hHint
+   *          the h hint
+   * @return the dimension
+   * @see AbstractHintLayout#calculateMinimumSize(IFigure, int, int)
+   */
+  @Override
+  protected Dimension calculateMinimumSize(final IFigure figure, final int wHint, final int hHint) {
+    return calculateSize(figure, wHint, hHint, (f, w, h) -> f.getMinimumSize(w, h));
   }
 
   /**
@@ -112,33 +126,7 @@ public class ManualGraphLayoutManager extends StackLayout {
    */
   @Override
   protected Dimension calculatePreferredSize(final IFigure figure, final int wHint, final int hHint) {
-    final int widthHint;
-    final int heightHint;
-    if (wHint > -1) {
-      widthHint = Math.max(0, wHint - figure.getInsets().getWidth());
-    } else {
-      widthHint = wHint;
-    }
-    if (hHint > -1) {
-      heightHint = Math.max(0, hHint - figure.getInsets().getHeight());
-    } else {
-      heightHint = hHint;
-    }
-
-    final Dimension d = new Dimension();
-    @SuppressWarnings("unchecked")
-    final List<IFigure> children = figure.getChildren();
-    IFigure child;
-    for (int i = 0; i < children.size(); i++) {
-      child = children.get(i);
-      if (!isObservingVisibility() || child.isVisible()) {
-        d.union(child.getPreferredSize(widthHint, heightHint));
-      }
-    }
-
-    d.expand(figure.getInsets().getWidth(), figure.getInsets().getHeight());
-    d.union(getBorderPreferredSize(figure));
-    return d;
+    return calculateSize(figure, wHint, hHint, (f, w, h) -> f.getPreferredSize(w, h));
   }
 
   /**

@@ -1,8 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2017 - 2018) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
- * Antoine Morvan <antoine.morvan.pro@gmail.com> (2018)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2018)
  *
  * This software is a computer program whose purpose is to help prototyping
  * parallel applications using dataflow formalism.
@@ -33,23 +32,34 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
-package org.ietr.graphiti.ui.test;
+package org.ietr.dftools.graphiti.ui.commands.copypaste;
 
-import org.ietr.dftools.graphiti.ui.figure.PortAnchorReferenceManager;
-import org.junit.Assert;
-import org.junit.Test;
+import java.util.List;
+import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.dnd.Transfer;
+import org.ietr.dftools.graphiti.model.Vertex;
+import org.ietr.dftools.graphiti.ui.actions.GraphitiClipboard;
 
 /**
- * The Class PortAnchorReferenceManagerTest.
+ *
+ * @author anmorvan
+ *
  */
-public class PortAnchorReferenceManagerTest {
+public interface ClipboardHelper {
 
   /**
-   * Test port anchor reference manager.
+   *
    */
-  @Test
-  public void testPortAnchorReferenceManager() {
-    final PortAnchorReferenceManager portAnchorReferenceManager = new PortAnchorReferenceManager(null, null, false);
-    Assert.assertNotNull(portAnchorReferenceManager);
+  public static void populateClipboard(final List<Vertex> vertices) {
+    // prepare transfer
+    final LocalSelectionTransfer transfer = LocalSelectionTransfer.getTransfer();
+    final Object[] verticesArray = vertices.toArray();
+    transfer.setSelection(new StructuredSelection(verticesArray));
+
+    // put in clipboard
+    final Object[] data = new Object[] { verticesArray };
+    final Transfer[] transfers = new Transfer[] { transfer };
+    GraphitiClipboard.getInstance().setContents(data, transfers);
   }
 }

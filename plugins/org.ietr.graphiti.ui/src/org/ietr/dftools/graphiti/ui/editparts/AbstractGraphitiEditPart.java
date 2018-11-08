@@ -1,9 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
- * Clément Guy <clement.guy@insa-rennes.fr> (2014)
- * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2018)
  *
  * This software is a computer program whose purpose is to help prototyping
  * parallel applications using dataflow formalism.
@@ -34,57 +32,58 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
-package org.ietr.dftools.graphiti.ui.actions;
+package org.ietr.dftools.graphiti.ui.editparts;
 
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.actions.ActionFactory;
-import org.ietr.dftools.graphiti.ui.commands.copypaste.CutCommand;
+import java.beans.PropertyChangeListener;
+import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
+import org.ietr.dftools.graphiti.model.AbstractObject;
+import org.ietr.dftools.graphiti.model.Graph;
+import org.ietr.dftools.graphiti.ui.properties.ModelPropertySource;
+import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
 
 /**
- * This class provides an implementation of the cut action.
  *
- * @author Samuel Beaussier
- * @author Nicolas Isch
- * @author Matthieu Wipliez
+ * @author anmorvan
  *
  */
-public class CutAction extends AbstractCopyCutAction {
+public abstract class AbstractGraphitiEditPart extends AbstractGraphicalEditPart
+    implements PropertyChangeListener, ITabbedPropertySheetPageContributor {
 
-  /**
-   * Constructs a CutAction and associates it with the given workbench part.
+  /*
+   * (non-Javadoc)
    *
-   * @param part
-   *          The workbench part.
+   * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
    */
-  public CutAction(final IWorkbenchPart part) {
-    super(part);
+  @Override
+  public void deactivate() {
+    super.deactivate();
+    ((Graph) getModel()).removePropertyChangeListener(this);
   }
 
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.Class)
+   */
   @Override
-  protected String getCopyCutText() {
-    return "Cut";
+  @SuppressWarnings("rawtypes")
+  public Object getAdapter(final Class adapter) {
+    if (adapter == IPropertySource.class) {
+      return new ModelPropertySource((AbstractObject) getModel());
+    }
+    return super.getAdapter(adapter);
   }
 
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor#getContributorId()
+   */
   @Override
-  protected String getCopyCutActionId() {
-    return ActionFactory.CUT.getId();
+  public String getContributorId() {
+    return PropertiesConstants.CONTRIBUTOR_ID;
   }
 
-  @Override
-  protected String getDisabledToolImageDesc() {
-    return ISharedImages.IMG_TOOL_CUT_DISABLED;
-  }
-
-  @Override
-  protected String getToolImageDesc() {
-    return ISharedImages.IMG_TOOL_CUT;
-  }
-
-  @Override
-  public void run() {
-    // execute the cut command
-    final CutCommand command = new CutCommand(getSelectedObjects());
-    execute(command);
-  }
 }

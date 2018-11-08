@@ -317,7 +317,7 @@ public class WizardConvertPage extends WizardPage implements IGraphTypeSettable 
    */
   private void updateDescription() {
     setDescription(
-        "Convert \"" + this.originalGraph.getType().getName() + "\" to \"" + this.newGraphType.getName() + "\".");
+        "Converted \"" + this.originalGraph.getType().getName() + "\" to \"" + this.newGraphType.getName() + "\".");
   }
 
   /**

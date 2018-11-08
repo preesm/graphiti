@@ -37,8 +37,8 @@
 package org.ietr.dftools.graphiti;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.ietr.dftools.graphiti.io.ConfigurationParser;
 import org.ietr.dftools.graphiti.model.Configuration;
@@ -52,7 +52,7 @@ public class GraphitiModelPlugin extends AbstractUIPlugin {
   /**
    * The shared instance.
    */
-  private static GraphitiModelPlugin plugin;
+  private static final GraphitiModelPlugin plugin = new GraphitiModelPlugin();
 
   /**
    * The plug-in ID.
@@ -69,7 +69,7 @@ public class GraphitiModelPlugin extends AbstractUIPlugin {
   }
 
   /** map of configuration name to configuration. */
-  private Map<String, Configuration> configurations;
+  private static final Map<String, Configuration> configurations = new LinkedHashMap<>();
 
   /**
    * Returns the configuration with the given name.
@@ -79,7 +79,7 @@ public class GraphitiModelPlugin extends AbstractUIPlugin {
    * @return the configuration
    */
   public Configuration getConfiguration(final String name) {
-    return this.configurations.get(name);
+    return configurations.get(name);
   }
 
   /**
@@ -88,18 +88,13 @@ public class GraphitiModelPlugin extends AbstractUIPlugin {
    * @return A reference to the {@link Configuration} list.
    */
   public Collection<Configuration> getConfigurations() {
-    return this.configurations.values();
+    return configurations.values();
   }
 
-  /**
-   * Parses the configurations available and (re)loads them.
-   *
-   * @throws CoreException
-   *           If the file formats cannot be added to Eclipse content type system.
-   */
-  public void loadConfigurations() throws CoreException {
-    final ConfigurationParser parser = new ConfigurationParser();
-    this.configurations = parser.getConfigurations();
+  @Override
+  public void stop(BundleContext context) throws Exception {
+    super.stop(context);
+    configurations.clear();
   }
 
   /*
@@ -110,19 +105,9 @@ public class GraphitiModelPlugin extends AbstractUIPlugin {
   @Override
   public void start(final BundleContext context) throws Exception {
     super.start(context);
-    GraphitiModelPlugin.plugin = this;
-    loadConfigurations();
-  }
-
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-   */
-  @Override
-  public void stop(final BundleContext context) throws Exception {
-    GraphitiModelPlugin.plugin = null;
-    super.stop(context);
+    final ConfigurationParser parser = new ConfigurationParser();
+    configurations.clear();
+    configurations.putAll(parser.getConfigurations());
   }
 
 }

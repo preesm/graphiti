@@ -1,9 +1,7 @@
 /**
- * Copyright or © or Copr. IETR/INSA - Rennes (2008 - 2018) :
+ * Copyright or © or Copr. IETR/INSA - Rennes (2018) :
  *
- * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
- * Clément Guy <clement.guy@insa-rennes.fr> (2014)
- * Matthieu Wipliez <matthieu.wipliez@insa-rennes.fr> (2008 - 2010)
+ * Antoine Morvan <antoine.morvan@insa-rennes.fr> (2018)
  *
  * This software is a computer program whose purpose is to help prototyping
  * parallel applications using dataflow formalism.
@@ -36,55 +34,65 @@
  */
 package org.ietr.dftools.graphiti.ui.actions;
 
+import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.actions.ActionFactory;
-import org.ietr.dftools.graphiti.ui.commands.copypaste.CutCommand;
+import org.eclipse.ui.PlatformUI;
+import org.ietr.dftools.graphiti.ui.editparts.VertexEditPart;
 
 /**
- * This class provides an implementation of the cut action.
  *
- * @author Samuel Beaussier
- * @author Nicolas Isch
- * @author Matthieu Wipliez
+ * @author anmorvan
  *
  */
-public class CutAction extends AbstractCopyCutAction {
+public abstract class AbstractCopyCutAction extends SelectionAction {
 
-  /**
-   * Constructs a CutAction and associates it with the given workbench part.
-   *
-   * @param part
-   *          The workbench part.
-   */
-  public CutAction(final IWorkbenchPart part) {
+  public AbstractCopyCutAction(final IWorkbenchPart part) {
     super(part);
   }
 
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+   */
   @Override
-  protected String getCopyCutText() {
-    return "Cut";
+  protected boolean calculateEnabled() {
+    // enabled when at least one object is selected
+    final ISelection selection = getSelection();
+    if (selection instanceof IStructuredSelection) {
+      final IStructuredSelection ssel = (IStructuredSelection) selection;
+      return ((!ssel.isEmpty()) && (ssel.getFirstElement() instanceof VertexEditPart));
+    } else {
+      return false;
+    }
   }
 
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#init()
+   */
   @Override
-  protected String getCopyCutActionId() {
-    return ActionFactory.CUT.getId();
+  protected void init() {
+    setId(getCopyCutActionId());
+    setText(getCopyCutText());
+    setToolTipText(getCopyCutText());
+
+    final ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
+    setImageDescriptor(sharedImages.getImageDescriptor(getToolImageDesc()));
+    setDisabledImageDescriptor(sharedImages.getImageDescriptor(getDisabledToolImageDesc()));
+    setEnabled(false);
   }
 
-  @Override
-  protected String getDisabledToolImageDesc() {
-    return ISharedImages.IMG_TOOL_CUT_DISABLED;
-  }
+  protected abstract String getDisabledToolImageDesc();
 
-  @Override
-  protected String getToolImageDesc() {
-    return ISharedImages.IMG_TOOL_CUT;
-  }
+  protected abstract String getToolImageDesc();
 
-  @Override
-  public void run() {
-    // execute the cut command
-    final CutCommand command = new CutCommand(getSelectedObjects());
-    execute(command);
-  }
+  protected abstract String getCopyCutText();
+
+  protected abstract String getCopyCutActionId();
+
 }

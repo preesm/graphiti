@@ -304,7 +304,7 @@ public class DefaultRefinementPolicy implements IRefinementPolicy {
     tree.setMessage("Please select an existing file:");
     tree.setTitle("Choose an existing file");
     tree.setValidator(selection -> {
-      if (selection.length == 1 && selection[0] instanceof IFile) {
+      if ((selection.length == 1) && (selection[0] instanceof IFile)) {
         final IFile file = (IFile) selection[0];
         final String message = "Vertex refinement: " + getRefinementValue(vertex, file);
         return new Status(IStatus.OK, GraphitiModelPlugin.PLUGIN_ID, message);

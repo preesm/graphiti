@@ -162,6 +162,11 @@ public class ObjectType implements Comparable<ObjectType> {
     }
   }
 
+  @Override
+  public int hashCode() {
+    return this.name.hashCode();
+  }
+
   /**
    * Returns the type's attribute that has the given name.
    *
