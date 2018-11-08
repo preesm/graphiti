@@ -9,6 +9,8 @@ Graphiti Changelog
 ### Changes
 * Use new M2E Code Quality P2 repo;
 * Refactoring;
+* Add java 10+ compatibility (missing javax.annotations);
+* Fix travis file;
 
 ### Bug fix
 
