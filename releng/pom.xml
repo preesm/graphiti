@@ -47,42 +47,6 @@
     <relativePath>..</relativePath>
   </parent>
 
-  <!-- Extra repositories for building the all-in-one dev feature -->
-  <repositories>
-    <repository>
-      <id>RCPTT</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/rcptt/release/${rcptt-version}/repository/</url>
-    </repository>
-
-    <repository>
-      <id>Checkstyle</id>
-      <layout>p2</layout>
-      <url>https://dl.bintray.com/eclipse-cs/eclipse-cs/8.10.0/</url>
-    </repository>
-    <repository>
-      <id>Sonarlint</id>
-      <layout>p2</layout>
-      <url>http://eclipse.sonarlint.org/</url>
-    </repository>
-
-    <repository>
-      <id>Tycho M2E extension</id>
-      <layout>p2</layout>
-      <url>http://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/0.9.0/N/LATEST/</url>
-    </repository>
-    <repository>
-      <id>Checkstyle M2E extension</id>
-      <layout>p2</layout>
-      <url>https://m2e-code-quality.github.io/m2e-code-quality-p2-site/</url>
-    </repository>
-    <repository>
-      <id>Settings M2E extension</id>
-      <layout>p2</layout>
-      <url>https://preesm.github.io/m2e-settings/site/</url>
-    </repository>
-  </repositories>
-
   <modules>
     <module>org.ietr.graphiti.feature</module>
   </modules>
@@ -91,7 +55,6 @@
     <profile>
       <id>doUpdateSite</id>
       <modules>
-        <module>org.ietr.graphiti.dev.feature</module>
         <module>org.ietr.graphiti.complete.site</module>
       </modules>
     </profile>

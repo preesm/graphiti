@@ -39,19 +39,9 @@
   <feature id="org.ietr.graphiti.feature">
     <category name="Graphiti" />
   </feature>
-  <feature id="org.ietr.graphiti.dev.feature">
-    <category name="dev_components" />
-  </feature>
   <feature id="org.ietr.graphiti.feature.source">
-    <category name="dev_components" />
     <category name="Graphiti" />
   </feature>
-
-  <category-def name="dev_components" label="Developer Resources">
-    <description>
-      Developper resources
-    </description>
-  </category-def>
 
   <category-def name="Graphiti" label="Graphiti">
     <description>
