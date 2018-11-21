@@ -45,6 +45,7 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -54,7 +55,7 @@ public class GraphitiUiPlugin extends AbstractUIPlugin {
   /**
    * The shared instance.
    */
-  private static final GraphitiUiPlugin plugin = new GraphitiUiPlugin();
+  private static GraphitiUiPlugin plugin;
 
   /**
    * The plug-in ID.
@@ -68,6 +69,18 @@ public class GraphitiUiPlugin extends AbstractUIPlugin {
    */
   public static GraphitiUiPlugin getDefault() {
     return GraphitiUiPlugin.plugin;
+  }
+
+  @Override
+  public void start(BundleContext context) throws Exception {
+    super.start(context);
+    plugin = this;
+  }
+
+  @Override
+  public void stop(BundleContext context) throws Exception {
+    super.stop(context);
+    plugin = null;
   }
 
   /**

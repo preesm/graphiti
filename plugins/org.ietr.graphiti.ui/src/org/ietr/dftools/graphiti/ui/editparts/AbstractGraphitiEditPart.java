@@ -39,7 +39,6 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.ietr.dftools.graphiti.model.AbstractObject;
-import org.ietr.dftools.graphiti.model.Graph;
 import org.ietr.dftools.graphiti.ui.properties.ModelPropertySource;
 import org.ietr.dftools.graphiti.ui.properties.PropertiesConstants;
 
@@ -59,7 +58,7 @@ public abstract class AbstractGraphitiEditPart extends AbstractGraphicalEditPart
   @Override
   public void deactivate() {
     super.deactivate();
-    ((Graph) getModel()).removePropertyChangeListener(this);
+    ((AbstractObject) getModel()).removePropertyChangeListener(this);
   }
 
   /*

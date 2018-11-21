@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright or © or Copr. IETR/INSA - Rennes (2017) :
+    Copyright or © or Copr. IETR/INSA - Rennes (2017 - 2018) :
 
-    Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017)
+    Antoine Morvan <antoine.morvan@insa-rennes.fr> (2017 - 2018)
 
     This software is a computer program whose purpose is to help prototyping
     parallel applications using dataflow formalism.
@@ -39,19 +39,9 @@
   <feature id="org.ietr.graphiti.feature">
     <category name="Graphiti" />
   </feature>
-  <feature id="org.ietr.graphiti.dev.feature">
-    <category name="dev_components" />
-  </feature>
   <feature id="org.ietr.graphiti.feature.source">
-    <category name="dev_components" />
     <category name="Graphiti" />
   </feature>
-
-  <category-def name="dev_components" label="Developer Resources">
-    <description>
-      Developper resources
-    </description>
-  </category-def>
 
   <category-def name="Graphiti" label="Graphiti">
     <description>
