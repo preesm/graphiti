@@ -41,7 +41,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import javax.xml.XMLConstants;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -102,7 +101,7 @@ public class XsltTransformer {
     final TransformerFactory factory = TransformerFactory
         .newInstance(net.sf.saxon.TransformerFactoryImpl.class.getCanonicalName(), null);
 
-    factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+    // factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
     factory.setURIResolver((href, base) -> {
       try {
