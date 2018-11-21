@@ -98,9 +98,9 @@
     <!-- ############### -->
     <!-- P2 REPOS CONFIG -->
     <!-- ############### -->
-    <preesm.p2.repo>http://preesm.insa-rennes.fr/repo/complete/</preesm.p2.repo>
-    <eclipse.p2.repo>${eclipse.mirror}/releases/photon/</eclipse.p2.repo>
-    <eclipse.updates.p2.repo>${eclipse.mirror}/eclipse/updates/4.8</eclipse.updates.p2.repo>
+    <updatesite.preesm>http://preesm.insa-rennes.fr/repo/complete/</updatesite.preesm>
+    <updatesite.eclipse>${eclipse.mirror}/releases/photon/</updatesite.eclipse>
+    <updatesite.eclipse.updates>${eclipse.mirror}/eclipse/updates/4.8</updatesite.eclipse.updates>
 
     <!-- ############## -->
     <!--  SONAR CONFIG  -->
@@ -121,19 +121,19 @@
     <repository>
       <id>Eclipse</id>
       <layout>p2</layout>
-      <url>${eclipse.p2.repo}</url>
+      <url>${updatesite.eclipse}</url>
     </repository>
     <!-- add Eclipse updates for latest releases -->
     <repository>
       <id>Eclipse Updates</id>
       <layout>p2</layout>
-      <url>${eclipse.updates.p2.repo}</url>
+      <url>${updatesite.eclipse.updates}</url>
     </repository>
     <!-- add Preesm repository to resolve dependencies -->
     <repository>
       <id>Preesm Complete Repo</id>
       <layout>p2</layout>
-      <url>${preesm.p2.repo}</url>
+      <url>${updatesite.preesm}</url>
     </repository>
   </repositories>
 

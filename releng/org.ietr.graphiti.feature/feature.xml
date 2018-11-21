@@ -575,16 +575,6 @@ jurisdiction, by the more diligent Party.
 Version 1.0 dated 2006-09-05.]]>
    </license>
 
-   <!-- The following section tells where to lookup missing imported features -->
-   <url>
-      <!-- Eclipse main repos -->
-      <discovery label="Photon" url="http://mirror.ibcp.fr/pub/eclipse/releases/photon/"/>
-      <discovery label="Photon Updates" url="http://mirror.ibcp.fr/pub/eclipse/eclipse/updates/4.8"/>
-
-      <!-- Preesm Repo -->
-      <discovery label="Preesm" url="http://preesm.insa-rennes.fr/repo/complete/"/>
-   </url>
-
    <requires>
       <!-- TM Terminal (from Eclipse repos) -->
       <import feature="org.eclipse.tm.terminal.feature"/>
