@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Graphiti model plug-in
+Bundle-Name: Graphiti :: Plugins :: Model
 Automatic-Module-Name: org.ietr.graphiti.model
 Bundle-SymbolicName: org.ietr.graphiti.model;singleton:=true
 Bundle-Version: 1.11.1.qualifier
@@ -19,5 +19,5 @@ Export-Package: org.ietr.dftools.graphiti,
  org.ietr.dftools.graphiti.io,
  org.ietr.dftools.graphiti.model,
  org.ietr.dftools.graphiti.validators
-Bundle-Vendor: IETR/INSA Rennes
+Bundle-Vendor: IETR / INSA Rennes - VAADER
 Bundle-Activator: org.ietr.dftools.graphiti.GraphitiModelPlugin

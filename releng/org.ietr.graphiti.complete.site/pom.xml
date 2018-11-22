@@ -39,6 +39,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>org.ietr.graphiti.complete.site</artifactId>
   <packaging>eclipse-repository</packaging>
+  <name>Graphiti :: Releng :: Update Site</name>
 
   <parent>
     <groupId>org.ietr.graphiti</groupId>
@@ -102,7 +103,7 @@
 								<site>${updatesite.eclipse}</site>
 								<site>${updatesite.eclipse.updates}</site>
 							</associateSites>
-							<!-- to remove the default category created for any uncategorized 
+							<!-- to remove the default category created for any uncategorized
 								features or bundles, set this to true -->
 							<removeDefaultCategory>true</removeDefaultCategory>
 						</configuration>

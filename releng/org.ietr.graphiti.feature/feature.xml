@@ -46,7 +46,7 @@
       id="org.ietr.graphiti.feature"
       label="Graphiti Editor"
       version="1.11.1.qualifier"
-      provider-name="IETR/INSA Rennes">
+      provider-name="IETR / INSA Rennes - VAADER">
 
    <description url="http://preesm.org/">
       Graphiti is a generic graph editor under BSD license created by IETR/INSA Rennes shipped as an Eclipse plug-in.

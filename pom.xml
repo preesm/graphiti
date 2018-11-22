@@ -43,7 +43,7 @@
   <packaging>pom</packaging>
 
   <!-- More Project Information -->
-  <name>Graphiti</name>
+  <name>Graphiti :: Parent</name>
   <description>Graphiti is a generic graph editor created by IETR/INSA - Rennes shipped as an Eclipse plug-in.</description>
   <url>http://preesm.org/</url>
 
