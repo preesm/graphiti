@@ -44,7 +44,7 @@
 	<parent>
 		<groupId>org.ietr.graphiti</groupId>
 		<artifactId>org.ietr.graphiti.parent</artifactId>
-		<version>1.12.0</version>
+		<version>1.12.0-SNAPSHOT</version>
 		<relativePath>../..</relativePath>
 	</parent>
 </project>
