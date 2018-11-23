@@ -39,11 +39,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.ietr.graphiti</groupId>
   <artifactId>org.ietr.graphiti.parent</artifactId>
-  <version>1.11.1</version>
+  <version>1.12.0</version>
   <packaging>pom</packaging>
 
   <!-- More Project Information -->
-  <name>Graphiti</name>
+  <name>Graphiti :: Parent</name>
   <description>Graphiti is a generic graph editor created by IETR/INSA - Rennes shipped as an Eclipse plug-in.</description>
   <url>http://preesm.org/</url>
 
@@ -98,9 +98,10 @@
     <!-- ############### -->
     <!-- P2 REPOS CONFIG -->
     <!-- ############### -->
-    <preesm.p2.repo>http://preesm.insa-rennes.fr/repo/complete/</preesm.p2.repo>
-    <eclipse.p2.repo>${eclipse.mirror}/releases/photon/</eclipse.p2.repo>
-    <eclipse.updates.p2.repo>${eclipse.mirror}/eclipse/updates/4.8</eclipse.updates.p2.repo>
+    <updatesite.preesm>http://preesm.insa-rennes.fr/repo/</updatesite.preesm>
+    <updatesite.preesm.externaldeps>${updatesite.preesm}/org.preesm.externaldeps/</updatesite.preesm.externaldeps>
+    <updatesite.eclipse>${eclipse.mirror}/releases/photon/</updatesite.eclipse>
+    <updatesite.eclipse.updates>${eclipse.mirror}/eclipse/updates/4.8</updatesite.eclipse.updates>
 
     <!-- ############## -->
     <!--  SONAR CONFIG  -->
@@ -121,19 +122,19 @@
     <repository>
       <id>Eclipse</id>
       <layout>p2</layout>
-      <url>${eclipse.p2.repo}</url>
+      <url>${updatesite.eclipse}</url>
     </repository>
     <!-- add Eclipse updates for latest releases -->
     <repository>
       <id>Eclipse Updates</id>
       <layout>p2</layout>
-      <url>${eclipse.updates.p2.repo}</url>
+      <url>${updatesite.eclipse.updates}</url>
     </repository>
     <!-- add Preesm repository to resolve dependencies -->
     <repository>
-      <id>Preesm Complete Repo</id>
+      <id>Preesm External Dependencies Repo</id>
       <layout>p2</layout>
-      <url>${preesm.p2.repo}</url>
+      <url>${updatesite.preesm.externaldeps}</url>
     </repository>
   </repositories>
 
@@ -350,6 +351,54 @@
         <artifactId>sonar-maven-plugin</artifactId>
         <version>${sonar-version}</version>
       </plugin>
+      
+      
+      <plugin>
+        <groupId>org.eclipse.tycho.extras</groupId>
+        <artifactId>tycho-source-feature-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <executions>
+          <execution>
+            <id>source-feature</id>
+            <phase>package</phase>
+            <goals>
+              <goal>source-feature</goal>
+            </goals>
+            <configuration>
+              <labelSuffix>&nbsp;Sources</labelSuffix>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-source-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <executions>
+          <execution>
+            <id>plugin-source</id>
+            <goals>
+              <goal>plugin-source</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-p2-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <executions>
+          <execution>
+            <id>attached-p2-metadata</id>
+            <phase>package</phase>
+            <goals>
+              <goal>p2-metadata</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -410,62 +459,6 @@
       <properties>
         <tycho.surefire.extra.vmargs>-XstartOnFirstThread</tycho.surefire.extra.vmargs>
       </properties>
-    </profile>
-    <!-- Specific profile for Release Engineering : - enable source feature
-      - generate source plugin - attach meta-data - enable feature and complete
-      site modules * complete site includes p2 repo and aggregated javadoc -->
-    <profile>
-      <id>doUpdateSite</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.eclipse.tycho.extras</groupId>
-            <artifactId>tycho-source-feature-plugin</artifactId>
-            <version>${tycho-version}</version>
-            <executions>
-              <execution>
-                <id>source-feature</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>source-feature</goal>
-                </goals>
-                <configuration>
-                  <labelSuffix>&nbsp;Sources</labelSuffix>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-
-          <plugin>
-            <groupId>org.eclipse.tycho</groupId>
-            <artifactId>tycho-source-plugin</artifactId>
-            <version>${tycho-version}</version>
-            <executions>
-              <execution>
-                <id>plugin-source</id>
-                <goals>
-                  <goal>plugin-source</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-
-          <plugin>
-            <groupId>org.eclipse.tycho</groupId>
-            <artifactId>tycho-p2-plugin</artifactId>
-            <version>${tycho-version}</version>
-            <executions>
-              <execution>
-                <id>attached-p2-metadata</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>p2-metadata</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
 
     <!-- Specific profile for Eclipse related configuration -->

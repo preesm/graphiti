@@ -39,11 +39,12 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>org.ietr.graphiti.model</artifactId>
   <packaging>eclipse-plugin</packaging>
-	
+  <name>Graphiti :: Plugins :: Model</name>
+
 	<parent>
 		<groupId>org.ietr.graphiti</groupId>
 		<artifactId>org.ietr.graphiti.parent</artifactId>
-		<version>1.11.1</version>
+		<version>1.12.0</version>
 		<relativePath>../..</relativePath>
 	</parent>
 </project>

@@ -39,11 +39,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>org.ietr.graphiti.ui.test</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
+  	<name>Graphiti :: Tests :: Editor</name>
 
 	<parent>
 		<groupId>org.ietr.graphiti</groupId>
 		<artifactId>org.ietr.graphiti.test-fragments</artifactId>
-		<version>1.11.1</version>
+		<version>1.12.0</version>
 		<relativePath>..</relativePath>
 	</parent>
 </project>

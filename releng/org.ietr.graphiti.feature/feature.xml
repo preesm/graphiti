@@ -45,8 +45,8 @@
 <feature
       id="org.ietr.graphiti.feature"
       label="Graphiti Editor"
-      version="1.11.1"
-      provider-name="IETR/INSA Rennes">
+      version="1.12.0"
+      provider-name="IETR / INSA Rennes - VAADER">
 
    <description url="http://preesm.org/">
       Graphiti is a generic graph editor under BSD license created by IETR/INSA Rennes shipped as an Eclipse plug-in.
@@ -575,16 +575,6 @@ jurisdiction, by the more diligent Party.
 Version 1.0 dated 2006-09-05.]]>
    </license>
 
-   <!-- The following section tells where to lookup missing imported features -->
-   <url>
-      <!-- Eclipse main repos -->
-      <discovery label="Photon" url="http://mirror.ibcp.fr/pub/eclipse/releases/photon/"/>
-      <discovery label="Photon Updates" url="http://mirror.ibcp.fr/pub/eclipse/eclipse/updates/4.8"/>
-
-      <!-- Preesm Repo -->
-      <discovery label="Preesm" url="http://preesm.insa-rennes.fr/repo/complete/"/>
-   </url>
-
    <requires>
       <!-- TM Terminal (from Eclipse repos) -->
       <import feature="org.eclipse.tm.terminal.feature"/>
@@ -597,14 +587,14 @@ Version 1.0 dated 2006-09-05.]]>
          id="org.ietr.graphiti.model"
          download-size="0"
          install-size="0"
-         version="1.11.1"
+         version="1.12.0"
          unpack="false"/>
 
    <plugin
          id="org.ietr.graphiti.ui"
          download-size="0"
          install-size="0"
-         version="1.11.1"
+         version="1.12.0"
          unpack="false"/>
 
 </feature>
