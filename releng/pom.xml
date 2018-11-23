@@ -50,14 +50,7 @@
 
   <modules>
     <module>org.ietr.graphiti.feature</module>
+    <module>org.ietr.graphiti.site</module>
   </modules>
 
-  <profiles>
-    <profile>
-      <id>doUpdateSite</id>
-      <modules>
-        <module>org.ietr.graphiti.complete.site</module>
-      </modules>
-    </profile>
-  </profiles>
 </project>
