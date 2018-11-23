@@ -170,7 +170,7 @@
               <strictHostKeyChecking>false</strictHostKeyChecking>
               <mode>send</mode>
               <localPath>${project.build.directory}/gensite/update-site/</localPath>
-              <remotePath>/repo/</remotePath>
+              <remotePath>/repo/${project.groupId}/</remotePath>
             </configuration>
             <goals>
               <goal>sftp-transfert</goal>
