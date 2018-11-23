@@ -98,7 +98,8 @@
     <!-- ############### -->
     <!-- P2 REPOS CONFIG -->
     <!-- ############### -->
-    <updatesite.preesm>http://preesm.insa-rennes.fr/repo/complete/</updatesite.preesm>
+    <updatesite.preesm>http://preesm.insa-rennes.fr/repo/</updatesite.preesm>
+    <updatesite.preesm.externaldeps>${updatesite.preesm}/org.preesm.externaldeps/</updatesite.preesm.externaldeps>
     <updatesite.eclipse>${eclipse.mirror}/releases/photon/</updatesite.eclipse>
     <updatesite.eclipse.updates>${eclipse.mirror}/eclipse/updates/4.8</updatesite.eclipse.updates>
 
@@ -131,9 +132,9 @@
     </repository>
     <!-- add Preesm repository to resolve dependencies -->
     <repository>
-      <id>Preesm Complete Repo</id>
+      <id>Preesm External Dependencies Repo</id>
       <layout>p2</layout>
-      <url>${updatesite.preesm}</url>
+      <url>${updatesite.preesm.externaldeps}</url>
     </repository>
   </repositories>
 
