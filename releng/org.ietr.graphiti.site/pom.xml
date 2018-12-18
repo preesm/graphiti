@@ -44,14 +44,14 @@
   <parent>
     <groupId>org.ietr.graphiti</groupId>
     <artifactId>org.ietr.graphiti.releng</artifactId>
-    <version>1.12.0</version>
+    <version>1.13.0</version>
     <relativePath>..</relativePath>
   </parent>
 
    <properties>
       <generate-composite-site.compositeSiteFolder>composite</generate-composite-site.compositeSiteFolder>
       <generate-composite-site.childSites>
-         ${updatesite.preesm}/${project.groupId}/${project.groupId}-${project.version}/
+         ${updatesite.preesm}/${project.groupId}/${project.groupId}-${qualifiedVersion}/
       </generate-composite-site.childSites>
       <generate-composite-site.collectChildrenFromRemoteURL>
          ${updatesite.preesm}/${project.groupId}/

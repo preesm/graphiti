@@ -1,12 +1,24 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.13.0
+*2018.12.18*
+
+### New Feature
+
+### Changes
+* Use standard format when writing XML files;
+
+### Bug fix
+
+
 ## Release version 1.12.0
 *2018.11.23*
 
 ### New Feature
 
 ### Changes
+* Releng updates;
 
 ### Bug fix
 
@@ -17,6 +29,7 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Releng updates;
 
 ### Bug fix
 

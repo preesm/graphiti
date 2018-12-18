@@ -36,8 +36,11 @@
  */
 package org.ietr.dftools.graphiti.io;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.apache.xml.serialize.OutputFormat;
+import org.apache.xml.serialize.XMLSerializer;
 import org.ietr.dftools.graphiti.GraphitiException;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMImplementation;
@@ -46,9 +49,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSInput;
-import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSParser;
-import org.w3c.dom.ls.LSSerializer;
 
 /**
  * This class provides various methods to reduce the amount of copy/paste when dealing with DOM.
@@ -158,14 +159,17 @@ public class DomHelper {
    *          The {@link OutputStream} to write to.
    */
   public static void write(final Document document, final OutputStream byteStream) {
-    final DOMImplementationLS impl = (DOMImplementationLS) document.getImplementation();
+    final OutputFormat format = new OutputFormat(document, "UTF-8", true);
+    format.setIndent(4);
+    format.setLineSeparator("\n");
+    format.setLineWidth(65);
 
-    final LSOutput output = impl.createLSOutput();
-    output.setByteStream(byteStream);
-
-    final LSSerializer serializer = impl.createLSSerializer();
-    serializer.getDomConfig().setParameter("format-pretty-print", true);
-    serializer.write(document, output);
+    final XMLSerializer serializer = new XMLSerializer(byteStream, format);
+    try {
+      serializer.serialize(document);
+    } catch (final IOException e) {
+      throw new GraphitiException("Could not write Graph", e);
+    }
   }
 
 }
