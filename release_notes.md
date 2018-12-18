@@ -7,6 +7,7 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Use standard format when writing XML files;
 
 ### Bug fix
 
