@@ -124,7 +124,7 @@ public class GenericGraphWriter {
         // byte stream is a byte array output stream
       }
     } else {
-      DomHelper.write(element.getOwnerDocument(), byteStream);
+      DomHelper.writeDocument(element.getOwnerDocument(), byteStream);
     }
   }
 

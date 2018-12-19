@@ -66,7 +66,7 @@ public class LayoutReader {
    */
   public void read(final Graph graph, final InputStream byteStream) {
     final Map<String, Point> pointMap = new LinkedHashMap<>();
-    final Document document = DomHelper.parse(byteStream);
+    final Document document = DomHelper.parseDocument(byteStream);
     final Element layout = document.getDocumentElement();
     final NodeList vertices = layout.getElementsByTagName("vertex");
     for (int i = 0; i < vertices.getLength(); i++) {
