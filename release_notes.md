@@ -7,6 +7,7 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Force writing of XML namespaces;
 
 ### Bug fix
 
