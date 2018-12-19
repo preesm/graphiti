@@ -7,6 +7,7 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Move xerces to 2.12.0+;
 
 ### Bug fix
 
