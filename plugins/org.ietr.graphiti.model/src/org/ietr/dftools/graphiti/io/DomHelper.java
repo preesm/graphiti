@@ -152,6 +152,7 @@ public class DomHelper {
     format.setLineWidth(65);
 
     final XMLSerializer serializer = new XMLSerializer(byteStream, format);
+    serializer.setNamespaces(true);
     try {
       serializer.serialize(document);
     } catch (final IOException e) {
