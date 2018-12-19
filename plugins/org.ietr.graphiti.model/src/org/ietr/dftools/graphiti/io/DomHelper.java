@@ -45,7 +45,6 @@ import org.ietr.dftools.graphiti.GraphitiException;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSInput;
@@ -63,90 +62,78 @@ public class DomHelper {
     // disallow instantiation
   }
 
+  /** The impl. */
+  private static DOMImplementation impl;
+
+  /** The registry. */
+  private static DOMImplementationRegistry registry;
+
   /**
-   * Creates a new document with the given namespace and document element.
+   * Creates a new DOM document.
+   *
+   * @param docElt
+   *          name of the document element
+   * @return a new DOM document if something goes wrong
+   */
+  public static Document createDocument(final String docElt) {
+    getImplementation();
+    return impl.createDocument("", docElt, null);
+  }
+
+  /**
+   * Creates the document.
    *
    * @param namespaceURI
-   *          The document namespace, may be <code>""</code>.
-   * @param qualifiedName
-   *          The document element name
-   * @return the created document
+   *          the namespace URI
+   * @param docElt
+   *          the doc elt
+   * @return the document
    */
-  public static Document createDocument(final String namespaceURI, final String qualifiedName) {
-    final DOMImplementation impl = DomHelper.getDOMImplementation();
-    return impl.createDocument(namespaceURI, qualifiedName, null);
+  public static Document createDocument(final String namespaceURI, final String docElt) {
+    getImplementation();
+    return impl.createDocument(namespaceURI, docElt, null);
   }
 
   /**
-   * Returns a DOM implementation that has the following features:
-   * <ul>
-   * <li>Core 3.0</li>
-   * <li>XML 3.0</li>
-   * <li>LS</li>
-   * </ul>
+   * Creates a new instance of the DOM registry and get an implementation of DOM 3 with Load Save objects.
    *
-   * @return A {@link DOMImplementation} object that can be cast to {@link DOMImplementationLS}.
+   * @return the implementation
    */
-  public static DOMImplementation getDOMImplementation() {
-    try {
-      final DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
-      return registry.getDOMImplementation("Core 3.0 XML 3.0 LS");
-    } catch (final Exception e) {
-      throw new GraphitiException("Could not get DOM Implementation", e);
+  private static void getImplementation() {
+    if (registry == null) {
+      try {
+        registry = DOMImplementationRegistry.newInstance();
+      } catch (ClassCastException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+        throw new GraphitiException("Could not instantiate DOM", e);
+      }
+    }
+
+    if (impl == null) {
+      impl = registry.getDOMImplementation("Core 3.0 XML 3.0 LS");
     }
   }
 
   /**
-   * Returns the first child of <code>node</code> that has the given name, or <code>null</code>.
+   * Parses the given input stream as XML and returns the corresponding DOM document.
    *
-   * @param node
-   *          A node.
-   * @param name
-   *          The name of the node we are looking for.
-   * @return The first node whose name matches, or <code>null</code>.
+   * @param is
+   *          an input stream
+   * @return a DOM document if something goes wrong
    */
-  public static Node getFirstChildNamed(final Node node, final String name) {
-    return DomHelper.getFirstSiblingNamed(node.getFirstChild(), name);
-  }
+  public static Document parseDocument(final InputStream is) {
+    getImplementation();
+    final DOMImplementationLS implLS = (DOMImplementationLS) impl;
 
-  /**
-   * Returns the first sibling of <code>node</code>, or <code>node</code> itself, which has the given name. If none is
-   * found, the function returns <code>null</code>.
-   *
-   * @param node
-   *          A node.
-   * @param name
-   *          The name of the node we are looking for.
-   * @return The first node whose name matches, or <code>null</code>.
-   */
-  public static Node getFirstSiblingNamed(Node node, final String name) {
-    while ((node != null) && !node.getNodeName().equals(name)) {
-      node = node.getNextSibling();
-    }
-
-    return node;
-  }
-
-  /**
-   * Parses the input stream and returns a DOM {@link Document}.
-   *
-   * @param byteStream
-   *          The input stream.
-   * @return The {@link Document} parsed from the input.
-   */
-  public static Document parse(final InputStream byteStream) {
-    // input
-    final DOMImplementationLS impl = (DOMImplementationLS) DomHelper.getDOMImplementation();
-    final LSInput input = impl.createLSInput();
-    input.setByteStream(byteStream);
+    // serialize to XML
+    final LSInput input = implLS.createLSInput();
+    input.setByteStream(is);
 
     // parse without comments and whitespace
-    final LSParser builder = impl.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, null);
+    final LSParser builder = implLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, null);
     final DOMConfiguration config = builder.getDomConfig();
     config.setParameter("comments", false);
     config.setParameter("element-content-whitespace", false);
 
-    // returns the document parsed from the input
     return builder.parse(input);
   }
 
@@ -158,13 +145,14 @@ public class DomHelper {
    * @param byteStream
    *          The {@link OutputStream} to write to.
    */
-  public static void write(final Document document, final OutputStream byteStream) {
+  public static void writeDocument(final Document document, final OutputStream byteStream) {
     final OutputFormat format = new OutputFormat(document, "UTF-8", true);
     format.setIndent(4);
     format.setLineSeparator("\n");
     format.setLineWidth(65);
 
     final XMLSerializer serializer = new XMLSerializer(byteStream, format);
+    serializer.setNamespaces(true);
     try {
       serializer.serialize(document);
     } catch (final IOException e) {

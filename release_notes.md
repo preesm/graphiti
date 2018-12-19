@@ -1,6 +1,17 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.13.1
+*2018.12.19*
+
+### New Feature
+
+### Changes
+* Force writing of XML namespaces;
+
+### Bug fix
+
+
 ## Release version 1.13.0
 *2018.12.18*
 

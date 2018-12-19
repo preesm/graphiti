@@ -86,6 +86,24 @@ public class GenericGraphParser {
   }
 
   /**
+   * Returns the first sibling of <code>node</code>, or <code>node</code> itself, which has the given name. If none is
+   * found, the function returns <code>null</code>.
+   *
+   * @param node
+   *          A node.
+   * @param name
+   *          The name of the node we are looking for.
+   * @return The first node whose name matches, or <code>null</code>.
+   */
+  private static Node getFirstSiblingNamed(Node node, final String name) {
+    while ((node != null) && !node.getNodeName().equals(name)) {
+      node = node.getNextSibling();
+    }
+
+    return node;
+  }
+
+  /**
    * Checks that every vertex in <code>graph</code> has layout information. If it is the case, the
    * {@link Graph#PROPERTY_HAS_LAYOUT} is set to <code>true</code>. Otherwise it is set to false.
    *
@@ -120,7 +138,7 @@ public class GenericGraphParser {
     Element element;
     if (transformations.isEmpty()) {
       final InputStream in = file.getContents();
-      element = DomHelper.parse(in).getDocumentElement();
+      element = DomHelper.parseDocument(in).getDocumentElement();
     } else {
       element = null;
       for (final Transformation transformation : transformations) {
@@ -128,7 +146,7 @@ public class GenericGraphParser {
           // fills the element from the input stream
           if (element == null) {
             final InputStream in = file.getContents();
-            element = DomHelper.parse(in).getDocumentElement();
+            element = DomHelper.parseDocument(in).getDocumentElement();
           }
 
           final XsltTransformer transformer = new XsltTransformer(configuration.getContributorId(),
@@ -205,7 +223,7 @@ public class GenericGraphParser {
    */
   private void parseEdges(final Graph graph, Node node) throws TransformedDocumentParseError {
     final Configuration configuration = graph.getConfiguration();
-    node = DomHelper.getFirstSiblingNamed(node, "edges");
+    node = getFirstSiblingNamed(node, "edges");
     Node child = node.getFirstChild();
     while (child != null) {
       if (child.getNodeName().equals("edge")) {
@@ -359,7 +377,7 @@ public class GenericGraphParser {
    * @return The node following &lt;parameters&gt;.
    */
   private Node parseParameters(final AbstractObject abstractObject, final ObjectType type, Node node) {
-    node = DomHelper.getFirstSiblingNamed(node, "parameters");
+    node = getFirstSiblingNamed(node, "parameters");
 
     Node child = node.getFirstChild();
     while (child != null) {
@@ -390,7 +408,7 @@ public class GenericGraphParser {
    */
   private Node parseVertices(final Graph graph, Node node) {
     final Configuration configuration = graph.getConfiguration();
-    node = DomHelper.getFirstSiblingNamed(node, "vertices");
+    node = getFirstSiblingNamed(node, "vertices");
     Node child = node.getFirstChild();
     while (child != null) {
       if (child.getNodeName().equals("vertex")) {
