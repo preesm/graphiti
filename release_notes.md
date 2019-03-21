@@ -8,6 +8,8 @@ Graphiti Changelog
 
 ### Changes
 * Move xerces to 2.12.0+;
+* Update tycho to 1.3.0;
+* Upate Jacoco to 0.8.3;
 
 ### Bug fix
 
