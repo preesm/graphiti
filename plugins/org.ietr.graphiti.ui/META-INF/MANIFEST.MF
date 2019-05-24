@@ -15,6 +15,14 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: IETR / INSA Rennes - VAADER
 Export-Package: org.ietr.dftools.graphiti.ui,
+ org.ietr.dftools.graphiti.ui.actions,
+ org.ietr.dftools.graphiti.ui.commands,
+ org.ietr.dftools.graphiti.ui.commands.copypaste,
+ org.ietr.dftools.graphiti.ui.commands.refinement,
  org.ietr.dftools.graphiti.ui.editors,
+ org.ietr.dftools.graphiti.ui.editparts,
+ org.ietr.dftools.graphiti.ui.editpolicies,
+ org.ietr.dftools.graphiti.ui.figure,
+ org.ietr.dftools.graphiti.ui.figure.shapes,
  org.ietr.dftools.graphiti.ui.properties,
  org.ietr.dftools.graphiti.ui.wizards
