@@ -1,6 +1,21 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.13.2
+*2019.05.24*
+
+### New Feature
+
+### Changes
+* Move xerces to 2.12.0+;
+* Update tycho to 1.3.0;
+* Upate Jacoco to 0.8.3;
+* Update checkstyle to 8.18;
+* Fix PDE warnings;
+
+### Bug fix
+
+
 ## Release version 1.13.1
 *2018.12.19*
 
