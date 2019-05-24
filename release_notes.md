@@ -11,6 +11,7 @@ Graphiti Changelog
 * Update tycho to 1.3.0;
 * Upate Jacoco to 0.8.3;
 * Update checkstyle to 8.18;
+* Fix PDE warnings;
 
 ### Bug fix
 
