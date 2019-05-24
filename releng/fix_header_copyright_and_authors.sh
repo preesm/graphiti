@@ -44,12 +44,12 @@ function fixFile {
 			#"# "
 			COMMENT="# "
 			;;
-		XML | HTML | ECORE | GENMODEL)
+		XML | XSD | HTML | ECORE | GENMODEL)
 			#"    "
 			COMMENT="    "
 			;;
 		*)
-			#echo "Unsupported file extension $EXTENSION"
+			echo "Unsupported file extension $EXTENSION"
 			;;
 	esac
 	
@@ -66,6 +66,7 @@ function fixFile {
 		fi
 		
 		LINE=`echo "$FILEAUTHORLISTWITHDATES" | grep "$AUTHOR" | cut -d' ' -f2- | sort -u`
+    
 		sed -i -e "s/$AUTHORSPATTERN/${LINE} ${AUTHORDATE}\n$COMMENT$AUTHORSPATTERN/g" "$file"
     done
     
@@ -100,7 +101,7 @@ DATEPATTERN="%%DATE%%"
 AUTHORSPATTERN="%%AUTHORS%%"
 
 TMPFILE=`mktemp --suffix=biglisttosed`
-grep "%%AUTHORS%%" -R | cut -d':' -f1 | sort -u | grep -v "copyright_template.txt" | grep -v "fix_header_copyright_and_authors.sh" | grep -v "VAADER_eclipse_preferences.epf" | grep -v "README" > $TMPFILE
+grep "%%AUTHORS%%" -R | cut -d':' -f1 | sort -u | grep -v "copyright_template" | grep -v "fix_header_copyright_and_authors.sh" | grep -v "VAADER_eclipse_preferences.epf" | grep -v "README" > $TMPFILE
 
 echo ""
 echo " Header template applied."
@@ -110,18 +111,18 @@ echo ""
 NBFILES=`cat $TMPFILE | wc -l`
 NBFILESPROCESSED=0
 time (
-NBCPUS=`grep -c ^processor /proc/cpuinfo`
-((NBTHREADS=NBCPUS*2))
-while read -r line
-do
-  MOD=$((NBFILESPROCESSED % NBTHREADS))
-  [ $MOD -eq 0 ] && ProgressBar ${NBFILESPROCESSED} ${NBFILES} && wait
-  NBFILESPROCESSED=$((NBFILESPROCESSED+1))
-  fixFile "$line" &
-done < $TMPFILE
-ProgressBar $((NBFILES-1)) ${NBFILES}
-echo " Done."
-wait
+  NBCPUS=`grep -c ^processor /proc/cpuinfo`
+  ((NBTHREADS=NBCPUS*2))
+  while read -r line
+  do
+    MOD=$((NBFILESPROCESSED % NBTHREADS))
+    [ $MOD -eq 0 ] && ProgressBar ${NBFILESPROCESSED} ${NBFILES} && wait
+    NBFILESPROCESSED=$((NBFILESPROCESSED+1))
+    fixFile "$line" &
+  done < $TMPFILE
+  ProgressBar $((NBFILES-1)) ${NBFILES}
+  echo " Done."
+  wait
 )
 rm $TMPFILE
 
