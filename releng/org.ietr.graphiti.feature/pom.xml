@@ -45,7 +45,7 @@
   <parent>
     <groupId>org.ietr.graphiti</groupId>
     <artifactId>org.ietr.graphiti.releng</artifactId>
-    <version>1.13.3</version>
+    <version>1.13.3-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 </project>
