@@ -1,6 +1,24 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.13.3
+*2019.06.25*
+
+### New Feature
+
+### Changes
+* Releng update
+  * Jacoco 0.8.3 -> 0.8.4
+  * Sonar 3.4.1.1168 -> 3.6.0.1398
+  * Tycho 1.4.0 -> 1.3.0
+  * Checkstyle 8.18 -> 8.22
+  * RCPTT 2.3.0 -> 2.4.2
+  * Drop support for 32 bits systems
+  * Remove Eclipse config for Xtend projects (as graphiti does not have xtend files);
+
+### Bug fix
+
+
 ## Release version 1.13.2
 *2019.05.24*
 

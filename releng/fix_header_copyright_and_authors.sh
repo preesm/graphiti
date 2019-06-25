@@ -65,7 +65,7 @@ function fixFile {
 			AUTHORDATE="($AUTHORLOWERDATE - $AUTHORUPPERDATE)"
 		fi
 		
-		LINE=`echo "$FILEAUTHORLISTWITHDATES" | grep "$AUTHOR" | cut -d' ' -f2- | sort -u`
+		LINE=`echo "$FILEAUTHORLISTWITHDATES" | grep "$AUTHOR" | cut -d' ' -f2- | sort -u | tr '<' '[' | tr '>' ']'`
     
 		sed -i -e "s/$AUTHORSPATTERN/${LINE} ${AUTHORDATE}\n$COMMENT$AUTHORSPATTERN/g" "$file"
     done
