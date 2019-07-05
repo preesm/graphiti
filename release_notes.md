@@ -1,8 +1,8 @@
 Graphiti Changelog
 ==================
 
-## Release version X.Y.Z
-*XXXX.XX.XX*
+## Release version 1.13.6
+*2019.07.05*
 
 ### New Feature
 
