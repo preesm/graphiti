@@ -7,7 +7,9 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
-* Change mirror (ibcp down);
+* Releng update:
+  * Change mirror (ibcp down);
+  * Fix travis config;
 
 ### Bug fix
 
