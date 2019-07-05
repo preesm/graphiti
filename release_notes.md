@@ -7,6 +7,8 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Releng:
+  * Update jacoco/sonar config;
 
 ### Bug fix
 
