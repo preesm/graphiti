@@ -1,6 +1,19 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.13.4
+*2019.07.05*
+
+### New Feature
+
+### Changes
+* Releng update:
+  * Change mirror (ibcp down);
+  * Fix travis config;
+
+### Bug fix
+
+
 ## Release version 1.13.3
 *2019.06.25*
 

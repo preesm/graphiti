@@ -44,7 +44,7 @@ fi
 #fast version:
 if [ "$FAST" == "YES" ]; then
   echo "Fast build ..."
-  time (cd $DIR && mvn -e -C -B clean verify ${SONAR})
+  time (cd $DIR && mvn -e -c -B clean verify ${SONAR})
   exit 0
 fi
 

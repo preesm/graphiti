@@ -36,7 +36,7 @@ function fixFile {
 			#"@rem "
 			COMMENT="@rem "
 			;;
-		C |	CPP | H | JAVA | XTEND | BSH)
+		C |	CPP | H | JAVA | XTEND | BSH | XCORE)
 			#" * "
 			COMMENT=" * "
 			;;
@@ -44,12 +44,13 @@ function fixFile {
 			#"# "
 			COMMENT="# "
 			;;
-		XML | XSD | HTML | ECORE | GENMODEL)
+		XML | XSD | HTML | ECORE | GENMODEL | EXSD)
 			#"    "
 			COMMENT="    "
 			;;
 		*)
-			echo "Unsupported file extension $EXTENSION"
+			COMMENT=""
+      echo "Unsupported file extension $EXTENSION ($file)"
 			;;
 	esac
 	
