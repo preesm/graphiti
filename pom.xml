@@ -39,7 +39,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.ietr.graphiti</groupId>
   <artifactId>org.ietr.graphiti.parent</artifactId>
-  <version>1.13.5</version>
+  <version>1.13.6</version>
   <packaging>pom</packaging>
 
   <!-- More Project Information -->
@@ -107,7 +107,7 @@
     <!-- ############## -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-    <sonar.coverage.jacoco.xmlReportPaths>test-fragments/org.ietr.graphiti.model.test/target/site/jacoco-aggregate/jacoco.xml, test-fragments/org.ietr.graphiti.ui.test/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     <sonar.exclusions>**/tests/**, **/test-fragments/**, **/releng/**</sonar.exclusions>
   </properties>
 
