@@ -39,7 +39,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.ietr.graphiti</groupId>
   <artifactId>org.ietr.graphiti.parent</artifactId>
-  <version>1.13.4</version>
+  <version>1.13.5</version>
   <packaging>pom</packaging>
 
   <!-- More Project Information -->
@@ -107,7 +107,7 @@
     <!-- ############## -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-    <sonar.jacoco.reportPaths>../../target/jacoco.exec</sonar.jacoco.reportPaths>
+    <sonar.coverage.jacoco.xmlReportPaths>test-fragments/org.ietr.graphiti.model.test/target/site/jacoco-aggregate/jacoco.xml, test-fragments/org.ietr.graphiti.ui.test/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     <sonar.exclusions>**/tests/**, **/test-fragments/**, **/releng/**</sonar.exclusions>
   </properties>
 
@@ -176,8 +176,6 @@
               <goal>prepare-agent</goal>
             </goals>
             <configuration>
-              <!-- Where to put jacoco coverage report -->
-              <destFile>${main.basedir}/target/jacoco.exec</destFile>
               <append>true</append>
               <excludes>
                 <exclude>**/tests/**</exclude>
@@ -185,6 +183,13 @@
                 <exclude>**/releng/**</exclude>
               </excludes>
             </configuration>
+          </execution>
+          <execution>
+            <id>jacoco-report</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report-aggregate</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
