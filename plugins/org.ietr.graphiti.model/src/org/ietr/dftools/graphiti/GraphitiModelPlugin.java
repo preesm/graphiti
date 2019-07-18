@@ -49,15 +49,13 @@ import org.osgi.framework.BundleContext;
  */
 public class GraphitiModelPlugin extends AbstractUIPlugin {
 
-  /**
-   * The shared instance.
-   */
+  public static final String PLUGIN_ID = "org.ietr.graphiti.model";
+
   private static GraphitiModelPlugin plugin;
 
-  /**
-   * The plug-in ID.
-   */
-  public static final String PLUGIN_ID = "org.ietr.graphiti.model";
+  private static final synchronized void setInstance(final GraphitiModelPlugin instance) {
+    plugin = instance;
+  }
 
   /**
    * Returns the shared instance.
@@ -94,7 +92,7 @@ public class GraphitiModelPlugin extends AbstractUIPlugin {
   @Override
   public void stop(BundleContext context) throws Exception {
     super.stop(context);
-    plugin = null;
+    setInstance(null);
     configurations.clear();
   }
 
@@ -106,10 +104,9 @@ public class GraphitiModelPlugin extends AbstractUIPlugin {
   @Override
   public void start(final BundleContext context) throws Exception {
     super.start(context);
-    plugin = this;
+    setInstance(this);
     final ConfigurationParser parser = new ConfigurationParser();
     configurations.clear();
     configurations.putAll(parser.getConfigurations());
   }
-
 }
