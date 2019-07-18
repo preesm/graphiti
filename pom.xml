@@ -39,11 +39,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.ietr.graphiti</groupId>
   <artifactId>org.ietr.graphiti.parent</artifactId>
-  <version>1.13.8</version>
+  <version>1.13.9</version>
   <packaging>pom</packaging>
 
   <!-- More Project Information -->
-  <name>Graphiti :: Parent</name>
+  <name>Graphiti</name>
   <description>Graphiti is a generic graph editor created by IETR/INSA - Rennes shipped as an Eclipse plug-in.</description>
   <url>http://preesm.org/</url>
 

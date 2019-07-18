@@ -39,12 +39,12 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>org.ietr.graphiti.releng</artifactId>
   <packaging>pom</packaging>
-  <name>Graphiti :: Releng :: Parent</name>
+  <name>Graphiti :: Releng</name>
 
   <parent>
     <groupId>org.ietr.graphiti</groupId>
     <artifactId>org.ietr.graphiti.parent</artifactId>
-    <version>1.13.8</version>
+    <version>1.13.9</version>
     <relativePath>..</relativePath>
   </parent>
 
