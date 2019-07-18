@@ -7,6 +7,8 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Releng:
+  * Fix parent POM names;
 
 ### Bug fix
 
