@@ -27,6 +27,7 @@ addons:
     token:
       secure: "7edfa331c5de80bf665aee04f0e9dbcbc3efa122"
 
-script: 
+script:
+  - git fetch --unshallow --quiet
   - ./releng/build_and_test.sh --fast
 
