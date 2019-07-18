@@ -1,6 +1,18 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.13.8
+*2019.07.18*
+
+### New Feature
+
+### Changes
+* Releng:
+  * Update travis/sonar config;
+
+### Bug fix
+
+
 ## Release version 1.13.7
 *2019.07.15*
 
