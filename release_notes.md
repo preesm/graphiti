@@ -7,6 +7,8 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Releng:
+  * Update travis/sonar config;
 
 ### Bug fix
 
