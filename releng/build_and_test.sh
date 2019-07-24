@@ -20,7 +20,7 @@ if [ ! -z ${1+x} ]; then
 fi
 
 if [ "${RUNTEST}" == "NO" ]; then
-  TESTMODE=-DskipTests=true -Dmaven.test.skip=true
+  TESTMODE="-DskipTests=true -Dmaven.test.skip=true"
   BUILDGOAL=package
   SONAR=NO
 else
@@ -36,7 +36,7 @@ fi
 
 time (cd $DIR && mvn -e -c ${BATCHMODE} clean ${BUILDGOAL} ${TESTMODE})
 
-# enable Sonar on Travis
+# Sonar
 if [ "${SONAR}" == "YES" ]; then
   (cd $DIR && mvn -e -c ${BATCHMODE} -Dtycho.mode=maven jacoco:report -Djacoco.dataFile=../../target/jacoco.exec sonar:sonar)
 fi
