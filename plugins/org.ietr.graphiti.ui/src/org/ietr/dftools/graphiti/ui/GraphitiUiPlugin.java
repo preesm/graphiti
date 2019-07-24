@@ -53,14 +53,18 @@ import org.osgi.framework.BundleContext;
 public class GraphitiUiPlugin extends AbstractUIPlugin {
 
   /**
+   * The plug-in ID.
+   */
+  public static final String PLUGIN_ID = "org.ietr.graphiti.ui";
+
+  /**
    * The shared instance.
    */
   private static GraphitiUiPlugin plugin;
 
-  /**
-   * The plug-in ID.
-   */
-  public static final String PLUGIN_ID = "org.ietr.graphiti.ui";
+  private static final synchronized void setInstance(final GraphitiUiPlugin instance) {
+    plugin = instance;
+  }
 
   /**
    * Returns the shared instance.
@@ -74,13 +78,13 @@ public class GraphitiUiPlugin extends AbstractUIPlugin {
   @Override
   public void start(BundleContext context) throws Exception {
     super.start(context);
-    plugin = this;
+    setInstance(this);
   }
 
   @Override
   public void stop(BundleContext context) throws Exception {
     super.stop(context);
-    plugin = null;
+    setInstance(null);
   }
 
   /**

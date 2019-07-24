@@ -39,7 +39,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.ietr.graphiti</groupId>
   <artifactId>org.ietr.graphiti.parent</artifactId>
-  <version>1.13.9</version>
+  <version>1.13.10</version>
   <packaging>pom</packaging>
 
   <!-- More Project Information -->
@@ -105,8 +105,8 @@
     <!-- ############## -->
     <!--  SONAR CONFIG  -->
     <!-- ############## -->
-    <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <jacoco.destFile>../../target/jacoco.exec</jacoco.destFile>
+    <sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
   <repositories>
@@ -170,16 +170,14 @@
         <version>${jacoco-version}</version>
         <executions>
           <execution>
+            <id>prepare-agent</id>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
-          </execution>
-          <execution>
-            <id>jacoco-report</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
+            <configuration>
+              <append>true</append>
+              <destFile>${jacoco.destFile}</destFile>
+            </configuration>
           </execution>
         </executions>
       </plugin>

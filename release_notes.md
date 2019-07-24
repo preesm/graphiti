@@ -1,6 +1,19 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.13.10
+*2019.07.24*
+
+### New Feature
+
+### Changes
+* Releng:
+  * Update build script;
+  * Update jacoco/sonar config;
+
+### Bug fix
+
+
 ## Release version 1.13.9
 *2019.07.18*
 
