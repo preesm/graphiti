@@ -1,6 +1,18 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.13.11
+*2019.07.24*
+
+### New Feature
+
+### Changes
+* Releng:
+  * Fix build script;
+
+### Bug fix
+
+
 ## Release version 1.13.10
 *2019.07.24*
 
