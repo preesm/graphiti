@@ -49,26 +49,6 @@
   </parent>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>${jacoco-version}</version>
-          <executions>
-            <execution>
-              <id>jacoco-report</id>
-              <phase>verify</phase>
-              <goals>
-                <goal>report</goal>
-                <goal>report-aggregate</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
     <plugins>
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
