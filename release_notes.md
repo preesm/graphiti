@@ -19,6 +19,8 @@ Graphiti Changelog
 ### Changes
 * Releng:
   * Fix parent POM names;
+  * Update build script;
+  * Update jacoco/sonar config;
 
 ### Bug fix
 
