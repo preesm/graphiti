@@ -7,6 +7,8 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Releng:
+  * Fix build script;
 
 ### Bug fix
 
