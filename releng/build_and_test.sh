@@ -34,6 +34,16 @@ else
   BATCHMODE=
 fi
 
+echo ""
+echo " -- Build script values --"
+echo "Batch mode = ${BATCHMODE}"
+echo "Run tests = ${RUNTEST}"
+echo "Test mode = ${TESTMODE}"
+echo "Sonar = ${SONAR}"
+echo "Build goal = ${BUILDGOAL}"
+echo " --"
+echo ""
+
 time (cd $DIR && mvn -e -c ${BATCHMODE} clean ${BUILDGOAL} ${TESTMODE})
 
 # Sonar
