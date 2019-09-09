@@ -7,6 +7,7 @@ Graphiti Changelog
 ### New Feature
 
 ### Changes
+* Fix potential NPE in node sibling lookup when parsing;
 
 ### Bug fix
 
