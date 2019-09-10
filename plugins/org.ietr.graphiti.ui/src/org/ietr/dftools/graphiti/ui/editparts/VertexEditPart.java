@@ -116,16 +116,13 @@ public class VertexEditPart extends AbstractGraphitiEditPart implements NodeEdit
     final List<EdgeEditPart> sourceConnections2 = getSourceConnections();
     connections.addAll(sourceConnections2);
 
-    for (final Object connection : connections) {
-      if (connection instanceof EdgeEditPart) {
-        final EdgeEditPart dependency = (EdgeEditPart) connection;
-        final VertexEditPart source = (VertexEditPart) dependency.getSource();
-        final VertexEditPart target = (VertexEditPart) dependency.getTarget();
+    for (final EdgeEditPart dependency : connections) {
+      final VertexEditPart source = (VertexEditPart) dependency.getSource();
+      final VertexEditPart target = (VertexEditPart) dependency.getTarget();
 
-        if (((source != null) && (target != null)) && (source != target)) {
-          final org.eclipse.draw2d.graph.Edge edge = new org.eclipse.draw2d.graph.Edge(source.node, target.node);
-          edges.add(edge);
-        }
+      if (((source != null) && (target != null)) && (source != target)) {
+        final org.eclipse.draw2d.graph.Edge edge = new org.eclipse.draw2d.graph.Edge(source.node, target.node);
+        edges.add(edge);
       }
     }
   }
@@ -188,7 +185,7 @@ public class VertexEditPart extends AbstractGraphitiEditPart implements NodeEdit
     figure.setId(id);
 
     // update the figure position (if the graph has layout information)
-    if ((Boolean) vertex.getParent().getValue(Graph.PROPERTY_HAS_LAYOUT)) {
+    if (Boolean.TRUE.equals(vertex.getParent().getValue(Graph.PROPERTY_HAS_LAYOUT))) {
       final Rectangle bounds = (Rectangle) vertex.getValue(Vertex.PROPERTY_SIZE);
       if (bounds != null) {
         figure.setBounds(bounds);

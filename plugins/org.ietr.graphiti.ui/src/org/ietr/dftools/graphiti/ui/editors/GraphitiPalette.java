@@ -151,10 +151,10 @@ public class GraphitiPalette {
   private static ImageDescriptor getImgDescEdge(final ObjectType type) {
     final String imagePath;
     final Boolean directed = (Boolean) type.getAttribute(ObjectType.ATTRIBUTE_DIRECTED);
-    if ((directed == null) || directed) {
-      imagePath = "icons/directed_edge.gif";
-    } else {
+    if (Boolean.FALSE.equals(directed)) {
       imagePath = "icons/undirected_edge.gif";
+    } else {
+      imagePath = "icons/directed_edge.gif";
     }
 
     final Image image = GraphitiUiPlugin.getImage(imagePath);

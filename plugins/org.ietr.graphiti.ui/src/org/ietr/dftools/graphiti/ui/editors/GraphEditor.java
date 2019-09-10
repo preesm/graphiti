@@ -71,7 +71,6 @@ import org.eclipse.gef.ui.palette.FlyoutPaletteComposite;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
-import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -379,16 +378,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
   /*
    * (non-Javadoc)
    *
-   * @see org.eclipse.gef.ui.parts.GraphicalEditor#getGraphicalViewer()
-   */
-  @Override
-  public GraphicalViewer getGraphicalViewer() {
-    return super.getGraphicalViewer();
-  }
-
-  /*
-   * (non-Javadoc)
-   *
    * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPaletteRoot()
    */
   @Override
@@ -397,16 +386,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
       this.paletteRoot = GraphitiPalette.getPaletteRoot(this.graph);
     }
     return this.paletteRoot;
-  }
-
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.parts.GraphicalEditor#getSelectionSynchronizer()
-   */
-  @Override
-  public SelectionSynchronizer getSelectionSynchronizer() {
-    return super.getSelectionSynchronizer();
   }
 
   /**
@@ -431,7 +410,7 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
       viewer.setContents(this.status);
     } else {
       viewer.setContents(this.graph);
-      if (!(Boolean) this.graph.getValue(Graph.PROPERTY_HAS_LAYOUT)) {
+      if (Boolean.FALSE.equals(this.graph.getValue(Graph.PROPERTY_HAS_LAYOUT))) {
         automaticallyLayout(PositionConstants.EAST);
       }
     }
