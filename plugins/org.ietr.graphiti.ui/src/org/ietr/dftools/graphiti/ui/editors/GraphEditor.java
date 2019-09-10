@@ -53,9 +53,11 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
+import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
@@ -76,6 +78,7 @@ import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -157,22 +160,12 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     doc.automaticallyLayoutGraphs(direction);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.parts.GraphicalEditor#commandStackChanged(java.util.EventObject)
-   */
   @Override
   public void commandStackChanged(final EventObject event) {
     firePropertyChange(IEditorPart.PROP_DIRTY);
     super.commandStackChanged(event);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
-   */
   @Override
   protected void configureGraphicalViewer() {
 
@@ -205,11 +198,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     getSite().registerContextMenu(GraphEditor.GRAPHITI_CONTEXT_MENU_ID, provider, viewer);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
-   */
   @Override
   protected void createActions() {
     // create actions that will be used inside the editor, for instance in a
@@ -253,22 +241,12 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     };
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.parts.GraphicalEditor#dispose()
-   */
   @Override
   public void dispose() {
     removeMarkers();
     super.dispose();
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
-   */
   @Override
   public void doSave(final IProgressMonitor monitor) {
     // validate and then save
@@ -290,11 +268,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     }
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.parts.GraphicalEditor#doSaveAs()
-   */
   @Override
   public void doSaveAs() {
     final IWorkbench workbench = PlatformUI.getWorkbench();
@@ -337,11 +310,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     stack.execute(command);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
-   */
   @Override
   @SuppressWarnings("rawtypes")
   public Object getAdapter(final Class type) {
@@ -365,21 +333,11 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     return this.graph;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor#getContributorId()
-   */
   @Override
   public String getContributorId() {
     return PropertiesConstants.CONTRIBUTOR_ID;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPaletteRoot()
-   */
   @Override
   protected PaletteRoot getPaletteRoot() {
     if (this.paletteRoot == null) {
@@ -397,11 +355,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     return this.manager.getZoom();
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#initializeGraphicalViewer()
-   */
   @Override
   protected void initializeGraphicalViewer() {
     final GraphicalViewer viewer = getGraphicalViewer();
@@ -418,11 +371,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     this.tabbedPropertySheetPage = new TabbedPropertySheetPage(this);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
-   */
   @Override
   public boolean isSaveAsAllowed() {
     return true;
@@ -441,11 +389,6 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
     }
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
-   */
   @Override
   protected void setInput(final IEditorInput input) {
     super.setInput(input);
@@ -502,6 +445,18 @@ public class GraphEditor extends GraphicalEditorWithFlyoutPalette implements ITa
         throw new GraphitiException("Could not validate input graph", e);
       }
     }
+  }
+
+  public Control getGraphicalViewerControl() {
+    return super.getGraphicalViewer().getControl();
+  }
+
+  public void removeSelectionSynchronizerViewer(final EditPartViewer viewer) {
+    getSelectionSynchronizer().removeViewer(viewer);
+  }
+
+  public RootEditPart getGraphicalViewerRootEditPart() {
+    return getGraphicalViewer().getRootEditPart();
   }
 
 }
