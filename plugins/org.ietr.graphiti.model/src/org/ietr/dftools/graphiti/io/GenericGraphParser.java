@@ -50,6 +50,7 @@ import javax.xml.transform.TransformerException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.ietr.dftools.graphiti.GraphitiException;
 import org.ietr.dftools.graphiti.model.AbstractObject;
 import org.ietr.dftools.graphiti.model.Configuration;
 import org.ietr.dftools.graphiti.model.Edge;
@@ -99,7 +100,9 @@ public class GenericGraphParser {
     while ((node != null) && !node.getNodeName().equals(name)) {
       node = node.getNextSibling();
     }
-
+    if (node == null) {
+      throw new GraphitiException("Could not find sibling node named [" + name + "]", null);
+    }
     return node;
   }
 

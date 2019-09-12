@@ -44,31 +44,11 @@
   <parent>
     <groupId>org.ietr.graphiti</groupId>
     <artifactId>org.ietr.graphiti.parent</artifactId>
-    <version>1.13.11</version>
+    <version>1.13.12</version>
     <relativePath>..</relativePath>
   </parent>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>${jacoco-version}</version>
-          <executions>
-            <execution>
-              <id>jacoco-report</id>
-              <phase>verify</phase>
-              <goals>
-                <goal>report</goal>
-                <goal>report-aggregate</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
     <plugins>
       <plugin>
         <groupId>org.eclipse.tycho</groupId>

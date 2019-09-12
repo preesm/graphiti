@@ -82,17 +82,12 @@ public class ThumbnailOutlinePage extends ContentOutlinePage {
     this.editor = editor;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.parts.ContentOutlinePage#createControl(org.eclipse.swt.widgets.Composite)
-   */
   @Override
   public void createControl(final Composite parent) {
     this.canvas = new Canvas(parent, SWT.BORDER);
     final LightweightSystem lws = new LightweightSystem(this.canvas);
 
-    final RootEditPart root = this.editor.getGraphicalViewer().getRootEditPart();
+    final RootEditPart root = this.editor.getGraphicalViewerRootEditPart();
     final ScalableFreeformRootEditPart scalable = (ScalableFreeformRootEditPart) root;
     this.thumbnail = new ScrollableThumbnail((Viewport) scalable.getFigure());
     this.thumbnail.setSource(scalable.getLayer(LayerConstants.PRINTABLE_LAYERS));
@@ -106,30 +101,20 @@ public class ThumbnailOutlinePage extends ContentOutlinePage {
       }
     };
 
-    final Control control = this.editor.getGraphicalViewer().getControl();
+    final Control control = this.editor.getGraphicalViewerControl();
     control.addDisposeListener(this.disposeListener);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.ui.part.Page#dispose()
-   */
   @Override
   public void dispose() {
-    this.editor.getSelectionSynchronizer().removeViewer(getViewer());
-    final Control control = this.editor.getGraphicalViewer().getControl();
+    this.editor.removeSelectionSynchronizerViewer(getViewer());
+    final Control control = this.editor.getGraphicalViewerControl();
     if ((control != null) && !control.isDisposed()) {
       control.removeDisposeListener(this.disposeListener);
     }
     super.dispose();
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.eclipse.gef.ui.parts.ContentOutlinePage#getControl()
-   */
   @Override
   public Control getControl() {
     return this.canvas;

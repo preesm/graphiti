@@ -86,7 +86,7 @@ public class EdgeFigure extends PolylineConnection {
     }
 
     final Boolean directed = (Boolean) edge.getType().getAttribute(ObjectType.ATTRIBUTE_DIRECTED);
-    if ((directed == null) || directed) {
+    if ((directed == null) || Boolean.TRUE.equals(directed)) {
       // we consider the edge directed by default.
       setTargetDecoration(new PolygonDecoration());
     }

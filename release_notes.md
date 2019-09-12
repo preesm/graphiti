@@ -1,6 +1,17 @@
 Graphiti Changelog
 ==================
 
+## Release version 1.13.12
+*2019.09.12*
+
+### New Feature
+
+### Changes
+* Fix potential NPE in node sibling lookup when parsing;
+
+### Bug fix
+
+
 ## Release version 1.13.11
 *2019.07.24*
 
